@@ -1,0 +1,13 @@
+@import 'tailwindcss';
+@import 'flowbite/dist/flowbite.min.css';
+
+/* Force light mode - disable dark mode entirely */
+html {
+  color-scheme: light only;
+}
+
+/* Remove dark class if it exists */
+html.dark,
+.dark {
+  color-scheme: light;
+}
