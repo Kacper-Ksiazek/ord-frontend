@@ -1,11 +1,10 @@
 <script module lang="ts">
-  import { defineMeta } from "@storybook/addon-svelte-csf";
+import { defineMeta } from '@storybook/addon-svelte-csf';
 
-  // biome-ignore lint/correctness/noUnusedVariables: Story
-  const { Story } = defineMeta({
-    title: "Flowbite/Comprehensive Form",
-    tags: ["autodocs"],
-  });
+const { Story } = defineMeta({
+	title: 'Flowbite/Comprehensive Form',
+	tags: ['autodocs']
+});
 </script>
 
 <script lang="ts">
@@ -14,7 +13,6 @@
     Label,
     Input,
     Select,
-    Textarea,
     Checkbox,
     Radio,
     Toggle,
