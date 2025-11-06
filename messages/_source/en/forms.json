@@ -1,0 +1,7 @@
+{
+	"validation_required": "This field is required",
+	"validation_email": "Please enter a valid email address",
+	"validation_min_length": "Must be at least {min} characters",
+	"save_button": "Save",
+	"cancel_button": "Cancel"
+}

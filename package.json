@@ -4,7 +4,10 @@
 	"version": "0.0.1",
 	"type": "module",
 	"scripts": {
+		"aggregate": "tsx scripts/aggregate-translations.ts",
+		"predev": "npm run aggregate",
 		"dev": "vite dev",
+		"prebuild": "npm run aggregate",
 		"build": "vite build",
 		"preview": "vite preview",
 		"prepare": "husky || echo ''",
@@ -44,6 +47,7 @@
 		"svelte": "^5.41.0",
 		"svelte-check": "^4.3.3",
 		"tailwindcss": "^4.1.14",
+		"tsx": "^4.20.6",
 		"typescript": "^5.9.3",
 		"vite": "^7.1.10",
 		"vitest": "^3.2.4",

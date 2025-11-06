@@ -1,4 +1,22 @@
 {
 	"$schema": "https://inlang.com/schema/inlang-message-format",
-	"hello_world": "Hello, {name} from en!"
+	"auth": {
+		"login": {
+			"title": "Sign In",
+			"email_placeholder": "Enter your email",
+			"password_placeholder": "Enter your password",
+			"submit_button": "Log In",
+			"forgot_password": "Forgot password?"
+		}
+	},
+	"common": {
+		"hello_world": "Hello, {name} from en!"
+	},
+	"forms": {
+		"validation_required": "This field is required",
+		"validation_email": "Please enter a valid email address",
+		"validation_min_length": "Must be at least {min} characters",
+		"save_button": "Save",
+		"cancel_button": "Cancel"
+	}
 }
