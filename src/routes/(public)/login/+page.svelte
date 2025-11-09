@@ -117,7 +117,7 @@ async function handleOtpSubmit() {
 						oncomplete={handleOtpSubmit}
 						error={!!error}
 					/>
-					<p class="mt-4 text-center text-sm text-gray-600">
+					<p class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
 						Enter the 6-digit code sent to your email
 					</p>
 				</div>
