@@ -1,8 +1,9 @@
 <script lang="ts">
 import { AxiosError } from 'axios';
-import { Alert, Button, Input, Label } from 'flowbite-svelte';
+import { Alert, Button, Input } from 'flowbite-svelte';
 import { goto } from '$app/navigation';
 import { createRequestOtpMutation, createVerifyOtpMutation } from '$lib/api-client/auth/mutations';
+import { OtpInput } from '$lib/features/auth/components/otp-input';
 import { authStore } from '$lib/stores/auth.svelte';
 
 let step = $state<'email' | 'otp'>('email');
@@ -95,7 +96,7 @@ async function handleOtpSubmit() {
 					type="submit"
 					size="lg"
 					class="w-full"
-					disabled={requestOtpMutation.isPending}
+					disabled={requestOtpMutation.isPending || !email || !email.includes('@')}
 				>
 					{requestOtpMutation.isPending ? 'Sending code...' : 'Continue'}
 				</Button>
@@ -103,18 +104,12 @@ async function handleOtpSubmit() {
 		{:else}
 			<form onsubmit={(e) => { e.preventDefault(); handleOtpSubmit(); }}>
 				<div class="mb-6">
-					<Label for="otp" class="mb-2">Verification code</Label>
-					<Input
-						id="otp"
-						type="text"
+					<OtpInput
 						bind:value={otpCode}
-						placeholder="000000"
-						maxlength={6}
-						required
-						size="lg"
-						class="text-center text-2xl tracking-widest"
+						oncomplete={handleOtpSubmit}
+						error={!!error}
 					/>
-					<p class="mt-2 text-sm text-gray-600">
+					<p class="mt-4 text-center text-sm text-gray-600">
 						Enter the 6-digit code sent to your email
 					</p>
 				</div>
@@ -123,7 +118,7 @@ async function handleOtpSubmit() {
 					type="submit"
 					size="lg"
 					class="w-full mb-3"
-					disabled={verifyOtpMutation.isPending}
+					disabled={verifyOtpMutation.isPending || otpCode.length !== 6}
 				>
 					{verifyOtpMutation.isPending ? 'Verifying...' : 'Verify Code'}
 				</Button>
