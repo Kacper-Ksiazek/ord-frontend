@@ -6,6 +6,7 @@ import { createRequestOtpMutation, createVerifyOtpMutation } from '$lib/api-clie
 import { LanguagePicker } from '$lib/components/language-picker';
 import { ThemeSwitcher } from '$lib/components/theme-switcher';
 import { OtpInput } from '$lib/features/auth/components/otp-input';
+import { m } from '$lib/paraglide/messages.js';
 import { authStore } from '$lib/stores/auth.svelte';
 
 let step = $state<'email' | 'otp'>('email');
@@ -20,7 +21,7 @@ async function handleEmailSubmit() {
 	error = null;
 
 	if (!email || !email.includes('@')) {
-		error = 'Please enter a valid email address';
+		error = m['auth.login.error_invalid_email']();
 		return;
 	}
 
@@ -29,9 +30,9 @@ async function handleEmailSubmit() {
 		step = 'otp';
 	} catch (err: unknown) {
 		if (err instanceof AxiosError) {
-			error = err.response?.data?.message || 'Failed to send OTP code. Please try again.';
+			error = err.response?.data?.message || m['auth.login.error_send_otp']();
 		} else {
-			error = 'An unexpected error occurred. Please try again.';
+			error = m['auth.login.error_generic']();
 		}
 	}
 }
@@ -40,23 +41,21 @@ async function handleOtpSubmit() {
 	error = null;
 
 	if (!otpCode || otpCode.length !== 6) {
-		error = 'Please enter a valid 6-digit code';
+		error = m['auth.login.error_invalid_otp']();
 		return;
 	}
 
 	try {
 		const user = await verifyOtpMutation.mutateAsync({ email, code: otpCode });
 
-		// Save user to auth store (which also saves to localStorage)
 		authStore.setUser(user);
 
-		// Redirect to home page
 		goto('/');
 	} catch (err: unknown) {
 		if (err instanceof AxiosError) {
-			error = err.response?.data?.message || 'Invalid OTP code. Please try again.';
+			error = err.response?.data?.message || m['auth.login.error_verify_otp']();
 		} else {
-			error = 'An unexpected error occurred. Please try again.';
+			error = m['auth.login.error_generic']();
 		}
 	}
 }
@@ -71,19 +70,19 @@ async function handleOtpSubmit() {
 			</div>
 			<div class="text-center">
 				<h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-					{step === 'email' ? 'Sign In' : 'Verify OTP'}
+					{step === 'email' ? m['auth.login.title']() : m['auth.login.verify_otp_title']()}
 				</h1>
 				<p class="text-sm text-gray-600 dark:text-gray-400">
 					{step === 'email'
-						? 'Enter your email to receive a verification code'
-						: `We sent a code to ${email}`}
+						? m['auth.login.email_subtitle']()
+						: m['auth.login.otp_subtitle']({ email })}
 				</p>
 			</div>
 		</div>
 
 		{#if error}
 			<Alert color="red" class="mb-4">
-				<span class="font-medium">Error:</span> {error}
+				<span class="font-medium">{m['auth.login.error_prefix']()}</span> {error}
 			</Alert>
 		{/if}
 
@@ -94,7 +93,7 @@ async function handleOtpSubmit() {
 						id="email"
 						type="email"
 						bind:value={email}
-						placeholder="your-email@example.com"
+						placeholder={m['auth.login.email_placeholder']()}
 						required
 						size="lg"
 					/>
@@ -106,7 +105,7 @@ async function handleOtpSubmit() {
 					class="w-full"
 					disabled={requestOtpMutation.isPending || !email || !email.includes('@')}
 				>
-					{requestOtpMutation.isPending ? 'Sending code...' : 'Continue'}
+					{requestOtpMutation.isPending ? m['auth.login.sending_code']() : m['auth.login.continue_button']()}
 				</Button>
 			</form>
 		{:else}
@@ -118,7 +117,7 @@ async function handleOtpSubmit() {
 						error={!!error}
 					/>
 					<p class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
-						Enter the 6-digit code sent to your email
+						{m['auth.login.otp_instruction']()}
 					</p>
 				</div>
 
@@ -128,7 +127,7 @@ async function handleOtpSubmit() {
 					class="w-full mb-3"
 					disabled={verifyOtpMutation.isPending || otpCode.length !== 6}
 				>
-					{verifyOtpMutation.isPending ? 'Verifying...' : 'Verify Code'}
+					{verifyOtpMutation.isPending ? m['auth.login.verifying']() : m['auth.login.verify_button']()}
 				</Button>
 			</form>
 		{/if}
