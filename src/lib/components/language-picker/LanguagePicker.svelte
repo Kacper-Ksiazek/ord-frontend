@@ -27,7 +27,7 @@ const currentLanguageLabel = $derived(
 	class="p-2.5 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50
 		focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-600
 		dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-600
-		transition-colors flex items-center gap-1.5"
+		flex items-center gap-1.5"
 	aria-label="Change language"
 	type="button"
 >
