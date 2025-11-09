@@ -36,11 +36,11 @@ const currentLanguageLabel = $derived(
 	<ChevronDownOutline class="w-3 h-3" />
 </button>
 
-<Dropdown class="w-40">
+<Dropdown class="w-40 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
 	{#each languages as language}
 		<DropdownItem
 			onclick={() => handleLanguageSelect(language.code)}
-			class="w-full list-none {currentLocale === language.code ? 'font-semibold' : ''}"
+			class="w-full list-none text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 {currentLocale === language.code ? 'font-semibold' : ''}"
 		>
 			{language.name}
 		</DropdownItem>

@@ -125,15 +125,16 @@ function handleFocus(event: FocusEvent) {
 			onfocus={handleFocus}
 			{disabled}
 			class="w-12 h-14 text-center text-2xl font-semibold border-2 rounded-lg transition-all
+				text-gray-900 dark:text-white
 				{error
-					? 'border-red-500 focus:border-red-600 focus:ring-2 focus:ring-red-200'
-					: 'border-gray-300 focus:border-primary-600 focus:ring-2 focus:ring-primary-300'}
+					? 'border-red-500 focus:border-red-600 focus:ring-2 focus:ring-red-200 dark:border-red-400 dark:focus:border-red-500'
+					: 'border-gray-300 dark:border-gray-600 focus:border-primary-600 focus:ring-2 focus:ring-primary-300'}
 				{disabled
-					? 'bg-gray-100 cursor-not-allowed'
+					? 'bg-gray-100 dark:bg-gray-800 cursor-not-allowed'
 					: digit
-						? 'bg-white'
-						: 'bg-gray-50'}
-				{digit ? 'border-gray-400' : ''}
+						? 'bg-white dark:bg-gray-700'
+						: 'bg-gray-50 dark:bg-gray-800'}
+				{digit ? 'border-gray-400 dark:border-gray-500' : ''}
 				outline-none"
 			aria-label="Digit {index + 1}"
 		/>
