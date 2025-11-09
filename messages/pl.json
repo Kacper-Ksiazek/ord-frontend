@@ -3,10 +3,13 @@
 	"auth": {
 		"login": {
 			"title": "Zaloguj się",
+			"email_placeholder": "twoj-email@example.com",
+			"password_placeholder": "Wprowadź hasło",
+			"submit_button": "Zaloguj",
+			"forgot_password": "Zapomniałeś hasła?",
 			"verify_otp_title": "Zweryfikuj kod OTP",
 			"email_subtitle": "Wprowadź swój email, aby otrzymać kod weryfikacyjny",
 			"otp_subtitle": "Wysłaliśmy kod na adres {email}",
-			"email_placeholder": "twoj-email@example.com",
 			"continue_button": "Kontynuuj",
 			"sending_code": "Wysyłanie kodu...",
 			"verify_button": "Zweryfikuj kod",

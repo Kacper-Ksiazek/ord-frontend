@@ -3,10 +3,13 @@
 	"auth": {
 		"login": {
 			"title": "Sign In",
+			"email_placeholder": "your-email@example.com",
+			"password_placeholder": "Enter your password",
+			"submit_button": "Log In",
+			"forgot_password": "Forgot password?",
 			"verify_otp_title": "Verify OTP",
 			"email_subtitle": "Enter your email to receive a verification code",
 			"otp_subtitle": "We sent a code to {email}",
-			"email_placeholder": "your-email@example.com",
 			"continue_button": "Continue",
 			"sending_code": "Sending code...",
 			"verify_button": "Verify Code",
