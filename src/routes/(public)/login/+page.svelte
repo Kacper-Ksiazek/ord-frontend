@@ -3,11 +3,12 @@ import { AxiosError } from 'axios';
 import { Alert, Button, Input } from 'flowbite-svelte';
 import { goto } from '$app/navigation';
 import { createRequestOtpMutation, createVerifyOtpMutation } from '$lib/api-client/auth/mutations';
-import { LanguagePicker } from '$lib/components/language-picker';
-import { ThemeSwitcher } from '$lib/components/theme-switcher';
+import LogoDark from '$lib/assets/images/logo-dark.png';
+import LogoLight from '$lib/assets/images/logo-light.png';
 import { OtpInput } from '$lib/features/auth/components/otp-input';
 import { m } from '$lib/paraglide/messages.js';
 import { authStore } from '$lib/stores/auth.svelte';
+import { themeStore } from '$lib/stores/theme.svelte';
 
 let step = $state<'email' | 'otp'>('email');
 let email = $state('');
@@ -64,10 +65,10 @@ async function handleOtpSubmit() {
 <div class="w-full max-w-md px-4">
 	<div>
 		<div class="mb-6">
-			<div class="flex justify-end gap-2 mb-4">
-				<LanguagePicker />
-				<ThemeSwitcher />
+			<div class="w-32 h-32 mx-auto mb-4">
+				<img src={themeStore.isDark ? LogoDark : LogoLight} alt="Logo" class="w-full h-full object-contain" />
 			</div>
+
 			<div class="text-center">
 				<h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
 					{step === 'email' ? m['auth.login.title']() : m['auth.login.verify_otp_title']()}
