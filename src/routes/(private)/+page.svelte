@@ -2,6 +2,7 @@
 import { Avatar, Button, Card } from 'flowbite-svelte';
 import { goto } from '$app/navigation';
 import { createLogoutMutation } from '$lib/api-client/auth/mutations';
+import { LanguagePicker } from '$lib/components/language-picker';
 import { ThemeSwitcher } from '$lib/components/theme-switcher';
 import { authStore } from '$lib/stores/auth.svelte';
 
@@ -31,6 +32,7 @@ async function handleLogout() {
 			<div class="flex items-center justify-between mb-6">
 				<h1 class="text-3xl font-bold text-gray-900 dark:text-white">Welcome!</h1>
 				<div class="flex items-center gap-2">
+					<LanguagePicker />
 					<ThemeSwitcher />
 					<Button color="red" onclick={handleLogout} disabled={logoutMutation.isPending}>
 						{logoutMutation.isPending ? 'Logging out...' : 'Logout'}

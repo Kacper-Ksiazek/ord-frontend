@@ -3,6 +3,7 @@ import { AxiosError } from 'axios';
 import { Alert, Button, Input } from 'flowbite-svelte';
 import { goto } from '$app/navigation';
 import { createRequestOtpMutation, createVerifyOtpMutation } from '$lib/api-client/auth/mutations';
+import { LanguagePicker } from '$lib/components/language-picker';
 import { ThemeSwitcher } from '$lib/components/theme-switcher';
 import { OtpInput } from '$lib/features/auth/components/otp-input';
 import { authStore } from '$lib/stores/auth.svelte';
@@ -64,7 +65,8 @@ async function handleOtpSubmit() {
 <div class="w-full max-w-md px-4">
 	<div>
 		<div class="mb-6">
-			<div class="flex justify-end mb-4">
+			<div class="flex justify-end gap-2 mb-4">
+				<LanguagePicker />
 				<ThemeSwitcher />
 			</div>
 			<div class="text-center">
