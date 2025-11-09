@@ -3,6 +3,7 @@ import { AxiosError } from 'axios';
 import { Alert, Button, Input } from 'flowbite-svelte';
 import { goto } from '$app/navigation';
 import { createRequestOtpMutation, createVerifyOtpMutation } from '$lib/api-client/auth/mutations';
+import { ThemeSwitcher } from '$lib/components/theme-switcher';
 import { OtpInput } from '$lib/features/auth/components/otp-input';
 import { authStore } from '$lib/stores/auth.svelte';
 
@@ -62,15 +63,20 @@ async function handleOtpSubmit() {
 
 <div class="w-full max-w-md px-4">
 	<div>
-		<div class="mb-6 text-center">
-			<h1 class="text-2xl font-bold text-gray-900 mb-2">
-				{step === 'email' ? 'Sign In' : 'Verify OTP'}
-			</h1>
-			<p class="text-sm text-gray-600">
-				{step === 'email'
-					? 'Enter your email to receive a verification code'
-					: `We sent a code to ${email}`}
-			</p>
+		<div class="mb-6">
+			<div class="flex justify-end mb-4">
+				<ThemeSwitcher />
+			</div>
+			<div class="text-center">
+				<h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+					{step === 'email' ? 'Sign In' : 'Verify OTP'}
+				</h1>
+				<p class="text-sm text-gray-600 dark:text-gray-400">
+					{step === 'email'
+						? 'Enter your email to receive a verification code'
+						: `We sent a code to ${email}`}
+				</p>
+			</div>
 		</div>
 
 		{#if error}
