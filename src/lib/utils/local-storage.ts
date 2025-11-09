@@ -10,7 +10,8 @@ const APP_PREFIX = 'ord_app_';
  */
 export const STORAGE_KEYS = {
 	USER: `${APP_PREFIX}user`,
-	SESSION_INITIALIZED: `${APP_PREFIX}session_initialized`
+	SESSION_INITIALIZED: `${APP_PREFIX}session_initialized`,
+	THEME: `${APP_PREFIX}theme`
 } as const;
 
 /**
