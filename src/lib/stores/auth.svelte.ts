@@ -1,10 +1,5 @@
-/**
- * Global authentication store using Svelte 5 runes
- * Manages user state and syncs with localStorage
- */
-
 import { browser } from '$app/environment';
-import type { UserDTO } from '$lib/types/auth/domain/entities';
+import type { UserDTO } from '$lib/features/auth/types';
 import {
 	getStorageItem,
 	removeStorageItem,
@@ -55,5 +50,4 @@ class AuthStore {
 	}
 }
 
-// Export singleton instance
 export const authStore = new AuthStore();

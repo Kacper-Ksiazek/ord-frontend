@@ -4,7 +4,7 @@ export type {
 	OtpRequestBody,
 	OtpVerifyBody,
 	UserDTO
-} from '$lib/types/auth';
+} from '$lib/features/auth/types';
 export { getCurrentUser, logout, requestOtp, verifyOtp } from './api';
 export { authKeys } from './keys';
 export * from './mutations';

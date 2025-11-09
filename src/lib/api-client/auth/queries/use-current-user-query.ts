@@ -1,5 +1,5 @@
 import { createQuery } from '@tanstack/svelte-query';
-import type { UserDTO } from '$lib/types/auth';
+import type { UserDTO } from '$lib/features/auth/types';
 import { getCurrentUser } from '../api/get-current-user';
 import { authKeys } from '../keys';
 

@@ -1,5 +1,5 @@
 import { createMutation, useQueryClient } from '@tanstack/svelte-query';
-import type { OtpVerifyBody, UserDTO } from '$lib/types/auth';
+import type { OtpVerifyBody, UserDTO } from '$lib/features/auth/types';
 import { STORAGE_KEYS, setStorageItem } from '$lib/utils/local-storage';
 import { verifyOtp } from '../api/verify-otp';
 import { authKeys } from '../keys';
