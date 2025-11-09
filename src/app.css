@@ -6,26 +6,28 @@
 
 /* Noto Sans Variable Font */
 @font-face {
-	font-family: 'Noto Sans';
-	src: url('$lib/assets/fonts/NotoSans-Variable.woff2') format('woff2');
-	font-weight: 100 900;
-	font-stretch: 62.5% 100%;
-	font-style: normal;
-	font-display: swap;
+  font-family: "Noto Sans";
+  src: url("$lib/assets/fonts/NotoSans-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-stretch: 62.5% 100%;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-	font-family: 'Noto Sans';
-	src: url('$lib/assets/fonts/NotoSans-VariableItalic.woff2') format('woff2');
-	font-weight: 100 900;
-	font-stretch: 62.5% 100%;
-	font-style: italic;
-	font-display: swap;
+  font-family: "Noto Sans";
+  src: url("$lib/assets/fonts/NotoSans-VariableItalic.woff2") format("woff2");
+  font-weight: 100 900;
+  font-stretch: 62.5% 100%;
+  font-style: italic;
+  font-display: swap;
 }
 
 @theme {
   /* Fonts */
-  --font-family-sans: 'Noto Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-family-sans:
+    "Noto Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 
   /* Colors */
   --color-primary-50: #fff5f2;
@@ -58,6 +60,10 @@
   /* Apply Noto Sans to all text elements */
   body {
     font-family: var(--font-family-sans);
+  }
+
+  li {
+    list-style: none;
   }
 
   /* disable chrome cancel button */
