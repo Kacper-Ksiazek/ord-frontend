@@ -4,7 +4,10 @@ import { getStorageItem, STORAGE_KEYS, setStorageItem } from '$lib/utils/local-s
 type Theme = 'light' | 'dark';
 
 class ThemeStore {
-	theme = $state<Theme>('light');
+	theme = $state<Theme>(
+		// Initialize from DOM to match the inline script in app.html
+		browser && document.documentElement.classList.contains('dark') ? 'dark' : 'light'
+	);
 
 	constructor() {
 		if (browser) {

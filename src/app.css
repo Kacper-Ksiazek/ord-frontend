@@ -71,6 +71,17 @@
     display: none;
   }
 
+  /* Smooth transitions for theme switching */
+  html {
+    transition: background-color 200ms ease-in-out;
+  }
+
+  * {
+    transition-property: background-color, border-color, color;
+    transition-timing-function: ease-in-out;
+    transition-duration: 200ms;
+  }
+
   /* Global focus styles using primary color */
   input:focus,
   textarea:focus,
