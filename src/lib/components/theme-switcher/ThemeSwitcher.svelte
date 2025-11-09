@@ -8,7 +8,6 @@ function handleClick(event: MouseEvent) {
 	(event.currentTarget as HTMLButtonElement).blur();
 }
 
-// Use direct DOM check to avoid hydration mismatch
 let mounted = $state(false);
 let isDarkMode = $state(false);
 
@@ -19,7 +18,6 @@ $effect(() => {
 	}
 });
 
-// Keep in sync with themeStore after mounting
 $effect(() => {
 	if (mounted) {
 		isDarkMode = themeStore.isDark;
