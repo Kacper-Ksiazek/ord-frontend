@@ -1,1 +1,1 @@
-export { default as LanguagePicker } from './LanguagePicker.svelte';
+export { default as LanguagePicker } from './language-picker.svelte';
