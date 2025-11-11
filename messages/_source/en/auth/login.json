@@ -1,6 +1,6 @@
 {
 	"title": "Sign In",
-	"verify_otp_title": "Verify OTP",
+	"verify_otp_title": "Enter Your Code",
 	"email_subtitle": "Enter your email to receive a verification code",
 	"otp_subtitle": "We sent a code to {email}",
 	"email_placeholder": "your-email@example.com",
@@ -11,8 +11,8 @@
 	"otp_instruction": "Enter the 6-digit code sent to your email",
 	"error_prefix": "Error:",
 	"error_invalid_email": "Please enter a valid email address",
-	"error_send_otp": "Failed to send OTP code. Please try again.",
+	"error_send_otp": "Failed to send verification code. Please try again.",
 	"error_invalid_otp": "Please enter a valid 6-digit code",
-	"error_verify_otp": "Invalid OTP code. Please try again.",
+	"error_verify_otp": "Invalid code. Please try again.",
 	"error_generic": "An unexpected error occurred. Please try again."
 }

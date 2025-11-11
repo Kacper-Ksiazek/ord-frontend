@@ -1,6 +1,6 @@
 {
 	"title": "Anmelden",
-	"verify_otp_title": "OTP-Code verifizieren",
+	"verify_otp_title": "Geben Sie Ihren Code ein",
 	"email_subtitle": "Geben Sie Ihre E-Mail-Adresse ein, um einen Verifizierungscode zu erhalten",
 	"otp_subtitle": "Wir haben einen Code an {email} gesendet",
 	"email_placeholder": "ihre-email@example.com",
@@ -11,8 +11,8 @@
 	"otp_instruction": "Geben Sie den 6-stelligen Code ein, der an Ihre E-Mail gesendet wurde",
 	"error_prefix": "Fehler:",
 	"error_invalid_email": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
-	"error_send_otp": "OTP-Code konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+	"error_send_otp": "Verifizierungscode konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
 	"error_invalid_otp": "Bitte geben Sie einen gültigen 6-stelligen Code ein",
-	"error_verify_otp": "Ungültiger OTP-Code. Bitte versuchen Sie es erneut.",
+	"error_verify_otp": "Ungültiger Code. Bitte versuchen Sie es erneut.",
 	"error_generic": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
 }
