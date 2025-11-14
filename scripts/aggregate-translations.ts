@@ -17,6 +17,28 @@ interface ValidationResult {
 }
 
 /**
+ * Recursively flattens nested objects into dot-notation keys
+ */
+function flattenObject(obj: Record<string, unknown>, prefix: string = ''): TranslationMap {
+	const result: TranslationMap = {};
+
+	for (const [key, value] of Object.entries(obj)) {
+		if (key === '$schema') continue;
+
+		const fullKey = prefix ? `${prefix}.${key}` : key;
+
+		if (typeof value === 'string') {
+			result[fullKey] = value;
+		} else if (typeof value === 'object' && value !== null && !Array.isArray(value)) {
+			// Recursively flatten nested objects
+			Object.assign(result, flattenObject(value as Record<string, unknown>, fullKey));
+		}
+	}
+
+	return result;
+}
+
+/**
  * Recursively reads all JSON files from a directory and its subdirectories
  */
 async function readJsonFilesRecursive(dir: string, basePath: string = ''): Promise<TranslationMap> {
@@ -44,18 +66,9 @@ async function readJsonFilesRecursive(dir: string, basePath: string = ''): Promi
 				const fileNameWithoutExt = entry.name.replace(/\.json$/, '');
 				const keyPrefix = basePath ? `${basePath}.${fileNameWithoutExt}` : fileNameWithoutExt;
 
-				// Flatten the JSON and add to translations with appropriate prefix
-				for (const [key, value] of Object.entries(json)) {
-					// Skip $schema field
-					if (key === '$schema') continue;
-
-					if (typeof value === 'string') {
-						const fullKey = keyPrefix ? `${keyPrefix}.${key}` : key;
-						translations[fullKey] = value;
-					} else {
-						console.warn(`Warning: Non-string value found in ${fullPath} for key "${key}". Skipping.`);
-					}
-				}
+				// Flatten the JSON (including nested objects) and add to translations with appropriate prefix
+				const flattened = flattenObject(json, keyPrefix);
+				Object.assign(translations, flattened);
 			}
 		}
 	} catch (error) {

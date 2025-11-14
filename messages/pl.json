@@ -3,13 +3,10 @@
 	"auth": {
 		"login": {
 			"title": "Zaloguj się",
-			"email_placeholder": "twoj-email@example.com",
-			"password_placeholder": "Wprowadź hasło",
-			"submit_button": "Zaloguj",
-			"forgot_password": "Zapomniałeś hasła?",
 			"verify_otp_title": "Wprowadź swój kod",
 			"email_subtitle": "Wprowadź swój email, aby otrzymać kod weryfikacyjny",
 			"otp_subtitle": "Wysłaliśmy kod na adres {email}",
+			"email_placeholder": "twoj-email@example.com",
 			"continue_button": "Kontynuuj",
 			"sending_code": "Wysyłanie kodu...",
 			"verify_button": "Zweryfikuj kod",
@@ -24,7 +21,11 @@
 		}
 	},
 	"common": {
-		"hello_world": "Hello, {name} from pl!"
+		"hello_world": "Hello, {name} from pl!",
+		"header": {
+			"settings": "Ustawienia",
+			"logout": "Wyloguj się"
+		}
 	},
 	"forms": {
 		"validation_required": "To pole jest wymagane",

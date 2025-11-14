@@ -3,12 +3,10 @@ import { AxiosError } from 'axios';
 import { Alert, Button, Input } from 'flowbite-svelte';
 import { goto } from '$app/navigation';
 import { createRequestOtpMutation, createVerifyOtpMutation } from '$lib/api-client/auth/mutations';
-import LogoDark from '$lib/assets/images/logo-dark.png';
-import LogoLight from '$lib/assets/images/logo-light.png';
+import { AppLogo } from '$lib/components/app-logo';
 import { OtpInput } from '$lib/features/auth/components/otp-input';
 import { m } from '$lib/paraglide/messages.js';
 import { authStore } from '$lib/stores/auth.svelte';
-import { themeStore } from '$lib/stores/theme.svelte';
 
 let step = $state<'email' | 'otp'>('email');
 let email = $state('');
@@ -66,7 +64,7 @@ async function handleOtpSubmit() {
 	<div>
 		<div class="mb-6">
 			<div class="w-32 h-32 mx-auto mb-4">
-				<img src={themeStore.isDark ? LogoDark : LogoLight} alt="Logo" class="w-full h-full object-contain" />
+				<AppLogo size="lg" />
 			</div>
 
 			<div class="text-center">
