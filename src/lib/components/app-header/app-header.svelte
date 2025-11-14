@@ -9,7 +9,7 @@ import AuthOnlyHeader from './components/auth-only-header.svelte';
 	<div class="flex justify-between items-center px-4 py-2 gap-2 container mx-auto">
 		<div class="flex items-center gap-2">
 			<AppLogo size="md" />
-			<span class="text-md font-bold dark:text-white">ORD</span>
+			<span class="text-xl font-bold dark:text-white">ORD</span>
 		</div>
 
 		<div class="flex items-center gap-2">
