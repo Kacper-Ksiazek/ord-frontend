@@ -18,11 +18,9 @@ onMount(() => {
 </script>
 
 {#if authStore.user}
-	<div class="min-h-screen bg-gray-50">
-		{@render children()}
-	</div>
+	{@render children()}
 {:else}
-	<div class="min-h-screen bg-gray-50 flex items-center justify-center">
+	<div class="h-full flex items-center justify-center">
 		<p class="text-gray-600">Loading...</p>
 	</div>
 {/if}
