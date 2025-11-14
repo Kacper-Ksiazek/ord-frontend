@@ -22,7 +22,7 @@ const queryClient = new QueryClient({
 </svelte:head>
 
 <QueryClientProvider client={queryClient}>
-	<div class="flex flex-col h-screen overflow-hidden bg-gray-50 dark:bg-gray-900">
+	<div class="flex flex-col h-screen overflow-hidden bg-gray-50 dark:bg-gray-900 w-screen">
 		<AppHeader />
 		<main class="flex-1 overflow-auto">
 			{@render children()}
