@@ -1,7 +1,18 @@
 {
 	"title": "Zaloguj się",
-	"email_placeholder": "Wprowadź swój email",
-	"password_placeholder": "Wprowadź hasło",
-	"submit_button": "Zaloguj",
-	"forgot_password": "Zapomniałeś hasła?"
+	"verify_otp_title": "Wprowadź swój kod",
+	"email_subtitle": "Wprowadź swój email, aby otrzymać kod weryfikacyjny",
+	"otp_subtitle": "Wysłaliśmy kod na adres {email}",
+	"email_placeholder": "twoj-email@example.com",
+	"continue_button": "Kontynuuj",
+	"sending_code": "Wysyłanie kodu...",
+	"verify_button": "Zweryfikuj kod",
+	"verifying": "Weryfikacja...",
+	"otp_instruction": "Wprowadź 6-cyfrowy kod wysłany na Twój email",
+	"error_prefix": "Błąd:",
+	"error_invalid_email": "Proszę wprowadzić prawidłowy adres email",
+	"error_send_otp": "Nie udało się wysłać kodu weryfikacyjnego. Spróbuj ponownie.",
+	"error_invalid_otp": "Proszę wprowadzić prawidłowy 6-cyfrowy kod",
+	"error_verify_otp": "Nieprawidłowy kod. Spróbuj ponownie.",
+	"error_generic": "Wystąpił nieoczekiwany błąd. Spróbuj ponownie."
 }

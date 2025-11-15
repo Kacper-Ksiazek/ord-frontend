@@ -1,4 +1,4 @@
-import type { UserDTO } from '$lib/types/auth';
+import type { UserDTO } from '$lib/features/auth/types';
 import { api } from '../../axios';
 
 export async function getCurrentUser(): Promise<UserDTO> {

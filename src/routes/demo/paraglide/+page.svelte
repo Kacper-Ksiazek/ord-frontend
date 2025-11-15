@@ -3,7 +3,7 @@ import { m } from '$lib/paraglide/messages.js';
 import { setLocale } from '$lib/paraglide/runtime';
 </script>
 
-{m["auth.login.title"]}
+{m["auth.login.title"]()}
 
 	<div>
 		<button onclick={() => setLocale("en")}>en</button>

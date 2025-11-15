@@ -1,4 +1,4 @@
-import type { OtpVerifyBody, UserDTO } from '$lib/types/auth';
+import type { OtpVerifyBody, UserDTO } from '$lib/features/auth/types';
 import { api } from '../../axios';
 
 export async function verifyOtp(body: OtpVerifyBody): Promise<UserDTO> {

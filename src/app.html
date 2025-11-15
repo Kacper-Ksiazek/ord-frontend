@@ -3,6 +3,26 @@
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<!-- Dark mode script - must run before rendering to prevent FOUC -->
+		<script>
+			// Check localStorage and system preference, apply dark class immediately
+			try {
+				const theme = localStorage.getItem('ord_app_theme');
+				const storedTheme = theme ? JSON.parse(theme) : null;
+
+				if (storedTheme === 'dark' ||
+				    (!storedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+					document.documentElement.classList.add('dark');
+				}
+			} catch (e) {
+				// Fallback to system preference on error
+				if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+					document.documentElement.classList.add('dark');
+				}
+			}
+		</script>
+
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

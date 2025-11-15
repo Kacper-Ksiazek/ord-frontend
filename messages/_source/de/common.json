@@ -1,3 +1,7 @@
 {
-	"hello_world": "Hello, {name} from de!"
+	"hello_world": "Hello, {name} from de!",
+	"header": {
+		"settings": "Einstellungen",
+		"logout": "Abmelden"
+	}
 }

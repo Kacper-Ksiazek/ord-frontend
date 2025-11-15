@@ -1,3 +1,7 @@
 {
-	"hello_world": "Hello, {name} from en!"
+	"hello_world": "Hello, {name} from en!",
+	"header": {
+		"settings": "Settings",
+		"logout": "Logout"
+	}
 }

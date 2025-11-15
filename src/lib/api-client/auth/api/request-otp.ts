@@ -1,4 +1,4 @@
-import type { OtpRequestBody } from '$lib/types/auth';
+import type { OtpRequestBody } from '$lib/features/auth/types';
 import { api } from '../../axios';
 
 export async function requestOtp(body: OtpRequestBody): Promise<void> {

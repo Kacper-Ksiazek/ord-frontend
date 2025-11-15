@@ -1,4 +1,5 @@
 import { createMutation, useQueryClient } from '@tanstack/svelte-query';
+import { clearAppStorage } from '$lib/utils/local-storage';
 import { logout } from '../api/logout';
 import { authKeys } from '../keys';
 
@@ -9,6 +10,8 @@ export function createLogoutMutation() {
 		mutationFn: logout,
 		onSuccess: () => {
 			queryClient.removeQueries({ queryKey: authKeys.all });
+
+			clearAppStorage();
 		}
 	}));
 }
