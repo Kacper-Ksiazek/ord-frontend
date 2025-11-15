@@ -9,10 +9,8 @@ export function createLogoutMutation() {
 	return createMutation(() => ({
 		mutationFn: logout,
 		onSuccess: () => {
-			// Clear TanStack Query cache
 			queryClient.removeQueries({ queryKey: authKeys.all });
 
-			// Clear localStorage
 			clearAppStorage();
 		}
 	}));

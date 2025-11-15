@@ -10,10 +10,8 @@ export function createVerifyOtpMutation() {
 	return createMutation(() => ({
 		mutationFn: (body: OtpVerifyBody) => verifyOtp(body),
 		onSuccess: (user: UserDTO) => {
-			// Update TanStack Query cache
 			queryClient.setQueryData(authKeys.currentUser(), user);
 
-			// Save to localStorage for instant access on page load
 			setStorageItem(STORAGE_KEYS.USER, user);
 		}
 	}));
