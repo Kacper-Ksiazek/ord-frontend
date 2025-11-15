@@ -1,7 +1,7 @@
 import { browser } from '$app/environment';
 import { getStorageItem, STORAGE_KEYS, setStorageItem } from '$lib/utils/local-storage';
 
-type Theme = 'light' | 'dark';
+export type Theme = 'light' | 'dark';
 
 class ThemeStore {
 	theme = $state<Theme>(
