@@ -21,5 +21,6 @@
 	},
 	"prettier.enable": true,
 	"eslint.enable": true,
-	"cSpell.words": ["Paraglide"]
+	"cSpell.words": ["Paraglide"],
+	"svg.preview.background": "editor"
 }
