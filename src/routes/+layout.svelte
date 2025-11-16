@@ -2,7 +2,6 @@
 import '../app.css';
 import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
 import favicon from '$lib/assets/favicon.ico';
-import { AppHeader } from '$lib/components/app-header';
 
 const { children } = $props();
 
@@ -22,11 +21,8 @@ const queryClient = new QueryClient({
 </svelte:head>
 
 <QueryClientProvider client={queryClient}>
-	<div class="flex flex-col h-screen overflow-hidden bg-gray-50 dark:bg-gray-900 w-screen">
-		<AppHeader />
-		<main class="flex-1 overflow-auto">
-			{@render children()}
-		</main>
+	<div class="h-screen overflow-hidden bg-gray-50 dark:bg-gray-900 w-screen">
+		{@render children()}
 	</div>
 </QueryClientProvider>
 

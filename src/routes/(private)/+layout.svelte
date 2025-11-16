@@ -1,6 +1,7 @@
 <script lang="ts">
 import { onMount } from 'svelte';
 import { goto } from '$app/navigation';
+import { Sidebar } from '$lib/components/sidebar';
 import { authStore } from '$lib/stores/auth.svelte';
 
 const { children, data } = $props();
@@ -18,7 +19,12 @@ onMount(() => {
 </script>
 
 {#if authStore.user}
-	{@render children()}
+	<div class="flex h-screen">
+		<Sidebar />
+		<main class="flex-1 overflow-auto">
+			{@render children()}
+		</main>
+	</div>
 {:else}
 	<div class="h-full flex items-center justify-center">
 		<p class="text-gray-600">Loading...</p>
