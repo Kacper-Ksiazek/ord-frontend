@@ -32,7 +32,7 @@ const flagUrl = $derived(`https://flagcdn.com/w80/${countryCode}.png`);
 		<img src={flagUrl} alt={language} class="w-6 h-4 rounded" />
 
 		{#if sidebarStore.isExpanded}
-			<div class="flex-1 min-w-0" transition:fade={{ duration: 300, delay: 150 }}>
+			<div class="flex-1 min-w-0" transition:fade={{ duration: { enter: 300, exit: 150 }, delay: 150 }}>
 				<p class="text-xs text-sky-200">Currently learning</p>
 				<p class="text-sm font-semibold text-sky-50 truncate">{language}</p>
 			</div>
