@@ -55,7 +55,7 @@ const transitionClass = 'transition-all duration-300';
 	<!-- Header Section with Logo -->
 	<div class="flex items-center justify-between px-3 row-reverse min-h-[74px]">
 		{#if sidebarStore.isExpanded}
-			<div class="flex items-center justify-center h-12 shrink-0 gap-2" transition:fade={{ duration: { enter: 300, exit: 150 }, delayIn: 150 }}>
+			<div class="flex items-center justify-center h-12 shrink-0 gap-2" transition:fade>
 				<AppLogo size="sm" class="text-white" />
 				<span class="text-lg font-semibold text-white">ORD</span>
 			</div>
@@ -87,7 +87,7 @@ const transitionClass = 'transition-all duration-300';
 				/>
 			{/if}
 			{#if sidebarStore.isExpanded && authStore.user}
-				<div class="flex-1 min-w-0" transition:fade={{ duration: { enter: 300, exit: 150 }, delayIn: 150 }}>
+				<div class="flex-1 min-w-0" transition:fade>
 					<p class="text-sm font-semibold text-white truncate">{authStore.user.name || authStore.user.email}</p>
 					<p class="text-xs text-gray-400">{authStore.user.email}</p>
 				</div>
