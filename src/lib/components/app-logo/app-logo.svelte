@@ -22,4 +22,4 @@ const colorClasses: Record<Theme, string> = {
 };
 </script>
 
-<Logo class={clsx(sizeClasses[size], className, colorClasses[themeStore.theme])} />
+<Logo class={clsx(sizeClasses[size], colorClasses[themeStore.theme], className)} />
