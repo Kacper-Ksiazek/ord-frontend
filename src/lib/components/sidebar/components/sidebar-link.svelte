@@ -9,9 +9,10 @@ interface Props {
 	disabled?: boolean;
 	href?: string;
 	onclick?: () => void;
+	fadeDelay?: number;
 }
 
-let { title, Icon, disabled = false, href, onclick }: Props = $props();
+let { title, Icon, disabled = false, href, onclick, fadeDelay = 150 }: Props = $props();
 
 const classList = disabled
 	? 'text-gray-500 cursor-not-allowed opacity-50'
@@ -33,7 +34,7 @@ function handleClick() {
 	>
 		<Icon class="w-5 h-5 shrink-0" />
 		{#if sidebarStore.isExpanded}
-			<span class="text-sm font-medium" in:fade={{ delay: 150 }}>{title}</span>
+			<span class="text-sm font-medium" in:fade={{ delay: fadeDelay }}>{title}</span>
 		{/if}
 	</a>
 {:else}
@@ -45,7 +46,7 @@ function handleClick() {
 	>
 		<Icon class="w-5 h-5 shrink-0" />
 		{#if sidebarStore.isExpanded}
-			<span class="text-sm font-medium" in:fade={{ delay: 150 }}>{title}</span>
+			<span class="text-sm font-medium" in:fade={{ delay: fadeDelay }}>{title}</span>
 		{/if}
 	</button>
 {/if}

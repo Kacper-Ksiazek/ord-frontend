@@ -121,6 +121,7 @@ const transitionClass = 'transition-all duration-300';
 		<SidebarLink
 			title="Change theme"
 			Icon={themeStore.isDark ? SunSolid : MoonSolid}
+			fadeDelay={200}
 			onclick={() => {
 				console.log('toggle theme');
 				themeStore.toggle()
