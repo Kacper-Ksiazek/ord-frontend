@@ -121,7 +121,7 @@ const transitionClass = 'transition-all duration-300';
 		<SidebarLink
 			title="Change theme"
 			Icon={themeStore.isDark ? SunSolid : MoonSolid}
-			fadeDelay={200}
+			fadeDelay={500}
 			onclick={() => {
 				console.log('toggle theme');
 				themeStore.toggle()
@@ -146,7 +146,7 @@ const transitionClass = 'transition-all duration-300';
 		>
 			<ArrowRightToBracketOutline class="w-5 h-5 shrink-0" />
 			{#if sidebarStore.isExpanded}
-				<span class="text-sm font-medium">Logout</span>
+				<span class="text-sm font-medium" in:fade={{ delay: 150 }}>Logout</span>
 			{/if}
 		</button>
 	</div>
