@@ -102,7 +102,7 @@ const transitionClass = 'transition-all duration-300';
 	<Divider />
 
 	<!-- Navigation Menu Section -->
-	<nav class="flex-1 overflow-y-auto px-3">
+	<nav class="flex-1 overflow-hidden px-3">
 		<div class="flex flex-col gap-2">
 			<SidebarLink title="Words" Icon={BookmarkOutline} disabled />
 
@@ -116,18 +116,15 @@ const transitionClass = 'transition-all duration-300';
 
 	<Divider />
 
-	<!-- Bottom Actions Section -->
 	<div class="flex flex-col gap-2 px-3">
 		<SidebarLink
-			title="Change theme"
+			title="Theme"
 			Icon={themeStore.isDark ? SunSolid : MoonSolid}
-			fadeDelay={500}
 			onclick={() => {
 				console.log('toggle theme');
 				themeStore.toggle()
 			}}
 		/>
-
 
 		<!-- Settings -->
 		<SidebarLink title="Settings" Icon={CogOutline} href="/settings" />
@@ -140,7 +137,7 @@ const transitionClass = 'transition-all duration-300';
 		<button
 			onclick={handleLogout}
 			title="Logout"
-			class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-red-900 transition-colors w-full justify-center cursor-pointer {sidebarStore.isExpanded
+			class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-red-900 transition-colors w-full cursor-pointer {sidebarStore.isExpanded
 				? 'justify-start'
 				: ''} text-red-400 hover:text-red-300"
 		>
@@ -149,5 +146,5 @@ const transitionClass = 'transition-all duration-300';
 				<span class="text-sm font-medium" in:fade={{ delay: 150 }}>Logout</span>
 			{/if}
 		</button>
-	</div>
+	</div> 
 </aside>
