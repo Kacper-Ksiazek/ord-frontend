@@ -26,12 +26,27 @@ const countryCode = $derived(languageFlags[language.toUpperCase()] || 'world');
 const flagUrl = $derived(`https://flagcdn.com/w80/${countryCode}.png`);
 </script>
 
+<style>
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	:global(.sidebar-fade-in) {
+		animation: fadeIn 0.3s ease-in-out forwards;
+	}
+</style>
+
 <div class="bg-primary-500/20 rounded-lg p-2 mx-3 my-2 transition-all duration-300" style="transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);">
 	<div class="flex items-center gap-2 h-9">
 		<img src={flagUrl} alt={language} class="w-6 h-4 rounded" />
 
 		{#if sidebarStore.isExpanded}
-			<div class="flex-1 min-w-0">
+			<div class="flex-1 min-w-0 sidebar-fade-in">
 				<p class="text-xs text-sky-200">Currently learning</p>
 				<p class="text-sm font-semibold text-sky-50 truncate">{language}</p>
 			</div>

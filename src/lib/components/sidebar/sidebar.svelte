@@ -48,13 +48,28 @@ const sidebarWidth = $derived(sidebarStore.isExpanded ? 'w-60' : 'w-16');
 const transitionClass = 'transition-all duration-300';
 </script>
 
+<style>
+	@keyframes fadeIn {
+		from {
+			opacity: 0;
+		}
+		to {
+			opacity: 1;
+		}
+	}
+
+	:global(.sidebar-fade-in) {
+		animation: fadeIn 0.3s ease-in-out forwards;
+	}
+</style>
+
 <aside
 	class={`fixed left-0 top-0 h-screen bg-black text-white flex flex-col ${sidebarWidth} ${transitionClass} z-40 border-r border-gray-800`}
 >
 	<!-- Header Section with Logo -->
 	<div class="flex items-center justify-between px-3 row-reverse min-h-[74px]">
 		{#if sidebarStore.isExpanded}
-		<div class="flex items-center justify-center h-12 shrink-0 gap-2">
+			<div class="flex items-center justify-center h-12 shrink-0 gap-2 sidebar-fade-in">
 				<AppLogo size="sm" class="text-white" />
 				<span class="text-lg font-semibold text-white">ORD</span>
 			</div>
@@ -86,7 +101,7 @@ const transitionClass = 'transition-all duration-300';
 				/>
 			{/if}
 			{#if sidebarStore.isExpanded && authStore.user}
-				<div class="flex-1 min-w-0">
+				<div class="flex-1 min-w-0 sidebar-fade-in">
 					<p class="text-sm font-semibold text-white truncate">{authStore.user.name || authStore.user.email}</p>
 					<p class="text-xs text-gray-400">{authStore.user.email}</p>
 				</div>
