@@ -1,5 +1,6 @@
 <script lang="ts">
 import type { Component } from 'svelte';
+import { fade } from 'svelte/transition';
 import { sidebarStore } from '../sidebar.store.svelte';
 
 interface Props {
@@ -22,21 +23,6 @@ function handleClick() {
 }
 </script>
 
-<style>
-	@keyframes fadeIn {
-		from {
-			opacity: 0;
-		}
-		to {
-			opacity: 1;
-		}
-	}
-
-	:global(.sidebar-fade-in) {
-		animation: fadeIn 0.3s ease-in-out forwards;
-	}
-</style>
-
 {#if href}
 	<a
 		{href}
@@ -47,7 +33,7 @@ function handleClick() {
 	>
 		<Icon class="w-5 h-5 shrink-0" />
 		{#if sidebarStore.isExpanded}
-			<span class="text-sm font-medium sidebar-fade-in">{title}</span>
+			<span class="text-sm font-medium" transition:fade={{ duration: 300 }}>{title}</span>
 		{/if}
 	</a>
 {:else}
@@ -59,7 +45,7 @@ function handleClick() {
 	>
 		<Icon class="w-5 h-5 shrink-0" />
 		{#if sidebarStore.isExpanded}
-			<span class="text-sm font-medium sidebar-fade-in">{title}</span>
+			<span class="text-sm font-medium" transition:fade={{ duration: 300 }}>{title}</span>
 		{/if}
 	</button>
 {/if}
