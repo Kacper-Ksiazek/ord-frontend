@@ -33,7 +33,7 @@ function handleClick() {
 	>
 		<Icon class="w-5 h-5 shrink-0" />
 		{#if sidebarStore.isExpanded}
-			<span class="text-sm font-medium" in:fade>{title}</span>
+			<span class="text-sm font-medium" in:fade={{ delay: 150 }}>{title}</span>
 		{/if}
 	</a>
 {:else}
@@ -45,7 +45,7 @@ function handleClick() {
 	>
 		<Icon class="w-5 h-5 shrink-0" />
 		{#if sidebarStore.isExpanded}
-			<span class="text-sm font-medium" in:fade>{title}</span>
+			<span class="text-sm font-medium" in:fade={{ delay: 150 }}>{title}</span>
 		{/if}
 	</button>
 {/if}
