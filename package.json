@@ -55,7 +55,7 @@
 		"vitest-browser-svelte": "^1.1.0"
 	},
 	"dependencies": {
-		"@ord-api/ord-api-types": "^1.0.9",
+		"@ord-api/ord-api-types": "^1.0.12",
 		"@tanstack/svelte-query": "^6.0.5",
 		"axios": "^1.13.2",
 		"clsx": "^2.1.1",
