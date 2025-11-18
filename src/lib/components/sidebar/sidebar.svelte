@@ -1,20 +1,14 @@
 <script lang="ts">
-import { Avatar, Button } from 'flowbite-svelte';
 import {
 	ArrowRightToBracketOutline,
 	BookmarkOutline,
-	BriefcaseOutline,
 	ChevronLeftOutline,
 	ChevronRightOutline,
 	CogOutline,
 	FaceGrinSolid,
-	FileVideoOutline,
-	HomeOutline,
 	LightbulbSolid,
 	MessageDotsSolid,
 	MoonSolid,
-	QuestionCircleOutline,
-	SearchOutline,
 	SunSolid
 } from 'flowbite-svelte-icons';
 import gravatarUrl from 'gravatar-url';
@@ -24,7 +18,6 @@ import { authStore } from '$lib/stores/auth.svelte';
 import { themeStore } from '$lib/stores/theme.svelte';
 import AppLogo from '../app-logo/app-logo.svelte';
 import Divider from '../Divider.svelte';
-import ThemeSwitcher from '../theme-switcher/theme-switcher.svelte';
 import SidebarLearningLanguage from './components/sidebar-learning-language.svelte';
 import SidebarLink from './components/sidebar-link.svelte';
 import { sidebarStore } from './sidebar.store.svelte';
@@ -50,7 +43,7 @@ const transitionClass = 'transition-all duration-300';
 </script>
 
 <aside
-	class={`fixed left-0 top-0 h-screen bg-black text-white flex flex-col ${sidebarWidth} ${transitionClass} z-40 border-r border-gray-800 pb-4`}
+	class={`h-screen bg-black text-white flex flex-col ${sidebarWidth} ${transitionClass} z-40 border-r border-gray-800 pb-4 overflow-hidden`}
 >
 	<!-- Header Section with Logo -->
 	<div class="flex items-center justify-between px-3 row-reverse min-h-[74px]">

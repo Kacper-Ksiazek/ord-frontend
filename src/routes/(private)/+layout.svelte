@@ -21,7 +21,7 @@ onMount(() => {
 {#if authStore.user}
 	<div class="flex h-screen">
 		<Sidebar />
-		<main class="flex-1 overflow-auto">
+		<main class="flex-1 overflow-auto p-4">
 			{@render children()}
 		</main>
 	</div>
