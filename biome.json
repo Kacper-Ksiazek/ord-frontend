@@ -39,7 +39,8 @@
 			"recommended": true,
 			"suspicious": {
 				"noExplicitAny": "warn",
-				"noArrayIndexKey": "warn"
+				"noArrayIndexKey": "warn",
+				"noExtraNonNullAssertion": "off"
 			},
 			"style": {
 				"useConst": "error",
