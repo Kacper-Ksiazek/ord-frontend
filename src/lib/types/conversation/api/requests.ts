@@ -1,3 +1,3 @@
-// Conversation API request types
-// Example: export type CreateConversationRequest = components['schemas']['CreateConversationRequest'];
-export {};
+import type { components } from '@ord-api/ord-api-types';
+
+export type CreateConversationRequest = components['schemas']['CreateConversationRequest'];

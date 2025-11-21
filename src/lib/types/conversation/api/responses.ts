@@ -1,3 +1,5 @@
-// Conversation API response types
-// Add response types here as needed
-export {};
+import type { components } from '@ord-api/ord-api-types';
+
+export type ReviewedUserConversationMessage =
+	components['schemas']['ReviewedUserConversationMessage'];
+export type GeneratedAIInterlocutorData = components['schemas']['GeneratedAIInterlocutorData'];
