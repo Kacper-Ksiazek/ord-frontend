@@ -1,12 +1,12 @@
 <script lang="ts">
 import clsx from 'clsx';
-import demoImage from '$lib/assets/images/conversation/types/demo.png';
-import type { ConversationType } from '$lib/types/conversation/domain/conversation';
+import ConversationType from '$lib/assets/images/conversation/types/conversation-type.svelte';
+import type { ConversationType as ConversationTypeType } from '$lib/types/conversation/domain/conversation';
 import { conversationTypes } from './create-conversation-step-1.constants';
 
 type CreateConversationStep1Props = {
-	onSelectType: (type: ConversationType) => void;
-	selectedType: ConversationType | undefined;
+	onSelectType: (type: ConversationTypeType) => void;
+	selectedType: ConversationTypeType | undefined;
 };
 
 const { onSelectType, selectedType }: CreateConversationStep1Props = $props();
@@ -35,7 +35,13 @@ const enableHints = true;
         }
       }}
     >
-      <img src={demoImage} alt={label} class="w-20 h-20" />
+      <ConversationType
+        conversationType={type}
+        class={clsx(
+          "w-20 h-20 text-gray-300",
+          isSelected && "text-primary-500"
+        )}
+      />
       <h3 class="text-lg font-bold dark:text-gray-50 mb-2">{label}</h3>
 
       {#if enableHints}
