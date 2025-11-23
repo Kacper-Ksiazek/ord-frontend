@@ -15,4 +15,4 @@ const baseClass = orientation === 'horizontal' ? 'h-px w-full my-2' : 'w-px h-fu
 const classes = `${baseClass} ${color} ${customClass}`;
 </script>
 
-<div class={classes} />
+<div class={classes}></div>
