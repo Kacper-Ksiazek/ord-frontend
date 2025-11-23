@@ -2,33 +2,6 @@ import { Observable } from 'rxjs';
 import { PUBLIC_API_URL } from '$env/static/public';
 import type { SSEStreamOptions } from './see.types';
 
-/**
- * Creates an RxJS Observable for Server-Sent Events (SSE)
- *
- * Uses fetch with Response.body streaming instead of EventSource to ensure
- * cookies and credentials are properly sent with the request.
- *
- * @template T - The type of data emitted by the stream
- * @param endpoint - The SSE endpoint path (relative to PUBLIC_API_URL)
- * @param options - Configuration options for the stream
- * @returns An RxJS Observable that emits parsed SSE messages
- *
- * @example
- * ```typescript
- * const messages$ = createSSEStream<ConversationMessage>(
- *   '/api/v1/conversations/123/stream'
- * );
- *
- * const subscription = messages$.subscribe({
- *   next: (message) => console.log('New message:', message),
- *   error: (error) => console.error('Stream error:', error),
- *   complete: () => console.log('Stream closed')
- * });
- *
- * // Cleanup when done
- * subscription.unsubscribe();
- * ```
- */
 export function createSSEStream<T = unknown>(
 	endpoint: string,
 	options?: SSEStreamOptions
@@ -130,14 +103,15 @@ export function createSSEStream<T = unknown>(
 						} else {
 							// Try to parse as JSON, fallback to string
 							try {
-								parsedData = JSON.parse(rawData) as T;
+								parsedData = JSON.parse(rawData.replaceAll('data:', '')) as T;
 							} catch {
+								console.warn('JSON parsing failed');
+								console.warn(typeof rawData, rawData);
 								// If JSON parsing fails, treat as raw string
 								parsedData = rawData as T;
 							}
 						}
 
-						// Emit the parsed data to subscribers
 						subscriber.next(parsedData);
 					} catch (parseError) {
 						subscriber.error(parseError);
