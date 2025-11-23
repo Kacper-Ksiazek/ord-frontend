@@ -27,5 +27,6 @@ const createConversationPayload = $state<Partial<CreateConversationRequest>>({
   <CreateConversationStep1
     selectedType={createConversationPayload.type}
     onSelectType={(type) => (createConversationPayload.type = type)}
+    language={createConversationPayload.language}
   />
 {/if}
