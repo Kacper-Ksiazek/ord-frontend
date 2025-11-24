@@ -27,6 +27,16 @@
 			"logout": "Logout"
 		}
 	},
+	"components": {
+		"utils": {
+			"generate-with-ai": {
+				"button_label": "Generate with AI",
+				"generating": "Generating...",
+				"success": "Generated",
+				"failed": "Try again"
+			}
+		}
+	},
 	"forms": {
 		"validation_required": "This field is required",
 		"validation_email": "Please enter a valid email address",

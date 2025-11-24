@@ -17,10 +17,7 @@
 			"error_send_otp": "Nie udało się wysłać kodu weryfikacyjnego. Spróbuj ponownie.",
 			"error_invalid_otp": "Proszę wprowadzić prawidłowy 6-cyfrowy kod",
 			"error_verify_otp": "Nieprawidłowy kod. Spróbuj ponownie.",
-			"error_generic": "Wystąpił nieoczekiwany błąd. Spróbuj ponownie.",
-			"password_placeholder": "Wprowadź hasło",
-			"submit_button": "Zaloguj",
-			"forgot_password": "Zapomniałeś hasła?"
+			"error_generic": "Wystąpił nieoczekiwany błąd. Spróbuj ponownie."
 		}
 	},
 	"common": {
@@ -28,6 +25,16 @@
 		"header": {
 			"settings": "Ustawienia",
 			"logout": "Wyloguj się"
+		}
+	},
+	"components": {
+		"utils": {
+			"generate-with-ai": {
+				"button_label": "Generuj za pomocą AI",
+				"generating": "Generowanie...",
+				"success": "Wygenerowano",
+				"failed": "Spróbuj ponownie"
+			}
 		}
 	},
 	"forms": {

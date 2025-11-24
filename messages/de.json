@@ -27,6 +27,16 @@
 			"logout": "Abmelden"
 		}
 	},
+	"components": {
+		"utils": {
+			"generate-with-ai": {
+				"button_label": "Mit AI generieren",
+				"generating": "Generieren...",
+				"success": "Generiert",
+				"failed": "Erneut versuchen"
+			}
+		}
+	},
 	"forms": {
 		"validation_required": "Dieses Feld ist erforderlich",
 		"validation_email": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
