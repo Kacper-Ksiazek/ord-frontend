@@ -4,12 +4,14 @@ import { join, relative } from 'node:path';
 
 const LOCALES = ['en', 'pl', 'de'] as const;
 const MESSAGES_DIR = './messages';
-const SOURCE_DIR = '_source';
+const SOURCE_DIR = 'source';
 const SCHEMA_URL = 'https://inlang.com/schema/inlang-message-format';
 
 type Locale = (typeof LOCALES)[number];
 type TranslationMap = Record<string, string>;
-type NestedObject = Record<string, string | NestedObject>;
+interface NestedObject {
+	[key: PropertyKey]: string | NestedObject;
+}
 
 interface ValidationResult {
 	locale: Locale;
