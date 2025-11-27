@@ -17,10 +17,11 @@
 		"editor.defaultFormatter": "esbenp.prettier-vscode"
 	},
 	"[svelte]": {
-		"editor.defaultFormatter": "svelte.svelte-vscode",
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
 		"editor.formatOnSave": true
 	},
 	"prettier.enable": true,
+	"prettier.resolveGlobalModules": true,
 	"eslint.enable": true,
 	"cSpell.words": ["Paraglide"],
 	"svg.preview.background": "editor"

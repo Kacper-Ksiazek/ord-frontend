@@ -3,7 +3,7 @@
 	import type { ConversationType as ConversationTypeType } from '$lib/types/conversation/domain/conversation';
 	import type { LanguageName } from '$lib/types/core/domain/languages';
 	import ConversationTypeCard from './components/conversation-type-card.svelte';
-	import TopicPicker from './components/topic-picker.svelte';
+	import { TopicPicker } from './components/topic-picker';
 	import { conversationTypes } from './create-conversation-step-1.constants';
 
 	type CreateConversationStep1Props = {

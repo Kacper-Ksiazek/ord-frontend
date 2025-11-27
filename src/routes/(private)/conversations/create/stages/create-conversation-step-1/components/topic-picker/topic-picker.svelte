@@ -43,7 +43,7 @@
 
 	const currentTopics = $derived(selectedType ? topics.get(selectedType) || [] : []);
 
-	function generateTopics() {
+	async function generateTopics() {
 		if (!selectedType || !language) {
 			return;
 		}
@@ -52,27 +52,31 @@
 
 		generateButtonStatus = 'loading';
 
-		suggestConversationTopics({
-			conversationType: selectedType,
-			language: language,
-			clueFromUser: clueForGeneration || undefined
-		}).subscribe({
-			next: (topic) => {
-				if (topic?.value) {
-					amountOfSkeletons = Math.max(0, amountOfSkeletons - 1);
+		return new Promise((resolve, reject) => {
+			suggestConversationTopics({
+				conversationType: selectedType,
+				language: language,
+				clueFromUser: clueForGeneration || undefined
+			}).subscribe({
+				next: (topic) => {
+					if (topic?.value) {
+						amountOfSkeletons = Math.max(0, amountOfSkeletons - 1);
 
-					topics.set(selectedType, [...(topics.get(selectedType) || []), topic.value]);
-				} else {
-					console.error('Topic is not a string');
-					console.error(topic, typeof topic);
+						topics.set(selectedType, [...(topics.get(selectedType) || []), topic.value]);
+					} else {
+						console.error('Topic is not a string');
+						console.error(topic, typeof topic);
+					}
+				},
+				error: () => {
+					generateButtonStatus = 'failed';
+					reject(new Error('Failed to generate topics'));
+				},
+				complete: () => {
+					generateButtonStatus = 'success';
+					resolve(true);
 				}
-			},
-			error: () => {
-				generateButtonStatus = 'failed';
-			},
-			complete: () => {
-				generateButtonStatus = 'success';
-			}
+			});
 		});
 	}
 
