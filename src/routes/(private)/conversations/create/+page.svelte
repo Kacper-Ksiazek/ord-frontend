@@ -27,6 +27,6 @@
 	<CreateConversationStep1
 		bind:selectedType={createConversationPayload.type}
 		bind:selectedTopic={createConversationPayload.topic}
-		language={createConversationPayload.language}
+		language={createConversationPayload.language!}
 	/>
 {/if}

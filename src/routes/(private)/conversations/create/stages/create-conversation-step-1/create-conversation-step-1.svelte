@@ -8,7 +8,7 @@
 
 	type CreateConversationStep1Props = {
 		selectedType: ConversationTypeType | undefined;
-		language: LanguageName | undefined;
+		language: LanguageName;
 		selectedTopic: string | undefined;
 	};
 
