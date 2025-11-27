@@ -21,12 +21,12 @@ const createConversationPayload = $state<Partial<CreateConversationRequest>>({
   <title>New Conversation</title>
 </svelte:head>
 
-{JSON.stringify(createConversationPayload)}
+<span class="dark:text-white">{JSON.stringify(createConversationPayload)}</span>
 
 {#if currentStep === "step-1-select-type"}
   <CreateConversationStep1
-    selectedType={createConversationPayload.type}
-    onSelectType={(type) => (createConversationPayload.type = type)}
+    bind:selectedType={createConversationPayload.type}
+    bind:selectedTopic={createConversationPayload.topic}
     language={createConversationPayload.language}
   />
 {/if}

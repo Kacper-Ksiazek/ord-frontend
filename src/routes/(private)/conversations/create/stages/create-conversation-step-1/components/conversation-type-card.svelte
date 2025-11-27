@@ -1,12 +1,12 @@
 <script lang="ts">
 import { cn } from 'flowbite-svelte';
-import ConversationType from '$lib/components/features/conversation/conversation-type.svelte';
+import ConversationTypeIcon from '$lib/components/features/conversation/conversation-type-icon.svelte';
 import SelectableCard from '$lib/components/utils/selectable-card.svelte';
-import type { ConversationType as ConversationTypeType } from '$lib/types/conversation/domain/conversation';
+import type { ConversationType } from '$lib/types/conversation/domain/conversation';
 
 type ConversationTypeCardProps = {
 	isSelected: boolean;
-	type: ConversationTypeType;
+	type: ConversationType;
 	label: string;
 	description: string;
 	onclick: () => void;
@@ -18,11 +18,11 @@ const enableHints = true;
 </script>
 
 <SelectableCard {onclick} {isSelected} class="w-[320px] py-8 px-4">
-  <ConversationType
+  <ConversationTypeIcon
     conversationType={type}
     class={cn(
-      "w-20 h-20 text-gray-300 mb-2", //
-      isSelected && "text-primary-500"
+      "w-20 h-20 text-gray-300 mb-2 dark:text-gray-600", //
+      isSelected && "text-primary-500 dark:text-white"
     )}
   />
 
@@ -31,7 +31,12 @@ const enableHints = true;
   </h3>
 
   {#if enableHints}
-    <p class="text-sm text-center">
+    <p
+      class={cn(
+        "text-sm text-center dark:text-gray-400",
+        isSelected && "text-gray-600 dark:text-gray-100"
+      )}
+    >
       {description}
     </p>
   {/if}
