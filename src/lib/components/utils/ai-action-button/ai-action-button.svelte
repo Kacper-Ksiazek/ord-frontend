@@ -2,22 +2,10 @@
 import { Button, type ButtonProps, cn, Spinner } from 'flowbite-svelte';
 import { CheckCircleSolid, CloseCircleSolid, WandMagicSparklesSolid } from 'flowbite-svelte-icons';
 import * as m from '$lib/paraglide/messages.js';
+import type { Props } from './ai-action-button.types';
 import Stage from './components/stage.svelte';
 
-type Status = 'default' | 'loading' | 'success' | 'failed';
-
-interface Props {
-	status: Status;
-	onclick: () => void;
-}
-
-let { status = $bindable('default'), ...rest }: Props = $props();
-
-const buttonClasses = cn(
-	'cursor-pointer', //
-	'w-full h-full flex items-center gap-1 border-primary-600 border-1 rounded-xl',
-	'hover:bg-primary-50! hover:text-primary-600'
-);
+let { status = $bindable('default'), disabled = false, ...rest }: Props = $props();
 
 $effect(() => {
 	if (status === 'success' || status === 'failed') {
@@ -30,10 +18,21 @@ $effect(() => {
 
 <div class="relative overflow-hidden rounded-xl">
   {#snippet aiButton(props?: ButtonProps)}
-    <Button class={buttonClasses} {...props}>
+    <Button
+      class={cn(
+        "cursor-pointer", //
+        "w-full h-full flex items-center gap-1 border-primary-600 border rounded-xl",
+        !disabled && "hover:bg-primary-50! hover:text-primary-600",
+        disabled &&
+          "cursor-not-allowed bg-gray-200! text-gray-500! border-gray-300!"
+      )}
+      {...props}
+    >
       <WandMagicSparklesSolid
-        class="w-5 h-5 text-amber-400"
-        aria-hidden="true"
+        class={cn(
+          "w-5 h-5 text-amber-400", //
+          disabled && "text-gray-500"
+        )}
       />
       <span>{m["components.utils.generate-with-ai.button_label"]()}</span>
     </Button>
@@ -41,12 +40,17 @@ $effect(() => {
 
   <!-- Keep it like this in order to reserve space for all the stages -->
   <Stage class="relative opacity-0!">
-    {@render aiButton()}
+    {@render aiButton({
+      "aria-hidden": true,
+    })}
   </Stage>
 
   {#if status === "default"}
     <Stage>
-      {@render aiButton({ ...rest })}
+      {@render aiButton({
+        ...rest,
+        onclick: disabled ? undefined : rest.onclick,
+      })}
     </Stage>
     <!--  -->
   {:else if status === "loading"}
