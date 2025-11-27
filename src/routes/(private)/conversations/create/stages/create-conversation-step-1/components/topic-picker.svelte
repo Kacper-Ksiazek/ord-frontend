@@ -6,6 +6,7 @@ import { SvelteMap } from 'svelte/reactivity';
 import { suggestConversationTopics } from '$lib/api-client/conversation/see/suggest-conversation-topics';
 import ConversationTypeIcon from '$lib/components/features/conversation/conversation-type-icon.svelte';
 import { AiActionButton } from '$lib/components/utils/ai-action-button';
+import type { AiActionButtonStatus } from '$lib/components/utils/ai-action-button/ai-action-button.types';
 import SelectableCard from '$lib/components/utils/selectable-card.svelte';
 import Skeleton from '$lib/components/utils/skeleton.svelte';
 import type { ConversationType } from '$lib/types/conversation/domain/conversation';
@@ -27,6 +28,8 @@ let amountOfSkeletons = $state(0);
 let clueForGeneration = $state('');
 let manualTopicInput = $state('');
 
+let generateButtonStatus = $state<AiActionButtonStatus>('default');
+
 const topics = new SvelteMap<ConversationType, string[]>([
 	[
 		'SMALL_TALK',
@@ -47,6 +50,8 @@ function generateTopics() {
 
 	amountOfSkeletons = 3;
 
+	generateButtonStatus = 'loading';
+
 	suggestConversationTopics({
 		conversationType: selectedType,
 		language: language,
@@ -61,6 +66,12 @@ function generateTopics() {
 				console.error('Topic is not a string');
 				console.error(topic, typeof topic);
 			}
+		},
+		error: () => {
+			generateButtonStatus = 'failed';
+		},
+		complete: () => {
+			generateButtonStatus = 'success';
 		}
 	});
 }
@@ -104,7 +115,7 @@ function handleKeydown(event: KeyboardEvent) {
 <section class="flex flex-col gap-4 my-2 max-w-[800px]">
   <div class="flex items-center gap-2">
     <AiActionButton
-      status="default"
+      status={generateButtonStatus}
       onclick={generateTopics}
       disabled={!selectedType || !language}
     />
