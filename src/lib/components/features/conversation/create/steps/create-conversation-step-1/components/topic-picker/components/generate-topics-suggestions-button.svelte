@@ -2,48 +2,41 @@
 	import { suggestConversationTopics } from '$lib/api-client/conversation/see/suggest-conversation-topics';
 	import { AiActionButton } from '$lib/components/utils/ai-action-button';
 	import type { AiActionButtonStatus } from '$lib/components/utils/ai-action-button/ai-action-button.types';
-	import type { ConversationType } from '$lib/types/conversation/domain/conversation';
-	import type { LanguageName } from '$lib/types/core/domain/languages';
 	import { Input } from 'flowbite-svelte';
-	import type { SvelteMap } from 'svelte/reactivity';
+	import { getCreateConversationPayload } from '$lib/components/features/conversation/create/stores/create-conversation-payload.svelte';
+	import { topics } from '../topic-picker.store.svelte';
 
 	interface GenerateTopicsSuggestionsButtonProps {
-		language: LanguageName;
-		selectedType: ConversationType | undefined;
 		amountOfSkeletons: number;
-		topics: SvelteMap<ConversationType, string[]>;
 	}
 
-	let {
-		language,
-		selectedType,
-		amountOfSkeletons = $bindable(),
-		topics = $bindable()
-	}: GenerateTopicsSuggestionsButtonProps = $props();
+	let { amountOfSkeletons = $bindable() }: GenerateTopicsSuggestionsButtonProps = $props();
 
 	let clueForGeneration = $state('');
 	let generateButtonStatus = $state<AiActionButtonStatus>('default');
 
 	async function generateTopics() {
-		if (!selectedType || !language) {
+		const payload = getCreateConversationPayload();
+		const conversationType = payload.type;
+
+		if (!conversationType) {
 			return;
 		}
 
 		amountOfSkeletons = 3;
-
 		generateButtonStatus = 'loading';
 
 		return new Promise((resolve, reject) => {
 			suggestConversationTopics({
-				conversationType: selectedType,
-				language: language,
+				conversationType,
+				language: payload.language,
 				clueFromUser: clueForGeneration || undefined
 			}).subscribe({
 				next: (topic) => {
 					if (topic?.value) {
 						amountOfSkeletons = Math.max(0, amountOfSkeletons - 1);
 
-						topics.set(selectedType, [...(topics.get(selectedType) || []), topic.value]);
+						topics.set(conversationType, [...(topics.get(conversationType) || []), topic.value]);
 					} else {
 						console.error('Topic is not a string');
 						console.error(topic, typeof topic);

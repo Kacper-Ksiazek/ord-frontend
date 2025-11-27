@@ -2,16 +2,29 @@
 	import SelectableCard from '$lib/components/utils/selectable-card.svelte';
 	import { cn } from 'flowbite-svelte';
 	import { CloseOutline } from 'flowbite-svelte-icons';
+	import { topics } from '../topic-picker.store.svelte';
+	import { getCreateConversationPayload } from '$lib/components/features/conversation/create/stores/create-conversation-payload.svelte';
 
 	interface TopicRowProps {
-		topic: string;
 		index: number;
+		topic: string;
 		isSelected: boolean;
 		onclick: () => void;
-		onRemoveClick: () => void;
 	}
 
-	let { topic, index, isSelected, onclick, onRemoveClick }: TopicRowProps = $props();
+	const { index, topic, isSelected, onclick }: TopicRowProps = $props();
+
+	function removeTopic(topicToRemove: string) {
+		const payload = getCreateConversationPayload();
+		if (!payload.type) {
+			return;
+		}
+
+		const currentTopicsList = topics.get(payload.type) || [];
+		const updatedTopics = currentTopicsList.filter((topic) => topic !== topicToRemove);
+
+		topics.set(payload.type, updatedTopics);
+	}
 </script>
 
 <SelectableCard {onclick} class="flex-row gap-4 justify-start p-0 overflow-hidden" {isSelected}>
@@ -38,7 +51,7 @@
 			)}
 			onclick={(e) => {
 				e.stopPropagation();
-				onRemoveClick();
+				removeTopic(topic);
 			}}
 		>
 			<CloseOutline class="w-5 h-5" />

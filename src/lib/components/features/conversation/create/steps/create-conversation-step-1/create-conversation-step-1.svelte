@@ -1,22 +1,14 @@
 <script lang="ts">
 	import AIInterlocutorAvatar from '$lib/components/features/conversation/ai-interlocutor-avatar.svelte';
-	import type { ConversationType as ConversationTypeType } from '$lib/types/conversation/domain/conversation';
-	import type { LanguageName } from '$lib/types/core/domain/languages';
 	import ConversationTypeCard from './components/conversation-type-card.svelte';
 	import { TopicPicker } from './components/topic-picker';
 	import { conversationTypes } from './create-conversation-step-1.constants';
+	import {
+		getCreateConversationPayload,
+		setCreateConversationPayload
+	} from '../../stores/create-conversation-payload.svelte';
 
-	type CreateConversationStep1Props = {
-		selectedType: ConversationTypeType | undefined;
-		language: LanguageName;
-		selectedTopic: string | undefined;
-	};
-
-	let {
-		language,
-		selectedType = $bindable(),
-		selectedTopic = $bindable()
-	}: CreateConversationStep1Props = $props();
+	let selectedType = $derived(getCreateConversationPayload().type);
 </script>
 
 <h1 class="text-2xl font-bold">New Conversation</h1>
@@ -31,7 +23,7 @@
 			{label}
 			{description}
 			{isSelected}
-			onclick={() => (selectedType = type)}
+			onclick={() => setCreateConversationPayload({ type })}
 		/>
 	{/each}
 </section>
@@ -40,7 +32,7 @@
 
 <h2 class="text-lg font-bold">Select conversation topic</h2>
 
-<TopicPicker {selectedType} {language} bind:selectedTopic />
+<TopicPicker />
 
 <section>
 	<div class="w-[512px] h-[512px]">
