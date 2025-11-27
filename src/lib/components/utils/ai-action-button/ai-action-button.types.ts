@@ -1,7 +1,7 @@
-export type Status = 'default' | 'loading' | 'success' | 'failed';
+export type AiActionButtonStatus = 'default' | 'loading' | 'success' | 'failed';
 
-export interface Props {
-	status: Status;
+export interface AiActionButtonProps {
+	status: AiActionButtonStatus;
 	disabled?: boolean;
 	onclick: () => void;
 }
