@@ -1,11 +1,13 @@
 <script lang="ts">
 import { cn } from 'flowbite-svelte';
+import type { Snippet } from 'svelte';
 
 interface Props {
 	class?: string;
+	children?: Snippet;
 }
 
-const { class: customClass = '' }: Props = $props();
+const { class: customClass = '', children }: Props = $props();
 </script>
 
 <div
@@ -13,4 +15,6 @@ const { class: customClass = '' }: Props = $props();
     "bg-gray-200 dark:bg-gray-800 animate-pulse w-full h-full rounded-md",
     customClass
   )}
-></div>
+>
+  {@render children?.()}
+</div>
