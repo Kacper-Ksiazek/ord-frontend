@@ -2,10 +2,10 @@
 import { Button, type ButtonProps, cn, Spinner } from 'flowbite-svelte';
 import { CheckCircleSolid, CloseCircleSolid, WandMagicSparklesSolid } from 'flowbite-svelte-icons';
 import * as m from '$lib/paraglide/messages.js';
-import type { Props } from './ai-action-button.types';
+import type { AiActionButtonProps } from './ai-action-button.types';
 import Stage from './components/stage.svelte';
 
-let { status = $bindable('default'), disabled = false, ...rest }: Props = $props();
+let { status = $bindable('default'), disabled = false, ...rest }: AiActionButtonProps = $props();
 
 $effect(() => {
 	if (status === 'success' || status === 'failed') {
