@@ -1,21 +1,21 @@
 <script module>
-import { defineMeta } from '@storybook/addon-svelte-csf';
+	import { defineMeta } from '@storybook/addon-svelte-csf';
 
-const { Story } = defineMeta({
-	title: 'Components/LanguagePicker'
-});
+	const { Story } = defineMeta({
+		title: 'Components/LanguagePicker'
+	});
 </script>
 
 <script lang="ts">
-import { getLocale } from '$lib/paraglide/runtime';
-import LanguagePicker from './language-picker.svelte';
+	import { getLocale } from '$lib/paraglide/runtime';
+	import LanguagePicker from './language-picker.svelte';
 
-let currentLocale = $state(getLocale());
+	let currentLocale = $state(getLocale());
 
-// Update local state when language changes
-$effect(() => {
-	currentLocale = getLocale();
-});
+	// Update local state when language changes
+	$effect(() => {
+		currentLocale = getLocale();
+	});
 </script>
 
 <Story name="Default">

@@ -1,26 +1,26 @@
 <script lang="ts">
-import { Dropdown, DropdownItem } from 'flowbite-svelte';
-import { ChevronDownOutline, GlobeSolid } from 'flowbite-svelte-icons';
-import { getLocale, setLocale } from '$lib/paraglide/runtime';
+	import { Dropdown, DropdownItem } from 'flowbite-svelte';
+	import { ChevronDownOutline, GlobeSolid } from 'flowbite-svelte-icons';
+	import { getLocale, setLocale } from '$lib/paraglide/runtime';
 
-type Locale = 'en' | 'pl' | 'de';
+	type Locale = 'en' | 'pl' | 'de';
 
-let currentLocale = $state(getLocale());
+	let currentLocale = $state(getLocale());
 
-const languages: Array<{ code: Locale; name: string; label: string }> = [
-	{ code: 'en', name: 'English', label: 'EN' },
-	{ code: 'pl', name: 'Polski', label: 'PL' },
-	{ code: 'de', name: 'Deutsch', label: 'DE' }
-];
+	const languages: Array<{ code: Locale; name: string; label: string }> = [
+		{ code: 'en', name: 'English', label: 'EN' },
+		{ code: 'pl', name: 'Polski', label: 'PL' },
+		{ code: 'de', name: 'Deutsch', label: 'DE' }
+	];
 
-function handleLanguageSelect(languageCode: Locale) {
-	setLocale(languageCode);
-	currentLocale = languageCode;
-}
+	function handleLanguageSelect(languageCode: Locale) {
+		setLocale(languageCode);
+		currentLocale = languageCode;
+	}
 
-const currentLanguageLabel = $derived(
-	languages.find((lang) => lang.code === currentLocale)?.label ?? 'EN'
-);
+	const currentLanguageLabel = $derived(
+		languages.find((lang) => lang.code === currentLocale)?.label ?? 'EN'
+	);
 </script>
 
 <button
@@ -40,7 +40,10 @@ const currentLanguageLabel = $derived(
 	{#each languages as language}
 		<DropdownItem
 			onclick={() => handleLanguageSelect(language.code)}
-			class="w-full list-none text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 {currentLocale === language.code ? 'font-semibold' : ''}"
+			class="w-full list-none text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 {currentLocale ===
+			language.code
+				? 'font-semibold'
+				: ''}"
 		>
 			{language.name}
 		</DropdownItem>

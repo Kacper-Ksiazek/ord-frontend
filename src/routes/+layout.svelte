@@ -1,19 +1,19 @@
 <script lang="ts">
-import '../app.css';
-import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
-import favicon from '$lib/assets/favicon.ico';
+	import '../app.css';
+	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
+	import favicon from '$lib/assets/favicon.ico';
 
-const { children } = $props();
+	const { children } = $props();
 
-// Create a single QueryClient for the entire app
-const queryClient = new QueryClient({
-	defaultOptions: {
-		queries: {
-			staleTime: 1000 * 60, // 1 minute
-			retry: 1
+	// Create a single QueryClient for the entire app
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				staleTime: 1000 * 60, // 1 minute
+				retry: 1
+			}
 		}
-	}
-});
+	});
 </script>
 
 <svelte:head>
@@ -25,5 +25,3 @@ const queryClient = new QueryClient({
 		{@render children()}
 	</div>
 </QueryClientProvider>
-
-

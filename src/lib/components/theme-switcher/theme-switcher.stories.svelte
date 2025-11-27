@@ -1,14 +1,14 @@
 <script module>
-import { defineMeta } from '@storybook/addon-svelte-csf';
+	import { defineMeta } from '@storybook/addon-svelte-csf';
 
-const { Story } = defineMeta({
-	title: 'Components/ThemeSwitcher'
-});
+	const { Story } = defineMeta({
+		title: 'Components/ThemeSwitcher'
+	});
 </script>
 
 <script lang="ts">
-import ThemeSwitcher from './theme-switcher.svelte';
-import { themeStore } from '$lib/stores/theme.svelte';
+	import ThemeSwitcher from './theme-switcher.svelte';
+	import { themeStore } from '$lib/stores/theme.svelte';
 </script>
 
 <Story name="Default">

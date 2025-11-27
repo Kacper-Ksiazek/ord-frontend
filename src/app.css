@@ -1,4 +1,4 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @plugin 'flowbite/plugin';
 
@@ -6,102 +6,102 @@
 
 /* Noto Sans Variable Font */
 @font-face {
-  font-family: "Noto Sans";
-  src: url("$lib/assets/fonts/NotoSans-Variable.woff2") format("woff2");
-  font-weight: 100 900;
-  font-stretch: 62.5% 100%;
-  font-style: normal;
-  font-display: swap;
+	font-family: 'Noto Sans';
+	src: url('$lib/assets/fonts/NotoSans-Variable.woff2') format('woff2');
+	font-weight: 100 900;
+	font-stretch: 62.5% 100%;
+	font-style: normal;
+	font-display: swap;
 }
 
 @font-face {
-  font-family: "Noto Sans";
-  src: url("$lib/assets/fonts/NotoSans-VariableItalic.woff2") format("woff2");
-  font-weight: 100 900;
-  font-stretch: 62.5% 100%;
-  font-style: italic;
-  font-display: swap;
+	font-family: 'Noto Sans';
+	src: url('$lib/assets/fonts/NotoSans-VariableItalic.woff2') format('woff2');
+	font-weight: 100 900;
+	font-stretch: 62.5% 100%;
+	font-style: italic;
+	font-display: swap;
 }
 
 @theme {
-  /* Fonts */
-  --font-family-sans:
-    "Noto Sans", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	/* Fonts */
+	--font-family-sans:
+		'Noto Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+		'Segoe UI Symbol', 'Noto Color Emoji';
 
-  /* Colors */
-  --color-primary-50: #f0f9ff;
-  --color-primary-100: #e0f2fe;
-  --color-primary-200: #b4e4f8;
-  --color-primary-300: #7dd3fc;
-  --color-primary-400: #38bdf8;
-  --color-primary-500: #0ea5e9;
-  --color-primary-600: #0284c7;
-  --color-primary-700: #0369a1;
-  --color-primary-800: #075985;
-  --color-primary-900: #0c4a6e;
+	/* Colors */
+	--color-primary-50: #f0f9ff;
+	--color-primary-100: #e0f2fe;
+	--color-primary-200: #b4e4f8;
+	--color-primary-300: #7dd3fc;
+	--color-primary-400: #38bdf8;
+	--color-primary-500: #0ea5e9;
+	--color-primary-600: #0284c7;
+	--color-primary-700: #0369a1;
+	--color-primary-800: #075985;
+	--color-primary-900: #0c4a6e;
 
-  --color-secondary-50: #f0f9ff;
-  --color-secondary-100: #e0f2fe;
-  --color-secondary-200: #bae6fd;
-  --color-secondary-300: #7dd3fc;
-  --color-secondary-400: #38bdf8;
-  --color-secondary-500: #0ea5e9;
-  --color-secondary-600: #0284c7;
-  --color-secondary-700: #0369a1;
-  --color-secondary-800: #075985;
-  --color-secondary-900: #0c4a6e;
+	--color-secondary-50: #f0f9ff;
+	--color-secondary-100: #e0f2fe;
+	--color-secondary-200: #bae6fd;
+	--color-secondary-300: #7dd3fc;
+	--color-secondary-400: #38bdf8;
+	--color-secondary-500: #0ea5e9;
+	--color-secondary-600: #0284c7;
+	--color-secondary-700: #0369a1;
+	--color-secondary-800: #075985;
+	--color-secondary-900: #0c4a6e;
 }
 
 @source "../node_modules/flowbite-svelte/dist";
 @source "../node_modules/flowbite-svelte-icons/dist";
 
 @layer base {
-  /* Apply Noto Sans to all text elements */
-  body {
-    font-family: var(--font-family-sans);
-  }
+	/* Apply Noto Sans to all text elements */
+	body {
+		font-family: var(--font-family-sans);
+	}
 
-  li {
-    list-style: none;
-  }
+	li {
+		list-style: none;
+	}
 
-  /* disable chrome cancel button */
-  input[type="search"]::-webkit-search-cancel-button {
-    display: none;
-  }
+	/* disable chrome cancel button */
+	input[type='search']::-webkit-search-cancel-button {
+		display: none;
+	}
 
-  /* Smooth transitions for theme switching */
-  html {
-    transition: background-color 200ms ease-in-out;
-  }
+	/* Smooth transitions for theme switching */
+	html {
+		transition: background-color 200ms ease-in-out;
+	}
 
-  * {
-    transition-property: background-color, border-color, color;
-    transition-timing-function: ease-in-out;
-    transition-duration: 200ms;
-  }
+	* {
+		transition-property: background-color, border-color, color;
+		transition-timing-function: ease-in-out;
+		transition-duration: 200ms;
+	}
 
-  /* Global focus styles using primary color */
-  input:focus,
-  textarea:focus,
-  select:focus,
-  button:focus-visible {
-    outline: none;
-    border-color: var(--color-primary-600);
-    --tw-ring-color: var(--color-primary-300);
-  }
+	/* Global focus styles using primary color */
+	input:focus,
+	textarea:focus,
+	select:focus,
+	button:focus-visible {
+		outline: none;
+		border-color: var(--color-primary-600);
+		--tw-ring-color: var(--color-primary-300);
+	}
 
-  /* Override Flowbite default focus styles */
-  input[type="text"]:focus,
-  input[type="email"]:focus,
-  input[type="password"]:focus,
-  input[type="number"]:focus,
-  input[type="tel"]:focus,
-  input[type="url"]:focus,
-  textarea:focus,
-  select:focus {
-    border-color: var(--color-primary-600) !important;
-    --tw-ring-color: var(--color-primary-300) !important;
-  }
+	/* Override Flowbite default focus styles */
+	input[type='text']:focus,
+	input[type='email']:focus,
+	input[type='password']:focus,
+	input[type='number']:focus,
+	input[type='tel']:focus,
+	input[type='url']:focus,
+	textarea:focus,
+	select:focus {
+		border-color: var(--color-primary-600) !important;
+		--tw-ring-color: var(--color-primary-300) !important;
+	}
 }

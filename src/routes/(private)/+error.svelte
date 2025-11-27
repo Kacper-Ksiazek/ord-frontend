@@ -1,6 +1,6 @@
 <script lang="ts">
-import { goto } from '$app/navigation';
-import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 </script>
 
 <svelte:head>
@@ -29,7 +29,8 @@ import { page } from '$app/stores';
 		<!-- Error Message -->
 		<p class="text-gray-600 dark:text-gray-400 mb-8">
 			{#if $page.status === 404}
-				The page you're looking for doesn't exist. Try navigating from the sidebar or go back to the home page.
+				The page you're looking for doesn't exist. Try navigating from the sidebar or go back to the
+				home page.
 			{:else if $page.status === 500}
 				Something went wrong on our end. Please try again later.
 			{:else}

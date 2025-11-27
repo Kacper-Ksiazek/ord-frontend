@@ -162,6 +162,7 @@ For `**/*.svelte` files, the following rules are disabled to ensure compatibilit
 - **`useImportType`**: Disabled (TypeScript import types can conflict with Svelte's template usage)
 
 Additionally:
+
 - **Accessibility warnings** for SVG elements (warning level)
 
 These overrides follow the [official Biome documentation recommendations](https://biomejs.dev/guides/integrate-in-your-editor/#svelte) for framework integration.

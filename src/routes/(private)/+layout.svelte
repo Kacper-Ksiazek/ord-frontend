@@ -1,21 +1,21 @@
 <script lang="ts">
-import { onMount } from 'svelte';
-import { goto } from '$app/navigation';
-import { Sidebar } from '$lib/components/sidebar';
-import { authStore } from '$lib/stores/auth.svelte';
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	import { Sidebar } from '$lib/components/sidebar';
+	import { authStore } from '$lib/stores/auth.svelte';
 
-const { children, data } = $props();
+	const { children, data } = $props();
 
-onMount(() => {
-	// Update auth store with user data from load function
-	if (data.user) {
-		authStore.setUser(data.user);
-	} else {
-		// If no user data, redirect to login
-		authStore.clearUser();
-		goto('/login');
-	}
-});
+	onMount(() => {
+		// Update auth store with user data from load function
+		if (data.user) {
+			authStore.setUser(data.user);
+		} else {
+			// If no user data, redirect to login
+			authStore.clearUser();
+			goto('/login');
+		}
+	});
 </script>
 
 {#if authStore.user}

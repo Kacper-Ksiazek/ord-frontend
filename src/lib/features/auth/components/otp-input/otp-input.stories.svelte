@@ -1,9 +1,9 @@
 <script module>
-import { defineMeta } from '@storybook/addon-svelte-csf';
+	import { defineMeta } from '@storybook/addon-svelte-csf';
 
-const { Story } = defineMeta({
-	title: 'Components/OtpInput'
-});
+	const { Story } = defineMeta({
+		title: 'Components/OtpInput'
+	});
 </script>
 
 <script lang="ts">
@@ -54,8 +54,6 @@ const { Story } = defineMeta({
 				Last completed: {lastCompletedValue}
 			</p>
 		{/if}
-		<p class="mt-2 text-center text-xs text-gray-500">
-			Press Enter when all 6 digits are filled
-		</p>
+		<p class="mt-2 text-center text-xs text-gray-500">Press Enter when all 6 digits are filled</p>
 	</div>
 </Story>

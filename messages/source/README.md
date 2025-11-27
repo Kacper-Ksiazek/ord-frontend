@@ -12,6 +12,7 @@ _source/
 ```
 
 Each language directory can contain:
+
 - JSON files at the root level (e.g., `common.json`, `forms.json`)
 - Nested subdirectories with more JSON files (e.g., `auth/login.json`, `errors/validation.json`)
 
@@ -22,6 +23,7 @@ The aggregation script (`scripts/aggregate-translations.ts`) processes all JSON 
 ### Example
 
 Given this structure:
+
 ```
 _source/
 └── en/
@@ -32,20 +34,21 @@ _source/
 ```
 
 The script generates:
+
 ```json
 {
-  "$schema": "https://inlang.com/schema/inlang-message-format",
-  "common": {
-    "hello": "Hello"
-  },
-  "forms": {
-    "submit": "Submit"
-  },
-  "auth": {
-    "login": {
-      "title": "Sign In"
-    }
-  }
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+	"common": {
+		"hello": "Hello"
+	},
+	"forms": {
+		"submit": "Submit"
+	},
+	"auth": {
+		"login": {
+			"title": "Sign In"
+		}
+	}
 }
 ```
 
@@ -54,6 +57,7 @@ The script generates:
 ### Manual Aggregation
 
 Run the aggregation script manually:
+
 ```bash
 npm run aggregate
 ```
@@ -61,6 +65,7 @@ npm run aggregate
 ### Automatic Aggregation
 
 The script automatically runs before:
+
 - `npm run dev` - Development server
 - `npm run build` - Production build
 
@@ -89,20 +94,22 @@ npm run aggregate
 ```
 
 This creates the nested structure:
+
 ```json
 {
-  "dashboard": {
-    "home": {
-      "title": "Dashboard",
-      "welcome": "Welcome back!"
-    }
-  }
+	"dashboard": {
+		"home": {
+			"title": "Dashboard",
+			"welcome": "Welcome back!"
+		}
+	}
 }
 ```
 
 ## Validation
 
 The script validates that all languages have the same translation keys. If there's a mismatch:
+
 - ❌ Missing keys are reported with error
 - ❌ Extra keys are reported with error
 - ⛔ The script exits with an error code (build will fail)
@@ -112,14 +119,15 @@ This ensures translation consistency across all languages.
 ## File Format
 
 Each JSON file should contain key-value pairs where:
+
 - **Keys** are simple strings (no nesting in individual files)
 - **Values** are translation strings
 - **Interpolation** is supported using `{variableName}` syntax
 
 ```json
 {
-  "welcome_message": "Hello, {name}!",
-  "item_count": "You have {count} items"
+	"welcome_message": "Hello, {name}!",
+	"item_count": "You have {count} items"
 }
 ```
 

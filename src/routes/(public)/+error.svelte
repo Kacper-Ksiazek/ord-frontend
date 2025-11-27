@@ -1,6 +1,6 @@
 <script lang="ts">
-import { page } from '$app/stores';
-import AppLogo from '$lib/components/app-logo/app-logo.svelte';
+	import { page } from '$app/stores';
+	import AppLogo from '$lib/components/app-logo/app-logo.svelte';
 </script>
 
 <svelte:head>
@@ -9,7 +9,9 @@ import AppLogo from '$lib/components/app-logo/app-logo.svelte';
 
 <div class="flex flex-col h-screen">
 	<!-- Header -->
-	<header class="sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950">
+	<header
+		class="sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950"
+	>
 		<div class="container mx-auto px-4 h-16 flex items-center justify-between">
 			<div class="flex items-center gap-2">
 				<AppLogo size="md" />

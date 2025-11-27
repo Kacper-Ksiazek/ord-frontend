@@ -1,8 +1,8 @@
 <script lang="ts">
-import { AppLogo } from '$lib/components/app-logo';
-import { LanguagePicker } from '$lib/components/language-picker';
-import { ThemeSwitcher } from '$lib/components/theme-switcher';
-import AuthOnlyHeader from './components/auth-only-header.svelte';
+	import { AppLogo } from '$lib/components/app-logo';
+	import { LanguagePicker } from '$lib/components/language-picker';
+	import { ThemeSwitcher } from '$lib/components/theme-switcher';
+	import AuthOnlyHeader from './components/auth-only-header.svelte';
 </script>
 
 <header class="sticky top-0 z-50 w-full">

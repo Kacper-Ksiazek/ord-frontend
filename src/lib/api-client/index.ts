@@ -6,8 +6,4 @@ export { api } from './axios';
 
 // Re-export SSE utilities
 export { createSSEStream, type SSEStreamType } from './utils/see';
-export type {
-	SSEEvent,
-	SSEStreamOptions,
-	SSEStreamState
-} from './utils/see.types';
+export type { SSEEvent, SSEStreamOptions, SSEStreamState } from './utils/see.types';
