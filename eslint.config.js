@@ -1,6 +1,7 @@
 import js from '@eslint/js';
 import * as ts from 'typescript-eslint';
 import svelte from 'eslint-plugin-svelte';
+import tsParser from '@typescript-eslint/parser';
 
 export default [
 	{
@@ -41,6 +42,43 @@ export default [
 				setTimeout: 'readonly',
 				alert: 'readonly'
 			}
+		},
+		rules: {
+			'padding-line-between-statements': [
+				'error',
+				{
+					blankLine: 'always',
+					prev: '*',
+					next: 'return'
+				}
+			]
+		}
+	},
+	{
+		files: ['**/*.svelte.ts', '**/*.svelte.js'],
+		languageOptions: {
+			parser: tsParser,
+			parserOptions: {
+				ecmaVersion: 'latest',
+				sourceType: 'module',
+				project: './tsconfig.json'
+			}
+		},
+		plugins: {
+			svelte: svelte
+		},
+		rules: {
+			// Disable Svelte-specific rules for .svelte.ts files
+			'svelte/no-at-html-tags': 'off',
+			'svelte/valid-compile': 'off',
+			'padding-line-between-statements': [
+				'error',
+				{
+					blankLine: 'always',
+					prev: '*',
+					next: 'return'
+				}
+			]
 		}
 	},
 	{
@@ -49,6 +87,16 @@ export default [
 			globals: {
 				console: 'readonly'
 			}
+		},
+		rules: {
+			'padding-line-between-statements': [
+				'error',
+				{
+					blankLine: 'always',
+					prev: '*',
+					next: 'return'
+				}
+			]
 		}
 	}
 ];
