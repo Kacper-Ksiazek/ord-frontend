@@ -6,7 +6,7 @@ export async function generateAiInterlocutor(
 	body: GenerateAiInterlocutorRequest
 ): Promise<GeneratedAIInterlocutorData> {
 	const response = await api.post<GeneratedAIInterlocutorData>(
-		'/api/v1/conversations/generate-ai-interlocutor',
+		'/api/v1/conversations/suggest-ai-interlocutor',
 		body
 	);
 
