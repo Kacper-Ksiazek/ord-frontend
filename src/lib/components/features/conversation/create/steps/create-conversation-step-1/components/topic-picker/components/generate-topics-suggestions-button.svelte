@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { suggestConversationTopics } from '$lib/api-client/conversation/see/suggest-conversation-topics';
+	import { suggestConversationTopics } from '$lib/api-client/conversation/sse/suggest-conversation-topics';
 	import { AiActionButton } from '$lib/components/utils/ai-action-button';
 	import type { AiActionButtonStatus } from '$lib/components/utils/ai-action-button/ai-action-button.types';
 	import { Input } from 'flowbite-svelte';
