@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { PUBLIC_API_URL } from '$env/static/public';
-import type { SSEStreamOptions } from './see.types';
+import type { SSEStreamOptions } from './sse.types';
 
 export function createSSEStream<T = unknown>(
 	endpoint: string,
