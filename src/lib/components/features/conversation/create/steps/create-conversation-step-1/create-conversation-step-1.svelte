@@ -1,7 +1,7 @@
 <script lang="ts">
-	import AIInterlocutorAvatar from '$lib/components/features/conversation/ai-interlocutor-avatar.svelte';
 	import ConversationTypeCard from './components/conversation-type-card.svelte';
 	import { TopicPicker } from './components/topic-picker';
+	import { GenerateAIInterlocutor } from './components/generate-ai-interlocutor';
 	import { conversationTypes } from './create-conversation-step-1.constants';
 	import {
 		getCreateConversationPayload,
@@ -34,8 +34,8 @@
 
 <TopicPicker />
 
-<section>
-	<div class="w-[512px] h-[512px]">
-		<AIInterlocutorAvatar avatarId="AVATAR_ALPHA" size="fullsize" class="rounded-4xl" />
-	</div>
-</section>
+---
+
+<h2 class="text-lg font-bold">Generate AI Interlocutor</h2>
+
+<GenerateAIInterlocutor />
