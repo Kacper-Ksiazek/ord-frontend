@@ -60,6 +60,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>{m['auth.login.title']()}</title>
+</svelte:head>
+
 <div class="w-full max-w-md px-4">
 	<div>
 		<div class="mb-6">
