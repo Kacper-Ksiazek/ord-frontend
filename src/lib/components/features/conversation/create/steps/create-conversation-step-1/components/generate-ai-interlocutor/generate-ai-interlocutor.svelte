@@ -9,6 +9,10 @@
 	} from '../../../../stores/create-conversation-payload.svelte';
 	import AIInterlocutorAvatar from '$lib/components/features/conversation/ai-interlocutor-avatar.svelte';
 	import Skeleton from '$lib/components/utils/skeleton.svelte';
+	import {
+		getRecentInterlocutorsFromLocalStorage,
+		saveNewInterlocutorToLocalStorage
+	} from './utils';
 
 	let generateButtonStatus = $state<AiActionButtonStatus>('default');
 	let additionalContext = $state('');
@@ -34,7 +38,13 @@
 				topic: payload.topic,
 				conversationType: payload.type,
 				language: payload.language,
-				additionalContext: additionalContext || undefined
+				additionalContext: additionalContext || undefined,
+				recentInterlocutors: getRecentInterlocutorsFromLocalStorage()
+			});
+
+			saveNewInterlocutorToLocalStorage({
+				avatarId: result.avatarId,
+				name: result.name
 			});
 
 			setCreateConversationPayload({
