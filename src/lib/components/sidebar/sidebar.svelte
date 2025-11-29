@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { cn } from 'flowbite-svelte';
 	import {
 		ArrowRightToBracketOutline,
 		BookmarkOutline,
@@ -21,6 +22,10 @@
 	import SidebarLearningLanguage from './components/sidebar-learning-language.svelte';
 	import SidebarLink from './components/sidebar-link.svelte';
 	import { sidebarStore } from './sidebar.store.svelte';
+	import { createLogoutMutation } from '$lib/api-client/auth/mutations';
+	import { goto } from '$app/navigation';
+
+	const { mutateAsync: handleLogout } = createLogoutMutation();
 
 	onMount(() => {
 		const stored = localStorage.getItem('sidebar-expanded');
@@ -34,8 +39,10 @@
 		localStorage.setItem('sidebar-expanded', String(sidebarStore.isExpanded));
 	}
 
-	function handleLogout() {
+	async function onLogoutClick() {
+		await handleLogout();
 		authStore.clearUser();
+		goto('/login');
 	}
 
 	const sidebarWidth = $derived(sidebarStore.isExpanded ? 'w-60' : 'w-16');
@@ -43,7 +50,12 @@
 </script>
 
 <aside
-	class={`h-screen bg-black text-white flex flex-col ${sidebarWidth} ${transitionClass} z-40 border-r border-gray-800 pb-4 overflow-hidden`}
+	class={cn(
+		'h-screen bg-black text-white flex flex-col',
+		sidebarWidth,
+		transitionClass,
+		'z-40 border-r border-gray-800 pb-4 overflow-hidden'
+	)}
 >
 	<!-- Header Section with Logo -->
 	<div class="flex items-center justify-between px-3 row-reverse min-h-[74px]">
@@ -119,7 +131,6 @@
 			title="Theme"
 			Icon={themeStore.isDark ? SunSolid : MoonSolid}
 			onclick={() => {
-				console.log('toggle theme');
 				themeStore.toggle();
 			}}
 		/>
@@ -133,11 +144,13 @@
 	<!-- Logout Button Section -->
 	<div class="px-3">
 		<button
-			onclick={handleLogout}
+			onclick={onLogoutClick}
 			title="Logout"
-			class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-red-900 transition-colors w-full cursor-pointer {sidebarStore.isExpanded
-				? 'justify-start'
-				: ''} text-red-400 hover:text-red-300"
+			class={cn(
+				'flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-red-900 transition-colors w-full cursor-pointer',
+				'text-red-400 hover:text-red-300',
+				sidebarStore.isExpanded && 'justify-start'
+			)}
 		>
 			<ArrowRightToBracketOutline class="w-5 h-5 shrink-0" />
 			{#if sidebarStore.isExpanded}
