@@ -6,3 +6,5 @@ export type SuggestTopicsRequest = components['schemas']['SuggestConversationTop
 
 export type GenerateAiInterlocutorRequest =
 	components['schemas']['GenerateAIInterlocutorDataRequest'];
+
+export type RecentInterlocutorInfo = components['schemas']['RecentInterlocutorInfo'];
