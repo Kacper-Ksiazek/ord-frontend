@@ -30,7 +30,8 @@
 			suggestConversationTopics({
 				conversationType,
 				language: payload.language,
-				clueFromUser: clueForGeneration || undefined
+				clueFromUser: clueForGeneration || undefined,
+				excludeTopics: topics.get(conversationType) || []
 			}).subscribe({
 				next: (topic) => {
 					if (topic?.value) {
