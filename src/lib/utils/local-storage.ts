@@ -6,6 +6,13 @@
 const APP_PREFIX = 'ord_app_';
 
 /**
+ * Internal helper to ensure a key has the app prefix
+ */
+function getKeyWithPrefix(key: string): string {
+	return key.startsWith(APP_PREFIX) ? key : `${APP_PREFIX}${key}`;
+}
+
+/**
  * Storage keys used throughout the application
  */
 export const STORAGE_KEYS = {
@@ -19,8 +26,10 @@ export const STORAGE_KEYS = {
  */
 export function setStorageItem<T>(key: string, value: T): void {
 	try {
+		const keyWithPrefix = getKeyWithPrefix(key);
+
 		const serialized = JSON.stringify(value);
-		localStorage.setItem(key, serialized);
+		localStorage.setItem(keyWithPrefix, serialized);
 	} catch (error) {
 		console.error('Error saving to localStorage:', error);
 	}
@@ -31,13 +40,17 @@ export function setStorageItem<T>(key: string, value: T): void {
  */
 export function getStorageItem<T>(key: string): T | null {
 	try {
-		const item = localStorage.getItem(key);
+		const keyWithPrefix = getKeyWithPrefix(key);
+
+		const item = localStorage.getItem(keyWithPrefix);
 		if (item === null) {
 			return null;
 		}
+
 		return JSON.parse(item) as T;
 	} catch (error) {
 		console.error('Error reading from localStorage:', error);
+
 		return null;
 	}
 }
@@ -47,7 +60,8 @@ export function getStorageItem<T>(key: string): T | null {
  */
 export function removeStorageItem(key: string): void {
 	try {
-		localStorage.removeItem(key);
+		const keyWithPrefix = getKeyWithPrefix(key);
+		localStorage.removeItem(keyWithPrefix);
 	} catch (error) {
 		console.error('Error removing from localStorage:', error);
 	}
@@ -59,7 +73,8 @@ export function removeStorageItem(key: string): void {
 export function clearAppStorage(): void {
 	try {
 		Object.values(STORAGE_KEYS).forEach((key) => {
-			localStorage.removeItem(key);
+			const keyWithPrefix = getKeyWithPrefix(key);
+			localStorage.removeItem(keyWithPrefix);
 		});
 	} catch (error) {
 		console.error('Error clearing localStorage:', error);
@@ -72,8 +87,11 @@ export function clearAppStorage(): void {
 export function isLocalStorageAvailable(): boolean {
 	try {
 		const testKey = `${APP_PREFIX}test`;
-		localStorage.setItem(testKey, 'test');
-		localStorage.removeItem(testKey);
+		const keyWithPrefix = getKeyWithPrefix(testKey);
+
+		localStorage.setItem(keyWithPrefix, 'test');
+		localStorage.removeItem(keyWithPrefix);
+
 		return true;
 	} catch {
 		return false;
