@@ -12,6 +12,10 @@
 
 <span class="dark:text-white">{JSON.stringify(getCreateConversationPayload())}</span>
 
-{#if currentStep === 'step-1-select-type'}
-	<CreateConversationStep1 />
-{/if}
+<section
+	class="w-full h-full max-w-[1200px] mx-auto bg-slate-50 dark:bg-slate-800 pt-16 px-8 rounded-2xl"
+>
+	{#if currentStep === 'step-1-select-type'}
+		<CreateConversationStep1 />
+	{/if}
+</section>

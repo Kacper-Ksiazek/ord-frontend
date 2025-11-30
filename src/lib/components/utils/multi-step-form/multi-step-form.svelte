@@ -1,0 +1,114 @@
+<script lang="ts">
+	import { Button } from 'flowbite-svelte';
+	import { cn } from 'flowbite-svelte';
+	import { fade } from 'svelte/transition';
+	import * as m from '$lib/paraglide/messages.js';
+	import type { MultiStepFormProps } from './multi-step-form.types';
+	import type { Snippet } from 'svelte';
+
+	type Props = MultiStepFormProps & {
+		children: Snippet<[number]>;
+	};
+
+	let {
+		steps,
+		currentStep: currentStepProp = $bindable(0),
+		onStepChange,
+		finalStepButtonText,
+		children
+	}: Props = $props();
+
+	const totalSteps = steps.length;
+	const currentStep = $derived(currentStepProp);
+
+	const canGoNext = $derived.by(() => {
+		const stepConfig = steps[currentStep];
+		if (!stepConfig?.validate) return true;
+		return stepConfig.validate();
+	});
+
+	const canGoPrevious = $derived(currentStep > 0);
+
+	function nextStep() {
+		if (currentStep < totalSteps - 1 && canGoNext) {
+			const newStep = currentStep + 1;
+			currentStepProp = newStep;
+			onStepChange?.(newStep);
+		}
+	}
+
+	function previousStep() {
+		if (currentStep > 0) {
+			const newStep = currentStep - 1;
+			currentStepProp = newStep;
+			onStepChange?.(newStep);
+		}
+	}
+</script>
+
+<div class="flex flex-col gap-6">
+	<!-- Step Indicator -->
+	<div class="flex flex-col gap-2">
+		<div class="flex flex-col gap-2">
+			<h2 class="text-2xl font-bold text-gray-700 dark:text-gray-300">
+				{steps[currentStep].header}
+			</h2>
+
+			<span class="text-sm font-light text-gray-500 dark:text-gray-300">
+				{m['components.utils.multi-step-form.step_indicator']({
+					current: currentStep + 1,
+					total: totalSteps
+				})}
+			</span>
+		</div>
+
+		<div class="flex items-center w-full gap-2 h-2.5">
+			{#each steps as step, index}
+				{@const isActive = index === currentStep}
+				{@const isCompleted = index < currentStep}
+				<div
+					class={cn(
+						'rounded-full transition-all duration-300 ease-in-out',
+						isActive && 'h-2.5 bg-primary-600 dark:bg-primary-500',
+						!isActive && 'h-2',
+						isCompleted && 'bg-primary-200 dark:bg-primary-800',
+						!isActive && !isCompleted && 'bg-gray-300 dark:bg-gray-600'
+					)}
+					style="width: {100 / totalSteps}%"
+					aria-label={m['components.utils.multi-step-form.step_label']({
+						step: index + 1,
+						total: totalSteps
+					})}
+				></div>
+			{/each}
+		</div>
+	</div>
+
+	<!-- Step Content -->
+	<div class="min-h-[400px]">
+		{@render children(currentStep)}
+	</div>
+
+	<!-- Navigation Buttons -->
+	<div class="flex items-center gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+		{#if canGoPrevious}
+			<div transition:fade={{ duration: 150 }}>
+				<Button color="alternative" onclick={previousStep} class="min-w-64">
+					{m['components.utils.multi-step-form.previous']()}
+				</Button>
+			</div>
+		{/if}
+
+		<div class="ml-auto">
+			{#if currentStep < totalSteps - 1}
+				<Button color="primary" onclick={nextStep} disabled={!canGoNext} class="min-w-64">
+					{m['components.utils.multi-step-form.next']()}
+				</Button>
+			{:else if finalStepButtonText}
+				<Button color="primary" onclick={nextStep} disabled={!canGoNext} class="min-w-64">
+					{finalStepButtonText}
+				</Button>
+			{/if}
+		</div>
+	</div>
+</div>

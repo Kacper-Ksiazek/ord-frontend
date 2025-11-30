@@ -21,7 +21,7 @@
 </svelte:head>
 
 <QueryClientProvider client={queryClient}>
-	<div class="h-screen overflow-hidden bg-gray-50 dark:bg-gray-900 w-screen">
+	<div class="h-screen overflow-hidden bg-slate-100 dark:bg-slate-900 w-screen">
 		{@render children()}
 	</div>
 </QueryClientProvider>

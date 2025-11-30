@@ -15,7 +15,7 @@
 
 <div
 	class={cn(
-		'flex flex-col items-center justify-center p-2 bg-white dark:bg-gray-800 hover:bg-primary-50 cursor-pointer rounded-xl hover:dark:bg-primary-900',
+		'flex flex-col items-center justify-center p-2 bg-white dark:bg-slate-900 hover:bg-primary-50 cursor-pointer rounded-xl hover:dark:bg-primary-900',
 		'text-gray-500 dark:text-gray-200',
 		isSelected && 'bg-primary-200! dark:bg-primary-500! cursor-default',
 		customClass
