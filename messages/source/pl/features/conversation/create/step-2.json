@@ -1,23 +1,30 @@
 {
-	"header": "Wybierz temat rozmowy",
-	"description": "Wybierz temat rozmowy - albo wygenerowany przez AI, albo wpiasany własnoręcznie",
-	"selected_type": {
-		"label": "Wybrany typ rozmowy"
-	},
-	"topic_picker": {
-		"placeholder": "Wprowadź temat...",
-		"selected_topic": "Wybrany temat",
-		"no_topic_selected": "Nie wybrano tematu",
-		"custom_topic": {
-			"label": "Niestandardowy temat",
-			"add_button": "Dodaj",
-			"input_placeholder": "Wprowadz wlasny temat"
+	"header": "Wybierz ton rozmowy",
+	"description": "Wybierz ton rozmowy. To wpłynie na sposób komunikacji rozmówcy AI z Tobą.",
+	"tones": {
+		"friendly": {
+			"label": "Przyjazny",
+			"description": "Bądź rozmowny, ciepły i przystępny. Używaj swobodnego języka, okazuj szczere zainteresowanie i stwórz komfortową atmosferę jak podczas rozmowy z przyjacielem."
 		},
-		"generate_suggestions": {
-			"button": "Wpisz dodatkowa instrukcje, by spersonalizować sugerowane tematy ( opcjonalne )",
-			"generating": "Generowanie sugestii...",
-			"success": "Sugestie wygenerowane",
-			"failed": "Nie udało się wygenerować sugestii"
+		"formal": {
+			"label": "Formalny",
+			"description": "Zachowuj profesjonalne granice i właściwą etykietę. Używaj poprawnej gramatyki, ustrukturyzowanych zdań i grzecznego języka odpowiedniego dla kontekstów biznesowych lub akademickich."
+		},
+		"humorous": {
+			"label": "Humorystyczny",
+			"description": "Włączaj lekkie poczucie humoru, żartobliwy język i dowcipne uwagi, gdy jest to odpowiednie. Utrzymuj rozmowę zabawną i rozrywkową, pozostając przy temacie."
+		},
+		"neutral": {
+			"label": "Neutralny",
+			"description": "Utrzymuj zrównoważony, obiektywny ton bez nadmiernej swobody lub formalności. Bądź jasny, bezpośredni i rzeczowy w swoich odpowiedziach."
+		},
+		"encouraging": {
+			"label": "Zachęcający",
+			"description": "Bądź wspierający, pozytywny i motywujący. Świętuj postępy, zapewniaj delikatne korekty i wzmacniaj pewność siebie uczącego się przez całą rozmowę."
+		},
+		"challenging": {
+			"label": "Wymagający",
+			"description": "Zachęcaj uczącego się do krytycznego myślenia i wyrażania złożonych idei. Zadawaj prowokujące do myślenia pytania i zachęcaj do głębszego zaangażowania w temat."
 		}
 	}
 }

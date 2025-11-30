@@ -74,7 +74,7 @@
 
 <section class="flex flex-col gap-4 max-w-[600px] mx-auto">
 	<h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 text-center">
-		{m['features.conversation.create.step-3.ai_interlocutor.title']()}
+		{m['features.conversation.create.step-4.ai_interlocutor.title']()}
 	</h2>
 
 	{#if isGenerating}
@@ -130,8 +130,8 @@
 		>
 			<p class="text-sm text-gray-400 dark:text-gray-500">
 				{!payload.topic
-					? m['features.conversation.create.step-3.ai_interlocutor.failed']()
-					: m['features.conversation.create.step-3.ai_interlocutor.generating']()}
+					? m['features.conversation.create.step-4.ai_interlocutor.failed']()
+					: m['features.conversation.create.step-4.ai_interlocutor.generating']()}
 			</p>
 		</div>
 	{/if}

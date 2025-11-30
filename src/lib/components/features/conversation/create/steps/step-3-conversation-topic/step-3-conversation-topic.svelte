@@ -4,7 +4,7 @@
 </script>
 
 <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
-	{m['features.conversation.create.step-2.description']()}
+	{m['features.conversation.create.step-3.description']()}
 </p>
 
 <SelectedConversationTypeCard />

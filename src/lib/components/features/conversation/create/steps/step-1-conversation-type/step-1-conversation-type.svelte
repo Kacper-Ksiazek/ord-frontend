@@ -11,12 +11,17 @@
 
 	const getTypeLabel = (type: string) => {
 		const typeKey = type.toLowerCase().replace(/_/g, '_');
-		return m[`features.conversation.create.step-1.types.${typeKey}.label` as keyof typeof m]();
+		const messageKey = `features.conversation.create.step-1.types.${typeKey}.label` as keyof typeof m;
+		const messageFn = m[messageKey] as (() => string) | undefined;
+		return messageFn?.() || type;
 	};
 
 	const getTypeDescription = (type: string) => {
 		const typeKey = type.toLowerCase().replace(/_/g, '_');
-		return m[`features.conversation.create.step-1.types.${typeKey}.description` as keyof typeof m]();
+		const messageKey =
+			`features.conversation.create.step-1.types.${typeKey}.description` as keyof typeof m;
+		const messageFn = m[messageKey] as (() => string) | undefined;
+		return messageFn?.() || '';
 	};
 </script>
 

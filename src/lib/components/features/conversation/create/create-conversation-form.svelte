@@ -3,14 +3,22 @@
 	import type { StepConfig } from '$lib/components/utils/multi-step-form';
 	import { Loader } from '$lib/components/utils/loader';
 	import { Step1ConversationType } from './steps/step-1-conversation-type';
-	import { Step2ConversationTopic } from './steps/step-2-conversation-topic';
-	import { Step3Summary } from './steps/step-3-summary';
+	import { Step2ConversationTone } from './steps/step-2-conversation-tone';
+	import { Step3ConversationTopic } from './steps/step-3-conversation-topic';
+	import { Step4Summary } from './steps/step-4-summary';
 	import { getCreateConversationPayload } from './stores/create-conversation-payload.svelte';
 	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
 	import * as m from '$lib/paraglide/messages.js';
+	import { createCreateConversationMutation } from '$lib/api-client/conversation/mutations/use-create-conversation';
+	import { goto } from '$app/navigation';
+	import { AxiosError } from 'axios';
+	import type { CreateConversationRequest } from '$lib/types/conversation/api/requests';
 
 	let currentStep = $state(0);
-	let isLoading = $state(false);
+	let error = $state<string | null>(null);
+
+	const createConversationMutation = createCreateConversationMutation();
+	const isLoading = $derived(createConversationMutation.isPending);
 
 	const steps: StepConfig[] = [
 		{
@@ -22,8 +30,16 @@
 			}
 		},
 		{
-			id: 'select-topic',
+			id: 'select-tone',
 			header: m['features.conversation.create.step-2.header'](),
+			validate: () => {
+				const payload = getCreateConversationPayload();
+				return !!payload.tone;
+			}
+		},
+		{
+			id: 'select-topic',
+			header: m['features.conversation.create.step-3.header'](),
 			validate: () => {
 				const payload = getCreateConversationPayload();
 				return !!payload.topic;
@@ -31,7 +47,7 @@
 		},
 		{
 			id: 'generate-interlocutor',
-			header: m['features.conversation.create.step-3.header']()
+			header: m['features.conversation.create.step-4.header']()
 		}
 	];
 
@@ -39,16 +55,56 @@
 		currentStep = stepIndex;
 	}
 
-	function handleFinalStepClick() {
+	async function handleFinalStepClick() {
 		const payload = getCreateConversationPayload();
-		console.log('Final step clicked. Payload:', payload);
-		isLoading = true;
+		error = null;
+
+		// Validate required fields
+		if (!payload.type || !payload.topic || !payload.language) {
+			error = 'Please complete all required fields';
+			return;
+		}
+
+		// Transform payload to CreateConversationRequest
+		const request = {
+			type: payload.type,
+			topic: payload.topic,
+			language: payload.language,
+			...(payload.tone && { tone: payload.tone }),
+			...(payload.additionalContext && { additionalContext: payload.additionalContext }),
+			...(payload.aiInterlocutorName && { aiInterlocutorName: payload.aiInterlocutorName }),
+			...(payload.aiInterlocutorAvatarId && { aiInterlocutorAvatarId: payload.aiInterlocutorAvatarId })
+		} as CreateConversationRequest;
+
+		try {
+			const conversation = await createConversationMutation.mutateAsync(request);
+			// Navigate to the conversation detail page or conversations list
+			if (conversation.id) {
+				goto(`/conversations/${conversation.id}`);
+			} else {
+				goto('/conversations');
+			}
+		} catch (err: unknown) {
+			if (err instanceof AxiosError) {
+				error = err.response?.data?.message || 'Failed to create conversation';
+			} else {
+				error = 'An unexpected error occurred';
+			}
+			console.error('Failed to create conversation:', err);
+		}
 	}
 </script>
 
 {#if isLoading}
 	<Loader wrapperClass="flex-1 items-center justify-center" />
 {:else}
+	{#if error}
+		<div
+			class="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg"
+		>
+			<p class="text-sm text-red-800 dark:text-red-200">{error}</p>
+		</div>
+	{/if}
 	<Breadcrumb class="mb-6">
 		<BreadcrumbItem href="/" home
 			>{m['features.conversation.create.form.breadcrumb.home']()}</BreadcrumbItem
@@ -74,9 +130,11 @@
 			{#if stepIndex === 0}
 				<Step1ConversationType />
 			{:else if stepIndex === 1}
-				<Step2ConversationTopic />
+				<Step2ConversationTone />
 			{:else if stepIndex === 2}
-				<Step3Summary />
+				<Step3ConversationTopic />
+			{:else if stepIndex === 3}
+				<Step4Summary />
 			{/if}
 		{/snippet}
 	</MultiStepForm>

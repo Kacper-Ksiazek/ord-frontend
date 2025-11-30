@@ -63,7 +63,7 @@
 	</div>
 
 	<Input
-		placeholder={m['features.conversation.create.step-2.topic_picker.generate_suggestions.button']()}
+		placeholder={m['features.conversation.create.step-3.topic_picker.generate_suggestions.button']()}
 		class="flex-1"
 		bind:value={clueForGeneration}
 		disabled={generateButtonStatus === 'loading'}

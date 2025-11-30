@@ -12,7 +12,9 @@
 
 	const getTypeLabel = (type: string) => {
 		const typeKey = type.toLowerCase().replace(/_/g, '_');
-		return m[`features.conversation.create.step-1.types.${typeKey}.label` as keyof typeof m]();
+		const messageKey = `features.conversation.create.step-1.types.${typeKey}.label` as keyof typeof m;
+		const messageFn = m[messageKey] as (() => string) | undefined;
+		return messageFn?.() || type;
 	};
 </script>
 
@@ -27,7 +29,7 @@
 			/>
 			<div>
 				<p class="text-sm text-gray-500 dark:text-gray-400 mb-1">
-					{m['features.conversation.create.step-2.selected_type.label']()}
+					{m['features.conversation.create.step-3.selected_type.label']()}
 				</p>
 				<h3 class="text-lg font-bold text-gray-900 dark:text-gray-50">
 					{getTypeLabel(selectedConversationType.type)}

@@ -12,7 +12,7 @@ type CreateConversationPayload = Partial<
 
 const createConversationPayload = $state<CreateConversationPayload>({
 	language: authStore.user?.selectedLearningLanguage as LanguageName,
-	tone: undefined,
+	tone: 'ENCOURAGING',
 	topic: undefined,
 	additionalContext: undefined,
 	aiInterlocutorName: undefined,

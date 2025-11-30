@@ -35,7 +35,7 @@
 <div class="flex items-center gap-2">
 	<Input
 		placeholder={m[
-			'features.conversation.create.step-2.topic_picker.custom_topic.input_placeholder'
+			'features.conversation.create.step-3.topic_picker.custom_topic.input_placeholder'
 		]()}
 		class="flex-1"
 		bind:value={userTopicInput}
@@ -48,6 +48,6 @@
 		disabled={!getCreateConversationPayload().type || !userTopicInput.trim()}
 		class="shrink-0"
 	>
-		{m['features.conversation.create.step-2.topic_picker.custom_topic.add_button']()}
+		{m['features.conversation.create.step-3.topic_picker.custom_topic.add_button']()}
 	</Button>
 </div>

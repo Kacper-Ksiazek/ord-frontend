@@ -1,20 +1,23 @@
 {
-	"header": "KI-Gesprächspartner generieren",
-	"description": "Überprüfen Sie Ihre Auswahl und beginnen Sie das Gespräch.",
+	"header": "Gesprächsthema auswählen",
+	"description": "Wählen Sie ein Thema für das Gespräch - entweder von KI generiert oder manuell geschrieben",
 	"selected_type": {
 		"label": "Ausgewählter Gesprächstyp"
 	},
-	"selected_topic": {
-		"label": "Ausgewähltes Thema"
-	},
-	"ai_interlocutor": {
-		"title": "Ihr KI-Gesprächspartner",
-		"context_label": "Optionaler Kontext",
-		"context_placeholder": "Fügen Sie zusätzlichen Kontext oder Präferenzen für den KI-Gesprächspartner hinzu (z.B. Persönlichkeitsmerkmale, Sprechstil usw.)",
-		"context_helper": "Dies hilft, die Antworten der KI zu personalisieren und das Gespräch ansprechender zu gestalten.",
-		"generate_button": "Gesprächspartner generieren",
-		"generating": "Gesprächspartner wird generiert...",
-		"success": "Gesprächspartner erfolgreich generiert",
-		"failed": "Gesprächspartner konnte nicht generiert werden"
+	"topic_picker": {
+		"placeholder": "Thema eingeben...",
+		"selected_topic": "Ausgewähltes Thema",
+		"no_topic_selected": "Kein Thema ausgewählt",
+		"custom_topic": {
+			"label": "Benutzerdefiniertes Thema",
+			"add_button": "Hinzufügen",
+			"input_placeholder": "Geben Sie Ihr eigenes Thema ein"
+		},
+		"generate_suggestions": {
+			"button": "Schreiben Sie zusätzliche Anweisungen, um vorgeschlagene Themen zu personalisieren (optional)",
+			"generating": "Vorschläge werden generiert...",
+			"success": "Vorschläge generiert",
+			"failed": "Vorschläge konnten nicht generiert werden"
+		}
 	}
 }

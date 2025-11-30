@@ -1,20 +1,23 @@
 {
-	"header": "Wygeneruj rozmówcę AI",
-	"description": "Przejrzyj swoje wybory i rozpocznij rozmowę.",
+	"header": "Wybierz temat rozmowy",
+	"description": "Wybierz temat rozmowy - albo wygenerowany przez AI, albo wpiasany własnoręcznie",
 	"selected_type": {
 		"label": "Wybrany typ rozmowy"
 	},
-	"selected_topic": {
-		"label": "Wybrany temat"
-	},
-	"ai_interlocutor": {
-		"title": "Twój Rozmówca AI",
-		"context_label": "Opcjonalny kontekst",
-		"context_placeholder": "Dodaj dodatkowy kontekst lub preferencje dla rozmówcy AI (np. cechy osobowości, styl mówienia itp.)",
-		"context_helper": "To pomoże spersonalizować odpowiedzi AI i uczynić rozmowę bardziej angażującą.",
-		"generate_button": "Wygeneruj rozmówcę",
-		"generating": "Generowanie rozmówcy...",
-		"success": "Rozmówca wygenerowany pomyślnie",
-		"failed": "Nie udało się wygenerować rozmówcy"
+	"topic_picker": {
+		"placeholder": "Wprowadź temat...",
+		"selected_topic": "Wybrany temat",
+		"no_topic_selected": "Nie wybrano tematu",
+		"custom_topic": {
+			"label": "Niestandardowy temat",
+			"add_button": "Dodaj",
+			"input_placeholder": "Wprowadz wlasny temat"
+		},
+		"generate_suggestions": {
+			"button": "Wpisz dodatkowa instrukcje, by spersonalizować sugerowane tematy ( opcjonalne )",
+			"generating": "Generowanie sugestii...",
+			"success": "Sugestie wygenerowane",
+			"failed": "Nie udało się wygenerować sugestii"
+		}
 	}
 }

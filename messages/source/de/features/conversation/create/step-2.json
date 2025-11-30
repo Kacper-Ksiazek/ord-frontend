@@ -1,23 +1,30 @@
 {
-	"header": "Gesprächsthema auswählen",
-	"description": "Wählen Sie ein Thema für das Gespräch - entweder von KI generiert oder manuell geschrieben",
-	"selected_type": {
-		"label": "Ausgewählter Gesprächstyp"
-	},
-	"topic_picker": {
-		"placeholder": "Thema eingeben...",
-		"selected_topic": "Ausgewähltes Thema",
-		"no_topic_selected": "Kein Thema ausgewählt",
-		"custom_topic": {
-			"label": "Benutzerdefiniertes Thema",
-			"add_button": "Hinzufügen",
-			"input_placeholder": "Geben Sie Ihr eigenes Thema ein"
+	"header": "Gesprächston auswählen",
+	"description": "Wählen Sie den Ton für Ihr Gespräch. Dies beeinflusst, wie der KI-Gesprächspartner mit Ihnen kommuniziert.",
+	"tones": {
+		"friendly": {
+			"label": "Freundlich",
+			"description": "Seien Sie gesprächig, warm und zugänglich. Verwenden Sie lockere Sprache, zeigen Sie echtes Interesse und schaffen Sie eine angenehme Atmosphäre wie beim Plaudern mit einem Freund."
 		},
-		"generate_suggestions": {
-			"button": "Schreiben Sie zusätzliche Anweisungen, um vorgeschlagene Themen zu personalisieren (optional)",
-			"generating": "Vorschläge werden generiert...",
-			"success": "Vorschläge generiert",
-			"failed": "Vorschläge konnten nicht generiert werden"
+		"formal": {
+			"label": "Formell",
+			"description": "Halten Sie professionelle Grenzen und angemessene Etikette ein. Verwenden Sie korrekte Grammatik, strukturierte Sätze und höfliche Sprache, die für geschäftliche oder akademische Umgebungen angemessen ist."
+		},
+		"humorous": {
+			"label": "Humorvoll",
+			"description": "Integrieren Sie leichten Humor, spielerische Sprache und witzige Bemerkungen, wenn es angemessen ist. Halten Sie das Gespräch unterhaltsam und amüsant, während Sie beim Thema bleiben."
+		},
+		"neutral": {
+			"label": "Neutral",
+			"description": "Halten Sie einen ausgewogenen, objektiven Ton ein, ohne übermäßig locker oder formell zu sein. Seien Sie klar, direkt und sachlich in Ihren Antworten."
+		},
+		"encouraging": {
+			"label": "Ermutigend",
+			"description": "Seien Sie unterstützend, positiv und motivierend. Feiern Sie Fortschritte, geben Sie sanfte Korrekturen und stärken Sie das Selbstvertrauen des Lernenden während des gesamten Gesprächs."
+		},
+		"challenging": {
+			"label": "Herausfordernd",
+			"description": "Drängen Sie den Lernenden dazu, kritisch zu denken und komplexe Ideen auszudrücken. Stellen Sie zum Nachdenken anregende Fragen und ermutigen Sie zu tieferem Engagement mit dem Thema."
 		}
 	}
 }

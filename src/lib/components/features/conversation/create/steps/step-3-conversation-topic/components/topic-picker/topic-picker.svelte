@@ -35,10 +35,10 @@
 				/>
 				<div class="text-center">
 					<p class="text-sm font-medium text-gray-600 dark:text-gray-400">
-						{m['features.conversation.create.step-2.topic_picker.no_topic_selected']()}
+						{m['features.conversation.create.step-3.topic_picker.no_topic_selected']()}
 					</p>
 					<p class="text-xs font-light text-gray-500 dark:text-gray-500 mt-1">
-						{m['features.conversation.create.step-2.description']()}
+						{m['features.conversation.create.step-3.description']()}
 					</p>
 				</div>
 			</div>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { GenerateAIInterlocutor } from './components';
-	import { SelectedConversationTypeCard } from '../step-2-conversation-topic/components';
+	import { SelectedConversationTypeCard } from '../step-3-conversation-topic/components';
 	import { getCreateConversationPayload } from '../../stores/create-conversation-payload.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 
@@ -8,7 +8,7 @@
 </script>
 
 <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
-	{m['features.conversation.create.step-3.description']()}
+	{m['features.conversation.create.step-4.description']()}
 </p>
 
 <SelectedConversationTypeCard />
@@ -19,7 +19,7 @@
 	>
 		<div class="flex flex-col gap-1">
 			<p class="text-sm text-gray-500 dark:text-gray-400 mb-1">
-				{m['features.conversation.create.step-3.selected_topic.label']()}
+				{m['features.conversation.create.step-4.selected_topic.label']()}
 			</p>
 			<p class="text-base font-semibold text-gray-900 dark:text-gray-50">{payload.topic}</p>
 		</div>
