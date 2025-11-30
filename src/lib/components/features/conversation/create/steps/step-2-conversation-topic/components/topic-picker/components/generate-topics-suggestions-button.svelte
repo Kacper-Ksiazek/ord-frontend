@@ -57,7 +57,9 @@
 </script>
 
 <div class="flex items-center gap-3">
-	<AiActionButton status={generateButtonStatus} onclick={generateTopics} class="shrink-0" />
+	<div class="shrink-0">
+		<AiActionButton status={generateButtonStatus} onclick={generateTopics} />
+	</div>
 
 	<Input
 		placeholder="Give me a hint or idea to inspire your topics... (optional)"

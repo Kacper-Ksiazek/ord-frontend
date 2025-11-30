@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { GenerateAIInterlocutor } from '../create-conversation-step-1/components/generate-ai-interlocutor';
-	import { SelectedConversationTypeCard } from '../create-conversation-step-1/components/selected-conversation-type-card';
+	import { GenerateAIInterlocutor } from './components';
+	import { SelectedConversationTypeCard } from '../step-2-conversation-topic/components';
 	import { getCreateConversationPayload } from '../../stores/create-conversation-payload.svelte';
 
 	const payload = getCreateConversationPayload();

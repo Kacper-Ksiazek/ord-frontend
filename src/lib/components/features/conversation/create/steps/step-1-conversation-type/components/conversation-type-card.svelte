@@ -17,7 +17,7 @@
 	const enableHints = true;
 </script>
 
-<SelectableCard {onclick} {isSelected} class="w-[320px] py-8 px-4">
+<SelectableCard {onclick} {isSelected} class="w-[378px] py-10 px-4">
 	<ConversationTypeIcon
 		conversationType={type}
 		class={cn(

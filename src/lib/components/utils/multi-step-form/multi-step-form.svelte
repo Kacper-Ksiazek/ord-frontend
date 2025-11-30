@@ -64,9 +64,10 @@
 		</div>
 
 		<div class="flex items-center w-full gap-2 h-2.5">
-			{#each steps as step, index}
+			{#each steps as _, index}
 				{@const isActive = index === currentStep}
 				{@const isCompleted = index < currentStep}
+
 				<div
 					class={cn(
 						'rounded-full transition-all duration-300 ease-in-out',
@@ -99,7 +100,7 @@
 	</div>
 
 	<!-- Navigation Buttons -->
-	<div class="flex items-center gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
+	<div class="flex items-center gap-2 pt-4">
 		{#if canGoPrevious}
 			<div transition:fade={{ duration: 150 }}>
 				<Button color="alternative" onclick={previousStep} class="min-w-64">

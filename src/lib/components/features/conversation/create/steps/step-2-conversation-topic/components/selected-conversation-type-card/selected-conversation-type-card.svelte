@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ConversationTypeIcon from '$lib/components/features/conversation/conversation-type-icon.svelte';
-	import { conversationTypes } from '../../create-conversation-step-1.constants';
+	import { conversationTypes } from '../../../step-1-conversation-type/conversation-types.constants';
 	import { getCreateConversationPayload } from '../../../../stores/create-conversation-payload.svelte';
 
 	const payload = getCreateConversationPayload();

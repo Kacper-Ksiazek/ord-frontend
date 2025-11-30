@@ -11,7 +11,7 @@
 		saveNewInterlocutorToLocalStorage
 	} from './utils';
 	import { cn } from 'flowbite-svelte';
-	import { conversationTypes } from '../../create-conversation-step-1.constants';
+	import { conversationTypes } from '../../../step-1-conversation-type/conversation-types.constants';
 
 	let isGenerating = $state(false);
 	let hasAutoFetched = $state(false);
@@ -96,7 +96,7 @@
 				title="Generate a different AI interlocutor"
 			>
 				<svg
-					class="w-4 h-4"
+					class="w-6 h-6"
 					fill="none"
 					stroke="currentColor"
 					viewBox="0 0 24 24"
@@ -119,7 +119,7 @@
 				/>
 			</div>
 
-			<h3 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
+			<h3 class="text-2xl font-semibold text-gray-900 dark:text-gray-200">
 				{payload.aiInterlocutorName}
 			</h3>
 		</div>
