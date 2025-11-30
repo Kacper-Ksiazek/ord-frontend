@@ -11,8 +11,6 @@
 	optional context to personalize the AI's personality.
 </p>
 
-<h2 class="text-lg font-bold mb-4">Summary</h2>
-
 <SelectedConversationTypeCard />
 
 {#if payload.topic}
