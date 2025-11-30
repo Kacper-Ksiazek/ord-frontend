@@ -27,34 +27,39 @@
 	}
 </script>
 
-<SelectableCard {onclick} class="flex-row gap-4 justify-start p-0 overflow-hidden" {isSelected}>
+<SelectableCard
+	{onclick}
+	class="flex-row gap-3 justify-start p-0 overflow-hidden h-12"
+	{isSelected}
+>
 	<span
 		class={cn(
-			'bg-gray-200 p-2 rounded-md text-gray-900 font-semibold h-full transition-all',
-			'dark:text-gray-200 dark:bg-gray-700',
-			isSelected && 'bg-primary-500! dark:bg-primary-500! text-white px-4'
-		)}>{index + 1}.</span
+			'flex items-center justify-center min-w-10 bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 font-semibold text-sm transition-all',
+			isSelected && 'bg-primary-500! dark:bg-primary-500! text-white px-5'
+		)}>{index + 1}</span
 	>
 
 	<span
 		class={cn(
-			'text-sm flex-1 py-2', //
-			isSelected && 'text-gray-900'
+			'text-sm flex-1 py-3 px-2 font-medium', //
+			isSelected && 'text-gray-900 dark:text-gray-50',
+			!isSelected && 'text-gray-700 dark:text-gray-300'
 		)}>{topic}</span
 	>
 
 	{#if !isSelected}
 		<button
 			class={cn(
-				'cursor-pointer text-gray-300 p-1 m-1', //
-				'hover:text-red-300 hover:bg-red-50 rounded-full dark:hover:bg-transparent'
+				'cursor-pointer text-gray-400 dark:text-gray-500 p-2 mr-1 rounded-md transition-colors', //
+				'hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 dark:hover:text-red-400'
 			)}
 			onclick={(e) => {
 				e.stopPropagation();
 				removeTopic(topic);
 			}}
+			aria-label="Remove topic"
 		>
-			<CloseOutline class="w-5 h-5" />
+			<CloseOutline class="w-4 h-4" />
 		</button>
 	{/if}
 </SelectableCard>

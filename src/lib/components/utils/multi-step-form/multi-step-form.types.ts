@@ -18,4 +18,6 @@ export interface MultiStepFormProps {
 	onStepChange?: (stepIndex: number) => void;
 	/** Custom text for the button on the last step */
 	finalStepButtonText?: string;
+	/** Callback when the final step button is clicked */
+	onFinalStepClick?: () => void;
 }

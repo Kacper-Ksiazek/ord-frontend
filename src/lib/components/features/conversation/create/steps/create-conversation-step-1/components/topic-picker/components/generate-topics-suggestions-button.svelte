@@ -56,12 +56,13 @@
 	}
 </script>
 
-<div class="flex items-center gap-2">
-	<AiActionButton status={generateButtonStatus} onclick={generateTopics} />
+<div class="flex items-center gap-3">
+	<AiActionButton status={generateButtonStatus} onclick={generateTopics} class="shrink-0" />
 
 	<Input
 		placeholder="Give me a hint or idea to inspire your topics... (optional)"
 		class="flex-1"
 		bind:value={clueForGeneration}
+		disabled={generateButtonStatus === 'loading'}
 	/>
 </div>

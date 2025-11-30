@@ -1,7 +1,6 @@
 <script lang="ts">
 	import _isNil from 'lodash/isNil';
 	import { CreateConversationStep1 } from '$lib/components/features/conversation/create';
-	import { getCreateConversationPayload } from '$lib/components/features/conversation/create/stores/create-conversation-payload.svelte';
 
 	let currentStep = $state<'step-1-select-type'>('step-1-select-type');
 </script>
@@ -10,10 +9,8 @@
 	<title>New Conversation</title>
 </svelte:head>
 
-<span class="dark:text-white">{JSON.stringify(getCreateConversationPayload())}</span>
-
 <section
-	class="w-full h-full max-w-[1200px] mx-auto bg-slate-50 dark:bg-slate-800 pt-16 px-8 rounded-2xl"
+	class="w-full flex-1 max-w-[1200px] mx-auto bg-slate-50 dark:bg-slate-800 rounded-2xl px-4 py-8 my-8 flex flex-col"
 >
 	{#if currentStep === 'step-1-select-type'}
 		<CreateConversationStep1 />

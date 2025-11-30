@@ -15,6 +15,7 @@
 		currentStep: currentStepProp = $bindable(0),
 		onStepChange,
 		finalStepButtonText,
+		onFinalStepClick,
 		children
 	}: Props = $props();
 
@@ -46,7 +47,7 @@
 	}
 </script>
 
-<div class="flex flex-col gap-6">
+<div class="flex flex-col gap-6 flex-1">
 	<!-- Step Indicator -->
 	<div class="flex flex-col gap-2">
 		<div class="flex flex-col gap-2">
@@ -85,8 +86,16 @@
 	</div>
 
 	<!-- Step Content -->
-	<div class="min-h-[400px]">
-		{@render children(currentStep)}
+	<div class="relative min-h-[400px] flex-1">
+		{#key currentStep}
+			<div class="absolute inset-0 w-full" transition:fade={{ duration: 200 }}>
+				<div class="relative w-full">
+					<div class="absolute inset-0 w-full">
+						{@render children(currentStep)}
+					</div>
+				</div>
+			</div>
+		{/key}
 	</div>
 
 	<!-- Navigation Buttons -->
@@ -105,7 +114,18 @@
 					{m['components.utils.multi-step-form.next']()}
 				</Button>
 			{:else if finalStepButtonText}
-				<Button color="primary" onclick={nextStep} disabled={!canGoNext} class="min-w-64">
+				<Button
+					color="primary"
+					onclick={() => {
+						if (onFinalStepClick) {
+							onFinalStepClick();
+						} else {
+							nextStep();
+						}
+					}}
+					disabled={!canGoNext}
+					class="min-w-64"
+				>
 					{finalStepButtonText}
 				</Button>
 			{/if}

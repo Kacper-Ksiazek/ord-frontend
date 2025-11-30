@@ -20,18 +20,24 @@
 	});
 </script>
 
-<section class="flex flex-col gap-4 my-2 max-w-[800px]">
+<section class="flex flex-col gap-6 my-2 flex-1">
 	<GenerateTopicsSuggestionsButton bind:amountOfSkeletons />
 
-	<div class="flex min-h-[152px] flex-col gap-4">
+	<div class="flex min-h-[200px] flex-col gap-3">
 		{#if _isEmpty(topicsForSelectedConversationType) && amountOfSkeletons === 0}
 			<div
-				class="w-full flex-1 bg-gray-100 dark:bg-gray-800 rounded-md flex items-center justify-center"
+				class="w-full flex-1 bg-gray-50 dark:bg-gray-800/50 rounded-lg border-2 border-dashed border-gray-200 dark:border-gray-700 flex flex-col items-center justify-center gap-4 p-8"
 			>
 				<ConversationTypeIcon
 					conversationType={getCreateConversationPayload().type!}
-					class="w-32 h-32 text-gray-300 dark:text-gray-600"
+					class="w-24 h-24 text-gray-300 dark:text-gray-600"
 				/>
+				<div class="text-center">
+					<p class="text-sm font-medium text-gray-600 dark:text-gray-400">No topics yet</p>
+					<p class="text-xs font-light text-gray-500 dark:text-gray-500 mt-1">
+						Generate topics with AI or add your own below
+					</p>
+				</div>
 			</div>
 		{/if}
 
@@ -47,7 +53,7 @@
 
 		{#if amountOfSkeletons > 0}
 			{#each Array.from({ length: amountOfSkeletons })}
-				<Skeleton class="h-10" />
+				<Skeleton class="h-12 rounded-lg" />
 			{/each}
 		{/if}
 	</div>

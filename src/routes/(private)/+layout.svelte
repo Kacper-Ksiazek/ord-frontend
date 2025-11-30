@@ -21,7 +21,7 @@
 {#if authStore.user}
 	<div class="flex h-screen">
 		<Sidebar />
-		<main class="flex-1 overflow-auto p-4">
+		<main class="flex-1 overflow-auto p-4 flex flex-col">
 			{@render children()}
 		</main>
 	</div>

@@ -1,7 +1,4 @@
 <script lang="ts">
-	import { AiActionButton } from '$lib/components/utils/ai-action-button';
-	import type { AiActionButtonStatus } from '$lib/components/utils/ai-action-button/ai-action-button.types';
-	import { Input } from 'flowbite-svelte';
 	import { createGenerateAiInterlocutorMutation } from '$lib/api-client/conversation/mutations/use-generate-ai-interlocutor';
 	import {
 		getCreateConversationPayload,
@@ -13,10 +10,11 @@
 		getRecentInterlocutorsFromLocalStorage,
 		saveNewInterlocutorToLocalStorage
 	} from './utils';
+	import { cn } from 'flowbite-svelte';
+	import { conversationTypes } from '../../create-conversation-step-1.constants';
 
-	let generateButtonStatus = $state<AiActionButtonStatus>('default');
-	let additionalContext = $state('');
 	let isGenerating = $state(false);
+	let hasAutoFetched = $state(false);
 
 	const { mutateAsync: handleGenerateInterlocutor } = createGenerateAiInterlocutorMutation();
 
@@ -25,20 +23,26 @@
 		!!(payload.aiInterlocutorName && payload.aiInterlocutorAvatarId)
 	);
 
+	const canGenerate = $derived(!!(payload.type && payload.topic && payload.language));
+
+	const conversationTypeLabel = $derived.by(() => {
+		if (!payload.type) return null;
+		return conversationTypes.find((t) => t.type === payload.type)?.label ?? null;
+	});
+
 	async function generateInterlocutor() {
-		if (!payload.type || !payload.topic || !payload.language) {
+		if (!canGenerate || !payload.type || !payload.topic || !payload.language) {
 			return;
 		}
 
 		isGenerating = true;
-		generateButtonStatus = 'loading';
 
 		try {
 			const result = await handleGenerateInterlocutor({
 				topic: payload.topic,
 				conversationType: payload.type,
 				language: payload.language,
-				additionalContext: additionalContext || undefined,
+				additionalContext: undefined,
 				recentInterlocutors: getRecentInterlocutorsFromLocalStorage()
 			});
 
@@ -51,50 +55,73 @@
 				aiInterlocutorName: result.name,
 				aiInterlocutorAvatarId: result.avatarId
 			});
-
-			generateButtonStatus = 'success';
 		} catch (error) {
 			console.error('Failed to generate AI interlocutor:', error);
-			generateButtonStatus = 'failed';
 		} finally {
 			isGenerating = false;
 		}
 	}
+
+	// Auto-fetch on mount, but only if not already generated and requirements are met
+	$effect(() => {
+		if (!hasAutoFetched && canGenerate && !hasGeneratedInterlocutor) {
+			hasAutoFetched = true;
+			generateInterlocutor();
+		}
+	});
 </script>
 
-<section class="flex flex-col gap-4">
-	<div class="flex items-center gap-2">
-		<AiActionButton
-			status={generateButtonStatus}
-			onclick={generateInterlocutor}
-			disabled={!payload.type || !payload.topic || !payload.language}
-		/>
+<section class="flex flex-col gap-4 max-w-[600px] mx-auto">
+	<h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 text-center">
+		Your AI Conversation Partner
+	</h2>
 
-		<Input
-			placeholder="Additional context for the AI interlocutor... (optional)"
-			class="flex-1"
-			bind:value={additionalContext}
-			disabled={isGenerating}
-		/>
-	</div>
+	{#if isGenerating}
+		<div class="flex flex-col items-center gap-4 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg relative">
+			<Skeleton class="w-[512px] aspect-square rounded-full" />
+			<Skeleton class="h-8 w-64" />
+		</div>
+	{:else if hasGeneratedInterlocutor}
+		<div class="flex flex-col items-center gap-4 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg relative">
+			<button
+				onclick={generateInterlocutor}
+				disabled={!canGenerate || isGenerating}
+				class={cn(
+					'absolute top-4 right-4 p-2 rounded-lg transition-colors',
+					'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400',
+					'hover:bg-gray-300 dark:hover:bg-gray-600',
+					'disabled:opacity-50 disabled:cursor-not-allowed',
+					'cursor-pointer'
+				)}
+				title="Generate a different AI interlocutor"
+			>
+				<svg
+					class="w-4 h-4"
+					fill="none"
+					stroke="currentColor"
+					viewBox="0 0 24 24"
+					xmlns="http://www.w3.org/2000/svg"
+				>
+					<path
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+					/>
+				</svg>
+			</button>
 
-	{#if hasGeneratedInterlocutor}
-		<div class="flex flex-col items-center gap-2 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-			<div class="w-32 h-32">
+			<div class="w-[512px] aspect-square">
 				<AIInterlocutorAvatar
 					avatarId={payload.aiInterlocutorAvatarId!}
 					size="fullsize"
 					class="rounded-full"
 				/>
 			</div>
-			<p class="text-sm font-semibold text-gray-700 dark:text-gray-200">
+
+			<h3 class="text-2xl font-semibold text-gray-700 dark:text-gray-200">
 				{payload.aiInterlocutorName}
-			</p>
-		</div>
-	{:else if isGenerating}
-		<div class="flex flex-col items-center gap-2 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-			<Skeleton class="w-32 h-32 rounded-full" />
-			<Skeleton class="h-4 w-24" />
+			</h3>
 		</div>
 	{:else}
 		<div
@@ -102,8 +129,8 @@
 		>
 			<p class="text-sm text-gray-400 dark:text-gray-500">
 				{!payload.topic
-					? 'Select a topic first to generate an AI interlocutor'
-					: 'Click the button above to generate an AI interlocutor'}
+					? 'Select a topic first to generate your AI conversation partner'
+					: 'Generating your AI conversation partner...'}
 			</p>
 		</div>
 	{/if}

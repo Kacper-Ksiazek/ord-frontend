@@ -2,6 +2,7 @@
 	import { MultiStepForm } from '$lib/components/utils/multi-step-form';
 	import type { StepConfig } from '$lib/components/utils/multi-step-form';
 	import ConversationTypeCard from './components/conversation-type-card.svelte';
+	import { SelectedConversationTypeCard } from './components/selected-conversation-type-card';
 	import { TopicPicker } from './components/topic-picker';
 	import { conversationTypes } from './create-conversation-step-1.constants';
 	import {
@@ -15,11 +16,19 @@
 
 	const steps: StepConfig[] = [
 		{
-			id: 'select-type-and-topic',
-			header: 'Select conversation type and topic',
+			id: 'select-type',
+			header: 'Select conversation type',
 			validate: () => {
 				const payload = getCreateConversationPayload();
-				return !!(payload.type && payload.topic);
+				return !!payload.type;
+			}
+		},
+		{
+			id: 'select-topic',
+			header: 'Select conversation topic',
+			validate: () => {
+				const payload = getCreateConversationPayload();
+				return !!payload.topic;
 			}
 		},
 		{
@@ -31,14 +40,26 @@
 	function handleStepChange(stepIndex: number) {
 		currentStep = stepIndex;
 	}
+
+	function handleFinalStepClick() {
+		const payload = getCreateConversationPayload();
+		console.log('Final step clicked. Payload:', payload);
+	}
 </script>
 
-<h1 class="text-2xl font-bold">New Conversation</h1>
-
-<MultiStepForm {steps} bind:currentStep onStepChange={handleStepChange}>
+<MultiStepForm
+	{steps}
+	bind:currentStep
+	onStepChange={handleStepChange}
+	finalStepButtonText="Continue"
+	onFinalStepClick={handleFinalStepClick}
+>
 	{#snippet children(stepIndex)}
 		{#if stepIndex === 0}
-			<h2 class="text-lg font-bold">Select a conversation type</h2>
+			<p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
+				Choose the type of conversation you'd like to practice. Each type offers a different learning
+				experience.
+			</p>
 			<section class="flex flex-wrap gap-4">
 				{#each conversationTypes as { type, label, description }}
 					{@const isSelected = selectedType.type === type}
@@ -48,17 +69,26 @@
 						{label}
 						{description}
 						{isSelected}
-						onclick={() => setCreateConversationPayload({ type })}
+						onclick={() => {
+							const currentPayload = getCreateConversationPayload();
+							// Reset topic only if the type is actually changing
+							if (currentPayload.type !== type) {
+								setCreateConversationPayload({ type, topic: undefined });
+							} else {
+								setCreateConversationPayload({ type });
+							}
+						}}
 					/>
 				{/each}
 			</section>
-
-			---
-
-			<h2 class="text-lg font-bold">Select conversation topic</h2>
-
-			<TopicPicker />
 		{:else if stepIndex === 1}
+			<p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
+				Select a topic for your conversation. You can generate suggestions with AI or add your own
+				custom topic.
+			</p>
+			<SelectedConversationTypeCard />
+			<TopicPicker />
+		{:else if stepIndex === 2}
 			<CreateConversationStep2 />
 		{/if}
 	{/snippet}
