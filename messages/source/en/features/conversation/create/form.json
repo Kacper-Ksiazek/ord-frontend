@@ -1,0 +1,9 @@
+{
+	"breadcrumb": {
+		"home": "Home",
+		"conversations": "Conversations",
+		"create_new": "Create new"
+	},
+	"continue_button": "Continue",
+	"loading": "Generating your conversation..."
+}

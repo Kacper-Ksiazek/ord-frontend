@@ -5,6 +5,7 @@
 	import { Input } from 'flowbite-svelte';
 	import { getCreateConversationPayload } from '$lib/components/features/conversation/create/stores/create-conversation-payload.svelte';
 	import { topics } from '../topic-picker.store.svelte';
+	import * as m from '$lib/paraglide/messages.js';
 
 	interface GenerateTopicsSuggestionsButtonProps {
 		amountOfSkeletons: number;
@@ -62,7 +63,7 @@
 	</div>
 
 	<Input
-		placeholder="Give me a hint or idea to inspire your topics... (optional)"
+		placeholder={m['features.conversation.create.step-2.topic_picker.generate_suggestions.button']()}
 		class="flex-1"
 		bind:value={clueForGeneration}
 		disabled={generateButtonStatus === 'loading'}

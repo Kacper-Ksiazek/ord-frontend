@@ -5,18 +5,30 @@
 		getCreateConversationPayload,
 		setCreateConversationPayload
 	} from '../../stores/create-conversation-payload.svelte';
+	import * as m from '$lib/paraglide/messages.js';
 
 	const selectedType = $derived(getCreateConversationPayload());
+
+	const getTypeLabel = (type: string) => {
+		const typeKey = type.toLowerCase().replace(/_/g, '_');
+		return m[`features.conversation.create.step-1.types.${typeKey}.label` as keyof typeof m]();
+	};
+
+	const getTypeDescription = (type: string) => {
+		const typeKey = type.toLowerCase().replace(/_/g, '_');
+		return m[`features.conversation.create.step-1.types.${typeKey}.description` as keyof typeof m]();
+	};
 </script>
 
 <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
-	Choose the type of conversation you'd like to practice. Each type offers a different learning
-	experience.
+	{m['features.conversation.create.step-1.description']()}
 </p>
 
 <section class="flex flex-wrap gap-4 justify-center">
-	{#each conversationTypes as { type, label, description }}
+	{#each conversationTypes as { type }}
 		{@const isSelected = selectedType.type === type}
+		{@const label = getTypeLabel(type)}
+		{@const description = getTypeDescription(type)}
 
 		<ConversationTypeCard
 			{type}

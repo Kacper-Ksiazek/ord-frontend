@@ -1,0 +1,9 @@
+{
+	"breadcrumb": {
+		"home": "Strona główna",
+		"conversations": "Rozmowy",
+		"create_new": "Utwórz nową"
+	},
+	"continue_button": "Kontynuuj",
+	"loading": "Generowanie Twojej rozmowy..."
+}

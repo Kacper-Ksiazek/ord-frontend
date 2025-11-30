@@ -1,0 +1,20 @@
+{
+	"header": "Wygeneruj rozmówcę AI",
+	"description": "Przejrzyj swoje wybory i rozpocznij rozmowę.",
+	"selected_type": {
+		"label": "Wybrany typ rozmowy"
+	},
+	"selected_topic": {
+		"label": "Wybrany temat"
+	},
+	"ai_interlocutor": {
+		"title": "Twój Rozmówca AI",
+		"context_label": "Opcjonalny kontekst",
+		"context_placeholder": "Dodaj dodatkowy kontekst lub preferencje dla rozmówcy AI (np. cechy osobowości, styl mówienia itp.)",
+		"context_helper": "To pomoże spersonalizować odpowiedzi AI i uczynić rozmowę bardziej angażującą.",
+		"generate_button": "Wygeneruj rozmówcę",
+		"generating": "Generowanie rozmówcy...",
+		"success": "Rozmówca wygenerowany pomyślnie",
+		"failed": "Nie udało się wygenerować rozmówcy"
+	}
+}

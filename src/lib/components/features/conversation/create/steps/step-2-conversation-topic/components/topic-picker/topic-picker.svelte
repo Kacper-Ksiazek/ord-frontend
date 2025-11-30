@@ -10,6 +10,7 @@
 		setCreateConversationPayload
 	} from '$lib/components/features/conversation/create/stores/create-conversation-payload.svelte';
 	import { topics } from './topic-picker.store.svelte';
+	import * as m from '$lib/paraglide/messages.js';
 
 	let amountOfSkeletons = $state(0);
 
@@ -33,9 +34,11 @@
 					class="w-24 h-24 text-gray-300 dark:text-gray-600"
 				/>
 				<div class="text-center">
-					<p class="text-sm font-medium text-gray-600 dark:text-gray-400">No topics yet</p>
+					<p class="text-sm font-medium text-gray-600 dark:text-gray-400">
+						{m['features.conversation.create.step-2.topic_picker.no_topic_selected']()}
+					</p>
 					<p class="text-xs font-light text-gray-500 dark:text-gray-500 mt-1">
-						Generate topics with AI or add your own below
+						{m['features.conversation.create.step-2.description']()}
 					</p>
 				</div>
 			</div>

@@ -12,6 +12,7 @@
 	} from './utils';
 	import { cn } from 'flowbite-svelte';
 	import { conversationTypes } from '../../../step-1-conversation-type/conversation-types.constants';
+	import * as m from '$lib/paraglide/messages.js';
 
 	let isGenerating = $state(false);
 	let hasAutoFetched = $state(false);
@@ -73,7 +74,7 @@
 
 <section class="flex flex-col gap-4 max-w-[600px] mx-auto">
 	<h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 text-center">
-		Your AI Conversation Partner
+		{m['features.conversation.create.step-3.ai_interlocutor.title']()}
 	</h2>
 
 	{#if isGenerating}
@@ -129,8 +130,8 @@
 		>
 			<p class="text-sm text-gray-400 dark:text-gray-500">
 				{!payload.topic
-					? 'Select a topic first to generate your AI conversation partner'
-					: 'Generating your AI conversation partner...'}
+					? m['features.conversation.create.step-3.ai_interlocutor.failed']()
+					: m['features.conversation.create.step-3.ai_interlocutor.generating']()}
 			</p>
 		</div>
 	{/if}

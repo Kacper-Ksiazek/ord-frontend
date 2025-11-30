@@ -2,6 +2,7 @@
 	import { Button, Input } from 'flowbite-svelte';
 	import { getCreateConversationPayload } from '$lib/components/features/conversation/create/stores/create-conversation-payload.svelte';
 	import { topics } from '../topic-picker.store.svelte';
+	import * as m from '$lib/paraglide/messages.js';
 
 	let userTopicInput = $state('');
 
@@ -33,7 +34,9 @@
 
 <div class="flex items-center gap-2">
 	<Input
-		placeholder="Enter a topic"
+		placeholder={m[
+			'features.conversation.create.step-2.topic_picker.custom_topic.input_placeholder'
+		]()}
 		class="flex-1"
 		bind:value={userTopicInput}
 		onkeydown={handleKeydown}
@@ -45,6 +48,6 @@
 		disabled={!getCreateConversationPayload().type || !userTopicInput.trim()}
 		class="shrink-0"
 	>
-		Add
+		{m['features.conversation.create.step-2.topic_picker.custom_topic.add_button']()}
 	</Button>
 </div>
