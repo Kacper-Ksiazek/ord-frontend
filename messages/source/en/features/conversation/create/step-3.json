@@ -4,6 +4,9 @@
 	"selected_type": {
 		"label": "Selected conversation type"
 	},
+	"selected_tone": {
+		"label": "Selected conversation tone"
+	},
 	"topic_picker": {
 		"placeholder": "Enter a topic...",
 		"selected_topic": "Selected topic",

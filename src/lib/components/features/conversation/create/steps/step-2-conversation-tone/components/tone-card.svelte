@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
+	import ConversationToneIcon from '$lib/components/features/conversation/conversation-tone-icon.svelte';
 	import SelectableCard from '$lib/components/utils/selectable-card.svelte';
 	import type { ConversationAITone } from '$lib/types/conversation/domain/conversation';
 
@@ -17,28 +18,13 @@
 </script>
 
 <SelectableCard {onclick} {isSelected} class="w-[378px] py-10 px-4">
-	<div
+	<ConversationToneIcon
+		{tone}
 		class={cn(
-			'w-20 h-20 rounded-full mb-2 flex items-center justify-center text-2xl font-bold transition-colors',
-			isSelected
-				? 'bg-primary-500 text-white dark:bg-primary-600'
-				: 'bg-gray-200 text-gray-400 dark:bg-gray-700 dark:text-gray-500'
+			'w-20 h-20 text-gray-300 mb-2 dark:text-gray-600',
+			isSelected && 'text-primary-500 dark:text-white'
 		)}
-	>
-		{#if tone === 'FRIENDLY'}
-			😊
-		{:else if tone === 'FORMAL'}
-			👔
-		{:else if tone === 'HUMOROUS'}
-			😄
-		{:else if tone === 'NEUTRAL'}
-			😐
-		{:else if tone === 'ENCOURAGING'}
-			💪
-		{:else if tone === 'CHALLENGING'}
-			🎯
-		{/if}
-	</div>
+	/>
 
 	<h3 class="text-lg font-bold text-gray-900 dark:text-gray-50">
 		{label}

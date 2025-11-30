@@ -123,7 +123,7 @@
 		{steps}
 		bind:currentStep
 		onStepChange={handleStepChange}
-		finalStepButtonText={m['features.conversation.create.form.continue_button']()}
+		finalStepButtonText={m['features.conversation.create.form.start_conversation_button']()}
 		onFinalStepClick={handleFinalStepClick}
 	>
 		{#snippet children(stepIndex)}

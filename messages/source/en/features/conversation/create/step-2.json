@@ -4,27 +4,27 @@
 	"tones": {
 		"friendly": {
 			"label": "Friendly",
-			"description": "Be conversational, warm, and approachable. Use casual language, show genuine interest, and create a comfortable atmosphere like chatting with a friend."
+			"description": "The AI will communicate in a warm, casual manner, like chatting with a friend."
 		},
 		"formal": {
 			"label": "Formal",
-			"description": "Maintain professional boundaries and proper etiquette. Use correct grammar, structured sentences, and polite language appropriate for business or academic settings."
+			"description": "The AI will use professional language and proper etiquette, suitable for business or academic contexts."
 		},
 		"humorous": {
 			"label": "Humorous",
-			"description": "Incorporate lighthearted humor, playful language, and witty remarks when appropriate. Keep the conversation fun and entertaining while staying on topic."
+			"description": "The AI will incorporate humor and keep the conversation light and entertaining."
 		},
 		"neutral": {
 			"label": "Neutral",
-			"description": "Maintain a balanced, objective tone without being overly casual or formal. Be clear, direct, and matter-of-fact in your responses."
+			"description": "The AI will maintain a balanced, objective tone without being too casual or formal."
 		},
 		"encouraging": {
 			"label": "Encouraging",
-			"description": "Be supportive, positive, and motivating. Celebrate progress, provide gentle corrections, and boost the learner's confidence throughout the conversation."
+			"description": "The AI will be supportive and positive, celebrating your progress and building your confidence."
 		},
 		"challenging": {
 			"label": "Challenging",
-			"description": "Push the learner to think critically and express complex ideas. Ask thought-provoking questions and encourage deeper engagement with the topic."
+			"description": "The AI will push you to think critically and express complex ideas with deeper questions."
 		}
 	}
 }

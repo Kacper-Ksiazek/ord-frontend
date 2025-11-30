@@ -4,27 +4,27 @@
 	"tones": {
 		"friendly": {
 			"label": "Przyjazny",
-			"description": "Bądź rozmowny, ciepły i przystępny. Używaj swobodnego języka, okazuj szczere zainteresowanie i stwórz komfortową atmosferę jak podczas rozmowy z przyjacielem."
+			"description": "AI będzie komunikować się w ciepły, swobodny sposób, jak podczas rozmowy z przyjacielem."
 		},
 		"formal": {
 			"label": "Formalny",
-			"description": "Zachowuj profesjonalne granice i właściwą etykietę. Używaj poprawnej gramatyki, ustrukturyzowanych zdań i grzecznego języka odpowiedniego dla kontekstów biznesowych lub akademickich."
+			"description": "AI będzie używać profesjonalnego języka i właściwej etykiety, odpowiedniej dla kontekstów biznesowych lub akademickich."
 		},
 		"humorous": {
 			"label": "Humorystyczny",
-			"description": "Włączaj lekkie poczucie humoru, żartobliwy język i dowcipne uwagi, gdy jest to odpowiednie. Utrzymuj rozmowę zabawną i rozrywkową, pozostając przy temacie."
+			"description": "AI będzie włączać humor i utrzymywać rozmowę lekką i rozrywkową."
 		},
 		"neutral": {
 			"label": "Neutralny",
-			"description": "Utrzymuj zrównoważony, obiektywny ton bez nadmiernej swobody lub formalności. Bądź jasny, bezpośredni i rzeczowy w swoich odpowiedziach."
+			"description": "AI będzie utrzymywać zrównoważony, obiektywny ton bez nadmiernej swobody lub formalności."
 		},
 		"encouraging": {
 			"label": "Zachęcający",
-			"description": "Bądź wspierający, pozytywny i motywujący. Świętuj postępy, zapewniaj delikatne korekty i wzmacniaj pewność siebie uczącego się przez całą rozmowę."
+			"description": "AI będzie wspierający i pozytywny, świętując Twoje postępy i budując Twoją pewność siebie."
 		},
 		"challenging": {
 			"label": "Wymagający",
-			"description": "Zachęcaj uczącego się do krytycznego myślenia i wyrażania złożonych idei. Zadawaj prowokujące do myślenia pytania i zachęcaj do głębszego zaangażowania w temat."
+			"description": "AI będzie zachęcać Cię do krytycznego myślenia i wyrażania złożonych idei poprzez głębsze pytania."
 		}
 	}
 }
