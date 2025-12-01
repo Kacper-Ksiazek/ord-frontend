@@ -1,7 +1,7 @@
 <script lang="ts">
-	import clsx from 'clsx';
 	import Skeleton from '$lib/components/utils/skeleton.svelte';
 	import type { ConversationAIInterlocutorAvatarId } from '$lib/types/conversation/domain/conversation';
+	import { cn } from 'flowbite-svelte';
 
 	const avatarsModules = import.meta.glob('$lib/assets/images/conversation/avatars/*/*.jpg', {
 		eager: false,
@@ -37,12 +37,12 @@
 </script>
 
 {#await loadAvatarDynamically(avatarId)}
-	<Skeleton class={clsx(sizeClass, customClass)} />
+	<Skeleton class={cn(sizeClass, customClass)} />
 {:then avatarPath}
 	<img
 		src={avatarPath as string}
 		alt={`AI Interlocutor Avatar ${avatarId}`}
 		loading="lazy"
-		class={clsx(sizeClass, customClass)}
+		class={cn(sizeClass, customClass)}
 	/>
 {/await}
