@@ -1,0 +1,143 @@
+<script lang="ts">
+	import { MultiStepForm } from '$lib/components/utils/multi-step-form';
+	import type { StepConfig } from '$lib/components/utils/multi-step-form';
+	import { Loader } from '$lib/components/utils/loader';
+	import { getCreateConversationPayload } from '../stores/create-conversation-payload.svelte';
+	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
+	import * as m from '$lib/paraglide/messages.js';
+	import { createCreateConversationMutation } from '$lib/api-client/conversation/mutations/use-create-conversation';
+	import { goto } from '$app/navigation';
+	import { AxiosError } from 'axios';
+	import type { CreateConversationRequest } from '$lib/types/conversation/api/requests';
+	import {
+		Step1ConversationType,
+		Step2ConversationTone,
+		Step3ConversationTopic,
+		Step4Summary
+	} from './steps';
+
+	let currentStep = $state(0);
+	let error = $state<string | null>(null);
+
+	const createConversationMutation = createCreateConversationMutation();
+	const isLoading = $derived(createConversationMutation.isPending);
+
+	const steps: StepConfig[] = [
+		{
+			id: 'select-type',
+			header: m['features.conversation.create.step-1.header'](),
+			validate: () => {
+				const payload = getCreateConversationPayload();
+				return !!payload.type;
+			}
+		},
+		{
+			id: 'select-tone',
+			header: m['features.conversation.create.step-2.header'](),
+			validate: () => {
+				const payload = getCreateConversationPayload();
+				return !!payload.tone;
+			}
+		},
+		{
+			id: 'select-topic',
+			header: m['features.conversation.create.step-3.header'](),
+			validate: () => {
+				const payload = getCreateConversationPayload();
+				return !!payload.topic;
+			}
+		},
+		{
+			id: 'generate-interlocutor',
+			header: m['features.conversation.create.step-4.header']()
+		}
+	];
+
+	function handleStepChange(stepIndex: number) {
+		currentStep = stepIndex;
+	}
+
+	async function handleFinalStepClick() {
+		const payload = getCreateConversationPayload();
+		error = null;
+
+		// Validate required fields
+		if (!payload.type || !payload.topic || !payload.language) {
+			error = 'Please complete all required fields';
+			return;
+		}
+
+		// Transform payload to CreateConversationRequest
+		const request = {
+			type: payload.type,
+			topic: payload.topic,
+			language: payload.language,
+			...(payload.tone && { tone: payload.tone }),
+			...(payload.additionalContext && { additionalContext: payload.additionalContext }),
+			...(payload.aiInterlocutorName && { aiInterlocutorName: payload.aiInterlocutorName }),
+			...(payload.aiInterlocutorAvatarId && { aiInterlocutorAvatarId: payload.aiInterlocutorAvatarId })
+		} as CreateConversationRequest;
+
+		try {
+			const conversation = await createConversationMutation.mutateAsync(request);
+			// Navigate to the conversation detail page or conversations list
+			if (conversation.id) {
+				goto(`/conversations/${conversation.id}`);
+			} else {
+				goto('/conversations');
+			}
+		} catch (err: unknown) {
+			if (err instanceof AxiosError) {
+				error = err.response?.data?.message || 'Failed to create conversation';
+			} else {
+				error = 'An unexpected error occurred';
+			}
+			console.error('Failed to create conversation:', err);
+		}
+	}
+</script>
+
+{#if isLoading}
+	<Loader wrapperClass="flex-1 items-center justify-center" />
+{:else}
+	{#if error}
+		<div
+			class="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg"
+		>
+			<p class="text-sm text-red-800 dark:text-red-200">{error}</p>
+		</div>
+	{/if}
+	<Breadcrumb class="mb-6">
+		<BreadcrumbItem href="/" home
+			>{m['features.conversation.create.form.breadcrumb.home']()}</BreadcrumbItem
+		>
+		<BreadcrumbItem href="/conversations"
+			>{m['features.conversation.create.form.breadcrumb.conversations']()}</BreadcrumbItem
+		>
+		<BreadcrumbItem>
+			<span class="text-black dark:text-white"
+				>{m['features.conversation.create.form.breadcrumb.create_new']()}</span
+			></BreadcrumbItem
+		>
+	</Breadcrumb>
+
+	<MultiStepForm
+		{steps}
+		bind:currentStep
+		onStepChange={handleStepChange}
+		finalStepButtonText={m['features.conversation.create.form.start_conversation_button']()}
+		onFinalStepClick={handleFinalStepClick}
+	>
+		{#snippet children(stepIndex)}
+			{#if stepIndex === 0}
+				<Step1ConversationType />
+			{:else if stepIndex === 1}
+				<Step2ConversationTone />
+			{:else if stepIndex === 2}
+				<Step3ConversationTopic />
+			{:else if stepIndex === 3}
+				<Step4Summary />
+			{/if}
+		{/snippet}
+	</MultiStepForm>
+{/if}
