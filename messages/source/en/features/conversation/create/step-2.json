@@ -1,30 +1,4 @@
 {
 	"header": "Select conversation tone",
-	"description": "Choose the tone for your conversation. This will influence how the AI interlocutor communicates with you.",
-	"tones": {
-		"friendly": {
-			"label": "Friendly",
-			"description": "The AI will communicate in a warm, casual manner, like chatting with a friend."
-		},
-		"formal": {
-			"label": "Formal",
-			"description": "The AI will use professional language and proper etiquette, suitable for business or academic contexts."
-		},
-		"humorous": {
-			"label": "Humorous",
-			"description": "The AI will incorporate humor and keep the conversation light and entertaining."
-		},
-		"neutral": {
-			"label": "Neutral",
-			"description": "The AI will maintain a balanced, objective tone without being too casual or formal."
-		},
-		"encouraging": {
-			"label": "Encouraging",
-			"description": "The AI will be supportive and positive, celebrating your progress and building your confidence."
-		},
-		"challenging": {
-			"label": "Challenging",
-			"description": "The AI will push you to think critically and express complex ideas with deeper questions."
-		}
-	}
+	"description": "Choose the tone for your conversation. This will influence how the AI interlocutor communicates with you."
 }

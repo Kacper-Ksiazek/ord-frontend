@@ -1,30 +1,4 @@
 {
 	"header": "Wybierz ton rozmowy",
-	"description": "Wybierz ton rozmowy. To wpłynie na sposób komunikacji rozmówcy AI z Tobą.",
-	"tones": {
-		"friendly": {
-			"label": "Przyjazny",
-			"description": "AI będzie komunikować się w ciepły, swobodny sposób, jak podczas rozmowy z przyjacielem."
-		},
-		"formal": {
-			"label": "Formalny",
-			"description": "AI będzie używać profesjonalnego języka i właściwej etykiety, odpowiedniej dla kontekstów biznesowych lub akademickich."
-		},
-		"humorous": {
-			"label": "Humorystyczny",
-			"description": "AI będzie włączać humor i utrzymywać rozmowę lekką i rozrywkową."
-		},
-		"neutral": {
-			"label": "Neutralny",
-			"description": "AI będzie utrzymywać zrównoważony, obiektywny ton bez nadmiernej swobody lub formalności."
-		},
-		"encouraging": {
-			"label": "Zachęcający",
-			"description": "AI będzie wspierający i pozytywny, świętując Twoje postępy i budując Twoją pewność siebie."
-		},
-		"challenging": {
-			"label": "Wymagający",
-			"description": "AI będzie zachęcać Cię do krytycznego myślenia i wyrażania złożonych idei poprzez głębsze pytania."
-		}
-	}
+	"description": "Wybierz ton rozmowy. To wpłynie na sposób komunikacji rozmówcy AI z Tobą."
 }

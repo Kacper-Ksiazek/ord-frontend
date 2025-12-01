@@ -1,26 +1,4 @@
 {
 	"header": "Select conversation type",
-	"description": "Choose the type of conversation you'd like to practice. Each type offers a different learning experience.",
-	"types": {
-		"small_talk": {
-			"label": "Small Talk",
-			"description": "Practice casual and everyday conversations to build fluency and confidence."
-		},
-		"scenario_roleplay": {
-			"label": "Scenario Roleplay",
-			"description": "Act out realistic scenarios and roles for immersive language learning."
-		},
-		"exam_practice": {
-			"label": "Exam Practice",
-			"description": "Prepare for language exams with focused practice on common test situations."
-		},
-		"topic_exploration": {
-			"label": "Topic Exploration",
-			"description": "Engage in in-depth discussions about various topics to expand your vocabulary and comprehension."
-		},
-		"oxford_debate": {
-			"label": "Oxford Debate",
-			"description": "Participate in a structured debate format to develop persuasive and critical thinking skills."
-		}
-	}
+	"description": "Choose the type of conversation you'd like to practice. Each type offers a different learning experience."
 }

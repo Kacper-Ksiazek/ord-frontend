@@ -1,26 +1,4 @@
 {
 	"header": "Wybierz typ rozmowy",
-	"description": "Wybierz typ rozmowy, którą chcesz ćwiczyć. Każdy typ oferuje inne doświadczenie edukacyjne.",
-	"types": {
-		"small_talk": {
-			"label": "Small Talk",
-			"description": "Ćwicz swobodne i codzienne rozmowy, aby budować płynność i pewność siebie."
-		},
-		"scenario_roleplay": {
-			"label": "Odgrywanie ról",
-			"description": "Odegraj realistyczne scenariusze i role dla immersyjnej nauki języka."
-		},
-		"exam_practice": {
-			"label": "Przygotowanie do egzaminu",
-			"description": "Przygotuj się do egzaminów językowych z ukierunkowaną praktyką na typowych sytuacjach testowych."
-		},
-		"topic_exploration": {
-			"label": "Eksploracja tematu",
-			"description": "Zaangażuj się w dogłębne dyskusje na różne tematy, aby poszerzyć swoje słownictwo i zrozumienie."
-		},
-		"oxford_debate": {
-			"label": "Debata Oxfordzka",
-			"description": "Weź udział w ustrukturyzowanym formacie debaty, aby rozwijać umiejętności perswazyjne i krytyczne myślenie."
-		}
-	}
+	"description": "Wybierz typ rozmowy, którą chcesz ćwiczyć. Każdy typ oferuje inne doświadczenie edukacyjne."
 }

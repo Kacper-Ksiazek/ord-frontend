@@ -1,30 +1,4 @@
 {
 	"header": "Gesprächston auswählen",
-	"description": "Wählen Sie den Ton für Ihr Gespräch. Dies beeinflusst, wie der KI-Gesprächspartner mit Ihnen kommuniziert.",
-	"tones": {
-		"friendly": {
-			"label": "Freundlich",
-			"description": "Die KI wird sich warm und zwanglos mitteilen, wie beim Plaudern mit einem Freund."
-		},
-		"formal": {
-			"label": "Formell",
-			"description": "Die KI wird professionelle Sprache und angemessene Etikette verwenden, geeignet für geschäftliche oder akademische Kontexte."
-		},
-		"humorous": {
-			"label": "Humorvoll",
-			"description": "Die KI wird Humor einbauen und das Gespräch leicht und unterhaltsam halten."
-		},
-		"neutral": {
-			"label": "Neutral",
-			"description": "Die KI wird einen ausgewogenen, objektiven Ton beibehalten, ohne zu locker oder zu formell zu sein."
-		},
-		"encouraging": {
-			"label": "Ermutigend",
-			"description": "Die KI wird unterstützend und positiv sein, Ihre Fortschritte feiern und Ihr Selbstvertrauen stärken."
-		},
-		"challenging": {
-			"label": "Herausfordernd",
-			"description": "Die KI wird Sie dazu anregen, kritisch zu denken und komplexe Ideen durch tiefere Fragen auszudrücken."
-		}
-	}
+	"description": "Wählen Sie den Ton für Ihr Gespräch. Dies beeinflusst, wie der KI-Gesprächspartner mit Ihnen kommuniziert."
 }

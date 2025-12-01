@@ -1,26 +1,4 @@
 {
 	"header": "Gesprächstyp auswählen",
-	"description": "Wählen Sie die Art des Gesprächs aus, das Sie üben möchten. Jeder Typ bietet eine andere Lernerfahrung.",
-	"types": {
-		"small_talk": {
-			"label": "Small Talk",
-			"description": "Üben Sie lockere und alltägliche Gespräche, um Flüssigkeit und Selbstvertrauen aufzubauen."
-		},
-		"scenario_roleplay": {
-			"label": "Rollenspiel",
-			"description": "Spielen Sie realistische Szenarien und Rollen für immersives Sprachenlernen."
-		},
-		"exam_practice": {
-			"label": "Prüfungsvorbereitung",
-			"description": "Bereiten Sie sich auf Sprachprüfungen mit gezielter Übung zu häufigen Testsituationen vor."
-		},
-		"topic_exploration": {
-			"label": "Themenexploration",
-			"description": "Führen Sie eingehende Diskussionen zu verschiedenen Themen, um Ihren Wortschatz und Ihr Verständnis zu erweitern."
-		},
-		"oxford_debate": {
-			"label": "Oxford-Debatte",
-			"description": "Nehmen Sie an einem strukturierten Debattenformat teil, um überzeugende und kritisches Denken zu entwickeln."
-		}
-	}
+	"description": "Wählen Sie die Art des Gesprächs aus, das Sie üben möchten. Jeder Typ bietet eine andere Lernerfahrung."
 }
