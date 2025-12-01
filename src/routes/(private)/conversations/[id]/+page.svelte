@@ -5,6 +5,12 @@
 	import ContentCard from '$lib/components/utils/content-card.svelte';
 	import { InterlocutorDetails } from '$lib/features/conversations/pages/session/components';
 	import { cn } from 'flowbite-svelte';
+	import { conversationMessagesStore } from '$lib/features/conversations/pages/session/stores/conversation-messages.svelte';
+	import {
+		UserMessage,
+		AiMessage
+	} from '$lib/features/conversations/pages/session/components/messages';
+	import ConversationTypeIcon from '$lib/features/conversations/shared/components/conversation-type-icon.svelte';
 
 	const conversationQuery = createConversationQuery(page.params.id);
 
@@ -51,25 +57,24 @@
 			>
 				<InterlocutorDetails {conversation} />
 
-				<div class="flex flex-col gap-4 w-[80%]">
-					Elit aliquip ex exercitation cupidatat ea veniam ipsum excepteur dolor anim aute nisi non id
-					adipisicing. Consectetur commodo laborum excepteur est incididunt anim minim minim.
-					Exercitation laborum irure minim dolore in voluptate exercitation ad proident cillum Lorem
-					excepteur magna adipisicing consectetur. Aute mollit voluptate velit nostrud tempor aute
-					deserunt dolor esse dolore fugiat ipsum mollit in. Proident duis enim ea elit adipisicing sint
-					in elit ut laboris cillum nulla duis nulla deserunt. Deserunt et non fugiat. Aliquip labore do
-					laboris est et mollit adipisicing commodo sit qui aliquip.
-				</div>
+				{#each conversationMessagesStore.messages as message, index}
+					{#if message.sender === 'AI'}
+						{@const isLastMessage = index === conversationMessagesStore.messages.length - 1}
 
-				<div class="flex flex-col gap-4 w-[80%] self-end">
-					Elit aliquip ex exercitation cupidatat ea veniam ipsum excepteur dolor anim aute nisi non id
-					adipisicing. Consectetur commodo laborum excepteur est incididunt anim minim minim.
-					Exercitation laborum irure minim dolore in voluptate exercitation ad proident cillum Lorem
-					excepteur magna adipisicing consectetur. Aute mollit voluptate velit nostrud tempor aute
-					deserunt dolor esse dolore fugiat ipsum mollit in. Proident duis enim ea elit adipisicing sint
-					in elit ut laboris cillum nulla duis nulla deserunt. Deserunt et non fugiat. Aliquip labore do
-					laboris est et mollit adipisicing commodo sit qui aliquip.
-				</div>
+						<AiMessage
+							message={message.content}
+							isStillGenerating={isLastMessage && conversationMessagesStore.isGenerating}
+							interlocutor={{
+								aiInterlocutorAvatarId: conversation.aiInterlocutorAvatarId,
+								aiInterlocutorName: conversation.aiInterlocutorName
+							}}
+						/>
+					{/if}
+
+					{#if message.sender === 'USER'}
+						<UserMessage {message} />
+					{/if}
+				{/each}
 
 				<span class="grow"></span>
 
