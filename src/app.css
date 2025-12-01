@@ -110,3 +110,17 @@
 		cursor: pointer;
 	}
 }
+
+@keyframes generation-in-progress {
+	from {
+		background-color: var(--color-primary-100);
+	}
+	to {
+		background-color: var(--color-slate-100);
+	}
+}
+
+.generation-in-progress {
+	animation: generation-in-progress 0.6s infinite alternate linear;
+	color: var(--color-gray-400);
+}
