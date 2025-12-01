@@ -1,0 +1,50 @@
+{
+	"conversation_types": {
+		"SMALL_TALK": {
+			"label": "Small Talk",
+			"description": "Üben Sie lockere und alltägliche Gespräche, um Ihre Sprachgewandtheit und Ihr Selbstvertrauen aufzubauen."
+		},
+		"SCENARIO_ROLEPLAY": {
+			"label": "Szenario-Rollenspiel",
+			"description": "Spielen Sie realistische Szenarien und Rollen für immersives Sprachenlernen."
+		},
+		"EXAM_PRACTICE": {
+			"label": "Prüfungsvorbereitung",
+			"description": "Bereiten Sie sich auf Sprachprüfungen vor mit gezieltem Üben zu häufigen Testsituationen."
+		},
+		"TOPIC_EXPLORATION": {
+			"label": "Themenexploration",
+			"description": "Tauchen Sie tief in Diskussionen über verschiedene Themen ein, um Ihren Wortschatz und Ihr Verständnis zu erweitern."
+		},
+		"OXFORD_DEBATE": {
+			"label": "Oxford-Debatte",
+			"description": "Nehmen Sie an einem strukturierten Debattenformat teil, um Ihre Überzeugungs- und kritischen Denkfähigkeiten zu entwickeln."
+		}
+	},
+	"conversation_tones": {
+		"FRIENDLY": {
+			"label": "Freundlich",
+			"description": "Die KI kommuniziert auf warme, lockere Weise, wie beim Plaudern mit einem Freund."
+		},
+		"FORMAL": {
+			"label": "Formell",
+			"description": "Die KI verwendet professionelle Sprache und angemessene Etikette, geeignet für geschäftliche oder akademische Kontexte."
+		},
+		"HUMOROUS": {
+			"label": "Humorvoll",
+			"description": "Die KI bringt Humor ein und hält die Unterhaltung leicht und unterhaltsam."
+		},
+		"NEUTRAL": {
+			"label": "Neutral",
+			"description": "Die KI behält einen ausgewogenen, objektiven Ton bei, ohne zu locker oder zu formal zu sein."
+		},
+		"ENCOURAGING": {
+			"label": "Ermutigend",
+			"description": "Die KI ist unterstützend und positiv, feiert Ihre Fortschritte und stärkt Ihr Selbstvertrauen."
+		},
+		"CHALLENGING": {
+			"label": "Herausfordernd",
+			"description": "Die KI wird Sie dazu anregen, kritisch zu denken und komplexe Ideen mit tiefergehenden Fragen auszudrücken."
+		}
+	}
+}
