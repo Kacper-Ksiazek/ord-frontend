@@ -1,1 +1,5 @@
-export { ConversationDetails, InterlocutorDetails, AiMessage } from './components';
+export {
+	ConversationDetails,
+	InterlocutorDetails,
+	AiMessage
+} from './components/messages-panel/components';
