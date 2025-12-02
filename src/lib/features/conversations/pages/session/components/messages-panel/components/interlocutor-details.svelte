@@ -4,12 +4,9 @@
 		ConversationDTO
 	} from '$lib/types/conversation/domain/conversation';
 	import AiInterlocutorAvatar from '$lib/features/conversations/shared/components/ai-interlocutor-avatar.svelte';
+	import { conversationStore } from '../../../stores';
 
-	interface InterlocutorDetailsProps {
-		conversation: ConversationDTO;
-	}
-
-	const { conversation }: InterlocutorDetailsProps = $props();
+	const conversation = $derived(conversationStore.conversation);
 </script>
 
 <div class="flex flex-col items-center mb-8">
