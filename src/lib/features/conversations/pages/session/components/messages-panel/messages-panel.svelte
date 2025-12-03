@@ -1,15 +1,12 @@
 <script lang="ts">
 	import ContentCard from '$lib/components/utils/content-card.svelte';
-	import {
-		conversationStore,
-		conversationMessagesStore,
-		conversationSidepanelStore
-	} from '../../stores';
 	import { cn } from 'flowbite-svelte';
 	import { AiMessage, InterlocutorDetails, UserMessage } from './components';
+	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
+	import { getMessagesContext } from '../../contexts/messages-context.svelte';
 
-	const isSidepanelOpened = $derived(conversationSidepanelStore.isSidepanelOpened);
-	const conversation = $derived(conversationStore.conversation);
+	const { isOpened: isSidepanelOpened } = getSidepanelContext();
+	const messagesContext = getMessagesContext();
 </script>
 
 <ContentCard
@@ -26,17 +23,13 @@
 	>
 		<InterlocutorDetails />
 
-		{#each conversationMessagesStore.messages as message, index}
+		{#each messagesContext.messages as message, index}
 			{#if message.sender === 'AI'}
-				{@const isLastMessage = index === conversationMessagesStore.messages.length - 1}
+				{@const isLastMessage = index === messagesContext.messages.length - 1}
 
 				<AiMessage
 					message={message.content}
-					isStillGenerating={isLastMessage && conversationMessagesStore.isGenerating}
-					interlocutor={{
-						aiInterlocutorAvatarId: conversation.aiInterlocutorAvatarId,
-						aiInterlocutorName: conversation.aiInterlocutorName
-					}}
+					isStillGenerating={isLastMessage && messagesContext.isGenerating}
 				/>
 			{/if}
 

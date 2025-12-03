@@ -1,24 +1,21 @@
 <script lang="ts">
-	import type {
-		ConversationAIInterlocutorAvatarId,
-		ConversationDTO
-	} from '$lib/types/conversation/domain/conversation';
+	import type { ConversationAIInterlocutorAvatarId } from '$lib/types/conversation/domain/conversation';
 	import AiInterlocutorAvatar from '$lib/features/conversations/shared/components/ai-interlocutor-avatar.svelte';
-	import { conversationStore } from '../../../stores';
+	import { getConversationContext } from '../../../contexts/conversation-context.svelte';
 
-	const conversation = $derived(conversationStore.conversation);
+	const conversation = getConversationContext();
 </script>
 
 <div class="flex flex-col items-center mb-8">
 	<div class="w-[144px] aspect-square">
 		<AiInterlocutorAvatar
-			avatarId={conversation.aiInterlocutorAvatarId as ConversationAIInterlocutorAvatarId}
+			avatarId={conversation.interlocutor.avatarId as ConversationAIInterlocutorAvatarId}
 			size="fullsize"
 			class="rounded-full"
 		/>
 	</div>
 
-	<h3 class="text-2xl font-bold">{conversation.aiInterlocutorName}</h3>
+	<h3 class="text-2xl font-bold">{conversation.interlocutor.name}</h3>
 
 	<span class="border-b border-gray-200 dark:border-gray-700 w-[128px] my-2"></span>
 
