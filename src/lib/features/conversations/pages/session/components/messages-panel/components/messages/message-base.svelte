@@ -14,7 +14,7 @@
 
 <div
 	class={cn(
-		'max-w-[80%] text-lg', //
+		'w-[80%] text-lg', //
 		wrapperClass
 	)}
 >

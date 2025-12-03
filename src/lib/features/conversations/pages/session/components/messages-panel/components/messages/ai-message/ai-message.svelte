@@ -18,7 +18,7 @@
 </script>
 
 <MessageBase
-	wrapperClass="gap-4 grid grid-cols-[48px_1fr]"
+	wrapperClass="gap-4 grid grid-cols-[48px_1fr] self-start"
 	messageClass={cn(
 		isStillGenerating && 'generation-in-progress', //
 		!isStillGenerating && 'bg-slate-100'
