@@ -105,10 +105,7 @@ export function createSSEStream<T = unknown>(
 							try {
 								parsedData = JSON.parse(rawData.replaceAll('data:', '')) as T;
 							} catch {
-								console.warn('JSON parsing failed');
-								console.warn(typeof rawData, rawData);
-								// If JSON parsing fails, treat as raw string
-								parsedData = rawData as T;
+								parsedData = rawData.replaceAll('data:', '') as T;
 							}
 						}
 
