@@ -4,21 +4,24 @@
 	import { AiMessage, InterlocutorDetails, UserMessage } from './components';
 	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
 	import { getMessagesContext } from '../../contexts/messages-context.svelte';
+	import { UserMessageTextarea } from './components/user-message-textarea';
 
-	const { isOpened: isSidepanelOpened } = getSidepanelContext();
+	const sidepanelContext = getSidepanelContext();
 	const messagesContext = getMessagesContext();
+
+	$inspect(sidepanelContext);
 </script>
 
 <ContentCard
 	class={cn(
-		isSidepanelOpened && 'w-[70%]', //
-		!isSidepanelOpened && 'w-full'
+		sidepanelContext.isOpened && 'w-[70%]', //
+		!sidepanelContext.isOpened && 'w-full'
 	)}
 >
 	<div
 		class={cn(
 			'flex flex-col gap-16 mx-auto h-full', //
-			!isSidepanelOpened && 'max-w-[1540px]'
+			!sidepanelContext.isOpened && 'max-w-[1540px]'
 		)}
 	>
 		<InterlocutorDetails />
@@ -40,6 +43,6 @@
 
 		<span class="grow"></span>
 
-		<textarea class="w-full"></textarea>
+		<UserMessageTextarea />
 	</div>
 </ContentCard>
