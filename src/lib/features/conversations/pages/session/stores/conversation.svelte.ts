@@ -2,11 +2,11 @@ import type { ConversationDTO } from '$lib/types/conversation/domain/conversatio
 
 class ConversationStore {
 	public conversation = $state<ConversationDTO>({} as ConversationDTO);
-	public isLoading = $state(false);
+	public isLoaded = $state(false);
 
-	public initialize(conversation: ConversationDTO) {
+	public create(conversation: ConversationDTO) {
 		this.conversation = conversation;
-		this.isLoading = false;
+		this.isLoaded = true;
 	}
 }
 
