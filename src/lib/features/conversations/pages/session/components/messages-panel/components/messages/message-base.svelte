@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
 	import type { Snippet } from 'svelte';
+	import { fade } from 'svelte/transition';
 
 	interface MessageBaseProps {
 		wrapperClass?: string;
@@ -14,9 +15,10 @@
 
 <div
 	class={cn(
-		'w-[80%] text-lg', //
+		'max-w-[80%] w-full text-lg', //
 		wrapperClass
 	)}
+	transition:fade={{ duration: 150 }}
 >
 	{@render children?.()}
 
