@@ -3,10 +3,28 @@ import type {
 	CompactConversationMessage,
 	CompactConversationUserMessage
 } from '$lib/types/conversation/domain/conversation-message';
+import type { ConversationDTO } from '$lib/types/conversation/domain/conversation';
 
 class ConversationMessagesStore {
-	public isGenerating = $state(true);
+	public isGenerating = $state(false);
 	public messages = $state<CompactConversationMessage[]>([]);
+
+	public create(conversation: ConversationDTO) {
+		this.messages = conversation.messages.map((message) => {
+			if (message.sender === 'AI') {
+				return {
+					sender: 'AI',
+					content: message.content
+				} satisfies CompactConversationMessage;
+			}
+
+			return {
+				sender: 'USER',
+				content: message.content,
+				feedback: message.feedback ?? null
+			} satisfies CompactConversationMessage;
+		});
+	}
 
 	public saveUserMessage(message: CompactConversationUserMessage) {
 		this.messages.push(message);
