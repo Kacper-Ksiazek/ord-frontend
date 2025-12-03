@@ -4,14 +4,22 @@
 
 	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
 
-	const { isOpened: isSidepanelOpened } = getSidepanelContext();
+	const sidepanelContext = getSidepanelContext();
 </script>
 
 <ContentCard
 	class={cn(
-		isSidepanelOpened && 'w-[30%]', //
-		!isSidepanelOpened && 'w-0 overflow-hidden scale-x-0 hidden'
+		'sticky top-[20px] flex flex-col h-[calc(100vh-82px)]',
+		'bg-slate-300',
+		sidepanelContext.isOpened && 'w-[30%]', //
+		!sidepanelContext.isOpened && 'w-0 overflow-hidden scale-x-0 hidden'
 	)}
 >
-	<h2>Conversation Details</h2>
+	<div
+		class={cn(
+			'flex-1 overflow-y-auto min-h-0' // min-h-0 allows flex child to shrink below content size
+		)}
+	>
+		{JSON.stringify(sidepanelContext.feedbackPreview)}
+	</div>
 </ContentCard>
