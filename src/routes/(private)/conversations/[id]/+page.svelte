@@ -1,46 +1,48 @@
 <script lang="ts">
-	import { createConversationQuery } from '$lib/api-client/conversation/queries';
 	import { PageContentContainer } from '$lib/components/utils/page-content-container';
-	import { page } from '$app/state';
-	import {
-		conversationStore,
-		conversationSidepanelStore
-	} from '$lib/features/conversations/pages/session/stores';
+	import { conversationSidepanelStore } from '$lib/features/conversations/pages/session/stores';
 	import {
 		FeedbackPanel,
 		MessagesPanel
 	} from '$lib/features/conversations/pages/session/components';
+	import { onMount } from 'svelte';
+	import { conversationMessagesStore } from '$lib/features/conversations/pages/session/stores';
+	import isEmpty from 'lodash/isEmpty';
+	import { initializeConversationByAI } from '$lib/api-client/ongoing-conversation/sse/initialize-conversation-by-ai';
+	import { page } from '$app/state';
 
-	const conversationQuery = createConversationQuery(page.params.id);
+	onMount(() => {
+		if (isEmpty(conversationMessagesStore.messages)) {
+			conversationMessagesStore.initializeAiMessageGeneration();
 
-	$effect(() => {
-		if (conversationQuery.data) {
-			conversationStore.initialize(conversationQuery.data);
+			initializeConversationByAI(page.params.id).subscribe({
+				next: (data) => {
+					conversationMessagesStore.addGeneratedAiMessageLetter(data);
+				},
+				complete: () => {
+					conversationMessagesStore.isGenerating = false;
+				},
+				error: () => {
+					conversationMessagesStore.isGenerating = false;
+				}
+			});
 		}
 	});
 </script>
 
-<svelte:head>
-	<title>Conversation {page.params.id}</title>
-</svelte:head>
+<PageContentContainer layout="superwide">
+	{#snippet header()}
+		<!-- <ConversationDetails {conversation} /> -->
+		<button onclick={() => conversationSidepanelStore.toggleSidepanel()}>
+			{#if conversationSidepanelStore.isSidepanelOpened}
+				Close Sidepanel
+			{:else}
+				Open Sidepanel
+			{/if}
+		</button>
+	{/snippet}
 
-{#if !conversationQuery.data}
-	<!--  -->
-{:else}
-	<PageContentContainer layout="superwide">
-		{#snippet header()}
-			<!-- <ConversationDetails {conversation} /> -->
-			<button onclick={() => conversationSidepanelStore.toggleSidepanel()}>
-				{#if conversationSidepanelStore.isSidepanelOpened}
-					Close Sidepanel
-				{:else}
-					Open Sidepanel
-				{/if}
-			</button>
-		{/snippet}
+	<MessagesPanel />
 
-		<MessagesPanel />
-
-		<FeedbackPanel />
-	</PageContentContainer>
-{/if}
+	<FeedbackPanel />
+</PageContentContainer>
