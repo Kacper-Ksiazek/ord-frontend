@@ -1,29 +1,34 @@
 <script lang="ts">
 	import { PageContentContainer } from '$lib/components/utils/page-content-container';
-	import { conversationSidepanelStore } from '$lib/features/conversations/pages/session/stores';
 	import {
 		FeedbackPanel,
 		MessagesPanel
 	} from '$lib/features/conversations/pages/session/components';
 	import { onMount } from 'svelte';
-	import { conversationMessagesStore } from '$lib/features/conversations/pages/session/stores';
 	import isEmpty from 'lodash/isEmpty';
+	import { getMessagesContext } from '$lib/features/conversations/pages/session/contexts/messages-context.svelte';
+	import { getSidepanelContext } from '$lib/features/conversations/pages/session/contexts/sidepanel-context.svelte';
 	import { initializeConversationByAI } from '$lib/api-client/ongoing-conversation/sse/initialize-conversation-by-ai';
 	import { page } from '$app/state';
 
+	const sidepanelContext = getSidepanelContext();
+
 	onMount(() => {
-		if (isEmpty(conversationMessagesStore.messages)) {
-			conversationMessagesStore.initializeAiMessageGeneration();
+		const messagesContext = getMessagesContext();
+
+		if (isEmpty(messagesContext.messages)) {
+			messagesContext.isGenerating = true;
+			messagesContext.messages.push({ sender: 'AI', content: '' });
 
 			initializeConversationByAI(page.params.id).subscribe({
 				next: (data) => {
-					conversationMessagesStore.addGeneratedAiMessageLetter(data);
+					messagesContext.messages[0].content += data;
 				},
 				complete: () => {
-					conversationMessagesStore.isGenerating = false;
+					messagesContext.isGenerating = false;
 				},
 				error: () => {
-					conversationMessagesStore.isGenerating = false;
+					messagesContext.isGenerating = false;
 				}
 			});
 		}
@@ -33,8 +38,8 @@
 <PageContentContainer layout="superwide">
 	{#snippet header()}
 		<!-- <ConversationDetails {conversation} /> -->
-		<button onclick={() => conversationSidepanelStore.toggleSidepanel()}>
-			{#if conversationSidepanelStore.isSidepanelOpened}
+		<button onclick={() => (sidepanelContext.isOpened = !sidepanelContext.isOpened)}>
+			{#if sidepanelContext.isOpened}
 				Close Sidepanel
 			{:else}
 				Open Sidepanel
