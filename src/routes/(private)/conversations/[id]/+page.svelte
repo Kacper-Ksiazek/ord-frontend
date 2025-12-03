@@ -36,17 +36,6 @@
 </script>
 
 <PageContentContainer layout="superwide">
-	{#snippet header()}
-		<!-- <ConversationDetails {conversation} /> -->
-		<button onclick={() => (sidepanelContext.isOpened = !sidepanelContext.isOpened)}>
-			{#if sidepanelContext.isOpened}
-				Close Sidepanel
-			{:else}
-				Open Sidepanel
-			{/if}
-		</button>
-	{/snippet}
-
 	<MessagesPanel />
 
 	<FeedbackPanel />
