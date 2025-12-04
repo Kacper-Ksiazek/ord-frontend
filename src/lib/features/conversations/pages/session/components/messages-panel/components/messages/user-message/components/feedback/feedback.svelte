@@ -16,16 +16,16 @@
 		<span class="text-sm text-gray-300">-</span>
 	{/snippet}
 
-	<Score field="Gramatyka" score={10} />
+	<Score field="Gramatyka" score={feedback.grammar} />
 	{@render scoreDivider()}
 
-	<Score field="Słownictwo" score={9} />
+	<Score field="Słownictwo" score={feedback.vocabulary} />
 	{@render scoreDivider()}
 
-	<Score field="Długość odpowiedzi" score={8} />
+	<Score field="Długość odpowiedzi" score={feedback.answerLength} />
 	{@render scoreDivider()}
 
-	<Score field="Naturalność" score={7} />
+	<Score field="Naturalność" score={feedback.naturalness} />
 </div>
 
 <button
