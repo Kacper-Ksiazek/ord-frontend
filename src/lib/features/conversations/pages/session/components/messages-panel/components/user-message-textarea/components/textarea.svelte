@@ -113,21 +113,9 @@
 		background: rgb(148 163 184); /* gray-400 */
 	}
 
-	.dark .custom-scrollbar::-webkit-scrollbar-thumb {
-		background: rgb(71 85 105); /* slate-600 */
-	}
-
-	.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-		background: rgb(100 116 139); /* slate-500 */
-	}
-
 	/* Firefox */
 	.custom-scrollbar {
 		scrollbar-width: thin;
 		scrollbar-color: rgb(203 213 225) transparent;
-	}
-
-	.dark .custom-scrollbar {
-		scrollbar-color: rgb(71 85 105) transparent;
 	}
 </style>

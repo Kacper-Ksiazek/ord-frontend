@@ -9,8 +9,6 @@ export type SidepanelContext = {
 export const [getSidepanelContext, setSidepanelContext] = createContext<SidepanelContext>();
 
 export function createSidepanelContext(latestFeedback?: ConversationUserMessageFeedbackDTO | null) {
-	console.log('latestFeedback', latestFeedback);
-
 	const context: SidepanelContext = $state(
 		latestFeedback
 			? {

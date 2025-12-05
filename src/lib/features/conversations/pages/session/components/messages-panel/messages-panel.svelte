@@ -8,8 +8,6 @@
 
 	const sidepanelContext = getSidepanelContext();
 	const messagesContext = getMessagesContext();
-
-	$inspect(sidepanelContext);
 </script>
 
 <ContentCard
