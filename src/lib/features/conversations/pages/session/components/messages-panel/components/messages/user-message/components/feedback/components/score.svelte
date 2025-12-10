@@ -33,5 +33,5 @@
 >
 	<div class={cn('w-5 h-5 bg-slate-300 rounded-sm', backgroundColor)}></div>
 	<span>{field}: </span>
-	<strong class={cn('font-bold text-lg')}>{score}/10</strong>
+	<strong class={cn('font-bold text-sm')}>{score}/10</strong>
 </span>

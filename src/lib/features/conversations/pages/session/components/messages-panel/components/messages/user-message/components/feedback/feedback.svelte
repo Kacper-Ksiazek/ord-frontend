@@ -23,21 +23,14 @@
 	}
 </script>
 
-<div class="flex gap-3 text-sm items-center">
-	{#snippet scoreDivider()}
-		<span class="text-sm text-gray-300">-</span>
-	{/snippet}
-
+<div class="flex gap-4 text-sm items-center">
 	<Score field="Gramatyka" score={feedback.grammar} />
-	{@render scoreDivider()}
 
 	<Score field="Słownictwo" score={feedback.vocabulary} />
-	{@render scoreDivider()}
-
-	<Score field="Długość odpowiedzi" score={feedback.answerLength} />
-	{@render scoreDivider()}
 
 	<Score field="Naturalność" score={feedback.naturalness} />
+
+	<Score field="Długość" score={feedback.answerLength} />
 </div>
 
 <button
@@ -49,6 +42,6 @@
 	)}
 	onclick={handleClick}
 >
-	<span class="text-sm">Zobacz szczegóły</span>
+	<span class="text-sm">Więcej</span>
 	<ChevronRightOutline class="w-6 h-6" />
 </button>
