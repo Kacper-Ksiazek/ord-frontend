@@ -17,6 +17,8 @@
 	import VocabularyEnrichmentCard from './components/vocabulary-enrichment-card.svelte';
 	import AlternativeExpressionsCard from './components/alternative-expressions-card.svelte';
 	import CulturalNoteCard from './components/cultural-note-card.svelte';
+	import { SIDEPANEL_WIDTH } from '../constants';
+	import { fade } from 'svelte/transition';
 
 	const sidepanelContext = getSidepanelContext();
 
@@ -32,20 +34,33 @@
 
 <ContentCard
 	class={cn(
-		'sticky top-[20px] flex flex-col h-[calc(100vh-82px)]',
-		'bg-white dark:bg-gray-800',
-		sidepanelContext.isOpened && 'w-[30%]', //
-		!sidepanelContext.isOpened && 'w-0 overflow-hidden scale-x-0 hidden'
+		'sticky top-[20px] flex flex-col h-[calc(100vh-82px)] transition-transform duration-300 origin-right',
+		'bg-white dark:bg-gray-800 transition-[width] overflow-hidden p-0!'
 	)}
+	style={sidepanelContext.isOpened ? `width: ${SIDEPANEL_WIDTH}px` : 'width: 0px'}
 >
+	{#if !sidepanelContext.isOpened}
+		<div
+			class="absolute top-0 left-0 w-full h-full cursor-pointer bg-white"
+			transition:fade={{ duration: 100 }}
+		></div>
+	{/if}
+
 	<div
 		class={cn(
-			'flex-1 overflow-y-auto min-h-0 p-4', // min-h-0 allows flex child to shrink below content size
+			'flex-1 overflow-y-auto min-h-0 p-8', // min-h-0 allows flex child to shrink below content size
 			'bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100'
 		)}
 	>
 		{#if feedback}
 			<div class="mb-4">
+				<button
+					class="text-sm text-gray-600 dark:text-gray-400"
+					onclick={() => (sidepanelContext.isOpened = false)}
+				>
+					Back
+				</button>
+
 				<h2 class="text-xl font-bold mb-2 dark:text-gray-100">Feedback Details</h2>
 				<p class="text-sm text-gray-600 dark:text-gray-400">
 					Review your message feedback and suggestions
