@@ -20,14 +20,14 @@
 	wrapperClass="gap-4 grid grid-cols-[48px_1fr] self-start"
 	messageClass={cn(
 		isStillGenerating && 'generation-in-progress', //
-		!isStillGenerating && 'bg-slate-100'
+		!isStillGenerating && 'bg-white'
 	)}
 >
 	<div class="w-12 h-12">
 		<AiInterlocutorAvatar
 			avatarId={interlocutor.avatarId as ConversationAIInterlocutorAvatarId}
 			size="fullsize"
-			class="rounded-full mt-4 shadow-sm"
+			class="rounded-full mt-4 shadow-md"
 		/>
 	</div>
 

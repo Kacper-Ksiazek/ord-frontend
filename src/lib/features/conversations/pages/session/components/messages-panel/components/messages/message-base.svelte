@@ -15,7 +15,7 @@
 
 <div
 	class={cn(
-		'max-w-[80%] w-full text-lg', //
+		'max-w-[80%] w-full text-lg text-md', //
 		wrapperClass
 	)}
 	transition:fade={{ duration: 150 }}

@@ -14,7 +14,7 @@
 
 <MessageBase
 	wrapperClass="self-end flex flex-col-reverse items-end w-full"
-	messageClass={cn('bg-primary-400 text-gray-50 w-full')}
+	messageClass={cn('bg-gray-500 text-gray-50 w-full')}
 >
 	{#snippet content()}
 		<div>
