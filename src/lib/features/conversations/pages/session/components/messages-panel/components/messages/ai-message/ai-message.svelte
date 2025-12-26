@@ -16,13 +16,7 @@
 	const { interlocutor } = getConversationContext();
 </script>
 
-<MessageBase
-	wrapperClass="gap-4 grid grid-cols-[48px_1fr] self-start"
-	messageClass={cn(
-		isStillGenerating && 'generation-in-progress', //
-		!isStillGenerating && 'bg-white'
-	)}
->
+<div class="flex gap-4">
 	<div class="w-12 h-12">
 		<AiInterlocutorAvatar
 			avatarId={interlocutor.avatarId as ConversationAIInterlocutorAvatarId}
@@ -31,13 +25,20 @@
 		/>
 	</div>
 
-	{#snippet content()}
-		{#if message}
-			<p>
-				{message}
-			</p>
-		{:else}
-			<TextWithThreeDotsAnimation text="Generowanie odpowiedzi" />
-		{/if}
-	{/snippet}
-</MessageBase>
+	<MessageBase
+		messageClass={cn(
+			isStillGenerating && 'generation-in-progress', //
+			!isStillGenerating && 'bg-gray-50 text-gray-600'
+		)}
+	>
+		{#snippet content()}
+			{#if message}
+				<p>
+					{message}
+				</p>
+			{:else}
+				<TextWithThreeDotsAnimation text="Generowanie odpowiedzi" />
+			{/if}
+		{/snippet}
+	</MessageBase>
+</div>

@@ -1,7 +1,6 @@
 <script lang="ts">
-	import ContentCard from '$lib/components/utils/content-card.svelte';
 	import { cn } from 'flowbite-svelte';
-	import { AiMessage, InterlocutorDetails, StickyActionButton, UserMessage } from './components';
+	import { AiMessage, InterlocutorDetails, TopActionButton, UserMessage } from './components';
 	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
 	import { getMessagesContext } from '../../contexts/messages-context.svelte';
 	import { UserMessageTextarea } from './components/user-message-textarea';
@@ -18,7 +17,7 @@
 	style={sidepanelContext.isOpened ? `width: calc(100% - ${SIDEPANEL_WIDTH}px)` : 'width: 100%'}
 >
 	<!-- Back Button -->
-	<StickyActionButton
+	<TopActionButton
 		icon={ChevronLeftOutline}
 		onclick={() => goto('/conversations')}
 		ariaLabel="Go back"
@@ -27,7 +26,7 @@
 	/>
 
 	<!-- Layout Toggle Button -->
-	<StickyActionButton
+	<TopActionButton
 		icon={sidepanelContext.isOpened ? WindowSolid : ColumnSolid}
 		onclick={() => (sidepanelContext.isOpened = !sidepanelContext.isOpened)}
 		ariaLabel={sidepanelContext.isOpened ? 'Switch to full width layout' : 'Switch to split layout'}

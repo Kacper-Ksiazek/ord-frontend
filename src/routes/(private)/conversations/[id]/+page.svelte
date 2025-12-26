@@ -7,11 +7,8 @@
 	import { onMount } from 'svelte';
 	import isEmpty from 'lodash/isEmpty';
 	import { getMessagesContext } from '$lib/features/conversations/pages/session/contexts/messages-context.svelte';
-	import { getSidepanelContext } from '$lib/features/conversations/pages/session/contexts/sidepanel-context.svelte';
 	import { initializeConversationByAI } from '$lib/api-client/ongoing-conversation/sse/initialize-conversation-by-ai';
 	import { page } from '$app/state';
-
-	const sidepanelContext = getSidepanelContext();
 
 	onMount(() => {
 		const messagesContext = getMessagesContext();
@@ -35,7 +32,7 @@
 	});
 </script>
 
-<PageContentContainer layout="superwide">
+<PageContentContainer layout="superwide" contentClass="gap-0">
 	<MessagesPanel />
 
 	<FeedbackPanel />

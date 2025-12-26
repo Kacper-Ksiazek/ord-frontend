@@ -19,7 +19,7 @@
 
 	<span class="border-b border-gray-200 dark:border-gray-700 w-[128px] my-2"></span>
 
-	<span class="text-gray-500 dark:text-gray-400 text-sm">
+	<span class="text-gray-500 dark:text-gray-400 text-sm text-center">
 		<span>{conversation.topic}</span>
 	</span>
 </div>

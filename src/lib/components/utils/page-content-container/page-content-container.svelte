@@ -1,16 +1,22 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
 	import type { Snippet } from 'svelte';
-	import ContentCard from '../content-card.svelte';
 
 	interface Props {
 		class?: string;
 		layout?: 'narrow' | 'wide' | 'superwide';
+		contentClass?: string;
 		children: Snippet;
 		header?: Snippet;
 	}
 
-	const { class: customClass = '', layout = 'narrow', children, header }: Props = $props();
+	const {
+		class: customClass = '',
+		layout = 'narrow',
+		contentClass = '',
+		children,
+		header
+	}: Props = $props();
 
 	const maxWidth = $derived(
 		layout === 'superwide'
@@ -32,7 +38,12 @@
 		{@render header?.()}
 	{/if}
 
-	<div class={cn('flex-1 flex gap-6')}>
+	<div
+		class={cn(
+			'flex-1 flex gap-6', //
+			contentClass
+		)}
+	>
 		{@render children()}
 	</div>
 </section>

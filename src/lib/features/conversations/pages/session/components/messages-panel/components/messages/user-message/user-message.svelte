@@ -12,10 +12,7 @@
 	const { message }: UserMessageProps = $props();
 </script>
 
-<MessageBase
-	wrapperClass="self-end flex flex-col-reverse items-end w-full"
-	messageClass={cn('bg-gray-500 text-gray-50 w-full')}
->
+<MessageBase wrapperClass="self-end " messageClass={cn('bg-slate-200 text-gray-700 w-full')}>
 	{#snippet content()}
 		<div>
 			<p>
@@ -24,13 +21,15 @@
 		</div>
 	{/snippet}
 
-	<div class="flex gap-4 items-center text-md mt-2 justify-between w-full">
-		{#if message.feedback}
-			<Feedback feedback={message.feedback} />
-		{:else}
-			<div class="w-full h-[32px] generation-in-progress px-4">
-				<TextWithThreeDotsAnimation text="Ocenianie" />
-			</div>
-		{/if}
-	</div>
+	{#snippet footer()}
+		<div class="flex gap-4 items-center text-md mt-2 justify-between w-full">
+			{#if message.feedback}
+				<Feedback feedback={message.feedback} />
+			{:else}
+				<div class="w-full h-[32px] generation-in-progress px-4">
+					<TextWithThreeDotsAnimation text="Ocenianie" />
+				</div>
+			{/if}
+		</div>
+	{/snippet}
 </MessageBase>
