@@ -90,7 +90,11 @@
 	}
 </script>
 
-<div class={cn('flex items-end gap-2 p-3 bg-white dark:bg-slate-800 rounded-2xl')}>
+<div
+	class={cn(
+		'flex items-end gap-2 p-3 bg-white dark:bg-slate-800 rounded-2xl w-full max-w-[1200px] mx-auto'
+	)}
+>
 	<Textarea
 		bind:this={textareaComponent}
 		bind:value={message}

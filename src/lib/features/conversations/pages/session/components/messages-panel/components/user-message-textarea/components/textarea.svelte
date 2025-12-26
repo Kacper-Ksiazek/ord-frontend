@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
-	import { onMount } from 'svelte';
 
 	let {
 		value = $bindable(''),
@@ -13,10 +12,6 @@
 	} = $props();
 
 	let textareaElement: HTMLTextAreaElement | undefined = $state();
-
-	onMount(() => {
-		textareaElement?.scrollIntoView();
-	});
 
 	const MIN_ROWS = 3;
 	const MAX_ROWS = 10;
@@ -82,13 +77,13 @@
 	rows={MIN_ROWS}
 	class={cn(
 		'w-full resize-none border-none outline-none rounded-lg px-3 py-2',
-		'bg-gray-50 dark:bg-slate-700',
-		'hover:bg-gray-100 dark:hover:bg-slate-600',
-		'focus:bg-gray-100 dark:focus:bg-slate-600',
+		'bg-transparent',
+		'hover:bg-transparent',
+		'focus:bg-transparent',
 		'focus:outline-none focus:ring-0 focus:border-none',
 		'transition-colors duration-200',
 		'text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500',
-		'text-lg leading-6 custom-scrollbar'
+		'text-sm leading-6 custom-scrollbar'
 	)}
 	style="min-height: {LINE_HEIGHT}px; max-height: {MAX_ROWS * LINE_HEIGHT}px;"
 ></textarea>

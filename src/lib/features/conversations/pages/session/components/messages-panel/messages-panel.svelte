@@ -13,8 +13,8 @@
 	const messagesContext = getMessagesContext();
 </script>
 
-<ContentCard
-	class={cn('bg-transparent transition-[width] duration-300 origin-left relative pt-0')}
+<div
+	class={cn('bg-transparent transition-[width] duration-300 origin-left relative p-0')}
 	style={sidepanelContext.isOpened ? `width: calc(100% - ${SIDEPANEL_WIDTH}px)` : 'width: 100%'}
 >
 	<!-- Back Button -->
@@ -37,29 +37,35 @@
 
 	<div
 		class={cn(
-			'flex flex-col gap-16 mx-auto h-full', //
-			!sidepanelContext.isOpened && 'max-w-[1540px]'
+			'flex flex-col mx-auto h-full', //
+			!sidepanelContext.isOpened && 'w-full'
 		)}
 	>
-		<InterlocutorDetails />
+		<!-- Scrollable messages area -->
+		<div class="flex-1 overflow-y-auto flex flex-col gap-16 px-4 py-8 relative">
+			<div
+				class={cn(
+					'flex flex-col gap-16 max-w-[1200px] w-full', //
+					'absolute top-0 left-1/2 -translate-x-1/2'
+				)}
+			>
+				<InterlocutorDetails />
+				{#each messagesContext.messages as message, index}
+					{#if message.sender === 'AI'}
+						{@const isLastMessage = index === messagesContext.messages.length - 1}
+						<AiMessage
+							message={message.content}
+							isStillGenerating={isLastMessage && messagesContext.isGenerating}
+						/>
+					{/if}
+					{#if message.sender === 'USER'}
+						<UserMessage {message} />
+					{/if}
+				{/each}
+			</div>
+		</div>
 
-		{#each messagesContext.messages as message, index}
-			{#if message.sender === 'AI'}
-				{@const isLastMessage = index === messagesContext.messages.length - 1}
-
-				<AiMessage
-					message={message.content}
-					isStillGenerating={isLastMessage && messagesContext.isGenerating}
-				/>
-			{/if}
-
-			{#if message.sender === 'USER'}
-				<UserMessage {message} />
-			{/if}
-		{/each}
-
-		<span class="grow"></span>
-
+		<!-- Fixed textarea at bottom -->
 		<UserMessageTextarea />
 	</div>
-</ContentCard>
+</div>

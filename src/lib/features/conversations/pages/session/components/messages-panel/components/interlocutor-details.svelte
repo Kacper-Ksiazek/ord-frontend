@@ -7,7 +7,7 @@
 </script>
 
 <div class="flex flex-col items-center mb-8">
-	<div class="w-[144px] aspect-square">
+	<div class="w-[144px] aspect-square mb-2">
 		<AiInterlocutorAvatar
 			avatarId={conversation.interlocutor.avatarId as ConversationAIInterlocutorAvatarId}
 			size="fullsize"
@@ -15,11 +15,11 @@
 		/>
 	</div>
 
-	<h3 class="text-2xl font-bold">{conversation.interlocutor.name}</h3>
+	<h3 class="text-xl font-bold">{conversation.interlocutor.name}</h3>
 
 	<span class="border-b border-gray-200 dark:border-gray-700 w-[128px] my-2"></span>
 
-	<span class="text-gray-500 dark:text-gray-400">
+	<span class="text-gray-500 dark:text-gray-400 text-sm">
 		<span>{conversation.topic}</span>
 	</span>
 </div>

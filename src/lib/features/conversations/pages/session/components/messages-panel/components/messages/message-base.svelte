@@ -15,7 +15,7 @@
 
 <div
 	class={cn(
-		'max-w-[80%] w-full text-lg text-md', //
+		'max-w-[80%] w-full text-sm', //
 		wrapperClass
 	)}
 	transition:fade={{ duration: 150 }}
@@ -25,7 +25,7 @@
 	{#if content}
 		<div
 			class={cn(
-				'p-4 rounded-lg leading-relaxed tracking-wide min-w-[84px] min-h-[84px] bg-slate-100', //
+				'px-4 py-2 rounded-lg leading-relaxed tracking-wide min-w-[84px] min-h-[84px] bg-slate-100', //
 				messageClass
 			)}
 		>

@@ -31,7 +31,7 @@
 		position === 'left' ? 'left-0 mr-auto' : 'right-0 ml-auto',
 		customClass
 	)}
-	{ariaLabel}
+	aria-label={ariaLabel}
 	{title}
 >
 	<Icon class="w-5 h-5" />

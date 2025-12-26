@@ -23,7 +23,7 @@
 
 <section
 	class={cn(
-		'w-full flex-1 mx-auto my-8 flex flex-col gap-6', //
+		'w-full flex-1 mx-auto flex flex-col gap-6', //
 		maxWidth,
 		customClass
 	)}
