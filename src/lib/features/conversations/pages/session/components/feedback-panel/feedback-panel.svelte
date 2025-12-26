@@ -1,14 +1,7 @@
 <script lang="ts">
 	import ContentCard from '$lib/components/utils/content-card.svelte';
 	import { Accordion, AccordionItem, Badge, cn } from 'flowbite-svelte';
-	import {
-		CheckCircleSolid,
-		ExclamationCircleSolid,
-		BookOpenSolid,
-		MessageDotsSolid,
-		GlobeSolid,
-		StarSolid
-	} from 'flowbite-svelte-icons';
+	import { CheckCircleSolid } from 'flowbite-svelte-icons';
 	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
 	import AccordionSectionHeader from './components/accordion-section-header.svelte';
 	import ScoreItem from './components/score-item.svelte';
@@ -71,12 +64,7 @@
 				<!-- Scores Section -->
 				<AccordionItem open={true}>
 					{#snippet header()}
-						<AccordionSectionHeader
-							icon={StarSolid}
-							title="Scores"
-							badgeCount={scoresCount}
-							criteria="SCORES"
-						/>
+						<AccordionSectionHeader title="Scores" badgeCount={scoresCount} criteria="SCORES" />
 					{/snippet}
 
 					<div class="space-y-3 pt-2">
@@ -108,7 +96,6 @@
 					<AccordionItem>
 						{#snippet header()}
 							<AccordionSectionHeader
-								icon={ExclamationCircleSolid}
 								title="Mistakes"
 								badgeCount={feedback.mistakes.length}
 								criteria="MISTAKES"
@@ -127,7 +114,6 @@
 					<AccordionItem>
 						{#snippet header()}
 							<AccordionSectionHeader
-								icon={CheckCircleSolid}
 								title="Strengths"
 								badgeCount={feedback.strengthsIdentified.length}
 								criteria="STRENGTHS"
@@ -146,7 +132,6 @@
 					<AccordionItem>
 						{#snippet header()}
 							<AccordionSectionHeader
-								icon={BookOpenSolid}
 								title="Vocabulary Enrichment"
 								badgeCount={feedback.vocabularyEnrichment.length}
 								criteria="VOCABULARY_ENRICHMENT"
@@ -165,7 +150,6 @@
 					<AccordionItem>
 						{#snippet header()}
 							<AccordionSectionHeader
-								icon={MessageDotsSolid}
 								title="Alternative Expressions"
 								badgeCount={feedback.alternativeExpressions.length}
 								criteria="ALTERNATIVE_EXPRESSIONS"
@@ -183,12 +167,7 @@
 				{#if feedback.culturalNote}
 					<AccordionItem>
 						{#snippet header()}
-							<AccordionSectionHeader
-								icon={GlobeSolid}
-								title="Cultural Note"
-								badgeCount={1}
-								criteria="CULTURAL_NOTE"
-							/>
+							<AccordionSectionHeader title="Cultural Note" badgeCount={1} criteria="CULTURAL_NOTE" />
 						{/snippet}
 						<div class="pt-2">
 							<CulturalNoteCard note={feedback.culturalNote} />
