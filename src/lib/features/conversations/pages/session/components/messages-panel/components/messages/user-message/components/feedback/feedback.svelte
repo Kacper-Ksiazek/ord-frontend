@@ -1,8 +1,9 @@
 <script lang="ts">
 	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
-	import { cn } from 'flowbite-svelte';
+	import { cn, Tooltip } from 'flowbite-svelte';
 	import Score from './components/score.svelte';
-	import { ChevronRightOutline } from 'flowbite-svelte-icons';
+	import Metric from './components/metric.svelte';
+	import { ArrowRightOutline, CloseOutline, WandMagicSparklesOutline } from 'flowbite-svelte-icons';
 	import { getSidepanelContext } from '../../../../../../../contexts/sidepanel-context.svelte';
 
 	interface FeedbackProps {
@@ -18,30 +19,92 @@
 	);
 
 	function handleClick() {
+		if (isSelected) {
+			sidepanelContext.isOpened = false;
+			sidepanelContext.feedbackPreview = null;
+			return;
+		}
+
 		sidepanelContext.isOpened = true;
 		sidepanelContext.feedbackPreview = feedback;
 	}
+
+	const metrics = $derived.by(() => {
+		return {
+			mistakes: feedback.mistakes?.length || 0,
+			strengths: feedback.strengthsIdentified?.length || 0,
+			vocabularyEnrichment: feedback.vocabularyEnrichment?.length || 0,
+			alternativeExpressions: feedback.alternativeExpressions?.length || 0,
+			culturalNote: feedback.culturalNote ? 1 : 0
+		};
+	});
+
+	const tooltipButtonId = 'feedback-panel-toggle-button';
 </script>
 
-<div class="flex gap-4 text-sm items-center">
-	<Score field="Gramatyka" score={feedback.grammar} />
-
-	<Score field="Słownictwo" score={feedback.vocabulary} />
-
-	<Score field="Naturalność" score={feedback.naturalness} />
-
-	<Score field="Długość" score={feedback.answerLength} />
-</div>
-
-<button
+<div
 	class={cn(
-		'text-sm px-3 py-1 rounded-md flex gap-2 items-center transition-colors',
-		isSelected
-			? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 border-2 border-primary-300 dark:border-primary-700'
-			: 'bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600'
+		'flex flex-col gap-2  px-4 py-2 rounded-md w-full relative transition-all',
+		isSelected ? 'bg-primary-200 ml-2' : 'bg-primary-100 ml-10'
 	)}
-	onclick={handleClick}
 >
-	<span class="text-sm">Więcej</span>
-	<ChevronRightOutline class="w-6 h-6" />
-</button>
+	<button
+		onclick={handleClick}
+		class={cn(
+			'absolute top-3 right-3',
+			'flex items-center p-1 rounded-md text-primary-700 transition-transform', //
+			'hover:scale-120'
+		)}
+	>
+		{#if isSelected}
+			<CloseOutline class="transition-all duration-300 w-6 h-6" />
+		{:else}
+			<ArrowRightOutline class="transition-all duration-300 w-6 h-6" />
+		{/if}
+	</button>
+	<Tooltip placement="left" trigger="hover">
+		{isSelected ? 'Zamknij podgląd' : 'Otwórz podgląd'}
+	</Tooltip>
+
+	<div class="flex text-primary-700">
+		<WandMagicSparklesOutline />
+		<span class="text-sm font-medium text-primary-700">Ocena AI</span>
+	</div>
+
+	<div class="flex gap-2 flex-wrap items-center">
+		<Score field="Gramatyka" score={feedback.grammar} />
+
+		<Score field="Słownictwo" score={feedback.vocabulary} />
+
+		<Score field="Naturalność" score={feedback.naturalness} />
+
+		<Score field="Długość" score={feedback.answerLength} />
+	</div>
+
+	<p class="text-gray-600 dark:text-gray-400 leading-[1.8] tracking-wide">
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
+		labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+		nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+		esse cillum dolore eu fugiat nulla pariatur.
+	</p>
+
+	<div class="flex gap-2 flex-wrap items-center">
+		<p class="font-bold text-gray-600 dark:text-gray-400 leading-[1.8] tracking-wide">
+			Informacje zwrotne:
+		</p>
+
+		<Metric criteria="MISTAKES" count={metrics.mistakes} label="Błędy" />
+		<Metric criteria="STRENGTHS" count={metrics.strengths} label="Mocne strony" />
+		<Metric
+			criteria="VOCABULARY_ENRICHMENT"
+			count={metrics.vocabularyEnrichment}
+			label="Słownictwo"
+		/>
+		<Metric
+			criteria="ALTERNATIVE_EXPRESSIONS"
+			count={metrics.alternativeExpressions}
+			label="Alternatywy"
+		/>
+		<Metric criteria="CULTURAL_NOTE" count={metrics.culturalNote} label="Uwaga kulturowa" />
+	</div>
+</div>
