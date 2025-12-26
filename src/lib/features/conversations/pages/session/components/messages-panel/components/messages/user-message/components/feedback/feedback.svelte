@@ -1,10 +1,11 @@
 <script lang="ts">
 	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
-	import { cn, Tooltip } from 'flowbite-svelte';
+	import { cn } from 'flowbite-svelte';
 	import Score from './components/score.svelte';
 	import Metric from './components/metric.svelte';
-	import { ArrowRightOutline, CloseOutline, WandMagicSparklesOutline } from 'flowbite-svelte-icons';
-	import { getSidepanelContext } from '../../../../../../../contexts/sidepanel-context.svelte';
+	import { WandMagicSparklesOutline } from 'flowbite-svelte-icons';
+	import { getSidepanelContext } from '$lib/features/conversations/pages/session/contexts/sidepanel-context.svelte';
+	import ToggleSidepanelButton from './components/toggle-sidepanel-button.svelte';
 
 	interface FeedbackProps {
 		feedback: ConversationUserMessageFeedbackDTO;
@@ -15,19 +16,8 @@
 	const sidepanelContext = getSidepanelContext();
 
 	const isSelected = $derived(
-		sidepanelContext.isOpened && sidepanelContext.feedbackPreview === feedback
+		sidepanelContext.isOpened && sidepanelContext.feedbackPreview?.id === feedback.id
 	);
-
-	function handleClick() {
-		if (isSelected) {
-			sidepanelContext.isOpened = false;
-			sidepanelContext.feedbackPreview = null;
-			return;
-		}
-
-		sidepanelContext.isOpened = true;
-		sidepanelContext.feedbackPreview = feedback;
-	}
 
 	const metrics = $derived.by(() => {
 		return {
@@ -38,8 +28,6 @@
 			culturalNote: feedback.culturalNote ? 1 : 0
 		};
 	});
-
-	const tooltipButtonId = 'feedback-panel-toggle-button';
 </script>
 
 <div
@@ -48,23 +36,7 @@
 		isSelected ? 'bg-primary-200 ml-2' : 'bg-primary-100 ml-10'
 	)}
 >
-	<button
-		onclick={handleClick}
-		class={cn(
-			'absolute top-3 right-3',
-			'flex items-center p-1 rounded-md text-primary-700 transition-transform', //
-			'hover:scale-120'
-		)}
-	>
-		{#if isSelected}
-			<CloseOutline class="transition-all duration-300 w-6 h-6" />
-		{:else}
-			<ArrowRightOutline class="transition-all duration-300 w-6 h-6" />
-		{/if}
-	</button>
-	<Tooltip placement="left" trigger="hover">
-		{isSelected ? 'Zamknij podgląd' : 'Otwórz podgląd'}
-	</Tooltip>
+	<ToggleSidepanelButton {isSelected} {feedback} />
 
 	<div class="flex text-primary-700">
 		<WandMagicSparklesOutline />
