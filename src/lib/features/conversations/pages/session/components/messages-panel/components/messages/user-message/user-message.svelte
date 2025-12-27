@@ -3,6 +3,7 @@
 	import MessageBase from '../message-base.svelte';
 	import type { CompactConversationUserMessage } from '$lib/types/conversation/domain/conversation-message';
 	import { Feedback } from './components';
+	import { highlightFeedbackContent } from './utils/highlight-feedback';
 	// import AuthUserAvatar from '$lib/components/auth-user-avatar.svelte';
 
 	interface UserMessageProps {
@@ -10,6 +11,10 @@
 	}
 
 	const { message }: UserMessageProps = $props();
+
+	const highlightedContent = $derived(
+		message.feedback ? highlightFeedbackContent(message.content, message.feedback) : message.content
+	);
 </script>
 
 <MessageBase messageClass={cn('bg-slate-200 text-gray-700 w-full')} orientation="right">
@@ -19,7 +24,7 @@
 
 	{#snippet content()}
 		<p>
-			{message.content}
+			{@html highlightedContent}
 		</p>
 	{/snippet}
 
