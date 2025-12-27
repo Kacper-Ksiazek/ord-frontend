@@ -33,7 +33,7 @@
 <div
 	class={cn(
 		'flex flex-col gap-2  px-4 py-2 rounded-md w-full relative transition-all',
-		isSelected ? 'bg-primary-200 ml-2' : 'bg-primary-100 ml-10'
+		isSelected ? 'bg-primary-200' : 'bg-primary-100 ml-8'
 	)}
 >
 	<ToggleSidepanelButton {isSelected} {feedback} />
@@ -61,10 +61,6 @@
 	</p>
 
 	<div class="flex gap-2 flex-wrap items-center">
-		<p class="font-bold text-gray-600 dark:text-gray-400 leading-[1.8] tracking-wide">
-			Informacje zwrotne:
-		</p>
-
 		<Metric criteria="MISTAKES" count={metrics.mistakes} label="Błędy" />
 		<Metric criteria="STRENGTHS" count={metrics.strengths} label="Mocne strony" />
 		<Metric
