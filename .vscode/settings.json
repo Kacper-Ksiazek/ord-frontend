@@ -24,6 +24,6 @@
 	"prettier.resolveGlobalModules": true,
 	"prettier.prettierPath": "./node_modules/prettier",
 	"eslint.enable": true,
-	"cSpell.words": ["Paraglide"],
+	"cSpell.words": ["Paraglide", "sidepanpel"],
 	"svg.preview.background": "editor"
 }
