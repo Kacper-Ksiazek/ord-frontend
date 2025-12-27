@@ -12,12 +12,12 @@
 		MoonSolid,
 		SunSolid
 	} from 'flowbite-svelte-icons';
-	import gravatarUrl from 'gravatar-url';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { authStore } from '$lib/stores/auth.svelte';
 	import { themeStore } from '$lib/stores/theme.svelte';
 	import AppLogo from '../app-logo/app-logo.svelte';
+	import AuthUserAvatar from '../auth-user-avatar.svelte';
 	import Divider from '../utils/divider.svelte';
 	import SidebarLearningLanguage from './components/sidebar-learning-language.svelte';
 	import SidebarLink from './components/sidebar-link.svelte';
@@ -84,16 +84,7 @@
 	<!-- User Card Section -->
 	<div class="px-3 py-2">
 		<div class="flex items-center gap-2">
-			{#if authStore.user}
-				<img
-					src={gravatarUrl(authStore.user.email, {
-						size: 40,
-						default: 'identicon'
-					})}
-					alt="User avatar"
-					class="w-10 h-10 rounded-full shrink-0"
-				/>
-			{/if}
+			<AuthUserAvatar size={40} />
 			{#if sidebarStore.isExpanded && authStore.user}
 				<div class="flex-1 min-w-0" in:fade={{ delay: 150 }}>
 					<p class="text-sm font-semibold text-white truncate">
