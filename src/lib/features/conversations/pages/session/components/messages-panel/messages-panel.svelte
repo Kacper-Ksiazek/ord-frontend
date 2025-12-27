@@ -36,7 +36,7 @@
 
 	<div
 		class={cn(
-			'flex flex-col mx-auto h-full', //
+			'flex flex-col mx-auto h-full shrink-0', //
 			!sidepanelContext.isOpened && 'w-full'
 		)}
 	>
@@ -49,6 +49,7 @@
 				)}
 			>
 				<InterlocutorDetails />
+
 				{#each messagesContext.messages as message, index}
 					{#if message.sender === 'AI'}
 						{@const isLastMessage = index === messagesContext.messages.length - 1}

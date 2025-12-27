@@ -13,17 +13,17 @@
 
 <Button
 	class={cn(
-		'p-3 rounded-xl',
-		!disabled && !pending && 'bg-primary-600 hover:bg-primary-700',
-		disabled && 'bg-gray-300 cursor-not-allowed',
-		pending && 'bg-gray-400 cursor-wait'
+		'p-3 rounded-xl bg-transparent transition-all duration-200',
+		disabled && 'cursor-not-allowed opacity-30',
+		pending && 'bg-gray-400 cursor-wait',
+		'hover:bg-gray-100 dark:hover:bg-gray-800'
 	)}
 	{disabled}
 	{onclick}
 >
 	{#if pending}
-		<Spinner size="4" class="fill-white" />
+		<Spinner size="4" class="fill-gray-700 dark:fill-gray-300" />
 	{:else}
-		<PaperPlaneSolid class="w-5 h-5 text-white" />
+		<PaperPlaneSolid class="w-5 h-5 text-gray-700 dark:text-gray-300" />
 	{/if}
 </Button>

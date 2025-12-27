@@ -76,7 +76,7 @@
 	{placeholder}
 	rows={MIN_ROWS}
 	class={cn(
-		'w-full resize-none border-none outline-none rounded-lg px-3 py-2',
+		'w-full resize-none border-none outline-none rounded-lg px-3 py-2 leading-[1.8] tracking-wide',
 		'bg-transparent',
 		'hover:bg-transparent',
 		'focus:bg-transparent',

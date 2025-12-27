@@ -27,7 +27,7 @@
 
 <ContentCard
 	class={cn(
-		'flex flex-col transition-transform duration-300 origin-right h-full',
+		'flex flex-col transition-transform duration-300 origin-right h-full relative',
 		'bg-white dark:bg-gray-800 transition-[width] overflow-hidden p-0!'
 	)}
 	style={sidepanelContext.isOpened ? `width: ${SIDEPANEL_WIDTH}px` : 'width: 0px'}
