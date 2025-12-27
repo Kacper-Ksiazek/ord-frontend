@@ -28,9 +28,11 @@
 		orientation === 'right' ? 'flex-row-reverse self-end' : 'flex-row self-start'
 	)}
 >
-	<div class="mt-4">
-		{@render avatar?.()}
-	</div>
+	{#if avatar}
+		<div class="mt-4">
+			{@render avatar?.()}
+		</div>
+	{/if}
 
 	<div
 		class={cn(
