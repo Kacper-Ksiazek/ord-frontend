@@ -3,7 +3,6 @@
 	import MessageBase from '../message-base.svelte';
 	import type { CompactConversationUserMessage } from '$lib/types/conversation/domain/conversation-message';
 	import { Feedback } from './components';
-	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
 	// import AuthUserAvatar from '$lib/components/auth-user-avatar.svelte';
 
 	interface UserMessageProps {
