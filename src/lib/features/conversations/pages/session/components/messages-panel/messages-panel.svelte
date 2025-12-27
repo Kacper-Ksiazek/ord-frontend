@@ -7,6 +7,7 @@
 	import { SIDEPANEL_WIDTH } from '../constants';
 	import { WindowSolid, ColumnSolid, ChevronLeftOutline } from 'flowbite-svelte-icons';
 	import { goto } from '$app/navigation';
+	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
 
 	const sidepanelContext = getSidepanelContext();
 	const messagesContext = getMessagesContext();
@@ -41,29 +42,23 @@
 		)}
 	>
 		<!-- Scrollable messages area -->
-		<div class="flex-1 overflow-y-auto flex flex-col gap-16 px-4 py-8 relative">
-			<div
-				class={cn(
-					'flex flex-col gap-16 max-w-[1200px] w-full', //
-					'absolute top-0 left-1/2 -translate-x-1/2'
-				)}
-			>
-				<InterlocutorDetails />
+		<ScrollableWrapper contentClass={'max-w-[1200px] pb-8'}>
+			<InterlocutorDetails />
 
-				{#each messagesContext.messages as message, index}
-					{#if message.sender === 'AI'}
-						{@const isLastMessage = index === messagesContext.messages.length - 1}
-						<AiMessage
-							message={message.content}
-							isStillGenerating={isLastMessage && messagesContext.isGenerating}
-						/>
-					{/if}
-					{#if message.sender === 'USER'}
-						<UserMessage {message} />
-					{/if}
-				{/each}
-			</div>
-		</div>
+			{#each messagesContext.messages as message, index}
+				{#if message.sender === 'AI'}
+					{@const isLastMessage = index === messagesContext.messages.length - 1}
+					<AiMessage
+						message={message.content}
+						isStillGenerating={isLastMessage && messagesContext.isGenerating}
+					/>
+				{/if}
+
+				{#if message.sender === 'USER'}
+					<UserMessage {message} />
+				{/if}
+			{/each}
+		</ScrollableWrapper>
 
 		<!-- Fixed textarea at bottom -->
 		<UserMessageTextarea />
