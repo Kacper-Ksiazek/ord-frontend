@@ -4,7 +4,7 @@
     "": {
       "name": "ord-frontend",
       "dependencies": {
-        "@ord-api/ord-api-types": "^1.0.16",
+        "@ord-api/ord-api-types": "^1.0.24",
         "@tanstack/svelte-query": "^6.0.5",
         "axios": "^1.13.2",
         "clsx": "^2.1.1",
@@ -178,7 +178,7 @@
 
     "@neoconfetti/react": ["@neoconfetti/react@1.0.0", "", {}, "sha512-klcSooChXXOzIm+SE5IISIAn3bYzYfPjbX7D7HoqZL84oAfgREeSg5vSIaSFH+DaGzzvImTyWe1OyrJ67vik4A=="],
 
-    "@ord-api/ord-api-types": ["@ord-api/ord-api-types@1.0.16", "", {}, "sha512-zk5iD6gMQbQYULbOZIxMP+8dFDWYHxEeyE1CTtfStLA8KI1Zh35XqrzfRyNFAzBWM5k6NiTYIlbXuNX0OwstRw=="],
+    "@ord-api/ord-api-types": ["@ord-api/ord-api-types@1.0.24", "", {}, "sha512-bMuU1zFFDefYWnkKuoBFuFYwLk3ood3L5XWwf5GLhZJZHVErBfElc/4KlCf224SUTgz7++nQhGNP0f+m6bOYlA=="],
 
     "@pkgjs/parseargs": ["@pkgjs/parseargs@0.11.0", "", {}, "sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg=="],
 
