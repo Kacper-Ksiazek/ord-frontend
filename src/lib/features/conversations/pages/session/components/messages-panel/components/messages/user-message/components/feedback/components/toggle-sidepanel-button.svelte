@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
-	import { ArrowRightOutline, CloseOutline } from 'flowbite-svelte-icons';
-	import { cn, Tooltip } from 'flowbite-svelte';
+	import { ArrowRightOutline } from 'flowbite-svelte-icons';
 	import { getSidepanelContext } from '$lib/features/conversations/pages/session/contexts/sidepanel-context.svelte';
+	import size from 'lodash/size';
 
 	interface ToggleSidepanelButtonProps {
 		isSelected: boolean;
@@ -11,6 +11,22 @@
 
 	const { isSelected, feedback }: ToggleSidepanelButtonProps = $props();
 	const sidepanelContext = getSidepanelContext();
+
+	const totalCommentsCount = $derived.by(() => {
+		return (
+			size(feedback.mistakes) +
+			size(feedback.strengthsIdentified) +
+			size(feedback.vocabularyEnrichment) +
+			size(feedback.alternativeExpressions) +
+			(feedback.culturalNote ? 1 : 0)
+		);
+	});
+
+	const commentsLabel = $derived.by(() => {
+		if (totalCommentsCount === 1) return 'komentarz';
+		if (totalCommentsCount >= 2 && totalCommentsCount <= 4) return 'komentarze';
+		return 'komentarzy';
+	});
 
 	function handleClick() {
 		if (isSelected) {
@@ -26,19 +42,11 @@
 
 <button
 	onclick={handleClick}
-	class={cn(
-		'absolute top-3 right-3',
-		'flex items-center p-1 rounded-md text-primary-700 transition-transform', //
-		'hover:scale-120'
-	)}
+	class="text-primary-700 self-start text-xs mt-2 flex items-center gap-1 hover:text-primary-800 transition-colors"
 >
-	{#if isSelected}
-		<CloseOutline class="transition-all duration-300 w-6 h-6" />
-	{:else}
-		<ArrowRightOutline class="transition-all duration-300 w-6 h-6" />
-	{/if}
-</button>
+	<span>
+		Zobacz wszystkie <strong>{totalCommentsCount} {commentsLabel}</strong>
+	</span>
 
-<Tooltip placement="left" trigger="hover">
-	{isSelected ? 'Zamknij podgląd' : 'Otwórz podgląd'}
-</Tooltip>
+	<ArrowRightOutline class="w-4 h-4" />
+</button>
