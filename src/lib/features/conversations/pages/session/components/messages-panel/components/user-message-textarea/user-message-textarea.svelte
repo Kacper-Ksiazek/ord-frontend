@@ -7,8 +7,10 @@
 	import { getMessagesContext } from '../../../../contexts/messages-context.svelte';
 	import { requestAIMessage } from '$lib/api-client/ongoing-conversation/sse/request-ai-message';
 	import { createRequestFeedbackForUserMessageMutation } from '$lib/api-client/ongoing-conversation/mutations/use-request-feedback-for-user-message';
+	import { createRequestLearningTipsForAIMessageMutation } from '$lib/api-client/ongoing-conversation/mutations/use-request-learning-tips-for-ai-message';
 	import type { CompactConversationUserMessage } from '$lib/types/conversation/domain/conversation-message';
 	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
+	import type { CompactConversationAiMessage } from '$lib/types/conversation/domain/conversation-message';
 
 	let message = $state('');
 	let pending = $state(false);
@@ -19,6 +21,8 @@
 
 	const { mutateAsync: saveUserMessageMutation } = createSaveUserMessageMutation();
 	const { mutateAsync: requestAIMessageMutation } = createRequestFeedbackForUserMessageMutation();
+	const { mutateAsync: requestLearningTipsMutation } =
+		createRequestLearningTipsForAIMessageMutation();
 
 	async function saveUserMessage() {
 		if (!message.trim() || pending) return;
@@ -68,6 +72,17 @@
 				},
 				complete: () => {
 					messagesContext.isGenerating = false;
+					// Automatically fetch learning tips for the AI message
+					requestLearningTipsMutation({
+						conversationId: conversation.id
+					})
+						.then((learningTips) => {
+							(messagesContext.messages[aiMessageOrder] as CompactConversationAiMessage).learningTips =
+								learningTips;
+						})
+						.catch((error) => {
+							console.error('Failed to fetch learning tips:', error);
+						});
 				},
 				error: () => {
 					messagesContext.isGenerating = false;

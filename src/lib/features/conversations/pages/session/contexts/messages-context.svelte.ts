@@ -1,11 +1,9 @@
 import type { ConversationDTO } from '$lib/types/conversation/domain/conversation';
 import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
+import type { CompactConversationAiMessage } from '$lib/types/conversation/domain/conversation-message';
 import { createContext } from 'svelte';
 
-export type CompactConversationAiMessage = {
-	sender: 'AI';
-	content: string;
-};
+export type { CompactConversationAiMessage };
 
 export type CompactConversationUserMessage = {
 	sender: 'USER';
@@ -28,9 +26,19 @@ export function createMessagesContext(conversation: ConversationDTO) {
 	const context: MessagesContext = $state<MessagesContext>({
 		messages: conversation.messages.map((message) => {
 			if (message.sender === 'AI') {
+				// Convert ConversationAIMessageLearningTipsDTO to AIMessageLearningTips format
+				const learningTips = message.learningTips
+					? {
+							grammarTips: message.learningTips.grammarTips,
+							vocabularyTips: message.learningTips.vocabularyTips,
+							idiomTips: message.learningTips.idiomTips
+						}
+					: null;
+
 				return {
 					sender: 'AI',
-					content: message.content
+					content: message.content,
+					learningTips
 				} satisfies CompactConversationMessage;
 			}
 

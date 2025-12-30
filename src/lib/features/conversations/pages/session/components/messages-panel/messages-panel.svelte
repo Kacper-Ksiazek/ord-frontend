@@ -51,6 +51,7 @@
 					<AiMessage
 						message={message.content}
 						isStillGenerating={isLastMessage && messagesContext.isGenerating}
+						learningTips={message.learningTips}
 					/>
 				{/if}
 
