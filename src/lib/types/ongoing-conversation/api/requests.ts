@@ -8,3 +8,6 @@ export type SaveUserConversationMessageRequest =
 
 export type GetFeedbackOnUserConversationMessageRequest =
 	components['schemas']['GetFeedbackOnUserConversationMessageRequest'];
+
+export type GetLearningTipsForAIMessageRequest =
+	components['schemas']['GetLearningTipsForAIMessageRequest'];

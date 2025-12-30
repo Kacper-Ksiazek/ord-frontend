@@ -4,3 +4,5 @@ export type ReviewedUserConversationMessage =
 	components['schemas']['ReviewedUserConversationMessage'];
 
 export type ConversationMessageDTO = components['schemas']['ConversationMessageDTO'];
+
+export type AIMessageLearningTips = components['schemas']['AIMessageLearningTips'];
