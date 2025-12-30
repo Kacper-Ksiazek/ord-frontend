@@ -2,7 +2,6 @@
 	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import { cn } from 'flowbite-svelte';
 	import Score from './components/score.svelte';
-	import Metric from './components/metric.svelte';
 	import { WandMagicSparklesOutline } from 'flowbite-svelte-icons';
 	import { getSidepanelContext } from '$lib/features/conversations/pages/session/contexts/sidepanel-context.svelte';
 	import ToggleSidepanelButton from './components/toggle-sidepanel-button.svelte';
@@ -19,15 +18,7 @@
 		sidepanelContext.isOpened && sidepanelContext.feedbackPreview?.id === feedback.id
 	);
 
-	const metrics = $derived.by(() => {
-		return {
-			mistakes: feedback.mistakes?.length || 0,
-			strengths: feedback.strengthsIdentified?.length || 0,
-			vocabularyEnrichment: feedback.vocabularyEnrichment?.length || 0,
-			alternativeExpressions: feedback.alternativeExpressions?.length || 0,
-			culturalNote: feedback.culturalNote ? 1 : 0
-		};
-	});
+	let showMore = $state(true);
 </script>
 
 <div
@@ -36,11 +27,9 @@
 		isSelected ? 'bg-primary-200' : 'bg-primary-100 ml-8'
 	)}
 >
-	<ToggleSidepanelButton {isSelected} {feedback} />
-
 	<div class="flex text-primary-700">
 		<WandMagicSparklesOutline />
-		<span class="text-sm font-medium text-primary-700">Ocena AI</span>
+		<span class="font-medium text-primary-700">Ocena AI</span>
 	</div>
 
 	<div class="flex gap-2 flex-wrap items-center">
@@ -53,26 +42,17 @@
 		<Score field="Długość" score={feedback.answerLength} />
 	</div>
 
-	<p class="text-gray-600 dark:text-gray-400 leading-[1.8] tracking-wide">
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
-		labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-		nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
-		esse cillum dolore eu fugiat nulla pariatur.
-	</p>
+	{#if showMore}
+		<p class="text-xs font-semibold text-primary-700 dark:text-gray-300 uppercase tracking-wide mt-1">
+			PODSUMOWANIE
+		</p>
 
-	<div class="flex gap-2 flex-wrap items-center">
-		<Metric criteria="MISTAKES" count={metrics.mistakes} label="Błędy" />
-		<Metric criteria="STRENGTHS" count={metrics.strengths} label="Mocne strony" />
-		<Metric
-			criteria="VOCABULARY_ENRICHMENT"
-			count={metrics.vocabularyEnrichment}
-			label="Słownictwo"
-		/>
-		<Metric
-			criteria="ALTERNATIVE_EXPRESSIONS"
-			count={metrics.alternativeExpressions}
-			label="Alternatywy"
-		/>
-		<Metric criteria="CULTURAL_NOTE" count={metrics.culturalNote} label="Uwaga kulturowa" />
-	</div>
+		<div class="p-2 bg-white rounded-md">
+			<p class="text-gray-900 dark:text-gray-100 leading-[1.8] tracking-wide text-xs">
+				{feedback.tutorComment}
+			</p>
+		</div>
+	{/if}
+
+	<ToggleSidepanelButton {isSelected} {feedback} />
 </div>
