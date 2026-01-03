@@ -8,65 +8,46 @@
 
 	const { field, score }: ScoreProps = $props();
 
-	const chipStyles = $derived.by(() => {
+	const boxColor = $derived.by(() => {
 		switch (true) {
-			case score === 10:
-				return {
-					// bg: 'bg-green-50 dark:bg-green-900/20',
-					// border: 'border-green-500 dark:border-green-400',
-					innerBg: 'bg-green-500 dark:bg-green-400',
-					innerText: 'text-white'
-				};
 			case score >= 8:
-				return {
-					// bg: 'bg-green-50 dark:bg-green-900/20',
-					// border: 'border-green-500 dark:border-green-400',
-					innerBg: 'bg-green-500 dark:bg-green-400',
-					innerText: 'text-white'
-				};
+				return 'bg-green-500 dark:bg-green-400';
 			case score >= 6:
-				return {
-					// bg: 'bg-amber-50 dark:bg-amber-900/20',
-					// border: 'border-amber-500 dark:border-amber-400',
-					innerBg: 'bg-amber-500 dark:bg-amber-400',
-					innerText: 'text-white'
-				};
+				return 'bg-amber-500 dark:bg-amber-400';
 			case score >= 4:
-				return {
-					// bg: 'bg-orange-50 dark:bg-orange-900/20',
-					// border: 'border-orange-500 dark:border-orange-400',
-					innerBg: 'bg-orange-500 dark:bg-orange-400',
-					innerText: 'text-white'
-				};
+				return 'bg-orange-500 dark:bg-orange-400';
 			case score >= 2:
-				return {
-					// bg: 'bg-red-50 dark:bg-red-900/20',
-					// border: 'border-red-500 dark:border-red-400',
-					innerBg: 'bg-red-500 dark:bg-red-400',
-					innerText: 'text-white'
-				};
+				return 'bg-red-500 dark:bg-red-400';
 			default:
-				return {
-					// bg: 'bg-red-50 dark:bg-red-900/20',
-					// border: 'border-red-500 dark:border-red-400',
-					innerBg: 'bg-red-500 dark:bg-red-400',
-					innerText: 'text-white'
-				};
+				return 'bg-red-500 dark:bg-red-400';
 		}
 	});
+
+	const boxes = Array.from({ length: 10 }, (_, i) => i + 1);
 </script>
 
-<span class={cn('flex items-center rounded-md  bg-white')}>
-	<span
-		class={cn(
-			'flex items-center justify-center text-xs flex-1 rounded-md w-[48px]',
-			chipStyles.innerBg,
-			chipStyles.innerText
-		)}
-	>
-		<span class="text-base font-semibold py-0.5">{score}</span>
-		<span class="opacity-60">/10</span>
+<div class={cn('flex items-center gap-3')}>
+	<!-- Label -->
+	<span class="whitespace-nowrap w-[96px]">
+		{field}
 	</span>
 
-	<span class="text-gray-900 dark:text-gray-300 px-2 whitespace-nowrap text-xs">{field}</span>
-</span>
+	<!-- 10 Boxes -->
+	<div class="flex items-center gap-0.5">
+		{#each boxes as boxIndex}
+			<div
+				class={cn(
+					'w-4 h-4 rounded-sm border',
+					boxIndex <= score
+						? `${boxColor} border-transparent`
+						: 'bg-gray-200 dark:bg-gray-700 border-gray-300 dark:border-gray-600'
+				)}
+			></div>
+		{/each}
+	</div>
+
+	<!-- Rating -->
+	<span class="font-semibold">
+		{score}
+	</span>
+</div>
