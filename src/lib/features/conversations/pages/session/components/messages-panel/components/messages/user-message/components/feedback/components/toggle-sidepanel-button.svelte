@@ -13,13 +13,7 @@
 	const sidepanelContext = getSidepanelContext();
 
 	const totalCommentsCount = $derived.by(() => {
-		return (
-			size(feedback.mistakes) +
-			size(feedback.strengthsIdentified) +
-			size(feedback.vocabularyEnrichment) +
-			size(feedback.alternativeExpressions) +
-			(feedback.culturalNote ? 1 : 0)
-		);
+		return size(feedback.mistakes) + size(feedback.strengths) + size(feedback.suggestions);
 	});
 
 	const commentsLabel = $derived.by(() => {

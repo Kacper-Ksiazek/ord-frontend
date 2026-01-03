@@ -3,7 +3,7 @@ import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation
 interface HighlightRange {
 	start: number;
 	end: number;
-	type: 'mistake' | 'vocab' | 'alternative' | 'strength';
+	type: 'mistake' | 'strength' | 'suggestion';
 	text: string;
 }
 
@@ -44,17 +44,16 @@ function findTextRanges(text: string, content: string): HighlightRange[] {
 }
 
 /**
- * Merges overlapping ranges, prioritizing mistakes > vocab > alternative > strength
+ * Merges overlapping ranges, prioritizing mistakes > suggestion > strength
  */
 function mergeRanges(ranges: HighlightRange[]): HighlightRange[] {
 	if (ranges.length === 0) return [];
 
-	// Sort by start position, then by priority (mistake > vocab > alternative > strength)
+	// Sort by start position, then by priority (mistake > suggestion > strength)
 	const priority: Record<HighlightRange['type'], number> = {
 		mistake: 0,
-		vocab: 1,
-		alternative: 2,
-		strength: 3
+		suggestion: 1,
+		strength: 2
 	};
 
 	ranges.sort((a, b) => {
@@ -115,37 +114,25 @@ export function highlightFeedbackContent(
 		}
 	}
 
-	// Vocabulary enrichment - blue
-	if (feedback.vocabularyEnrichment) {
-		for (const enrichment of feedback.vocabularyEnrichment) {
-			if (enrichment.original && enrichment.original.trim()) {
-				const vocabRanges = findTextRanges(enrichment.original, content);
-				vocabRanges.forEach((range) => {
-					ranges.push({ ...range, type: 'vocab' });
-				});
-			}
-		}
-	}
-
-	// Alternative expressions - purple
-	if (feedback.alternativeExpressions) {
-		for (const alt of feedback.alternativeExpressions) {
-			if (alt.context && alt.context.trim()) {
-				const altRanges = findTextRanges(alt.context, content);
-				altRanges.forEach((range) => {
-					ranges.push({ ...range, type: 'alternative' });
-				});
-			}
-		}
-	}
-
 	// Strengths - green
-	if (feedback.strengthsIdentified) {
-		for (const strength of feedback.strengthsIdentified) {
-			if (strength && strength.trim()) {
-				const strengthRanges = findTextRanges(strength, content);
+	if (feedback.strengths) {
+		for (const strength of feedback.strengths) {
+			if (strength.phrase && strength.phrase.trim()) {
+				const strengthRanges = findTextRanges(strength.phrase, content);
 				strengthRanges.forEach((range) => {
 					ranges.push({ ...range, type: 'strength' });
+				});
+			}
+		}
+	}
+
+	// Suggestions - blue
+	if (feedback.suggestions) {
+		for (const suggestion of feedback.suggestions) {
+			if (suggestion.original && suggestion.original.trim()) {
+				const suggestionRanges = findTextRanges(suggestion.original, content);
+				suggestionRanges.forEach((range) => {
+					ranges.push({ ...range, type: 'suggestion' });
 				});
 			}
 		}
@@ -186,8 +173,7 @@ export function highlightFeedbackContent(
 			if (part.highlight) {
 				const classes = {
 					mistake: 'bg-red-200 dark:bg-red-900/50 text-red-900 dark:text-red-100',
-					vocab: 'bg-blue-200 dark:bg-blue-900/50 text-blue-900 dark:text-blue-100',
-					alternative: 'bg-purple-200 dark:bg-purple-900/50 text-purple-900 dark:text-purple-100',
+					suggestion: 'bg-blue-200 dark:bg-blue-900/50 text-blue-900 dark:text-blue-100',
 					strength: 'bg-green-200 dark:bg-green-900/50 text-green-900 dark:text-green-100'
 				};
 
