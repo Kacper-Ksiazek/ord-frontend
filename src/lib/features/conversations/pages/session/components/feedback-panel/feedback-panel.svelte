@@ -1,11 +1,17 @@
 <script lang="ts">
 	import ContentCard from '$lib/components/utils/content-card.svelte';
 	import { Accordion, Badge, cn } from 'flowbite-svelte';
+	import { Tabs } from '$lib/components/tabs';
+	import type { Tab } from '$lib/components/tabs';
 	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
 	import { AccordionItem } from './components/accordion-item';
 	import MistakeCard from './components/mistake-card.svelte';
 	import StrengthCard from './components/strength-card.svelte';
-	import VocabularyEnrichmentCard from './components/vocabulary-enrichment-card.svelte';
+	import SuggestionCard from './components/suggestion-card.svelte';
+	import type {
+		ConversationMessageMistakeSeverity,
+		ConversationMessageSuggestionType
+	} from '$lib/types/conversation/domain/conversation-message-feedback';
 	import { SIDEPANEL_WIDTH } from '../constants';
 	import { fade } from 'svelte/transition';
 
@@ -16,7 +22,71 @@
 	// Track open state for each accordion section
 	let mistakesOpen = $state(false);
 	let strengthsOpen = $state(false);
-	let vocabularyEnrichmentOpen = $state(false);
+	let suggestionsOpen = $state(false);
+
+	// Tab state for filtering mistakes by severity
+	let activeSeverityTab = $state<ConversationMessageMistakeSeverity | 'all'>('all');
+
+	// Filter mistakes by severity
+	const filteredMistakes = $derived.by(() => {
+		if (!feedback?.mistakes) return [];
+		if (activeSeverityTab === 'all') return feedback.mistakes;
+		return feedback.mistakes.filter((mistake) => mistake.severity === activeSeverityTab);
+	});
+
+	// Tab state for filtering suggestions by type
+	let activeSuggestionTypeTab = $state<ConversationMessageSuggestionType | 'all'>('all');
+
+	// Filter suggestions by type
+	const filteredSuggestions = $derived.by(() => {
+		if (!feedback?.suggestions) return [];
+		if (activeSuggestionTypeTab === 'all') return feedback.suggestions;
+		return feedback.suggestions.filter(
+			(suggestion) => suggestion.suggestionType === activeSuggestionTypeTab
+		);
+	});
+
+	// Get available severity tabs with counts
+	const severityTabs = $derived.by(() => {
+		if (!feedback?.mistakes) return [];
+		const tabs: Tab[] = [
+			{ id: 'all', label: 'All', count: feedback.mistakes.length, disabled: false }
+		];
+
+		const severities: ConversationMessageMistakeSeverity[] = ['MINOR', 'MODERATE', 'CRITICAL'];
+		for (const severity of severities) {
+			const count = feedback.mistakes.filter((m) => m.severity === severity).length;
+			tabs.push({
+				id: severity,
+				label: severity,
+				count,
+				disabled: count === 0
+			});
+		}
+
+		return tabs;
+	});
+
+	// Get available suggestion type tabs with counts
+	const suggestionTypeTabs = $derived.by(() => {
+		if (!feedback?.suggestions) return [];
+		const tabs: Tab[] = [
+			{ id: 'all', label: 'All', count: feedback.suggestions.length, disabled: false }
+		];
+
+		const suggestionTypes: ConversationMessageSuggestionType[] = ['IMPROVEMENT', 'ENRICHMENT'];
+		for (const type of suggestionTypes) {
+			const count = feedback.suggestions.filter((s) => s.suggestionType === type).length;
+			tabs.push({
+				id: type,
+				label: type,
+				count,
+				disabled: count === 0
+			});
+		}
+
+		return tabs;
+	});
 </script>
 
 <ContentCard
@@ -60,16 +130,11 @@
 								<span class="font-medium wrap-break-word">{feedback.tutorComment}</span>
 							</Badge>
 						{/if}
-						{#if (feedback as any).discourse}
-							<Badge color="primary" large class="px-3 py-1.5">
-								<span class="font-medium">{(feedback as any).discourse}</span>
-							</Badge>
-						{/if}
 					</div>
 				</div>
 			</div>
 
-			<Accordion class="space-y-2">
+			<Accordion>
 				<!-- Mistakes Section -->
 				{#if feedback.mistakes && feedback.mistakes.length > 0}
 					<AccordionItem
@@ -78,42 +143,76 @@
 						badgeCount={feedback.mistakes.length}
 						bind:open={mistakesOpen}
 					>
-						<div class="space-y-4 pt-2">
-							{#each feedback.mistakes as mistake}
-								<MistakeCard {mistake} />
-							{/each}
+						<div>
+							<!-- Severity Tabs -->
+							<Tabs
+								tabs={severityTabs}
+								bind:activeTab={activeSeverityTab}
+								activeColor="red"
+								class="mb-4"
+							/>
+
+							<!-- Filtered Mistakes -->
+							<div class="space-y-4">
+								{#if filteredMistakes.length > 0}
+									{#each filteredMistakes as mistake}
+										<MistakeCard {mistake} />
+									{/each}
+								{:else}
+									<p class="text-sm text-gray-500 dark:text-gray-400 text-center py-4">
+										No mistakes found for this severity level.
+									</p>
+								{/if}
+							</div>
 						</div>
 					</AccordionItem>
 				{/if}
 
 				<!-- Strengths Section -->
-				{#if feedback.strengthsIdentified && feedback.strengthsIdentified.length > 0}
+				{#if feedback.strengths && feedback.strengths.length > 0}
 					<AccordionItem
 						criteria="STRENGTHS"
 						title="Strengths"
-						badgeCount={feedback.strengthsIdentified.length}
+						badgeCount={feedback.strengths.length}
 						bind:open={strengthsOpen}
 					>
 						<div class="space-y-2 pt-2">
-							{#each feedback.strengthsIdentified as strength}
+							{#each feedback.strengths as strength}
 								<StrengthCard {strength} />
 							{/each}
 						</div>
 					</AccordionItem>
 				{/if}
 
-				<!-- Vocabulary Enrichment Section -->
-				{#if feedback.vocabularyEnrichment && feedback.vocabularyEnrichment.length > 0}
+				<!-- Suggestions Section -->
+				{#if feedback.suggestions && feedback.suggestions.length > 0}
 					<AccordionItem
-						criteria="VOCABULARY_ENRICHMENT"
-						title="Vocabulary Enrichment"
-						badgeCount={feedback.vocabularyEnrichment.length}
-						bind:open={vocabularyEnrichmentOpen}
+						criteria="SUGGESTIONS"
+						title="Suggestions"
+						badgeCount={feedback.suggestions.length}
+						bind:open={suggestionsOpen}
 					>
-						<div class="space-y-4 pt-2">
-							{#each feedback.vocabularyEnrichment as enrichment}
-								<VocabularyEnrichmentCard {enrichment} />
-							{/each}
+						<div>
+							<!-- Suggestion Type Tabs -->
+							<Tabs
+								tabs={suggestionTypeTabs}
+								bind:activeTab={activeSuggestionTypeTab}
+								activeColor="purple"
+								class="mb-4"
+							/>
+
+							<!-- Filtered Suggestions -->
+							<div class="space-y-4">
+								{#if filteredSuggestions.length > 0}
+									{#each filteredSuggestions as suggestion}
+										<SuggestionCard {suggestion} />
+									{/each}
+								{:else}
+									<p class="text-sm text-gray-500 dark:text-gray-400 text-center py-4">
+										No suggestions found for this type.
+									</p>
+								{/if}
+							</div>
 						</div>
 					</AccordionItem>
 				{/if}
