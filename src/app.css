@@ -1,8 +1,7 @@
 @import 'tailwindcss';
+@custom-variant dark (&:where(.dark, .dark *));
 
 @plugin 'flowbite/plugin';
-
-@custom-variant dark (&:where(.dark, .dark *));
 
 /* Noto Sans Variable Font */
 @font-face {
