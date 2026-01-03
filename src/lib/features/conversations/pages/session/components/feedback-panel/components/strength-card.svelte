@@ -1,15 +1,31 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { Badge, cn } from 'flowbite-svelte';
+	import type { ConversationMessageStrength } from '$lib/types/conversation/domain/conversation-message-feedback';
+	import { getCardBackgroundColor, getCardBorderColor } from '../feedback-panel-colors.utils';
+	import './feedback-card-classes.css';
 
 	interface Props {
-		strength: string;
+		strength: ConversationMessageStrength;
 	}
 
 	let { strength }: Props = $props();
+
+	const cardBg = getCardBackgroundColor('STRENGTHS');
+	const cardBorder = getCardBorderColor('STRENGTHS');
 </script>
 
-<div
-	class="p-3 bg-green-100 dark:bg-green-900/30 rounded-lg border-2 border-green-300 dark:border-green-700 shadow-sm"
->
-	<p class="text-sm text-gray-900 dark:text-gray-100 leading-relaxed">{strength}</p>
+<div class={cn('feedback-card-container', cardBg, cardBorder)}>
+	<div class="feedback-card-header">
+		<Badge color="green">{strength.strengthType}</Badge>
+	</div>
+	<div class="feedback-card-section">
+		<p class="feedback-card-label">Phrase:</p>
+		<p class="feedback-card-text-box-neutral">"{strength.phrase}"</p>
+	</div>
+	{#if strength.explanation}
+		<div>
+			<p class="feedback-card-label">Explanation:</p>
+			<p class="feedback-card-explanation">{strength.explanation}</p>
+		</div>
+	{/if}
 </div>
