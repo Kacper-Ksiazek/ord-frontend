@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button, type ButtonProps, cn, Spinner } from 'flowbite-svelte';
-	import { CheckCircleSolid, CloseCircleSolid, WandMagicSparklesSolid } from 'flowbite-svelte-icons';
+	import { CircleCheck, CircleX, Sparkles } from 'lucide-svelte';
 	import * as m from '$lib/paraglide/messages.js';
 	import type { AiActionButtonProps } from './ai-action-button.types';
 	import Stage from './components/stage.svelte';
@@ -27,7 +27,7 @@
 			)}
 			{...props}
 		>
-			<WandMagicSparklesSolid
+			<Sparkles
 				class={cn(
 					'w-5 h-5 text-amber-400', //
 					disabled && 'text-gray-500'
@@ -60,13 +60,13 @@
 		<!--  -->
 	{:else if status === 'success'}
 		<Stage class="bg-green-100">
-			<CheckCircleSolid class="w-5 h-5 text-green-500" aria-hidden="true" />
+			<CircleCheck class="w-5 h-5 text-green-500" aria-hidden="true" />
 			<span>{m['components.utils.generate-with-ai.success']()}</span>
 		</Stage>
 		<!--  -->
 	{:else if status === 'failed'}
 		<Stage class="bg-red-200">
-			<CloseCircleSolid class="w-5 h-5 text-red-500" aria-hidden="true" />
+			<CircleX class="w-5 h-5 text-red-500" aria-hidden="true" />
 			<span>{m['components.utils.generate-with-ai.failed']()}</span>
 		</Stage>
 	{/if}

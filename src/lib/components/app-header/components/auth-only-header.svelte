@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Avatar, Dropdown, DropdownItem } from 'flowbite-svelte';
-	import { ChevronDownOutline, CogSolid, OpenDoorSolid } from 'flowbite-svelte-icons';
+	import { ChevronDown, Settings, DoorOpen } from 'lucide-svelte';
 	import gravatarUrl from 'gravatar-url';
 	import { goto } from '$app/navigation';
 	import { createLogoutMutation } from '$lib/api-client/auth/mutations/use-logout-mutation';
@@ -36,7 +36,7 @@
 	>
 		<Avatar src={avatarUrl} size="sm" />
 		<span class="text-sm font-medium hidden sm:inline">{authStore.user.name}</span>
-		<ChevronDownOutline class="w-3 h-3" />
+		<ChevronDown class="w-3 h-3" />
 	</button>
 
 	<Dropdown class="w-64 bg-white dark:bg-gray-700 p-2 space-y-1">
@@ -59,7 +59,7 @@
 				onclick={handleSettings}
 				class="group w-full flex items-center gap-2 px-2 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md cursor-pointer"
 			>
-				<CogSolid class="w-4 h-4 group-hover:scale-110 transition-transform" />
+				<Settings class="w-4 h-4 group-hover:scale-110 transition-transform" />
 				<span class="text-sm">{m['common.header.settings']()}</span>
 			</DropdownItem>
 
@@ -67,7 +67,7 @@
 				onclick={handleLogout}
 				class="group w-full flex items-center gap-2 px-2 py-2 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-md cursor-pointer"
 			>
-				<OpenDoorSolid class="w-4 h-4 group-hover:scale-110 transition-transform" />
+				<DoorOpen class="w-4 h-4 group-hover:scale-110 transition-transform" />
 				<span class="text-sm">{m['common.header.logout']()}</span>
 			</DropdownItem>
 		</div>

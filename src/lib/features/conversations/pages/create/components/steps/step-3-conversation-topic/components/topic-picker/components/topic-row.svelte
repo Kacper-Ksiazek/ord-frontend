@@ -1,7 +1,7 @@
 <script lang="ts">
 	import SelectableCard from '$lib/components/utils/selectable-card.svelte';
 	import { cn } from 'flowbite-svelte';
-	import { CloseOutline } from 'flowbite-svelte-icons';
+	import { X } from 'lucide-svelte';
 	import { topics } from '../topic-picker.store.svelte';
 	import { getCreateConversationPayload } from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
 
@@ -59,7 +59,7 @@
 			}}
 			aria-label="Remove topic"
 		>
-			<CloseOutline class="w-4 h-4" />
+			<X class="w-4 h-4" />
 		</button>
 	{/if}
 </SelectableCard>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import clsx from 'clsx';
-	import { MoonSolid, SunSolid } from 'flowbite-svelte-icons';
+	import { Moon, Sun } from 'lucide-svelte';
 	import { browser } from '$app/environment';
 	import { themeStore } from '$lib/stores/theme.svelte';
 
@@ -47,9 +47,9 @@
 >
 	{#if mounted}
 		{#if isDarkMode}
-			<SunSolid class="w-5 h-5" />
+			<Sun class="w-5 h-5" />
 		{:else}
-			<MoonSolid class="w-5 h-5" />
+			<Moon class="w-5 h-5" />
 		{/if}
 	{:else}
 		<!-- Placeholder to prevent layout shift during SSR -->

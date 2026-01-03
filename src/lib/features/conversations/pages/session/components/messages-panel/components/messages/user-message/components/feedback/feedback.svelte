@@ -2,7 +2,7 @@
 	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import { cn } from 'flowbite-svelte';
 	import Score from './components/score.svelte';
-	import { WandMagicSparklesOutline } from 'flowbite-svelte-icons';
+	import { Sparkles } from 'lucide-svelte';
 	import { getSidepanelContext } from '$lib/features/conversations/pages/session/contexts/sidepanel-context.svelte';
 	import ToggleSidepanelButton from './components/toggle-sidepanel-button.svelte';
 
@@ -28,7 +28,7 @@
 	)}
 >
 	<div class="flex text-primary-700">
-		<WandMagicSparklesOutline />
+		<Sparkles />
 		<span class="font-medium text-primary-700">Ocena AI</span>
 	</div>
 
@@ -48,7 +48,7 @@
 		</p>
 
 		<div class="p-2 bg-white rounded-md">
-			<p class="text-gray-900 dark:text-gray-100 leading-[1.8] tracking-wide text-xs">
+			<p class="text-gray-900 dark:text-gray-100 leading-[1.8] tracking-wide">
 				{feedback.tutorComment}
 			</p>
 		</div>

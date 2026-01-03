@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button, Spinner, cn } from 'flowbite-svelte';
-	import { PaperPlaneSolid } from 'flowbite-svelte-icons';
+	import { Send } from 'lucide-svelte';
 
 	interface Props {
 		disabled?: boolean;
@@ -24,6 +24,6 @@
 	{#if pending}
 		<Spinner size="4" class="fill-gray-700 dark:fill-gray-300" />
 	{:else}
-		<PaperPlaneSolid class="w-5 h-5 text-gray-700 dark:text-gray-300" />
+		<Send class="w-5 h-5 text-gray-700 dark:text-gray-300" />
 	{/if}
 </Button>

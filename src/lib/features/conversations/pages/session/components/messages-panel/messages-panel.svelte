@@ -5,7 +5,7 @@
 	import { getMessagesContext } from '../../contexts/messages-context.svelte';
 	import { UserMessageTextarea } from './components/user-message-textarea';
 	import { SIDEPANEL_WIDTH } from '../constants';
-	import { WindowSolid, ColumnSolid, ChevronLeftOutline } from 'flowbite-svelte-icons';
+	import { AppWindow, Columns2, ChevronLeft } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
 
@@ -19,7 +19,7 @@
 >
 	<!-- Back Button -->
 	<TopActionButton
-		icon={ChevronLeftOutline}
+		icon={ChevronLeft}
 		onclick={() => goto('/conversations')}
 		ariaLabel="Go back"
 		title="Go back"
@@ -28,7 +28,7 @@
 
 	<!-- Layout Toggle Button -->
 	<TopActionButton
-		icon={sidepanelContext.isOpened ? WindowSolid : ColumnSolid}
+		icon={sidepanelContext.isOpened ? AppWindow : Columns2}
 		onclick={() => (sidepanelContext.isOpened = !sidepanelContext.isOpened)}
 		ariaLabel={sidepanelContext.isOpened ? 'Switch to full width layout' : 'Switch to split layout'}
 		title={sidepanelContext.isOpened ? 'Switch to full width layout' : 'Switch to split layout'}

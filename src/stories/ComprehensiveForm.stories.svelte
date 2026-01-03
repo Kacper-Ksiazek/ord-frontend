@@ -25,16 +25,16 @@
 		BreadcrumbItem
 	} from 'flowbite-svelte';
 	import {
-		UserSolid,
-		EnvelopeSolid,
-		PhoneSolid,
-		GlobeSolid,
-		BuildingSolid,
-		CreditCardSolid,
-		CheckCircleSolid,
-		MoonSolid,
-		SunSolid
-	} from 'flowbite-svelte-icons';
+		User,
+		Mail,
+		Phone,
+		Globe,
+		Building,
+		CreditCard,
+		CircleCheck,
+		Moon,
+		Sun
+	} from 'lucide-svelte';
 
 	// Theme state
 	let isDarkMode = $state(false);
@@ -234,10 +234,10 @@
 				class="flex items-center gap-2"
 			>
 				{#if isDarkMode}
-					<SunSolid class="w-4 h-4" />
+					<Sun class="w-4 h-4" />
 					Light Mode
 				{:else}
-					<MoonSolid class="w-4 h-4" />
+					<Moon class="w-4 h-4" />
 					Dark Mode
 				{/if}
 			</Button>
@@ -283,7 +283,7 @@
 			{#if showSuccess}
 				<Alert color="green" class="mb-6">
 					{#snippet icon()}
-						<CheckCircleSolid class="w-5 h-5" />
+						<CircleCheck class="w-5 h-5" />
 					{/snippet}
 					<span class="font-medium">Success!</span>
 					Your registration has been completed successfully. Check the console for submitted data.
@@ -304,7 +304,7 @@
 						<div class="space-y-6">
 							<div class="flex items-center gap-3 pb-4 border-b dark:border-gray-700">
 								<div class="p-3 bg-primary-100 dark:bg-primary-900 rounded-lg">
-									<UserSolid class="w-6 h-6 text-primary-600 dark:text-primary-400" />
+									<User class="w-6 h-6 text-primary-600 dark:text-primary-400" />
 								</div>
 								<div>
 									<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Personal Information</h2>
@@ -326,7 +326,7 @@
 										class="ps-9"
 									>
 										{#snippet left()}
-											<UserSolid class="w-5 h-5 text-gray-500" />
+											<User class="w-5 h-5 text-gray-500" />
 										{/snippet}
 									</Input>
 									{#if formErrors.firstName}
@@ -364,7 +364,7 @@
 										class="ps-9"
 									>
 										{#snippet left()}
-											<EnvelopeSolid class="w-5 h-5 text-gray-500" />
+											<Mail class="w-5 h-5 text-gray-500" />
 										{/snippet}
 									</Input>
 									{#if formErrors.email}
@@ -382,7 +382,7 @@
 										class="ps-9"
 									>
 										{#snippet left()}
-											<PhoneSolid class="w-5 h-5 text-gray-500" />
+											<Phone class="w-5 h-5 text-gray-500" />
 										{/snippet}
 									</Input>
 								</div>
@@ -411,7 +411,7 @@
 						<div class="space-y-6">
 							<div class="flex items-center gap-3 pb-4 border-b dark:border-gray-700">
 								<div class="p-3 bg-green-100 dark:bg-green-900 rounded-lg">
-									<GlobeSolid class="w-6 h-6 text-green-600 dark:text-green-400" />
+									<Globe class="w-6 h-6 text-green-600 dark:text-green-400" />
 								</div>
 								<div>
 									<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Address Information</h2>
@@ -470,7 +470,7 @@
 						<div class="space-y-6">
 							<div class="flex items-center gap-3 pb-4 border-b dark:border-gray-700">
 								<div class="p-3 bg-purple-100 dark:bg-purple-900 rounded-lg">
-									<BuildingSolid class="w-6 h-6 text-purple-600 dark:text-purple-400" />
+									<Building class="w-6 h-6 text-purple-600 dark:text-purple-400" />
 								</div>
 								<div>
 									<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Professional Information</h2>
@@ -536,7 +536,7 @@
 						<div class="space-y-6">
 							<div class="flex items-center gap-3 pb-4 border-b dark:border-gray-700">
 								<div class="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-lg">
-									<UserSolid class="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
+									<User class="w-6 h-6 text-yellow-600 dark:text-yellow-400" />
 								</div>
 								<div>
 									<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Account Settings</h2>
@@ -600,7 +600,7 @@
 						<div class="space-y-6">
 							<div class="flex items-center gap-3 pb-4 border-b dark:border-gray-700">
 								<div class="p-3 bg-indigo-100 dark:bg-indigo-900 rounded-lg">
-									<CheckCircleSolid class="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
+									<CircleCheck class="w-6 h-6 text-indigo-600 dark:text-indigo-400" />
 								</div>
 								<div>
 									<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Preferences & Settings</h2>
@@ -701,7 +701,7 @@
 						<div class="space-y-6">
 							<div class="flex items-center gap-3 pb-4 border-b dark:border-gray-700">
 								<div class="p-3 bg-red-100 dark:bg-red-900 rounded-lg">
-									<CreditCardSolid class="w-6 h-6 text-red-600 dark:text-red-400" />
+									<CreditCard class="w-6 h-6 text-red-600 dark:text-red-400" />
 								</div>
 								<div>
 									<h2 class="text-2xl font-bold text-gray-900 dark:text-white">Payment Information</h2>
@@ -718,7 +718,7 @@
 									maxlength={19}
 								>
 									{#snippet left()}
-										<CreditCardSolid class="w-5 h-5 text-gray-500" />
+										<CreditCard class="w-5 h-5 text-gray-500" />
 									{/snippet}
 								</Input>
 							</div>
@@ -785,7 +785,7 @@
 								<Button type="button" color="primary" onclick={nextStep}>Next Step</Button>
 							{:else}
 								<Button type="submit" color="green">
-									<CheckCircleSolid class="w-5 h-5 me-2" />
+									<CircleCheck class="w-5 h-5 me-2" />
 									Submit Registration
 								</Button>
 							{/if}

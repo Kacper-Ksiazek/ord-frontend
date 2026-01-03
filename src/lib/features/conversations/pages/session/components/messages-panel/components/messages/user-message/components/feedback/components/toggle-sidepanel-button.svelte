@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
-	import { ArrowRightOutline } from 'flowbite-svelte-icons';
+	import { ArrowRight } from 'lucide-svelte';
 	import { getSidepanelContext } from '$lib/features/conversations/pages/session/contexts/sidepanel-context.svelte';
 	import size from 'lodash/size';
 
@@ -42,5 +42,5 @@
 		Zobacz wszystkie <strong>{totalCommentsCount} {commentsLabel}</strong>
 	</span>
 
-	<ArrowRightOutline class="w-4 h-4" />
+	<ArrowRight class="w-4 h-4" />
 </button>

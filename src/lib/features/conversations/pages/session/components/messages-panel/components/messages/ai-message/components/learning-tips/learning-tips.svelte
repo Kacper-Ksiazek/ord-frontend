@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { AIMessageLearningTips } from '$lib/types/ongoing-conversation/api/responses';
 	import { cn } from 'flowbite-svelte';
-	import { WandMagicSparklesOutline } from 'flowbite-svelte-icons';
+	import { Sparkles } from 'lucide-svelte';
 	import size from 'lodash/size';
 
 	interface LearningTipsProps {
@@ -54,7 +54,7 @@
 {#if hasTips}
 	<div class={cn('flex flex-col gap-3 px-4 py-3 rounded-md w-full bg-primary-100 transition-all')}>
 		<div class="flex text-primary-700 items-center gap-2">
-			<WandMagicSparklesOutline class="w-5 h-5" />
+			<Sparkles class="w-5 h-5" />
 			<span class="text-sm font-medium text-primary-700">Wskazówki do nauki</span>
 		</div>
 

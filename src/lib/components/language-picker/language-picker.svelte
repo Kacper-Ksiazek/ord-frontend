@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Dropdown, DropdownItem } from 'flowbite-svelte';
-	import { ChevronDownOutline, GlobeSolid } from 'flowbite-svelte-icons';
+	import { ChevronDown, Globe } from 'lucide-svelte';
 	import { getLocale, setLocale } from '$lib/paraglide/runtime';
 
 	type Locale = 'en' | 'pl' | 'de';
@@ -31,9 +31,9 @@
 	aria-label="Change language"
 	type="button"
 >
-	<GlobeSolid class="w-5 h-5" />
+	<Globe class="w-5 h-5" />
 	<span class="text-sm font-medium">{currentLanguageLabel}</span>
-	<ChevronDownOutline class="w-3 h-3" />
+	<ChevronDown class="w-3 h-3" />
 </button>
 
 <Dropdown class="w-40 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600">

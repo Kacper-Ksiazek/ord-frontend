@@ -1,17 +1,17 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
 	import {
-		ArrowRightToBracketOutline,
-		BookmarkOutline,
-		ChevronLeftOutline,
-		ChevronRightOutline,
-		CogOutline,
-		FaceGrinSolid,
-		LightbulbSolid,
-		MessageDotsSolid,
-		MoonSolid,
-		SunSolid
-	} from 'flowbite-svelte-icons';
+		LogIn,
+		Bookmark,
+		ChevronLeft,
+		ChevronRight,
+		Settings,
+		Smile,
+		Lightbulb,
+		MessageSquare,
+		Moon,
+		Sun
+	} from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
 	import { authStore } from '$lib/stores/auth.svelte';
@@ -72,9 +72,9 @@
 			title={sidebarStore.isExpanded ? 'Collapse sidebar' : 'Expand sidebar'}
 		>
 			{#if sidebarStore.isExpanded}
-				<ChevronLeftOutline class="w-5 h-5" />
+				<ChevronLeft class="w-5 h-5" />
 			{:else}
-				<ChevronRightOutline class="w-5 h-5" />
+				<ChevronRight class="w-5 h-5" />
 			{/if}
 		</button>
 	</div>
@@ -105,13 +105,13 @@
 	<!-- Navigation Menu Section -->
 	<nav class="flex-1 overflow-hidden px-3">
 		<div class="flex flex-col gap-2">
-			<SidebarLink title="Words" Icon={BookmarkOutline} disabled />
+			<SidebarLink title="Words" Icon={Bookmark} disabled />
 
-			<SidebarLink title="Challenges" Icon={FaceGrinSolid} disabled />
+			<SidebarLink title="Challenges" Icon={Smile} disabled />
 
-			<SidebarLink title="Conversations" Icon={MessageDotsSolid} href="/conversations" />
+			<SidebarLink title="Conversations" Icon={MessageSquare} href="/conversations" />
 
-			<SidebarLink title="QAW" Icon={LightbulbSolid} disabled />
+			<SidebarLink title="QAW" Icon={Lightbulb} disabled />
 		</div>
 	</nav>
 
@@ -120,14 +120,14 @@
 	<div class="flex flex-col gap-2 px-3">
 		<SidebarLink
 			title="Theme"
-			Icon={themeStore.isDark ? SunSolid : MoonSolid}
+			Icon={themeStore.isDark ? Sun : Moon}
 			onclick={() => {
 				themeStore.toggle();
 			}}
 		/>
 
 		<!-- Settings -->
-		<SidebarLink title="Settings" Icon={CogOutline} href="/settings" />
+		<SidebarLink title="Settings" Icon={Settings} href="/settings" />
 	</div>
 
 	<Divider />
@@ -143,7 +143,7 @@
 				sidebarStore.isExpanded && 'justify-start'
 			)}
 		>
-			<ArrowRightToBracketOutline class="w-5 h-5 shrink-0" />
+			<LogIn class="w-5 h-5 shrink-0" />
 			{#if sidebarStore.isExpanded}
 				<span class="text-sm font-medium" in:fade={{ delay: 150 }}>Logout</span>
 			{/if}
