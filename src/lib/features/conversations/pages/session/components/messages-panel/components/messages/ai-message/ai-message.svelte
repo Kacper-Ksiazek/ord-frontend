@@ -22,7 +22,7 @@
 <MessageBase
 	messageClass={cn(
 		isStillGenerating && 'generation-in-progress', //
-		!isStillGenerating && 'bg-gray-50 text-gray-600'
+		!isStillGenerating && 'bg-gray-50 text-gray-600 dark:bg-gray-800 dark:text-gray-200'
 	)}
 >
 	{#snippet avatar()}
@@ -45,9 +45,7 @@
 
 	{#snippet footer()}
 		{#if !isStillGenerating && learningTips}
-			<div class="flex gap-4 items-center text-md mt-2 justify-between w-full">
-				<LearningTips {learningTips} />
-			</div>
+			<LearningTips {learningTips} />
 		{/if}
 	{/snippet}
 </MessageBase>
