@@ -1,9 +1,6 @@
 <script lang="ts">
 	import { Badge, cn } from 'flowbite-svelte';
-	import type {
-		ConversationMessageMistake,
-		ConversationMessageMistakeSeverity
-	} from '$lib/types/conversation/domain/conversation-message-feedback';
+	import type { ConversationMessageMistake } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import {
 		getCardBackgroundColor,
 		getCardBorderColor,
@@ -16,8 +13,6 @@
 	}
 
 	let { mistake }: Props = $props();
-
-	$inspect(mistake);
 
 	const cardBg = getCardBackgroundColor('MISTAKES');
 	const cardBorder = getCardBorderColor('MISTAKES');
