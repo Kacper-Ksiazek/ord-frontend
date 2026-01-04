@@ -72,7 +72,7 @@
 </script>
 
 <AiPostProcessActionBase
-	label="Ocena wiadomości"
+	label="Analiza wiadomości"
 	class={cn(isSelected ? 'bg-primary-200' : 'bg-primary-100')}
 >
 	{#if indicators.length > 0}
