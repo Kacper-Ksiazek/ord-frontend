@@ -33,14 +33,3 @@
 		sidepanelContext.feedbackPreview = feedback;
 	}
 </script>
-
-<button
-	onclick={handleClick}
-	class="text-primary-700 self-start text-xs mt-2 flex items-center gap-1 hover:text-primary-800 transition-colors"
->
-	<span>
-		Zobacz wszystkie <strong>{totalCommentsCount} {commentsLabel}</strong>
-	</span>
-
-	<ArrowRight class="w-4 h-4" />
-</button>
