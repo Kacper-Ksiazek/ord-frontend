@@ -1,15 +1,16 @@
 import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
+import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/message-feedback-criteria';
 
 interface HighlightRange {
 	start: number;
 	end: number;
-	type: 'mistake' | 'strength' | 'suggestion';
+	type: MessageFeedbackCriteria;
 	text: string;
 }
 
 export interface HighlightPart {
 	text: string;
-	highlight?: 'mistake' | 'strength' | 'suggestion';
+	highlight?: MessageFeedbackCriteria;
 }
 
 /**
@@ -40,7 +41,7 @@ function findTextRanges(text: string, content: string): HighlightRange[] {
 		ranges.push({
 			start: match.index,
 			end: match.index + match[0].length,
-			type: 'mistake', // Will be set by caller
+			type: 'MISTAKES', // Will be set by caller
 			text: match[0] // Preserves original case from content
 		});
 	}
@@ -56,9 +57,9 @@ function mergeRanges(ranges: HighlightRange[]): HighlightRange[] {
 
 	// Sort by start position, then by priority (mistake > suggestion > strength)
 	const priority: Record<HighlightRange['type'], number> = {
-		mistake: 0,
-		suggestion: 1,
-		strength: 2
+		MISTAKES: 3,
+		SUGGESTIONS: 4,
+		STRENGTHS: 5
 	};
 
 	ranges.sort((a, b) => {
@@ -114,7 +115,7 @@ export function highlightFeedbackContent(
 			if (mistake.phrase && mistake.phrase.trim()) {
 				const mistakeRanges = findTextRanges(mistake.phrase, content);
 				mistakeRanges.forEach((range) => {
-					ranges.push({ ...range, type: 'mistake' });
+					ranges.push({ ...range, type: 'MISTAKES' });
 				});
 			}
 		}
@@ -126,7 +127,7 @@ export function highlightFeedbackContent(
 			if (strength.phrase && strength.phrase.trim()) {
 				const strengthRanges = findTextRanges(strength.phrase, content);
 				strengthRanges.forEach((range) => {
-					ranges.push({ ...range, type: 'strength' });
+					ranges.push({ ...range, type: 'STRENGTHS' });
 				});
 			}
 		}
@@ -138,7 +139,7 @@ export function highlightFeedbackContent(
 			if (suggestion.original && suggestion.original.trim()) {
 				const suggestionRanges = findTextRanges(suggestion.original, content);
 				suggestionRanges.forEach((range) => {
-					ranges.push({ ...range, type: 'suggestion' });
+					ranges.push({ ...range, type: 'SUGGESTIONS' });
 				});
 			}
 		}
