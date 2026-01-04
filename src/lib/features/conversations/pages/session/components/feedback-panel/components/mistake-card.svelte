@@ -17,6 +17,8 @@
 
 	let { mistake }: Props = $props();
 
+	$inspect(mistake);
+
 	const cardBg = getCardBackgroundColor('MISTAKES');
 	const cardBorder = getCardBorderColor('MISTAKES');
 
