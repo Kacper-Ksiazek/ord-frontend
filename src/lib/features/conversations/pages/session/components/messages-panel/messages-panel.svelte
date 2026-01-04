@@ -56,7 +56,7 @@
 				{/if}
 
 				{#if message.sender === 'USER'}
-					<UserMessage {message} />
+					<UserMessage messageIndex={index} {message} />
 				{/if}
 			{/each}
 		</ScrollableWrapper>
