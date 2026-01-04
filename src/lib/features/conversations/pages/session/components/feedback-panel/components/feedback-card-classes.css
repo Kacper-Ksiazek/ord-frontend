@@ -3,7 +3,7 @@
 
 @layer components {
 	.feedback-card-container {
-		@apply p-4 rounded-lg border shadow-sm;
+		@apply p-4 rounded-lg border;
 	}
 
 	.feedback-card-header {
