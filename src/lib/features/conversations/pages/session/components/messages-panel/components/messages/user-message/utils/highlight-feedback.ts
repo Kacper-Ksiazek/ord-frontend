@@ -7,6 +7,11 @@ interface HighlightRange {
 	text: string;
 }
 
+export interface HighlightPart {
+	text: string;
+	highlight?: 'mistake' | 'strength' | 'suggestion';
+}
+
 /**
  * Escapes special regex characters in a string
  */
@@ -91,13 +96,14 @@ function mergeRanges(ranges: HighlightRange[]): HighlightRange[] {
 }
 
 /**
- * Highlights feedback-related text in message content using HTML spans
+ * Highlights feedback-related text in message content and returns structured parts
+ * This allows for full interactivity when rendered with Svelte components
  */
 export function highlightFeedbackContent(
 	content: string,
 	feedback: ConversationUserMessageFeedbackDTO
-): string {
-	if (!feedback || !content) return content;
+): HighlightPart[] {
+	if (!feedback || !content) return [{ text: content }];
 
 	const ranges: HighlightRange[] = [];
 
@@ -141,10 +147,10 @@ export function highlightFeedbackContent(
 	// Merge overlapping ranges
 	const mergedRanges = mergeRanges(ranges);
 
-	if (mergedRanges.length === 0) return content;
+	if (mergedRanges.length === 0) return [{ text: content }];
 
-	// Build highlighted HTML string by processing ranges in order
-	const parts: Array<{ text: string; highlight?: HighlightRange['type'] }> = [];
+	// Build highlighted parts by processing ranges in order
+	const parts: HighlightPart[] = [];
 	let lastIndex = 0;
 
 	for (const range of mergedRanges) {
@@ -167,32 +173,5 @@ export function highlightFeedbackContent(
 		parts.push({ text: content.substring(lastIndex) });
 	}
 
-	// Convert to HTML with appropriate highlight classes
-	return parts
-		.map((part) => {
-			if (part.highlight) {
-				const classes = {
-					mistake: 'bg-red-200 dark:bg-red-900/50 text-red-900 dark:text-red-100',
-					suggestion: 'bg-blue-200 dark:bg-blue-900/50 text-blue-900 dark:text-blue-100',
-					strength: 'bg-green-200 dark:bg-green-900/50 text-green-900 dark:text-green-100'
-				};
-
-				return `<span class="${classes[part.highlight]} px-1 rounded">${escapeHtml(part.text)}</span>`;
-			}
-
-			return escapeHtml(part.text);
-		})
-		.join('');
-}
-
-/**
- * Escapes HTML special characters
- */
-function escapeHtml(text: string): string {
-	return text
-		.replace(/&/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;')
-		.replace(/"/g, '&quot;')
-		.replace(/'/g, '&#039;');
+	return parts;
 }
