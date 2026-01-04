@@ -56,20 +56,6 @@
 		return getFeedbackCriteriaColor(criteria);
 	};
 
-	const getIconColor = (criteria: MessageFeedbackCriteria) => {
-		const color = getFeedbackCriteriaColor(criteria);
-		switch (color) {
-			case 'red':
-				return 'text-red-500 dark:text-red-400';
-			case 'green':
-				return 'text-green-500 dark:text-green-400';
-			case 'blue':
-				return 'text-blue-500 dark:text-blue-400';
-			default:
-				return 'text-gray-500 dark:text-gray-400';
-		}
-	};
-
 	const getBorderColor = (criteria: MessageFeedbackCriteria) => {
 		const color = getFeedbackCriteriaColor(criteria);
 		switch (color) {
@@ -96,7 +82,7 @@
 					color={getBadgeColor(criteria)}
 					class={cn('flex items-center gap-1.5 py-1.5 border', getBorderColor(criteria))}
 				>
-					<FeedbackMetricIcon {criteria} class={cn('w-3.5 h-3.5', getIconColor(criteria))} />
+					<FeedbackMetricIcon {criteria} class={cn('w-3.5 h-3.5')} />
 					<span class="text-xs font-medium">{label}</span>
 					<span class="text-xs font-semibold">{count}</span>
 				</Badge>
