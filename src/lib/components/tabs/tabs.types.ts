@@ -3,6 +3,7 @@ export interface Tab {
 	label: string;
 	count?: number;
 	disabled?: boolean;
+	icon?: LucideIcon;
 }
 
 export interface TabsProps {

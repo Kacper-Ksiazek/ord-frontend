@@ -38,7 +38,7 @@
 				onclick={() => !tab.disabled && (activeTab = tab.id)}
 				disabled={tab.disabled}
 				class={cn(
-					'px-4 py-2 text-sm font-medium transition-colors border-b-2',
+					'px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2',
 					tab.disabled
 						? 'opacity-50 cursor-not-allowed text-gray-400 dark:text-gray-500'
 						: currentActiveTab === tab.id
@@ -47,7 +47,10 @@
 					tab.disabled && 'border-transparent'
 				)}
 			>
-				{tab.label}
+				{#if tab.icon}
+					<svelte:component this={tab.icon} class="w-4 h-4" />
+				{/if}
+				<span>{tab.label}</span>
 				{#if tab.count !== undefined && tab.count >= 0}
 					<span class="ml-1.5 text-xs">({tab.count})</span>
 				{/if}
