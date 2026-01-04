@@ -1,9 +1,8 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
-	import type { Component } from 'svelte';
 
 	interface Props {
-		icon: Component;
+		icon: LucideIcon;
 		onclick: () => void;
 		ariaLabel: string;
 		title: string;
