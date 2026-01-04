@@ -37,10 +37,8 @@
 		{#each boxes as boxIndex}
 			<div
 				class={cn(
-					'w-4 h-4 rounded-sm border',
-					boxIndex <= score
-						? `${boxColor} border-transparent`
-						: 'bg-gray-200 dark:bg-gray-700 border-gray-300 dark:border-gray-600'
+					'w-4 h-4 rounded-sm',
+					boxIndex <= score ? `${boxColor}` : 'bg-gray-300/50 dark:bg-gray-800/50'
 				)}
 			></div>
 		{/each}
