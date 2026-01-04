@@ -1,8 +1,8 @@
 <script lang="ts">
 	import type { AIMessageLearningTips } from '$lib/types/ongoing-conversation/api/responses';
 	import { cn } from 'flowbite-svelte';
-	import { Sparkles } from 'lucide-svelte';
 	import size from 'lodash/size';
+	import AiPostProcessActionBase from '../../../ai-post-process-action-base.svelte';
 
 	interface LearningTipsProps {
 		learningTips: AIMessageLearningTips;
@@ -52,18 +52,21 @@
 </script>
 
 {#if hasTips}
-	<div class={cn('flex flex-col gap-3 px-4 py-3 rounded-md w-full bg-primary-100 transition-all')}>
-		<div class="flex text-primary-700 items-center gap-2">
-			<Sparkles class="w-5 h-5" />
-			<span class="text-sm font-medium text-primary-700">Wskazówki do nauki</span>
-		</div>
-
+	<AiPostProcessActionBase
+		label="Wskazówki do nauki"
+		onclick={() => {
+			alert('clicked');
+		}}
+	>
 		<div class="flex flex-col">
 			<!-- Tab List -->
 			<div class="border-b border-gray-200 dark:border-gray-700 flex gap-1">
 				{#each availableTabs as tab}
 					<button
-						onclick={() => (activeTab = tab.id)}
+						onclick={(e) => {
+							e.stopPropagation();
+							activeTab = tab.id;
+						}}
 						class={cn(
 							'px-4 py-2 text-sm font-medium transition-colors border-b-2',
 							activeTab === tab.id
@@ -158,5 +161,5 @@
 				{/if}
 			</div>
 		</div>
-	</div>
+	</AiPostProcessActionBase>
 {/if}
