@@ -11,7 +11,7 @@
 	} from '$lib/types/conversation/domain/conversation-message-feedback';
 	import { SIDEPANEL_WIDTH } from '../constants';
 	import { fade } from 'svelte/transition';
-	import { MistakeCard, StrengthCard, SuggestionCard } from '../shared/user-message-feedback-cards';
+	import { MistakeCard, StrengthCard, SuggestionCard } from '../shared/user-message-feedback/cards';
 
 	const sidepanelContext = getSidepanelContext();
 
