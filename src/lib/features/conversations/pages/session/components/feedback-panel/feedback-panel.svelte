@@ -5,15 +5,13 @@
 	import type { Tab } from '$lib/components/tabs';
 	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
 	import { AccordionItem } from './components/accordion-item';
-	import MistakeCard from './components/mistake-card.svelte';
-	import StrengthCard from './components/strength-card.svelte';
-	import SuggestionCard from './components/suggestion-card.svelte';
 	import type {
 		ConversationMessageMistakeSeverity,
 		ConversationMessageSuggestionType
 	} from '$lib/types/conversation/domain/conversation-message-feedback';
 	import { SIDEPANEL_WIDTH } from '../constants';
 	import { fade } from 'svelte/transition';
+	import { MistakeCard, StrengthCard, SuggestionCard } from '../shared/user-message-feedback-cards';
 
 	const sidepanelContext = getSidepanelContext();
 
