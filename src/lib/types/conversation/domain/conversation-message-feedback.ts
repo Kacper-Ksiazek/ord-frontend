@@ -14,3 +14,12 @@ export type ConversationMessageSuggestionType =
 export type ConversationMessageStrength = components['schemas']['ConversationMessageStrength'];
 export type ConversationMessageStrengthType =
 	components['schemas']['ConversationMessageStrengthType'];
+
+export const CONVERSATION_MESSAGE_MISTAKE_SEVERITY_LEVEL_MAP: Record<
+	ConversationMessageMistakeSeverity,
+	number
+> = {
+	MINOR: 1,
+	MODERATE: 2,
+	CRITICAL: 3
+};
