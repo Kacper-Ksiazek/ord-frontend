@@ -6,16 +6,18 @@
 	import { includesEitherWay } from '$lib/utils/functions/includes-either-way';
 	import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/message-feedback-criteria';
 	import { cn, Tooltip } from 'flowbite-svelte';
-	import { getCardBorderColor } from '$lib/features/conversations/pages/session/components/feedback-panel/feedback-panel-colors.utils';
 	import { getLeadingColorForFeedbackMetric } from '$lib/features/conversations/pages/session/utils/get-leading-color-for-feedback-metric';
 	import FeedbackMetricIcon from '$lib/features/conversations/pages/session/components/shared/feedback-metric-icon.svelte';
-	import MistakeCard from '$lib/features/conversations/pages/session/components/feedback-panel/components/mistake-card.svelte';
-	import StrengthCard from '$lib/features/conversations/pages/session/components/feedback-panel/components/strength-card.svelte';
-	import SuggestionCard from '$lib/features/conversations/pages/session/components/feedback-panel/components/suggestion-card.svelte';
 	import { Tabs } from '$lib/components/tabs';
 	import type { Tab } from '$lib/components/tabs';
 	import { getFeedbackCriteriaColor } from '$lib/types/conversation/domain/message-feedback-criteria';
 	import { CircleAlert, CircleCheck, Lightbulb } from 'lucide-svelte';
+	import {
+		MistakeCard,
+		StrengthCard,
+		SuggestionCard
+	} from '$lib/features/conversations/pages/session/components/shared/user-message-feedback-cards';
+	import { getCardBorderColor } from '$lib/features/conversations/pages/session/utils/get-user-message-feedback-colors';
 
 	const { id, highlightType, highlightedText, feedback }: FeedbackTextHighlightProps = $props();
 
@@ -122,28 +124,34 @@
 >
 	<span class="inline-flex items-center gap-1 mr-1">
 		{#if isMistakeCardAvailable}
-			<CircleAlert
+			<FeedbackMetricIcon
+				criteria="MISTAKES"
 				class={cn(
 					'w-3 h-3', //
-					activeCard !== 'MISTAKES' ? 'opacity-40' : ''
+					activeCard !== 'MISTAKES' ? 'opacity-60' : '',
+					getLeadingColorForFeedbackMetric(activeCard)
 				)}
 			/>
 		{/if}
 
 		{#if isSuggestionCardAvailable}
-			<Lightbulb
+			<FeedbackMetricIcon
+				criteria="SUGGESTIONS"
 				class={cn(
 					'w-3 h-3', //
-					activeCard !== 'SUGGESTIONS' ? 'opacity-40' : ''
+					activeCard !== 'SUGGESTIONS' ? 'opacity-60' : '',
+					getLeadingColorForFeedbackMetric(activeCard)
 				)}
 			/>
 		{/if}
 
 		{#if isStrengthCardAvailable}
-			<CircleCheck
+			<FeedbackMetricIcon
+				criteria="STRENGTHS"
 				class={cn(
 					'w-3 h-3', //
-					activeCard !== 'STRENGTHS' ? 'opacity-40' : ''
+					activeCard !== 'STRENGTHS' ? 'opacity-60' : '',
+					getLeadingColorForFeedbackMetric(activeCard)
 				)}
 			/>
 		{/if}
