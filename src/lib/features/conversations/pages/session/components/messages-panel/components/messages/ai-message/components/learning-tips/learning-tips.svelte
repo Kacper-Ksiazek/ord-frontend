@@ -10,11 +10,11 @@
 
 	const { learningTips }: LearningTipsProps = $props();
 
-	const hasGrammarTips = $derived.by(() => size(learningTips.grammarTips) > 0);
-	const hasVocabularyTips = $derived.by(() => size(learningTips.vocabularyTips) > 0);
-	const hasIdiomTips = $derived.by(() => size(learningTips.idiomTips) > 0);
+	const hasGrammarTips = size(learningTips.grammarTips) > 0;
+	const hasVocabularyTips = size(learningTips.vocabularyTips) > 0;
+	const hasIdiomTips = size(learningTips.idiomTips) > 0;
 
-	const hasTips = $derived.by(() => hasGrammarTips || hasVocabularyTips || hasIdiomTips);
+	const hasTips = hasGrammarTips || hasVocabularyTips || hasIdiomTips;
 
 	const availableTabs = $derived.by(() => {
 		const tabs: Array<{ id: string; label: string; count: number }> = [];
@@ -43,12 +43,6 @@
 	});
 
 	let activeTab = $state('');
-
-	$effect(() => {
-		if (availableTabs.length > 0 && (!activeTab || !availableTabs.find((t) => t.id === activeTab))) {
-			activeTab = availableTabs[0].id;
-		}
-	});
 </script>
 
 {#if hasTips}
@@ -59,7 +53,6 @@
 		}}
 	>
 		<div class="flex flex-col">
-			<!-- Tab List -->
 			<div class="border-b border-gray-200 dark:border-gray-700 flex gap-1">
 				{#each availableTabs as tab}
 					<button

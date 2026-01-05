@@ -1,13 +1,14 @@
 <script lang="ts">
+	import size from 'lodash/size';
 	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import { Badge, cn, Toggle } from 'flowbite-svelte';
 	import Score from './components/score.svelte';
 	import { getSidepanelContext } from '$lib/features/conversations/pages/session/contexts/sidepanel-context.svelte';
 	import ToggleSidepanelButton from './components/toggle-sidepanel-button.svelte';
 	import AiPostProcessActionBase from '../../../ai-post-process-action-base.svelte';
-	import FeedbackMetricIcon from '$lib/features/conversations/pages/session/components/shared/feedback-metric-icon.svelte';
+	import FeedbackMetricIcon from '$lib/features/conversations/pages/session/components/shared/user-message-feedback/user-message-feedback-metric-icon.svelte';
 	import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/message-feedback-criteria';
-	import { getFeedbackCriteriaColor } from '$lib/types/conversation/domain/message-feedback-criteria';
+	import { getUserMessageFeedbackColors } from '$lib/features/conversations/pages/session/consts/user-message-feedback/colors';
 
 	interface FeedbackProps {
 		feedback: ConversationUserMessageFeedbackDTO;
@@ -25,9 +26,9 @@
 		sidepanelContext.isOpened && sidepanelContext.feedbackPreview?.id === feedback.id
 	);
 
-	const mistakesCount = feedback.mistakes?.length ?? 0;
-	const strengthsCount = feedback.strengths?.length ?? 0;
-	const suggestionsCount = feedback.suggestions?.length ?? 0;
+	const mistakesCount = size(feedback.mistakes);
+	const strengthsCount = size(feedback.strengths);
+	const suggestionsCount = size(feedback.suggestions);
 
 	const indicators = $derived.by(() => {
 		const items: Array<{
@@ -57,11 +58,11 @@
 	});
 
 	const getBadgeColor = (criteria: MessageFeedbackCriteria) => {
-		return getFeedbackCriteriaColor(criteria);
+		return getUserMessageFeedbackColors(criteria).twColor;
 	};
 
 	const getBorderColor = (criteria: MessageFeedbackCriteria) => {
-		const color = getFeedbackCriteriaColor(criteria);
+		const color = getUserMessageFeedbackColors(criteria).twColor;
 		switch (color) {
 			case 'red':
 				return 'border-red-600 dark:border-red-500';

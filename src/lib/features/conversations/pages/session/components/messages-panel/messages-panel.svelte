@@ -50,6 +50,7 @@
 					{@const isLastMessage = index === messagesContext.messages.length - 1}
 					<AiMessage
 						message={message.content}
+						messageIndex={index}
 						isStillGenerating={isLastMessage && messagesContext.isGenerating}
 						learningTips={message.learningTips}
 					/>

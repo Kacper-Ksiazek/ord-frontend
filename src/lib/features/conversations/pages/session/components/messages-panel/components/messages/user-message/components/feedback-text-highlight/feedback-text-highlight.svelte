@@ -7,17 +7,16 @@
 	import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/message-feedback-criteria';
 	import { cn, Tooltip } from 'flowbite-svelte';
 	import { getLeadingColorForFeedbackMetric } from '$lib/features/conversations/pages/session/utils/get-leading-color-for-feedback-metric';
-	import FeedbackMetricIcon from '$lib/features/conversations/pages/session/components/shared/feedback-metric-icon.svelte';
+	import FeedbackMetricIcon from '$lib/features/conversations/pages/session/components/shared/user-message-feedback/user-message-feedback-metric-icon.svelte';
 	import { Tabs } from '$lib/components/tabs';
 	import type { Tab } from '$lib/components/tabs';
-	import { getFeedbackCriteriaColor } from '$lib/types/conversation/domain/message-feedback-criteria';
 	import { CircleAlert, CircleCheck, Lightbulb } from 'lucide-svelte';
 	import {
 		MistakeCard,
 		StrengthCard,
 		SuggestionCard
-	} from '$lib/features/conversations/pages/session/components/shared/user-message-feedback-cards';
-	import { getCardBorderColor } from '$lib/features/conversations/pages/session/utils/get-user-message-feedback-colors';
+	} from '$lib/features/conversations/pages/session/components/shared/user-message-feedback/cards';
+	import { getUserMessageFeedbackColors } from '$lib/features/conversations/pages/session/consts/user-message-feedback/colors';
 
 	const {
 		id,
@@ -130,14 +129,17 @@
 	tabindex="0"
 >
 	{#if showIconsInHighlightedParts}
+		{@const iconColor = getUserMessageFeedbackColors(activeCard).text}
+		{@const iconSize = 'w-3 h-3'}
+
 		<span class="inline-flex items-center gap-1 mx-1">
 			{#if isMistakeCardAvailable}
 				<FeedbackMetricIcon
 					criteria="MISTAKES"
 					class={cn(
-						'w-3 h-3', //
+						iconSize, //
 						activeCard !== 'MISTAKES' ? 'opacity-60' : '',
-						getLeadingColorForFeedbackMetric(activeCard)
+						iconColor
 					)}
 				/>
 			{/if}
@@ -146,9 +148,9 @@
 				<FeedbackMetricIcon
 					criteria="SUGGESTIONS"
 					class={cn(
-						'w-3 h-3', //
+						iconSize, //
 						activeCard !== 'SUGGESTIONS' ? 'opacity-60' : '',
-						getLeadingColorForFeedbackMetric(activeCard)
+						iconColor
 					)}
 				/>
 			{/if}
@@ -157,9 +159,9 @@
 				<FeedbackMetricIcon
 					criteria="STRENGTHS"
 					class={cn(
-						'w-3 h-3', //
+						iconSize, //
 						activeCard !== 'STRENGTHS' ? 'opacity-60' : '',
-						getLeadingColorForFeedbackMetric(activeCard)
+						iconColor
 					)}
 				/>
 			{/if}
@@ -172,7 +174,7 @@
 	triggeredBy={`#${id}`}
 	class={cn(
 		'bg-white dark:bg-gray-800 shadow-lg border-2 rounded-lg select-none', //
-		getCardBorderColor(activeCard)
+		getUserMessageFeedbackColors(activeCard).cardBorder
 	)}
 >
 	<div class="p-2 w-[500px]">
@@ -180,7 +182,7 @@
 			<Tabs
 				tabs={availableTabs}
 				bind:activeTab={activeCard}
-				activeColor={getFeedbackCriteriaColor(activeCard)}
+				activeColor={getUserMessageFeedbackColors(activeCard).twColor}
 				class="mb-3"
 			/>
 		{:else}

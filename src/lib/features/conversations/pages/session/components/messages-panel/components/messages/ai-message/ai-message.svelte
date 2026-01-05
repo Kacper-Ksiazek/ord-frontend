@@ -7,16 +7,28 @@
 	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
 	import { getConversationContext } from '$lib/features/conversations/pages/session/contexts/conversation-context.svelte';
 	import { LearningTips } from './components/learning-tips';
+	import { highlightLearningTipsContent } from './utils/highlight-learning-tips';
+	import { LearningTipTextHighlight } from './components/learning-tip-text-highlight';
+	import isNil from 'lodash/isNil';
 
 	interface AiMessageProps {
 		message: string;
+		messageIndex: number;
 		isStillGenerating: boolean;
 		learningTips?: AIMessageLearningTips | null;
 	}
 
-	const { message, isStillGenerating, learningTips }: AiMessageProps = $props();
+	const { message, messageIndex, isStillGenerating, learningTips }: AiMessageProps = $props();
 
 	const { interlocutor } = getConversationContext();
+
+	const highlightedParts = $derived.by(() => {
+		if (isNil(learningTips) || !message) {
+			return null;
+		}
+
+		return highlightLearningTipsContent(message, learningTips);
+	});
 </script>
 
 <MessageBase
@@ -36,7 +48,24 @@
 	{#snippet content()}
 		{#if message}
 			<p>
-				{message}
+				{#if highlightedParts && learningTips}
+					{#each highlightedParts as part, index}
+						{#if part.highlight}
+							{@const id = `learning-tip-${part.highlight}-${messageIndex}-${index}`}
+
+							<LearningTipTextHighlight
+								{id}
+								highlightType={part.highlight}
+								highlightedText={part.text}
+								{learningTips}
+							/>
+						{:else}
+							{part.text}
+						{/if}
+					{/each}
+				{:else}
+					{message}
+				{/if}
 			</p>
 		{:else}
 			<TextWithThreeDotsAnimation text="Generowanie odpowiedzi" />
