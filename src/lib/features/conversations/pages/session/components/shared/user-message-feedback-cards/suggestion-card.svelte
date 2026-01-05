@@ -6,6 +6,7 @@
 		getCardBackgroundColor,
 		getCardBorderColor
 	} from '../../../utils/get-user-message-feedback-colors';
+	import { ArrowRight } from 'lucide-svelte';
 
 	interface Props {
 		suggestion: ConversationMessageSuggestion;
@@ -23,14 +24,19 @@
 	</div>
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Original:</p>
-		<p class="feedback-card-text-box-neutral">"{suggestion.original}"</p>
+		<div class="feedback-card-text-box variant-neutral">
+			<span>{suggestion.original}</span>
+		</div>
 	</div>
 
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Alternatives:</p>
-		<ul class="list-disc list-inside space-y-2 ml-2">
+		<ul class="space-y-2">
 			{#each suggestion.alternatives as alternative}
-				<li class="feedback-card-text-box-blue">"{alternative}"</li>
+				<li class="feedback-card-text-box variant-blue">
+					<ArrowRight class="text-blue-600 dark:text-blue-400" />
+					<span>{alternative}</span>
+				</li>
 			{/each}
 		</ul>
 	</div>

@@ -6,6 +6,7 @@
 		getCardBorderColor
 	} from '../../../utils/get-user-message-feedback-colors';
 	import './user-message-feedback-cards.css';
+	import { ThumbsUp } from 'lucide-svelte';
 
 	interface Props {
 		strength: ConversationMessageStrength;
@@ -23,7 +24,10 @@
 	</div>
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Phrase:</p>
-		<p class="feedback-card-text-box-neutral">"{strength.phrase}"</p>
+		<div class="feedback-card-text-box variant-neutral">
+			<ThumbsUp class="text-green-600 dark:text-green-400" />
+			<span>{strength.phrase}</span>
+		</div>
 	</div>
 	{#if strength.explanation}
 		<div>
