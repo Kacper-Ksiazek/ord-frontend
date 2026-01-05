@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { AccordionItem, Badge, cn } from 'flowbite-svelte';
-	import {
-		getHoverBackgroundColor,
-		getActiveBackgroundColor
-	} from '../../feedback-panel-colors.utils';
 	import FeedbackMetricIcon from '../../../shared/feedback-metric-icon.svelte';
 	import { getLeadingColorForFeedbackMetric } from '../../../../utils/get-leading-color-for-feedback-metric';
 	import { getFeedbackCriteriaColor } from '$lib/types/conversation/domain/message-feedback-criteria';
 	import type { AccordionItemProps } from './accordion-item.interface';
+	import {
+		getHoverBackgroundColor,
+		getActiveBackgroundColor
+	} from '$lib/features/conversations/pages/session/utils/get-user-message-feedback-colors';
 
 	let {
 		criteria,
