@@ -6,4 +6,5 @@ export interface FeedbackTextHighlightProps {
 	highlightType: MessageFeedbackCriteria;
 	highlightedText: string;
 	feedback: ConversationUserMessageFeedbackDTO;
+	showIconsInHighlightedParts: boolean;
 }

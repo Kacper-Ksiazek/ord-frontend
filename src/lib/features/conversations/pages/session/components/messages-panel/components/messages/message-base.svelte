@@ -44,7 +44,7 @@
 		{#if content}
 			<div
 				class={cn(
-					'px-4 py-2 rounded-lg leading-[1.8] tracking-wide min-w-[84px] min-h-[84px] bg-slate-100', //
+					'px-4 py-2 rounded-lg leading-[26px] tracking-wide min-w-[84px] min-h-[84px] bg-slate-100', //
 					messageClass
 				)}
 			>

@@ -19,7 +19,13 @@
 	} from '$lib/features/conversations/pages/session/components/shared/user-message-feedback-cards';
 	import { getCardBorderColor } from '$lib/features/conversations/pages/session/utils/get-user-message-feedback-colors';
 
-	const { id, highlightType, highlightedText, feedback }: FeedbackTextHighlightProps = $props();
+	const {
+		id,
+		highlightType,
+		highlightedText,
+		feedback,
+		showIconsInHighlightedParts
+	}: FeedbackTextHighlightProps = $props();
 
 	const cards = {
 		MISTAKES: feedback?.mistakes?.find((m) => includesEitherWay(m.phrase, highlightedText)),
@@ -92,18 +98,19 @@
 		}
 		if (e.key === 'Tab' && moreThanOneCardAvailable) {
 			if (activeCard === 'MISTAKES' && isSuggestionCardAvailable) {
-				e.preventDefault();
-				e.stopPropagation();
 				activeCard = 'SUGGESTIONS';
 			} else if (activeCard === 'MISTAKES' && isStrengthCardAvailable) {
-				e.preventDefault();
-				e.stopPropagation();
 				activeCard = 'STRENGTHS';
 			} else if (activeCard === 'SUGGESTIONS' && isStrengthCardAvailable) {
-				e.preventDefault();
-				e.stopPropagation();
 				activeCard = 'STRENGTHS';
+			} else {
+				// Return when no condition is met
+				return;
 			}
+
+			// Callback for every condition that is met
+			e.preventDefault();
+			e.stopPropagation();
 		}
 	}
 </script>
@@ -111,7 +118,7 @@
 <span
 	{id}
 	class={cn(
-		'px-1 rounded  transition-colors inline-flex items-center', //
+		'inline rounded transition-colors box-decoration-clone',
 		getHighlightedTextColors(activeCard),
 		moreThanOneCardAvailable ? 'cursor-pointer' : 'cursor-default'
 	)}
@@ -122,41 +129,42 @@
 	role="button"
 	tabindex="0"
 >
-	<span class="inline-flex items-center gap-1 mr-1">
-		{#if isMistakeCardAvailable}
-			<FeedbackMetricIcon
-				criteria="MISTAKES"
-				class={cn(
-					'w-3 h-3', //
-					activeCard !== 'MISTAKES' ? 'opacity-60' : '',
-					getLeadingColorForFeedbackMetric(activeCard)
-				)}
-			/>
-		{/if}
+	{#if showIconsInHighlightedParts}
+		<span class="inline-flex items-center gap-1 mx-1">
+			{#if isMistakeCardAvailable}
+				<FeedbackMetricIcon
+					criteria="MISTAKES"
+					class={cn(
+						'w-3 h-3', //
+						activeCard !== 'MISTAKES' ? 'opacity-60' : '',
+						getLeadingColorForFeedbackMetric(activeCard)
+					)}
+				/>
+			{/if}
 
-		{#if isSuggestionCardAvailable}
-			<FeedbackMetricIcon
-				criteria="SUGGESTIONS"
-				class={cn(
-					'w-3 h-3', //
-					activeCard !== 'SUGGESTIONS' ? 'opacity-60' : '',
-					getLeadingColorForFeedbackMetric(activeCard)
-				)}
-			/>
-		{/if}
+			{#if isSuggestionCardAvailable}
+				<FeedbackMetricIcon
+					criteria="SUGGESTIONS"
+					class={cn(
+						'w-3 h-3', //
+						activeCard !== 'SUGGESTIONS' ? 'opacity-60' : '',
+						getLeadingColorForFeedbackMetric(activeCard)
+					)}
+				/>
+			{/if}
 
-		{#if isStrengthCardAvailable}
-			<FeedbackMetricIcon
-				criteria="STRENGTHS"
-				class={cn(
-					'w-3 h-3', //
-					activeCard !== 'STRENGTHS' ? 'opacity-60' : '',
-					getLeadingColorForFeedbackMetric(activeCard)
-				)}
-			/>
-		{/if}
-	</span>
-
+			{#if isStrengthCardAvailable}
+				<FeedbackMetricIcon
+					criteria="STRENGTHS"
+					class={cn(
+						'w-3 h-3', //
+						activeCard !== 'STRENGTHS' ? 'opacity-60' : '',
+						getLeadingColorForFeedbackMetric(activeCard)
+					)}
+				/>
+			{/if}
+		</span>
+	{/if}
 	{highlightedText}
 </span>
 

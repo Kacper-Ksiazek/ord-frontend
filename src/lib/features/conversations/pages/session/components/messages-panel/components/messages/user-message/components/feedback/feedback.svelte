@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
-	import { Badge, cn } from 'flowbite-svelte';
+	import { Badge, cn, Toggle } from 'flowbite-svelte';
 	import Score from './components/score.svelte';
 	import { getSidepanelContext } from '$lib/features/conversations/pages/session/contexts/sidepanel-context.svelte';
 	import ToggleSidepanelButton from './components/toggle-sidepanel-button.svelte';
@@ -11,9 +11,13 @@
 
 	interface FeedbackProps {
 		feedback: ConversationUserMessageFeedbackDTO;
+		showIconsInHighlightedParts: boolean;
 	}
 
-	const { feedback }: FeedbackProps = $props();
+	let {
+		feedback, //
+		showIconsInHighlightedParts = $bindable()
+	}: FeedbackProps = $props();
 
 	const sidepanelContext = getSidepanelContext();
 
@@ -76,17 +80,29 @@
 	class={cn(isSelected ? 'bg-primary-200' : 'bg-primary-100')}
 >
 	{#if indicators.length > 0}
-		<div class="flex flex-row gap-2 flex-wrap">
-			{#each indicators as { criteria, count, label }}
-				<Badge
-					color={getBadgeColor(criteria)}
-					class={cn('flex items-center gap-1.5 py-1.5 border', getBorderColor(criteria))}
+		<div class="flex flex-row gap-2 flex-wrap items-center justify-between">
+			<div class="flex flex-row gap-2 flex-wrap">
+				{#each indicators as { criteria, count, label }}
+					<Badge
+						color={getBadgeColor(criteria)}
+						class={cn('flex items-center gap-1.5 py-1.5 border', getBorderColor(criteria))}
+					>
+						<FeedbackMetricIcon {criteria} class={cn('w-3.5 h-3.5')} />
+						<span class="text-xs font-medium">{label}</span>
+						<span class="text-xs font-semibold">{count}</span>
+					</Badge>
+				{/each}
+			</div>
+
+			<div class="flex items-center">
+				<Toggle
+					checked={showIconsInHighlightedParts}
+					onchange={() => (showIconsInHighlightedParts = !showIconsInHighlightedParts)}
+					size="small"
 				>
-					<FeedbackMetricIcon {criteria} class={cn('w-3.5 h-3.5')} />
-					<span class="text-xs font-medium">{label}</span>
-					<span class="text-xs font-semibold">{count}</span>
-				</Badge>
-			{/each}
+					<span class="text-sm font-normal">Pokaż ikony</span>
+				</Toggle>
+			</div>
 		</div>
 	{/if}
 
@@ -97,12 +113,9 @@
 	</div>
 
 	<div class="flex flex-col gap-2">
-		<!-- Scores -->
 		<Score field="Gramatyka" score={feedback.grammar} />
 		<Score field="Słownictwo" score={feedback.vocabulary} />
 		<Score field="Naturalność" score={feedback.naturalness} />
-
-		<!-- Feedback Indicators -->
 	</div>
 
 	<ToggleSidepanelButton {isSelected} {feedback} />

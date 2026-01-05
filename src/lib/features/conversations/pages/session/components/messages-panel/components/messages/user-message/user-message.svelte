@@ -14,6 +14,8 @@
 
 	const { messageIndex, message }: UserMessageProps = $props();
 
+	let showIconsInHighlightedParts = $state(true);
+
 	const highlightedParts = $derived.by(() => {
 		if (isNil(message.feedback)) {
 			return null;
@@ -39,6 +41,7 @@
 							highlightType={part.highlight}
 							highlightedText={part.text}
 							feedback={message.feedback}
+							{showIconsInHighlightedParts}
 						/>
 					{:else}
 						{part.text}
@@ -52,7 +55,7 @@
 
 	{#snippet footer()}
 		{#if message.feedback}
-			<Feedback feedback={message.feedback} />
+			<Feedback feedback={message.feedback} bind:showIconsInHighlightedParts />
 		{:else}
 			<div class="w-full h-[184px] generation-in-progress px-4 rounded-md"></div>
 		{/if}
