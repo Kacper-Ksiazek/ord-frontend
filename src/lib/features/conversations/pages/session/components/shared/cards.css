@@ -1,0 +1,48 @@
+@import 'tailwindcss' reference;
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer components {
+	.feedback-card-container {
+		@apply p-4 rounded-lg border;
+	}
+
+	.feedback-card-header {
+		@apply flex items-start justify-between mb-2;
+	}
+
+	.feedback-card-section {
+		@apply mb-3;
+	}
+
+	.feedback-card-label {
+		@apply text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2;
+	}
+
+	.feedback-card-text-box {
+		@apply flex items-center gap-2 text-sm p-3 rounded-lg border text-gray-900 dark:text-gray-100;
+	}
+
+	.feedback-card-text-box svg {
+		@apply w-4 h-4 shrink-0;
+	}
+
+	.feedback-card-text-box.variant-neutral {
+		@apply bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600;
+	}
+
+	.feedback-card-text-box.variant-green {
+		@apply bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-700;
+	}
+
+	.feedback-card-text-box.variant-red {
+		@apply bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700;
+	}
+
+	.feedback-card-text-box.variant-blue {
+		@apply bg-blue-50 dark:bg-blue-900/20 border-blue-200 dark:border-blue-700;
+	}
+
+	.feedback-card-explanation {
+		@apply text-sm text-gray-700 dark:text-gray-300 leading-relaxed;
+	}
+}
