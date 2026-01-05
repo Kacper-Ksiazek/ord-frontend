@@ -6,9 +6,14 @@ export interface Tab {
 	icon?: LucideIcon;
 }
 
+export type TabsSupportedTailwindColor = Extract<
+	TailwindColor,
+	'red' | 'blue' | 'green' | 'purple' | 'yellow' | 'orange' | 'gray' | 'primary'
+>;
+
 export interface TabsProps {
 	tabs: Tab[];
 	activeTab?: string | number;
-	activeColor?: 'red' | 'blue' | 'green' | 'purple' | 'yellow' | 'orange' | 'gray' | 'primary';
+	activeColor?: TabsSupportedTailwindColor;
 	class?: string;
 }

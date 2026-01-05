@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
-	import type { TabsProps } from './tabs.types';
+	import type { TabsSupportedTailwindColor, TabsProps } from './tabs.types';
 
 	let {
 		tabs,
@@ -16,7 +16,7 @@
 		}
 	});
 
-	const activeColorClasses: Record<NonNullable<TabsProps['activeColor']>, string> = {
+	const activeColorClasses: Record<TabsSupportedTailwindColor, string> = {
 		red: 'border-red-600 text-red-600 dark:text-red-400 dark:border-red-400',
 		blue: 'border-blue-600 text-blue-600 dark:text-blue-400 dark:border-blue-400',
 		green: 'border-green-600 text-green-600 dark:text-green-400 dark:border-green-400',
