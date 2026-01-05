@@ -20,4 +20,35 @@ declare global {
 	 * Provides semantic clarity that a type represents a Lucide icon
 	 */
 	type LucideIcon = typeof Icon;
+
+	/**
+	 * TailwindColor - represents a Tailwind CSS color name
+	 * Provides type safety for Tailwind color names used throughout the application
+	 * Includes standard Tailwind colors and custom theme colors
+	 */
+	type TailwindColor =
+		| 'slate'
+		| 'gray'
+		| 'zinc'
+		| 'neutral'
+		| 'stone'
+		| 'red'
+		| 'orange'
+		| 'amber'
+		| 'yellow'
+		| 'lime'
+		| 'green'
+		| 'emerald'
+		| 'teal'
+		| 'cyan'
+		| 'sky'
+		| 'blue'
+		| 'indigo'
+		| 'violet'
+		| 'purple'
+		| 'fuchsia'
+		| 'pink'
+		| 'rose'
+		| 'primary'
+		| 'secondary';
 }
