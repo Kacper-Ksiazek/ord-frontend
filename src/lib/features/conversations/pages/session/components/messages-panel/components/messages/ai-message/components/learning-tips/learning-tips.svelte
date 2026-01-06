@@ -1,28 +1,74 @@
 <script lang="ts">
 	import type { AIMessageLearningTips } from '$lib/types/ongoing-conversation/api/responses';
 	import size from 'lodash/size';
+	import compact from 'lodash/compact';
 	import AiPostProcessActionBase from '../../../ai-post-process-action-base.svelte';
+	import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
+	import { getAiMessageLearningTipColors } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
+	import HighlightsCountBadge from '$lib/features/conversations/pages/session/components/shared/highlights-count-badge.svelte';
+	import ToggleIconsInHighlight from '$lib/features/conversations/pages/session/components/shared/toggle-icons-in-highlight.svelte';
+	import AiMessageLearningTipIcon from '$lib/features/conversations/pages/session/components/shared/ai-message-learning-tips/ai-message-learning-tip-icon.svelte';
 
 	interface LearningTipsProps {
 		learningTips: AIMessageLearningTips;
+		showIconsInHighlightedParts: boolean;
 	}
 
-	const { learningTips }: LearningTipsProps = $props();
+	let {
+		learningTips, //
+		showIconsInHighlightedParts = $bindable()
+	}: LearningTipsProps = $props();
 
-	const hasGrammarTips = size(learningTips.grammarTips) > 0;
-	const hasVocabularyTips = size(learningTips.vocabularyTips) > 0;
-	const hasIdiomTips = size(learningTips.idiomTips) > 0;
+	const grammarTipsCount = size(learningTips.grammarTips);
+	const vocabularyTipsCount = size(learningTips.vocabularyTips);
+	const idiomTipsCount = size(learningTips.idiomTips);
 
-	const hasTips = hasGrammarTips || hasVocabularyTips || hasIdiomTips;
+	const indicators = compact([
+		grammarTipsCount > 0 && {
+			category: 'GRAMMAR' as LearningTipCategory,
+			count: grammarTipsCount,
+			label: 'Gramatyka'
+		},
+		vocabularyTipsCount > 0 && {
+			category: 'VOCABULARY' as LearningTipCategory,
+			count: vocabularyTipsCount,
+			label: 'Słownictwo'
+		},
+		idiomTipsCount > 0 && {
+			category: 'IDIOMS' as LearningTipCategory,
+			count: idiomTipsCount,
+			label: 'Idiomy'
+		}
+	]) satisfies {
+		category: LearningTipCategory;
+		count: number;
+		label: string;
+	}[];
+
+	const hasTips = indicators.length > 0;
 </script>
 
 {#if hasTips}
 	<AiPostProcessActionBase
 		label="Wskazówki do nauki"
 		onclick={() => {
-			alert('clicked');
+			console.log('🔥 TODO: Implement support for the panel');
 		}}
 	>
-		<span>TODO: chips & toggle</span>
+		<div class="flex flex-row gap-2 flex-wrap items-center justify-between">
+			<div class="flex flex-row gap-2 flex-wrap">
+				{#each indicators as { category, count, label }}
+					{@const { twColor, chipBorder } = getAiMessageLearningTipColors(category)}
+
+					<HighlightsCountBadge {count} {label} color={twColor} class={chipBorder}>
+						{#snippet icon()}
+							<AiMessageLearningTipIcon tipCategory={category} />
+						{/snippet}
+					</HighlightsCountBadge>
+				{/each}
+			</div>
+
+			<ToggleIconsInHighlight bind:checked={showIconsInHighlightedParts} />
+		</div>
 	</AiPostProcessActionBase>
 {/if}
