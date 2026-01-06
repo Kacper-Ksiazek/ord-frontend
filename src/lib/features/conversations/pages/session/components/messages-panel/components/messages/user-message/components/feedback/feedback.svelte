@@ -2,10 +2,9 @@
 	import size from 'lodash/size';
 	import compact from 'lodash/compact';
 	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
-	import { Badge, cn, Toggle } from 'flowbite-svelte';
+	import { cn } from 'flowbite-svelte';
 	import Score from './components/score.svelte';
 	import { getSidepanelContext } from '$lib/features/conversations/pages/session/contexts/sidepanel-context.svelte';
-	import ToggleSidepanelButton from './components/toggle-sidepanel-button.svelte';
 	import AiPostProcessActionBase from '../../../ai-post-process-action-base.svelte';
 	import FeedbackMetricIcon from '$lib/features/conversations/pages/session/components/shared/user-message-feedback/user-message-feedback-metric-icon.svelte';
 	import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/message-feedback-criteria';
@@ -101,6 +100,4 @@
 		<Score field="Słownictwo" score={feedback.vocabulary} />
 		<Score field="Naturalność" score={feedback.naturalness} />
 	</div>
-
-	<ToggleSidepanelButton {isSelected} {feedback} />
 </AiPostProcessActionBase>
