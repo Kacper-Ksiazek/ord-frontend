@@ -1,22 +1,20 @@
 <script lang="ts">
 	import isNil from 'lodash/isNil';
 	import compact from 'lodash/compact';
-	import { getHighlightedTextColors } from './utils';
 	import type { FeedbackTextHighlightProps } from './feedback-text-highlight.types';
 	import { includesEitherWay } from '$lib/utils/functions/includes-either-way';
 	import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/message-feedback-criteria';
 	import { cn, Tooltip } from 'flowbite-svelte';
-	import { getLeadingColorForFeedbackMetric } from '$lib/features/conversations/pages/session/utils/get-leading-color-for-feedback-metric';
 	import FeedbackMetricIcon from '$lib/features/conversations/pages/session/components/shared/user-message-feedback/user-message-feedback-metric-icon.svelte';
 	import { Tabs } from '$lib/components/tabs';
 	import type { Tab } from '$lib/components/tabs';
-	import { CircleAlert, CircleCheck, Lightbulb } from 'lucide-svelte';
 	import {
 		MistakeCard,
 		StrengthCard,
 		SuggestionCard
 	} from '$lib/features/conversations/pages/session/components/shared/user-message-feedback/cards';
 	import { getUserMessageFeedbackColors } from '$lib/features/conversations/pages/session/consts/user-message-feedback/colors';
+	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$lib/features/conversations/pages/session/consts/user-message-feedback/icons';
 
 	const {
 		id,
@@ -37,18 +35,32 @@
 	const isSuggestionCardAvailable = !isNil(cards.SUGGESTIONS);
 
 	const moreThanOneCardAvailable =
-		Number(isMistakeCardAvailable) +
-			Number(isStrengthCardAvailable) +
-			Number(isSuggestionCardAvailable) >
-		1;
+		compact([
+			isMistakeCardAvailable, //
+			isStrengthCardAvailable,
+			isSuggestionCardAvailable
+		]).length >= 2;
 
 	let activeCard = $state<MessageFeedbackCriteria>(highlightType);
+	const activeCardColors = $derived(getUserMessageFeedbackColors(activeCard));
 
 	const availableTabs = compact([
-		isMistakeCardAvailable ? { id: 'MISTAKES', label: 'Mistake', icon: CircleAlert } : null,
-		isSuggestionCardAvailable ? { id: 'SUGGESTIONS', label: 'Suggestion', icon: Lightbulb } : null,
-		isStrengthCardAvailable ? { id: 'STRENGTHS', label: 'Strength', icon: CircleCheck } : null
-	] as (Tab | null)[]);
+		isMistakeCardAvailable && {
+			id: 'MISTAKES',
+			label: 'Mistake', // TODO: i18n
+			icon: USER_MESSAGE_FEEDBACK_ICONS_MAP['MISTAKES']
+		},
+		isSuggestionCardAvailable && {
+			id: 'SUGGESTIONS',
+			label: 'Suggestion', // TODO: i18n
+			icon: USER_MESSAGE_FEEDBACK_ICONS_MAP['SUGGESTIONS']
+		},
+		isStrengthCardAvailable && {
+			id: 'STRENGTHS',
+			label: 'Strength', // TODO: i18n
+			icon: USER_MESSAGE_FEEDBACK_ICONS_MAP['STRENGTHS']
+		}
+	]) satisfies Tab[];
 
 	function handleMouseLeave() {
 		activeCard = highlightType;
@@ -118,7 +130,7 @@
 	{id}
 	class={cn(
 		'inline rounded transition-colors box-decoration-clone',
-		getHighlightedTextColors(activeCard),
+		activeCardColors.highlightedText,
 		moreThanOneCardAvailable ? 'cursor-pointer' : 'cursor-default'
 	)}
 	onclick={handleHighlightClick}
@@ -129,7 +141,7 @@
 	tabindex="0"
 >
 	{#if showIconsInHighlightedParts}
-		{@const iconColor = getUserMessageFeedbackColors(activeCard).text}
+		{@const iconColor = activeCardColors.text}
 		{@const iconSize = 'w-3 h-3'}
 
 		<span class="inline-flex items-center gap-1 mx-1">
@@ -174,7 +186,7 @@
 	triggeredBy={`#${id}`}
 	class={cn(
 		'bg-white dark:bg-gray-800 shadow-lg border-2 rounded-lg select-none', //
-		getUserMessageFeedbackColors(activeCard).cardBorder
+		activeCardColors.cardBorder
 	)}
 >
 	<div class="p-2 w-[500px]">
@@ -182,16 +194,11 @@
 			<Tabs
 				tabs={availableTabs}
 				bind:activeTab={activeCard}
-				activeColor={getUserMessageFeedbackColors(activeCard).twColor}
+				activeColor={activeCardColors.twColor}
 				class="mb-3"
 			/>
 		{:else}
-			<h3
-				class={cn(
-					'flex items-center gap-2 text-sm font-semibold mb-2',
-					getLeadingColorForFeedbackMetric(activeCard)
-				)}
-			>
+			<h3 class={cn('flex items-center gap-2 text-sm font-semibold mb-2', activeCardColors.text)}>
 				<FeedbackMetricIcon criteria={activeCard} class="w-4 h-4" />
 				<span>
 					{activeCard === 'MISTAKES'
