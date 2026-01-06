@@ -1,7 +1,6 @@
 <script lang="ts">
 	import isNil from 'lodash/isNil';
 	import compact from 'lodash/compact';
-	import { getHighlightedTextColors } from './utils';
 	import type { LearningTipTextHighlightProps } from './learning-tip-text-highlight.types';
 	import { includesEitherWay } from '$lib/utils/functions/includes-either-way';
 	import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
@@ -14,39 +13,42 @@
 		IdiomTipCard
 	} from '$lib/features/conversations/pages/session/components/shared/ai-message-learning-tips/cards';
 	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/icons';
+	import { getAiMessageLearningTipColors } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
 
 	const { id, highlightType, highlightedText, learningTips }: LearningTipTextHighlightProps =
 		$props();
 
-	const grammarTip = learningTips?.grammarTips?.find((tip) =>
-		includesEitherWay(tip.phrase, highlightedText)
-	);
-	const vocabularyTip = learningTips?.vocabularyTips?.find((tip) =>
-		includesEitherWay(tip.word, highlightedText)
-	);
-	const idiomTip = learningTips?.idiomTips?.find((tip) =>
-		includesEitherWay(tip.phrase, highlightedText)
-	);
+	const cards = {
+		GRAMMAR: learningTips?.grammarTips?.find((tip) => includesEitherWay(tip.phrase, highlightedText)),
+		VOCABULARY: learningTips?.vocabularyTips?.find((tip) =>
+			includesEitherWay(tip.word, highlightedText)
+		),
+		IDIOMS: learningTips?.idiomTips?.find((tip) => includesEitherWay(tip.phrase, highlightedText))
+	} satisfies Record<LearningTipCategory, unknown>;
 
-	const isGrammarTipAvailable = !isNil(grammarTip);
-	const isVocabularyTipAvailable = !isNil(vocabularyTip);
-	const isIdiomTipAvailable = !isNil(idiomTip);
+	const isGrammarTipAvailable = !isNil(cards.GRAMMAR);
+	const isVocabularyTipAvailable = !isNil(cards.VOCABULARY);
+	const isIdiomTipAvailable = !isNil(cards.IDIOMS);
 
 	const moreThanOneCardAvailable =
-		Number(isGrammarTipAvailable) + Number(isVocabularyTipAvailable) + Number(isIdiomTipAvailable) >
-		1;
+		compact([
+			isGrammarTipAvailable, //
+			isVocabularyTipAvailable,
+			isIdiomTipAvailable
+		]).length >= 2;
 
 	let activeCard = $state<LearningTipCategory>(highlightType);
+	const activeCardColors = $derived(getAiMessageLearningTipColors(activeCard));
 
 	const GrammarIcon = AI_MESSAGE_LEARNING_TIP_ICONS_MAP['GRAMMAR'];
 	const VocabularyIcon = AI_MESSAGE_LEARNING_TIP_ICONS_MAP['VOCABULARY'];
 	const IdiomIcon = AI_MESSAGE_LEARNING_TIP_ICONS_MAP['IDIOMS'];
 
 	const availableTabs = compact([
-		isGrammarTipAvailable ? { id: 'GRAMMAR', label: 'Grammar', icon: GrammarIcon } : null,
-		isVocabularyTipAvailable ? { id: 'VOCABULARY', label: 'Vocabulary', icon: VocabularyIcon } : null,
-		isIdiomTipAvailable ? { id: 'IDIOMS', label: 'Idiom', icon: IdiomIcon } : null
-	] satisfies (Tab | null)[]);
+		isGrammarTipAvailable && { id: 'GRAMMAR', label: 'Grammar', icon: GrammarIcon },
+		isVocabularyTipAvailable && { id: 'VOCABULARY', label: 'Vocabulary', icon: VocabularyIcon },
+		isIdiomTipAvailable && { id: 'IDIOMS', label: 'Idiom', icon: IdiomIcon }
+	]) satisfies Tab[];
 
 	function handleMouseLeave() {
 		activeCard = highlightType;
@@ -113,7 +115,7 @@
 	{id}
 	class={cn(
 		'inline rounded transition-colors box-decoration-clone',
-		getHighlightedTextColors(),
+		activeCardColors.highlightedText,
 		moreThanOneCardAvailable ? 'cursor-pointer' : 'cursor-default'
 	)}
 	onclick={handleHighlightClick}
@@ -128,8 +130,8 @@
 			<GrammarIcon
 				class={cn(
 					'w-3 h-3',
-					activeCard !== 'GRAMMAR' ? 'opacity-60' : '',
-					'text-blue-600 dark:text-blue-400'
+					activeCard !== 'GRAMMAR' ? 'opacity-60' : '', //
+					activeCardColors.iconColor
 				)}
 			/>
 		{/if}
@@ -138,8 +140,8 @@
 			<VocabularyIcon
 				class={cn(
 					'w-3 h-3',
-					activeCard !== 'VOCABULARY' ? 'opacity-60' : '',
-					'text-blue-600 dark:text-blue-400'
+					activeCard !== 'VOCABULARY' ? 'opacity-60' : '', //
+					activeCardColors.iconColor
 				)}
 			/>
 		{/if}
@@ -148,8 +150,8 @@
 			<IdiomIcon
 				class={cn(
 					'w-3 h-3',
-					activeCard !== 'IDIOMS' ? 'opacity-60' : '',
-					'text-blue-600 dark:text-blue-400'
+					activeCard !== 'IDIOMS' ? 'opacity-60' : '', //
+					activeCardColors.iconColor
 				)}
 			/>
 		{/if}
@@ -182,12 +184,12 @@
 			</h3>
 		{/if}
 
-		{#if activeCard === 'GRAMMAR' && grammarTip}
-			<GrammarTipCard tip={grammarTip} />
-		{:else if activeCard === 'VOCABULARY' && vocabularyTip}
-			<VocabularyTipCard tip={vocabularyTip} />
-		{:else if activeCard === 'IDIOMS' && idiomTip}
-			<IdiomTipCard tip={idiomTip} />
+		{#if activeCard === 'GRAMMAR' && cards.GRAMMAR}
+			<GrammarTipCard tip={cards.GRAMMAR} />
+		{:else if activeCard === 'VOCABULARY' && cards.VOCABULARY}
+			<VocabularyTipCard tip={cards.VOCABULARY} />
+		{:else if activeCard === 'IDIOMS' && cards.IDIOMS}
+			<IdiomTipCard tip={cards.IDIOMS} />
 		{/if}
 	</div>
 </Tooltip>
