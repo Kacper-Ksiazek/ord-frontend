@@ -6,12 +6,17 @@
 	interface Props {
 		wrapperClass?: string;
 		contentClass?: string;
+		scrollContainer?: HTMLDivElement;
 		children: Snippet;
 	}
 
-	const { wrapperClass = '', contentClass = '', children }: Props = $props();
+	let {
+		wrapperClass = '',
+		contentClass = '',
+		children,
+		scrollContainer = $bindable()
+	}: Props = $props();
 
-	let scrollContainer: HTMLDivElement;
 	let maskStyle = $state('');
 
 	const FADE_HEIGHT = 40; // Height of the fade effect in pixels
