@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../cards.css';
+	import '../../cards.css';
 	import type { AIMessageLearningTips } from '$lib/types/ongoing-conversation/api/responses';
 	import { getAiMessageLearningTipColors } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
 	import { cn } from 'flowbite-svelte';
