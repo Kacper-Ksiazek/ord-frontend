@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
 	import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/message-feedback-criteria';
-	import FeedbackMetricIcon from '$lib/features/conversations/pages/session/components/shared/feedback-metric-icon.svelte';
-	import { getLeadingColorForFeedbackMetric } from '$lib/features/conversations/pages/session/utils/get-leading-color-for-feedback-metric';
+	import FeedbackMetricIcon from '$lib/features/conversations/pages/session/components/shared/user-message-feedback/user-message-feedback-metric-icon.svelte';
+	import { getUserMessageFeedbackColors } from '$lib/features/conversations/pages/session/consts/user-message-feedback/colors';
 
 	interface MetricProps {
 		criteria: MessageFeedbackCriteria;
@@ -22,7 +22,7 @@
 	>
 		<FeedbackMetricIcon
 			{criteria}
-			class={cn('w-4 h-4', getLeadingColorForFeedbackMetric(criteria))}
+			class={cn('w-4 h-4', getUserMessageFeedbackColors(criteria).text)}
 		/>
 
 		<span>{label}: <strong class="text-gray-900 dark:text-gray-100">{count}</strong></span>
