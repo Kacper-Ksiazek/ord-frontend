@@ -29,8 +29,8 @@
 				{#each Array(3) as _, i}
 					<div
 						class={cn(
-							'w-2 h-2 rounded-sm',
-							severityLevel > i ? iconColor : 'bg-gray-300 dark:bg-gray-700'
+							'w-2.5 h-2.5 rounded-sm',
+							severityLevel > i ? 'bg-red-600 dark:bg-red-400' : 'bg-gray-300 dark:bg-gray-700'
 						)}
 					></div>
 				{/each}

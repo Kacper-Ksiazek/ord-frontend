@@ -14,7 +14,7 @@
 
 	const { messageIndex, message }: UserMessageProps = $props();
 
-	let showIconsInHighlightedParts = $state(true);
+	let showIconsInHighlightedParts = $state(false);
 
 	const highlightedParts = $derived.by(() => {
 		if (isNil(message.feedback)) {
