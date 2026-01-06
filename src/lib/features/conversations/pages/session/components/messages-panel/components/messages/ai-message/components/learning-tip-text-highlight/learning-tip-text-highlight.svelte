@@ -15,8 +15,13 @@
 	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/icons';
 	import { getAiMessageLearningTipColors } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
 
-	const { id, highlightType, highlightedText, learningTips }: LearningTipTextHighlightProps =
-		$props();
+	const {
+		id,
+		highlightType,
+		highlightedText,
+		learningTips,
+		showIconsInHighlightedParts
+	}: LearningTipTextHighlightProps = $props();
 
 	const cards = {
 		GRAMMAR: learningTips?.grammarTips?.find((tip) => includesEitherWay(tip.phrase, highlightedText)),
@@ -125,37 +130,40 @@
 	role="button"
 	tabindex="0"
 >
-	<span class="inline-flex items-center gap-1 mx-1">
-		{#if isGrammarTipAvailable}
-			<GrammarIcon
-				class={cn(
-					'w-3 h-3',
-					activeCard !== 'GRAMMAR' ? 'opacity-60' : '', //
-					activeCardColors.iconColor
-				)}
-			/>
-		{/if}
+	{#if showIconsInHighlightedParts}
+		<span class="inline-flex items-center gap-1 mx-1">
+			{#if isGrammarTipAvailable}
+				<GrammarIcon
+					class={cn(
+						'w-3 h-3',
+						activeCard !== 'GRAMMAR' ? 'opacity-60' : '', //
+						activeCardColors.iconColor
+					)}
+				/>
+			{/if}
 
-		{#if isVocabularyTipAvailable}
-			<VocabularyIcon
-				class={cn(
-					'w-3 h-3',
-					activeCard !== 'VOCABULARY' ? 'opacity-60' : '', //
-					activeCardColors.iconColor
-				)}
-			/>
-		{/if}
+			{#if isVocabularyTipAvailable}
+				<VocabularyIcon
+					class={cn(
+						'w-3 h-3',
+						activeCard !== 'VOCABULARY' ? 'opacity-60' : '', //
+						activeCardColors.iconColor
+					)}
+				/>
+			{/if}
 
-		{#if isIdiomTipAvailable}
-			<IdiomIcon
-				class={cn(
-					'w-3 h-3',
-					activeCard !== 'IDIOMS' ? 'opacity-60' : '', //
-					activeCardColors.iconColor
-				)}
-			/>
-		{/if}
-	</span>
+			{#if isIdiomTipAvailable}
+				<IdiomIcon
+					class={cn(
+						'w-3 h-3',
+						activeCard !== 'IDIOMS' ? 'opacity-60' : '', //
+						activeCardColors.iconColor
+					)}
+				/>
+			{/if}
+		</span>
+	{/if}
+
 	{highlightedText}
 </span>
 
@@ -163,14 +171,14 @@
 	triggeredBy={`#${id}`}
 	class={cn(
 		'bg-white dark:bg-gray-800 shadow-lg border-2 rounded-lg select-none',
-		'border-blue-600 dark:border-blue-500'
+		activeCardColors.cardBorder
 	)}
 >
 	<div class="p-2 w-[500px]">
 		{#if moreThanOneCardAvailable}
 			<Tabs tabs={availableTabs} bind:activeTab={activeCard} activeColor="blue" class="mb-3" />
 		{:else}
-			<h3 class="flex items-center gap-2 text-sm font-semibold mb-2 text-blue-600 dark:text-blue-400">
+			<h3 class={cn('flex items-center gap-2 text-sm font-semibold mb-2', activeCardColors.iconColor)}>
 				{#if activeCard === 'GRAMMAR'}
 					<GrammarIcon class="w-4 h-4" />
 				{:else if activeCard === 'VOCABULARY'}
