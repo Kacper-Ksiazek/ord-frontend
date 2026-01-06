@@ -1,5 +1,6 @@
 <script lang="ts">
 	import size from 'lodash/size';
+	import compact from 'lodash/compact';
 	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import { Badge, cn, Toggle } from 'flowbite-svelte';
 	import Score from './components/score.svelte';
@@ -31,49 +32,28 @@
 	const suggestionsCount = size(feedback.suggestions);
 
 	const indicators = $derived.by(() => {
-		const items: Array<{
-			criteria: MessageFeedbackCriteria;
-			count: number;
-			label: string;
-		}> = [];
-		if (mistakesCount > 0)
-			items.push({
+		return compact([
+			mistakesCount > 0 && {
 				criteria: 'MISTAKES',
 				count: mistakesCount,
 				label: 'Mistakes'
-			});
-		if (strengthsCount > 0)
-			items.push({
+			},
+			strengthsCount > 0 && {
 				criteria: 'STRENGTHS',
 				count: strengthsCount,
 				label: 'Strengths'
-			});
-		if (suggestionsCount > 0)
-			items.push({
+			},
+			suggestionsCount > 0 && {
 				criteria: 'SUGGESTIONS',
 				count: suggestionsCount,
 				label: 'Suggestions'
-			});
-		return items;
+			}
+		]) satisfies {
+			criteria: MessageFeedbackCriteria;
+			count: number;
+			label: string;
+		}[];
 	});
-
-	const getBadgeColor = (criteria: MessageFeedbackCriteria) => {
-		return getUserMessageFeedbackColors(criteria).twColor;
-	};
-
-	const getBorderColor = (criteria: MessageFeedbackCriteria) => {
-		const color = getUserMessageFeedbackColors(criteria).twColor;
-		switch (color) {
-			case 'red':
-				return 'border-red-600 dark:border-red-500';
-			case 'green':
-				return 'border-green-600 dark:border-green-500';
-			case 'blue':
-				return 'border-blue-600 dark:border-blue-500';
-			default:
-				return 'border-gray-400 dark:border-gray-500';
-		}
-	};
 </script>
 
 <AiPostProcessActionBase
@@ -84,9 +64,11 @@
 		<div class="flex flex-row gap-2 flex-wrap items-center justify-between">
 			<div class="flex flex-row gap-2 flex-wrap">
 				{#each indicators as { criteria, count, label }}
+					{@const colors = getUserMessageFeedbackColors(criteria)}
+
 					<Badge
-						color={getBadgeColor(criteria)}
-						class={cn('flex items-center gap-1.5 py-1.5 border', getBorderColor(criteria))}
+						color={colors.twColor}
+						class={cn('flex items-center gap-1.5 py-1.5 border', colors.chipBorder)}
 					>
 						<FeedbackMetricIcon {criteria} class={cn('w-3.5 h-3.5')} />
 						<span class="text-xs font-medium">{label}</span>
