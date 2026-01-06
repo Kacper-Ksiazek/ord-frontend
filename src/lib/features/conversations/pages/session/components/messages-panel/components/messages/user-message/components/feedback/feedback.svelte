@@ -33,34 +33,44 @@
 	const strengthsCount = size(feedback.strengths);
 	const suggestionsCount = size(feedback.suggestions);
 
-	const indicators = $derived.by(() => {
-		return compact([
-			mistakesCount > 0 && {
-				criteria: 'MISTAKES',
-				count: mistakesCount,
-				label: 'Mistakes'
-			},
-			strengthsCount > 0 && {
-				criteria: 'STRENGTHS',
-				count: strengthsCount,
-				label: 'Strengths'
-			},
-			suggestionsCount > 0 && {
-				criteria: 'SUGGESTIONS',
-				count: suggestionsCount,
-				label: 'Suggestions'
-			}
-		]) satisfies {
-			criteria: MessageFeedbackCriteria;
-			count: number;
-			label: string;
-		}[];
-	});
+	const indicators = compact([
+		mistakesCount && {
+			criteria: 'MISTAKES',
+			count: mistakesCount,
+			label: 'Mistakes'
+		},
+		strengthsCount && {
+			criteria: 'STRENGTHS',
+			count: strengthsCount,
+			label: 'Strengths'
+		},
+		suggestionsCount && {
+			criteria: 'SUGGESTIONS',
+			count: suggestionsCount,
+			label: 'Suggestions'
+		}
+	]) satisfies {
+		criteria: MessageFeedbackCriteria;
+		count: number;
+		label: string;
+	}[];
+
+	function handleClick() {
+		if (isSelected) {
+			sidepanelContext.isOpened = false;
+			sidepanelContext.feedbackPreview = null;
+			return;
+		}
+
+		sidepanelContext.isOpened = true;
+		sidepanelContext.feedbackPreview = feedback;
+	}
 </script>
 
 <AiPostProcessActionBase
 	label="Analiza wiadomości"
 	class={cn(isSelected ? 'bg-primary-200' : 'bg-primary-100')}
+	onclick={handleClick}
 >
 	{#if indicators.length > 0}
 		<div class="flex flex-row gap-2 flex-wrap items-center justify-between">
