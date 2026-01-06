@@ -8,6 +8,7 @@ const sharedColors: CardThemeColors = {
 	cardBorder: 'border-blue-200 dark:border-blue-800',
 	text: 'text-blue-500 dark:text-blue-400',
 	iconColor: 'text-blue-600 dark:text-blue-400',
+	chipBorder: 'border-blue-300 dark:border-blue-700',
 	highlightedText: cn(
 		'bg-blue-200/50 text-blue-900 hover:bg-blue-300/70',
 		'dark:bg-blue-900/70 dark:text-blue-100 dark:hover:bg-blue-600'

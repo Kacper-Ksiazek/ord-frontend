@@ -7,4 +7,5 @@ export interface CardThemeColors {
 	text: string;
 	iconColor: string;
 	highlightedText: string;
+	chipBorder: string;
 }
