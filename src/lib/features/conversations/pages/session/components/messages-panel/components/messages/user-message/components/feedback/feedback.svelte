@@ -10,6 +10,8 @@
 	import FeedbackMetricIcon from '$lib/features/conversations/pages/session/components/shared/user-message-feedback/user-message-feedback-metric-icon.svelte';
 	import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/message-feedback-criteria';
 	import { getUserMessageFeedbackColors } from '$lib/features/conversations/pages/session/consts/user-message-feedback/colors';
+	import ToggleIconsInHighlight from '$lib/features/conversations/pages/session/components/shared/toggle-icons-in-highlight.svelte';
+	import HighlightsCountBadge from '$lib/features/conversations/pages/session/components/shared/highlights-count-badge.svelte';
 
 	interface FeedbackProps {
 		feedback: ConversationUserMessageFeedbackDTO;
@@ -64,28 +66,17 @@
 		<div class="flex flex-row gap-2 flex-wrap items-center justify-between">
 			<div class="flex flex-row gap-2 flex-wrap">
 				{#each indicators as { criteria, count, label }}
-					{@const colors = getUserMessageFeedbackColors(criteria)}
+					{@const { twColor, chipBorder } = getUserMessageFeedbackColors(criteria)}
 
-					<Badge
-						color={colors.twColor}
-						class={cn('flex items-center gap-1.5 py-1.5 border', colors.chipBorder)}
-					>
-						<FeedbackMetricIcon {criteria} class={cn('w-3.5 h-3.5')} />
-						<span class="text-xs font-medium">{label}</span>
-						<span class="text-xs font-semibold">{count}</span>
-					</Badge>
+					<HighlightsCountBadge {count} {label} color={twColor} class={chipBorder}>
+						{#snippet icon()}
+							<FeedbackMetricIcon {criteria} />
+						{/snippet}
+					</HighlightsCountBadge>
 				{/each}
 			</div>
 
-			<div class="flex items-center">
-				<Toggle
-					checked={showIconsInHighlightedParts}
-					onchange={() => (showIconsInHighlightedParts = !showIconsInHighlightedParts)}
-					size="small"
-				>
-					<span class="text-sm font-normal">Pokaż ikony</span>
-				</Toggle>
-			</div>
+			<ToggleIconsInHighlight bind:checked={showIconsInHighlightedParts} />
 		</div>
 	{/if}
 
