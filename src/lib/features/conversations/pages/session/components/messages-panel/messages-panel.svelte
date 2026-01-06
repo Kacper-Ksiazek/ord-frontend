@@ -8,9 +8,21 @@
 	import { AppWindow, Columns2, ChevronLeft } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
+	import { onMount } from 'svelte';
 
 	const sidepanelContext = getSidepanelContext();
 	const messagesContext = getMessagesContext();
+
+	let scrollContainer: HTMLDivElement;
+
+	onMount(() => {
+		if (scrollContainer) {
+			scrollContainer.scrollTo({
+				top: scrollContainer.scrollHeight,
+				behavior: 'instant'
+			});
+		}
+	});
 </script>
 
 <div
@@ -42,7 +54,7 @@
 		)}
 	>
 		<!-- Scrollable messages area -->
-		<ScrollableWrapper contentClass={'max-w-[1200px] pb-8'}>
+		<ScrollableWrapper contentClass={'max-w-[1200px] pb-8'} bind:scrollContainer>
 			<InterlocutorDetails />
 
 			{#each messagesContext.messages as message, index}
