@@ -11,13 +11,14 @@
 
 	let { suggestion }: Props = $props();
 
-	const { cardBg, cardBorder, twColor } = getUserMessageFeedbackColors('SUGGESTIONS');
+	const { cardBg, cardBorder, twColor, iconColor } = getUserMessageFeedbackColors('SUGGESTIONS');
 </script>
 
 <div class={cn('feedback-card-container', cardBg, cardBorder)}>
 	<div class="feedback-card-header">
 		<Badge color={twColor}>{suggestion.suggestionType}</Badge>
 	</div>
+
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Original:</p>
 		<div class="feedback-card-text-box variant-neutral">
@@ -30,17 +31,15 @@
 		<ul class="space-y-2">
 			{#each suggestion.alternatives as alternative}
 				<li class="feedback-card-text-box variant-blue">
-					<ArrowRight class="text-blue-600 dark:text-blue-400" />
+					<ArrowRight class={iconColor} />
 					<span>{alternative}</span>
 				</li>
 			{/each}
 		</ul>
 	</div>
 
-	{#if suggestion.explanation}
-		<div>
-			<p class="feedback-card-label">Explanation:</p>
-			<p class="feedback-card-explanation">{suggestion.explanation}</p>
-		</div>
-	{/if}
+	<div>
+		<p class="feedback-card-label">Explanation:</p>
+		<p class="feedback-card-explanation">{suggestion.explanation}</p>
+	</div>
 </div>

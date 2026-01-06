@@ -11,24 +11,24 @@
 
 	let { strength }: Props = $props();
 
-	const { cardBg, cardBorder, twColor } = getUserMessageFeedbackColors('STRENGTHS');
+	const { cardBg, cardBorder, twColor, iconColor } = getUserMessageFeedbackColors('STRENGTHS');
 </script>
 
 <div class={cn('feedback-card-container', cardBg, cardBorder)}>
 	<div class="feedback-card-header">
 		<Badge color={twColor}>{strength.strengthType}</Badge>
 	</div>
+
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Phrase:</p>
 		<div class="feedback-card-text-box variant-neutral">
-			<ThumbsUp class="text-green-600 dark:text-green-400" />
+			<ThumbsUp class={iconColor} />
 			<span>{strength.phrase}</span>
 		</div>
 	</div>
-	{#if strength.explanation}
-		<div>
-			<p class="feedback-card-label">Explanation:</p>
-			<p class="feedback-card-explanation">{strength.explanation}</p>
-		</div>
-	{/if}
+
+	<div>
+		<p class="feedback-card-label">Explanation:</p>
+		<p class="feedback-card-explanation">{strength.explanation}</p>
+	</div>
 </div>

@@ -14,12 +14,10 @@
 
 	let { mistake }: Props = $props();
 
-	const { cardBg, cardBorder, twColor } = getUserMessageFeedbackColors('MISTAKES');
+	const { cardBg, cardBorder, twColor, iconColor } = getUserMessageFeedbackColors('MISTAKES');
 
-	const severityLevel = $derived(CONVERSATION_MESSAGE_MISTAKE_SEVERITY_LEVEL_MAP[mistake.severity]);
-	const severityLabel = $derived(
-		mistake.severity.charAt(0) + mistake.severity.slice(1).toLowerCase()
-	);
+	const severityLevel = CONVERSATION_MESSAGE_MISTAKE_SEVERITY_LEVEL_MAP[mistake.severity];
+	const severityLabel = mistake.severity.charAt(0) + mistake.severity.slice(1).toLowerCase();
 </script>
 
 <div class={cn('feedback-card-container', cardBg, cardBorder)}>
@@ -32,7 +30,7 @@
 					<div
 						class={cn(
 							'w-2 h-2 rounded-sm',
-							severityLevel > i ? 'bg-red-500 dark:bg-red-400' : 'bg-gray-300 dark:bg-gray-700'
+							severityLevel > i ? iconColor : 'bg-gray-300 dark:bg-gray-700'
 						)}
 					></div>
 				{/each}
@@ -44,7 +42,7 @@
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Phrase:</p>
 		<div class="feedback-card-text-box variant-neutral">
-			<X class="text-red-500 dark:text-red-400" />
+			<X class={iconColor} />
 			<span>{mistake.phrase}</span>
 		</div>
 	</div>
@@ -52,7 +50,7 @@
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Correct form:</p>
 		<div class="feedback-card-text-box variant-green">
-			<Check class="text-green-600 dark:text-green-400" />
+			<Check class={getUserMessageFeedbackColors('STRENGTHS').iconColor} />
 			<span>{mistake.correctForm}</span>
 		</div>
 	</div>
