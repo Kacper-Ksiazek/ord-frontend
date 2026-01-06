@@ -29,6 +29,8 @@
 
 		return highlightLearningTipsContent(message, learningTips);
 	});
+
+	let showIconsInHighlightedParts = $state(false);
 </script>
 
 <MessageBase
@@ -58,6 +60,7 @@
 								highlightType={part.highlight}
 								highlightedText={part.text}
 								{learningTips}
+								{showIconsInHighlightedParts}
 							/>
 						{:else}
 							{part.text}
@@ -74,7 +77,7 @@
 
 	{#snippet footer()}
 		{#if !isStillGenerating && learningTips}
-			<LearningTips {learningTips} />
+			<LearningTips {learningTips} bind:showIconsInHighlightedParts />
 		{/if}
 	{/snippet}
 </MessageBase>
