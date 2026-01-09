@@ -1,1 +1,1 @@
-export const SIDEPANEL_WIDTH = 600;
+export const SIDEPANEL_WIDTH = 720;
