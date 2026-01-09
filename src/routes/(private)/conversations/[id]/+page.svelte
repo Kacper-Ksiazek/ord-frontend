@@ -52,8 +52,8 @@
 	});
 </script>
 
-<PageContentContainer layout="superwide" contentClass="gap-0">
+<div class="w-full flex-1 mx-auto flex h-full">
 	<MessagesPanel />
 
 	<FeedbackPanel />
-</PageContentContainer>
+</div>
