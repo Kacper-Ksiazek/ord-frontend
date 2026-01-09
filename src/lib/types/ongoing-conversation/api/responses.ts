@@ -6,3 +6,7 @@ export type ReviewedUserConversationMessage =
 export type ConversationMessageDTO = components['schemas']['ConversationMessageDTO'];
 
 export type AIMessageLearningTips = components['schemas']['AIMessageLearningTips'];
+
+export type AIMessageVocabularyTip = components['schemas']['AnnotatedVocabularyTip'];
+export type AIMessageGrammarTip = components['schemas']['AnnotatedGrammarTip'];
+export type AIMessageIdiomTip = components['schemas']['AnnotatedIdiomTip'];
