@@ -17,34 +17,35 @@
 
 	const feedback = $derived(sidepanelContext.feedbackPreview);
 
-	// Track open state for each accordion section
 	let mistakesOpen = $state(false);
 	let strengthsOpen = $state(false);
 	let suggestionsOpen = $state(false);
 
-	// Tab state for filtering mistakes by severity
 	let activeSeverityTab = $state<ConversationMessageMistakeSeverity | 'all'>('all');
 
-	// Filter mistakes by severity
 	const filteredMistakes = $derived.by(() => {
-		if (!feedback?.mistakes) return [];
-		if (activeSeverityTab === 'all') return feedback.mistakes;
+		if (!feedback?.mistakes) {
+			return [];
+		}
+
+		if (activeSeverityTab === 'all') {
+			return feedback.mistakes;
+		}
+
 		return feedback.mistakes.filter((mistake) => mistake.severity === activeSeverityTab);
 	});
 
-	// Tab state for filtering suggestions by type
 	let activeSuggestionTypeTab = $state<ConversationMessageSuggestionType | 'all'>('all');
 
-	// Filter suggestions by type
 	const filteredSuggestions = $derived.by(() => {
 		if (!feedback?.suggestions) return [];
 		if (activeSuggestionTypeTab === 'all') return feedback.suggestions;
+
 		return feedback.suggestions.filter(
 			(suggestion) => suggestion.suggestionType === activeSuggestionTypeTab
 		);
 	});
 
-	// Get available severity tabs with counts
 	const severityTabs = $derived.by(() => {
 		if (!feedback?.mistakes) return [];
 		const tabs: Tab[] = [
@@ -65,7 +66,6 @@
 		return tabs;
 	});
 
-	// Get available suggestion type tabs with counts
 	const suggestionTypeTabs = $derived.by(() => {
 		if (!feedback?.suggestions) return [];
 		const tabs: Tab[] = [
@@ -89,7 +89,7 @@
 
 <ContentCard
 	class={cn(
-		'flex flex-col transition-transform duration-300 origin-right h-full relative',
+		'flex flex-col transition-transform duration-300 origin-right h-full relative rounded-none',
 		'bg-white dark:bg-gray-800 transition-[width] overflow-hidden p-0!'
 	)}
 	style={sidepanelContext.isOpened ? `width: ${SIDEPANEL_WIDTH}px` : 'width: 0px'}
