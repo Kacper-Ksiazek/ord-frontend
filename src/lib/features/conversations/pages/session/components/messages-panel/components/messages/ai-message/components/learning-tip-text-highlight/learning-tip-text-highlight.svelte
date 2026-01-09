@@ -50,8 +50,8 @@
 	const IdiomIcon = AI_MESSAGE_LEARNING_TIP_ICONS_MAP['IDIOMS'];
 
 	const availableTabs = compact([
-		isGrammarTipAvailable && { id: 'GRAMMAR', label: 'Grammar', icon: GrammarIcon },
 		isVocabularyTipAvailable && { id: 'VOCABULARY', label: 'Vocabulary', icon: VocabularyIcon },
+		isGrammarTipAvailable && { id: 'GRAMMAR', label: 'Grammar', icon: GrammarIcon },
 		isIdiomTipAvailable && { id: 'IDIOMS', label: 'Idiom', icon: IdiomIcon }
 	]) satisfies Tab[];
 
@@ -132,21 +132,21 @@
 >
 	{#if showIconsInHighlightedParts}
 		<span class="inline-flex items-center gap-1 mx-1">
-			{#if isGrammarTipAvailable}
-				<GrammarIcon
-					class={cn(
-						'w-3 h-3',
-						activeCard !== 'GRAMMAR' ? 'opacity-60' : '', //
-						activeCardColors.iconColor
-					)}
-				/>
-			{/if}
-
 			{#if isVocabularyTipAvailable}
 				<VocabularyIcon
 					class={cn(
 						'w-3 h-3',
 						activeCard !== 'VOCABULARY' ? 'opacity-60' : '', //
+						activeCardColors.iconColor
+					)}
+				/>
+			{/if}
+
+			{#if isGrammarTipAvailable}
+				<GrammarIcon
+					class={cn(
+						'w-3 h-3',
+						activeCard !== 'GRAMMAR' ? 'opacity-60' : '', //
 						activeCardColors.iconColor
 					)}
 				/>
