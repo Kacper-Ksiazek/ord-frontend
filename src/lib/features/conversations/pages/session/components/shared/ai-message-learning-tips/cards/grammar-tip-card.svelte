@@ -1,11 +1,12 @@
 <script lang="ts">
 	import '../../cards.css';
-	import type { AIMessageLearningTips } from '$lib/types/ongoing-conversation/api/responses';
+	import type { AIMessageGrammarTip } from '$lib/types/ongoing-conversation/api/responses';
 	import { getAiMessageLearningTipColors } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
 	import { cn } from 'flowbite-svelte';
+	import LearningTipExampleSentence from './shared/learning-tip-example-sentence.svelte';
 
 	interface Props {
-		tip: AIMessageLearningTips['grammarTips'][number];
+		tip: AIMessageGrammarTip;
 	}
 
 	let { tip }: Props = $props();
@@ -32,4 +33,6 @@
 		<p class="feedback-card-label">Explanation:</p>
 		<p class="feedback-card-explanation">{tip.explanation}</p>
 	</div>
+
+	<LearningTipExampleSentence exampleSentence={tip.exampleSentences} />
 </div>

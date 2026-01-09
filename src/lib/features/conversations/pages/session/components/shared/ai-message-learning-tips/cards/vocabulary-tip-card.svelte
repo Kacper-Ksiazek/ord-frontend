@@ -1,11 +1,12 @@
 <script lang="ts">
 	import '../../cards.css';
 	import { Badge, cn } from 'flowbite-svelte';
-	import type { AIMessageLearningTips } from '$lib/types/ongoing-conversation/api/responses';
+	import type { AIMessageVocabularyTip } from '$lib/types/ongoing-conversation/api/responses';
 	import { getAiMessageLearningTipColors } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
+	import LearningTipExampleSentence from './shared/learning-tip-example-sentence.svelte';
 
 	interface Props {
-		tip: AIMessageLearningTips['vocabularyTips'][number];
+		tip: AIMessageVocabularyTip;
 	}
 
 	let { tip }: Props = $props();
@@ -40,4 +41,6 @@
 			<span>{tip.usageNote}</span>
 		</div>
 	</div>
+
+	<LearningTipExampleSentence exampleSentence={tip.exampleSentences} />
 </div>
