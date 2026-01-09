@@ -4,10 +4,14 @@
 	let {
 		value = $bindable(''),
 		placeholder = '',
-		onkeydown
+		onkeydown,
+		onfocus,
+		onblur
 	}: {
 		value?: string;
 		placeholder?: string;
+		onfocus?: (e: FocusEvent) => void;
+		onblur?: (e: FocusEvent) => void;
 		onkeydown?: (e: KeyboardEvent) => void;
 	} = $props();
 
@@ -71,6 +75,8 @@
 <textarea
 	bind:this={textareaElement}
 	bind:value
+	{onfocus}
+	{onblur}
 	onkeydown={handleKeyDown}
 	oninput={adjustTextareaHeight}
 	{placeholder}
