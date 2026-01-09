@@ -12,6 +12,7 @@
 	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import type { CompactConversationAiMessage } from '$lib/types/conversation/domain/conversation-message';
 
+	let isFocused = $state(false);
 	let message = $state('');
 	let pending = $state(false);
 	let textareaComponent: Textarea | undefined = $state();
@@ -107,7 +108,10 @@
 
 <div
 	class={cn(
-		'flex items-end gap-1 p-3 bg-white dark:bg-slate-800 rounded-2xl w-full max-w-[1200px] mx-auto'
+		'flex items-end gap-1 p-3 rounded-2xl w-full max-w-[1200px] mx-auto mb-2', //
+		'border-2 border-gray-200 dark:border-gray-700',
+		'bg-white dark:bg-slate-800',
+		isFocused && 'border-primary-300 dark:border-primary-600'
 	)}
 >
 	<Textarea
@@ -115,7 +119,9 @@
 		bind:value={message}
 		placeholder="Type your message..."
 		onkeydown={handleKeyDown}
+		onfocus={() => (isFocused = true)}
+		onblur={() => (isFocused = false)}
 	/>
 
-	<SendButton disabled={!message.trim()} {pending} onclick={saveUserMessage} />
+	<SendButton disabled={!message.trim()} {pending} {isFocused} onclick={saveUserMessage} />
 </div>
