@@ -4,7 +4,7 @@
 	import type { FeedbackTextHighlightProps } from './feedback-text-highlight.types';
 	import { includesEitherWay } from '$lib/utils/functions/includes-either-way';
 	import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/message-feedback-criteria';
-	import { cn, Tooltip } from 'flowbite-svelte';
+	import { cn, Popover } from 'flowbite-svelte';
 	import FeedbackMetricIcon from '$lib/features/conversations/pages/session/components/shared/user-message-feedback/user-message-feedback-metric-icon.svelte';
 	import { Tabs } from '$lib/components/tabs';
 	import type { Tab } from '$lib/components/tabs';
@@ -182,40 +182,40 @@
 	{highlightedText}
 </span>
 
-<Tooltip
+<Popover
 	triggeredBy={`#${id}`}
+	trigger="hover"
 	class={cn(
-		'bg-white dark:bg-gray-800 shadow-lg border-2 rounded-lg select-none', //
+		'w-[500px] bg-white dark:bg-gray-800 shadow-lg border-2 rounded-lg',
 		activeCardColors.cardBorder
 	)}
+	classes={{ content: 'p-2' }}
 >
-	<div class="p-2 w-[500px]">
-		{#if moreThanOneCardAvailable}
-			<Tabs
-				tabs={availableTabs}
-				bind:activeTab={activeCard}
-				activeColor={activeCardColors.twColor}
-				class="mb-3"
-			/>
-		{:else}
-			<h3 class={cn('flex items-center gap-2 text-sm font-semibold mb-2', activeCardColors.text)}>
-				<FeedbackMetricIcon criteria={activeCard} class="w-4 h-4" />
-				<span>
-					{activeCard === 'MISTAKES'
-						? 'Mistake'
-						: activeCard === 'STRENGTHS'
-							? 'Strength'
-							: 'Suggestion'}
-				</span>
-			</h3>
-		{/if}
+	{#if moreThanOneCardAvailable}
+		<Tabs
+			tabs={availableTabs}
+			bind:activeTab={activeCard}
+			activeColor={activeCardColors.twColor}
+			class="mb-3"
+		/>
+	{:else}
+		<h3 class={cn('flex items-center gap-2 text-sm font-semibold mb-2', activeCardColors.text)}>
+			<FeedbackMetricIcon criteria={activeCard} class="w-4 h-4" />
+			<span>
+				{activeCard === 'MISTAKES'
+					? 'Mistake'
+					: activeCard === 'STRENGTHS'
+						? 'Strength'
+						: 'Suggestion'}
+			</span>
+		</h3>
+	{/if}
 
-		{#if activeCard === 'MISTAKES' && cards.MISTAKES}
-			<MistakeCard mistake={cards.MISTAKES} />
-		{:else if activeCard === 'SUGGESTIONS' && cards.SUGGESTIONS}
-			<SuggestionCard suggestion={cards.SUGGESTIONS} />
-		{:else if activeCard === 'STRENGTHS' && cards.STRENGTHS}
-			<StrengthCard strength={cards.STRENGTHS} />
-		{/if}
-	</div>
-</Tooltip>
+	{#if activeCard === 'MISTAKES' && cards.MISTAKES}
+		<MistakeCard mistake={cards.MISTAKES} />
+	{:else if activeCard === 'SUGGESTIONS' && cards.SUGGESTIONS}
+		<SuggestionCard suggestion={cards.SUGGESTIONS} />
+	{:else if activeCard === 'STRENGTHS' && cards.STRENGTHS}
+		<StrengthCard strength={cards.STRENGTHS} />
+	{/if}
+</Popover>

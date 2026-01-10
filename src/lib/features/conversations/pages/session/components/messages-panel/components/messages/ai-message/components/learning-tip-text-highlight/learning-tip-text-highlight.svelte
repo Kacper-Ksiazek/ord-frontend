@@ -4,7 +4,7 @@
 	import type { LearningTipTextHighlightProps } from './learning-tip-text-highlight.types';
 	import { includesEitherWay } from '$lib/utils/functions/includes-either-way';
 	import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
-	import { cn, Tooltip } from 'flowbite-svelte';
+	import { cn, Popover } from 'flowbite-svelte';
 	import { Tabs } from '$lib/components/tabs';
 	import type { Tab } from '$lib/components/tabs';
 	import {
@@ -167,37 +167,37 @@
 	{highlightedText}
 </span>
 
-<Tooltip
+<Popover
 	triggeredBy={`#${id}`}
+	trigger="hover"
 	class={cn(
-		'bg-white dark:bg-gray-800 shadow-lg border-2 rounded-lg select-none',
+		'w-[500px] bg-white dark:bg-gray-800 shadow-lg border-2 rounded-lg',
 		activeCardColors.cardBorder
 	)}
+	classes={{ content: 'p-2' }}
 >
-	<div class="p-2 w-[500px]">
-		{#if moreThanOneCardAvailable}
-			<Tabs tabs={availableTabs} bind:activeTab={activeCard} activeColor="blue" class="mb-3" />
-		{:else}
-			<h3 class={cn('flex items-center gap-2 text-sm font-semibold mb-2', activeCardColors.iconColor)}>
-				{#if activeCard === 'GRAMMAR'}
-					<GrammarIcon class="w-4 h-4" />
-				{:else if activeCard === 'VOCABULARY'}
-					<VocabularyIcon class="w-4 h-4" />
-				{:else if activeCard === 'IDIOMS'}
-					<IdiomIcon class="w-4 h-4" />
-				{/if}
-				<span>
-					{activeCard === 'GRAMMAR' ? 'Grammar' : activeCard === 'VOCABULARY' ? 'Vocabulary' : 'Idiom'}
-				</span>
-			</h3>
-		{/if}
+	{#if moreThanOneCardAvailable}
+		<Tabs tabs={availableTabs} bind:activeTab={activeCard} activeColor="blue" class="mb-3" />
+	{:else}
+		<h3 class={cn('flex items-center gap-2 text-sm font-semibold mb-2', activeCardColors.iconColor)}>
+			{#if activeCard === 'GRAMMAR'}
+				<GrammarIcon class="w-4 h-4" />
+			{:else if activeCard === 'VOCABULARY'}
+				<VocabularyIcon class="w-4 h-4" />
+			{:else if activeCard === 'IDIOMS'}
+				<IdiomIcon class="w-4 h-4" />
+			{/if}
+			<span>
+				{activeCard === 'GRAMMAR' ? 'Grammar' : activeCard === 'VOCABULARY' ? 'Vocabulary' : 'Idiom'}
+			</span>
+		</h3>
+	{/if}
 
-		{#if activeCard === 'GRAMMAR' && cards.GRAMMAR}
-			<GrammarTipCard tip={cards.GRAMMAR} />
-		{:else if activeCard === 'VOCABULARY' && cards.VOCABULARY}
-			<VocabularyTipCard tip={cards.VOCABULARY} />
-		{:else if activeCard === 'IDIOMS' && cards.IDIOMS}
-			<IdiomTipCard tip={cards.IDIOMS} />
-		{/if}
-	</div>
-</Tooltip>
+	{#if activeCard === 'GRAMMAR' && cards.GRAMMAR}
+		<GrammarTipCard tip={cards.GRAMMAR} />
+	{:else if activeCard === 'VOCABULARY' && cards.VOCABULARY}
+		<VocabularyTipCard tip={cards.VOCABULARY} />
+	{:else if activeCard === 'IDIOMS' && cards.IDIOMS}
+		<IdiomTipCard tip={cards.IDIOMS} />
+	{/if}
+</Popover>
