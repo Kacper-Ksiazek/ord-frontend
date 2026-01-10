@@ -1,7 +1,10 @@
 <script lang="ts">
 	import '../../cards.css';
 	import type { AIMessageIdiomTip } from '$lib/types/ongoing-conversation/api/responses';
-	import { getAiMessageLearningTipColors } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
+	import {
+		getAiMessageLearningTipColors,
+		LEARNING_TIP_DEFINITION_ICON
+	} from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
 	import { cn } from 'flowbite-svelte';
 	import LearningTipExampleSentence from './shared/learning-tip-example-sentence.svelte';
 
@@ -24,10 +27,11 @@
 
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Meaning:</p>
-		<div class="feedback-card-text-box variant-blue">
+		<div class="feedback-card-text-box variant-neutral">
+			<LEARNING_TIP_DEFINITION_ICON class={colors.iconColor} />
 			<span>{tip.meaning}</span>
 		</div>
 	</div>
 
-	<LearningTipExampleSentence exampleSentence={tip.exampleSentences} />
+	<LearningTipExampleSentence exampleSentence={tip.exampleSentences} category="IDIOMS" />
 </div>

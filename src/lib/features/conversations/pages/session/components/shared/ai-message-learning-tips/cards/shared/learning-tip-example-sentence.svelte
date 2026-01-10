@@ -1,9 +1,61 @@
 <script lang="ts">
+	import '../../../cards.css';
+	import {
+		getAiMessageLearningTipColors,
+		LEARNING_TIP_EXAMPLE_SENTENCE_ICON
+	} from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
+	import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
+
 	interface Props {
 		exampleSentence: string[];
+		category: LearningTipCategory;
 	}
 
-	let { exampleSentence }: Props = $props();
+	let { exampleSentence, category }: Props = $props();
+
+	const highlightStyle = getAiMessageLearningTipColors(category).highlightedText;
+	const iconColor = getAiMessageLearningTipColors(category).iconColor;
+
+	function parseBoldText(text: string) {
+		const parts: Array<{ text: string; bold: boolean }> = [];
+		const regex = /\*\*(.*?)\*\*/g;
+		let lastIndex = 0;
+		let match;
+
+		while ((match = regex.exec(text)) !== null) {
+			if (match.index > lastIndex) {
+				parts.push({ text: text.slice(lastIndex, match.index), bold: false });
+			}
+			parts.push({ text: match[1], bold: true });
+			lastIndex = match.index + match[0].length;
+		}
+
+		if (lastIndex < text.length) {
+			parts.push({ text: text.slice(lastIndex), bold: false });
+		}
+
+		return parts.length > 0 ? parts : [{ text, bold: false }];
+	}
 </script>
 
-<!-- TODO: Implement -->
+{#if exampleSentence && exampleSentence.length > 0}
+	<div class="feedback-card-section">
+		<p class="feedback-card-label">Example Sentences:</p>
+		<div class="space-y-2">
+			{#each exampleSentence as sentence (sentence)}
+				<div class="feedback-card-text-box variant-neutral">
+					<LEARNING_TIP_EXAMPLE_SENTENCE_ICON class={iconColor} />
+					<span>
+						{#each parseBoldText(sentence) as part (part.text)}
+							{#if part.bold}
+								<span class={highlightStyle}>{part.text}</span>
+							{:else}
+								{part.text}
+							{/if}
+						{/each}
+					</span>
+				</div>
+			{/each}
+		</div>
+	</div>
+{/if}

@@ -2,7 +2,10 @@
 	import '../../cards.css';
 	import { Badge, cn } from 'flowbite-svelte';
 	import type { AIMessageVocabularyTip } from '$lib/types/ongoing-conversation/api/responses';
-	import { getAiMessageLearningTipColors } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
+	import {
+		getAiMessageLearningTipColors,
+		LEARNING_TIP_DEFINITION_ICON
+	} from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
 	import LearningTipExampleSentence from './shared/learning-tip-example-sentence.svelte';
 
 	interface Props {
@@ -30,7 +33,8 @@
 
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Definition:</p>
-		<div class="feedback-card-text-box variant-blue">
+		<div class="feedback-card-text-box variant-neutral">
+			<LEARNING_TIP_DEFINITION_ICON class={colors.iconColor} />
 			<span>{tip.definition}</span>
 		</div>
 	</div>
@@ -42,5 +46,5 @@
 		</div>
 	</div>
 
-	<LearningTipExampleSentence exampleSentence={tip.exampleSentences} />
+	<LearningTipExampleSentence exampleSentence={tip.exampleSentences} category="VOCABULARY" />
 </div>
