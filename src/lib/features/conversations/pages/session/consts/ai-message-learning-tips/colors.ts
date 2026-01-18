@@ -28,7 +28,7 @@ export const AI_MESSAGE_LEARNING_TIP_COLORS_MAP: Record<LearningTipCategory, Car
 			'dark:bg-blue-900/70 dark:text-blue-100 dark:hover:bg-blue-600'
 		)
 	},
-	IDIOMS: {
+	PHRASES: {
 		twColor: 'purple',
 		cardBg: 'bg-purple-50/50 dark:bg-purple-900/10',
 		cardBorder: 'border-purple-200 dark:border-purple-800',

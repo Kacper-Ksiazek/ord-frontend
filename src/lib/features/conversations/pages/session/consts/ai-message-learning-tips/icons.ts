@@ -4,5 +4,5 @@ import type { LearningTipCategory } from '$lib/types/conversation/domain/learnin
 export const AI_MESSAGE_LEARNING_TIP_ICONS_MAP: Record<LearningTipCategory, LucideIcon> = {
 	GRAMMAR: BookOpen,
 	VOCABULARY: Book,
-	IDIOMS: ScrollText
+	PHRASES: ScrollText
 };
