@@ -31,7 +31,7 @@ export function createMessagesContext(conversation: ConversationDTO) {
 					? {
 							grammarTips: message.learningTips.grammarTips,
 							vocabularyTips: message.learningTips.vocabularyTips,
-							idiomTips: message.learningTips.idiomTips
+							phraseTips: message.learningTips.phraseTips
 						}
 					: null;
 

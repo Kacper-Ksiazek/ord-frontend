@@ -21,7 +21,7 @@
 
 	const grammarTipsCount = size(learningTips.grammarTips);
 	const vocabularyTipsCount = size(learningTips.vocabularyTips);
-	const idiomTipsCount = size(learningTips.idiomTips);
+	const phraseTipsCount = size(learningTips.phraseTips);
 
 	const indicators = compact([
 		grammarTipsCount > 0 && {
@@ -34,10 +34,10 @@
 			count: vocabularyTipsCount,
 			label: 'Słownictwo'
 		},
-		idiomTipsCount > 0 && {
-			category: 'IDIOMS' as LearningTipCategory,
-			count: idiomTipsCount,
-			label: 'Idiomy'
+		phraseTipsCount > 0 && {
+			category: 'PHRASES' as LearningTipCategory,
+			count: phraseTipsCount,
+			label: 'Frazy'
 		}
 	]) satisfies {
 		category: LearningTipCategory;

@@ -18,8 +18,8 @@ export function highlightLearningTipsContent(
 		...flatMap(learningTips.vocabularyTips ?? [], (tip) =>
 			tip.word?.trim() ? [{ text: tip.word, category: 'VOCABULARY' }] : []
 		),
-		...flatMap(learningTips.idiomTips ?? [], (tip) =>
-			tip.phrase?.trim() ? [{ text: tip.phrase, category: 'IDIOMS' }] : []
+		...flatMap(learningTips.phraseTips ?? [], (tip) =>
+			tip.phrase?.trim() ? [{ text: tip.phrase, category: 'PHRASES' }] : []
 		)
 	] as { text: string; category: LearningTipCategory }[];
 

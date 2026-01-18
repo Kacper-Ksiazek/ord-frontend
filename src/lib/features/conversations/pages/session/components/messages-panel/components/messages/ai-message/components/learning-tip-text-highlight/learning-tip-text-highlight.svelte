@@ -10,7 +10,7 @@
 	import {
 		GrammarTipCard,
 		VocabularyTipCard,
-		IdiomTipCard
+		PhraseTipCard
 	} from '$lib/features/conversations/pages/session/components/shared/ai-message-learning-tips/cards';
 	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/icons';
 	import { getAiMessageLearningTipColors } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
@@ -28,18 +28,18 @@
 		VOCABULARY: learningTips?.vocabularyTips?.find((tip) =>
 			includesEitherWay(tip.word, highlightedText)
 		),
-		IDIOMS: learningTips?.idiomTips?.find((tip) => includesEitherWay(tip.phrase, highlightedText))
+		PHRASES: learningTips?.phraseTips?.find((tip) => includesEitherWay(tip.phrase, highlightedText))
 	} satisfies Record<LearningTipCategory, unknown>;
 
 	const isGrammarTipAvailable = !isNil(cards.GRAMMAR);
 	const isVocabularyTipAvailable = !isNil(cards.VOCABULARY);
-	const isIdiomTipAvailable = !isNil(cards.IDIOMS);
+	const isPhraseTipAvailable = !isNil(cards.PHRASES);
 
 	const moreThanOneCardAvailable =
 		compact([
 			isGrammarTipAvailable, //
 			isVocabularyTipAvailable,
-			isIdiomTipAvailable
+			isPhraseTipAvailable
 		]).length >= 2;
 
 	let activeCard = $state<LearningTipCategory>(highlightType);
@@ -47,12 +47,12 @@
 
 	const GrammarIcon = AI_MESSAGE_LEARNING_TIP_ICONS_MAP['GRAMMAR'];
 	const VocabularyIcon = AI_MESSAGE_LEARNING_TIP_ICONS_MAP['VOCABULARY'];
-	const IdiomIcon = AI_MESSAGE_LEARNING_TIP_ICONS_MAP['IDIOMS'];
+	const PhraseIcon = AI_MESSAGE_LEARNING_TIP_ICONS_MAP['PHRASES'];
 
 	const availableTabs = compact([
 		isVocabularyTipAvailable && { id: 'VOCABULARY', label: 'Vocabulary', icon: VocabularyIcon },
 		isGrammarTipAvailable && { id: 'GRAMMAR', label: 'Grammar', icon: GrammarIcon },
-		isIdiomTipAvailable && { id: 'IDIOMS', label: 'Idiom', icon: IdiomIcon }
+		isPhraseTipAvailable && { id: 'PHRASES', label: 'Phrase', icon: PhraseIcon }
 	]) satisfies Tab[];
 
 	function handleMouseLeave() {
@@ -67,20 +67,20 @@
 			case 'GRAMMAR':
 				if (isVocabularyTipAvailable) {
 					activeCard = 'VOCABULARY';
-				} else if (isIdiomTipAvailable) {
-					activeCard = 'IDIOMS';
+				} else if (isPhraseTipAvailable) {
+					activeCard = 'PHRASES';
 				}
 				break;
 
 			case 'VOCABULARY':
-				if (isIdiomTipAvailable) {
-					activeCard = 'IDIOMS';
+				if (isPhraseTipAvailable) {
+					activeCard = 'PHRASES';
 				} else if (isGrammarTipAvailable) {
 					activeCard = 'GRAMMAR';
 				}
 				break;
 
-			case 'IDIOMS':
+			case 'PHRASES':
 				if (isGrammarTipAvailable) {
 					activeCard = 'GRAMMAR';
 				} else if (isVocabularyTipAvailable) {
@@ -102,10 +102,10 @@
 		if (e.key === 'Tab' && moreThanOneCardAvailable) {
 			if (activeCard === 'GRAMMAR' && isVocabularyTipAvailable) {
 				activeCard = 'VOCABULARY';
-			} else if (activeCard === 'GRAMMAR' && isIdiomTipAvailable) {
-				activeCard = 'IDIOMS';
-			} else if (activeCard === 'VOCABULARY' && isIdiomTipAvailable) {
-				activeCard = 'IDIOMS';
+			} else if (activeCard === 'GRAMMAR' && isPhraseTipAvailable) {
+				activeCard = 'PHRASES';
+			} else if (activeCard === 'VOCABULARY' && isPhraseTipAvailable) {
+				activeCard = 'PHRASES';
 			} else {
 				return;
 			}
@@ -152,11 +152,11 @@
 				/>
 			{/if}
 
-			{#if isIdiomTipAvailable}
-				<IdiomIcon
+			{#if isPhraseTipAvailable}
+				<PhraseIcon
 					class={cn(
 						'w-3 h-3',
-						activeCard !== 'IDIOMS' ? 'opacity-60' : '', //
+						activeCard !== 'PHRASES' ? 'opacity-60' : '', //
 						activeCardColors.iconColor
 					)}
 				/>
@@ -184,11 +184,11 @@
 				<GrammarIcon class="w-4 h-4" />
 			{:else if activeCard === 'VOCABULARY'}
 				<VocabularyIcon class="w-4 h-4" />
-			{:else if activeCard === 'IDIOMS'}
-				<IdiomIcon class="w-4 h-4" />
+			{:else if activeCard === 'PHRASES'}
+				<PhraseIcon class="w-4 h-4" />
 			{/if}
 			<span>
-				{activeCard === 'GRAMMAR' ? 'Grammar' : activeCard === 'VOCABULARY' ? 'Vocabulary' : 'Idiom'}
+				{activeCard === 'GRAMMAR' ? 'Grammar' : activeCard === 'VOCABULARY' ? 'Vocabulary' : 'Phrase'}
 			</span>
 		</h3>
 	{/if}
@@ -197,7 +197,7 @@
 		<GrammarTipCard tip={cards.GRAMMAR} />
 	{:else if activeCard === 'VOCABULARY' && cards.VOCABULARY}
 		<VocabularyTipCard tip={cards.VOCABULARY} />
-	{:else if activeCard === 'IDIOMS' && cards.IDIOMS}
-		<IdiomTipCard tip={cards.IDIOMS} />
+	{:else if activeCard === 'PHRASES' && cards.PHRASES}
+		<PhraseTipCard tip={cards.PHRASES} />
 	{/if}
 </Popover>
