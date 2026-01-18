@@ -1,1 +1,1 @@
-export type LearningTipCategory = 'GRAMMAR' | 'VOCABULARY' | 'IDIOMS';
+export type LearningTipCategory = 'GRAMMAR' | 'VOCABULARY' | 'PHRASES';
