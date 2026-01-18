@@ -9,4 +9,7 @@ export type AIMessageLearningTips = components['schemas']['AIMessageLearningTips
 
 export type AIMessageVocabularyTip = components['schemas']['AnnotatedVocabularyTip'];
 export type AIMessageGrammarTip = components['schemas']['AnnotatedGrammarTip'];
-export type AIMessageIdiomTip = components['schemas']['AnnotatedIdiomTip'];
+export type AIMessagePhraseTip = components['schemas']['AnnotatedPhraseTip'];
+
+export type TipRegister = components['schemas']['TipRegister'];
+export type PhraseType = components['schemas']['PhraseType'];
