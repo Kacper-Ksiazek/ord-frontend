@@ -1,27 +1,39 @@
 <script lang="ts">
 	import '../../cards.css';
-	import type { AIMessageIdiomTip } from '$lib/types/ongoing-conversation/api/responses';
+	import { Badge, cn } from 'flowbite-svelte';
+	import type {
+		AIMessagePhraseTip,
+		PhraseType
+	} from '$lib/types/ongoing-conversation/api/responses';
 	import {
 		getAiMessageLearningTipColors,
 		LEARNING_TIP_DEFINITION_ICON
 	} from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
-	import { cn } from 'flowbite-svelte';
 	import LearningTipExampleSentence from './shared/learning-tip-example-sentence.svelte';
+	import TipRegisterBadge from './shared/tip-register-badge.svelte';
 
 	interface Props {
-		tip: AIMessageIdiomTip;
+		tip: AIMessagePhraseTip;
 	}
 
 	let { tip }: Props = $props();
 
-	const colors = getAiMessageLearningTipColors('IDIOMS');
+	const colors = getAiMessageLearningTipColors('PHRASES');
+
+	function getPhraseTypeLabel(phraseType: PhraseType): string {
+		return phraseType === 'IDIOMATIC' ? 'Idiomatic' : 'Literal';
+	}
 </script>
 
 <div class={cn('feedback-card-container', colors.cardBg, colors.cardBorder)}>
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Phrase:</p>
-		<div class="feedback-card-text-box variant-neutral">
-			<span>{tip.phrase}</span>
+
+		<div class="feedback-card-text-box variant-neutral flex gap-2">
+			<span class="flex-1">{tip.phrase}</span>
+
+			<Badge color={colors.twColor}>{getPhraseTypeLabel(tip.phraseType)}</Badge>
+			<TipRegisterBadge register={tip.register} color={colors.twColor} />
 		</div>
 	</div>
 
@@ -33,5 +45,5 @@
 		</div>
 	</div>
 
-	<LearningTipExampleSentence exampleSentence={tip.exampleSentences} category="IDIOMS" />
+	<LearningTipExampleSentence exampleSentence={tip.exampleSentences} category="PHRASES" />
 </div>
