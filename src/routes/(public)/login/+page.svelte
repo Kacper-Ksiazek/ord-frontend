@@ -9,7 +9,7 @@
 	import { authStore } from '$lib/stores/auth.svelte';
 
 	let step = $state<'email' | 'otp'>('email');
-	let email = $state('');
+	let email = $state('kacper.b.ksiazek@gmail.com');
 	let otpCode = $state('');
 	let error = $state<string | null>(null);
 
