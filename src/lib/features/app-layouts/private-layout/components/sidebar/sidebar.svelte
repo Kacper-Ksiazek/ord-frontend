@@ -22,7 +22,7 @@
 	import SidebarLearningLanguage from './components/sidebar-learning-language.svelte';
 	import SidebarLink from './components/sidebar-link.svelte';
 	import { sidebarStore } from './sidebar.store.svelte';
-	import { createLogoutMutation } from '$lib/api-client/auth/mutations';
+	import { createLogoutMutation } from '$auth/api-client';
 	import { goto } from '$app/navigation';
 
 	const { mutateAsync: handleLogout } = createLogoutMutation();
