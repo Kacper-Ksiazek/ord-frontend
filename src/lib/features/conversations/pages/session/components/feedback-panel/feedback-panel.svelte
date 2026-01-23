@@ -72,7 +72,7 @@
 			{ id: 'all', label: 'All', count: feedback.suggestions.length, disabled: false }
 		];
 
-		const suggestionTypes: ConversationMessageSuggestionType[] = ['IMPROVEMENT', 'ENRICHMENT'];
+		const suggestionTypes: ConversationMessageSuggestionType[] = ['VOCABULARY', 'STRUCTURE'];
 		for (const type of suggestionTypes) {
 			const count = feedback.suggestions.filter((s) => s.suggestionType === type).length;
 			tabs.push({
