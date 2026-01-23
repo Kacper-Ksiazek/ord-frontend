@@ -24,7 +24,7 @@
 
 <div
 	class={cn(
-		'flex gap-4', //
+		'flex gap-4 w-full', //
 		orientation === 'right' ? 'flex-row-reverse self-end' : 'flex-row self-start'
 	)}
 >
