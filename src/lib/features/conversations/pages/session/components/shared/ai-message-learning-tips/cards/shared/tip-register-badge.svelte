@@ -15,8 +15,8 @@
 		switch (register) {
 			case 'FORMAL':
 				return 'Formal';
-			case 'INFORMAL':
-				return 'Informal';
+			case 'NEUTRAL':
+				return 'Neutral';
 			case 'COLLOQUIAL':
 				return 'Colloquial';
 		}
@@ -26,7 +26,7 @@
 		switch (register) {
 			case 'FORMAL':
 				return Briefcase;
-			case 'INFORMAL':
+			case 'NEUTRAL':
 				return Users;
 			case 'COLLOQUIAL':
 				return Zap;
