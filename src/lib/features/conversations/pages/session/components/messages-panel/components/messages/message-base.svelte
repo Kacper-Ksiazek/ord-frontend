@@ -29,7 +29,7 @@
 	)}
 >
 	{#if avatar}
-		<div class="mt-4">
+		<div>
 			{@render avatar?.()}
 		</div>
 	{/if}
@@ -44,7 +44,7 @@
 		{#if content}
 			<div
 				class={cn(
-					'px-4 py-2 rounded-lg leading-[26px] tracking-wide min-w-[68px] min-h-[68px] bg-slate-100', //
+					'px-4 py-2 rounded-lg leading-[26px] tracking-wide min-w-[68px] bg-slate-100', //
 					messageClass
 				)}
 			>
