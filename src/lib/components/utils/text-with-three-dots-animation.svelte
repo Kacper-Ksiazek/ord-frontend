@@ -1,9 +1,12 @@
 <script lang="ts">
+	import { cn } from 'flowbite-svelte';
+
 	interface Props {
 		text: string;
+		dotsWrapperClass?: string;
 	}
 
-	const { text }: Props = $props();
+	const { text, dotsWrapperClass = '' }: Props = $props();
 </script>
 
 <div class="flex items-end gap-0.5">
@@ -11,7 +14,7 @@
 
 	{#each [1, 2, 3] as _, index}
 		<div
-			class="dot w-[3px] h-[3px] bg-gray-400 rounded-full mb-2"
+			class={cn('dot w-[3px] h-[3px] bg-gray-400 rounded-full mb-2', dotsWrapperClass)}
 			style="animation-delay: {index * 0.1}s;"
 		></div>
 	{/each}
