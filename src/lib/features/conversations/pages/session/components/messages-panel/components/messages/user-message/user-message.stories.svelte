@@ -6,6 +6,46 @@
 	import SidepanelContextDecorator from '$lib/features/conversations/pages/session/contexts/storybook-decorators/sidepanel-context-decorator.svelte';
 	import type { CompactConversationUserMessage } from '$lib/types/conversation/domain/conversation-message';
 
+	const defaultMessage: CompactConversationUserMessage = {
+		sender: 'USER',
+		content: 'Hello, how are you today?',
+		feedback: {
+			id: 'feedback-1',
+			tutorComment: 'Good effort! Keep practicing.',
+			grammar: 7,
+			vocabulary: 8,
+			answerLength: 6,
+			naturalness: 7,
+			coherenceWithContext: 8,
+			registerAppropriate: true,
+			messageId: 'msg-1',
+			mistakes: [
+				{
+					phrase: 'how are you',
+					severity: 'MINOR',
+					errorType: 'GRAMMAR',
+					explanation: 'Consider using "How are you doing?" for a more natural expression.',
+					correctForm: 'How are you doing?'
+				}
+			],
+			strengths: [
+				{
+					phrase: 'Hello',
+					strengthType: 'COMMUNICATION',
+					explanation: 'Great greeting!'
+				}
+			],
+			suggestions: [
+				{
+					original: 'today',
+					suggestionType: 'VOCABULARY',
+					alternatives: ['this morning', 'this afternoon'],
+					explanation: 'You could use "this morning" or "this afternoon" for more specificity.'
+				}
+			]
+		}
+	};
+
 	const { Story } = defineMeta({
 		component: UserMessage,
 		title: 'Features/Conversations/Session/UserMessage',
@@ -16,45 +56,7 @@
 		],
 		args: {
 			messageIndex: 0,
-			message: {
-				sender: 'USER',
-				content: 'Hello, how are you today?',
-				feedback: {
-					id: 'feedback-1',
-					tutorComment: 'Good effort! Keep practicing.',
-					grammar: 7,
-					vocabulary: 8,
-					answerLength: 6,
-					naturalness: 7,
-					coherenceWithContext: 8,
-					registerAppropriate: true,
-					messageId: 'msg-1',
-					mistakes: [
-						{
-							phrase: 'how are you',
-							severity: 'MINOR',
-							errorType: 'GRAMMAR',
-							explanation: 'Consider using "How are you doing?" for a more natural expression.',
-							correctForm: 'How are you doing?'
-						}
-					],
-					strengths: [
-						{
-							phrase: 'Hello',
-							strengthType: 'COMMUNICATION',
-							explanation: 'Great greeting!'
-						}
-					],
-					suggestions: [
-						{
-							original: 'today',
-							suggestionType: 'VOCABULARY',
-							alternatives: ['this morning', 'this afternoon'],
-							explanation: 'You could use "this morning" or "this afternoon" for more specificity.'
-						}
-					]
-				}
-			} satisfies CompactConversationUserMessage
+			message: defaultMessage
 		},
 		argTypes: {
 			message: {
@@ -65,48 +67,11 @@
 	});
 </script>
 
+<Story name="Default" />
+
 <Story
-	name="Default"
+	name="Generating Feedback"
 	args={{
-		messageIndex: 0,
-		message: {
-			sender: 'USER',
-			content: 'Hello, how are you today? I want to learn English better.',
-			feedback: {
-				id: 'feedback-1',
-				tutorComment: 'Good effort! Keep practicing.',
-				grammar: 7,
-				vocabulary: 8,
-				answerLength: 6,
-				naturalness: 7,
-				coherenceWithContext: 8,
-				registerAppropriate: true,
-				messageId: 'msg-1',
-				mistakes: [
-					{
-						phrase: 'how are you',
-						severity: 'MINOR',
-						errorType: 'GRAMMAR',
-						explanation: 'Consider using "How are you doing?" for a more natural expression.',
-						correctForm: 'How are you doing?'
-					}
-				],
-				strengths: [
-					{
-						phrase: 'Hello',
-						strengthType: 'COMMUNICATION',
-						explanation: 'Great greeting!'
-					}
-				],
-				suggestions: [
-					{
-						original: 'today',
-						suggestionType: 'VOCABULARY',
-						alternatives: ['this morning', 'this afternoon'],
-						explanation: 'You could use "this morning" or "this afternoon" for more specificity.'
-					}
-				]
-			}
-		} satisfies CompactConversationUserMessage
+		message: { ...defaultMessage, feedback: null }
 	}}
 />
