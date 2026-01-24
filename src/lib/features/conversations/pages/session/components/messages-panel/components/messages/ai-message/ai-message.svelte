@@ -71,7 +71,7 @@
 				{/if}
 			</p>
 		{:else}
-			<TextWithThreeDotsAnimation text="Generowanie odpowiedzi" />
+			<TextWithThreeDotsAnimation text="Myśli" />
 		{/if}
 	{/snippet}
 
