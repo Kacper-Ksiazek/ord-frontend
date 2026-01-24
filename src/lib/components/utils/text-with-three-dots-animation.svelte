@@ -6,12 +6,12 @@
 	const { text }: Props = $props();
 </script>
 
-<div class="flex items-end gap-1">
+<div class="flex items-end gap-0.5">
 	<span>{text}</span>
 
 	{#each [1, 2, 3] as _, index}
 		<div
-			class="dot w-1 h-1 bg-gray-400 rounded-full mb-1.5"
+			class="dot w-[3px] h-[3px] bg-gray-400 rounded-full mb-2"
 			style="animation-delay: {index * 0.1}s;"
 		></div>
 	{/each}
