@@ -26,9 +26,15 @@
 	const boxes = Array.from({ length: 10 }, (_, i) => i + 1);
 </script>
 
-<div class={cn('flex items-center gap-3')}>
+<div class={cn('flex items-center gap-2 p-1 rounded-md text-content-card')}>
+	<div class={cn('w-4 h-4 rounded-sm p-3 flex items-center justify-center', boxColor)}>
+		<span class="text-xs font-semibold text-slate-100">
+			{score}
+		</span>
+	</div>
+
 	<!-- Label -->
-	<span class="whitespace-nowrap w-[96px]">
+	<span class="whitespace-nowrap min-w-[96px] flex-1">
 		{field}
 	</span>
 
@@ -38,14 +44,9 @@
 			<div
 				class={cn(
 					'w-4 h-4 rounded-sm',
-					boxIndex <= score ? `${boxColor}` : 'bg-gray-300/50 dark:bg-gray-800/50'
+					boxIndex <= score ? `${boxColor}` : 'bg-gray-300/50 dark:bg-gray-300/50'
 				)}
 			></div>
 		{/each}
 	</div>
-
-	<!-- Rating -->
-	<span class="font-semibold">
-		{score}
-	</span>
 </div>
