@@ -11,9 +11,10 @@
 	import { getUserMessageFeedbackColors } from '$lib/features/conversations/pages/session/consts/user-message-feedback/colors';
 	import ToggleIconsInHighlight from '$lib/features/conversations/pages/session/components/shared/toggle-icons-in-highlight.svelte';
 	import HighlightsCountBadge from '$lib/features/conversations/pages/session/components/shared/highlights-count-badge.svelte';
+	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
 
 	interface FeedbackProps {
-		feedback: ConversationUserMessageFeedbackDTO;
+		feedback: ConversationUserMessageFeedbackDTO | null;
 		showIconsInHighlightedParts: boolean;
 	}
 
@@ -25,12 +26,12 @@
 	const sidepanelContext = getSidepanelContext();
 
 	const isSelected = $derived(
-		sidepanelContext.isOpened && sidepanelContext.feedbackPreview?.id === feedback.id
+		sidepanelContext.isOpened && sidepanelContext.feedbackPreview?.id === feedback?.id
 	);
 
-	const mistakesCount = size(feedback.mistakes);
-	const strengthsCount = size(feedback.strengths);
-	const suggestionsCount = size(feedback.suggestions);
+	const mistakesCount = size(feedback?.mistakes);
+	const strengthsCount = size(feedback?.strengths);
+	const suggestionsCount = size(feedback?.suggestions);
 
 	const indicators = compact([
 		mistakesCount && {
@@ -68,36 +69,46 @@
 
 <AiPostProcessActionBase
 	label="Analiza wiadomości"
+	tooltipContent="Kliknij, aby otworzyć podsumowanie wiadomości"
+	tooltipPlacement="left-start"
 	class={cn(isSelected ? 'bg-primary-200' : 'bg-primary-100')}
 	onclick={handleClick}
+	isGenerating={!feedback}
 >
-	{#if indicators.length > 0}
-		<div class="flex flex-row gap-2 flex-wrap items-center justify-between">
-			<div class="flex flex-row gap-2 flex-wrap">
-				{#each indicators as { criteria, count, label }}
-					{@const { twColor, chipBorder } = getUserMessageFeedbackColors(criteria)}
+	{#if feedback}
+		{#if indicators.length > 0}
+			<div class="flex flex-row gap-2 flex-wrap items-center justify-between">
+				<div class="flex flex-row gap-2 flex-wrap">
+					{#each indicators as { criteria, count, label }}
+						{@const { twColor, chipBorder } = getUserMessageFeedbackColors(criteria)}
 
-					<HighlightsCountBadge {count} {label} color={twColor} class={chipBorder}>
-						{#snippet icon()}
-							<FeedbackMetricIcon {criteria} />
-						{/snippet}
-					</HighlightsCountBadge>
-				{/each}
+						<HighlightsCountBadge {count} {label} color={twColor} class={chipBorder}>
+							{#snippet icon()}
+								<FeedbackMetricIcon {criteria} />
+							{/snippet}
+						</HighlightsCountBadge>
+					{/each}
+				</div>
+
+				<ToggleIconsInHighlight bind:checked={showIconsInHighlightedParts} />
 			</div>
+		{/if}
 
-			<ToggleIconsInHighlight bind:checked={showIconsInHighlightedParts} />
+		<div class="rounded-md my-2 p-2 text-content-card">
+			<p class="leading-[1.8] tracking-wide">
+				{feedback.tutorComment}
+			</p>
 		</div>
+
+		<div class="flex flex-col gap-2 items-start">
+			<Score field="Gramatyka" score={feedback.grammar} />
+			<Score field="Słownictwo" score={feedback.vocabulary} />
+			<Score field="Naturalność" score={feedback.naturalness} />
+		</div>
+	{:else}
+		<TextWithThreeDotsAnimation
+			text="Trwa przygotowywanie materiałów edukacyjnych"
+			dotsWrapperClass="mb-1"
+		/>
 	{/if}
-
-	<div class="rounded-md my-2 p-2 text-content-card">
-		<p class="leading-[1.8] tracking-wide">
-			{feedback.tutorComment}
-		</p>
-	</div>
-
-	<div class="flex flex-col gap-2 items-start">
-		<Score field="Gramatyka" score={feedback.grammar} />
-		<Score field="Słownictwo" score={feedback.vocabulary} />
-		<Score field="Naturalność" score={feedback.naturalness} />
-	</div>
 </AiPostProcessActionBase>
