@@ -8,8 +8,7 @@
 
 	const { Story } = defineMeta({
 		component: UserMessage,
-		title: 'Features/Conversations/UserMessage',
-		tags: ['autodocs'],
+		title: 'Features/Conversations/Session/UserMessage',
 		decorators: [
 			() => ConversationContextDecorator as any, //
 			() => SidepanelContextDecorator as any,
@@ -67,19 +66,7 @@
 </script>
 
 <Story
-	name="Without Feedback"
-	args={{
-		messageIndex: 0,
-		message: {
-			sender: 'USER',
-			content: 'This is a message without feedback',
-			feedback: null
-		} satisfies CompactConversationUserMessage
-	}}
-/>
-
-<Story
-	name="With Highlighted Feedback"
+	name="Default"
 	args={{
 		messageIndex: 0,
 		message: {

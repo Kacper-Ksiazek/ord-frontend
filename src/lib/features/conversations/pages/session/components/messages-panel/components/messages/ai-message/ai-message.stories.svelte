@@ -7,8 +7,7 @@
 
 	const { Story } = defineMeta({
 		component: AiMessage,
-		title: 'Features/Conversations/AIMessage',
-		tags: ['autodocs'],
+		title: 'Features/Conversations/Session/AIMessage',
 		decorators: [
 			() => ConversationContextDecorator as any, //
 			() => SidepanelContextDecorator as any,
@@ -33,10 +32,8 @@
 	});
 </script>
 
-<Story name="Default" />
-
 <Story
-	name="With Learning Tips"
+	name="Default"
 	args={{
 		message: "Hello! I'm here to help you learn English. How can I assist you today?",
 		learningTips: {
@@ -74,7 +71,7 @@
 />
 
 <Story
-	name="Generating"
+	name="Generating AI Message"
 	args={{
 		message: '',
 		isStillGenerating: true,
