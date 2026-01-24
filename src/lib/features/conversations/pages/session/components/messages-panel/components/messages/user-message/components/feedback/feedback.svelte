@@ -89,13 +89,13 @@
 		</div>
 	{/if}
 
-	<div class="rounded-md my-2">
-		<p class=" leading-[1.8] tracking-wide">
+	<div class="rounded-md my-2 p-2 text-content-card">
+		<p class="leading-[1.8] tracking-wide">
 			{feedback.tutorComment}
 		</p>
 	</div>
 
-	<div class="flex flex-col gap-2">
+	<div class="flex flex-col gap-2 items-start">
 		<Score field="Gramatyka" score={feedback.grammar} />
 		<Score field="Słownictwo" score={feedback.vocabulary} />
 		<Score field="Naturalność" score={feedback.naturalness} />
