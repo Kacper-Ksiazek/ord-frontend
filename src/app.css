@@ -109,18 +109,36 @@
 	}
 }
 
-@keyframes generation-in-progress {
+/* @keyframes generation-in-progress {
 	from {
 		background-color: var(--color-primary-100);
 	}
 	to {
 		background-color: var(--color-slate-100);
 	}
+} */
+
+@keyframes generation-in-progress {
+	from {
+		background-color: var(--generation-color-from);
+		box-shadow: 0 0 10px 0px var(--generation-color-from);
+	}
+	to {
+		background-color: var(--generation-color-to);
+		box-shadow: 0 0 16px 0px var(--generation-color-to);
+	}
 }
 
 .generation-in-progress {
+	--generation-color-from: var(--color-primary-200);
+	--generation-color-to: var(--color-slate-50);
 	animation: generation-in-progress 0.6s infinite alternate linear;
 	color: var(--color-gray-400);
+}
+
+.dark .generation-in-progress {
+	--generation-color-from: var(--color-primary-700);
+	--generation-color-to: var(--color-slate-600);
 }
 
 .text-content-card {
