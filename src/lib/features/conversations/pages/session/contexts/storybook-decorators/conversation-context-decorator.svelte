@@ -9,7 +9,7 @@
 		topic: 'Learning English',
 		interlocutor: {
 			name: 'Alex',
-			avatarId: 'avatar-1'
+			avatarId: 'AVATAR_EPSILON'
 		}
 	});
 </script>
