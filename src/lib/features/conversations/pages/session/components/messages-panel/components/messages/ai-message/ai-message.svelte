@@ -15,7 +15,7 @@
 		message: string;
 		messageIndex: number;
 		isStillGenerating: boolean;
-		learningTips?: AIMessageLearningTips | null;
+		learningTips: AIMessageLearningTips | null;
 	}
 
 	const { message, messageIndex, isStillGenerating, learningTips }: AiMessageProps = $props();
@@ -76,7 +76,7 @@
 	{/snippet}
 
 	{#snippet footer()}
-		{#if !isStillGenerating && learningTips}
+		{#if !isStillGenerating}
 			<LearningTips {learningTips} bind:showIconsInHighlightedParts />
 		{/if}
 	{/snippet}
