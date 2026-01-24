@@ -8,9 +8,10 @@
 	import HighlightsCountBadge from '$lib/features/conversations/pages/session/components/shared/highlights-count-badge.svelte';
 	import ToggleIconsInHighlight from '$lib/features/conversations/pages/session/components/shared/toggle-icons-in-highlight.svelte';
 	import AiMessageLearningTipIcon from '$lib/features/conversations/pages/session/components/shared/ai-message-learning-tips/ai-message-learning-tip-icon.svelte';
+	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
 
 	interface LearningTipsProps {
-		learningTips: AIMessageLearningTips;
+		learningTips: AIMessageLearningTips | null;
 		showIconsInHighlightedParts: boolean;
 	}
 
@@ -19,9 +20,9 @@
 		showIconsInHighlightedParts = $bindable()
 	}: LearningTipsProps = $props();
 
-	const grammarTipsCount = size(learningTips.grammarTips);
-	const vocabularyTipsCount = size(learningTips.vocabularyTips);
-	const phraseTipsCount = size(learningTips.phraseTips);
+	const grammarTipsCount = size(learningTips?.grammarTips);
+	const vocabularyTipsCount = size(learningTips?.vocabularyTips);
+	const phraseTipsCount = size(learningTips?.phraseTips);
 
 	const indicators = compact([
 		grammarTipsCount > 0 && {
@@ -48,13 +49,16 @@
 	const hasTips = indicators.length > 0;
 </script>
 
-{#if hasTips}
-	<AiPostProcessActionBase
-		label="Wskazówki do nauki"
-		onclick={() => {
-			console.log('🔥 TODO: Implement support for the panel');
-		}}
-	>
+<AiPostProcessActionBase
+	label="Wskazówki do nauki"
+	tooltipContent="Kliknij, aby otworzyć wskazówki do nauki"
+	tooltipPlacement="right-start"
+	isGenerating={!learningTips}
+	onclick={() => {
+		console.log('🔥 TODO: Implement support for the panel');
+	}}
+>
+	{#if learningTips}
 		<div class="flex flex-row gap-2 flex-wrap items-center justify-between">
 			<div class="flex flex-row gap-2 flex-wrap">
 				{#each indicators as { category, count, label }}
@@ -70,5 +74,10 @@
 
 			<ToggleIconsInHighlight bind:checked={showIconsInHighlightedParts} />
 		</div>
-	</AiPostProcessActionBase>
-{/if}
+	{:else}
+		<TextWithThreeDotsAnimation
+			text="Trwa przygotowywanie materiałów edukacyjnych"
+			dotsWrapperClass="mb-1"
+		/>
+	{/if}
+</AiPostProcessActionBase>
