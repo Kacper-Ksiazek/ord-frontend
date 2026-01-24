@@ -54,10 +54,6 @@
 	{/snippet}
 
 	{#snippet footer()}
-		{#if message.feedback}
-			<Feedback feedback={message.feedback} bind:showIconsInHighlightedParts />
-		{:else}
-			<div class="w-full h-[184px] generation-in-progress px-4 rounded-md"></div>
-		{/if}
+		<Feedback feedback={message.feedback} bind:showIconsInHighlightedParts />
 	{/snippet}
 </MessageBase>
