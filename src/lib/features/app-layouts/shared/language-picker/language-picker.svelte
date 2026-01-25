@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { Dropdown, DropdownItem } from 'flowbite-svelte';
+	import { Dropdown, DropdownItem, cn } from 'flowbite-svelte';
 	import { ChevronDown, Globe } from 'lucide-svelte';
 	import { getLocale, setLocale } from '$lib/paraglide/runtime';
+	import CountryFlag from '$lib/assets/images/country_flags/country_flag.svelte';
 
 	type Locale = 'en' | 'pl' | 'de';
 
@@ -31,7 +32,7 @@
 	aria-label="Change language"
 	type="button"
 >
-	<Globe class="w-5 h-5" />
+	<CountryFlag locale={currentLocale} class="w-5 h-5" />
 	<span class="text-sm font-medium">{currentLanguageLabel}</span>
 	<ChevronDown class="w-3 h-3" />
 </button>
@@ -40,11 +41,12 @@
 	{#each languages as language}
 		<DropdownItem
 			onclick={() => handleLanguageSelect(language.code)}
-			class="w-full list-none text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 {currentLocale ===
-			language.code
-				? 'font-semibold'
-				: ''}"
+			class={cn(
+				'w-full list-none text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center gap-2',
+				currentLocale === language.code && 'font-semibold'
+			)}
 		>
+			<CountryFlag locale={language.code} class="w-4 h-4" />
 			{language.name}
 		</DropdownItem>
 	{/each}
