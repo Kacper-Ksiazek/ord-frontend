@@ -8,6 +8,7 @@
 	import { cn } from 'flowbite-svelte';
 	import LearningTipExampleSentence from './shared/learning-tip-example-sentence.svelte';
 	import TipRegisterBadge from './shared/tip-register-badge.svelte';
+	import AuthUserNativeLanguageFlag from '$lib/components/auth-user-native-language-flag.svelte';
 
 	interface Props {
 		tip: AIMessageGrammarTip;
@@ -25,6 +26,11 @@
 			<span class="flex-1">{tip.phrase}</span>
 
 			<TipRegisterBadge register={tip.register} color={colors.twColor} />
+		</div>
+
+		<div class="feedback-card-text-box variant-neutral flex gap-2 mt-1">
+			<AuthUserNativeLanguageFlag class="w-4 h-4" />
+			<span class="flex-1">{tip.nativeLanguageEquivalent}</span>
 		</div>
 	</div>
 
