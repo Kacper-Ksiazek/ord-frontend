@@ -6,6 +6,7 @@
 		getAiMessageLearningTipColors,
 		LEARNING_TIP_DEFINITION_ICON
 	} from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
+	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/icons';
 	import LearningTipExampleSentence from './shared/learning-tip-example-sentence.svelte';
 	import TipRegisterBadge from './shared/tip-register-badge.svelte';
 	import AuthUserNativeLanguageFlag from '$lib/components/auth-user-native-language-flag.svelte';
@@ -17,12 +18,14 @@
 	let { tip }: Props = $props();
 
 	const colors = getAiMessageLearningTipColors('VOCABULARY');
+	const VocabularyIcon = AI_MESSAGE_LEARNING_TIP_ICONS_MAP['VOCABULARY'];
 </script>
 
 <div class={cn('feedback-card-container', colors.cardBg, colors.cardBorder)}>
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Word:</p>
-		<div class="feedback-card-text-box variant-neutral flex gap-2">
+		<div class="feedback-card-text-box variant-blue flex gap-2">
+			<VocabularyIcon class={colors.iconColor} />
 			<span class="flex-1">{tip.word}</span>
 
 			<TipRegisterBadge register={tip.register} color={colors.twColor} />
