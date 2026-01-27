@@ -4,6 +4,7 @@
 	import type { ConversationMessageSuggestion } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import { ArrowRight } from 'lucide-svelte';
 	import { getUserMessageFeedbackColors } from '$lib/features/conversations/pages/session/consts/user-message-feedback/colors';
+	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$lib/features/conversations/pages/session/consts/user-message-feedback/icons';
 
 	interface Props {
 		suggestion: ConversationMessageSuggestion;
@@ -12,6 +13,7 @@
 	let { suggestion }: Props = $props();
 
 	const { cardBg, cardBorder, twColor, iconColor } = getUserMessageFeedbackColors('SUGGESTIONS');
+	const SuggestionIcon = USER_MESSAGE_FEEDBACK_ICONS_MAP['SUGGESTIONS'];
 </script>
 
 <div class={cn('feedback-card-container', cardBg, cardBorder)}>
@@ -21,7 +23,8 @@
 
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Original:</p>
-		<div class="feedback-card-text-box variant-neutral">
+		<div class="feedback-card-text-box variant-blue">
+			<SuggestionIcon class={iconColor} />
 			<span>{suggestion.original}</span>
 		</div>
 	</div>
@@ -30,7 +33,7 @@
 		<p class="feedback-card-label">Alternatives:</p>
 		<ul class="space-y-2">
 			{#each suggestion.alternatives as alternative}
-				<li class="feedback-card-text-box variant-blue">
+				<li class="feedback-card-text-box variant-neutral">
 					<ArrowRight class={iconColor} />
 					<span>{alternative}</span>
 				</li>

@@ -41,7 +41,7 @@
 
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Phrase:</p>
-		<div class="feedback-card-text-box variant-neutral">
+		<div class="feedback-card-text-box variant-red">
 			<X class={iconColor} />
 			<span>{mistake.phrase}</span>
 		</div>
