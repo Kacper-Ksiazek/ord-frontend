@@ -4,6 +4,7 @@
 	import type { ConversationMessageStrength } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import { getUserMessageFeedbackColors } from '$lib/features/conversations/pages/session/consts/user-message-feedback/colors';
 	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$lib/features/conversations/pages/session/consts/user-message-feedback/icons';
+	import { EXPLANATION_ICON } from '$lib/features/conversations/pages/session/consts/icons';
 
 	interface Props {
 		strength: ConversationMessageStrength;
@@ -16,20 +17,21 @@
 </script>
 
 <div class={cn('feedback-card-container', cardBg, cardBorder)}>
-	<div class="feedback-card-header">
-		<Badge color={twColor}>{strength.strengthType}</Badge>
-	</div>
-
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Phrase:</p>
 		<div class="feedback-card-text-box variant-green">
 			<StrengthIcon class={iconColor} />
-			<span>{strength.phrase}</span>
+			<span class="flex-1">{strength.phrase}</span>
+
+			<Badge color={twColor}>{strength.strengthType}</Badge>
 		</div>
 	</div>
 
-	<div>
+	<div class="feedback-card-section">
 		<p class="feedback-card-label">Explanation:</p>
-		<p class="feedback-card-explanation">{strength.explanation}</p>
+		<div class="feedback-card-text-box variant-neutral">
+			<EXPLANATION_ICON class={iconColor} />
+			<span>{strength.explanation}</span>
+		</div>
 	</div>
 </div>

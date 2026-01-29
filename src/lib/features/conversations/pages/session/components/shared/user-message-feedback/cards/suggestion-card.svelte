@@ -5,6 +5,7 @@
 	import { ArrowRight } from 'lucide-svelte';
 	import { getUserMessageFeedbackColors } from '$lib/features/conversations/pages/session/consts/user-message-feedback/colors';
 	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$lib/features/conversations/pages/session/consts/user-message-feedback/icons';
+	import { EXPLANATION_ICON } from '$lib/features/conversations/pages/session/consts/icons';
 
 	interface Props {
 		suggestion: ConversationMessageSuggestion;
@@ -17,15 +18,13 @@
 </script>
 
 <div class={cn('feedback-card-container', cardBg, cardBorder)}>
-	<div class="feedback-card-header">
-		<Badge color={twColor}>{suggestion.suggestionType}</Badge>
-	</div>
-
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Original:</p>
 		<div class="feedback-card-text-box variant-blue">
 			<SuggestionIcon class={iconColor} />
-			<span>{suggestion.original}</span>
+			<span class="flex-1">{suggestion.original}</span>
+
+			<Badge color={twColor}>{suggestion.suggestionType}</Badge>
 		</div>
 	</div>
 
@@ -41,8 +40,11 @@
 		</ul>
 	</div>
 
-	<div>
+	<div class="feedback-card-section">
 		<p class="feedback-card-label">Explanation:</p>
-		<p class="feedback-card-explanation">{suggestion.explanation}</p>
+		<div class="feedback-card-text-box variant-neutral">
+			<EXPLANATION_ICON class={iconColor} />
+			<span>{suggestion.explanation}</span>
+		</div>
 	</div>
 </div>

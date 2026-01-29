@@ -7,6 +7,7 @@
 	} from '$lib/types/conversation/domain/conversation-message-feedback';
 	import { Check, X } from 'lucide-svelte';
 	import { getUserMessageFeedbackColors } from '$lib/features/conversations/pages/session/consts/user-message-feedback/colors';
+	import { EXPLANATION_ICON } from '$lib/features/conversations/pages/session/consts/icons';
 
 	interface Props {
 		mistake: ConversationMessageMistake;
@@ -55,8 +56,11 @@
 		</div>
 	</div>
 
-	<div>
+	<div class="feedback-card-section">
 		<p class="feedback-card-label">Explanation:</p>
-		<p class="feedback-card-explanation">{mistake.explanation}</p>
+		<div class="feedback-card-text-box variant-neutral">
+			<EXPLANATION_ICON class={iconColor} />
+			<span>{mistake.explanation}</span>
+		</div>
 	</div>
 </div>
