@@ -1,7 +1,6 @@
 import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
 import { cn } from 'flowbite-svelte';
 import type { CardThemeColors } from '../theme.types';
-import { ArrowRight, CircleQuestionMark } from 'lucide-svelte';
 
 export const AI_MESSAGE_LEARNING_TIP_COLORS_MAP: Record<LearningTipCategory, CardThemeColors> = {
 	GRAMMAR: {
@@ -45,6 +44,3 @@ export const AI_MESSAGE_LEARNING_TIP_COLORS_MAP: Record<LearningTipCategory, Car
 export function getAiMessageLearningTipColors(category: LearningTipCategory): CardThemeColors {
 	return AI_MESSAGE_LEARNING_TIP_COLORS_MAP[category];
 }
-
-export const LEARNING_TIP_EXAMPLE_SENTENCE_ICON: LucideIcon = ArrowRight;
-export const LEARNING_TIP_DEFINITION_ICON: LucideIcon = CircleQuestionMark;
