@@ -1,11 +1,9 @@
 <script lang="ts">
 	import '../../cards.css';
 	import type { AIMessageGrammarTip } from '$lib/types/ongoing-conversation/api/responses';
-	import {
-		getAiMessageLearningTipColors,
-		LEARNING_TIP_DEFINITION_ICON
-	} from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
+	import { getAiMessageLearningTipColors } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
 	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/icons';
+	import { EXPLANATION_ICON } from '$lib/features/conversations/pages/session/consts/icons';
 	import { cn } from 'flowbite-svelte';
 	import LearningTipExampleSentence from './shared/learning-tip-example-sentence.svelte';
 	import TipRegisterBadge from './shared/tip-register-badge.svelte';
@@ -47,7 +45,7 @@
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Explanation:</p>
 		<div class="feedback-card-text-box variant-neutral">
-			<LEARNING_TIP_DEFINITION_ICON class={colors.iconColor} />
+			<EXPLANATION_ICON class={colors.iconColor} />
 			<span>{tip.explanation}</span>
 		</div>
 	</div>
