@@ -1,19 +1,6 @@
 import type { ConversationDTO } from '$lib/types/conversation/domain/conversation';
-import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
-import type { CompactConversationAiMessage } from '$lib/types/conversation/domain/conversation-message';
+import type { CompactConversationMessage } from '$lib/types/conversation/domain/conversation-message';
 import { createContext } from 'svelte';
-
-export type { CompactConversationAiMessage };
-
-export type CompactConversationUserMessage = {
-	sender: 'USER';
-	content: string;
-	feedback: ConversationUserMessageFeedbackDTO | null;
-};
-
-export type CompactConversationMessage =
-	| CompactConversationAiMessage
-	| CompactConversationUserMessage;
 
 export type MessagesContext = {
 	messages: CompactConversationMessage[];
@@ -31,21 +18,24 @@ export function createMessagesContext(conversation: ConversationDTO) {
 					? {
 							grammarTips: message.learningTips.grammarTips,
 							vocabularyTips: message.learningTips.vocabularyTips,
-							phraseTips: message.learningTips.phraseTips
+							phraseTips: message.learningTips.phraseTips,
+							createdAt: message.createdAt
 						}
 					: null;
 
 				return {
 					sender: 'AI',
 					content: message.content,
-					learningTips
+					learningTips,
+					createdAt: message.createdAt
 				} satisfies CompactConversationMessage;
 			}
 
 			return {
 				sender: 'USER',
 				content: message.content,
-				feedback: message.feedback ?? null
+				feedback: message.feedback ?? null,
+				createdAt: message.createdAt
 			} satisfies CompactConversationMessage;
 		}),
 		isGenerating: false

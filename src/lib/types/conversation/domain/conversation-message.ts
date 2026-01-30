@@ -10,12 +10,14 @@ export type CompactConversationAiMessage = {
 	sender: 'AI';
 	content: string;
 	learningTips?: AIMessageLearningTips | null;
+	createdAt: string;
 };
 
 export type CompactConversationUserMessage = {
 	sender: 'USER';
 	content: string;
 	feedback: ConversationUserMessageFeedbackDTO | null;
+	createdAt: string;
 };
 
 export type CompactConversationMessage =
