@@ -14,7 +14,7 @@
 		MistakeCard,
 		StrengthCard,
 		SuggestionCard
-	} from '../../../../shared/user-message-feedback/cards';
+	} from '../../../../../shared/user-message-feedback/cards';
 
 	interface Props {
 		allMistakes: ConversationMessageMistake[];
@@ -73,16 +73,12 @@
 					strengths: allStrengths,
 					suggestions: allSuggestions
 				};
-
 			case activeTab === 'MISTAKES':
 				return { mistakes: allMistakes, strengths: [], suggestions: [] };
-
 			case activeTab === 'STRENGTHS':
 				return { mistakes: [], strengths: allStrengths, suggestions: [] };
-
 			case activeTab === 'SUGGESTIONS':
 				return { mistakes: [], strengths: [], suggestions: allSuggestions };
-
 			default:
 				return { mistakes: [], strengths: [], suggestions: [] };
 		}

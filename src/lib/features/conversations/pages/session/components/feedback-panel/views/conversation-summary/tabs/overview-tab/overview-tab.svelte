@@ -2,7 +2,7 @@
 	import { cn } from 'flowbite-svelte';
 	import isEmpty from 'lodash/isEmpty';
 	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
-	import type { ConversationSummaryData } from './conversation-summary-tabs.types';
+	import type { ConversationSummaryData } from '../conversation-summary-tabs.types';
 
 	interface Props {
 		data: ConversationSummaryData;

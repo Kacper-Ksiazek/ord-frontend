@@ -14,7 +14,7 @@
 		GrammarTipCard,
 		VocabularyTipCard,
 		PhraseTipCard
-	} from '../../../../shared/ai-message-learning-tips/cards';
+	} from '../../../../../shared/ai-message-learning-tips/cards';
 
 	interface Props {
 		allGrammarTips: AIMessageGrammarTip[];
@@ -57,25 +57,22 @@
 	});
 
 	const filteredTips = $derived.by(() => {
-		if (activeTab === 'all') {
-			return {
-				grammar: allGrammarTips,
-				vocabulary: allVocabularyTips,
-				phrases: allPhraseTips
-			};
+		switch (true) {
+			case activeTab === 'all':
+				return {
+					grammar: allGrammarTips,
+					vocabulary: allVocabularyTips,
+					phrases: allPhraseTips
+				};
+			case activeTab === 'GRAMMAR':
+				return { grammar: allGrammarTips, vocabulary: [], phrases: [] };
+			case activeTab === 'VOCABULARY':
+				return { grammar: [], vocabulary: allVocabularyTips, phrases: [] };
+			case activeTab === 'PHRASES':
+				return { grammar: [], vocabulary: [], phrases: allPhraseTips };
+			default:
+				return { grammar: [], vocabulary: [], phrases: [] };
 		}
-
-		if (activeTab === 'GRAMMAR') {
-			return { grammar: allGrammarTips, vocabulary: [], phrases: [] };
-		}
-		if (activeTab === 'VOCABULARY') {
-			return { grammar: [], vocabulary: allVocabularyTips, phrases: [] };
-		}
-		if (activeTab === 'PHRASES') {
-			return { grammar: [], vocabulary: [], phrases: allPhraseTips };
-		}
-
-		return { grammar: [], vocabulary: [], phrases: [] };
 	});
 </script>
 
