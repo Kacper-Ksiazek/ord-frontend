@@ -29,6 +29,11 @@
 
 	let activeSeverityTab = $state<ConversationMessageMistakeSeverity | 'all'>('all');
 
+	// TODO: Typescript interface for handling all card types and the same time - we need to have a list of discrimitinite unions
+	// With some shared part, dynamically enumerated -l ike createAt, phrase so that sorting and filtering can be done on the same level
+
+	// TODO: Refactor this file & extract conponent for card tabs
+
 	const filteredMistakes = $derived.by(() => {
 		if (!feedback.mistakes) {
 			return [];
