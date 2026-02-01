@@ -2,63 +2,52 @@
 	import isEmpty from 'lodash/isEmpty';
 	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
 	import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
-	import type { TipRegister } from '$lib/types/ongoing-conversation/api/responses';
 	import {
 		GrammarTipCard,
 		VocabularyTipCard,
 		PhraseTipCard
 	} from '../../../../../shared/ai-message-learning-tips/cards';
 	import { Book, BookOpen, ScrollText } from 'lucide-svelte';
-	import { cn, Search, Select } from 'flowbite-svelte';
+	import { cn, Search } from 'flowbite-svelte';
 	import { getMessagesContext } from '$conversations/pages/session/contexts/messages-context.svelte';
 	import { aggregateLearningTips, countLearningTips } from './utils';
+	import type { LearningTipsTabFilters, TabFilter } from './learning-tips-tab.types';
+	import { filterLearningTips } from './utils/filter-learning-tips';
+	import RegisterFilter from './components/register-filter.svelte';
 
 	const messagesContext = getMessagesContext();
 	const messages = $derived(messagesContext.messages);
 
 	const allAvailableLearningTips = $derived(aggregateLearningTips(messages));
 
-	let activeTab = $state<LearningTipCategory | 'all'>('all');
 	let scrollContainer = $state<HTMLDivElement | undefined>(undefined);
 
-	let searchQuery = $state('');
-	let registerFilter = $state<TipRegister | 'all'>('all');
-
-	const tipsToRender = $derived.by(() => {
-		return allAvailableLearningTips.filter((tip) => {
-			const conditions: boolean[] = [];
-
-			// Category filter
-			if (activeTab !== 'all') {
-				conditions.push(tip.type === activeTab);
-			}
-
-			// Register filter
-			if (registerFilter !== 'all') {
-				conditions.push(tip.register === registerFilter);
-			}
-
-			// Search
-			if (searchQuery.trim()) {
-				conditions.push(tip.phrase.toLowerCase().includes(searchQuery.toLowerCase()));
-			}
-
-			return conditions.every(Boolean);
-		});
+	let filters = $state<LearningTipsTabFilters>({
+		register: 'ALL',
+		tab: 'ALL',
+		searchQuery: ''
 	});
 
-	const learningTipsCounts = $derived(countLearningTips(tipsToRender));
+	const tipsToRender = $derived(filterLearningTips(allAvailableLearningTips, filters));
+	const learningTipsCounts = $derived(
+		countLearningTips(
+			filterLearningTips(allAvailableLearningTips, {
+				...filters,
+				tab: 'ALL'
+			})
+		)
+	);
 
-	function selectTab(tabId: LearningTipCategory | 'all') {
-		activeTab = tabId;
+	function selectTab(tabId: LearningTipCategory | 'ALL') {
+		filters.tab = tabId;
 
 		if (scrollContainer) {
 			scrollContainer.scrollTop = 0;
 		}
 	}
 
-	function getCardColors(tabId: LearningTipCategory | 'all', isActive: boolean) {
-		if (tabId === 'all') {
+	function getCardColors(tabId: LearningTipCategory | 'ALL', isActive: boolean) {
+		if (tabId === 'ALL') {
 			return {
 				bg: isActive ? 'bg-primary-50 dark:bg-primary-900/20' : 'bg-gray-50 dark:bg-gray-700/50',
 				border: isActive
@@ -78,7 +67,7 @@
 			PHRASES: 'purple'
 		};
 
-		const color = colorMap[tabId];
+		const color = colorMap[tabId as LearningTipCategory];
 
 		if (color === 'green') {
 			return {
@@ -125,7 +114,7 @@
 		label: string,
 		value: number,
 		IconComponent: LucideIcon,
-		tabId: LearningTipCategory | 'all',
+		tabId: TabFilter,
 		isActive: boolean
 	)}
 		{@const colors = getCardColors(tabId, isActive)}
@@ -158,8 +147,8 @@
 		'Total',
 		learningTipsCounts.values().reduce((acc, value) => acc + value, 0),
 		BookOpen,
-		'all',
-		activeTab === 'all'
+		'ALL',
+		filters.tab === 'ALL'
 	)}
 
 	{@render statCard(
@@ -167,7 +156,7 @@
 		learningTipsCounts.get('GRAMMAR') ?? 0,
 		BookOpen,
 		'GRAMMAR',
-		activeTab === 'GRAMMAR'
+		filters.tab === 'GRAMMAR'
 	)}
 
 	{@render statCard(
@@ -175,7 +164,7 @@
 		learningTipsCounts.get('VOCABULARY') ?? 0,
 		Book,
 		'VOCABULARY',
-		activeTab === 'VOCABULARY'
+		filters.tab === 'VOCABULARY'
 	)}
 
 	{@render statCard(
@@ -183,24 +172,17 @@
 		learningTipsCounts.get('PHRASES') ?? 0,
 		ScrollText,
 		'PHRASES',
-		activeTab === 'PHRASES'
+		filters.tab === 'PHRASES'
 	)}
 </div>
 
+<div class="flex items-center gap-3 mb-4">
+	<!-- <Search type="text" bind:value={filters.searchQuery} placeholder="Search tips..." size="sm" /> -->
+
+	<RegisterFilter bind:value={filters.register} />
+</div>
+
 {#if learningTipsCounts.values().some((value) => value > 0)}
-	<div class="flex items-center gap-3 mb-4">
-		<div class="flex-1 relative">
-			<Search type="text" bind:value={searchQuery} placeholder="Search tips..." size="sm" />
-		</div>
-
-		<Select bind:value={registerFilter} class="w-48">
-			<option value="all">All Registers</option>
-			<option value="FORMAL">Formal</option>
-			<option value="NEUTRAL">Neutral</option>
-			<option value="COLLOQUIAL">Colloquial</option>
-		</Select>
-	</div>
-
 	<ScrollableWrapper wrapperClass="min-h-0" contentClass="px-0" bind:scrollContainer>
 		{#snippet children()}
 			<div class="space-y-4">
