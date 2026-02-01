@@ -12,12 +12,14 @@
 		children
 	}: ButtonProps = $props();
 
-	const baseClasses = cn(
-		'px-4 h-[40px] rounded-lg transition-colors',
-		'focus:outline-none focus:ring-2 focus:ring-offset-2',
-		formInputTextClasses,
-		disabled && 'cursor-not-allowed opacity-50',
-		!disabled && 'cursor-pointer'
+	const baseClasses = $derived.by(() =>
+		cn(
+			'px-4 h-[40px] rounded-lg transition-colors flex items-center gap-1',
+			'focus:outline-none focus:ring-2 focus:ring-offset-2',
+			formInputTextClasses,
+			disabled && 'cursor-not-allowed opacity-50',
+			!disabled && 'cursor-pointer'
+		)
 	);
 
 	const typeVariantClasses = $derived.by(() => {

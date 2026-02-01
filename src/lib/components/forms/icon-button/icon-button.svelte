@@ -16,11 +16,13 @@
 
 	const buttonId = `icon-button-${crypto.randomUUID()}`;
 
-	const baseClasses = cn(
-		'px-2.5 h-[40px] rounded-lg border flex items-center justify-center w-[40px] p-0',
-		'focus:outline-none focus:ring-2 focus:ring-offset-2',
-		disabled && 'cursor-not-allowed opacity-50',
-		!disabled && 'cursor-pointer'
+	const baseClasses = $derived.by(() =>
+		cn(
+			'px-2.5 h-[40px] rounded-lg border flex items-center justify-center w-[40px] p-0',
+			'focus:outline-none focus:ring-2 focus:ring-offset-2',
+			disabled && 'cursor-not-allowed opacity-50',
+			!disabled && 'cursor-pointer'
+		)
 	);
 
 	const typeVariantClasses = $derived.by(() => {
@@ -74,7 +76,6 @@
 							'focus:ring-red-300 dark:focus:ring-red-800'
 						);
 				}
-				break;
 		}
 	});
 
