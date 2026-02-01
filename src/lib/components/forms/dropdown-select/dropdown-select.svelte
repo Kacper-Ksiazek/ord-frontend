@@ -58,11 +58,14 @@
 >
 	{#each options as option}
 		{@const Icon = option.icon}
+		{@const isSelected = value === option.value}
+
 		<DropdownItem
 			onclick={() => handleSelect(option.value)}
 			class={cn(
 				'w-full list-none text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center gap-2',
-				value === option.value && 'font-semibold bg-gray-50 dark:bg-gray-800',
+				isSelected &&
+					'font-semibold bg-primary-50 dark:bg-primary-900 text-gray-900 dark:text-gray-100',
 				itemClass,
 				formInputTextClasses
 			)}
