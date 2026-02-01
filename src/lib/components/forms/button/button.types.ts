@@ -1,7 +1,7 @@
 import type { Snippet } from 'svelte';
+import type { ButtonType, ButtonVariant } from '../shared-button-types';
 
-export type ButtonType = 'FILLED' | 'OUTLINED';
-export type ButtonVariant = 'PRIMARY' | 'TEXT';
+export type { ButtonType, ButtonVariant };
 
 export interface ButtonProps {
 	type?: ButtonType;

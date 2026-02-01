@@ -38,6 +38,13 @@
 							!disabled && 'hover:bg-gray-800 dark:hover:bg-gray-700',
 							'focus:ring-gray-300 dark:focus:ring-gray-800'
 						);
+					case 'DELETE':
+						return cn(
+							'bg-red-600 text-white border border-red-600',
+							'dark:bg-red-500 dark:text-white dark:border-red-500',
+							!disabled && 'hover:bg-red-700 dark:hover:bg-red-600',
+							'focus:ring-red-300 dark:focus:ring-red-800'
+						);
 				}
 				break;
 			case 'OUTLINED':
@@ -55,6 +62,13 @@
 							'dark:bg-transparent dark:text-gray-300 dark:border-gray-600',
 							!disabled && 'hover:bg-gray-50 dark:hover:bg-gray-800',
 							'focus:ring-gray-300 dark:focus:ring-gray-800'
+						);
+					case 'DELETE':
+						return cn(
+							'bg-transparent text-red-600 border border-red-600',
+							'dark:bg-transparent dark:text-red-400 dark:border-red-400',
+							!disabled && 'hover:bg-red-50 dark:hover:bg-red-900/20',
+							'focus:ring-red-300 dark:focus:ring-red-800'
 						);
 				}
 				break;

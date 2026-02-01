@@ -42,6 +42,12 @@
 			<Button type="OUTLINED" variant="TEXT">Button</Button>
 			<Button type="FILLED" variant="TEXT" disabled>Button</Button>
 			<Button type="OUTLINED" variant="TEXT" disabled>Button</Button>
+
+			{@render tableRowIndicator('Delete')}
+			<Button type="FILLED" variant="DELETE">Button</Button>
+			<Button type="OUTLINED" variant="DELETE">Button</Button>
+			<Button type="FILLED" variant="DELETE" disabled>Button</Button>
+			<Button type="OUTLINED" variant="DELETE" disabled>Button</Button>
 		</div>
 	</div>
 </Story>

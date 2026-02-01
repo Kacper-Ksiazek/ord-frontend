@@ -16,8 +16,8 @@
 	import type { LearningTipStatCardProps } from './components/learning-tip-stat-card/learning-tip-stat-card.constants.types';
 	import Input from '$lib/components/forms/input/input.svelte';
 	import { MessageSquareOffIcon, SearchIcon, TrashIcon } from 'lucide-svelte';
-	import { Button } from 'flowbite-svelte';
 	import { IconButton } from '$lib/components/forms/icon-button';
+	import Button from '$lib/components/forms/button/button.svelte';
 
 	const messagesContext = getMessagesContext();
 	const messages = $derived(messagesContext.messages);
@@ -35,7 +35,7 @@
 	const tipsToRender = $derived(filterLearningTips(allAvailableLearningTips, filters));
 
 	const areFiltersClearable = $derived(
-		filters.register !== 'ALL' || filters.searchQuery.trim() !== '' || filters.tab !== 'ALL'
+		filters.register !== 'ALL' || filters.searchQuery.trim() !== ''
 	);
 
 	const learningTipsCounts = $derived(
@@ -100,7 +100,6 @@
 		onClick={() => {
 			filters.register = 'ALL';
 			filters.searchQuery = '';
-			filters.tab = 'ALL';
 		}}
 		icon={TrashIcon}
 		ariaLabel="Clear filters"
@@ -132,10 +131,9 @@
 					</p>
 
 					<Button
-						onclick={() => {
+						onClick={() => {
 							filters.register = 'ALL';
 							filters.searchQuery = '';
-							filters.tab = 'ALL';
 						}}
 					>
 						Clear filters

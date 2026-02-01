@@ -1,2 +1,2 @@
 export { default as IconButton } from './icon-button.svelte';
-export type { IconButtonProps } from './icon-button.types';
+export type { IconButtonProps, ButtonType, ButtonVariant } from './icon-button.types';
