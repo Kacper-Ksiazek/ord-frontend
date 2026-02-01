@@ -20,42 +20,44 @@
 		!disabled && 'cursor-pointer'
 	);
 
-	const typeVariantClasses = $derived(() => {
-		if (type === 'FILLED') {
-			if (variant === 'PRIMARY') {
-				return cn(
-					'bg-primary-600 text-white border border-primary-600',
-					'dark:bg-primary-500 dark:text-white dark:border-primary-500',
-					!disabled && 'hover:bg-primary-700 dark:hover:bg-primary-600',
-					'focus:ring-primary-300 dark:focus:ring-primary-800'
-				);
-			} else {
-				// TEXT variant
-				return cn(
-					'bg-gray-700 text-white border border-gray-700',
-					'dark:bg-gray-600 dark:text-white dark:border-gray-600',
-					!disabled && 'hover:bg-gray-800 dark:hover:bg-gray-700',
-					'focus:ring-gray-300 dark:focus:ring-gray-800'
-				);
-			}
-		} else {
-			// OUTLINED
-			if (variant === 'PRIMARY') {
-				return cn(
-					'bg-transparent text-primary-600 border border-primary-600',
-					'dark:bg-transparent dark:text-primary-400 dark:border-primary-400',
-					!disabled && 'hover:bg-primary-50 dark:hover:bg-primary-900/20',
-					'focus:ring-primary-300 dark:focus:ring-primary-800'
-				);
-			} else {
-				// TEXT variant
-				return cn(
-					'bg-transparent text-gray-700 border border-gray-300',
-					'dark:bg-transparent dark:text-gray-300 dark:border-gray-600',
-					!disabled && 'hover:bg-gray-50 dark:hover:bg-gray-800',
-					'focus:ring-gray-300 dark:focus:ring-gray-800'
-				);
-			}
+	const typeVariantClasses = $derived.by(() => {
+		switch (type) {
+			case 'FILLED':
+				switch (variant) {
+					case 'PRIMARY':
+						return cn(
+							'bg-primary-600 text-white border border-primary-600',
+							'dark:bg-primary-500 dark:text-white dark:border-primary-500',
+							!disabled && 'hover:bg-primary-700 dark:hover:bg-primary-600',
+							'focus:ring-primary-300 dark:focus:ring-primary-800'
+						);
+					case 'TEXT':
+						return cn(
+							'bg-gray-700 text-white border border-gray-700',
+							'dark:bg-gray-600 dark:text-white dark:border-gray-600',
+							!disabled && 'hover:bg-gray-800 dark:hover:bg-gray-700',
+							'focus:ring-gray-300 dark:focus:ring-gray-800'
+						);
+				}
+				break;
+			case 'OUTLINED':
+				switch (variant) {
+					case 'PRIMARY':
+						return cn(
+							'bg-transparent text-primary-600 border border-primary-600',
+							'dark:bg-transparent dark:text-primary-400 dark:border-primary-400',
+							!disabled && 'hover:bg-primary-50 dark:hover:bg-primary-900/20',
+							'focus:ring-primary-300 dark:focus:ring-primary-800'
+						);
+					case 'TEXT':
+						return cn(
+							'bg-transparent text-gray-700 border border-gray-300',
+							'dark:bg-transparent dark:text-gray-300 dark:border-gray-600',
+							!disabled && 'hover:bg-gray-50 dark:hover:bg-gray-800',
+							'focus:ring-gray-300 dark:focus:ring-gray-800'
+						);
+				}
+				break;
 		}
 	});
 </script>
@@ -63,7 +65,7 @@
 <button
 	{disabled}
 	type="button"
-	class={cn(baseClasses, typeVariantClasses(), className)}
+	class={cn(baseClasses, typeVariantClasses, className)}
 	onclick={onClick}
 >
 	{@render children()}
