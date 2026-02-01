@@ -32,35 +32,27 @@
 </script>
 
 <Story name="Default">
-	<div class="p-8 bg-white dark:bg-gray-800 min-h-screen transition-colors">
-		<div class="max-w-md mx-auto space-y-8">
-			<div>
-				<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Basic Dropdown</h3>
-				<DropdownSelect bind:value={basicValue} options={basicOptions} ariaLabel="Select an option" />
-				<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-					Selected: <strong>{basicValue}</strong>
-				</p>
-			</div>
-		</div>
+	<div>
+		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Basic Dropdown</h3>
+		<DropdownSelect bind:value={basicValue} options={basicOptions} ariaLabel="Select an option" />
+		<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+			Selected: <strong>{basicValue}</strong>
+		</p>
 	</div>
 </Story>
 
 <Story name="With Icons">
-	<div class="p-8 bg-white dark:bg-gray-800 min-h-screen transition-colors">
-		<div class="max-w-md mx-auto space-y-8">
-			<div>
-				<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Dropdown with Icons</h3>
-				<DropdownSelect
-					bind:value={iconValue}
-					options={iconOptions}
-					ariaLabel="Select register filter"
-					buttonClass="w-48"
-					dropdownClass="w-48"
-				/>
-				<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-					Selected: <strong>{iconValue}</strong>
-				</p>
-			</div>
-		</div>
+	<div>
+		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Dropdown with Icons</h3>
+		<DropdownSelect
+			bind:value={iconValue}
+			options={iconOptions}
+			ariaLabel="Select register filter"
+			buttonClass="w-48"
+			dropdownClass="w-48"
+		/>
+		<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+			Selected: <strong>{iconValue}</strong>
+		</p>
 	</div>
 </Story>
