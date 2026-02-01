@@ -86,7 +86,7 @@
 >
 	<div
 		class={cn(
-			'flex flex-col gap-16 w-full', //
+			'flex flex-col gap-16 w-full h-full', //
 			'absolute top-0 left-1/2 -translate-x-1/2',
 			contentClass
 		)}
