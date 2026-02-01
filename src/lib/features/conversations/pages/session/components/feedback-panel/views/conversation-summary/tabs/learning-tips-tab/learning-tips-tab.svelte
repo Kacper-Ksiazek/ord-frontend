@@ -105,6 +105,8 @@
 		ariaLabel="Clear filters"
 		tooltip="Clear filters"
 		disabled={!areFiltersClearable}
+		variant={areFiltersClearable ? 'DELETE' : 'TEXT'}
+		type="OUTLINED"
 	/>
 </div>
 
@@ -125,18 +127,22 @@
 				</div>
 			{:else}
 				<div class="flex-1 flex flex-col items-center justify-center h-full">
-					<MessageSquareOffIcon class="w-12 h-12" />
+					<MessageSquareOffIcon class="w-16 h-16 opacity-20" />
 					<p class="text-sm text-center py-4 text-gray-500 dark:text-gray-400">
 						No learning tips to show for current filters.
 					</p>
 
 					<Button
+						variant="DELETE"
+						type="OUTLINED"
 						onClick={() => {
 							filters.register = 'ALL';
 							filters.searchQuery = '';
 						}}
+						class="mt-4"
 					>
-						Clear filters
+						<TrashIcon class="w-4 h-4" />
+						<span> Clear filters</span>
 					</Button>
 				</div>
 			{/if}
