@@ -3,7 +3,7 @@
 	import compact from 'lodash/compact';
 	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import { cn } from 'flowbite-svelte';
-	import Score from './components/score.svelte';
+	import { RoundedBoxesScore } from '$lib/components/scores';
 	import { getSidepanelContext } from '$lib/features/conversations/pages/session/contexts/sidepanel-context.svelte';
 	import AiPostProcessActionBase from '../../../ai-post-process-action-base.svelte';
 	import FeedbackMetricIcon from '$lib/features/conversations/pages/session/components/shared/user-message-feedback/user-message-feedback-metric-icon.svelte';
@@ -101,9 +101,9 @@
 		</div>
 
 		<div class="flex flex-col gap-2 items-start">
-			<Score field="Gramatyka" score={feedback.grammar} />
-			<Score field="Słownictwo" score={feedback.vocabulary} />
-			<Score field="Naturalność" score={feedback.naturalness} />
+			<RoundedBoxesScore field="Gramatyka" score={feedback.grammar} />
+			<RoundedBoxesScore field="Słownictwo" score={feedback.vocabulary} />
+			<RoundedBoxesScore field="Naturalność" score={feedback.naturalness} />
 		</div>
 	{:else}
 		<TextWithThreeDotsAnimation
