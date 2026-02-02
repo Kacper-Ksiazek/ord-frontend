@@ -53,6 +53,7 @@
 }
 
 @source "../node_modules/flowbite-svelte/dist";
+@source "../node_modules/@flowbite-svelte-plugins/chart/dist";
 
 @layer base {
 	/* Apply Noto Sans to all text elements */
