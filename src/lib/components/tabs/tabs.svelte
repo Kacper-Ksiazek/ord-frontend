@@ -48,7 +48,7 @@
 				)}
 			>
 				{#if tab.icon}
-					<svelte:component this={tab.icon} class="w-4 h-4" />
+					<tab.icon class="w-4 h-4" />
 				{/if}
 				<span>{tab.label}</span>
 				{#if tab.count !== undefined && tab.count >= 0}
