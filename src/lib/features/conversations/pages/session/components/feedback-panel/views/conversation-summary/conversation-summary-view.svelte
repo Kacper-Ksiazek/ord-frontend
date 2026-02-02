@@ -58,6 +58,19 @@
 		return feedbacks.reduce((acc, f) => acc + (f.suggestions?.length ?? 0), 0);
 	});
 
+	// Average characters per message
+	const averageUserMessageCharacters = $derived.by(() => {
+		if (isEmpty(userMessages)) return null;
+		const totalChars = userMessages.reduce((acc, msg) => acc + (msg.content?.length ?? 0), 0);
+		return Math.round(totalChars / userMessages.length);
+	});
+
+	const averageAiMessageCharacters = $derived.by(() => {
+		if (isEmpty(aiMessages)) return null;
+		const totalChars = aiMessages.reduce((acc, msg) => acc + (msg.content?.length ?? 0), 0);
+		return Math.round(totalChars / aiMessages.length);
+	});
+
 	// Aggregate all learning tips
 	const allGrammarTips = $derived.by(() => {
 		return flatMap(aiMessages, (msg) => msg.learningTips?.grammarTips ?? []);
@@ -78,6 +91,14 @@
 	// Aggregate all feedback items
 	const allMistakes = $derived.by(() => {
 		return flatMap(feedbacks, (f) => f.mistakes ?? []);
+	});
+
+	// Mistakes by severity
+	const mistakesBySeverity = $derived.by(() => {
+		const severity1 = allMistakes.filter((m) => m.severity === 'MINOR').length;
+		const severity2 = allMistakes.filter((m) => m.severity === 'MODERATE').length;
+		const severity3 = allMistakes.filter((m) => m.severity === 'CRITICAL').length;
+		return { severity1, severity2, severity3 };
 	});
 
 	const allStrengths = $derived.by(() => {
@@ -121,9 +142,12 @@
 		totalMistakes,
 		totalStrengths,
 		totalSuggestions,
+		mistakesBySeverity,
 		averageGrammar,
 		averageVocabulary,
-		averageNaturalness
+		averageNaturalness,
+		averageUserMessageCharacters,
+		averageAiMessageCharacters
 	});
 </script>
 
@@ -144,7 +168,7 @@
 
 		<!-- Learning Tips Tab -->
 		{#if activeMainTab === 'learning-tips'}
-			<LearningTipsTab {allGrammarTips} {allVocabularyTips} {allPhraseTips} {totalLearningTips} />
+			<LearningTipsTab />
 		{/if}
 
 		<!-- Feedback Tab -->

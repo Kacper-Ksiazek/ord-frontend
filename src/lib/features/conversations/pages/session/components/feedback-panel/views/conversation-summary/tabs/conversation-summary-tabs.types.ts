@@ -16,7 +16,14 @@ export interface ConversationSummaryData {
 	totalMistakes: number;
 	totalStrengths: number;
 	totalSuggestions: number;
+	mistakesBySeverity: {
+		severity1: number; // MINOR
+		severity2: number; // MODERATE
+		severity3: number; // CRITICAL
+	};
 	averageGrammar: number | null;
 	averageVocabulary: number | null;
 	averageNaturalness: number | null;
+	averageUserMessageCharacters: number | null;
+	averageAiMessageCharacters: number | null;
 }
