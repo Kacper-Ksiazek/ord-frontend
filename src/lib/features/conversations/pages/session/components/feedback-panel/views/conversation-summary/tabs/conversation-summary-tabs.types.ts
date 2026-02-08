@@ -21,6 +21,11 @@ export interface ConversationSummaryData {
 		severity2: number; // MODERATE
 		severity3: number; // CRITICAL
 	};
+	learningTipsByCategory: {
+		grammar: number;
+		vocabulary: number;
+		phrases: number;
+	};
 	averageGrammar: number | null;
 	averageVocabulary: number | null;
 	averageNaturalness: number | null;

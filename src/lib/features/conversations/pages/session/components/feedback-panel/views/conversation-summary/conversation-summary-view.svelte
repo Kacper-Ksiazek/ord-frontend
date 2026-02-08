@@ -130,6 +130,15 @@
 		]) satisfies Tab[];
 	});
 
+	// Learning tips by category
+	const learningTipsByCategory = $derived.by(() => {
+		return {
+			grammar: allGrammarTips.length,
+			vocabulary: allVocabularyTips.length,
+			phrases: allPhraseTips.length
+		};
+	});
+
 	// Prepare summary data for OverviewTab
 	const summaryData = $derived<ConversationSummaryData>({
 		messages,
@@ -143,6 +152,7 @@
 		totalStrengths,
 		totalSuggestions,
 		mistakesBySeverity,
+		learningTipsByCategory,
 		averageGrammar,
 		averageVocabulary,
 		averageNaturalness,
