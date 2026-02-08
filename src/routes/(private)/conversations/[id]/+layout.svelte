@@ -16,7 +16,7 @@
 		if (data) {
 			createMessagesContext(data);
 			createConversationContext(data);
-			createSidepanelContext(data.messages.find((message) => message.sender === 'USER')?.feedback);
+			createSidepanelContext();
 
 			isLoaded = true;
 		}
