@@ -249,6 +249,7 @@
 			</div>
 
 			<!-- Basic Statistics -->
+			<h3 class="text-lg font-semibold dark:text-gray-200">Message Statistics</h3>
 			<div class="grid grid-cols-2 gap-4">
 				{@render messageCard(
 					userAvatar,
