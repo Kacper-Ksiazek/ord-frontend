@@ -36,7 +36,8 @@
 			messagesContext.messages.push({
 				sender: 'USER',
 				content: message,
-				feedback: null
+				feedback: null,
+				createdAt: new Date().toISOString()
 			});
 
 			await saveUserMessageMutation({
@@ -60,7 +61,8 @@
 			messagesContext.isGenerating = true;
 			messagesContext.messages.push({
 				sender: 'AI',
-				content: ''
+				content: '',
+				createdAt: new Date().toISOString()
 			});
 
 			requestAIMessage({
