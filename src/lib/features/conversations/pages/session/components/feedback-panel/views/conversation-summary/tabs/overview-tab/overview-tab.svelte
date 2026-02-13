@@ -1,15 +1,13 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
 	import isEmpty from 'lodash/isEmpty';
 	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
 	import type { ConversationSummaryData } from '../conversation-summary-tabs.types';
-	import { CircularProgressBar, MistakeSeverityIndicator } from '$lib/components/scores';
-	import type { ConversationMessageMistakeSeverity } from '$lib/types/conversation/domain/conversation-message-feedback';
+	import { CircularProgressBar } from '$lib/components/scores';
 	import { Chart } from '@flowbite-svelte-plugins/chart';
 	import type { ApexOptions } from 'apexcharts';
 	import { MISTAKE_SEVERITY_CHART_COLORS } from '$lib/features/conversations/pages/session/consts/mistake-severity-colors';
-	import { LEARNING_TIPS_CHART_COLORS } from '$lib/features/conversations/pages/session/consts/learning-tips-chart-colors';
 	import { FEEDBACK_CHART_COLORS } from '$lib/features/conversations/pages/session/consts/feedback-chart-colors';
+	import { LEARNING_TIPS_CHART_COLORS } from '$lib/features/conversations/pages/session/consts/learning-tips-chart-colors';
 	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/icons';
 	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$lib/features/conversations/pages/session/consts/user-message-feedback/icons';
 	import type { Snippet } from 'svelte';
@@ -17,12 +15,6 @@
 	import AiInterlocutorAvatar from '$lib/features/conversations/shared/components/ai-interlocutor-avatar.svelte';
 	import { getConversationContext } from '$lib/features/conversations/pages/session/contexts/conversation-context.svelte';
 	import type { ConversationAIInterlocutorAvatarId } from '$lib/types/conversation/domain/conversation';
-	import ConversationTypeIcon from '$lib/features/conversations/shared/components/conversation-type-icon.svelte';
-	import ConversationToneIcon from '$lib/features/conversations/shared/components/conversation-tone-icon.svelte';
-	import {
-		getConversationTypeLabel,
-		getConversationToneLabel
-	} from '$lib/features/conversations/shared/utils';
 
 	interface Props {
 		data: ConversationSummaryData;
@@ -31,21 +23,14 @@
 	let { data }: Props = $props();
 
 	const conversation = getConversationContext();
-	const { interlocutor, type, aiTone, topic } = conversation;
+	const { interlocutor } = conversation;
 
-	// Icon components for legends
 	const GrammarIcon = AI_MESSAGE_LEARNING_TIP_ICONS_MAP.GRAMMAR;
 	const VocabularyIcon = AI_MESSAGE_LEARNING_TIP_ICONS_MAP.VOCABULARY;
 	const PhrasesIcon = AI_MESSAGE_LEARNING_TIP_ICONS_MAP.PHRASES;
 	const MistakesIcon = USER_MESSAGE_FEEDBACK_ICONS_MAP.MISTAKES;
 	const StrengthsIcon = USER_MESSAGE_FEEDBACK_ICONS_MAP.STRENGTHS;
 	const SuggestionsIcon = USER_MESSAGE_FEEDBACK_ICONS_MAP.SUGGESTIONS;
-
-	function formatScore(score: number | null): string {
-		if (score === null) return 'N/A';
-
-		return score.toFixed(1);
-	}
 </script>
 
 {#snippet messageCard(
@@ -69,7 +54,6 @@
 		<div class="text-sm text-gray-700 dark:text-gray-300 mb-3">
 			Avg. {averageCharacters !== null ? `${averageCharacters} chars` : 'N/A'} per message
 		</div>
-		<!-- Feedback Categories (for User Messages) -->
 		{#if feedbackCounts}
 			<div class="pt-3 border-t border-gray-200 dark:border-gray-600">
 				<div class="flex gap-2">
@@ -106,7 +90,6 @@
 				</div>
 			</div>
 		{/if}
-		<!-- Learning Tips Categories (for AI Messages) -->
 		{#if learningTipCounts}
 			<div class="pt-3 border-t border-gray-200 dark:border-gray-600">
 				<div class="flex gap-2">
@@ -146,34 +129,6 @@
 	</div>
 {/snippet}
 
-{#snippet statCard(label: string, value: number | string)}
-	<div class="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg">
-		<div class="text-sm text-gray-600 dark:text-gray-400">{label}</div>
-		<div class="text-2xl font-bold dark:text-gray-100">{value}</div>
-	</div>
-{/snippet}
-
-{#snippet mistakeSeverityCard(
-	severity: ConversationMessageMistakeSeverity,
-	count: number,
-	colorClasses: {
-		bg: string;
-		border: string;
-		text: string;
-		valueText: string;
-	}
-)}
-	<div class={cn(colorClasses.bg, colorClasses.border, 'p-4 rounded-lg border')}>
-		<div class="flex flex-col items-center gap-3">
-			<MistakeSeverityIndicator {severity} showLabel={false} class="self-end" />
-			<div class="text-center">
-				<div class={cn(colorClasses.valueText, 'text-2xl font-bold')}>{count}</div>
-				<div class={cn(colorClasses.text, 'text-xs mb-1')}>{severity}</div>
-			</div>
-		</div>
-	</div>
-{/snippet}
-
 {#snippet userAvatar()}
 	<AuthUserAvatar size={40} class="rounded-full" />
 {/snippet}
@@ -188,67 +143,8 @@
 
 <ScrollableWrapper wrapperClass="min-h-0" contentClass="px-0">
 	{#snippet children()}
-		<!-- Overview -->
-		<div class="space-y-4">
-			<h3 class="text-lg font-semibold dark:text-gray-200">Overview</h3>
-
-			<!-- Conversation Metadata -->
-			<div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-				<!-- Type -->
-				<div class="p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-					<div class="flex items-center gap-3">
-						<ConversationTypeIcon
-							conversationType={type}
-							class="w-8 h-8 text-gray-600 dark:text-gray-400"
-						/>
-						<div>
-							<div class="text-sm text-gray-600 dark:text-gray-400 mb-1">Type</div>
-							<div class="text-base font-semibold dark:text-gray-200">
-								{getConversationTypeLabel(type)}
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- AI Tone -->
-				<div class="p-4 rounded-lg border border-gray-200 dark:border-gray-700">
-					<div class="flex items-center gap-3">
-						<ConversationToneIcon tone={aiTone} class="w-8 h-8 text-gray-600 dark:text-gray-400" />
-						<div>
-							<div class="text-sm text-gray-600 dark:text-gray-400 mb-1">AI Tone</div>
-							<div class="text-base font-semibold dark:text-gray-200">
-								{getConversationToneLabel(aiTone)}
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Topic -->
-				<div class="p-4 rounded-lg border border-gray-200 dark:border-gray-700 md:col-span-2">
-					<div class="flex items-center gap-3">
-						<div class="w-8 h-8 flex items-center justify-center text-gray-600 dark:text-gray-400">
-							<svg
-								xmlns="http://www.w3.org/2000/svg"
-								fill="none"
-								viewBox="0 0 24 24"
-								stroke-width="1.5"
-								stroke="currentColor"
-								class="w-6 h-6"
-							>
-								<path
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
-								/>
-							</svg>
-						</div>
-						<div>
-							<div class="text-sm text-gray-600 dark:text-gray-400 mb-1">Topic</div>
-							<div class="text-base font-semibold dark:text-gray-200">{topic}</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<!-- Basic Statistics -->
+		<!-- Message Statistics -->
+		<div class="space-y-4 mb-6">
 			<h3 class="text-lg font-semibold dark:text-gray-200">Message Statistics</h3>
 			<div class="grid grid-cols-2 gap-4">
 				{@render messageCard(
