@@ -1,7 +1,8 @@
 import type {
 	ConversationDTO,
 	ConversationType,
-	ConversationAITone
+	ConversationAITone,
+	ConversationAIInterlocutorAvatarId
 } from '$lib/types/conversation/domain/conversation';
 import { createContext } from 'svelte';
 
@@ -12,12 +13,13 @@ export interface CompactConversationData {
 	aiTone: ConversationAITone;
 	interlocutor: {
 		name: string;
-		avatarId: string;
+		avatarId: ConversationAIInterlocutorAvatarId;
 	};
 }
 
-export const [getConversationContext, setConversationContext] =
-	createContext<CompactConversationData>();
+const [getConversationContext, setConversationContext] = createContext<CompactConversationData>();
+
+export { getConversationContext };
 
 export function createConversationContext(conversation: ConversationDTO) {
 	setConversationContext({
@@ -27,7 +29,7 @@ export function createConversationContext(conversation: ConversationDTO) {
 		aiTone: conversation.aiTone,
 		interlocutor: {
 			name: conversation.aiInterlocutorName ?? '',
-			avatarId: conversation.aiInterlocutorAvatarId ?? ''
+			avatarId: conversation.aiInterlocutorAvatarId as ConversationAIInterlocutorAvatarId
 		}
 	});
 }
