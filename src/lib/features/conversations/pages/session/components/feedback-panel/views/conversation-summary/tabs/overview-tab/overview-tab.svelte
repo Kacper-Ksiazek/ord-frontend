@@ -147,7 +147,7 @@
 <ScrollableWrapper wrapperClass="min-h-0" contentClass="px-0">
 	{#snippet children()}
 		<!-- Message Statistics -->
-		<div class="space-y-4 mb-6">
+		<div class="space-y-4">
 			<h3 class="text-lg font-semibold dark:text-gray-200">Message Statistics</h3>
 			<div class="grid grid-cols-2 gap-4">
 				{@render messageCard(
@@ -236,7 +236,7 @@
 									vocabularyScore !== null ? getScoreBoxColor(vocabularyScore) : ''}
 								{@const naturalnessBoxColor =
 									naturalnessScore !== null ? getScoreBoxColor(naturalnessScore) : ''}
-								<tr class="bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-800">
+								<tr class="bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
 									<td class="px-4 py-3 text-gray-600 dark:text-gray-400 font-medium">{index + 1}</td>
 									<td class="px-4 py-3 text-xs text-gray-900 dark:text-gray-100">{trimmedMessage}</td>
 									<td class="px-4 py-3">
@@ -282,7 +282,7 @@
 											onclick={() => alert(`Message ${index + 1}`)}
 											class={cn(
 												'flex items-center justify-center p-1.5 rounded-md transition-colors cursor-pointer',
-												'hover:bg-gray-100 dark:hover:bg-gray-800',
+												'hover:bg-gray-100 dark:hover:bg-gray-700',
 												'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900'
 											)}
 											aria-label="Show message details"
