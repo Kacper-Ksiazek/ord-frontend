@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
-	import { AiMessage, InterlocutorDetails, TopActionButton, UserMessage } from './components';
+	import { AiMessage, ConversationHeader, TopActionButton, UserMessage } from './components';
 	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
 	import { getMessagesContext } from '../../contexts/messages-context.svelte';
 	import { UserMessageTextarea } from './components/user-message-textarea';
@@ -26,7 +26,7 @@
 </script>
 
 <div
-	class={cn('bg-transparent transition-[width] duration-300 origin-left relative p-0')}
+	class={cn('bg-transparent transition-[width] duration-300 origin-left relative px-4 pt-8')}
 	style={sidepanelContext.isOpened ? `width: calc(100% - ${SIDEPANEL_WIDTH}px)` : 'width: 100%'}
 >
 	<!-- Back Button -->
@@ -54,17 +54,18 @@
 		)}
 	>
 		<!-- Scrollable messages area -->
-		<ScrollableWrapper contentClass={'max-w-[1200px] pb-8'} bind:scrollContainer>
-			<InterlocutorDetails />
+		<ScrollableWrapper bind:scrollContainer contentClass="max-w-[1200px]" wrapperClass="mb-4">
+			<ConversationHeader />
 
 			{#each messagesContext.messages as message, index}
 				{#if message.sender === 'AI'}
 					{@const isLastMessage = index === messagesContext.messages.length - 1}
+
 					<AiMessage
 						message={message.content}
 						messageIndex={index}
 						isStillGenerating={isLastMessage && messagesContext.isGenerating}
-						learningTips={message.learningTips}
+						learningTips={message.learningTips ?? null}
 					/>
 				{/if}
 
