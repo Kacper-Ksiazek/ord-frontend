@@ -7,6 +7,7 @@
 	import type { Tab } from '$lib/components/tabs';
 	import { OverviewTab, LearningTipsTab, FeedbackTab } from './tabs';
 	import type { ConversationSummaryData } from './tabs';
+	import { BarChart3, Lightbulb, MessageSquare } from 'lucide-svelte';
 
 	const messagesContext = getMessagesContext();
 
@@ -114,17 +115,19 @@
 
 	const mainTabs = $derived.by(() => {
 		return compact([
-			{ id: 'overview', label: 'Overview', count: messages.length },
+			{ id: 'overview', label: 'Overview', count: messages.length, icon: BarChart3 },
 			totalLearningTips > 0 && {
 				id: 'learning-tips',
 				label: 'Learning Tips',
 				count: totalLearningTips,
+				icon: Lightbulb,
 				disabled: false
 			},
 			!isEmpty(feedbacks) && {
 				id: 'feedback',
 				label: 'Feedback',
 				count: totalMistakes + totalStrengths + totalSuggestions,
+				icon: MessageSquare,
 				disabled: false
 			}
 		]) satisfies Tab[];
@@ -166,7 +169,13 @@
 		<h2 class="text-xl font-bold mb-4 dark:text-gray-100">Conversation Summary</h2>
 
 		<!-- Main Tabs -->
-		<Tabs tabs={mainTabs} bind:activeTab={activeMainTab} activeColor="primary" class="mb-6" />
+		<Tabs
+			tabs={mainTabs}
+			bind:activeTab={activeMainTab}
+			activeColor="primary"
+			variant="outlined"
+			class="mb-6"
+		/>
 	</div>
 
 	<!-- Content Area -->
