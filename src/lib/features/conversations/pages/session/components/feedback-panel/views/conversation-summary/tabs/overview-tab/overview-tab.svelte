@@ -17,7 +17,7 @@
 	import type { ConversationAIInterlocutorAvatarId } from '$lib/types/conversation/domain/conversation';
 	import { getScoreBoxColor } from '$lib/features/conversations/pages/session/consts/score-colors';
 	import { cn, Tooltip } from 'flowbite-svelte';
-	import { ChevronRight, HelpCircle } from 'lucide-svelte';
+	import { ChevronRight, CircleHelp, BarChart3 } from 'lucide-svelte';
 
 	interface Props {
 		data: ConversationSummaryData;
@@ -50,15 +50,25 @@
 				{@render avatar()}
 			</div>
 			<div class="flex-1">
-				<div class="text-sm text-gray-600 dark:text-gray-400">{label}</div>
-				<div class="text-xl font-bold dark:text-gray-100">{messageCount}</div>
+				<div class="text-2xl font-bold dark:text-gray-100">{messageCount}</div>
+				<div class="text-xs text-gray-600 dark:text-gray-400">{label}</div>
 			</div>
 		</div>
-		<div class="text-sm text-gray-700 dark:text-gray-300 mb-3">
-			Avg. {averageCharacters !== null ? `${averageCharacters} chars` : 'N/A'} per message
+
+		<div
+			class="mb-3 border border-gray-200 dark:border-gray-700 rounded-lg p-2.5 bg-gray-50 dark:bg-gray-900/50"
+		>
+			<div class="flex items-center gap-2 mb-1">
+				<BarChart3 class="w-4 h-4 text-gray-500 dark:text-gray-400 shrink-0" />
+				<span class="text-xs font-medium text-gray-600 dark:text-gray-400">Average length</span>
+			</div>
+			<div class="text-base font-semibold text-gray-900 dark:text-gray-100">
+				{averageCharacters !== null ? `${averageCharacters.toLocaleString()} characters` : 'N/A'}
+			</div>
+			<div class="text-xs text-gray-500 dark:text-gray-500 mt-0.5">per message</div>
 		</div>
 		{#if feedbackCounts}
-			<div class="pt-3 border-t border-gray-200 dark:border-gray-600">
+			<div class="">
 				<div class="flex gap-2">
 					{#if feedbackCounts.mistakes > 0}
 						<div
@@ -94,7 +104,7 @@
 			</div>
 		{/if}
 		{#if learningTipCounts}
-			<div class="pt-3 border-t border-gray-200 dark:border-gray-600">
+			<div class="">
 				<div class="flex gap-2">
 					{#if learningTipCounts.grammar > 0}
 						<div
@@ -180,131 +190,135 @@
 			</div>
 		</div>
 
-		<!-- Average Scores -->
-		{#if !isEmpty(data.feedbacks)}
-			<div class="space-y-4">
-				<h3 class="text-lg font-semibold dark:text-gray-200">Average Scores</h3>
-				<div class="grid grid-cols-3 gap-4">
-					<CircularProgressBar label="Grammar" score={data.averageGrammar} />
-					<CircularProgressBar label="Vocabulary" score={data.averageVocabulary} />
-					<CircularProgressBar label="Naturalness" score={data.averageNaturalness} />
-				</div>
-			</div>
-		{/if}
+		<!-- Performance Scores -->
+		{#if !isEmpty(data.feedbacks) || !isEmpty(data.messagesWithFeedback)}
+			<div class="space-y-6">
+				<h3 class="text-lg font-semibold dark:text-gray-200">Performance Scores</h3>
 
-		<!-- User Messages with Ratings Table -->
-		{#if !isEmpty(data.messagesWithFeedback)}
-			<div class="space-y-4">
-				<h3 class="text-lg font-semibold dark:text-gray-200">User Messages & Ratings</h3>
-				<div class="overflow-x-auto">
-					<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-						<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-							<tr>
-								<th scope="col" class="px-4 py-3">#</th>
-								<th scope="col" class="px-4 py-3">Message</th>
-								<th scope="col" id="grammar-header" class="px-4 py-3 text-center align-middle">
-									<div class="flex items-center justify-center gap-1.5">
-										<span class="leading-none">G</span>
-										<HelpCircle class="w-3 h-3 text-gray-600 dark:text-gray-400 shrink-0" />
-									</div>
-								</th>
-								<th scope="col" id="vocabulary-header" class="px-4 py-3 text-center align-middle">
-									<div class="flex items-center justify-center gap-1.5">
-										<span class="leading-none">V</span>
-										<HelpCircle class="w-3 h-3 text-gray-600 dark:text-gray-400 shrink-0" />
-									</div>
-								</th>
-								<th scope="col" id="naturalness-header" class="px-4 py-3 text-center align-middle">
-									<div class="flex items-center justify-center gap-1.5">
-										<span class="leading-none">N</span>
-										<HelpCircle class="w-3 h-3 text-gray-600 dark:text-gray-400 shrink-0" />
-									</div>
-								</th>
-								<th scope="col" class="px-4 py-3"></th>
-							</tr>
-						</thead>
-						<tbody>
-							{#each data.messagesWithFeedback as message, index}
-								{@const trimmedMessage =
-									message.content.length > 50 ? message.content.substring(0, 50) + '...' : message.content}
-								{@const feedback = message.feedback}
-								{@const grammarScore = feedback?.grammar ?? null}
-								{@const vocabularyScore = feedback?.vocabulary ?? null}
-								{@const naturalnessScore = feedback?.naturalness ?? null}
-								{@const grammarBoxColor = grammarScore !== null ? getScoreBoxColor(grammarScore) : ''}
-								{@const vocabularyBoxColor =
-									vocabularyScore !== null ? getScoreBoxColor(vocabularyScore) : ''}
-								{@const naturalnessBoxColor =
-									naturalnessScore !== null ? getScoreBoxColor(naturalnessScore) : ''}
-								<tr class="bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-									<td class="px-4 py-3 text-gray-600 dark:text-gray-400 font-medium">{index + 1}</td>
-									<td class="px-4 py-3 text-xs text-gray-900 dark:text-gray-100">{trimmedMessage}</td>
-									<td class="px-4 py-3">
-										{#if grammarScore !== null}
-											<div class={cn('w-8 h-8 rounded-sm flex items-center justify-center', grammarBoxColor)}>
-												<span class="text-sm font-bold text-white dark:text-white">
-													{grammarScore}
-												</span>
+				{#if !isEmpty(data.feedbacks)}
+					<div class="grid grid-cols-3 gap-4">
+						<CircularProgressBar label="Grammar" score={data.averageGrammar} />
+						<CircularProgressBar label="Vocabulary" score={data.averageVocabulary} />
+						<CircularProgressBar label="Naturalness" score={data.averageNaturalness} />
+					</div>
+				{/if}
+
+				{#if !isEmpty(data.messagesWithFeedback)}
+					<div class="space-y-4">
+						<div class="overflow-x-auto">
+							<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+								<thead
+									class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+								>
+									<tr>
+										<th scope="col" class="px-4 py-3">#</th>
+										<th scope="col" class="px-4 py-3">Message</th>
+										<th scope="col" id="grammar-header" class="px-4 py-3 text-center align-middle">
+											<div class="flex items-center justify-center gap-1.5">
+												<span class="leading-none">G</span>
+												<CircleHelp class="w-3 h-3 text-gray-600 dark:text-gray-400 shrink-0" />
 											</div>
-										{:else}
-											<span class="text-gray-400 dark:text-gray-500">-</span>
-										{/if}
-									</td>
-									<td class="px-4 py-3">
-										{#if vocabularyScore !== null}
-											<div
-												class={cn('w-8 h-8 rounded-sm flex items-center justify-center', vocabularyBoxColor)}
-											>
-												<span class="text-sm font-bold text-white dark:text-white">
-													{vocabularyScore}
-												</span>
+										</th>
+										<th scope="col" id="vocabulary-header" class="px-4 py-3 text-center align-middle">
+											<div class="flex items-center justify-center gap-1.5">
+												<span class="leading-none">V</span>
+												<CircleHelp class="w-3 h-3 text-gray-600 dark:text-gray-400 shrink-0" />
 											</div>
-										{:else}
-											<span class="text-gray-400 dark:text-gray-500">-</span>
-										{/if}
-									</td>
-									<td class="px-4 py-3">
-										{#if naturalnessScore !== null}
-											<div
-												class={cn('w-8 h-8 rounded-sm flex items-center justify-center', naturalnessBoxColor)}
-											>
-												<span class="text-sm font-bold text-white dark:text-white">
-													{naturalnessScore}
-												</span>
+										</th>
+										<th scope="col" id="naturalness-header" class="px-4 py-3 text-center align-middle">
+											<div class="flex items-center justify-center gap-1.5">
+												<span class="leading-none">N</span>
+												<CircleHelp class="w-3 h-3 text-gray-600 dark:text-gray-400 shrink-0" />
 											</div>
-										{:else}
-											<span class="text-gray-400 dark:text-gray-500">-</span>
-										{/if}
-									</td>
-									<td class="px-4 py-3">
-										<button
-											type="button"
-											onclick={() => alert(`Message ${index + 1}`)}
-											class={cn(
-												'flex items-center justify-center p-1.5 rounded-md transition-colors cursor-pointer',
-												'hover:bg-gray-100 dark:hover:bg-gray-700',
-												'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900'
-											)}
-											aria-label="Show message details"
-										>
-											<ChevronRight class="w-4 h-4 text-gray-700 dark:text-gray-300" />
-										</button>
-									</td>
-								</tr>
-							{/each}
-						</tbody>
-					</table>
-					<Tooltip triggeredBy="#grammar-header">Grammar</Tooltip>
-					<Tooltip triggeredBy="#vocabulary-header">Vocabulary</Tooltip>
-					<Tooltip triggeredBy="#naturalness-header">Naturalness</Tooltip>
-				</div>
-				<!-- Legend -->
-				<div class="flex flex-wrap items-center gap-4 text-xs text-gray-600 dark:text-gray-400">
-					<span class="font-medium dark:text-gray-300">Categories:</span>
-					<span>G = Grammar</span>
-					<span>V = Vocabulary</span>
-					<span>N = Naturalness</span>
-				</div>
+										</th>
+										<th scope="col" class="px-4 py-3"></th>
+									</tr>
+								</thead>
+								<tbody>
+									{#each data.messagesWithFeedback as message, index}
+										{@const trimmedMessage =
+											message.content.length > 50 ? message.content.substring(0, 60) + '...' : message.content}
+										{@const feedback = message.feedback}
+										{@const grammarScore = feedback?.grammar ?? null}
+										{@const vocabularyScore = feedback?.vocabulary ?? null}
+										{@const naturalnessScore = feedback?.naturalness ?? null}
+										{@const grammarBoxColor = grammarScore !== null ? getScoreBoxColor(grammarScore) : ''}
+										{@const vocabularyBoxColor =
+											vocabularyScore !== null ? getScoreBoxColor(vocabularyScore) : ''}
+										{@const naturalnessBoxColor =
+											naturalnessScore !== null ? getScoreBoxColor(naturalnessScore) : ''}
+										<tr class="bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+											<td class="px-4 py-3 text-gray-600 dark:text-gray-400 font-medium">{index + 1}</td>
+											<td class="px-4 py-3 text-xs text-gray-900 dark:text-gray-100">{trimmedMessage}</td>
+											<td class="px-4 py-3">
+												{#if grammarScore !== null}
+													<div
+														class={cn('w-8 h-8 rounded-sm flex items-center justify-center', grammarBoxColor)}
+													>
+														<span class="text-sm font-bold text-white dark:text-white">
+															{grammarScore}
+														</span>
+													</div>
+												{:else}
+													<span class="text-gray-400 dark:text-gray-500">-</span>
+												{/if}
+											</td>
+											<td class="px-4 py-3">
+												{#if vocabularyScore !== null}
+													<div
+														class={cn('w-8 h-8 rounded-sm flex items-center justify-center', vocabularyBoxColor)}
+													>
+														<span class="text-sm font-bold text-white dark:text-white">
+															{vocabularyScore}
+														</span>
+													</div>
+												{:else}
+													<span class="text-gray-400 dark:text-gray-500">-</span>
+												{/if}
+											</td>
+											<td class="px-4 py-3">
+												{#if naturalnessScore !== null}
+													<div
+														class={cn('w-8 h-8 rounded-sm flex items-center justify-center', naturalnessBoxColor)}
+													>
+														<span class="text-sm font-bold text-white dark:text-white">
+															{naturalnessScore}
+														</span>
+													</div>
+												{:else}
+													<span class="text-gray-400 dark:text-gray-500">-</span>
+												{/if}
+											</td>
+											<td class="px-4 py-3">
+												<button
+													type="button"
+													onclick={() => alert(`Message ${index + 1}`)}
+													class={cn(
+														'flex items-center justify-center p-1.5 rounded-md transition-colors cursor-pointer',
+														'hover:bg-gray-100 dark:hover:bg-gray-700',
+														'focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900'
+													)}
+													aria-label="Show message details"
+												>
+													<ChevronRight class="w-4 h-4 text-gray-700 dark:text-gray-300" />
+												</button>
+											</td>
+										</tr>
+									{/each}
+								</tbody>
+							</table>
+							<Tooltip triggeredBy="#grammar-header">Grammar</Tooltip>
+							<Tooltip triggeredBy="#vocabulary-header">Vocabulary</Tooltip>
+							<Tooltip triggeredBy="#naturalness-header">Naturalness</Tooltip>
+						</div>
+						<!-- Legend -->
+						<div class="flex flex-wrap items-center gap-4 text-xs text-gray-600 dark:text-gray-400">
+							<span>G = Grammar</span>
+							<span>V = Vocabulary</span>
+							<span>N = Naturalness</span>
+						</div>
+					</div>
+				{/if}
 			</div>
 		{/if}
 
