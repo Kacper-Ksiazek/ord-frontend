@@ -11,9 +11,12 @@ export type TabsSupportedTailwindColor = Extract<
 	'red' | 'blue' | 'green' | 'purple' | 'yellow' | 'orange' | 'gray' | 'primary'
 >;
 
+export type TabsVariant = 'underline' | 'outlined';
+
 export interface TabsProps {
 	tabs: Tab[];
 	activeTab?: string | number;
 	activeColor?: TabsSupportedTailwindColor;
+	variant?: TabsVariant;
 	class?: string;
 }
