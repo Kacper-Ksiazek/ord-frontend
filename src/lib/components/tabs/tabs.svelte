@@ -59,7 +59,7 @@
 					onclick={() => !tab.disabled && (activeTab = tab.id)}
 					disabled={tab.disabled}
 					class={cn(
-						'px-4 py-2 text-sm font-medium transition-colors border-b-2 flex items-center gap-2',
+						'px-4 py-2 text-sm font-medium transition-colors border-b flex items-center gap-2',
 						tab.disabled
 							? 'opacity-50 cursor-not-allowed text-gray-400 dark:text-gray-500'
 							: currentActiveTab === tab.id
@@ -85,7 +85,7 @@
 					onclick={() => !tab.disabled && (activeTab = tab.id)}
 					disabled={tab.disabled}
 					class={cn(
-						'flex-1 px-4 py-2 text-sm font-medium transition-colors border-2 rounded-md flex items-center justify-center gap-2',
+						'flex-1 px-4 py-2 text-sm font-medium transition-colors border rounded-md flex items-center justify-center gap-2',
 						tab.disabled
 							? 'opacity-50 cursor-not-allowed border-gray-300 text-gray-400 dark:border-gray-600 dark:text-gray-500'
 							: currentActiveTab === tab.id
