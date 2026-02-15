@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
 	import type { InputProps } from './input.types';
-	import { formInputBaseClasses, formInputTextClasses } from '../shared-styles';
+	import '../forms.css';
 
 	interface Props extends InputProps {
 		value?: string;
@@ -37,8 +37,7 @@
 		aria-label={ariaLabel}
 		aria-describedby={ariaDescribedBy}
 		class={cn(
-			formInputBaseClasses,
-			formInputTextClasses,
+			'form-input-base form-input-text',
 			'w-full',
 			leftAdornment && 'pl-10',
 			rightAdornment && 'pr-10',
