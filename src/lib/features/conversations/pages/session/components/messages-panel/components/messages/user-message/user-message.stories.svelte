@@ -9,6 +9,7 @@
 	const defaultMessage: CompactConversationUserMessage = {
 		sender: 'USER',
 		content: 'Hello, how are you today?',
+		createdAt: new Date().toISOString(),
 		feedback: {
 			id: 'feedback-1',
 			tutorComment: 'Good effort! Keep practicing.',

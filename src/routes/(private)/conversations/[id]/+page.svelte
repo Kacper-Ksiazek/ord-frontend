@@ -21,7 +21,11 @@
 
 		if (isEmpty(messagesContext.messages)) {
 			messagesContext.isGenerating = true;
-			messagesContext.messages.push({ sender: 'AI', content: '' });
+			messagesContext.messages.push({
+				sender: 'AI',
+				content: '',
+				createdAt: new Date().toISOString()
+			});
 
 			initializeConversationByAI(page.params.id).subscribe({
 				next: (data) => {

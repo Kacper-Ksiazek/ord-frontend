@@ -2,7 +2,7 @@ import type {
 	CompactConversationMessage,
 	CompactConversationUserMessage,
 	CompactConversationAiMessage
-} from '../../../../../../contexts/messages-context.svelte';
+} from '$lib/types/conversation/domain/conversation-message';
 import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
 
 export interface ConversationSummaryData {

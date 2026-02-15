@@ -13,7 +13,8 @@
 				explanation: 'This is a polite way to offer help.',
 				grammarPoint: 'Modal verbs for offers',
 				exampleSentences: ['How can I assist you with your question?'],
-				register: 'NEUTRAL'
+				register: 'NEUTRAL',
+				nativeLanguageEquivalent: 'Jak mogę pomóc'
 			}
 		],
 		vocabularyTips: [
@@ -33,7 +34,8 @@
 				phraseType: 'LITERAL',
 				meaning: 'A polite way to offer help',
 				exampleSentences: ['How can I assist you today?'],
-				register: 'NEUTRAL'
+				register: 'NEUTRAL',
+				nativeLanguageEquivalent: 'Jak mogę ci dzisiaj pomóc?'
 			}
 		]
 	};

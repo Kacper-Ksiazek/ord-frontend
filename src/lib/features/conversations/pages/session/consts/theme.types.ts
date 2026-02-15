@@ -8,4 +8,6 @@ export interface CardThemeColors {
 	iconColor: string;
 	highlightedText: string;
 	chipBorder: string;
+	hover?: string;
+	active?: string;
 }
