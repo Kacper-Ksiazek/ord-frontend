@@ -1,5 +1,5 @@
 <script lang="ts">
-	import IconButton from '$lib/components/utils/icon-button.svelte';
+	import { IconButton } from '$lib/components/buttons/icon-button';
 	import { Eye, EyeOff } from 'lucide-svelte';
 
 	interface ToggleIconsInHighlightProps {

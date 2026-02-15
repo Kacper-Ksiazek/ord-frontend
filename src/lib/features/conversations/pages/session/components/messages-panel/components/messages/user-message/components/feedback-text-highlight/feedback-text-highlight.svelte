@@ -6,8 +6,8 @@
 	import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/message-feedback-criteria';
 	import { cn, Popover } from 'flowbite-svelte';
 	import FeedbackMetricIcon from '$lib/features/conversations/pages/session/components/shared/user-message-feedback/user-message-feedback-metric-icon.svelte';
-	import { Tabs } from '$lib/components/tabs';
-	import type { Tab } from '$lib/components/tabs';
+	import { Tabs } from '$lib/components/navigation/tabs';
+	import type { Tab } from '$lib/components/navigation/tabs';
 	import {
 		MistakeCard,
 		StrengthCard,
@@ -202,11 +202,7 @@
 		<h3 class={cn('flex items-center gap-2 text-sm font-semibold mb-2', activeCardColors.text)}>
 			<FeedbackMetricIcon criteria={activeCard} class="w-4 h-4" />
 			<span>
-				{activeCard === 'MISTAKES'
-					? 'Mistake'
-					: activeCard === 'STRENGTHS'
-						? 'Strength'
-						: 'Suggestion'}
+				{activeCard === 'MISTAKES' ? 'Mistake' : activeCard === 'STRENGTHS' ? 'Strength' : 'Suggestion'}
 			</span>
 		</h3>
 	{/if}

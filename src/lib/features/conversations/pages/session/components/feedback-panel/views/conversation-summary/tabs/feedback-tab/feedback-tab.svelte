@@ -1,8 +1,8 @@
 <script lang="ts">
 	import compact from 'lodash/compact';
 	import isEmpty from 'lodash/isEmpty';
-	import { Tabs } from '$lib/components/tabs';
-	import type { Tab } from '$lib/components/tabs';
+	import { Tabs } from '$lib/components/navigation/tabs';
+	import type { Tab } from '$lib/components/navigation/tabs';
 	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
 	import type {
 		ConversationMessageMistake,

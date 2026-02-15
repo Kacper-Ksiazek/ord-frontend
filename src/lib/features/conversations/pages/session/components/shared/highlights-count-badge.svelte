@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Badge, cn } from 'flowbite-svelte';
-	import type { TabsSupportedTailwindColor } from '$lib/components/tabs/tabs.types';
+	import type { TabsSupportedTailwindColor } from '$lib/components/navigation/tabs/tabs.types';
 	import type { Snippet } from 'svelte';
 
 	interface HighlightsCountBadgeProps {

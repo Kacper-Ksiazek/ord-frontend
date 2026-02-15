@@ -5,8 +5,8 @@
 	import { includesEitherWay } from '$lib/utils/functions/includes-either-way';
 	import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
 	import { cn, Popover } from 'flowbite-svelte';
-	import { Tabs } from '$lib/components/tabs';
-	import type { Tab } from '$lib/components/tabs';
+	import { Tabs } from '$lib/components/navigation/tabs';
+	import type { Tab } from '$lib/components/navigation/tabs';
 	import {
 		GrammarTipCard,
 		VocabularyTipCard,

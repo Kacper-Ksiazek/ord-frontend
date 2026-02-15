@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Accordion, Badge } from 'flowbite-svelte';
-	import { Tabs } from '$lib/components/tabs';
-	import type { Tab } from '$lib/components/tabs';
+	import { Tabs } from '$lib/components/navigation/tabs';
+	import type { Tab } from '$lib/components/navigation/tabs';
 	import { getSidepanelContext } from '../../../../contexts/sidepanel-context.svelte';
 	import { AccordionItem } from '../../components/accordion-item';
 	import type {

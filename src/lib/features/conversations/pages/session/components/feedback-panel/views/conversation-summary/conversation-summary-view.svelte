@@ -3,8 +3,8 @@
 	import flatMap from 'lodash/flatMap';
 	import isEmpty from 'lodash/isEmpty';
 	import { getMessagesContext } from '../../../../contexts/messages-context.svelte';
-	import { Tabs } from '$lib/components/tabs';
-	import type { Tab } from '$lib/components/tabs';
+	import { Tabs } from '$lib/components/navigation/tabs';
+	import type { Tab } from '$lib/components/navigation/tabs';
 	import { OverviewTab, LearningTipsTab, FeedbackTab } from './tabs';
 	import type { ConversationSummaryData } from './tabs';
 	import { BarChart3, Lightbulb, MessageSquare } from 'lucide-svelte';

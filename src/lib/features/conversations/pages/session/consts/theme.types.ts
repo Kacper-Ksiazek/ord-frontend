@@ -1,4 +1,4 @@
-import type { TabsSupportedTailwindColor } from '$lib/components/tabs/tabs.types';
+import type { TabsSupportedTailwindColor } from '$lib/components/navigation/tabs/tabs.types';
 
 export interface CardThemeColors {
 	twColor: TabsSupportedTailwindColor;
