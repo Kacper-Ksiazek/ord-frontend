@@ -9,7 +9,6 @@ export interface ConversationSummaryData {
 	messages: CompactConversationMessage[];
 	userMessages: CompactConversationUserMessage[];
 	aiMessages: CompactConversationAiMessage[];
-	messagesWithFeedback: CompactConversationUserMessage[];
 	feedbacks: ConversationUserMessageFeedbackDTO[];
 	totalMessages: number;
 	totalLearningTips: number;

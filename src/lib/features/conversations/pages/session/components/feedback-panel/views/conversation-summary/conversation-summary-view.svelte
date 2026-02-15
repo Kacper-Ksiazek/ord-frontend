@@ -7,23 +7,29 @@
 	import type { Tab } from '$lib/components/navigation/tabs';
 	import { OverviewTab, LearningTipsTab, FeedbackTab } from './tabs';
 	import type { ConversationSummaryData } from './tabs';
-	import { BarChart3, Lightbulb, MessageSquare } from 'lucide-svelte';
+	import { ChartBar, Lightbulb, MessageSquare } from 'lucide-svelte';
+	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
+	import type {
+		CompactConversationAiMessage,
+		CompactConversationUserMessage
+	} from '$lib/types/conversation/domain/conversation-message';
 
 	const messagesContext = getMessagesContext();
 
 	const messages = $derived(messagesContext.messages);
 
 	// Basic counts
-	const userMessages = $derived(messages.filter((msg) => msg.sender === 'USER'));
-	const aiMessages = $derived(messages.filter((msg) => msg.sender === 'AI'));
-	const messagesWithFeedback = $derived(userMessages.filter((msg) => msg.feedback !== null));
+	const userMessages: CompactConversationUserMessage[] = $derived(
+		messages.filter((msg) => msg.sender === 'USER')
+	);
+	const aiMessages: CompactConversationAiMessage[] = $derived(
+		messages.filter((msg) => msg.sender === 'AI')
+	);
 
 	// Score statistics
-	const feedbacks = $derived.by(() => {
-		return userMessages
-			.map((msg) => msg.feedback)
-			.filter((f): f is NonNullable<typeof f> => f !== null);
-	});
+	const feedbacks: ConversationUserMessageFeedbackDTO[] = $derived(
+		userMessages.map((msg) => msg.feedback).filter((f) => f !== null)
+	);
 
 	const averageGrammar = $derived.by(() => {
 		if (isEmpty(feedbacks)) return null;
@@ -99,6 +105,7 @@
 		const severity1 = allMistakes.filter((m) => m.severity === 'MINOR').length;
 		const severity2 = allMistakes.filter((m) => m.severity === 'MODERATE').length;
 		const severity3 = allMistakes.filter((m) => m.severity === 'CRITICAL').length;
+
 		return { severity1, severity2, severity3 };
 	});
 
@@ -115,7 +122,7 @@
 
 	const mainTabs = $derived.by(() => {
 		return compact([
-			{ id: 'overview', label: 'Overview', count: messages.length, icon: BarChart3 },
+			{ id: 'overview', label: 'Overview', count: messages.length, icon: ChartBar },
 			totalLearningTips > 0 && {
 				id: 'learning-tips',
 				label: 'Learning Tips',
@@ -147,7 +154,6 @@
 		messages,
 		userMessages,
 		aiMessages,
-		messagesWithFeedback,
 		feedbacks,
 		totalMessages: messages.length,
 		totalLearningTips,

@@ -6,180 +6,25 @@
 	import { Chart } from '@flowbite-svelte-plugins/chart';
 	import type { ApexOptions } from 'apexcharts';
 	import { MISTAKE_SEVERITY_CHART_COLORS } from '$lib/features/conversations/pages/session/consts/mistake-severity-colors';
-	import { FEEDBACK_CHART_COLORS } from '$lib/features/conversations/pages/session/consts/feedback-chart-colors';
-	import { LEARNING_TIPS_CHART_COLORS } from '$lib/features/conversations/pages/session/consts/learning-tips-chart-colors';
-	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/icons';
-	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$lib/features/conversations/pages/session/consts/user-message-feedback/icons';
-	import type { Snippet } from 'svelte';
-	import AuthUserAvatar from '$lib/components/auth-user-avatar.svelte';
-	import AiInterlocutorAvatar from '$lib/features/conversations/shared/components/ai-interlocutor-avatar.svelte';
 	import { getConversationContext } from '$lib/features/conversations/pages/session/contexts/conversation-context.svelte';
-	import type { ConversationAIInterlocutorAvatarId } from '$lib/types/conversation/domain/conversation';
 	import { getScoreBoxColor } from '$lib/features/conversations/pages/session/consts/score-colors';
 	import { cn, Tooltip } from 'flowbite-svelte';
-	import { ChevronRight, CircleHelp, BarChart3 } from 'lucide-svelte';
+	import { ChevronRight, CircleHelp } from 'lucide-svelte';
+	import { MessageStatistics } from './sections';
 
 	interface Props {
 		data: ConversationSummaryData;
 	}
 
 	let { data }: Props = $props();
-
-	const conversation = getConversationContext();
-	const { interlocutor } = conversation;
-
-	const GrammarIcon = AI_MESSAGE_LEARNING_TIP_ICONS_MAP.GRAMMAR;
-	const VocabularyIcon = AI_MESSAGE_LEARNING_TIP_ICONS_MAP.VOCABULARY;
-	const PhrasesIcon = AI_MESSAGE_LEARNING_TIP_ICONS_MAP.PHRASES;
-	const MistakesIcon = USER_MESSAGE_FEEDBACK_ICONS_MAP.MISTAKES;
-	const StrengthsIcon = USER_MESSAGE_FEEDBACK_ICONS_MAP.STRENGTHS;
-	const SuggestionsIcon = USER_MESSAGE_FEEDBACK_ICONS_MAP.SUGGESTIONS;
 </script>
-
-{#snippet messageCard(
-	avatar: Snippet,
-	label: string,
-	messageCount: number,
-	averageCharacters: number | null,
-	feedbackCounts?: { mistakes: number; strengths: number; suggestions: number },
-	learningTipCounts?: { grammar: number; vocabulary: number; phrases: number }
-)}
-	<div class="p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
-		<div class="flex items-center gap-3 mb-3">
-			<div class="shrink-0">
-				{@render avatar()}
-			</div>
-			<div class="flex-1">
-				<div class="heading-3">{messageCount}</div>
-				<div class="caption">{label}</div>
-			</div>
-		</div>
-
-		<div
-			class="mb-3 border border-gray-200 dark:border-gray-700 rounded-lg p-2.5 bg-gray-50 dark:bg-gray-900/50"
-		>
-			<div class="flex items-center gap-2 mb-1">
-				<BarChart3 class="w-4 h-4 text-gray-500 dark:text-gray-400 shrink-0" />
-				<span class="label-small">Average length</span>
-			</div>
-			<div class="heading-6">
-				{averageCharacters !== null ? `${averageCharacters.toLocaleString()} characters` : 'N/A'}
-			</div>
-			<div class="caption-muted mt-0.5">per message</div>
-		</div>
-		{#if feedbackCounts}
-			<div class="">
-				<div class="flex gap-2">
-					{#if feedbackCounts.mistakes > 0}
-						<div
-							class="flex-1 flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg bg-red-50/50 dark:bg-red-900/10 border border-red-200 dark:border-red-800"
-						>
-							<MistakesIcon class="w-5 h-5" style="color: {FEEDBACK_CHART_COLORS.MISTAKES}" />
-							<span class="stat-value">{feedbackCounts.mistakes}</span>
-						</div>
-					{/if}
-					{#if feedbackCounts.strengths > 0}
-						<div
-							class="flex-1 flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg bg-green-50/50 dark:bg-green-900/10 border border-green-200 dark:border-green-800"
-						>
-							<StrengthsIcon class="w-5 h-5" style="color: {FEEDBACK_CHART_COLORS.STRENGTHS}" />
-							<span class="stat-value">{feedbackCounts.strengths}</span>
-						</div>
-					{/if}
-					{#if feedbackCounts.suggestions > 0}
-						<div
-							class="flex-1 flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50/50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800"
-						>
-							<SuggestionsIcon class="w-5 h-5" style="color: {FEEDBACK_CHART_COLORS.SUGGESTIONS}" />
-							<span class="stat-value">{feedbackCounts.suggestions}</span>
-						</div>
-					{/if}
-				</div>
-			</div>
-		{/if}
-		{#if learningTipCounts}
-			<div class="">
-				<div class="flex gap-2">
-					{#if learningTipCounts.grammar > 0}
-						<div
-							class="flex-1 flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg bg-green-50/50 dark:bg-green-900/10 border border-green-200 dark:border-green-800"
-						>
-							<GrammarIcon class="w-5 h-5" style="color: {LEARNING_TIPS_CHART_COLORS.GRAMMAR}" />
-							<span class="stat-value">{learningTipCounts.grammar}</span>
-						</div>
-					{/if}
-					{#if learningTipCounts.vocabulary > 0}
-						<div
-							class="flex-1 flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50/50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800"
-						>
-							<VocabularyIcon class="w-5 h-5" style="color: {LEARNING_TIPS_CHART_COLORS.VOCABULARY}" />
-							<span class="stat-value">{learningTipCounts.vocabulary}</span>
-						</div>
-					{/if}
-					{#if learningTipCounts.phrases > 0}
-						<div
-							class="flex-1 flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg bg-purple-50/50 dark:bg-purple-900/10 border border-purple-200 dark:border-purple-800"
-						>
-							<PhrasesIcon class="w-5 h-5" style="color: {LEARNING_TIPS_CHART_COLORS.PHRASES}" />
-							<span class="stat-value">{learningTipCounts.phrases}</span>
-						</div>
-					{/if}
-				</div>
-			</div>
-		{/if}
-	</div>
-{/snippet}
-
-{#snippet userAvatar()}
-	<AuthUserAvatar size={40} class="rounded-full" />
-{/snippet}
-
-{#snippet aiAvatar()}
-	<AiInterlocutorAvatar
-		avatarId={interlocutor.avatarId as ConversationAIInterlocutorAvatarId}
-		size="fullsize"
-		class="rounded-full w-10 h-10"
-	/>
-{/snippet}
 
 <ScrollableWrapper wrapperClass="min-h-0" contentClass="px-0">
 	{#snippet children()}
-		<!-- Message Statistics -->
-		<div class="space-y-4">
-			<h3 class="heading-5">Message Statistics</h3>
-			<div class="grid grid-cols-2 gap-4">
-				{@render messageCard(
-					userAvatar,
-					'User Messages',
-					data.userMessages.length,
-					data.averageUserMessageCharacters,
-					!isEmpty(data.feedbacks)
-						? {
-								mistakes: data.totalMistakes,
-								strengths: data.totalStrengths,
-								suggestions: data.totalSuggestions
-							}
-						: undefined
-				)}
-				{@render messageCard(
-					aiAvatar,
-					'AI Messages',
-					data.aiMessages.length,
-					data.averageAiMessageCharacters,
-					undefined,
-					data.totalLearningTips > 0
-						? {
-								grammar: data.learningTipsByCategory.grammar,
-								vocabulary: data.learningTipsByCategory.vocabulary,
-								phrases: data.learningTipsByCategory.phrases
-							}
-						: undefined
-				)}
-			</div>
-		</div>
+		<MessageStatistics userMessages={data.userMessages} aiMessages={data.aiMessages} />
 
 		<!-- Performance Scores -->
-		{#if !isEmpty(data.feedbacks) || !isEmpty(data.messagesWithFeedback)}
+		{#if !isEmpty(data.feedbacks) || !isEmpty(data.userMessages)}
 			<div class="space-y-6">
 				<h3 class="heading-5">Performance Scores</h3>
 
@@ -191,7 +36,7 @@
 					</div>
 				{/if}
 
-				{#if !isEmpty(data.messagesWithFeedback)}
+				{#if !isEmpty(data.userMessages)}
 					<div class="space-y-4">
 						<div class="overflow-x-auto">
 							<table class="w-full text-sm text-muted-small text-left">
@@ -221,7 +66,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									{#each data.messagesWithFeedback as message, index}
+									{#each data.userMessages as message, index}
 										{@const trimmedMessage =
 											message.content.length > 50 ? message.content.substring(0, 60) + '...' : message.content}
 										{@const feedback = message.feedback}
