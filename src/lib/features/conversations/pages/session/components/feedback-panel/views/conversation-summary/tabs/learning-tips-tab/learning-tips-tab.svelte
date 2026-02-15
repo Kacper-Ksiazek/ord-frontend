@@ -126,11 +126,9 @@
 					{/each}
 				</div>
 			{:else}
-				<div
-					class="flex-1 flex flex-col items-center justify-center h-full text-gray-500 dark:text-gray-400"
-				>
+				<div class="flex-1 flex flex-col items-center justify-center h-full text-muted">
 					<MessageSquareOffIcon class="w-16 h-16 opacity-20" />
-					<p class="text-sm text-center py-4">No learning tips to show for current filters.</p>
+					<p class="text-muted-small text-center py-4">No learning tips to show for current filters.</p>
 
 					<Button
 						variant="DELETE"
@@ -149,9 +147,7 @@
 		{/snippet}
 	</ScrollableWrapper>
 {:else}
-	<div
-		class="text-center py-8 text-gray-500 dark:text-gray-400 flex-1 flex items-center justify-center"
-	>
+	<div class="text-center py-8 text-muted flex-1 flex items-center justify-center">
 		<p>No learning tips available yet.</p>
 	</div>
 {/if}

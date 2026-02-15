@@ -99,14 +99,11 @@
 </script>
 
 <div class="mb-6">
-	<button
-		class="text-sm text-gray-600 dark:text-gray-400 mb-4"
-		onclick={() => (sidepanelContext.isOpened = false)}
-	>
+	<button class="text-muted-small mb-4" onclick={() => (sidepanelContext.isOpened = false)}>
 		Back
 	</button>
 
-	<h2 class="text-xl font-bold mb-4 dark:text-gray-100">Feedback Details</h2>
+	<h2 class="heading-4 mb-4">Feedback Details</h2>
 
 	<!-- Summary Section -->
 	<div
@@ -142,9 +139,7 @@
 							<MistakeCard {mistake} />
 						{/each}
 					{:else}
-						<p class="text-sm text-gray-500 dark:text-gray-400 text-center py-4">
-							No mistakes found for this severity level.
-						</p>
+						<p class="text-muted-small text-center py-4">No mistakes found for this severity level.</p>
 					{/if}
 				</div>
 			</div>
@@ -191,9 +186,7 @@
 							<SuggestionCard {suggestion} />
 						{/each}
 					{:else}
-						<p class="text-sm text-gray-500 dark:text-gray-400 text-center py-4">
-							No suggestions found for this type.
-						</p>
+						<p class="text-muted-small text-center py-4">No suggestions found for this type.</p>
 					{/if}
 				</div>
 			</div>

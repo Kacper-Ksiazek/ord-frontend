@@ -50,8 +50,8 @@
 				{@render avatar()}
 			</div>
 			<div class="flex-1">
-				<div class="text-2xl font-bold dark:text-gray-100">{messageCount}</div>
-				<div class="text-xs text-gray-600 dark:text-gray-400">{label}</div>
+				<div class="heading-3">{messageCount}</div>
+				<div class="caption">{label}</div>
 			</div>
 		</div>
 
@@ -60,12 +60,12 @@
 		>
 			<div class="flex items-center gap-2 mb-1">
 				<BarChart3 class="w-4 h-4 text-gray-500 dark:text-gray-400 shrink-0" />
-				<span class="text-xs font-medium text-gray-600 dark:text-gray-400">Average length</span>
+				<span class="label-small">Average length</span>
 			</div>
-			<div class="text-base font-semibold text-gray-900 dark:text-gray-100">
+			<div class="heading-6">
 				{averageCharacters !== null ? `${averageCharacters.toLocaleString()} characters` : 'N/A'}
 			</div>
-			<div class="text-xs text-gray-500 dark:text-gray-500 mt-0.5">per message</div>
+			<div class="caption-muted mt-0.5">per message</div>
 		</div>
 		{#if feedbackCounts}
 			<div class="">
@@ -75,9 +75,7 @@
 							class="flex-1 flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg bg-red-50/50 dark:bg-red-900/10 border border-red-200 dark:border-red-800"
 						>
 							<MistakesIcon class="w-5 h-5" style="color: {FEEDBACK_CHART_COLORS.MISTAKES}" />
-							<span class="text-base font-semibold text-gray-700 dark:text-gray-300"
-								>{feedbackCounts.mistakes}</span
-							>
+							<span class="stat-value">{feedbackCounts.mistakes}</span>
 						</div>
 					{/if}
 					{#if feedbackCounts.strengths > 0}
@@ -85,9 +83,7 @@
 							class="flex-1 flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg bg-green-50/50 dark:bg-green-900/10 border border-green-200 dark:border-green-800"
 						>
 							<StrengthsIcon class="w-5 h-5" style="color: {FEEDBACK_CHART_COLORS.STRENGTHS}" />
-							<span class="text-base font-semibold text-gray-700 dark:text-gray-300"
-								>{feedbackCounts.strengths}</span
-							>
+							<span class="stat-value">{feedbackCounts.strengths}</span>
 						</div>
 					{/if}
 					{#if feedbackCounts.suggestions > 0}
@@ -95,9 +91,7 @@
 							class="flex-1 flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50/50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800"
 						>
 							<SuggestionsIcon class="w-5 h-5" style="color: {FEEDBACK_CHART_COLORS.SUGGESTIONS}" />
-							<span class="text-base font-semibold text-gray-700 dark:text-gray-300"
-								>{feedbackCounts.suggestions}</span
-							>
+							<span class="stat-value">{feedbackCounts.suggestions}</span>
 						</div>
 					{/if}
 				</div>
@@ -111,9 +105,7 @@
 							class="flex-1 flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg bg-green-50/50 dark:bg-green-900/10 border border-green-200 dark:border-green-800"
 						>
 							<GrammarIcon class="w-5 h-5" style="color: {LEARNING_TIPS_CHART_COLORS.GRAMMAR}" />
-							<span class="text-base font-semibold text-gray-700 dark:text-gray-300"
-								>{learningTipCounts.grammar}</span
-							>
+							<span class="stat-value">{learningTipCounts.grammar}</span>
 						</div>
 					{/if}
 					{#if learningTipCounts.vocabulary > 0}
@@ -121,9 +113,7 @@
 							class="flex-1 flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50/50 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-800"
 						>
 							<VocabularyIcon class="w-5 h-5" style="color: {LEARNING_TIPS_CHART_COLORS.VOCABULARY}" />
-							<span class="text-base font-semibold text-gray-700 dark:text-gray-300"
-								>{learningTipCounts.vocabulary}</span
-							>
+							<span class="stat-value">{learningTipCounts.vocabulary}</span>
 						</div>
 					{/if}
 					{#if learningTipCounts.phrases > 0}
@@ -131,9 +121,7 @@
 							class="flex-1 flex items-center justify-center gap-2 px-3 py-1.5 rounded-lg bg-purple-50/50 dark:bg-purple-900/10 border border-purple-200 dark:border-purple-800"
 						>
 							<PhrasesIcon class="w-5 h-5" style="color: {LEARNING_TIPS_CHART_COLORS.PHRASES}" />
-							<span class="text-base font-semibold text-gray-700 dark:text-gray-300"
-								>{learningTipCounts.phrases}</span
-							>
+							<span class="stat-value">{learningTipCounts.phrases}</span>
 						</div>
 					{/if}
 				</div>
@@ -158,7 +146,7 @@
 	{#snippet children()}
 		<!-- Message Statistics -->
 		<div class="space-y-4">
-			<h3 class="text-lg font-semibold dark:text-gray-200">Message Statistics</h3>
+			<h3 class="heading-5">Message Statistics</h3>
 			<div class="grid grid-cols-2 gap-4">
 				{@render messageCard(
 					userAvatar,
@@ -193,7 +181,7 @@
 		<!-- Performance Scores -->
 		{#if !isEmpty(data.feedbacks) || !isEmpty(data.messagesWithFeedback)}
 			<div class="space-y-6">
-				<h3 class="text-lg font-semibold dark:text-gray-200">Performance Scores</h3>
+				<h3 class="heading-5">Performance Scores</h3>
 
 				{#if !isEmpty(data.feedbacks)}
 					<div class="grid grid-cols-3 gap-4">
@@ -206,10 +194,8 @@
 				{#if !isEmpty(data.messagesWithFeedback)}
 					<div class="space-y-4">
 						<div class="overflow-x-auto">
-							<table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-								<thead
-									class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-								>
+							<table class="w-full text-sm text-muted-small text-left">
+								<thead class="table-header bg-gray-50 dark:bg-gray-700">
 									<tr>
 										<th scope="col" class="px-4 py-3">#</th>
 										<th scope="col" class="px-4 py-3">Message</th>
@@ -248,19 +234,19 @@
 										{@const naturalnessBoxColor =
 											naturalnessScore !== null ? getScoreBoxColor(naturalnessScore) : ''}
 										<tr class="bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
-											<td class="px-4 py-3 text-gray-600 dark:text-gray-400 font-medium">{index + 1}</td>
-											<td class="px-4 py-3 text-xs text-gray-900 dark:text-gray-100">{trimmedMessage}</td>
+											<td class="px-4 py-3 label">{index + 1}</td>
+											<td class="px-4 py-3 body-xs">{trimmedMessage}</td>
 											<td class="px-4 py-3">
 												{#if grammarScore !== null}
 													<div
 														class={cn('w-8 h-8 rounded-sm flex items-center justify-center', grammarBoxColor)}
 													>
-														<span class="text-sm font-bold text-white dark:text-white">
+														<span class="text-sm text-on-color">
 															{grammarScore}
 														</span>
 													</div>
 												{:else}
-													<span class="text-gray-400 dark:text-gray-500">-</span>
+													<span class="caption-muted">-</span>
 												{/if}
 											</td>
 											<td class="px-4 py-3">
@@ -268,12 +254,12 @@
 													<div
 														class={cn('w-8 h-8 rounded-sm flex items-center justify-center', vocabularyBoxColor)}
 													>
-														<span class="text-sm font-bold text-white dark:text-white">
+														<span class="text-sm text-on-color">
 															{vocabularyScore}
 														</span>
 													</div>
 												{:else}
-													<span class="text-gray-400 dark:text-gray-500">-</span>
+													<span class="caption-muted">-</span>
 												{/if}
 											</td>
 											<td class="px-4 py-3">
@@ -281,12 +267,12 @@
 													<div
 														class={cn('w-8 h-8 rounded-sm flex items-center justify-center', naturalnessBoxColor)}
 													>
-														<span class="text-sm font-bold text-white dark:text-white">
+														<span class="text-sm text-on-color">
 															{naturalnessScore}
 														</span>
 													</div>
 												{:else}
-													<span class="text-gray-400 dark:text-gray-500">-</span>
+													<span class="caption-muted">-</span>
 												{/if}
 											</td>
 											<td class="px-4 py-3">
@@ -312,7 +298,7 @@
 							<Tooltip triggeredBy="#naturalness-header">Naturalness</Tooltip>
 						</div>
 						<!-- Legend -->
-						<div class="flex flex-wrap items-center gap-4 text-xs text-gray-600 dark:text-gray-400">
+						<div class="flex flex-wrap items-center gap-4 caption">
 							<span>G = Grammar</span>
 							<span>V = Vocabulary</span>
 							<span>N = Naturalness</span>
@@ -384,7 +370,7 @@
 				}
 			}}
 			<div class="space-y-4">
-				<h3 class="text-lg font-semibold dark:text-gray-200">Mistake Severity</h3>
+				<h3 class="heading-5">Mistake Severity</h3>
 				<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 					<!-- Pie Chart -->
 					<div class="p-4 rounded-lg">
@@ -400,8 +386,8 @@
 									style="background-color: {MISTAKE_SEVERITY_CHART_COLORS[0]}"
 								></div>
 								<div class="flex-1">
-									<div class="text-sm font-medium dark:text-gray-200">Minor (1)</div>
-									<div class="text-xs text-gray-600 dark:text-gray-400">
+									<div class="label">Minor (1)</div>
+									<div class="caption">
 										{severity1} mistake{severity1 !== 1 ? 's' : ''} • {severity1Percentage}%
 									</div>
 								</div>
@@ -413,8 +399,8 @@
 									style="background-color: {MISTAKE_SEVERITY_CHART_COLORS[1]}"
 								></div>
 								<div class="flex-1">
-									<div class="text-sm font-medium dark:text-gray-200">Moderate (2)</div>
-									<div class="text-xs text-gray-600 dark:text-gray-400">
+									<div class="label">Moderate (2)</div>
+									<div class="caption">
 										{severity2} mistake{severity2 !== 1 ? 's' : ''} • {severity2Percentage}%
 									</div>
 								</div>
@@ -426,8 +412,8 @@
 									style="background-color: {MISTAKE_SEVERITY_CHART_COLORS[2]}"
 								></div>
 								<div class="flex-1">
-									<div class="text-sm font-medium dark:text-gray-200">Critical (3)</div>
-									<div class="text-xs text-gray-600 dark:text-gray-400">
+									<div class="label">Critical (3)</div>
+									<div class="caption">
 										{severity3} mistake{severity3 !== 1 ? 's' : ''} • {severity3Percentage}%
 									</div>
 								</div>
@@ -440,9 +426,9 @@
 
 		<!-- Empty State -->
 		{#if isEmpty(data.feedbacks) && data.totalLearningTips === 0}
-			<div class="text-center py-8 text-gray-500 dark:text-gray-400">
+			<div class="text-center py-8 text-muted">
 				<p>No data available yet.</p>
-				<p class="text-sm mt-2">Send messages to receive feedback and see statistics here.</p>
+				<p class="text-muted-small mt-2">Send messages to receive feedback and see statistics here.</p>
 			</div>
 		{/if}
 	{/snippet}

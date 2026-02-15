@@ -166,7 +166,7 @@
 
 <div class="flex flex-col h-full min-h-0">
 	<div class="shrink-0 space-y-6">
-		<h2 class="text-xl font-bold mb-4 dark:text-gray-100">Conversation Summary</h2>
+		<h2 class="heading-4 mb-4">Conversation Summary</h2>
 
 		<!-- Main Tabs -->
 		<Tabs

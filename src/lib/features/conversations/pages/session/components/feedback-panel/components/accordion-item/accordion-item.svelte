@@ -29,7 +29,7 @@
 <AccordionItem bind:open {headerClass}>
 	{#snippet header()}
 		<div class="flex items-center justify-between w-full -mx-3 px-3">
-			<div class="flex items-center gap-2 font-semibold text-gray-900 dark:text-gray-100 py-2">
+			<div class="flex items-center gap-2 text-emphasis py-2">
 				<FeedbackMetricIcon {criteria} class={cn('w-5 h-5', colors.text)} />
 				<span>{title}</span>
 			</div>

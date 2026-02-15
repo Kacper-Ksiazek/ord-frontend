@@ -112,15 +112,13 @@
 				{/if}
 
 				{#if isEmpty(filteredFeedback.mistakes) && isEmpty(filteredFeedback.strengths) && isEmpty(filteredFeedback.suggestions)}
-					<p class="text-sm text-gray-500 dark:text-gray-400 text-center py-4">
-						No feedback found for this category.
-					</p>
+					<p class="text-muted-small text-center py-4">No feedback found for this category.</p>
 				{/if}
 			</div>
 		{/snippet}
 	</ScrollableWrapper>
 {:else}
-	<div class="text-center py-8 text-gray-500 dark:text-gray-400">
+	<div class="text-muted text-center py-8">
 		<p>No feedback available yet.</p>
 	</div>
 {/if}
