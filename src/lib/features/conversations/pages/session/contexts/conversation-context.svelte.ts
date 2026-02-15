@@ -19,7 +19,7 @@ export interface CompactConversationData {
 
 const [getConversationContext, setConversationContext] = createContext<CompactConversationData>();
 
-export { getConversationContext };
+export { getConversationContext, setConversationContext };
 
 export function createConversationContext(conversation: ConversationDTO) {
 	setConversationContext({

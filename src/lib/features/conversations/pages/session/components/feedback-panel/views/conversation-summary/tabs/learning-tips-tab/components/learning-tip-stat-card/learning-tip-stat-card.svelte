@@ -1,7 +1,6 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
 	import type { TabFilter } from '../../learning-tips-tab.types';
-	import type { LearningTipStatCardProps } from './learning-tip-stat-card.constants.types';
+	import type { LearningTipStatCardProps } from './learning-tip-stat-card.types';
 	import { IconCard } from '$lib/components/cards/icon-card';
 	import type { IconCardVariant } from '$lib/components/cards/icon-card';
 	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/consts/ai-message-learning-tips/icons';

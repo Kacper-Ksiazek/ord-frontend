@@ -13,11 +13,11 @@
 	import { filterLearningTips } from './utils/filter-learning-tips';
 	import RegisterFilter from './components/register-filter.svelte';
 	import { LearningTipStatCard } from './components/learning-tip-stat-card';
-	import type { LearningTipStatCardProps } from './components/learning-tip-stat-card/learning-tip-stat-card.constants.types';
+	import type { LearningTipStatCardProps } from './components/learning-tip-stat-card/learning-tip-stat-card.types';
 	import Input from '$lib/components/forms/input/input.svelte';
 	import { MessageSquareOffIcon, SearchIcon, TrashIcon } from 'lucide-svelte';
-	import { IconButton } from '$lib/components/forms/icon-button';
-	import Button from '$lib/components/forms/button/button.svelte';
+	import { IconButton } from '$lib/components/buttons/icon-button';
+	import { Button } from '$lib/components/buttons/button';
 
 	const messagesContext = getMessagesContext();
 	const messages = $derived(messagesContext.messages);
@@ -126,11 +126,11 @@
 					{/each}
 				</div>
 			{:else}
-				<div class="flex-1 flex flex-col items-center justify-center h-full">
+				<div
+					class="flex-1 flex flex-col items-center justify-center h-full text-gray-500 dark:text-gray-400"
+				>
 					<MessageSquareOffIcon class="w-16 h-16 opacity-20" />
-					<p class="text-sm text-center py-4 text-gray-500 dark:text-gray-400">
-						No learning tips to show for current filters.
-					</p>
+					<p class="text-sm text-center py-4">No learning tips to show for current filters.</p>
 
 					<Button
 						variant="DELETE"
@@ -149,7 +149,9 @@
 		{/snippet}
 	</ScrollableWrapper>
 {:else}
-	<div class="text-center py-8 text-gray-500 dark:text-gray-400">
+	<div
+		class="text-center py-8 text-gray-500 dark:text-gray-400 flex-1 flex items-center justify-center"
+	>
 		<p>No learning tips available yet.</p>
 	</div>
 {/if}

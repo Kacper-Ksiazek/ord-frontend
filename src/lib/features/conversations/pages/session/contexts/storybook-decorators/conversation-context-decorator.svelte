@@ -7,6 +7,8 @@
 	setConversationContext({
 		id: 'storybook-conversation',
 		topic: 'Learning English',
+		type: 'SMALL_TALK',
+		aiTone: 'FRIENDLY',
 		interlocutor: {
 			name: 'Alex',
 			avatarId: 'AVATAR_EPSILON'
