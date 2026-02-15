@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
 	import type { ButtonProps } from './button.types';
-	import { formInputTextClasses } from '../shared-styles';
+	import '$lib/components/forms/forms.css';
 
 	let {
 		type = 'FILLED',
@@ -16,7 +16,7 @@
 		cn(
 			'px-4 h-[40px] rounded-lg transition-colors flex items-center gap-1',
 			'focus:outline-none focus:ring-2 focus:ring-offset-2',
-			formInputTextClasses,
+			'form-input-text',
 			disabled && 'cursor-not-allowed opacity-50',
 			!disabled && 'cursor-pointer'
 		)
