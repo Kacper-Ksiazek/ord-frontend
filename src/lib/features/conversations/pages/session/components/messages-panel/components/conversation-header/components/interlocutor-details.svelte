@@ -14,5 +14,5 @@
 		/>
 	</div>
 
-	<h3 class="text-xl font-bold">{conversation.interlocutor.name}</h3>
+	<h3 class="heading-4">{conversation.interlocutor.name}</h3>
 </div>

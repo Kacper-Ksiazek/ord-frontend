@@ -199,7 +199,7 @@
 			class="mb-3"
 		/>
 	{:else}
-		<h3 class={cn('flex items-center gap-2 text-sm font-semibold mb-2', activeCardColors.text)}>
+		<h3 class={cn('flex items-center gap-2 label-bold mb-2', activeCardColors.text)}>
 			<FeedbackMetricIcon criteria={activeCard} class="w-4 h-4" />
 			<span>
 				{activeCard === 'MISTAKES' ? 'Mistake' : activeCard === 'STRENGTHS' ? 'Strength' : 'Suggestion'}

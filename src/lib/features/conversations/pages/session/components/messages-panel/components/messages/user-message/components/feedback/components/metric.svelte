@@ -17,7 +17,7 @@
 	<span
 		class={cn(
 			'inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs border border-gray-200 dark:border-gray-700',
-			'bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
+			'bg-gray-50 dark:bg-gray-800 caption'
 		)}
 	>
 		<FeedbackMetricIcon
@@ -25,6 +25,6 @@
 			class={cn('w-4 h-4', getUserMessageFeedbackColors(criteria).text)}
 		/>
 
-		<span>{label}: <strong class="text-gray-900 dark:text-gray-100">{count}</strong></span>
+		<span>{label}: <strong class="text-strong">{count}</strong></span>
 	</span>
 {/if}

@@ -179,7 +179,7 @@
 	{#if moreThanOneCardAvailable}
 		<Tabs tabs={availableTabs} bind:activeTab={activeCard} activeColor="blue" class="mb-3" />
 	{:else}
-		<h3 class={cn('flex items-center gap-2 text-sm font-semibold mb-2', activeCardColors.iconColor)}>
+		<h3 class={cn('flex items-center gap-2 label-bold mb-2', activeCardColors.iconColor)}>
 			{#if activeCard === 'GRAMMAR'}
 				<GrammarIcon class="w-4 h-4" />
 			{:else if activeCard === 'VOCABULARY'}

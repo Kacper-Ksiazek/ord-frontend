@@ -18,10 +18,10 @@
 		<Button onclick={() => goto('/conversations')}>Back</Button>
 
 		<ConversationTypeIcon conversationType={conversation.type} class="w-10 h-10" />
-		<h2 class="text-lg">{getConversationTypeLabel(conversation.type)}</h2>
+		<h2 class="body-large">{getConversationTypeLabel(conversation.type)}</h2>
 	</div>
 
-	<h2 class="text-2xl font-bold">
+	<h2 class="heading-3">
 		T:
 		{conversation.topic}
 	</h2>

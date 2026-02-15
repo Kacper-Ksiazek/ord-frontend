@@ -24,8 +24,8 @@
 		})}
 
 		<div>
-			<div class="text-xs text-gray-600 dark:text-gray-300 mb-1">{label}</div>
-			<div class="text- text-base font-semibold dark:text-gray-200">{value}</div>
+			<div class="caption mb-1">{label}</div>
+			<div class="heading-6">{value}</div>
 		</div>
 	</div>
 </div>
