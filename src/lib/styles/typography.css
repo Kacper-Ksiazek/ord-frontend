@@ -1,0 +1,153 @@
+@import 'tailwindcss' reference;
+@custom-variant dark (&:where(.dark, .dark *));
+
+@layer components {
+	/* Headings */
+	.heading-1 {
+		@apply text-4xl font-bold text-gray-900 dark:text-white;
+		@apply leading-tight tracking-tight;
+	}
+
+	.heading-2 {
+		@apply text-3xl font-bold text-gray-900 dark:text-white;
+		@apply leading-tight tracking-tight;
+	}
+
+	.heading-3 {
+		@apply text-2xl font-bold text-gray-900 dark:text-white;
+		@apply leading-snug tracking-tight;
+	}
+
+	.heading-4 {
+		@apply text-xl font-semibold text-gray-900 dark:text-white;
+		@apply leading-snug;
+	}
+
+	.heading-5 {
+		@apply text-lg font-semibold text-gray-900 dark:text-white;
+		@apply leading-normal;
+	}
+
+	.heading-6 {
+		@apply text-base font-semibold text-gray-900 dark:text-white;
+		@apply leading-normal;
+	}
+
+	/* Body Text */
+	.body-large {
+		@apply text-lg text-gray-900 dark:text-gray-100;
+		@apply leading-relaxed;
+	}
+
+	.body {
+		@apply text-base text-gray-900 dark:text-gray-100;
+		@apply leading-normal;
+	}
+
+	.body-small {
+		@apply text-sm text-gray-900 dark:text-gray-100;
+		@apply leading-normal;
+	}
+
+	.body-xs {
+		@apply text-xs text-gray-900 dark:text-gray-100;
+		@apply leading-normal;
+	}
+
+	/* Labels */
+	.label {
+		@apply text-sm font-medium text-gray-700 dark:text-gray-300;
+		@apply leading-normal;
+	}
+
+	.label-small {
+		@apply text-xs font-medium text-gray-700 dark:text-gray-300;
+		@apply leading-normal;
+	}
+
+	.label-bold {
+		@apply text-sm font-semibold text-gray-900 dark:text-gray-100;
+		@apply leading-normal;
+	}
+
+	/* Captions & Helper Text */
+	.caption {
+		@apply text-xs text-gray-600 dark:text-gray-400;
+		@apply leading-normal;
+	}
+
+	.caption-muted {
+		@apply text-xs text-gray-500 dark:text-gray-500;
+		@apply leading-normal;
+	}
+
+	/* Muted Text */
+	.text-muted {
+		@apply text-gray-600 dark:text-gray-400;
+	}
+
+	.text-muted-small {
+		@apply text-sm text-gray-600 dark:text-gray-400;
+	}
+
+	.text-muted-xs {
+		@apply text-xs text-gray-600 dark:text-gray-400;
+	}
+
+	/* Emphasis */
+	.text-emphasis {
+		@apply font-semibold text-gray-900 dark:text-gray-100;
+	}
+
+	.text-strong {
+		@apply font-bold text-gray-900 dark:text-gray-100;
+	}
+
+	/* Links */
+	.link {
+		@apply text-primary-600 dark:text-primary-400;
+		@apply hover:text-primary-700 dark:hover:text-primary-300;
+		@apply underline-offset-2 hover:underline;
+		@apply transition-colors;
+	}
+
+	.link-muted {
+		@apply text-gray-600 dark:text-gray-400;
+		@apply hover:text-gray-900 dark:hover:text-gray-100;
+		@apply underline-offset-2 hover:underline;
+		@apply transition-colors;
+	}
+
+	/* Code & Monospace */
+	.code {
+		@apply font-mono text-sm bg-gray-100 dark:bg-gray-800;
+		@apply text-gray-900 dark:text-gray-100;
+		@apply px-1.5 py-0.5 rounded;
+	}
+
+	/* Error & Success States */
+	.text-error {
+		@apply text-red-600 dark:text-red-400;
+	}
+
+	.text-success {
+		@apply text-green-600 dark:text-green-400;
+	}
+
+	.text-warning {
+		@apply text-amber-600 dark:text-amber-400;
+	}
+
+	.text-info {
+		@apply text-blue-600 dark:text-blue-400;
+	}
+
+	/* Truncation */
+	.text-truncate {
+		@apply truncate;
+	}
+
+	.text-ellipsis {
+		@apply overflow-hidden text-ellipsis whitespace-nowrap;
+	}
+}
