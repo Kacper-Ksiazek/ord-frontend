@@ -142,6 +142,21 @@
 		@apply text-blue-600 dark:text-blue-400;
 	}
 
+	/* Contextual Text */
+	.stat-value {
+		@apply text-base font-semibold text-gray-700 dark:text-gray-300;
+		@apply leading-normal;
+	}
+
+	.table-header {
+		@apply text-xs font-medium text-gray-700 uppercase dark:text-gray-400;
+		@apply leading-normal;
+	}
+
+	.text-on-color {
+		@apply font-bold text-white dark:text-white;
+	}
+
 	/* Truncation */
 	.text-truncate {
 		@apply truncate;

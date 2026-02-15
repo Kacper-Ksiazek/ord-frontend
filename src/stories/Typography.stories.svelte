@@ -227,6 +227,46 @@
 			</div>
 		</div>
 
+		<!-- Contextual Text -->
+		<div>
+			<h2 class="heading-3 mb-6">Contextual Text</h2>
+			<div class="space-y-4">
+				<div
+					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
+				>
+					<code class="code text-sm">.stat-value</code>
+					<div class="flex items-center gap-3">
+						<div
+							class="px-3 py-1.5 rounded-lg bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800"
+						>
+							<span class="stat-value">12</span>
+						</div>
+						<span class="caption">Count badge on colored surface</span>
+					</div>
+				</div>
+				<div
+					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
+				>
+					<code class="code text-sm">.table-header</code>
+					<div class="px-4 py-2 bg-gray-50 dark:bg-gray-700 rounded">
+						<span class="table-header">Column Header</span>
+					</div>
+				</div>
+				<div class="grid grid-cols-2 gap-6 items-center">
+					<code class="code text-sm">.text-on-color</code>
+					<div class="flex items-center gap-3">
+						<div class="w-8 h-8 rounded-sm flex items-center justify-center bg-green-500">
+							<span class="text-sm text-on-color">8</span>
+						</div>
+						<div class="w-8 h-8 rounded-sm flex items-center justify-center bg-red-500">
+							<span class="text-sm text-on-color">3</span>
+						</div>
+						<span class="caption">Score boxes on colored backgrounds</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- Code & Utilities -->
 		<div>
 			<h2 class="heading-3 mb-6">Code & Utilities</h2>
