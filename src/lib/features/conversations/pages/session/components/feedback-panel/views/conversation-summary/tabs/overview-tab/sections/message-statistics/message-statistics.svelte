@@ -22,7 +22,7 @@
 	const { userMessages, aiMessages }: MessageStatisticsProps = $props();
 
 	function calculateAverageCharacters(messages: CompactConversationMessage[]): number {
-		return messages.reduce((acc, msg) => acc + msg.content.length, 0) / messages.length;
+		return Math.round(messages.reduce((acc, msg) => acc + msg.content.length, 0) / messages.length);
 	}
 
 	const feedbackStats: Record<MessageFeedbackCriteria, number> = $derived(
