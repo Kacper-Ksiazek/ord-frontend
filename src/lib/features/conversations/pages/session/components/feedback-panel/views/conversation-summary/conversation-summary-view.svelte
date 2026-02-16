@@ -31,27 +31,6 @@
 		userMessages.map((msg) => msg.feedback).filter((f) => f !== null)
 	);
 
-	const averageGrammar = $derived.by(() => {
-		if (isEmpty(feedbacks)) return null;
-		const sum = feedbacks.reduce((acc, f) => acc + (f.grammar ?? 0), 0);
-
-		return sum / feedbacks.length;
-	});
-
-	const averageVocabulary = $derived.by(() => {
-		if (isEmpty(feedbacks)) return null;
-		const sum = feedbacks.reduce((acc, f) => acc + (f.vocabulary ?? 0), 0);
-
-		return sum / feedbacks.length;
-	});
-
-	const averageNaturalness = $derived.by(() => {
-		if (isEmpty(feedbacks)) return null;
-		const sum = feedbacks.reduce((acc, f) => acc + (f.naturalness ?? 0), 0);
-
-		return sum / feedbacks.length;
-	});
-
 	// Feedback items statistics
 	const totalMistakes = $derived.by(() => {
 		return feedbacks.reduce((acc, f) => acc + (f.mistakes?.length ?? 0), 0);
@@ -105,7 +84,6 @@
 		const severity1 = allMistakes.filter((m) => m.severity === 'MINOR').length;
 		const severity2 = allMistakes.filter((m) => m.severity === 'MODERATE').length;
 		const severity3 = allMistakes.filter((m) => m.severity === 'CRITICAL').length;
-
 		return { severity1, severity2, severity3 };
 	});
 
