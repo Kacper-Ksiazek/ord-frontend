@@ -15,6 +15,11 @@ export type ConversationMessageStrength = components['schemas']['ConversationMes
 export type ConversationMessageStrengthType =
 	components['schemas']['ConversationMessageStrengthType'];
 
+export type ConversationMessagePerformanceScore = keyof Pick<
+	ConversationUserMessageFeedbackDTO,
+	'grammar' | 'vocabulary' | 'naturalness'
+>;
+
 export const CONVERSATION_MESSAGE_MISTAKE_SEVERITY_LEVEL_MAP: Record<
 	ConversationMessageMistakeSeverity,
 	number

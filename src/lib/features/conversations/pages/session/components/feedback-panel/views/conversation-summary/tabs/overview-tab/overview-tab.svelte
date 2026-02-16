@@ -2,14 +2,10 @@
 	import isEmpty from 'lodash/isEmpty';
 	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
 	import type { ConversationSummaryData } from '../conversation-summary-tabs.types';
-	import { CircularProgressBar } from '$lib/components/scores';
 	import { Chart } from '@flowbite-svelte-plugins/chart';
 	import type { ApexOptions } from 'apexcharts';
 	import { MISTAKE_SEVERITY_CHART_COLORS } from '$lib/features/conversations/pages/session/consts/mistake-severity-colors';
-	import { getScoreBoxColor } from '$lib/features/conversations/pages/session/consts/score-colors';
-	import { cn, Tooltip } from 'flowbite-svelte';
-	import { ChevronRight, CircleHelp } from 'lucide-svelte';
-	import { MessageStatistics } from './sections';
+	import { MessageStatistics, PerformanceScores } from './sections';
 
 	interface Props {
 		data: ConversationSummaryData;
@@ -21,7 +17,7 @@
 <ScrollableWrapper wrapperClass="min-h-0" contentClass="px-0">
 	<MessageStatistics userMessages={data.userMessages} aiMessages={data.aiMessages} />
 
-	<!-- Performance Scores -->
+	<PerformanceScores userMessages={data.userMessages} feedbacks={data.feedbacks} />
 
 	<!-- Mistake Severity Summary -->
 	{#if !isEmpty(data.feedbacks) && data.totalMistakes > 0}

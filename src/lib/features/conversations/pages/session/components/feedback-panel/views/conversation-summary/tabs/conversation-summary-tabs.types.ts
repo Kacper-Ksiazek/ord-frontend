@@ -25,9 +25,6 @@ export interface ConversationSummaryData {
 		vocabulary: number;
 		phrases: number;
 	};
-	averageGrammar: number | null;
-	averageVocabulary: number | null;
-	averageNaturalness: number | null;
 	averageUserMessageCharacters: number | null;
 	averageAiMessageCharacters: number | null;
 }

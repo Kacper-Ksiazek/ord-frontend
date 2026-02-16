@@ -11,6 +11,7 @@
 		</div>
 	</th>
 
+	<!-- TODO: Fix the location of the tooltip -->
 	<Tooltip triggeredBy={`#${props.id}`}>{props.label}</Tooltip>
 {/snippet}
 

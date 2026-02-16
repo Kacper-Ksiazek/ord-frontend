@@ -1,37 +1,39 @@
 <script lang="ts">
 	import CircularProgressBar from '$lib/components/scores/circular-progress-bar/circular-progress-bar.svelte';
-	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
-	import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/message-feedback-criteria';
+	import type {
+		ConversationMessagePerformanceScore,
+		ConversationUserMessageFeedbackDTO
+	} from '$lib/types/conversation/domain/conversation-message-feedback';
 
 	interface CircularProgressBarsProps {
 		feedbacks: ConversationUserMessageFeedbackDTO[];
 	}
 
+	type PerformanceMetrics = Record<ConversationMessagePerformanceScore, number>;
+
 	const { feedbacks }: CircularProgressBarsProps = $props();
 
-	const averageScores: Record<MessageFeedbackCriteria, number> = $derived.by(() => {
+	const averageScores: PerformanceMetrics = $derived.by(() => {
 		const sums = feedbacks.reduce(
 			(acc, f) => {
-				acc.MISTAKES += f.mistakes?.length ?? 0;
-				acc.STRENGTHS += f.strengths?.length ?? 0;
-				acc.SUGGESTIONS += f.suggestions?.length ?? 0;
+				acc.grammar += f.grammar;
+				acc.vocabulary += f.vocabulary;
+				acc.naturalness += f.naturalness;
 				return acc;
 			},
-			{ MISTAKES: 0, STRENGTHS: 0, SUGGESTIONS: 0 }
+			{ grammar: 0, vocabulary: 0, naturalness: 0 } satisfies PerformanceMetrics
 		);
 
-		const numberOfFeedbacks = feedbacks.length;
-
 		return {
-			MISTAKES: sums.MISTAKES / numberOfFeedbacks,
-			STRENGTHS: sums.STRENGTHS / numberOfFeedbacks,
-			SUGGESTIONS: sums.SUGGESTIONS / numberOfFeedbacks
+			grammar: sums.grammar / feedbacks.length,
+			vocabulary: sums.vocabulary / feedbacks.length,
+			naturalness: sums.naturalness / feedbacks.length
 		};
 	});
 </script>
 
 <div class="grid grid-cols-3 gap-4">
-	<CircularProgressBar label="Grammar" score={averageScores.MISTAKES} />
-	<CircularProgressBar label="Vocabulary" score={averageScores.STRENGTHS} />
-	<CircularProgressBar label="Naturalness" score={averageScores.SUGGESTIONS} />
+	<CircularProgressBar label="Grammar" score={averageScores.grammar} />
+	<CircularProgressBar label="Vocabulary" score={averageScores.vocabulary} />
+	<CircularProgressBar label="Naturalness" score={averageScores.naturalness} />
 </div>

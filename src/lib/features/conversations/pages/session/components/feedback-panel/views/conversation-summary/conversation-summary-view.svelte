@@ -140,9 +140,6 @@
 		totalSuggestions,
 		mistakesBySeverity,
 		learningTipsByCategory,
-		averageGrammar,
-		averageVocabulary,
-		averageNaturalness,
 		averageUserMessageCharacters,
 		averageAiMessageCharacters
 	});
