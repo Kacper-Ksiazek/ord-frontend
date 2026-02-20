@@ -9,6 +9,8 @@ import type { Icon } from 'lucide-svelte';
  */
 
 declare global {
+	type Percentage = `${number | string}%`;
+
 	/**
 	 * TimeInMs - represents a duration or timestamp in milliseconds
 	 * Provides semantic clarity that a number represents time in milliseconds
