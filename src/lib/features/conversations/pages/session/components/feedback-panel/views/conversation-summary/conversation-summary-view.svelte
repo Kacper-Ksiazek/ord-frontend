@@ -13,8 +13,9 @@
 		CompactConversationUserMessage
 	} from '$lib/types/conversation/domain/conversation-message';
 
-	const messagesContext = getMessagesContext();
+	type ConversationSummaryTab = 'overview' | 'learning-tips' | 'feedback';
 
+	const messagesContext = getMessagesContext();
 	const messages = $derived(messagesContext.messages);
 
 	// Basic counts
@@ -61,9 +62,9 @@
 	);
 
 	// Main tabs
-	let activeMainTab = $state<'overview' | 'learning-tips' | 'feedback'>('overview');
+	let activeMainTab = $state<ConversationSummaryTab>('overview');
 
-	const mainTabs = $derived(
+	const mainTabs = $derived<Tab<ConversationSummaryTab>[]>(
 		compact([
 			{ id: 'overview', label: 'Overview', count: messages.length, icon: ChartBar },
 
@@ -90,7 +91,6 @@
 	<div class="shrink-0 space-y-6">
 		<h2 class="heading-4 mb-4">Conversation Summary</h2>
 
-		<!-- Main Tabs -->
 		<Tabs
 			tabs={mainTabs}
 			bind:activeTab={activeMainTab}
@@ -100,19 +100,15 @@
 		/>
 	</div>
 
-	<!-- Content Area -->
 	<div class="flex-1 min-h-0 flex flex-col">
-		<!-- Overview Tab -->
 		{#if activeMainTab === 'overview'}
 			<OverviewTab />
 		{/if}
 
-		<!-- Learning Tips Tab -->
 		{#if activeMainTab === 'learning-tips'}
 			<LearningTipsTab />
 		{/if}
 
-		<!-- Feedback Tab -->
 		{#if activeMainTab === 'feedback'}
 			<FeedbackTab />
 		{/if}
