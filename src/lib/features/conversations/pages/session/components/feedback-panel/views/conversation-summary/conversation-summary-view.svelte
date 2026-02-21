@@ -6,7 +6,6 @@
 	import { Tabs } from '$lib/components/navigation/tabs';
 	import type { Tab } from '$lib/components/navigation/tabs';
 	import { OverviewTab, LearningTipsTab, FeedbackTab } from './tabs';
-	import type { ConversationSummaryData } from './tabs';
 	import { ChartBar, Lightbulb, MessageSquare } from 'lucide-svelte';
 	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import type {
@@ -44,19 +43,6 @@
 		return feedbacks.reduce((acc, f) => acc + (f.suggestions?.length ?? 0), 0);
 	});
 
-	// Average characters per message
-	const averageUserMessageCharacters = $derived.by(() => {
-		if (isEmpty(userMessages)) return null;
-		const totalChars = userMessages.reduce((acc, msg) => acc + (msg.content?.length ?? 0), 0);
-		return Math.round(totalChars / userMessages.length);
-	});
-
-	const averageAiMessageCharacters = $derived.by(() => {
-		if (isEmpty(aiMessages)) return null;
-		const totalChars = aiMessages.reduce((acc, msg) => acc + (msg.content?.length ?? 0), 0);
-		return Math.round(totalChars / aiMessages.length);
-	});
-
 	// Aggregate all learning tips
 	const allGrammarTips = $derived.by(() => {
 		return flatMap(aiMessages, (msg) => msg.learningTips?.grammarTips ?? []);
@@ -79,14 +65,6 @@
 		return flatMap(feedbacks, (f) => f.mistakes ?? []);
 	});
 
-	// Mistakes by severity
-	const mistakesBySeverity = $derived.by(() => {
-		const severity1 = allMistakes.filter((m) => m.severity === 'MINOR').length;
-		const severity2 = allMistakes.filter((m) => m.severity === 'MODERATE').length;
-		const severity3 = allMistakes.filter((m) => m.severity === 'CRITICAL').length;
-		return { severity1, severity2, severity3 };
-	});
-
 	const allStrengths = $derived.by(() => {
 		return flatMap(feedbacks, (f) => f.strengths ?? []);
 	});
@@ -98,9 +76,10 @@
 	// Main tabs
 	let activeMainTab = $state<'overview' | 'learning-tips' | 'feedback'>('overview');
 
-	const mainTabs = $derived.by(() => {
-		return compact([
+	const mainTabs = $derived(
+		compact([
 			{ id: 'overview', label: 'Overview', count: messages.length, icon: ChartBar },
+
 			totalLearningTips > 0 && {
 				id: 'learning-tips',
 				label: 'Learning Tips',
@@ -108,6 +87,7 @@
 				icon: Lightbulb,
 				disabled: false
 			},
+
 			!isEmpty(feedbacks) && {
 				id: 'feedback',
 				label: 'Feedback',
@@ -115,34 +95,8 @@
 				icon: MessageSquare,
 				disabled: false
 			}
-		]) satisfies Tab[];
-	});
-
-	// Learning tips by category
-	const learningTipsByCategory = $derived.by(() => {
-		return {
-			grammar: allGrammarTips.length,
-			vocabulary: allVocabularyTips.length,
-			phrases: allPhraseTips.length
-		};
-	});
-
-	// Prepare summary data for OverviewTab
-	const summaryData = $derived<ConversationSummaryData>({
-		messages,
-		userMessages,
-		aiMessages,
-		feedbacks,
-		totalMessages: messages.length,
-		totalLearningTips,
-		totalMistakes,
-		totalStrengths,
-		totalSuggestions,
-		mistakesBySeverity,
-		learningTipsByCategory,
-		averageUserMessageCharacters,
-		averageAiMessageCharacters
-	});
+		])
+	);
 </script>
 
 <div class="flex flex-col h-full min-h-0">
@@ -163,7 +117,7 @@
 	<div class="flex-1 min-h-0 flex flex-col">
 		<!-- Overview Tab -->
 		{#if activeMainTab === 'overview'}
-			<OverviewTab data={summaryData} />
+			<OverviewTab />
 		{/if}
 
 		<!-- Learning Tips Tab -->

@@ -1,28 +1,32 @@
 <script lang="ts">
-	import isEmpty from 'lodash/isEmpty';
 	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
-	import type { ConversationSummaryData } from '../conversation-summary-tabs.types';
 	import { MessageStatistics, MistakesSeverity, PerformanceScores } from './sections';
+	import { getMessagesContext } from '$conversations/pages/session/contexts/messages-context.svelte';
+	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
+	import type {
+		CompactConversationAiMessage,
+		CompactConversationUserMessage
+	} from '$lib/types/conversation/domain/conversation-message';
 
-	interface Props {
-		data: ConversationSummaryData;
-	}
+	const messagesContext = getMessagesContext();
 
-	let { data }: Props = $props();
+	const messages = $derived(messagesContext.messages);
+
+	const userMessages: CompactConversationUserMessage[] = $derived(
+		messages.filter((msg) => msg.sender === 'USER')
+	);
+	const aiMessages: CompactConversationAiMessage[] = $derived(
+		messages.filter((msg) => msg.sender === 'AI')
+	);
+	const feedbacks: ConversationUserMessageFeedbackDTO[] = $derived(
+		userMessages.map((msg) => msg.feedback).filter((f) => f !== null)
+	);
 </script>
 
 <ScrollableWrapper wrapperClass="min-h-0" contentClass="px-0">
-	<MessageStatistics userMessages={data.userMessages} aiMessages={data.aiMessages} />
+	<MessageStatistics {userMessages} {aiMessages} />
 
-	<PerformanceScores userMessages={data.userMessages} feedbacks={data.feedbacks} />
+	<PerformanceScores {userMessages} {feedbacks} />
 
-	<!-- Mistake Severity Summary -->
-	<MistakesSeverity feedbacks={data.feedbacks} />
-	<!-- Empty State -->
-	{#if isEmpty(data.feedbacks) && data.totalLearningTips === 0}
-		<div class="text-center py-8 text-muted">
-			<p>No data available yet.</p>
-			<p class="text-muted-small mt-2">Send messages to receive feedback and see statistics here.</p>
-		</div>
-	{/if}
+	<MistakesSeverity {feedbacks} />
 </ScrollableWrapper>
