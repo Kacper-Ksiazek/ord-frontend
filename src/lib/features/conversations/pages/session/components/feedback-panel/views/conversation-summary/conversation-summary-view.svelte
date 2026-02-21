@@ -60,19 +60,6 @@
 		allGrammarTips.length + allVocabularyTips.length + allPhraseTips.length
 	);
 
-	// Aggregate all feedback items
-	const allMistakes = $derived.by(() => {
-		return flatMap(feedbacks, (f) => f.mistakes ?? []);
-	});
-
-	const allStrengths = $derived.by(() => {
-		return flatMap(feedbacks, (f) => f.strengths ?? []);
-	});
-
-	const allSuggestions = $derived.by(() => {
-		return flatMap(feedbacks, (f) => f.suggestions ?? []);
-	});
-
 	// Main tabs
 	let activeMainTab = $state<'overview' | 'learning-tips' | 'feedback'>('overview');
 
@@ -127,14 +114,7 @@
 
 		<!-- Feedback Tab -->
 		{#if activeMainTab === 'feedback'}
-			<FeedbackTab
-				{allMistakes}
-				{allStrengths}
-				{allSuggestions}
-				{totalMistakes}
-				{totalStrengths}
-				{totalSuggestions}
-			/>
+			<FeedbackTab />
 		{/if}
 	</div>
 </div>
