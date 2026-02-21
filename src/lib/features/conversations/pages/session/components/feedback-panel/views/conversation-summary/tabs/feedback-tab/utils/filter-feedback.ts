@@ -5,11 +5,12 @@ export function filterFeedback(
 	items: AggregatedFeedbackItem[],
 	filters: FeedbackTabFilters
 ): AggregatedFeedbackItem[] {
-	const { tab, severity, searchQuery } = filters;
+	const { tab, severity, suggestionType, searchQuery } = filters;
 
 	const isCategoryFilterApplicable = tab !== 'ALL';
 	const isSearchFilterApplicable = searchQuery.trim() !== '';
 	const isMistakeSeverityFilterApplicable = tab === 'MISTAKES' && severity !== 'ALL';
+	const isSuggestionTypeFilterApplicable = tab === 'SUGGESTIONS' && suggestionType !== 'ALL';
 
 	return items.filter((item) => {
 		const conditions: boolean[] = [];
@@ -22,12 +23,12 @@ export function filterFeedback(
 			conditions.push(item.type === 'MISTAKES' && item.data.severity === severity);
 		}
 
-		if (isSearchFilterApplicable) {
-			conditions.push(item.searchableText.includes(searchQuery.trim().toLowerCase()));
+		if (isSuggestionTypeFilterApplicable) {
+			conditions.push(item.type === 'SUGGESTIONS' && item.data.suggestionType === suggestionType);
 		}
 
-		if (conditions.every(Boolean)) {
-			console.log({ item, conditions });
+		if (isSearchFilterApplicable) {
+			conditions.push(item.searchableText.includes(searchQuery.trim().toLowerCase()));
 		}
 
 		return conditions.every(Boolean);
