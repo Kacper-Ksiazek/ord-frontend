@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { IconCard } from '$lib/components/cards/icon-card';
+	import type { IconCardVariant } from '$lib/components/cards/icon-card';
 	import type { FeedbackTabFilters } from '../../../feedback-tab.types';
-	import { SubcategoryStatCard } from '../../subcategory-stat-card';
 	import type { AggregatedFeedbackItem } from '../../../utils/aggregate-feedback';
 	import type { AggregatedSuggestion } from '../../../utils/aggregate-feedback/aggregate-feedback.types';
 	import type { ConversationMessageSuggestionType } from '$lib/types/conversation/domain/conversation-message-feedback';
+	import { BookOpen, Layers } from 'lucide-svelte';
 
 	type SuggestionTypeCounts = Record<ConversationMessageSuggestionType, number>;
 
@@ -46,13 +48,46 @@
 
 		return result;
 	});
+
+	function getCardConfig(type: ConversationMessageSuggestionType) {
+		const config: Record<
+			ConversationMessageSuggestionType,
+			{
+				title: string;
+				variant: IconCardVariant;
+				Icon: LucideIcon;
+			}
+		> = {
+			VOCABULARY: {
+				title: 'Vocabulary',
+				variant: 'purple' as IconCardVariant,
+				Icon: BookOpen
+			},
+			STRUCTURE: {
+				title: 'Structure',
+				variant: 'purple' as IconCardVariant,
+				Icon: Layers
+			}
+		};
+
+		return config[type];
+	}
 </script>
 
 {#each suggestionTypeCards as card (card.type)}
-	<SubcategoryStatCard
-		type={card.type}
-		count={card.count}
-		isCardActive={filters.suggestionType === card.type}
-		onSelect={selectSuggestionType}
-	/>
+	{@const config = getCardConfig(card.type)}
+	{@const isDisabled = card.count === 0}
+
+	<IconCard
+		title={config.title}
+		value={card.count ?? '-'}
+		variant={config.variant}
+		isActive={filters.suggestionType === card.type}
+		disabled={isDisabled}
+		onclick={() => selectSuggestionType(card.type)}
+	>
+		{#snippet icon({ className })}
+			<config.Icon class={className} />
+		{/snippet}
+	</IconCard>
 {/each}

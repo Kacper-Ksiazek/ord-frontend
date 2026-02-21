@@ -1,9 +1,11 @@
 <script lang="ts">
+	import { IconCard } from '$lib/components/cards/icon-card';
+	import type { IconCardVariant } from '$lib/components/cards/icon-card';
 	import type { FeedbackTabFilters } from '../../../feedback-tab.types';
-	import { SubcategoryStatCard } from '../../subcategory-stat-card';
 	import type { ConversationMessageMistakeSeverity } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import type { AggregatedFeedbackItem } from '../../../utils/aggregate-feedback';
 	import type { AggregatedMistake } from '../../../utils/aggregate-feedback/aggregate-feedback.types';
+	import { CircleAlert, TriangleAlert, CircleX } from 'lucide-svelte';
 
 	type MistakeSeverityCounts = Record<ConversationMessageMistakeSeverity, number>;
 
@@ -55,13 +57,50 @@
 
 		return result;
 	});
+
+	function getCardConfig(severity: ConversationMessageMistakeSeverity) {
+		const config: Record<
+			ConversationMessageMistakeSeverity,
+			{
+				title: string;
+				variant: IconCardVariant;
+				Icon: LucideIcon;
+			}
+		> = {
+			MINOR: {
+				title: 'Minor',
+				variant: 'red' as IconCardVariant,
+				Icon: CircleAlert
+			},
+			MODERATE: {
+				title: 'Moderate',
+				variant: 'red' as IconCardVariant,
+				Icon: TriangleAlert
+			},
+			CRITICAL: {
+				title: 'Critical',
+				variant: 'red' as IconCardVariant,
+				Icon: CircleX
+			}
+		};
+
+		return config[severity];
+	}
 </script>
 
 {#each mistakeSeverityCards as card (card.severity)}
-	<SubcategoryStatCard
-		severity={card.severity}
-		count={card.count}
-		isCardActive={filters.severity === card.severity}
-		onSelect={selectMistakeSeverity}
-	/>
+	{@const config = getCardConfig(card.severity)}
+	{@const isDisabled = card.count === 0}
+	<IconCard
+		title={config.title}
+		value={card.count ?? '-'}
+		variant={config.variant}
+		isActive={filters.severity === card.severity}
+		disabled={isDisabled}
+		onclick={() => selectMistakeSeverity(card.severity)}
+	>
+		{#snippet icon({ className })}
+			<config.Icon class={className} />
+		{/snippet}
+	</IconCard>
 {/each}
