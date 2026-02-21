@@ -1,14 +1,17 @@
+import round from 'lodash/round';
 import type {
 	ConversationMessageMistake,
 	ConversationMessageMistakeSeverity
 } from '$lib/types/conversation/domain/conversation-message-feedback';
+import { MISTAKE_SEVERITY_CHART_COLORS_MAP } from '$lib/features/conversations/pages/session/consts/mistake-severity-colors';
 
 export type MistakeStats = Record<
 	ConversationMessageMistakeSeverity,
 	{
 		label: string;
+		color: string;
 		count: number;
-		fraction: Percentage;
+		fraction: number;
 	}
 >;
 
@@ -19,16 +22,19 @@ export function computeMessagesStats(mistakes: ConversationMessageMistake[]): Mi
 	return {
 		MINOR: {
 			label: 'Minor (1)',
+			color: MISTAKE_SEVERITY_CHART_COLORS_MAP.MINOR,
 			count: counts.MINOR,
 			fraction: computePercentageValue(counts.MINOR, totalMistakes)
 		},
 		MODERATE: {
 			label: 'Moderate (2)',
+			color: MISTAKE_SEVERITY_CHART_COLORS_MAP.MODERATE,
 			count: counts.MODERATE,
 			fraction: computePercentageValue(counts.MODERATE, totalMistakes)
 		},
 		CRITICAL: {
 			label: 'Critical (3)',
+			color: MISTAKE_SEVERITY_CHART_COLORS_MAP.CRITICAL,
 			count: counts.CRITICAL,
 			fraction: computePercentageValue(counts.CRITICAL, totalMistakes)
 		}
@@ -52,6 +58,6 @@ function computeMistakesBySeverity(
 	);
 }
 
-function computePercentageValue(a: number, b: number): Percentage {
-	return `${((a / b) * 100).toFixed(2)}%`;
+function computePercentageValue(a: number, b: number): number {
+	return round((a / b) * 100, 2);
 }
