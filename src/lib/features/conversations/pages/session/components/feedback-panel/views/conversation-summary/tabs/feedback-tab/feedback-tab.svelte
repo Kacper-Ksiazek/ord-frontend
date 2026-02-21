@@ -2,16 +2,15 @@
 	import isEmpty from 'lodash/isEmpty';
 	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
 	import { getMessagesContext } from '$conversations/pages/session/contexts/messages-context.svelte';
+	import { DEFAULT_FEEDBACK_FILTERS } from './constants/default-filters';
 	import type { FeedbackTabFilter, FeedbackTabFilters } from './feedback-tab.types';
 	import { aggregateFeedback, countFeedback, filterFeedback, getFeedbackCards } from './utils';
-	import { FeedbackStatCard } from './components/feedback-stat-card';
-	import FeedbackFilters from './components/feedback-filters/feedback-filters.svelte';
-	import EmptyScreen from './components/empty-screen.svelte';
+	import { FeedbackStatCard, FeedbackFilters, EmptyScreen, SubcategoryFilters } from './components';
 	import {
 		MistakeCard,
 		StrengthCard,
 		SuggestionCard
-	} from '../../../../../shared/user-message-feedback/cards';
+	} from '$conversations/pages/session/components/shared/user-message-feedback/cards';
 	import type {
 		AggregatedMistake,
 		AggregatedStrength,
@@ -26,6 +25,7 @@
 	let filters = $state<FeedbackTabFilters>({
 		tab: 'ALL',
 		severity: 'ALL',
+		suggestionType: 'ALL',
 		searchQuery: ''
 	});
 
@@ -41,13 +41,9 @@
 	const feedbackCards = $derived(getFeedbackCards(feedbackCounts));
 
 	const hasAnyFeedback = $derived(!isEmpty(allAvailableFeedback));
-	const showSeverityFilter = $derived(
-		(filters.tab === 'ALL' || filters.tab === 'MISTAKES') && hasAnyFeedback
-	);
 
 	function clearFilters() {
-		filters.severity = 'ALL';
-		filters.searchQuery = '';
+		filters = DEFAULT_FEEDBACK_FILTERS;
 	}
 
 	function selectTab(tabId: FeedbackTabFilter) {
@@ -89,10 +85,13 @@
 		{/each}
 	</div>
 
-	<FeedbackFilters {filters} {clearFilters} {showSeverityFilter} />
+	<SubcategoryFilters bind:filters filteredItems={feedbackToRender} />
 
+	<FeedbackFilters {filters} {clearFilters} />
+
+	<!-- TODO: Teraz to jest zgrupowaen, a lepiej jest wyswietlac wszystko jedno za drugim jak leci - z jakims separatatorem wiadomosci najlepiej  -->
 	{#key Object.values(filters).join('-')}
-		<ScrollableWrapper wrapperClass="min-h-0" contentClass="px-0" bind:scrollContainer>
+		<ScrollableWrapper wrapperClass="min-h-0" contentClass="px-0">
 			{#if !isEmpty(feedbackToRender)}
 				<div class="space-y-4">
 					{#each groupedFeedback.mistakes as item}
