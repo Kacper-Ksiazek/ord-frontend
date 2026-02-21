@@ -87,9 +87,10 @@
 	<div
 		class={cn(
 			'flex flex-col gap-16 w-full h-full', //
-			'absolute top-0 left-1/2 -translate-x-1/2',
+			'absolute top-0 left-1/2',
 			contentClass
 		)}
+		style="transform: translateX(calc(-50% + 0.5px));"
 	>
 		{@render children()}
 	</div>
