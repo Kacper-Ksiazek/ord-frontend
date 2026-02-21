@@ -1,5 +1,5 @@
-export interface Tab {
-	id: string | number;
+export interface Tab<T extends string | number = string | number> {
+	id: T;
 	label: string;
 	count?: number;
 	disabled?: boolean;
