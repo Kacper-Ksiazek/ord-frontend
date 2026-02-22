@@ -12,6 +12,7 @@
 	import type { LearningTipsTabFilters } from './learning-tips-tab.types';
 	import { LearningTipStatCard } from './components/learning-tip-stat-card';
 	import LearningTipFilters from './components/learning-tip-filters/learning-tip-filters.svelte';
+	import SubcategoryFilters from './components/subcategory-filters/subcategory-filters.svelte';
 	import EmptyScreen from './components/empty-screen.svelte';
 	import {
 		GrammarTipCard,
@@ -27,6 +28,7 @@
 	let filters = $state<LearningTipsTabFilters>({
 		register: 'ALL',
 		tab: 'ALL',
+		phraseType: 'ALL',
 		searchQuery: ''
 	});
 
@@ -43,11 +45,13 @@
 
 	function clearFilters() {
 		filters.register = 'ALL';
+		filters.phraseType = 'ALL';
 		filters.searchQuery = '';
 	}
 
 	function selectTab(tabId: LearningTipCategory | 'ALL') {
 		filters.tab = tabId;
+		filters.phraseType = 'ALL';
 
 		if (scrollContainer) {
 			scrollContainer.scrollTop = 0;
@@ -65,6 +69,8 @@
 		/>
 	{/each}
 </div>
+
+<SubcategoryFilters bind:filters tips={allAvailableLearningTips} />
 
 <LearningTipFilters {filters} {clearFilters} />
 
