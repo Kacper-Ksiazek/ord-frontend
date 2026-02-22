@@ -4,22 +4,25 @@
 	import type { FeedbackTabFilters } from '../../../feedback-tab.types';
 	import type { ConversationMessageMistakeSeverity } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import type { AggregatedFeedbackItem } from '../../../utils/aggregate-feedback';
-	import type { AggregatedMistake } from '../../../utils/aggregate-feedback/aggregate-feedback.types';
-	import { CircleAlert, TriangleAlert, CircleX } from 'lucide-svelte';
+	import { MISTAKE_SEVERITY_ICONS_MAP } from '$conversations/pages/session/constants/user-message-feedback/subcategory-icons';
+	import { filterFeedback } from '../../../utils/filter-feedback';
 
 	type MistakeSeverityCounts = Record<ConversationMessageMistakeSeverity, number>;
-
-	interface Props {
-		filters: FeedbackTabFilters;
-		filteredItems: AggregatedFeedbackItem[];
-	}
 
 	interface MistakeSeverityCard {
 		severity: ConversationMessageMistakeSeverity;
 		count: number;
+		title: string;
+		variant: IconCardVariant;
+		Icon: LucideIcon;
 	}
 
-	let { filters = $bindable(), filteredItems }: Props = $props();
+	interface Props {
+		filters: FeedbackTabFilters;
+		feedbacks: AggregatedFeedbackItem[];
+	}
+
+	let { filters = $bindable(), feedbacks }: Props = $props();
 
 	function selectMistakeSeverity(severity: ConversationMessageMistakeSeverity) {
 		if (filters.severity === severity) {
@@ -31,76 +34,58 @@
 	}
 
 	const mistakeSeverityCards = $derived.by(() => {
-		const counts: MistakeSeverityCounts = (filteredItems as AggregatedMistake[]).reduce(
-			(acc, item) => {
-				acc[item.data.severity] = (acc[item.data.severity] ?? 0) + 1;
+		const counts: MistakeSeverityCounts = filterFeedback(feedbacks, {
+			...filters,
+			tab: 'ALL'
+		}).reduce((acc, item) => {
+			if (item!.type !== 'MISTAKES') return acc;
 
-				return acc;
-			},
-			{} as MistakeSeverityCounts
-		);
+			acc[item.data.severity] = (acc[item.data.severity] ?? 0) + 1;
+
+			return acc;
+		}, {} as MistakeSeverityCounts);
 
 		const result: MistakeSeverityCard[] = [
 			{
 				severity: 'MINOR',
-				count: counts.MINOR
+				count: counts.MINOR,
+				title: 'Minor',
+				variant: 'red',
+				Icon: MISTAKE_SEVERITY_ICONS_MAP.MINOR
 			},
 			{
 				severity: 'MODERATE',
-				count: counts.MODERATE
+				count: counts.MODERATE,
+				title: 'Moderate',
+				variant: 'red',
+				Icon: MISTAKE_SEVERITY_ICONS_MAP.MODERATE
 			},
 			{
 				severity: 'CRITICAL',
-				count: counts.CRITICAL
+				count: counts.CRITICAL,
+				title: 'Critical',
+				variant: 'red',
+				Icon: MISTAKE_SEVERITY_ICONS_MAP.CRITICAL
 			}
 		];
 
 		return result;
 	});
-
-	function getCardConfig(severity: ConversationMessageMistakeSeverity) {
-		const config: Record<
-			ConversationMessageMistakeSeverity,
-			{
-				title: string;
-				variant: IconCardVariant;
-				Icon: LucideIcon;
-			}
-		> = {
-			MINOR: {
-				title: 'Minor',
-				variant: 'red' as IconCardVariant,
-				Icon: CircleAlert
-			},
-			MODERATE: {
-				title: 'Moderate',
-				variant: 'red' as IconCardVariant,
-				Icon: TriangleAlert
-			},
-			CRITICAL: {
-				title: 'Critical',
-				variant: 'red' as IconCardVariant,
-				Icon: CircleX
-			}
-		};
-
-		return config[severity];
-	}
 </script>
 
 {#each mistakeSeverityCards as card (card.severity)}
-	{@const config = getCardConfig(card.severity)}
 	{@const isDisabled = card.count === 0}
+
 	<IconCard
-		title={config.title}
+		title={card.title}
 		value={card.count ?? '-'}
-		variant={config.variant}
+		variant={card.variant}
 		isActive={filters.severity === card.severity}
 		disabled={isDisabled}
 		onclick={() => selectMistakeSeverity(card.severity)}
 	>
 		{#snippet icon({ className })}
-			<config.Icon class={className} />
+			<card.Icon class={className} />
 		{/snippet}
 	</IconCard>
 {/each}

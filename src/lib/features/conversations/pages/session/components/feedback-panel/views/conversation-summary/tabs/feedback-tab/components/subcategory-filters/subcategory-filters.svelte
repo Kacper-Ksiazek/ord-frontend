@@ -6,18 +6,18 @@
 
 	interface Props {
 		filters: FeedbackTabFilters;
-		filteredItems: AggregatedFeedbackItem[];
+		feedbacks: AggregatedFeedbackItem[];
 	}
 
-	let { filters = $bindable(), filteredItems }: Props = $props();
+	let { filters = $bindable(), feedbacks }: Props = $props();
 </script>
 
 <div class="flex justify-between items-center gap-2 mb-4">
 	{#if filters.tab === 'MISTAKES'}
-		<MistakeSeverityFilters bind:filters {filteredItems} />
+		<MistakeSeverityFilters bind:filters {feedbacks} />
 	{/if}
 
 	{#if filters.tab === 'SUGGESTIONS'}
-		<SuggestionTypeFilters bind:filters {filteredItems} />
+		<SuggestionTypeFilters bind:filters {feedbacks} />
 	{/if}
 </div>

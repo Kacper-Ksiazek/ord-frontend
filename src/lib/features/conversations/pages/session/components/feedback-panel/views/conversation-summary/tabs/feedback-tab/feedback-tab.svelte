@@ -21,7 +21,6 @@
 
 	const allAvailableFeedback = $derived(aggregateFeedback(messagesContext.messages));
 
-	let scrollContainer = $state<HTMLDivElement | undefined>(undefined);
 	let filters = $state<FeedbackTabFilters>({
 		tab: 'ALL',
 		severity: 'ALL',
@@ -48,10 +47,8 @@
 
 	function selectTab(tabId: FeedbackTabFilter) {
 		filters.tab = tabId;
-
-		if (scrollContainer) {
-			scrollContainer.scrollTop = 0;
-		}
+		filters.severity = 'ALL';
+		filters.suggestionType = 'ALL';
 	}
 
 	const groupedFeedback = $derived.by(() => {
@@ -85,7 +82,7 @@
 		{/each}
 	</div>
 
-	<SubcategoryFilters bind:filters filteredItems={feedbackToRender} />
+	<SubcategoryFilters bind:filters feedbacks={allAvailableFeedback} />
 
 	<FeedbackFilters {filters} {clearFilters} />
 
