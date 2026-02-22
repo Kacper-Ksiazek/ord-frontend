@@ -2,9 +2,9 @@
 	import '../../cards.css';
 	import { Badge, cn } from 'flowbite-svelte';
 	import type { ConversationMessageStrength } from '$lib/types/conversation/domain/conversation-message-feedback';
-	import { getUserMessageFeedbackColors } from '$lib/features/conversations/pages/session/consts/user-message-feedback/colors';
-	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$lib/features/conversations/pages/session/consts/user-message-feedback/icons';
-	import { EXPLANATION_ICON } from '$lib/features/conversations/pages/session/consts/icons';
+	import { getUserMessageFeedbackColors } from '$conversations/pages/session/constants/user-message-feedback/colors';
+	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$conversations/pages/session/constants/user-message-feedback/icons';
+	import { EXPLANATION_ICON } from '$conversations/pages/session/constants/icons';
 
 	interface Props {
 		strength: ConversationMessageStrength;

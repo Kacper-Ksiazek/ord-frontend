@@ -3,7 +3,7 @@ import type {
 	ConversationMessageMistake,
 	ConversationMessageMistakeSeverity
 } from '$lib/types/conversation/domain/conversation-message-feedback';
-import { MISTAKE_SEVERITY_CHART_COLORS_MAP } from '$lib/features/conversations/pages/session/consts/mistake-severity-colors';
+import { MISTAKE_SEVERITY_CHART_COLORS_MAP } from '$conversations/pages/session/constants/mistake-severity-colors';
 
 export type MistakeStats = Record<
 	ConversationMessageMistakeSeverity,

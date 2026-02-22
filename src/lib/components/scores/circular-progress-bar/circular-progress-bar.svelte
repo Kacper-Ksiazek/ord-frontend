@@ -2,7 +2,7 @@
 	import { cn } from 'flowbite-svelte';
 	import { Tween } from 'svelte/motion';
 	import { cubicOut } from 'svelte/easing';
-	import { getScoreColorClasses } from '$lib/features/conversations/pages/session/consts/score-colors';
+	import { getScoreColorClasses } from '$conversations/pages/session/constants/score-colors';
 	import type { CircularProgressBarProps } from './circular-progress-bar.types';
 
 	let {

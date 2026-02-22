@@ -3,7 +3,7 @@
 	import type { LearningTipStatCardProps } from './learning-tip-stat-card.types';
 	import { IconCard } from '$lib/components/cards/icon-card';
 	import type { IconCardVariant } from '$lib/components/cards/icon-card';
-	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/consts/ai-message-learning-tips/icons';
+	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
 	import { SigmaIcon } from 'lucide-svelte';
 
 	let { count, tabId, isCardActive, onSelect }: LearningTipStatCardProps = $props();

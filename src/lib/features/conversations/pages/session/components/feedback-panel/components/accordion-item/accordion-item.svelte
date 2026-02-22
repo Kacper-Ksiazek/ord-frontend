@@ -2,7 +2,7 @@
 	import { AccordionItem, Badge, cn } from 'flowbite-svelte';
 	import FeedbackMetricIcon from '../../../shared/user-message-feedback/user-message-feedback-metric-icon.svelte';
 	import type { AccordionItemProps } from './accordion-item.interface';
-	import { getUserMessageFeedbackColors } from '$lib/features/conversations/pages/session/consts/user-message-feedback/colors';
+	import { getUserMessageFeedbackColors } from '$conversations/pages/session/constants/user-message-feedback/colors';
 
 	let {
 		criteria,

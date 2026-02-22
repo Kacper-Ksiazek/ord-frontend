@@ -2,9 +2,9 @@
 	import '../../cards.css';
 	import { cn } from 'flowbite-svelte';
 	import type { AIMessageVocabularyTip } from '$lib/types/ongoing-conversation/api/responses';
-	import { getAiMessageLearningTipColors } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
-	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/icons';
-	import { EXPLANATION_ICON } from '$lib/features/conversations/pages/session/consts/icons';
+	import { getAiMessageLearningTipColors } from '$conversations/pages/session/constants/ai-message-learning-tips/colors';
+	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
+	import { EXPLANATION_ICON } from '$conversations/pages/session/constants/icons';
 	import LearningTipExampleSentence from './shared/learning-tip-example-sentence.svelte';
 	import TipRegisterBadge from './shared/tip-register-badge.svelte';
 	import AuthUserNativeLanguageFlag from '$lib/components/auth-user-native-language-flag.svelte';

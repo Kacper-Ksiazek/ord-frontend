@@ -2,7 +2,7 @@
 	import { cn } from 'flowbite-svelte';
 	import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/message-feedback-criteria';
 	import FeedbackMetricIcon from '$lib/features/conversations/pages/session/components/shared/user-message-feedback/user-message-feedback-metric-icon.svelte';
-	import { getUserMessageFeedbackColors } from '$lib/features/conversations/pages/session/consts/user-message-feedback/colors';
+	import { getUserMessageFeedbackColors } from '$conversations/pages/session/constants/user-message-feedback/colors';
 
 	interface MetricProps {
 		criteria: MessageFeedbackCriteria;

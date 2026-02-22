@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../../../cards.css';
-	import { getAiMessageLearningTipColors } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
-	import { LEARNING_TIP_EXAMPLE_SENTENCE_ICON } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/icons';
+	import { getAiMessageLearningTipColors } from '$conversations/pages/session/constants/ai-message-learning-tips/colors';
+	import { LEARNING_TIP_EXAMPLE_SENTENCE_ICON } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
 	import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
 
 	interface Props {

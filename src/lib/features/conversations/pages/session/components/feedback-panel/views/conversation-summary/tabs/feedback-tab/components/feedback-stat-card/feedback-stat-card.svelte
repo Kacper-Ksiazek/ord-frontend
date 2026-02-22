@@ -3,7 +3,7 @@
 	import type { FeedbackStatCardProps } from './feedback-stat-card.types';
 	import { IconCard } from '$lib/components/cards/icon-card';
 	import type { IconCardVariant } from '$lib/components/cards/icon-card';
-	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$lib/features/conversations/pages/session/consts/user-message-feedback/icons';
+	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$conversations/pages/session/constants/user-message-feedback/icons';
 	import { SigmaIcon } from 'lucide-svelte';
 
 	let { count, tabId, isCardActive, onSelect }: FeedbackStatCardProps = $props();

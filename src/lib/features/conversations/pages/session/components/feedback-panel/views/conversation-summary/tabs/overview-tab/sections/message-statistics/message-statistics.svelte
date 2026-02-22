@@ -1,6 +1,6 @@
 <script lang="ts">
 	import size from 'lodash/size';
-	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$conversations/pages/session/consts/user-message-feedback/icons';
+	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$conversations/pages/session/constants/user-message-feedback/icons';
 	import type {
 		CompactConversationAiMessage,
 		CompactConversationMessage,
@@ -8,11 +8,11 @@
 	} from '$lib/types/conversation/domain/conversation-message';
 	import MessageCard from './components/message-card.svelte';
 	import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/message-feedback-criteria';
-	import { getUserMessageFeedbackColorName } from '$conversations/pages/session/consts/user-message-feedback/colors';
+	import { getUserMessageFeedbackColorName } from '$conversations/pages/session/constants/user-message-feedback/colors';
 	import AuthUserAvatar from '$lib/components/auth-user-avatar.svelte';
 	import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
-	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/consts/ai-message-learning-tips/icons';
-	import { getAiMessageLearningTipColorName } from '$conversations/pages/session/consts/ai-message-learning-tips/colors';
+	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
+	import { getAiMessageLearningTipColorName } from '$conversations/pages/session/constants/ai-message-learning-tips/colors';
 
 	interface MessageStatisticsProps {
 		userMessages: CompactConversationUserMessage[];
