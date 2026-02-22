@@ -103,8 +103,8 @@
 	<div>
 		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Different Input Types</h3>
 		<div class="space-y-4">
-			<div>
-				<label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Email</label>
+			<label class="block">
+				<span class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Email</span>
 				<Input
 					bind:value={emailValue}
 					type="email"
@@ -112,18 +112,18 @@
 					leftAdornment={Mail}
 					ariaLabel="Email input"
 				/>
-			</div>
-			<div>
-				<label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Number</label>
+			</label>
+			<label class="block">
+				<span class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Number</span>
 				<Input
 					bind:value={numberValue}
 					type="number"
 					placeholder="Enter number"
 					ariaLabel="Number input"
 				/>
-			</div>
-			<div>
-				<label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Phone</label>
+			</label>
+			<label class="block">
+				<span class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Phone</span>
 				<Input
 					bind:value={telValue}
 					type="tel"
@@ -131,7 +131,7 @@
 					leftAdornment={User}
 					ariaLabel="Phone input"
 				/>
-			</div>
+			</label>
 		</div>
 	</div>
 </Story>
@@ -140,8 +140,8 @@
 	<div>
 		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Input States</h3>
 		<div class="space-y-4">
-			<div>
-				<label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Disabled</label>
+			<label class="block">
+				<span class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Disabled</span>
 				<Input
 					bind:value={disabledValue}
 					placeholder="Disabled input"
@@ -149,9 +149,9 @@
 					leftAdornment={User}
 					ariaLabel="Disabled input"
 				/>
-			</div>
-			<div>
-				<label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Readonly</label>
+			</label>
+			<label class="block">
+				<span class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Readonly</span>
 				<Input
 					bind:value={readonlyValue}
 					placeholder="Readonly input"
@@ -159,16 +159,16 @@
 					leftAdornment={User}
 					ariaLabel="Readonly input"
 				/>
-			</div>
-			<div>
-				<label class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Normal</label>
+			</label>
+			<label class="block">
+				<span class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Normal</span>
 				<Input
 					bind:value={basicValue}
 					placeholder="Normal input"
 					leftAdornment={User}
 					ariaLabel="Normal input"
 				/>
-			</div>
+			</label>
 		</div>
 	</div>
 </Story>
