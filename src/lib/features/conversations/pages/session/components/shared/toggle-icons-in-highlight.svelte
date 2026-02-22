@@ -27,4 +27,12 @@
 	}
 </script>
 
-<IconButton icon={Icon} ariaLabel={tooltip} {tooltip} {onClick} />
+<IconButton
+	icon={Icon}
+	ariaLabel={tooltip}
+	{tooltip}
+	{onClick}
+	type="OUTLINED"
+	variant="TEXT"
+	class="!w-8 !h-8"
+/>

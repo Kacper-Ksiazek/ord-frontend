@@ -29,7 +29,7 @@ const TailwindColorThemeMap: Partial<Record<TailwindColor, TailwindColorTheme>> 
 		text: 'text-red-500 dark:text-red-400',
 		iconColor: 'text-red-500 dark:text-red-400',
 		highlightedText:
-			'bg-red-200/50 text-red-900 hover:bg-red-300/70 dark:bg-red-900/70 dark:text-red-100 dark:hover:bg-red-600',
+			'bg-red-100/70 text-red-800 hover:bg-red-300/70 dark:bg-red-900/70 dark:text-red-100 dark:hover:bg-red-600',
 		chipBorder: 'border-red-300 dark:border-red-700'
 	},
 
@@ -40,7 +40,7 @@ const TailwindColorThemeMap: Partial<Record<TailwindColor, TailwindColorTheme>> 
 		text: 'text-green-500 dark:text-green-400',
 		iconColor: 'text-green-500 dark:text-green-400',
 		highlightedText:
-			'bg-green-200/50 text-green-900 hover:bg-green-300/70 dark:bg-green-900/70 dark:text-green-100 dark:hover:bg-green-600',
+			'bg-green-100/70 text-green-800 hover:bg-green-300/70 dark:bg-green-900/70 dark:text-green-100 dark:hover:bg-green-600',
 		chipBorder: 'border-green-300 dark:border-green-700'
 	},
 
@@ -51,7 +51,7 @@ const TailwindColorThemeMap: Partial<Record<TailwindColor, TailwindColorTheme>> 
 		text: 'text-blue-500 dark:text-blue-400',
 		iconColor: 'text-blue-500 dark:text-blue-400',
 		highlightedText:
-			'bg-blue-200/50 text-blue-900 hover:bg-blue-300/70 dark:bg-blue-900/70 dark:text-blue-100 dark:hover:bg-blue-600',
+			'bg-blue-100/70 text-blue-800 hover:bg-blue-300/70 dark:bg-blue-900/70 dark:text-blue-100 dark:hover:bg-blue-600',
 		chipBorder: 'border-blue-300 dark:border-blue-700'
 	},
 
@@ -62,7 +62,7 @@ const TailwindColorThemeMap: Partial<Record<TailwindColor, TailwindColorTheme>> 
 		text: 'text-purple-500 dark:text-purple-400',
 		iconColor: 'text-purple-500 dark:text-purple-400',
 		highlightedText:
-			'bg-purple-200/50 text-purple-900 hover:bg-purple-300/70 dark:bg-purple-900/70 dark:text-purple-100 dark:hover:bg-purple-600',
+			'bg-purple-100/70 text-purple-800 hover:bg-purple-300/70 dark:bg-purple-900/70 dark:text-purple-100 dark:hover:bg-purple-600',
 		chipBorder: 'border-purple-300 dark:border-purple-700'
 	}
 };

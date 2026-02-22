@@ -38,9 +38,9 @@
 	{id}
 	transition:fade
 	class={cn(
-		'flex flex-col gap-3 px-4 py-3 mt-2 rounded-md w-full bg-primary-100 dark:bg-primary-900 transition-all text-gray-900 dark:text-gray-100', //
+		'flex flex-col gap-3 px-4 py-3 mt-2 rounded-md w-full bg-white dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 transition-all text-gray-900 dark:text-gray-100', //
 		customClass,
-		isClickable && 'hover:bg-primary-200 dark:hover:bg-primary-800 cursor-pointer',
+		isClickable && 'hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer',
 		isGenerating && 'generation-in-progress'
 	)}
 	{...isClickable
@@ -58,7 +58,7 @@
 >
 	<div
 		class={cn(
-			'flex text-primary-700 dark:text-primary-300 items-center gap-1',
+			'flex text-gray-500 dark:text-gray-400 items-center gap-1',
 			isGenerating && 'text-gray-400 dark:text-gray-400'
 		)}
 	>

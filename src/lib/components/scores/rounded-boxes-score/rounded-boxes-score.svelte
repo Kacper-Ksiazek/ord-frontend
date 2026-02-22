@@ -11,30 +11,21 @@
 
 	const boxColor = $derived(getScoreBoxColor(score));
 
-	const boxes = Array.from({ length: 10 }, (_, i) => i + 1);
+	const fillWidth = $derived(`${score * 10}%`);
 </script>
 
-<div class={cn('flex items-center gap-2 p-1 rounded-md text-content-card')}>
-	<div class={cn('w-4 h-4 rounded-sm p-3 flex items-center justify-center shadow-sm', boxColor)}>
+<div class={cn('flex items-center gap-3 p-1 rounded-md text-content-card')}>
+	<div class={cn('w-6 h-6 rounded-full flex items-center justify-center shrink-0', boxColor)}>
 		<span class="text-xs font-bold text-white dark:text-white">
 			{score}
 		</span>
 	</div>
 
-	<span class="whitespace-nowrap min-w-[96px] flex-1">
+	<span class="whitespace-nowrap min-w-[96px] text-sm">
 		{field}
 	</span>
 
-	<div class="flex items-center gap-0.5">
-		{#each boxes as boxIndex}
-			<div
-				class={cn(
-					'w-4 h-4 rounded-sm transition-colors',
-					boxIndex <= score
-						? `${boxColor}`
-						: 'bg-gray-200 dark:bg-gray-700 border border-gray-300 dark:border-gray-600'
-				)}
-			></div>
-		{/each}
+	<div class="flex-1 h-1.5 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
+		<div class={cn('h-full rounded-full transition-all', boxColor)} style="width: {fillWidth}"></div>
 	</div>
 </div>

@@ -71,7 +71,7 @@
 	label="Analiza wiadomości"
 	tooltipContent="Kliknij, aby otworzyć podsumowanie wiadomości"
 	tooltipPlacement="left-start"
-	class={cn(isSelected ? 'bg-primary-200' : 'bg-primary-100')}
+	class={cn(isSelected && 'ring-2 ring-primary-300')}
 	onclick={handleClick}
 	isGenerating={!feedback}
 >
@@ -80,9 +80,9 @@
 			<div class="flex flex-row gap-2 flex-wrap items-center justify-between">
 				<div class="flex flex-row gap-2 flex-wrap">
 					{#each indicators as { criteria, count, label }}
-						{@const { twColor, chipBorder } = getUserMessageFeedbackColors(criteria)}
+						{@const { iconColor } = getUserMessageFeedbackColors(criteria)}
 
-						<HighlightsCountBadge {count} {label} color={twColor} class={chipBorder}>
+						<HighlightsCountBadge {count} {label} {iconColor} class="">
 							{#snippet icon()}
 								<FeedbackMetricIcon {criteria} />
 							{/snippet}

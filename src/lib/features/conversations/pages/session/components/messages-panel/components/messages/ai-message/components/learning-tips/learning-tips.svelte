@@ -62,9 +62,9 @@
 		<div class="flex flex-row gap-2 flex-wrap items-center justify-between">
 			<div class="flex flex-row gap-2 flex-wrap">
 				{#each indicators as { category, count, label }}
-					{@const { twColor, chipBorder } = getAiMessageLearningTipColors(category)}
+					{@const { iconColor } = getAiMessageLearningTipColors(category)}
 
-					<HighlightsCountBadge {count} {label} color={twColor} class={chipBorder}>
+					<HighlightsCountBadge {count} {label} {iconColor} class="">
 						{#snippet icon()}
 							<AiMessageLearningTipIcon tipCategory={category} />
 						{/snippet}

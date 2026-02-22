@@ -1,12 +1,11 @@
 <script lang="ts">
-	import { Badge, cn } from 'flowbite-svelte';
-	import type { TabsSupportedTailwindColor } from '$lib/components/navigation/tabs/tabs.types';
+	import { cn } from 'flowbite-svelte';
 	import type { Snippet } from 'svelte';
 
 	interface HighlightsCountBadgeProps {
 		count: number;
 		label: string;
-		color: TabsSupportedTailwindColor;
+		iconColor: string;
 		class: string;
 		icon: Snippet;
 	}
@@ -14,24 +13,25 @@
 	const {
 		count, //
 		label,
-		color,
+		iconColor,
 		class: className,
 		icon
 	}: HighlightsCountBadgeProps = $props();
 </script>
 
 {#if count > 0}
-	<Badge
-		{color}
+	<span
 		class={cn(
-			'flex items-center gap-1.5 py-1.5 border', //
-			'[&_svg]:w-3.5 [&_svg]:h-3.5',
+			'inline-flex items-center gap-1.5 py-1.5 px-2.5 rounded-md text-xs font-medium',
+			'bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300',
 			className
 		)}
 	>
-		{@render icon()}
+		<span class={cn('[&_svg]:w-3.5 [&_svg]:h-3.5', iconColor)}>
+			{@render icon()}
+		</span>
 
 		<span class="text-xs font-medium">{label}</span>
 		<span class="text-xs font-semibold">{count}</span>
-	</Badge>
+	</span>
 {/if}
