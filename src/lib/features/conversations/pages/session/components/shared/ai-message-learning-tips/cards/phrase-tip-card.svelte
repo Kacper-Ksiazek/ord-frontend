@@ -5,9 +5,10 @@
 		AIMessagePhraseTip,
 		PhraseType
 	} from '$lib/types/ongoing-conversation/api/responses';
-	import { getAiMessageLearningTipColors } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/colors';
-	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$lib/features/conversations/pages/session/consts/ai-message-learning-tips/icons';
-	import { EXPLANATION_ICON } from '$lib/features/conversations/pages/session/consts/icons';
+	import { getAiMessageLearningTipColors } from '$conversations/pages/session/constants/ai-message-learning-tips/colors';
+	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
+	import { PHRASE_TYPE_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/subcategory-icons';
+	import { EXPLANATION_ICON } from '$conversations/pages/session/constants/icons';
 	import LearningTipExampleSentence from './shared/learning-tip-example-sentence.svelte';
 	import TipRegisterBadge from './shared/tip-register-badge.svelte';
 	import AuthUserNativeLanguageFlag from '$lib/components/auth-user-native-language-flag.svelte';
@@ -20,6 +21,7 @@
 
 	const colors = getAiMessageLearningTipColors('PHRASES');
 	const PhraseIcon = AI_MESSAGE_LEARNING_TIP_ICONS_MAP['PHRASES'];
+	const PhraseTypeIcon = PHRASE_TYPE_ICONS_MAP[tip.phraseType];
 
 	function getPhraseTypeLabel(phraseType: PhraseType): string {
 		return phraseType === 'IDIOMATIC' ? 'Idiomatic' : 'Literal';
@@ -34,7 +36,10 @@
 			<PhraseIcon class={colors.iconColor} />
 			<span class="flex-1">{tip.phrase}</span>
 
-			<Badge color={colors.twColor}>{getPhraseTypeLabel(tip.phraseType)}</Badge>
+			<Badge color={colors.twColor} class="flex items-center gap-1">
+				<PhraseTypeIcon class="w-3 h-3" />
+				{getPhraseTypeLabel(tip.phraseType)}
+			</Badge>
 			<TipRegisterBadge register={tip.register} color={colors.twColor} />
 		</div>
 

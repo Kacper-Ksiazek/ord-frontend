@@ -3,8 +3,9 @@
 	import { Badge, cn } from 'flowbite-svelte';
 	import type { ConversationMessageMistake } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import { Check, X } from 'lucide-svelte';
-	import { getUserMessageFeedbackColors } from '$lib/features/conversations/pages/session/consts/user-message-feedback/colors';
-	import { EXPLANATION_ICON } from '$lib/features/conversations/pages/session/consts/icons';
+	import { getUserMessageFeedbackColors } from '$conversations/pages/session/constants/user-message-feedback/colors';
+	import { EXPLANATION_ICON } from '$conversations/pages/session/constants/icons';
+	import { MISTAKE_SEVERITY_ICONS_MAP } from '$conversations/pages/session/constants/user-message-feedback/subcategory-icons';
 	import { MistakeSeverityIndicator } from '$lib/components/scores';
 
 	interface Props {
@@ -14,13 +15,17 @@
 	let { mistake }: Props = $props();
 
 	const { cardBg, cardBorder, twColor, iconColor } = getUserMessageFeedbackColors('MISTAKES');
+	const SeverityIcon = MISTAKE_SEVERITY_ICONS_MAP[mistake.severity];
 </script>
 
 <div class={cn('feedback-card-container', cardBg, cardBorder)}>
 	<div class="feedback-card-header">
 		<Badge color={twColor}>{mistake.errorType}</Badge>
 
-		<MistakeSeverityIndicator severity={mistake.severity} />
+		<div class="flex items-start gap-2">
+			<SeverityIcon class={cn('w-5 h-5 mt-0.5', iconColor)} />
+			<MistakeSeverityIndicator severity={mistake.severity} />
+		</div>
 	</div>
 
 	<div class="feedback-card-section">

@@ -3,9 +3,10 @@
 	import { Badge, cn } from 'flowbite-svelte';
 	import type { ConversationMessageSuggestion } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import { ArrowRight } from 'lucide-svelte';
-	import { getUserMessageFeedbackColors } from '$lib/features/conversations/pages/session/consts/user-message-feedback/colors';
-	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$lib/features/conversations/pages/session/consts/user-message-feedback/icons';
-	import { EXPLANATION_ICON } from '$lib/features/conversations/pages/session/consts/icons';
+	import { getUserMessageFeedbackColors } from '$conversations/pages/session/constants/user-message-feedback/colors';
+	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$conversations/pages/session/constants/user-message-feedback/icons';
+	import { SUGGESTION_TYPE_ICONS_MAP } from '$conversations/pages/session/constants/user-message-feedback/subcategory-icons';
+	import { EXPLANATION_ICON } from '$conversations/pages/session/constants/icons';
 
 	interface Props {
 		suggestion: ConversationMessageSuggestion;
@@ -15,6 +16,7 @@
 
 	const { cardBg, cardBorder, twColor, iconColor } = getUserMessageFeedbackColors('SUGGESTIONS');
 	const SuggestionIcon = USER_MESSAGE_FEEDBACK_ICONS_MAP['SUGGESTIONS'];
+	const SuggestionTypeIcon = SUGGESTION_TYPE_ICONS_MAP[suggestion.suggestionType];
 </script>
 
 <div class={cn('feedback-card-container', cardBg, cardBorder)}>
@@ -24,7 +26,10 @@
 			<SuggestionIcon class={iconColor} />
 			<span class="flex-1">{suggestion.original}</span>
 
-			<Badge color={twColor}>{suggestion.suggestionType}</Badge>
+			<Badge color={twColor} class="flex items-center gap-1">
+				<SuggestionTypeIcon class="w-3 h-3" />
+				{suggestion.suggestionType}
+			</Badge>
 		</div>
 	</div>
 
