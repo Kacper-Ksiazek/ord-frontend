@@ -1,20 +1,21 @@
 <script lang="ts">
 	import { Chart } from '@flowbite-svelte-plugins/chart';
 	import type { ApexOptions } from 'apexcharts';
-	import flatMap from 'lodash/flatMap';
-	import type {
-		ConversationMessageMistake,
-		ConversationUserMessageFeedbackDTO
-	} from '$lib/types/conversation/domain/conversation-message-feedback';
 	import { type MistakeStats } from '../utils/compute-message-stats';
 
 	interface Props {
 		mistakeStats: MistakeStats;
 	}
 
+	type StatsChartOptions = {
+		series: number[];
+		labels: string[];
+		colors: string[];
+	};
+
 	const { mistakeStats }: Props = $props();
 
-	const statsChartOptions: Pick<ApexOptions, 'series' | 'labels' | 'colors'> = $derived(
+	const statsChartOptions: StatsChartOptions = $derived(
 		Object.values(mistakeStats).reduce(
 			(acc, s) => {
 				acc.series.push(s.fraction);
@@ -23,7 +24,7 @@
 
 				return acc;
 			},
-			{ series: [], labels: [], colors: [] }
+			{ series: [], labels: [], colors: [] } as StatsChartOptions
 		)
 	);
 
