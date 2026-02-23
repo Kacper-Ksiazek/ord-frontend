@@ -30,7 +30,7 @@
 				class="w-full flex-1 bg-gray-50 dark:bg-gray-800/50 rounded-lg border-2 border-dashed border-gray-200 dark:border-gray-700 flex flex-col items-center justify-center gap-4 p-8"
 			>
 				<ConversationTypeIcon
-					conversationType={getCreateConversationPayload().type!}
+					conversationType={getCreateConversationPayload().type ?? 'SMALL_TALK'}
 					class="w-24 h-24 text-gray-300 dark:text-gray-600"
 				/>
 				<div class="text-center">
@@ -44,7 +44,7 @@
 			</div>
 		{/if}
 
-		{#each topicsForSelectedConversationType as topic, index}
+		{#each topicsForSelectedConversationType as topic, index (index)}
 			{@const payload = getCreateConversationPayload()}
 			<TopicRow
 				{index}

@@ -25,6 +25,7 @@
 	const canGoNext = $derived.by(() => {
 		const stepConfig = steps[currentStep];
 		if (!stepConfig?.validate) return true;
+
 		return stepConfig.validate();
 	});
 
@@ -64,7 +65,7 @@
 		</div>
 
 		<div class="flex items-center w-full gap-2 h-2.5">
-			{#each steps as _, index}
+			{#each steps as _step, index (index)}
 				{@const isActive = index === currentStep}
 				{@const isCompleted = index < currentStep}
 

@@ -60,7 +60,7 @@
 </script>
 
 <div class="flex justify-between items-center gap-2 mb-4">
-	{#each learningTipCards as card}
+	{#each learningTipCards as card (card.tabId)}
 		<LearningTipStatCard
 			count={card.count}
 			tabId={card.tabId}
@@ -77,7 +77,7 @@
 <ScrollableWrapper wrapperClass="min-h-0" contentClass="px-0" bind:scrollContainer>
 	{#if !isEmpty(tipsToRender)}
 		<div class="space-y-4">
-			{#each tipsToRender as tip}
+			{#each tipsToRender as tip, i (i)}
 				{#if tip.type === 'GRAMMAR'}
 					<GrammarTipCard tip={tip.data} />
 				{:else if tip.type === 'VOCABULARY'}

@@ -10,8 +10,6 @@
 
 	let { class: className = '' }: Props = $props();
 
-	$inspect(className);
-
 	function handleClick(event: MouseEvent) {
 		themeStore.toggle();
 		(event.currentTarget as HTMLButtonElement).blur();

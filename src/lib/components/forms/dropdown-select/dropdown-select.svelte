@@ -52,7 +52,7 @@
 	isOpen={dropdownOpen}
 	class={cn('bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600', dropdownClass)}
 >
-	{#each options as option}
+	{#each options as option (option.value)}
 		{@const Icon = option.icon}
 		{@const isSelected = value === option.value}
 

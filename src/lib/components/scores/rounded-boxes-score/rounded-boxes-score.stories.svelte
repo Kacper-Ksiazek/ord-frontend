@@ -16,7 +16,7 @@
 
 <Story name="All Scores">
 	<div class="max-w-md mx-auto space-y-2">
-		{#each scores as score}
+		{#each scores as score (score)}
 			<RoundedBoxesScore field="Example Field" {score} />
 		{/each}
 	</div>

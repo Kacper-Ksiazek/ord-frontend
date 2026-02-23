@@ -108,7 +108,7 @@
 
 			<div class="w-[512px] aspect-square">
 				<AIInterlocutorAvatar
-					avatarId={payload.aiInterlocutorAvatarId!}
+					avatarId={payload.aiInterlocutorAvatarId ?? ''}
 					size="fullsize"
 					class="rounded-full"
 				/>

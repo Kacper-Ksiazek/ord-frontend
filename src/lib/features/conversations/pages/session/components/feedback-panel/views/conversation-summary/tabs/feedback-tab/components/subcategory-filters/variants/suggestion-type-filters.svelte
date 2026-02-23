@@ -38,7 +38,7 @@
 			...filters,
 			tab: 'ALL'
 		}).reduce((acc, item) => {
-			if (item!.type !== 'SUGGESTIONS') return acc;
+			if (item?.type !== 'SUGGESTIONS') return acc;
 
 			acc[item.data.suggestionType] = (acc[item.data.suggestionType] ?? 0) + 1;
 

@@ -44,7 +44,7 @@
 	</div>
 
 	<div class="flex gap-2">
-		{#each stats as stat}
+		{#each stats as stat, i (i)}
 			{@const colors = getTailwindColorTheme(stat.color)}
 
 			<div

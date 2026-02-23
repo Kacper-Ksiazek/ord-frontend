@@ -28,6 +28,7 @@
 			header: m['features.conversation.create.step-1.header'](),
 			validate: () => {
 				const payload = getCreateConversationPayload();
+
 				return !!payload.type;
 			}
 		},
@@ -36,6 +37,7 @@
 			header: m['features.conversation.create.step-2.header'](),
 			validate: () => {
 				const payload = getCreateConversationPayload();
+
 				return !!payload.tone;
 			}
 		},
@@ -44,6 +46,7 @@
 			header: m['features.conversation.create.step-3.header'](),
 			validate: () => {
 				const payload = getCreateConversationPayload();
+
 				return !!payload.topic;
 			}
 		},
@@ -64,6 +67,7 @@
 		// Validate required fields
 		if (!payload.type || !payload.topic || !payload.language) {
 			error = 'Please complete all required fields';
+
 			return;
 		}
 

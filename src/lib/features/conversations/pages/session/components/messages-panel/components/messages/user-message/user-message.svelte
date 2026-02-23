@@ -32,7 +32,7 @@
 	{#snippet content()}
 		<p>
 			{#if highlightedParts && message.feedback}
-				{#each highlightedParts as part, index}
+				{#each highlightedParts as part, index (index)}
 					{#if part.highlight}
 						{@const id = `highlight-${messageIndex}-${part.highlight}-${index}`}
 

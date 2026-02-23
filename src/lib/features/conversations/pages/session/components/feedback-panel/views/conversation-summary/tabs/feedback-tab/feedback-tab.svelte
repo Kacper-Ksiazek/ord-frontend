@@ -72,7 +72,7 @@
 
 {#if hasAnyFeedback}
 	<div class="flex justify-between items-center gap-2 mb-4">
-		{#each feedbackCards as card}
+		{#each feedbackCards as card (card.tabId)}
 			<FeedbackStatCard
 				count={card.count}
 				tabId={card.tabId}
@@ -91,15 +91,15 @@
 		<ScrollableWrapper wrapperClass="min-h-0" contentClass="px-0">
 			{#if !isEmpty(feedbackToRender)}
 				<div class="space-y-4">
-					{#each groupedFeedback.mistakes as item}
+					{#each groupedFeedback.mistakes as item, i (i)}
 						<MistakeCard mistake={item.data} />
 					{/each}
 
-					{#each groupedFeedback.strengths as item}
+					{#each groupedFeedback.strengths as item, i (i)}
 						<StrengthCard strength={item.data} />
 					{/each}
 
-					{#each groupedFeedback.suggestions as item}
+					{#each groupedFeedback.suggestions as item, i (i)}
 						<SuggestionCard suggestion={item.data} />
 					{/each}
 				</div>

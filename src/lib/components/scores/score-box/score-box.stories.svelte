@@ -20,7 +20,7 @@
 		<div class="max-w-4xl mx-auto">
 			<h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Score Box Colors (0-10)</h2>
 			<div class="flex flex-wrap items-center gap-4">
-				{#each scores as score}
+				{#each scores as score (score)}
 					<div class="flex flex-col items-center gap-2">
 						<ScoreBox {score} />
 						<span class="text-xs text-gray-600 dark:text-gray-400">{score ?? 'null'}</span>

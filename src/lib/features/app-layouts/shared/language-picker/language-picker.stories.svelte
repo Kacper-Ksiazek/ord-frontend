@@ -10,12 +10,7 @@
 	import { getLocale } from '$lib/paraglide/runtime';
 	import LanguagePicker from './language-picker.svelte';
 
-	let currentLocale = $state(getLocale());
-
-	// Update local state when language changes
-	$effect(() => {
-		currentLocale = getLocale();
-	});
+	const currentLocale = $derived(getLocale());
 </script>
 
 <Story name="Default">

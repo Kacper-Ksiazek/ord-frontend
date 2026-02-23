@@ -39,6 +39,7 @@
 
 		if (inputValue && !/^\d$/.test(inputValue)) {
 			target.value = digits[index] || '';
+
 			return;
 		}
 
@@ -112,7 +113,7 @@
 </script>
 
 <div class="flex gap-2 justify-center" role="group" aria-label="OTP Input">
-	{#each digits as digit, index}
+	{#each digits as digit, index (index)}
 		<input
 			bind:this={inputs[index]}
 			type="text"

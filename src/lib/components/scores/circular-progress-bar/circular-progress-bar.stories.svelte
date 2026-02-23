@@ -18,7 +18,7 @@
 		<div class="max-w-4xl mx-auto">
 			<h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Score Ratings (1-10)</h2>
 			<div class="grid grid-cols-5 gap-8">
-				{#each scores as score}
+				{#each scores as score (score)}
 					<CircularProgressBar label="Score {score}" {score} />
 				{/each}
 			</div>

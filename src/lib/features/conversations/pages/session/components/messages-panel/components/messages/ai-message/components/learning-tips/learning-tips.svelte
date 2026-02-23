@@ -45,8 +45,6 @@
 		count: number;
 		label: string;
 	}[];
-
-	const hasTips = indicators.length > 0;
 </script>
 
 <AiPostProcessActionBase
@@ -61,7 +59,7 @@
 	{#if learningTips}
 		<div class="flex flex-row gap-2 flex-wrap items-center justify-between">
 			<div class="flex flex-row gap-2 flex-wrap">
-				{#each indicators as { category, count, label }}
+				{#each indicators as { category, count, label } (category)}
 					{@const { iconColor } = getAiMessageLearningTipColors(category)}
 
 					<HighlightsCountBadge {count} {label} {iconColor} class="">

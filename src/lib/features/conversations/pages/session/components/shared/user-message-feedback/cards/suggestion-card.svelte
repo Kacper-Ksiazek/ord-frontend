@@ -36,7 +36,7 @@
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Alternatives:</p>
 		<ul class="space-y-2">
-			{#each suggestion.alternatives as alternative}
+			{#each suggestion.alternatives as alternative (alternative)}
 				<li class="feedback-card-text-box variant-neutral">
 					<ArrowRight class={iconColor} />
 					<span>{alternative}</span>

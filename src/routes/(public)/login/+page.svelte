@@ -21,6 +21,7 @@
 
 		if (!email || !email.includes('@')) {
 			error = m['auth.login.error_invalid_email']();
+
 			return;
 		}
 
@@ -41,6 +42,7 @@
 
 		if (!otpCode || otpCode.length !== 6) {
 			error = m['auth.login.error_invalid_otp']();
+
 			return;
 		}
 

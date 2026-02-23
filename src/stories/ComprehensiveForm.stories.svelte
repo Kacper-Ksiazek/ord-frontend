@@ -256,7 +256,7 @@
 
 			<!-- Breadcrumb Navigation -->
 			<Breadcrumb class="mb-6">
-				{#each steps as step}
+				{#each steps as step (step.number)}
 					<BreadcrumbItem
 						home={step.number === 1}
 						class={currentStep === step.number ? 'font-bold' : ''}
@@ -628,7 +628,7 @@
 							<div>
 								<Label class="mb-3">Interests (Select all that apply)</Label>
 								<div class="grid grid-cols-2 md:grid-cols-3 gap-3">
-									{#each ['Technology', 'Design', 'Business', 'Science', 'Arts', 'Sports'] as interest}
+									{#each ['Technology', 'Design', 'Business', 'Science', 'Arts', 'Sports'] as interest (interest)}
 										<Checkbox
 											checked={formData.interests.includes(interest)}
 											onchange={() => toggleInterest(interest)}
@@ -642,14 +642,14 @@
 							<div>
 								<Label class="mb-3">Skills</Label>
 								<div class="flex flex-wrap gap-2 mb-3">
-									{#each formData.skills as skill}
+									{#each formData.skills as skill (skill)}
 										<Badge color="blue" large dismissable onclose={() => toggleSkill(skill)}>
 											{skill}
 										</Badge>
 									{/each}
 								</div>
 								<div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-									{#each ['JavaScript', 'TypeScript', 'React', 'Vue', 'Svelte', 'Node.js', 'Python', 'Java'] as skill}
+									{#each ['JavaScript', 'TypeScript', 'React', 'Vue', 'Svelte', 'Node.js', 'Python', 'Java'] as skill (skill)}
 										<Button
 											size="sm"
 											outline={!formData.skills.includes(skill)}

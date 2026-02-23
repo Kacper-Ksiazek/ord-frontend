@@ -19,6 +19,7 @@
 				acc.grammar += f.grammar;
 				acc.vocabulary += f.vocabulary;
 				acc.naturalness += f.naturalness;
+
 				return acc;
 			},
 			{ grammar: 0, vocabulary: 0, naturalness: 0 } satisfies PerformanceMetrics

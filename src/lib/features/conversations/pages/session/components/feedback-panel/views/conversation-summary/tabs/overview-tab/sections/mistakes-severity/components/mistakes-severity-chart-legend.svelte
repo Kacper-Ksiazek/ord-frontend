@@ -10,13 +10,14 @@
 	function getMistakesCountLabel(count: number): string {
 		if (count === 0) return 'No mistakes';
 		if (count === 1) return '1 mistake';
+
 		return `${count} mistakes`;
 	}
 </script>
 
 <div class="p-4 rounded-lg flex flex-col justify-center">
 	<div class="space-y-3">
-		{#each Object.entries(mistakeStats) as [severity, stats]}
+		{#each Object.entries(mistakeStats) as [severity, stats] (severity)}
 			<div class="flex items-center gap-3">
 				<div class="w-4 h-4 rounded-full shrink-0" style="background-color: {stats.color}"></div>
 

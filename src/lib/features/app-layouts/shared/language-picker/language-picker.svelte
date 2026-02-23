@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Dropdown, DropdownItem, cn } from 'flowbite-svelte';
-	import { ChevronDown, Globe } from 'lucide-svelte';
+	import { ChevronDown } from 'lucide-svelte';
 	import { getLocale, setLocale } from '$lib/paraglide/runtime';
 	import CountryFlag from '$lib/assets/images/country_flags/country_flag.svelte';
 	import type { LanguageName } from '$auth/types';
@@ -40,7 +40,7 @@
 </button>
 
 <Dropdown class="w-40 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
-	{#each languages as language}
+	{#each languages as language (language.code)}
 		<DropdownItem
 			onclick={() => handleLanguageSelect(language.code)}
 			class={cn(

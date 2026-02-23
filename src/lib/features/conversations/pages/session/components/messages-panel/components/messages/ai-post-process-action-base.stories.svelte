@@ -37,10 +37,8 @@
 		}
 	}}
 >
-	{#snippet children()}
-		<TextWithThreeDotsAnimation
-			text="Trwa przygotowywanie materiałów edukacyjnych"
-			dotsWrapperClass="mb-1"
-		/>
-	{/snippet}
+	<TextWithThreeDotsAnimation
+		text="Trwa przygotowywanie materiałów edukacyjnych"
+		dotsWrapperClass="mb-1"
+	/>
 </Story>

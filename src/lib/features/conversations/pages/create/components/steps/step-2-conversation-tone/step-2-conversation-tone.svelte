@@ -16,7 +16,7 @@
 </p>
 
 <section class="flex flex-wrap gap-4 justify-center">
-	{#each CONVERSATION_TONES as tone}
+	{#each CONVERSATION_TONES as tone (tone)}
 		{@const isSelected = selectedPayload.tone === tone}
 		{@const { label, description } = getConversationToneMessages(tone)}
 

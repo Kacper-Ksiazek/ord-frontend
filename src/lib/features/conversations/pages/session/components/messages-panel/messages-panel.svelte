@@ -57,7 +57,7 @@
 		<ScrollableWrapper bind:scrollContainer contentClass="max-w-[1200px]" wrapperClass="mb-4">
 			<ConversationHeader />
 
-			{#each messagesContext.messages as message, index}
+			{#each messagesContext.messages as message, index (index)}
 				{#if message.sender === 'AI'}
 					{@const isLastMessage = index === messagesContext.messages.length - 1}
 

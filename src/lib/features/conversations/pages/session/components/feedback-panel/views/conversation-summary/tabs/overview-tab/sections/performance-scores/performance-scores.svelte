@@ -31,7 +31,7 @@
 				<ProgressTableHeader />
 
 				<tbody>
-					{#each userMessages as message, index}
+					{#each userMessages as message, index (index)}
 						{@const trimmedMessage =
 							message.content.length > 50 ? message.content.substring(0, 60) + '...' : message.content}
 

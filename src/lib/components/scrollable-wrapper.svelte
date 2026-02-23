@@ -34,6 +34,7 @@
 		// Don't apply mask if content doesn't scroll
 		if (!hasScroll) {
 			maskStyle = '';
+
 			return;
 		}
 

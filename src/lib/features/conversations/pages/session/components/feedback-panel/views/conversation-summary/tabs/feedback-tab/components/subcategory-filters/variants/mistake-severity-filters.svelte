@@ -38,7 +38,7 @@
 			...filters,
 			tab: 'ALL'
 		}).reduce((acc, item) => {
-			if (item!.type !== 'MISTAKES') return acc;
+			if (item?.type !== 'MISTAKES') return acc;
 
 			acc[item.data.severity] = (acc[item.data.severity] ?? 0) + 1;
 

@@ -135,7 +135,7 @@
 				<!-- Filtered Mistakes -->
 				<div class="space-y-4">
 					{#if filteredMistakes.length > 0}
-						{#each filteredMistakes as mistake}
+						{#each filteredMistakes as mistake, i (i)}
 							<MistakeCard {mistake} />
 						{/each}
 					{:else}
@@ -155,7 +155,7 @@
 			bind:open={strengthsOpen}
 		>
 			<div class="space-y-2 pt-2">
-				{#each feedback.strengths as strength}
+				{#each feedback.strengths as strength, i (i)}
 					<StrengthCard {strength} />
 				{/each}
 			</div>
@@ -182,7 +182,7 @@
 				<!-- Filtered Suggestions -->
 				<div class="space-y-4">
 					{#if filteredSuggestions.length > 0}
-						{#each filteredSuggestions as suggestion}
+						{#each filteredSuggestions as suggestion, i (i)}
 							<SuggestionCard {suggestion} />
 						{/each}
 					{:else}

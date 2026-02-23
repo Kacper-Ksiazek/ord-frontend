@@ -51,7 +51,7 @@
 		{#if message}
 			<p>
 				{#if highlightedParts && learningTips}
-					{#each highlightedParts as part, index}
+					{#each highlightedParts as part, index (index)}
 						{#if part.highlight}
 							{@const id = `learning-tip-${part.highlight}-${messageIndex}-${index}`}
 

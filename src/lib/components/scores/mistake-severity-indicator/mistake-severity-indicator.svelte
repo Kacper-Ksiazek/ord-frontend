@@ -19,7 +19,7 @@
 
 <div class={cn('flex flex-col items-center gap-0.5', className)}>
 	<div class="flex items-center gap-1">
-		{#each Array(3) as _, i}
+		{#each [0, 1, 2] as i (i)}
 			<div
 				class={cn(
 					'w-2.5 h-2.5 rounded-sm',

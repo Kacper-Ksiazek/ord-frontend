@@ -59,6 +59,7 @@
 		if (isSelected) {
 			sidepanelContext.isOpened = false;
 			sidepanelContext.feedbackPreview = null;
+
 			return;
 		}
 
@@ -79,7 +80,7 @@
 		{#if indicators.length > 0}
 			<div class="flex flex-row gap-2 flex-wrap items-center justify-between">
 				<div class="flex flex-row gap-2 flex-wrap">
-					{#each indicators as { criteria, count, label }}
+					{#each indicators as { criteria, count, label } (criteria)}
 						{@const { iconColor } = getUserMessageFeedbackColors(criteria)}
 
 						<HighlightsCountBadge {count} {label} {iconColor} class="">

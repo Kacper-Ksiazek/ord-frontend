@@ -16,7 +16,7 @@
 </p>
 
 <section class="flex flex-wrap gap-4 justify-center">
-	{#each CONVERSATION_TYPES as type}
+	{#each CONVERSATION_TYPES as type (type)}
 		{@const isSelected = selectedType.type === type}
 		{@const { label, description } = getConversationTypeMessages(type)}
 

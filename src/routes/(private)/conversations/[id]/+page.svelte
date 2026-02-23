@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { PageContentContainer } from '$lib/components/utils/page-content-container';
 	import {
 		FeedbackPanel,
 		MessagesPanel
