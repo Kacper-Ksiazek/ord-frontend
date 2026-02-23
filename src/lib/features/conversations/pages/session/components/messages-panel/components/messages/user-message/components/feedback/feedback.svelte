@@ -78,8 +78,8 @@
 >
 	{#if feedback}
 		{#if indicators.length > 0}
-			<div class="flex flex-row gap-2 flex-wrap items-center justify-between">
-				<div class="flex flex-row gap-2 flex-wrap">
+			<div class="flex flex-row gap-2 items-center justify-between">
+				<div class="flex flex-row gap-2 overflow-x-auto min-w-0">
 					{#each indicators as { criteria, count, label } (criteria)}
 						{@const { iconColor } = getUserMessageFeedbackColors(criteria)}
 
