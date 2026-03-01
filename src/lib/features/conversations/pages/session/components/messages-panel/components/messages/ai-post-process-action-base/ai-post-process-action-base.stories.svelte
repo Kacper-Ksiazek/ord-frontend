@@ -15,9 +15,7 @@
 			() => CenterComponentDecorator as any
 		],
 		args: {
-			label: 'Wskazówki do nauki',
-			tooltipContent: 'Kliknij, aby zobaczyć wskazówki do nauki',
-			onclick: undefined
+			label: 'Wskazówki do nauki'
 		},
 		argTypes: {
 			label: {
@@ -31,10 +29,7 @@
 <Story
 	name="Default"
 	args={{
-		label: 'Wskazówki do nauki',
-		onclick: () => {
-			console.log('Clicked!');
-		}
+		label: 'Wskazówki do nauki'
 	}}
 >
 	<TextWithThreeDotsAnimation

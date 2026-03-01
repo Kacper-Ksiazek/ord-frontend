@@ -6,41 +6,28 @@
 		showIconsInHighlightedParts: boolean;
 	}
 
-	interface ToggleButtonSpec {
-		Icon: LucideIcon;
-		tooltip: string;
-		onClick: () => void;
-	}
-
 	let { showIconsInHighlightedParts = $bindable() }: ToggleIconsInHighlightProps = $props();
 
-	const iconsVisibilityControlSpec: ToggleButtonSpec = $derived.by(() => {
+	const { Icon, tooltip } = $derived.by(() => {
 		if (showIconsInHighlightedParts) {
 			return {
 				Icon: Eye,
-				tooltip: 'Hide icons',
-				onClick: () => {
-					showIconsInHighlightedParts = false;
-				}
-			} satisfies ToggleButtonSpec;
+				tooltip: 'Hide icons'
+			};
 		} else {
 			return {
 				Icon: EyeOff,
-				tooltip: 'Show icons',
-				onClick: () => {
-					showIconsInHighlightedParts = true;
-				}
-			} satisfies ToggleButtonSpec;
+				tooltip: 'Show icons'
+			};
 		}
 	});
+
+	function onClick(e: MouseEvent) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		showIconsInHighlightedParts = !showIconsInHighlightedParts;
+	}
 </script>
 
-<IconButton
-	icon={iconsVisibilityControlSpec.Icon}
-	ariaLabel={iconsVisibilityControlSpec.tooltip}
-	tooltip={iconsVisibilityControlSpec.tooltip}
-	onClick={iconsVisibilityControlSpec.onClick}
-	type="OUTLINED"
-	variant="TEXT"
-	class="w-8! h-8!"
-/>
+<IconButton icon={Icon} ariaLabel={tooltip} {tooltip} {onClick} type="OUTLINED" variant="TEXT" />

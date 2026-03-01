@@ -22,17 +22,12 @@
 		}
 	});
 
-	function onClick() {
+	function onClick(e: MouseEvent) {
+		e.preventDefault();
+		e.stopPropagation();
+
 		isCollapsed = !isCollapsed;
 	}
 </script>
 
-<IconButton
-	icon={Icon}
-	ariaLabel={tooltip}
-	{tooltip}
-	{onClick}
-	type="OUTLINED"
-	variant="TEXT"
-	class="w-8! h-8!"
-/>
+<IconButton icon={Icon} ariaLabel={tooltip} {tooltip} {onClick} type="OUTLINED" variant="TEXT" />
