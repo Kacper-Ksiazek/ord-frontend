@@ -60,9 +60,9 @@
 						);
 					case 'TEXT':
 						return cn(
-							'bg-transparent text-gray-700 border border-gray-300',
-							'dark:bg-transparent dark:text-gray-300 dark:border-gray-600',
-							!disabled && 'hover:bg-gray-50 dark:hover:bg-gray-800',
+							'bg-transparent text-gray-700 border border-gray-300/50',
+							'dark:bg-transparent dark:text-gray-300 dark:border-gray-500/50',
+							!disabled && 'hover:bg-black/5 dark:hover:bg-white/5',
 							'focus:ring-gray-300 dark:focus:ring-gray-800'
 						);
 					case 'DELETE':
