@@ -142,9 +142,5 @@
 	--generation-color-to: var(--color-slate-600);
 }
 
-.text-content-card {
-	@apply bg-white/50 dark:bg-primary-500/20 border-gray-200 dark:border-gray-600;
-}
-
 /* Import typography classes */
 @import './lib/styles/typography.css';
