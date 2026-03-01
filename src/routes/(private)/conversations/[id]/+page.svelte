@@ -55,7 +55,7 @@
 	});
 </script>
 
-<div class="w-full flex-1 mx-auto flex h-full">
+<div class="w-full flex-1 mx-auto flex h-full justify-between">
 	<MessagesPanel />
 
 	<FeedbackPanel />

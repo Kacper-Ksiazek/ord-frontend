@@ -4,7 +4,7 @@
 	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
 	import { getMessagesContext } from '../../contexts/messages-context.svelte';
 	import { UserMessageTextarea } from './components/user-message-textarea';
-	import { SIDEPANEL_WIDTH } from '../constants';
+	import { getSidepanelWidth } from '../constants.svelte';
 	import { AppWindow, Columns2, ChevronLeft } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
@@ -13,7 +13,9 @@
 	const sidepanelContext = getSidepanelContext();
 	const messagesContext = getMessagesContext();
 
-	let scrollContainer: HTMLDivElement;
+	const sidepanelWidth = $derived(getSidepanelWidth());
+
+	let scrollContainer: HTMLDivElement | undefined = $state(undefined);
 
 	onMount(() => {
 		if (scrollContainer) {
@@ -27,7 +29,7 @@
 
 <div
 	class={cn('bg-transparent transition-[width] duration-300 origin-left relative px-4 pt-8')}
-	style={sidepanelContext.isOpened ? `width: calc(100% - ${SIDEPANEL_WIDTH}px)` : 'width: 100%'}
+	style={sidepanelContext.isOpened ? `width: calc(100% - ${sidepanelWidth}px)` : 'width: 100%'}
 >
 	<!-- Back Button -->
 	<TopActionButton
@@ -54,7 +56,7 @@
 		)}
 	>
 		<!-- Scrollable messages area -->
-		<ScrollableWrapper bind:scrollContainer contentClass="max-w-[1200px]" wrapperClass="mb-4">
+		<ScrollableWrapper bind:scrollContainer contentClass="max-w-[1440px] mx-auto" wrapperClass="mb-4">
 			<ConversationHeader />
 
 			{#each messagesContext.messages as message, index (index)}

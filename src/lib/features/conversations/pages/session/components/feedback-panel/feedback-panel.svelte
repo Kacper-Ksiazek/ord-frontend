@@ -2,11 +2,14 @@
 	import ContentCard from '$lib/components/utils/content-card.svelte';
 	import { cn } from 'flowbite-svelte';
 	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
-	import { SIDEPANEL_WIDTH } from '../constants';
+	import { getSidepanelWidth } from '../constants.svelte';
 	import { fade } from 'svelte/transition';
 	import { UserMessageFeedbackView, ConversationSummaryView } from './views';
 
 	const sidepanelContext = getSidepanelContext();
+	const sidepanelWidth = getSidepanelWidth();
+
+	console.log('sidepanelWidth', sidepanelWidth);
 </script>
 
 <ContentCard
@@ -14,7 +17,7 @@
 		'flex flex-col transition-transform duration-300 origin-right h-full relative rounded-none',
 		'bg-white dark:bg-gray-800 transition-[width] overflow-hidden p-0!'
 	)}
-	style={sidepanelContext.isOpened ? `width: ${SIDEPANEL_WIDTH}px` : 'width: 0px'}
+	style={sidepanelContext.isOpened ? `width: ${sidepanelWidth}px` : 'width: 0px'}
 >
 	{#if !sidepanelContext.isOpened}
 		<div

@@ -80,18 +80,17 @@
 	bind:this={scrollContainer}
 	onscroll={handleScroll}
 	class={cn(
-		'flex-1 overflow-y-auto flex flex-col gap-16 px-4 py-8 relative', //
+		'flex-1 overflow-y-auto overflow-x-hidden flex flex-col gap-16 px-4 py-8 relative', //
 		wrapperClass
 	)}
 	style={maskStyle}
 >
 	<div
 		class={cn(
-			'flex flex-col gap-16 w-full h-full', //
-			'absolute top-0 left-1/2',
+			'flex flex-col gap-16 h-full', //
+			'absolute top-0 left-0 right-0',
 			contentClass
 		)}
-		style="transform: translateX(calc(-50% + 0.5px));"
 	>
 		{@render children()}
 	</div>

@@ -110,7 +110,7 @@
 
 <div
 	class={cn(
-		'flex items-end gap-1 p-3 rounded-2xl w-full max-w-[1200px] mx-auto mb-2', //
+		'flex items-end gap-1 p-3 rounded-2xl w-full max-w-[1440px] mx-auto mb-2', //
 		'border-2 border-gray-200 dark:border-gray-700',
 		'bg-white dark:bg-slate-800',
 		isFocused && 'border-primary-300 dark:border-primary-600'
