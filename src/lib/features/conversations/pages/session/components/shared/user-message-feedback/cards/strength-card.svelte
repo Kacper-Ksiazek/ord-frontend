@@ -20,8 +20,8 @@
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Phrase:</p>
 		<div class="feedback-card-text-box variant-green">
-			<StrengthIcon class={iconColor} />
-			<span class="flex-1">{strength.phrase}</span>
+			<StrengthIcon class={cn('w-4 h-4', iconColor)} />
+			<span class="flex-1 content-long-sm">{strength.phrase}</span>
 
 			<Badge color={twColor}>{strength.strengthType}</Badge>
 		</div>
@@ -30,8 +30,8 @@
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Explanation:</p>
 		<div class="feedback-card-text-box variant-neutral">
-			<EXPLANATION_ICON class={iconColor} />
-			<span>{strength.explanation}</span>
+			<EXPLANATION_ICON class={cn('w-4 h-4', iconColor)} />
+			<span class="content-long-sm">{strength.explanation}</span>
 		</div>
 	</div>
 </div>

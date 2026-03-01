@@ -31,24 +31,24 @@
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Phrase:</p>
 		<div class="feedback-card-text-box variant-red">
-			<X class={iconColor} />
-			<span>{mistake.phrase}</span>
+			<X class={cn('w-4 h-4', iconColor)} />
+			<span class="content-long-sm">{mistake.phrase}</span>
 		</div>
 	</div>
 
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Correct form:</p>
 		<div class="feedback-card-text-box variant-green">
-			<Check class={getUserMessageFeedbackColors('STRENGTHS').iconColor} />
-			<span>{mistake.correctForm}</span>
+			<Check class={cn('w-4 h-4', getUserMessageFeedbackColors('STRENGTHS').iconColor)} />
+			<span class="content-long-sm">{mistake.correctForm}</span>
 		</div>
 	</div>
 
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Explanation:</p>
 		<div class="feedback-card-text-box variant-neutral">
-			<EXPLANATION_ICON class={iconColor} />
-			<span>{mistake.explanation}</span>
+			<EXPLANATION_ICON class={cn('w-4 h-4', iconColor)} />
+			<span class="content-long-sm">{mistake.explanation}</span>
 		</div>
 	</div>
 </div>

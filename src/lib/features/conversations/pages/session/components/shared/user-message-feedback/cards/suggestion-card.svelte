@@ -23,11 +23,11 @@
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Original:</p>
 		<div class="feedback-card-text-box variant-blue">
-			<SuggestionIcon class={iconColor} />
-			<span class="flex-1">{suggestion.original}</span>
+			<SuggestionIcon class={cn('w-4 h-4', iconColor)} />
+			<span class="flex-1 content-long-sm">{suggestion.original}</span>
 
 			<Badge color={twColor} class="flex items-center gap-1">
-				<SuggestionTypeIcon class="w-3 h-3" />
+				<SuggestionTypeIcon class="w-4 h-4" />
 				{suggestion.suggestionType}
 			</Badge>
 		</div>
@@ -38,8 +38,8 @@
 		<ul class="space-y-2">
 			{#each suggestion.alternatives as alternative (alternative)}
 				<li class="feedback-card-text-box variant-neutral">
-					<ArrowRight class={iconColor} />
-					<span>{alternative}</span>
+					<ArrowRight class={cn('w-4 h-4', iconColor)} />
+					<span class="content-long-sm">{alternative}</span>
 				</li>
 			{/each}
 		</ul>
@@ -48,8 +48,8 @@
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Explanation:</p>
 		<div class="feedback-card-text-box variant-neutral">
-			<EXPLANATION_ICON class={iconColor} />
-			<span>{suggestion.explanation}</span>
+			<EXPLANATION_ICON class={cn('w-4 h-4', iconColor)} />
+			<span class="content-long-sm">{suggestion.explanation}</span>
 		</div>
 	</div>
 </div>
