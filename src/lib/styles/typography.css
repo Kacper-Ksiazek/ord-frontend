@@ -56,7 +56,13 @@
 
 	.content-long {
 		@apply text-base text-gray-900 dark:text-gray-100;
-		@apply tracking-wide leading-9;
+		@apply tracking-wide leading-8;
+	}
+
+	.content-long-sm {
+		@apply text-sm text-gray-900 dark:text-gray-100;
+		@apply tracking-normal leading-6;
+		@apply 2xl:text-base 2xl:tracking-wide 2xl:leading-8;
 	}
 
 	/* Labels */
