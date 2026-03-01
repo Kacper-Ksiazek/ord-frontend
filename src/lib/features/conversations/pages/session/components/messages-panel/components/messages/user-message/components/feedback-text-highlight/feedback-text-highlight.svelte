@@ -186,7 +186,7 @@
 	triggeredBy={`#${id}`}
 	trigger="hover"
 	class={cn(
-		'w-[500px] bg-white dark:bg-gray-800 shadow-lg border-2 rounded-lg',
+		'w-[640px] bg-white dark:bg-gray-800 shadow-lg border-2 rounded-lg',
 		activeCardColors.cardBorder
 	)}
 	classes={{ content: 'p-2' }}
