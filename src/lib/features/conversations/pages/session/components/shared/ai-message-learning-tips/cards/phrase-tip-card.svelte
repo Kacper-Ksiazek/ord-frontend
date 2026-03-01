@@ -33,11 +33,11 @@
 		<p class="feedback-card-label">Phrase:</p>
 
 		<div class="feedback-card-text-box variant-purple flex gap-2">
-			<PhraseIcon class={colors.iconColor} />
-			<span class="flex-1">{tip.phrase}</span>
+			<PhraseIcon class={cn('w-4 h-4', colors.iconColor)} />
+			<span class="flex-1 content-long-sm">{tip.phrase}</span>
 
 			<Badge color={colors.twColor} class="flex items-center gap-1">
-				<PhraseTypeIcon class="w-3 h-3" />
+				<PhraseTypeIcon class="w-4 h-4" />
 				{getPhraseTypeLabel(tip.phraseType)}
 			</Badge>
 			<TipRegisterBadge register={tip.register} color={colors.twColor} />
@@ -45,15 +45,15 @@
 
 		<div class="feedback-card-text-box variant-neutral flex gap-2 mt-1">
 			<AuthUserNativeLanguageFlag class="w-4 h-4" />
-			<span class="flex-1">{tip.nativeLanguageEquivalent}</span>
+			<span class="flex-1 content-long-sm">{tip.nativeLanguageEquivalent}</span>
 		</div>
 	</div>
 
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Meaning:</p>
 		<div class="feedback-card-text-box variant-neutral">
-			<EXPLANATION_ICON class={colors.iconColor} />
-			<span>{tip.meaning}</span>
+			<EXPLANATION_ICON class={cn('w-4 h-4', colors.iconColor)} />
+			<span class="content-long-sm">{tip.meaning}</span>
 		</div>
 	</div>
 

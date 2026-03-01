@@ -35,7 +35,7 @@
 </script>
 
 <Badge {color} class="flex items-center gap-1">
-	<Icon class="w-3 h-3" />
+	<Icon class="w-4 h-4" />
 
 	{label}
 </Badge>

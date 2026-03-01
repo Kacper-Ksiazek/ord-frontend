@@ -23,30 +23,30 @@
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Word:</p>
 		<div class="feedback-card-text-box variant-blue flex gap-2">
-			<VocabularyIcon class={colors.iconColor} />
-			<span class="flex-1">{tip.word}</span>
+			<VocabularyIcon class={cn('w-4 h-4', colors.iconColor)} />
+			<span class="flex-1 content-long-sm">{tip.word}</span>
 
 			<TipRegisterBadge register={tip.register} color={colors.twColor} />
 		</div>
 
 		<div class="feedback-card-text-box variant-neutral flex gap-2 mt-1">
 			<AuthUserNativeLanguageFlag class="w-4 h-4" />
-			<span class="flex-1">{tip.nativeLanguageEquivalent}</span>
+			<span class="flex-1 content-long-sm">{tip.nativeLanguageEquivalent}</span>
 		</div>
 	</div>
 
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Definition:</p>
 		<div class="feedback-card-text-box variant-neutral">
-			<EXPLANATION_ICON class={colors.iconColor} />
-			<span>{tip.definition}</span>
+			<EXPLANATION_ICON class={cn('w-4 h-4', colors.iconColor)} />
+			<span class="content-long-sm">{tip.definition}</span>
 		</div>
 	</div>
 
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Usage Note:</p>
 		<div class="feedback-card-text-box variant-neutral">
-			<span>{tip.usageNote}</span>
+			<span class="content-long-sm">{tip.usageNote}</span>
 		</div>
 	</div>
 

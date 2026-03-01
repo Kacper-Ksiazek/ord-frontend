@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../../../cards.css';
+	import { cn } from 'flowbite-svelte';
 	import { getAiMessageLearningTipColors } from '$conversations/pages/session/constants/ai-message-learning-tips/colors';
 	import { LEARNING_TIP_EXAMPLE_SENTENCE_ICON } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
 	import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
@@ -42,8 +43,8 @@
 		<div class="space-y-2">
 			{#each exampleSentence as sentence (sentence)}
 				<div class="feedback-card-text-box variant-neutral">
-					<LEARNING_TIP_EXAMPLE_SENTENCE_ICON class={iconColor} />
-					<span>
+					<LEARNING_TIP_EXAMPLE_SENTENCE_ICON class={cn('w-4 h-4', iconColor)} />
+					<span class="content-long-sm">
 						{#each parseBoldText(sentence) as part (part.text)}
 							{#if part.bold}
 								<span class={highlightStyle}>{part.text}</span>

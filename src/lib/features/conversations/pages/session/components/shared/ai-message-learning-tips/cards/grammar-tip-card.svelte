@@ -23,30 +23,30 @@
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Phrase:</p>
 		<div class="feedback-card-text-box variant-green flex gap-2">
-			<GrammarIcon class={colors.iconColor} />
-			<span class="flex-1">{tip.phrase}</span>
+			<GrammarIcon class={cn('w-4 h-4', colors.iconColor)} />
+			<span class="flex-1 content-long-sm">{tip.phrase}</span>
 
 			<TipRegisterBadge register={tip.register} color={colors.twColor} />
 		</div>
 
 		<div class="feedback-card-text-box variant-neutral flex gap-2 mt-1">
 			<AuthUserNativeLanguageFlag class="w-4 h-4" />
-			<span class="flex-1">{tip.nativeLanguageEquivalent}</span>
+			<span class="flex-1 content-long-sm">{tip.nativeLanguageEquivalent}</span>
 		</div>
 	</div>
 
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Grammar Point:</p>
 		<div class="feedback-card-text-box variant-neutral">
-			<span>{tip.grammarPoint}</span>
+			<span class="content-long-sm">{tip.grammarPoint}</span>
 		</div>
 	</div>
 
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Explanation:</p>
 		<div class="feedback-card-text-box variant-neutral">
-			<EXPLANATION_ICON class={colors.iconColor} />
-			<span>{tip.explanation}</span>
+			<EXPLANATION_ICON class={cn('w-4 h-4', colors.iconColor)} />
+			<span class="content-long-sm">{tip.explanation}</span>
 		</div>
 	</div>
 
