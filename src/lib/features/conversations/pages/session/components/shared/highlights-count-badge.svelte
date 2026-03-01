@@ -22,16 +22,16 @@
 {#if count > 0}
 	<span
 		class={cn(
-			'inline-flex items-center gap-1.5 py-1.5 px-2.5 rounded-md text-xs font-medium',
-			'bg-gray-100 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300',
+			'inline-flex items-center gap-1.5 py-3 px-3 rounded-md text-xs font-medium h-8',
+			'bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300',
 			className
 		)}
 	>
-		<span class={cn('[&_svg]:w-3.5 [&_svg]:h-3.5', iconColor)}>
+		<span class={cn('[&_svg]:w-4 [&_svg]:h-4', iconColor)}>
 			{@render icon()}
 		</span>
 
-		<span class="text-xs font-medium">{label}</span>
-		<span class="text-xs font-semibold">{count}</span>
+		<span class="text-sm font-medium">{label} - </span>
+		<span class="text-sm font-semibold">{count}</span>
 	</span>
 {/if}

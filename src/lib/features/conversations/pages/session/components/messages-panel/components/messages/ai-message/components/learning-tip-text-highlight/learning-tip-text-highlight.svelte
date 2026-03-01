@@ -131,7 +131,7 @@
 	tabindex="0"
 >
 	{#if showIconsInHighlightedParts}
-		<span class="inline-flex items-center gap-1 mx-1">
+		<span class="inline-flex items-center gap-1 mx-0.5">
 			{#if isVocabularyTipAvailable}
 				<VocabularyIcon
 					class={cn(

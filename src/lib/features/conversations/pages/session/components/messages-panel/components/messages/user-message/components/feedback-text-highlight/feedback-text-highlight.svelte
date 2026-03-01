@@ -144,7 +144,7 @@
 		{@const iconColor = activeCardColors.text}
 		{@const iconSize = 'w-3 h-3'}
 
-		<span class="inline-flex items-center gap-1 mx-1">
+		<span class="inline-flex items-center gap-1 mx-0.5">
 			{#if isMistakeCardAvailable}
 				<FeedbackMetricIcon
 					criteria="MISTAKES"

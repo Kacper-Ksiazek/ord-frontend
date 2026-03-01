@@ -48,28 +48,22 @@
 
 <AiPostProcessActionBase
 	label="Wskazówki do nauki"
-	tooltipContent="Kliknij, aby otworzyć wskazówki do nauki"
-	tooltipPlacement="right-start"
 	isGenerating={!learningTips}
-	onclick={() => {
-		console.log('🔥 TODO: Implement support for the panel');
-	}}
+	bind:showIconsInHighlightedParts
 >
-	{#if learningTips}
-		<div class="flex flex-row gap-2 items-center justify-between">
-			<div class="flex flex-row gap-2 overflow-x-auto min-w-0">
-				{#each indicators as { category, count, label } (category)}
-					{@const { iconColor } = getAiMessageLearningTipColors(category)}
+	{#snippet badges()}
+		{#each indicators as { category, count, label } (category)}
+			{@const { iconColor } = getAiMessageLearningTipColors(category)}
 
-					<HighlightsCountBadge {count} {label} {iconColor} class="">
-						{#snippet icon()}
-							<AiMessageLearningTipIcon tipCategory={category} />
-						{/snippet}
-					</HighlightsCountBadge>
-				{/each}
-			</div>
-		</div>
-	{:else}
+			<HighlightsCountBadge {count} {label} {iconColor} class="">
+				{#snippet icon()}
+					<AiMessageLearningTipIcon tipCategory={category} />
+				{/snippet}
+			</HighlightsCountBadge>
+		{/each}
+	{/snippet}
+
+	{#if !learningTips}
 		<TextWithThreeDotsAnimation
 			text="Trwa przygotowywanie materiałów edukacyjnych"
 			dotsWrapperClass="mb-1"

@@ -6,14 +6,15 @@
 	interface MessageBaseProps {
 		wrapperClass?: string;
 		messageClass?: string;
+		orientation?: 'left' | 'right';
+
 		content?: Snippet;
 		footer?: Snippet;
 		avatar?: Snippet;
-		orientation?: 'left' | 'right';
 	}
 
 	const {
-		wrapperClass = '', //
+		wrapperClass = '',
 		messageClass = '',
 		orientation = 'left',
 		avatar,
@@ -36,7 +37,7 @@
 
 	<div
 		class={cn(
-			'max-w-[80%] w-full text-sm flex flex-col', //
+			'max-w-[80%] w-full flex flex-col', //
 			wrapperClass
 		)}
 		transition:fade={{ duration: 150 }}
@@ -44,11 +45,14 @@
 		{#if content}
 			<div
 				class={cn(
-					'px-4 py-2 rounded-lg leading-[26px] tracking-wide min-w-[68px] bg-slate-100', //
+					'px-4 py-2 rounded-lg min-w-[68px]', //
+					'bg-white dark:bg-slate-800',
 					messageClass
 				)}
 			>
-				{@render content()}
+				<p class="content-long">
+					{@render content()}
+				</p>
 			</div>
 		{/if}
 

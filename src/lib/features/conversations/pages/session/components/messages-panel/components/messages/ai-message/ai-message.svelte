@@ -35,8 +35,7 @@
 
 <MessageBase
 	messageClass={cn(
-		isStillGenerating && 'generation-in-progress', //
-		!isStillGenerating && 'bg-gray-50 text-gray-600 dark:bg-gray-800 dark:text-gray-200'
+		isStillGenerating && 'generation-in-progress' //
 	)}
 >
 	{#snippet avatar()}

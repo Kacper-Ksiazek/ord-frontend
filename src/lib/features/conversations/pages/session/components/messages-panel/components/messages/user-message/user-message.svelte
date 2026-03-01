@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
 	import MessageBase from '../message-base.svelte';
 	import type { CompactConversationUserMessage } from '$lib/types/conversation/domain/conversation-message';
 	import { Feedback } from './components';
@@ -25,10 +24,7 @@
 	});
 </script>
 
-<MessageBase
-	messageClass={cn('bg-slate-200 text-gray-700 w-full dark:bg-gray-700 dark:text-gray-200')}
-	orientation="right"
->
+<MessageBase orientation="right">
 	{#snippet content()}
 		<p>
 			{#if highlightedParts && message.feedback}
