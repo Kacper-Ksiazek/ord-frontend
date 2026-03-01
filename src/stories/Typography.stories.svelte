@@ -78,9 +78,21 @@
 					<code class="code text-sm">.body-small</code>
 					<p class="body-small">Small body text for secondary content</p>
 				</div>
-				<div class="grid grid-cols-2 gap-6 items-center">
+				<div
+					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
+				>
 					<code class="code text-sm">.body-xs</code>
 					<span class="body-xs">Extra small text for fine print</span>
+				</div>
+				<div class="grid grid-cols-2 gap-6 items-start">
+					<code class="code text-sm">.content-long</code>
+					<div class="max-w-md">
+						<p class="content-long">
+							This is optimized typography for long-form reading content. With wider letter spacing and
+							increased line height, it provides better readability for extended text passages. Use this
+							style when users need to read substantial amounts of content comfortably.
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>
