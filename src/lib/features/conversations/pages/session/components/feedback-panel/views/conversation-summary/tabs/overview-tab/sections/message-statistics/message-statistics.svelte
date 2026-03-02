@@ -3,13 +3,14 @@
 	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$conversations/pages/session/constants/user-message-feedback/icons';
 	import type {
 		CompactConversationAiMessage,
-		CompactConversationMessage,
 		CompactConversationUserMessage
 	} from '$lib/types/conversation/domain/conversation-message';
 	import MessageCard from './components/message-card.svelte';
 	import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/message-feedback-criteria';
 	import { getUserMessageFeedbackColorName } from '$conversations/pages/session/constants/user-message-feedback/colors';
 	import AuthUserAvatar from '$lib/components/auth-user-avatar.svelte';
+	import AiInterlocutorAvatar from '$conversations/shared/components/ai-interlocutor-avatar.svelte';
+	import { getConversationContext } from '$lib/features/conversations/pages/session/contexts/conversation-context.svelte';
 	import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
 	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
 	import { getAiMessageLearningTipColorName } from '$conversations/pages/session/constants/ai-message-learning-tips/colors';
@@ -20,10 +21,7 @@
 	}
 
 	const { userMessages, aiMessages }: MessageStatisticsProps = $props();
-
-	function calculateAverageCharacters(messages: CompactConversationMessage[]): number {
-		return Math.round(messages.reduce((acc, msg) => acc + msg.content.length, 0) / messages.length);
-	}
+	const conversation = getConversationContext();
 
 	const feedbackStats: Record<MessageFeedbackCriteria, number> = $derived(
 		userMessages.reduce(
@@ -62,7 +60,6 @@
 		<MessageCard
 			label="User Messages"
 			messageCount={userMessages.length}
-			averageCharacters={calculateAverageCharacters(userMessages)}
 			stats={[
 				{
 					Icon: USER_MESSAGE_FEEDBACK_ICONS_MAP.MISTAKES,
@@ -82,14 +79,13 @@
 			]}
 		>
 			{#snippet avatar()}
-				<AuthUserAvatar size={40} class="rounded-full" />
+				<AuthUserAvatar size={64} class="rounded-full" />
 			{/snippet}
 		</MessageCard>
 
 		<MessageCard
 			label="AI Messages"
 			messageCount={aiMessages.length}
-			averageCharacters={calculateAverageCharacters(aiMessages)}
 			stats={[
 				{
 					Icon: AI_MESSAGE_LEARNING_TIP_ICONS_MAP.GRAMMAR,
@@ -109,7 +105,11 @@
 			]}
 		>
 			{#snippet avatar()}
-				<AuthUserAvatar size={40} class="rounded-full" />
+				<AiInterlocutorAvatar
+					avatarId={conversation.interlocutor.avatarId}
+					size="fullsize"
+					class="rounded-full w-16 h-16"
+				/>
 			{/snippet}
 		</MessageCard>
 	</div>
