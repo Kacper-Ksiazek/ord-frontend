@@ -25,6 +25,11 @@
 		const path = `/src/lib/assets/images/conversation/avatars/${normalizedId}/${normalizedSize}.jpg`;
 
 		if (!avatarsModules[path]) {
+			console.error({
+				avatarId,
+				normalizedAvatarId: normalizedId
+			});
+
 			throw new Error(
 				`Avatar ID "${avatarId}" not found. Available avatars: ${Object.keys(avatarsModules).join(', ')}`
 			);
