@@ -18,9 +18,20 @@
 		labels,
 		colors,
 		chart: {
-			type: 'pie',
-			height: 300
+			type: 'donut',
+			height: 300,
+			dropShadow: { enabled: false }
 		},
+		states: {
+			hover: { filter: { type: 'none' } },
+			active: { filter: { type: 'none' } }
+		},
+		plotOptions: {
+			pie: {
+				donut: { size: '60%' }
+			}
+		},
+		stroke: { show: false },
 		dataLabels: {
 			enabled: true,
 			formatter: (val: number) => `${val.toFixed(1)}%`
