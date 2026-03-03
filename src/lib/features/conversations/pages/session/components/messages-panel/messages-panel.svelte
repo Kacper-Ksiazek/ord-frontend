@@ -28,7 +28,10 @@
 </script>
 
 <div
-	class={cn('bg-transparent transition-[width] duration-300 origin-left relative px-4 pt-8')}
+	class={cn(
+		'bg-transparent transition-[width] transition-padding duration-300 origin-left relative pt-8',
+		sidepanelContext.isOpened ? 'px-4' : 'px-12'
+	)}
 	style={sidepanelContext.isOpened ? `width: calc(100% - ${sidepanelWidth}px)` : 'width: 100%'}
 >
 	<!-- Back Button -->
