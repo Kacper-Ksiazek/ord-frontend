@@ -15,7 +15,7 @@
 	const displayValue = $derived(score !== null ? score : '—');
 </script>
 
-<div class={cn('w-8 h-8 rounded-sm flex items-center justify-center', boxColor)}>
+<div class={cn('w-8 h-8 rounded-full flex items-center justify-center', boxColor)}>
 	<span class={cn('text-sm', textColor)}>
 		{displayValue}
 	</span>
