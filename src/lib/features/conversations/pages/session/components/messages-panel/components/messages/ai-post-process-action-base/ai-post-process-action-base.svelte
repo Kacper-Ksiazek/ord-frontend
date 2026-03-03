@@ -14,6 +14,7 @@
 		isGenerating?: boolean;
 		enableExpandCollapse?: boolean;
 		showIconsInHighlightedParts: boolean;
+		onPreviewContentClick?: () => void;
 		children: Snippet;
 		badges?: Snippet;
 	}
@@ -27,6 +28,7 @@
 		isGenerating = false,
 		enableExpandCollapse = false,
 
+		onPreviewContentClick,
 		badges,
 		children
 	}: LearningTipsProps = $props();
@@ -46,8 +48,10 @@
 		isGenerating && 'generation-in-progress'
 	)}
 >
-	<div class="absolute top-3 right-4 flex items-center gap-1">
-		<PreviewContent {isSelected} />
+	<div class="absolute top-2 right-4 flex items-center gap-1">
+		{#if onPreviewContentClick}
+			<PreviewContent {isSelected} onClick={onPreviewContentClick} />
+		{/if}
 
 		<ToggleIconsInHighlight bind:showIconsInHighlightedParts />
 

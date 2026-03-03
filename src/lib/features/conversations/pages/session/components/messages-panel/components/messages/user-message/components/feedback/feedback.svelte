@@ -59,6 +59,9 @@
 	bind:showIconsInHighlightedParts
 	{isSelected}
 	enableExpandCollapse
+	onPreviewContentClick={() => {
+		sidepanelContext.feedbackPreview = feedback;
+	}}
 >
 	{#snippet badges()}
 		{#each indicators as { criteria, count, label } (criteria)}

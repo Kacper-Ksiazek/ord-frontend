@@ -5,15 +5,16 @@
 
 	interface PreviewContentProps {
 		isSelected?: boolean;
+		onClick?: () => void;
 	}
 
-	let { isSelected = false }: PreviewContentProps = $props();
+	let { isSelected = false, onClick: onClickProp }: PreviewContentProps = $props();
 
 	function onClick(e: MouseEvent) {
 		e.preventDefault();
 		e.stopPropagation();
 
-		alert('Preview content');
+		onClickProp?.();
 	}
 
 	const { Icon, label } = $derived.by(() => {
