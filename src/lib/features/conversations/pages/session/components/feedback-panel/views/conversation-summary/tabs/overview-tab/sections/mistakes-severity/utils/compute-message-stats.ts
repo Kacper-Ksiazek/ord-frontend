@@ -21,19 +21,19 @@ export function computeMessagesStats(mistakes: ConversationMessageMistake[]): Mi
 
 	return {
 		MINOR: {
-			label: 'Minor (1)',
+			label: 'Minor',
 			color: MISTAKE_SEVERITY_CHART_COLORS_MAP.MINOR,
 			count: counts.MINOR,
 			fraction: computePercentageValue(counts.MINOR, totalMistakes)
 		},
 		MODERATE: {
-			label: 'Moderate (2)',
+			label: 'Moderate',
 			color: MISTAKE_SEVERITY_CHART_COLORS_MAP.MODERATE,
 			count: counts.MODERATE,
 			fraction: computePercentageValue(counts.MODERATE, totalMistakes)
 		},
 		CRITICAL: {
-			label: 'Critical (3)',
+			label: 'Critical',
 			color: MISTAKE_SEVERITY_CHART_COLORS_MAP.CRITICAL,
 			count: counts.CRITICAL,
 			fraction: computePercentageValue(counts.CRITICAL, totalMistakes)
