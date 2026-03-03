@@ -8,8 +8,6 @@
 
 	const sidepanelContext = getSidepanelContext();
 	const sidepanelWidth = getSidepanelWidth();
-
-	console.log('sidepanelWidth', sidepanelWidth);
 </script>
 
 <ContentCard
@@ -21,7 +19,7 @@
 >
 	{#if !sidepanelContext.isOpened}
 		<div
-			class="absolute top-0 left-0 w-full h-full cursor-pointer bg-white"
+			class="absolute top-0 left-0 w-full h-full cursor-pointer"
 			transition:fade={{ duration: 100 }}
 		></div>
 	{/if}
@@ -29,7 +27,7 @@
 	<div
 		class={cn(
 			'flex-1 overflow-y-auto min-h-0 p-8', // min-h-0 allows flex child to shrink below content size
-			'bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100'
+			'text-gray-900 dark:text-gray-100'
 		)}
 	>
 		{#if sidepanelContext.feedbackPreview}
