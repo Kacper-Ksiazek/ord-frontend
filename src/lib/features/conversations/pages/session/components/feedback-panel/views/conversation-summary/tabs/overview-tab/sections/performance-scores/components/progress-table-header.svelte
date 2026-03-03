@@ -10,20 +10,19 @@
 			<CircleQuestionMark class="w-3 h-3 text-gray-600 dark:text-gray-400 shrink-0" />
 		</div>
 	</th>
-
-	<!-- TODO: Fix the location of the tooltip -->
-	<Tooltip triggeredBy={`#${props.id}`}>{props.label}</Tooltip>
 {/snippet}
 
-<thead class="table-header bg-gray-50 dark:bg-gray-700">
+<thead class="table-header bg-gray-50 dark:bg-gray-700 text-sm">
 	<tr>
 		<th scope="col">#</th>
-		<th scope="col">Message</th>
+		<th scope="col" class="normal-case">Message</th>
 
 		{@render tableHeaderWithTooltip({ id: 'grammar-header', label: 'Grammar' })}
 		{@render tableHeaderWithTooltip({ id: 'vocabulary-header', label: 'Vocabulary' })}
 		{@render tableHeaderWithTooltip({ id: 'naturalness-header', label: 'Naturalness' })}
-
-		<th scope="col"></th>
 	</tr>
 </thead>
+
+<Tooltip triggeredBy="#grammar-header">Grammar</Tooltip>
+<Tooltip triggeredBy="#vocabulary-header">Vocabulary</Tooltip>
+<Tooltip triggeredBy="#naturalness-header">Naturalness</Tooltip>
