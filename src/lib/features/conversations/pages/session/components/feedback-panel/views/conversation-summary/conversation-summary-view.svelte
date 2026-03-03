@@ -1,7 +1,5 @@
 <script lang="ts">
-	import compact from 'lodash/compact';
-	import flatMap from 'lodash/flatMap';
-	import isEmpty from 'lodash/isEmpty';
+	import size from 'lodash/size';
 	import { getMessagesContext } from '../../../../contexts/messages-context.svelte';
 	import { Tabs } from '$lib/components/navigation/tabs';
 	import type { Tab } from '$lib/components/navigation/tabs';
@@ -18,7 +16,6 @@
 	const messagesContext = getMessagesContext();
 	const messages = $derived(messagesContext.messages);
 
-	// Basic counts
 	const userMessages: CompactConversationUserMessage[] = $derived(
 		messages.filter((msg) => msg.sender === 'USER')
 	);
@@ -26,65 +23,46 @@
 		messages.filter((msg) => msg.sender === 'AI')
 	);
 
-	// Score statistics
 	const feedbacks: ConversationUserMessageFeedbackDTO[] = $derived(
 		userMessages.map((msg) => msg.feedback).filter((f) => f !== null)
 	);
 
-	// Feedback items statistics
-	const totalMistakes = $derived.by(() => {
-		return feedbacks.reduce((acc, f) => acc + (f.mistakes?.length ?? 0), 0);
-	});
-
-	const totalStrengths = $derived.by(() => {
-		return feedbacks.reduce((acc, f) => acc + (f.strengths?.length ?? 0), 0);
-	});
-
-	const totalSuggestions = $derived.by(() => {
-		return feedbacks.reduce((acc, f) => acc + (f.suggestions?.length ?? 0), 0);
-	});
-
-	// Aggregate all learning tips
-	const allGrammarTips = $derived.by(() => {
-		return flatMap(aiMessages, (msg) => msg.learningTips?.grammarTips ?? []);
-	});
-
-	const allVocabularyTips = $derived.by(() => {
-		return flatMap(aiMessages, (msg) => msg.learningTips?.vocabularyTips ?? []);
-	});
-
-	const allPhraseTips = $derived.by(() => {
-		return flatMap(aiMessages, (msg) => msg.learningTips?.phraseTips ?? []);
-	});
-
-	const totalLearningTips = $derived(
-		allGrammarTips.length + allVocabularyTips.length + allPhraseTips.length
+	const feedbackCount = $derived(
+		feedbacks.reduce((acc, f) => acc + size(f.mistakes) + size(f.strengths) + size(f.suggestions), 0)
 	);
 
-	// Main tabs
+	const learningTipsCount = $derived(
+		aiMessages.reduce(
+			(acc, msg) =>
+				acc +
+				size(msg.learningTips?.grammarTips) +
+				size(msg.learningTips?.vocabularyTips) +
+				size(msg.learningTips?.phraseTips),
+			0
+		)
+	);
+
 	let activeMainTab = $state<ConversationSummaryTab>('overview');
 
-	const mainTabs = $derived<Tab<ConversationSummaryTab>[]>(
-		compact([
-			{ id: 'overview', label: 'Overview', count: messages.length, icon: ChartBar },
+	const mainTabs = $derived<Tab<ConversationSummaryTab>[]>([
+		{ id: 'overview', label: 'Overview', count: messages.length, icon: ChartBar },
 
-			totalLearningTips > 0 && {
-				id: 'learning-tips',
-				label: 'Learning Tips',
-				count: totalLearningTips,
-				icon: Lightbulb,
-				disabled: false
-			},
+		{
+			id: 'learning-tips',
+			label: 'Learning Tips',
+			count: learningTipsCount,
+			icon: Lightbulb,
+			disabled: learningTipsCount === 0
+		},
 
-			!isEmpty(feedbacks) && {
-				id: 'feedback',
-				label: 'Feedback',
-				count: totalMistakes + totalStrengths + totalSuggestions,
-				icon: MessageSquare,
-				disabled: false
-			}
-		])
-	);
+		{
+			id: 'feedback',
+			label: 'Feedback',
+			count: feedbackCount,
+			icon: MessageSquare,
+			disabled: feedbackCount === 0
+		}
+	]);
 </script>
 
 <div class="flex flex-col h-full min-h-0">
