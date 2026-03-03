@@ -11,10 +11,10 @@
 		StrengthCard,
 		SuggestionCard
 	} from '$conversations/pages/session/components/shared/user-message-feedback/cards';
-	import type {
-		AggregatedMistake,
-		AggregatedStrength,
-		AggregatedSuggestion
+	import {
+		isFeedbackMistake,
+		isFeedbackStrength,
+		isFeedbackSuggestion
 	} from './utils/aggregate-feedback/aggregate-feedback.types';
 
 	const messagesContext = getMessagesContext();
@@ -50,24 +50,6 @@
 		filters.severity = 'ALL';
 		filters.suggestionType = 'ALL';
 	}
-
-	const groupedFeedback = $derived.by(() => {
-		const mistakes: AggregatedMistake[] = [];
-		const strengths: AggregatedStrength[] = [];
-		const suggestions: AggregatedSuggestion[] = [];
-
-		for (const item of feedbackToRender) {
-			if (item.type === 'MISTAKES') {
-				mistakes.push(item);
-			} else if (item.type === 'STRENGTHS') {
-				strengths.push(item);
-			} else if (item.type === 'SUGGESTIONS') {
-				suggestions.push(item);
-			}
-		}
-
-		return { mistakes, strengths, suggestions };
-	});
 </script>
 
 {#if hasAnyFeedback}
@@ -86,21 +68,18 @@
 
 	<FeedbackFilters {filters} {clearFilters} />
 
-	<!-- TODO: Teraz to jest zgrupowaen, a lepiej jest wyswietlac wszystko jedno za drugim jak leci - z jakims separatatorem wiadomosci najlepiej  -->
 	{#key Object.values(filters).join('-')}
 		<ScrollableWrapper wrapperClass="min-h-0" contentClass="px-0">
 			{#if !isEmpty(feedbackToRender)}
 				<div class="space-y-4">
-					{#each groupedFeedback.mistakes as item, i (i)}
-						<MistakeCard mistake={item.data} />
-					{/each}
-
-					{#each groupedFeedback.strengths as item, i (i)}
-						<StrengthCard strength={item.data} />
-					{/each}
-
-					{#each groupedFeedback.suggestions as item, i (i)}
-						<SuggestionCard suggestion={item.data} />
+					{#each feedbackToRender as item, i (i)}
+						{#if isFeedbackMistake(item)}
+							<MistakeCard mistake={item.data} />
+						{:else if isFeedbackStrength(item)}
+							<StrengthCard strength={item.data} />
+						{:else if isFeedbackSuggestion(item)}
+							<SuggestionCard suggestion={item.data} />
+						{/if}
 					{/each}
 				</div>
 			{:else}
