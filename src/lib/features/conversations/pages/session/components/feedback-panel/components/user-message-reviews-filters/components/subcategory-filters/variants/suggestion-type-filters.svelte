@@ -59,11 +59,12 @@
 </script>
 
 {#each suggestionTypeCards as card (card.type)}
-	{@const isDisabled = card.count === 0}
+	{@const count = card.count ?? 0}
+	{@const isDisabled = count === 0}
 
 	<IconCard
 		title={card.title}
-		value={card.count ?? '-'}
+		value={count}
 		variant={card.variant}
 		isActive={filters.suggestionType === card.type}
 		disabled={isDisabled}

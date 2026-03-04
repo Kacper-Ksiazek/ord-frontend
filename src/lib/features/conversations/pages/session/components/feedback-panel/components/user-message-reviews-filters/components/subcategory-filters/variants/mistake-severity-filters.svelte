@@ -68,11 +68,12 @@
 </script>
 
 {#each mistakeSeverityCards as card (card.severity)}
-	{@const isDisabled = card.count === 0}
+	{@const count = card.count ?? 0}
+	{@const isDisabled = count === 0}
 
 	<IconCard
 		title={card.title}
-		value={card.count ?? '-'}
+		value={count}
 		variant={card.variant}
 		isActive={filters.mistakeSeverity === card.severity}
 		disabled={isDisabled}
