@@ -4,8 +4,8 @@ import type {
 	AggregatedFeedbackItem,
 	AggregatedMistake,
 	AggregatedSuggestion
-} from '../../components/user-message-reviews-filters/utils/aggregate-feedback/aggregate-feedback.types';
-import type { UserMessageReviewFilters } from '$conversations/pages/session/components/feedback-panel/components/user-message-reviews-filters/lib/filters';
+} from '../../components/user-message-reviews-list-with-filters/utils/aggregate-feedback/aggregate-feedback.types';
+import type { UserMessageReviewFilters } from '$conversations/pages/session/components/feedback-panel/components/user-message-reviews-list-with-filters/lib/filters';
 
 const CREATED_AT = new Date('2024-01-01T10:00:00.000Z');
 

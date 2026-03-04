@@ -3,7 +3,7 @@
 	import { aggregateFeedback, type AggregatedFeedbackItem } from './utils/aggregate-feedback';
 	import { SubcategoryFilters, UserMessageReviewsList } from './components';
 	import type { FeedbackCategoryFilter } from './lib/filters';
-	import type { UserMessageReviewFiltersProps } from './user-message-review-filters.types';
+	import type { UserMessageReviewListWithFiltersProps } from './user-message-review-list-with-filters.types';
 	import { countFeedback, getFeedbackCards } from './utils';
 	import type { FeedbackCard } from './utils/get-feedback-cards';
 	import { filterUserMessageReviews } from '../../shared/filter-user-message-reviews/filter-user-message-reviews';
@@ -12,7 +12,7 @@
 	import SearchPhraseFilter from '../search-phrase-filter.svelte';
 	import isEmpty from 'lodash/isEmpty';
 
-	let { filters = $bindable(), messages }: UserMessageReviewFiltersProps = $props();
+	let { filters = $bindable(), messages }: UserMessageReviewListWithFiltersProps = $props();
 
 	const aggregatedFeedback: AggregatedFeedbackItem[] = $derived(aggregateFeedback(messages));
 
