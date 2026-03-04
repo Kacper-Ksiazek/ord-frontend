@@ -3,7 +3,7 @@
 	import { getMessagesContext } from '../../../../contexts/messages-context.svelte';
 	import { Tabs } from '$lib/components/navigation/tabs';
 	import type { Tab } from '$lib/components/navigation/tabs';
-	import { OverviewTab, LearningTipsTab, FeedbackTab } from './tabs';
+	import { OverviewTab, LearningTipsTab, UserMessageReviewsTab } from './tabs';
 	import { ChartBar, Lightbulb, MessageSquare } from 'lucide-svelte';
 	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import type {
@@ -88,7 +88,7 @@
 		{/if}
 
 		{#if activeMainTab === 'feedback'}
-			<FeedbackTab />
+			<UserMessageReviewsTab />
 		{/if}
 	</div>
 </div>
