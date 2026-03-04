@@ -14,7 +14,7 @@
 		isGenerating?: boolean;
 		enableExpandCollapse?: boolean;
 		showIconsInHighlightedParts: boolean;
-		onPreviewContentClick?: () => void;
+		onPreviewContentClick?: (e: MouseEvent) => void;
 		children: Snippet;
 		badges?: Snippet;
 	}

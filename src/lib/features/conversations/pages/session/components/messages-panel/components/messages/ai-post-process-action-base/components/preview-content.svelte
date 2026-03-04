@@ -5,7 +5,7 @@
 
 	interface PreviewContentProps {
 		isSelected?: boolean;
-		onClick?: () => void;
+		onClick?: (e: MouseEvent) => void;
 	}
 
 	let { isSelected = false, onClick: onClickProp }: PreviewContentProps = $props();
@@ -14,7 +14,7 @@
 		e.preventDefault();
 		e.stopPropagation();
 
-		onClickProp?.();
+		onClickProp?.(e);
 	}
 
 	const { Icon, label } = $derived.by(() => {
@@ -36,7 +36,7 @@
 	{onClick}
 	type="OUTLINED"
 	variant="TEXT"
-	class={cn(isSelected && 'ring-2 ring-primary-300 mr-2')}
+	class={cn('w-[160px]', isSelected && 'ring-2 ring-primary-300 mr-2')}
 >
 	<Icon class="w-4 h-4 mr-1" />
 

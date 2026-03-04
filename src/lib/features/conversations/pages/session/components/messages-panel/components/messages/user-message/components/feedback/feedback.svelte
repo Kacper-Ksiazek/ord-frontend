@@ -59,8 +59,21 @@
 	bind:showIconsInHighlightedParts
 	{isSelected}
 	enableExpandCollapse
-	onPreviewContentClick={() => {
-		sidepanelContext.feedbackPreview = feedback;
+	onPreviewContentClick={(e) => {
+		const isTheSameFeedbackClickedAgain = sidepanelContext.feedbackPreview?.id === feedback?.id;
+
+		if (isTheSameFeedbackClickedAgain) {
+			sidepanelContext.isOpened = false;
+
+			setTimeout(() => {
+				sidepanelContext.feedbackPreview = null;
+			}, 300);
+		} else {
+			sidepanelContext.isOpened = true;
+			sidepanelContext.feedbackPreview = feedback;
+		}
+
+		(e.target as HTMLElement).blur();
 	}}
 >
 	{#snippet badges()}
