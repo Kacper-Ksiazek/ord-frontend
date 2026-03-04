@@ -1,11 +1,10 @@
 import type { IconCardVariant } from '$lib/components/cards/icon-card';
 import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/message-feedback-criteria';
 import { SigmaIcon } from 'lucide-svelte';
-import type { FeedbackStatCardProps } from '../../../views/conversation-summary/tabs/feedback-tab/components/feedback-stat-card/feedback-stat-card.types';
 import type { FeedbackCategoryFilter } from '../lib/filters';
 import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$conversations/pages/session/constants/user-message-feedback/icons';
 
-export interface FeedbackCard extends Pick<FeedbackStatCardProps, 'count' | 'tabId'> {
+export interface FeedbackCard {
 	tabId: FeedbackCategoryFilter;
 	title: string;
 	variant: IconCardVariant;
