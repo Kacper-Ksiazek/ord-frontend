@@ -1,5 +1,5 @@
 import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
-import type { AggregatedLearningTip } from './aggregate-learning-tips/aggregate-learning-tips.types';
+import type { AggregatedLearningTip } from '../../../shared/utils/aggregate-learning-tips/aggregate-learning-tips.types';
 
 export function countLearningTips(
 	tipsToRender: AggregatedLearningTip[]

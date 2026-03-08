@@ -1,11 +1,11 @@
 <script lang="ts">
 	import { IconCard } from '$lib/components/cards/icon-card';
 	import type { IconCardVariant } from '$lib/components/cards/icon-card';
-	import type { LearningTipsTabFilters } from '../../../learning-tips-tab.types';
-	import type { AggregatedLearningTip } from '../../../utils/aggregate-learning-tips/aggregate-learning-tips.types';
+	import type { LearningTipFilters } from '../../../lib/filters';
+	import type { AggregatedLearningTip } from '../../../../../shared/utils/aggregate-learning-tips/aggregate-learning-tips.types';
 	import type { PhraseType } from '$lib/types/ongoing-conversation/api/responses';
 	import { PHRASE_TYPE_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/subcategory-icons';
-	import { filterLearningTips } from '../../../utils/filter-learning-tips';
+	import { filterLearningTips } from '../../../../../shared/utils/filter-learning-tips';
 
 	type PhraseTypeCounts = Record<PhraseType, number>;
 
@@ -18,7 +18,7 @@
 	};
 
 	interface Props {
-		filters: LearningTipsTabFilters;
+		filters: LearningTipFilters;
 		tips: AggregatedLearningTip[];
 	}
 
@@ -34,10 +34,13 @@
 	}
 
 	const phraseTypeCards = $derived.by(() => {
+		// tips is already filtered to only include PHRASES type, so we only need to filter by other criteria
+		// (like search and register) but not by phraseType itself
 		const counts: PhraseTypeCounts = filterLearningTips(tips, {
 			...filters,
-			tab: 'ALL'
+			phraseType: 'ALL'
 		}).reduce((acc, item) => {
+			// Type guard to ensure item is PHRASES type
 			if (item.type !== 'PHRASES') return acc;
 
 			acc[item.data.phraseType] = (acc[item.data.phraseType] ?? 0) + 1;

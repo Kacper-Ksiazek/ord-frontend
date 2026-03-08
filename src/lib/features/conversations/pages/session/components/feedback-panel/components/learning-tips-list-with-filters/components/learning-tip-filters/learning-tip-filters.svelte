@@ -3,17 +3,20 @@
 	import RegisterFilter from './components/register-filter.svelte';
 	import { IconButton } from '$lib/components/buttons/icon-button';
 	import { SearchIcon, TrashIcon } from 'lucide-svelte';
-	import type { LearningTipsTabFilters } from '../../learning-tips-tab.types';
+	import type { LearningTipFilters } from '../../lib/filters';
 
 	interface Props {
-		filters: LearningTipsTabFilters;
+		filters: LearningTipFilters;
 		clearFilters: () => void;
 	}
 
 	let { filters = $bindable(), clearFilters }: Props = $props();
 
 	const areFiltersClearable = $derived(
-		filters.register !== 'ALL' || filters.searchQuery.trim() !== ''
+		filters.category !== 'ALL' ||
+			filters.register !== 'ALL' ||
+			filters.phraseType !== 'ALL' ||
+			filters.searchQuery.trim() !== ''
 	);
 </script>
 

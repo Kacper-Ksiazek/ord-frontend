@@ -2,7 +2,7 @@
 	import { Briefcase, Users, Zap, Layers } from 'lucide-svelte';
 	import { DropdownSelect } from '$lib/components/forms/dropdown-select';
 	import type { DropdownSelectOption } from '$lib/components/forms/dropdown-select';
-	import type { RegisterFilter } from '../../../learning-tips-tab.types';
+	import type { RegisterFilter } from '../../../lib/filters';
 
 	interface Props {
 		value: RegisterFilter;
