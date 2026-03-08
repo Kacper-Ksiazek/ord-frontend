@@ -1,5 +1,5 @@
 import type { UserMessageReviewFilters } from '$conversations/pages/session/components/feedback-panel/components/user-message-reviews-list-with-filters/lib/filters';
-import type { AggregatedFeedbackItem } from '../../components/user-message-reviews-list-with-filters/utils/aggregate-feedback/aggregate-feedback.types';
+import type { AggregatedFeedbackItem } from '../aggregate-feedback/aggregate-feedback.types';
 
 export function filterUserMessageReviews(
 	items: AggregatedFeedbackItem[],

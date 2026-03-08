@@ -1,5 +1,5 @@
 import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/message-feedback-criteria';
-import type { AggregatedFeedbackItem } from './aggregate-feedback/aggregate-feedback.types';
+import type { AggregatedFeedbackItem } from '../../../shared/utils/aggregate-feedback/aggregate-feedback.types';
 
 export function countFeedback(
 	items: AggregatedFeedbackItem[]

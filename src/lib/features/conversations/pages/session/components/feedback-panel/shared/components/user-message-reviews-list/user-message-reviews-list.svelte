@@ -1,9 +1,9 @@
 <script lang="ts">
 	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
 	import { MessageSquareOffIcon, TrashIcon } from 'lucide-svelte';
-	import { filterUserMessageReviews } from '../../../shared/filter-user-message-reviews/filter-user-message-reviews';
-	import type { UserMessageReviewFilters } from '../lib/filters';
-	import type { AggregatedFeedbackItem } from '../utils/aggregate-feedback';
+	import { filterUserMessageReviews } from '../../utils/filter-user-message-reviews/filter-user-message-reviews';
+	import type { UserMessageReviewFilters } from '$conversations/pages/session/components/feedback-panel/components/user-message-reviews-list-with-filters/lib/filters';
+	import type { AggregatedFeedbackItem } from '../../utils/aggregate-feedback/aggregate-feedback.types';
 	import { Button } from '$lib/components/buttons/button';
 	import isEmpty from 'lodash/isEmpty';
 	import {

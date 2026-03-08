@@ -4,7 +4,7 @@
 	import type { ConversationMessageMistakeSeverity } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import { MISTAKE_SEVERITY_ICONS_MAP } from '$conversations/pages/session/constants/user-message-feedback/subcategory-icons';
 	import type { SubcategoryFiltersProps } from './types';
-	import { filterUserMessageReviews } from '$conversations/pages/session/components/feedback-panel/shared/filter-user-message-reviews/filter-user-message-reviews';
+	import { filterUserMessageReviews } from '$conversations/pages/session/components/feedback-panel/shared/utils/filter-user-message-reviews/filter-user-message-reviews';
 
 	type MistakeSeverityCounts = Record<ConversationMessageMistakeSeverity, number>;
 
@@ -28,9 +28,11 @@
 	}
 
 	const mistakeSeverityCards = $derived.by(() => {
+		// feedbacks is already filtered by category, so we only need to filter by other criteria
+		// (like search) but not by mistakeSeverity itself
 		const counts: MistakeSeverityCounts = filterUserMessageReviews(feedbacks, {
 			...filters,
-			category: 'ALL'
+			mistakeSeverity: 'ALL'
 		}).reduce((acc: MistakeSeverityCounts, item) => {
 			if (item?.type !== 'MISTAKES') return acc;
 

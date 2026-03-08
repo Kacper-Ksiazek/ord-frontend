@@ -4,7 +4,7 @@
 	import type { ConversationMessageSuggestionType } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import { SUGGESTION_TYPE_ICONS_MAP } from '$conversations/pages/session/constants/user-message-feedback/subcategory-icons';
 	import type { SubcategoryFiltersProps } from './types';
-	import { filterUserMessageReviews } from '$conversations/pages/session/components/feedback-panel/shared/filter-user-message-reviews/filter-user-message-reviews';
+	import { filterUserMessageReviews } from '$conversations/pages/session/components/feedback-panel/shared/utils/filter-user-message-reviews/filter-user-message-reviews';
 
 	type SuggestionTypeCounts = Record<ConversationMessageSuggestionType, number>;
 
@@ -28,9 +28,11 @@
 	}
 
 	const suggestionTypeCards = $derived.by(() => {
+		// feedbacks is already filtered by category, so we only need to filter by other criteria
+		// (like search) but not by suggestionType itself
 		const counts: SuggestionTypeCounts = filterUserMessageReviews(feedbacks, {
 			...filters,
-			category: 'ALL'
+			suggestionType: 'ALL'
 		}).reduce((acc, item) => {
 			if (item?.type !== 'SUGGESTIONS') return acc;
 
