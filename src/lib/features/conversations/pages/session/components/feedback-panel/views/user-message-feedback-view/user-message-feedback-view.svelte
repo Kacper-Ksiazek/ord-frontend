@@ -1,7 +1,15 @@
 <script lang="ts">
-	import { Badge } from 'flowbite-svelte';
+	import size from 'lodash/size';
 	import { getSidepanelContext } from '../../../../contexts/sidepanel-context.svelte';
+	import { getMessagesContext } from '../../../../contexts/messages-context.svelte';
+	import { Tabs } from '$lib/components/navigation/tabs';
+	import type { Tab } from '$lib/components/navigation/tabs';
+	import { OverviewTab, FeedbackTab } from './tabs';
+	import { ChartBar, MessageSquare } from 'lucide-svelte';
 	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
+	import type { CompactConversationUserMessage } from '$lib/types/conversation/domain/conversation-message';
+
+	type UserMessageFeedbackTab = 'overview' | 'feedback';
 
 	interface Props {
 		feedback: ConversationUserMessageFeedbackDTO;
@@ -10,41 +18,59 @@
 	let { feedback }: Props = $props();
 
 	const sidepanelContext = getSidepanelContext();
+	const messagesContext = getMessagesContext();
+	const messages = $derived(messagesContext.messages);
+
+	const userMessages: CompactConversationUserMessage[] = $derived(
+		messages.filter((msg) => msg.sender === 'USER')
+	);
+
+	const currentMessage: CompactConversationUserMessage | null = $derived(
+		userMessages.find((msg) => msg.feedback?.id === feedback.id) ?? null
+	);
+
+	const feedbackCount = $derived(
+		size(feedback.mistakes) + size(feedback.strengths) + size(feedback.suggestions)
+	);
+
+	let activeMainTab = $state<UserMessageFeedbackTab>('overview');
+
+	const mainTabs = $derived<Tab<UserMessageFeedbackTab>[]>([
+		{ id: 'overview', label: 'Overview', icon: ChartBar },
+		{
+			id: 'feedback',
+			label: 'Feedback',
+			count: feedbackCount,
+			icon: MessageSquare,
+			disabled: feedbackCount === 0
+		}
+	]);
 </script>
 
-<div class="mb-6">
-	<button class="text-muted-small mb-4" onclick={() => (sidepanelContext.isOpened = false)}>
-		Back
-	</button>
+<div class="flex flex-col h-full min-h-0">
+	<div class="shrink-0 space-y-6">
+		<button class="text-muted-small mb-4" onclick={() => (sidepanelContext.isOpened = false)}>
+			Back
+		</button>
 
-	<h2 class="heading-4 mb-4">Feedback Details</h2>
+		<h2 class="heading-4 mb-4">Feedback Details</h2>
 
-	<h3 class="heading-5 mb-2">TODOS</h3>
-	<ul class="list-disc list-inside">
-		<li>2 taby tutaj chce - ovierview i feedbacks ( wymyslec jakies nazwy )</li>
-		<li>
-			overview tab - ma miec wszystkie scory wraz z porownaniem do tego jak wyglada srednia ( do tej
-			pory)
-		</li>
-		<li>
-			overview tab - ma miec sama wiadomosc napisana wraz ze wskazaniem ilosci znakow oraz srednia
-			ilosc znakow dla wiadomosci
-		</li>
-		<li>
-			feedback tab - reuzyc komponentu do wyswietlania feedbackow z conversation summary / overview tab
-		</li>
-	</ul>
+		<Tabs
+			tabs={mainTabs}
+			bind:activeTab={activeMainTab}
+			activeColor="primary"
+			variant="outlined"
+			class="mb-6"
+		/>
+	</div>
 
-	<!-- Summary Section -->
-	<div
-		class="mb-6 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600"
-	>
-		<div class="flex flex-wrap gap-2">
-			{#if feedback.tutorComment}
-				<Badge color="primary" large class="px-3 py-1.5 max-w-full">
-					<span class="font-medium wrap-break-word">{feedback.tutorComment}</span>
-				</Badge>
-			{/if}
-		</div>
+	<div class="flex-1 min-h-0 flex flex-col">
+		{#if activeMainTab === 'overview'}
+			<OverviewTab {feedback} messageContent={currentMessage?.content ?? null} {userMessages} />
+		{/if}
+
+		{#if activeMainTab === 'feedback'}
+			<FeedbackTab {feedback} messageCreatedAt={currentMessage?.createdAt ?? null} />
+		{/if}
 	</div>
 </div>
