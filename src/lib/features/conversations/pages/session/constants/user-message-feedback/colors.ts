@@ -1,10 +1,11 @@
+import type { IconCardVariant } from '$lib/components/cards/icon-card/icon-card.types';
 import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/message-feedback-criteria';
 import {
 	getTailwindColorTheme,
 	type TailwindColorTheme
 } from '$lib/utils/theme/get-tailwind-colors';
 
-const USER_MESSAGE_FEEDBACK_COLORS_MAP: Record<MessageFeedbackCriteria, TailwindColor> = {
+const USER_MESSAGE_FEEDBACK_COLORS_MAP: Record<MessageFeedbackCriteria, IconCardVariant> = {
 	MISTAKES: 'red',
 	STRENGTHS: 'green',
 	SUGGESTIONS: 'blue'
@@ -22,6 +23,8 @@ export function getUserMessageFeedbackColors(
 	return USER_MESSAGE_FEEDBACK_THEMES_MAP[criteria];
 }
 
-export function getUserMessageFeedbackColorName(criteria: MessageFeedbackCriteria): TailwindColor {
+export function getUserMessageFeedbackColorName(
+	criteria: MessageFeedbackCriteria
+): IconCardVariant {
 	return USER_MESSAGE_FEEDBACK_COLORS_MAP[criteria];
 }
