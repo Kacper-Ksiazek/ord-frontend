@@ -1,8 +1,15 @@
 <script lang="ts">
+	// TODO: ARCHITECTURAL COUPLING ISSUE - This shared block renderer imports a feature-specific utility.
+	// This creates coupling between shared (ai-advice-base-v2) and feature-specific (ai-message-learning-tips) code.
+	// REFACTOR NEEDED: Consider one of these approaches:
+	//   1. Pass badge component as a prop/slot to translation-block
+	//   2. Create a generic badge component that can handle both register badges and regular badges
+	//   3. Evaluate if TipRegisterBadge should be moved to a truly shared location
+	//   4. Use a factory/registry pattern for badge components
 	import { Badge, cn } from 'flowbite-svelte';
 	import type { TranslationBlock } from '../../ai-advice.types';
 	import type { TailwindColorTheme } from '$lib/utils/theme/get-tailwind-colors';
-	import TipRegisterBadge from '../../shared/tip-register-badge.svelte';
+	import TipRegisterBadge from '$conversations/pages/session/components/shared/ai-message-learning-tips/cards/shared/tip-register-badge.svelte';
 	import AuthUserNativeLanguageFlag from '$lib/components/auth-user-native-language-flag.svelte';
 
 	interface Props {
