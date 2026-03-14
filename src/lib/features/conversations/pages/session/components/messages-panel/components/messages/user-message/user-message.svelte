@@ -2,9 +2,7 @@
 	import MessageBase from '../message-base.svelte';
 	import type { CompactConversationUserMessage } from '$lib/types/conversation/domain/conversation-message';
 	import { Feedback } from './components';
-	import { highlightFeedbackContent } from './utils/highlight-feedback';
-	import FeedbackTextHighlight from './components/feedback-text-highlight/feedback-text-highlight.svelte';
-	import isNil from 'lodash/isNil';
+	import UserMessageTextContent from './lib/user-message-text-content.svelte';
 
 	interface UserMessageProps {
 		messageIndex: number;
@@ -14,39 +12,16 @@
 	const { messageIndex, message }: UserMessageProps = $props();
 
 	let showIconsInHighlightedParts = $state(false);
-
-	const highlightedParts = $derived.by(() => {
-		if (isNil(message.feedback)) {
-			return null;
-		}
-
-		return highlightFeedbackContent(message.content, message.feedback);
-	});
 </script>
 
 <MessageBase orientation="right">
 	{#snippet content()}
-		<p>
-			{#if highlightedParts && message.feedback}
-				{#each highlightedParts as part, index (index)}
-					{#if part.highlight}
-						{@const id = `highlight-${messageIndex}-${part.highlight}-${index}`}
-
-						<FeedbackTextHighlight
-							{id}
-							highlightType={part.highlight}
-							highlightedText={part.text}
-							feedback={message.feedback}
-							{showIconsInHighlightedParts}
-						/>
-					{:else}
-						{part.text}
-					{/if}
-				{/each}
-			{:else}
-				{message.content}
-			{/if}
-		</p>
+		<UserMessageTextContent
+			{messageIndex}
+			{showIconsInHighlightedParts}
+			messageContent={message.content}
+			feedback={message.feedback}
+		/>
 	{/snippet}
 
 	{#snippet footer()}

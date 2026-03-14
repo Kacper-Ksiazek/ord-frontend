@@ -21,6 +21,7 @@
 		highlightType,
 		highlightedText,
 		feedback,
+		disableHoverHighlight = false,
 		showIconsInHighlightedParts
 	}: FeedbackTextHighlightProps = $props();
 
@@ -131,7 +132,7 @@
 	class={cn(
 		'inline rounded transition-colors box-decoration-clone',
 		activeCardColors.highlightedText,
-		moreThanOneCardAvailable ? 'cursor-pointer' : 'cursor-default'
+		moreThanOneCardAvailable && !disableHoverHighlight ? 'cursor-pointer' : 'cursor-default'
 	)}
 	onclick={handleHighlightClick}
 	onkeydown={handleHighlightKeydown}
@@ -182,36 +183,42 @@
 	{highlightedText}
 </span>
 
-<Popover
-	triggeredBy={`#${id}`}
-	trigger="hover"
-	class={cn(
-		'w-[640px] bg-white dark:bg-gray-800 shadow-lg border-2 rounded-lg',
-		activeCardColors.cardBorder
-	)}
-	classes={{ content: 'p-2' }}
->
-	{#if moreThanOneCardAvailable}
-		<Tabs
-			tabs={availableTabs}
-			bind:activeTab={activeCard}
-			activeColor={activeCardColors.twColor}
-			class="mb-3"
-		/>
-	{:else}
-		<h3 class={cn('flex items-center gap-2 label-bold mb-2', activeCardColors.text)}>
-			<FeedbackMetricIcon criteria={activeCard} class="w-4 h-4" />
-			<span>
-				{activeCard === 'MISTAKES' ? 'Mistake' : activeCard === 'STRENGTHS' ? 'Strength' : 'Suggestion'}
-			</span>
-		</h3>
-	{/if}
+{#if !disableHoverHighlight}
+	<Popover
+		triggeredBy={`#${id}`}
+		trigger="hover"
+		class={cn(
+			'w-[640px] bg-white dark:bg-gray-800 shadow-lg border-2 rounded-lg',
+			activeCardColors.cardBorder
+		)}
+		classes={{ content: 'p-2' }}
+	>
+		{#if moreThanOneCardAvailable}
+			<Tabs
+				tabs={availableTabs}
+				bind:activeTab={activeCard}
+				activeColor={activeCardColors.twColor}
+				class="mb-3"
+			/>
+		{:else}
+			<h3 class={cn('flex items-center gap-2 label-bold mb-2', activeCardColors.text)}>
+				<FeedbackMetricIcon criteria={activeCard} class="w-4 h-4" />
+				<span>
+					{activeCard === 'MISTAKES'
+						? 'Mistake'
+						: activeCard === 'STRENGTHS'
+							? 'Strength'
+							: 'Suggestion'}
+				</span>
+			</h3>
+		{/if}
 
-	{#if activeCard === 'MISTAKES' && cards.MISTAKES}
-		<MistakeCard mistake={cards.MISTAKES} />
-	{:else if activeCard === 'SUGGESTIONS' && cards.SUGGESTIONS}
-		<SuggestionCard suggestion={cards.SUGGESTIONS} />
-	{:else if activeCard === 'STRENGTHS' && cards.STRENGTHS}
-		<StrengthCard strength={cards.STRENGTHS} />
-	{/if}
-</Popover>
+		{#if activeCard === 'MISTAKES' && cards.MISTAKES}
+			<MistakeCard mistake={cards.MISTAKES} />
+		{:else if activeCard === 'SUGGESTIONS' && cards.SUGGESTIONS}
+			<SuggestionCard suggestion={cards.SUGGESTIONS} />
+		{:else if activeCard === 'STRENGTHS' && cards.STRENGTHS}
+			<StrengthCard strength={cards.STRENGTHS} />
+		{/if}
+	</Popover>
+{/if}

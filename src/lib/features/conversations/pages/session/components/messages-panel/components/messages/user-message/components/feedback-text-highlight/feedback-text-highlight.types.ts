@@ -3,6 +3,7 @@ import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/mes
 
 export interface FeedbackTextHighlightProps {
 	id: string;
+	disableHoverHighlight?: boolean;
 	highlightType: MessageFeedbackCriteria;
 	highlightedText: string;
 	feedback: ConversationUserMessageFeedbackDTO;
