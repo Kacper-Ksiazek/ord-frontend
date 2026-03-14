@@ -42,6 +42,4 @@
 	});
 </script>
 
-<div class="p-4 rounded-lg">
-	<Chart {options} />
-</div>
+<Chart {options} />

@@ -24,7 +24,7 @@
 		})}
 
 		<div>
-			<div class="caption mb-1">{label}</div>
+			<div class="caption">{label}</div>
 			<div class="heading-6">{value}</div>
 		</div>
 	</div>

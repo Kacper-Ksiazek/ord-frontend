@@ -18,7 +18,7 @@
 	}
 </script>
 
-<div class="p-4 rounded-lg flex flex-col justify-center">
+<div class="flex flex-col justify-center">
 	<div class="space-y-3">
 		{#each Object.entries(mistakeStats) as [severity, stats] (severity)}
 			{@const Icon = MISTAKE_SEVERITY_ICONS_MAP[severity as ConversationMessageMistakeSeverity]}
