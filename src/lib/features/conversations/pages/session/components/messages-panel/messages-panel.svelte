@@ -4,7 +4,7 @@
 	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
 	import { getMessagesContext } from '../../contexts/messages-context.svelte';
 	import { UserMessageTextarea } from './components/user-message-textarea';
-	import { getSidepanelWidth } from '../constants.svelte';
+	import { getSidepanelWidth, getMessagesMaxWidth } from '../constants.svelte';
 	import { AppWindow, Columns2, ChevronLeft } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
@@ -14,6 +14,7 @@
 	const messagesContext = getMessagesContext();
 
 	const sidepanelWidth = $derived(getSidepanelWidth());
+	const messagesMaxWidth = $derived(getMessagesMaxWidth());
 
 	let scrollContainer: HTMLDivElement | undefined = $state(undefined);
 
@@ -59,7 +60,11 @@
 		)}
 	>
 		<!-- Scrollable messages area -->
-		<ScrollableWrapper bind:scrollContainer contentClass="max-w-[1440px] mx-auto" wrapperClass="mb-4">
+		<ScrollableWrapper
+			bind:scrollContainer
+			contentClass="{messagesMaxWidth} mx-auto"
+			wrapperClass="mb-4"
+		>
 			<ConversationHeader />
 
 			{#each messagesContext.messages as message, index (index)}
