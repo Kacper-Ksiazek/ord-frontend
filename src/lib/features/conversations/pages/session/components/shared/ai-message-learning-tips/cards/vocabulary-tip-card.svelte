@@ -1,13 +1,9 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
 	import type { AIMessageVocabularyTip } from '$lib/types/ongoing-conversation/api/responses';
-	import { getAiMessageLearningTipColors } from '$conversations/pages/session/constants/ai-message-learning-tips/colors';
-	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
+	import type { AiAdviceBaseV2Block } from '../../ai-advice-base-v2/ai-advice.types';
 	import { EXPLANATION_ICON } from '$conversations/pages/session/constants/icons';
-	import LearningTipExampleSentence from './shared/learning-tip-example-sentence.svelte';
-	import TipRegisterBadge from './shared/tip-register-badge.svelte';
-	import AuthUserNativeLanguageFlag from '$lib/components/auth-user-native-language-flag.svelte';
-	import AIAdviceCard from '../../ai-advice-card.svelte';
+	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
+	import AiAdviceBaseV2 from '../../ai-advice-base-v2/ai-advice-base-v2.svelte';
 
 	interface Props {
 		tip: AIMessageVocabularyTip;
@@ -15,42 +11,55 @@
 
 	let { tip }: Props = $props();
 
-	const colors = getAiMessageLearningTipColors('VOCABULARY');
-	const VocabularyIcon = AI_MESSAGE_LEARNING_TIP_ICONS_MAP['VOCABULARY'];
+	function toBlocks(tip: AIMessageVocabularyTip): {
+		headerBlocks: AiAdviceBaseV2Block[];
+		bodyBlocks: AiAdviceBaseV2Block[];
+	} {
+		return {
+			headerBlocks: [
+				{
+					type: 'translation',
+					label: 'Word',
+					translation: {
+						text: tip.word,
+						Icon: AI_MESSAGE_LEARNING_TIP_ICONS_MAP['VOCABULARY'],
+						badges: [
+							{
+								text: tip.register,
+								register: tip.register
+							}
+						]
+					},
+					nativeLanguage: {
+						text: tip.nativeLanguageEquivalent
+					}
+				}
+			],
+			bodyBlocks: [
+				{
+					type: 'text',
+					label: 'Definition',
+					text: tip.definition,
+					Icon: EXPLANATION_ICON
+				},
+				{
+					type: 'text',
+					label: 'Usage Note',
+					text: tip.usageNote
+				},
+				{
+					type: 'examples',
+					label: 'Example Sentences',
+					examples: tip.exampleSentences,
+					parseBold: true,
+					category: 'VOCABULARY'
+				}
+			]
+		};
+	}
+
+	const color = 'blue' as const;
+	const { headerBlocks, bodyBlocks } = toBlocks(tip);
 </script>
 
-<AIAdviceCard cardBg={colors.cardBg} cardBorder={colors.cardBorder}>
-	{#snippet header()}
-		<div class="feedback-card-section">
-			<p class="feedback-card-label">Word:</p>
-			<div class="feedback-card-text-box variant-blue flex gap-2">
-				<VocabularyIcon class={cn('w-4 h-4', colors.iconColor)} />
-				<span class="flex-1 content-long-sm">{tip.word}</span>
-
-				<TipRegisterBadge register={tip.register} color={colors.twColor} />
-			</div>
-
-			<div class="feedback-card-text-box variant-neutral flex gap-2 mt-1">
-				<AuthUserNativeLanguageFlag class="w-4 h-4" />
-				<span class="flex-1 content-long-sm">{tip.nativeLanguageEquivalent}</span>
-			</div>
-		</div>
-	{/snippet}
-
-	<div class="feedback-card-section">
-		<p class="feedback-card-label">Definition:</p>
-		<div class="feedback-card-text-box variant-neutral">
-			<EXPLANATION_ICON class={cn('w-4 h-4', colors.iconColor)} />
-			<span class="content-long-sm">{tip.definition}</span>
-		</div>
-	</div>
-
-	<div class="feedback-card-section">
-		<p class="feedback-card-label">Usage Note:</p>
-		<div class="feedback-card-text-box variant-neutral">
-			<span class="content-long-sm">{tip.usageNote}</span>
-		</div>
-	</div>
-
-	<LearningTipExampleSentence exampleSentence={tip.exampleSentences} category="VOCABULARY" />
-</AIAdviceCard>
+<AiAdviceBaseV2 {color} {headerBlocks} {bodyBlocks} />

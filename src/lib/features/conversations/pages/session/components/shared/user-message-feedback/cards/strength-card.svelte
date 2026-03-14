@@ -1,10 +1,9 @@
 <script lang="ts">
-	import { Badge, cn } from 'flowbite-svelte';
 	import type { ConversationMessageStrength } from '$lib/types/conversation/domain/conversation-message-feedback';
-	import { getUserMessageFeedbackColors } from '$conversations/pages/session/constants/user-message-feedback/colors';
-	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$conversations/pages/session/constants/user-message-feedback/icons';
+	import type { AiAdviceBaseV2Block } from '../../ai-advice-base-v2/ai-advice.types';
 	import { EXPLANATION_ICON } from '$conversations/pages/session/constants/icons';
-	import AIAdviceCard from '../../ai-advice-card.svelte';
+	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$conversations/pages/session/constants/user-message-feedback/icons';
+	import AiAdviceBaseV2 from '../../ai-advice-base-v2/ai-advice-base-v2.svelte';
 
 	interface Props {
 		strength: ConversationMessageStrength;
@@ -12,28 +11,40 @@
 
 	let { strength }: Props = $props();
 
-	const { cardBg, cardBorder, twColor, iconColor } = getUserMessageFeedbackColors('STRENGTHS');
-	const StrengthIcon = USER_MESSAGE_FEEDBACK_ICONS_MAP['STRENGTHS'];
+	function toBlocks(strength: ConversationMessageStrength): {
+		headerBlocks: AiAdviceBaseV2Block[];
+		bodyBlocks: AiAdviceBaseV2Block[];
+	} {
+		return {
+			headerBlocks: [
+				{
+					type: 'translation',
+					label: 'Phrase',
+					translation: {
+						text: strength.phrase,
+						Icon: USER_MESSAGE_FEEDBACK_ICONS_MAP['STRENGTHS'],
+						badges: [
+							{
+								text: strength.strengthType
+							}
+						]
+					}
+					// No native language for strength card
+				}
+			],
+			bodyBlocks: [
+				{
+					type: 'text',
+					label: 'Explanation',
+					text: strength.explanation,
+					Icon: EXPLANATION_ICON
+				}
+			]
+		};
+	}
+
+	const color = 'green' as const;
+	const { headerBlocks, bodyBlocks } = toBlocks(strength);
 </script>
 
-<AIAdviceCard {cardBg} {cardBorder}>
-	{#snippet header()}
-		<div class="feedback-card-section">
-			<p class="feedback-card-label">Phrase:</p>
-			<div class="feedback-card-text-box variant-green">
-				<StrengthIcon class={cn('w-4 h-4', iconColor)} />
-				<span class="flex-1 content-long-sm">{strength.phrase}</span>
-
-				<Badge color={twColor}>{strength.strengthType}</Badge>
-			</div>
-		</div>
-	{/snippet}
-
-	<div class="feedback-card-section">
-		<p class="feedback-card-label">Explanation:</p>
-		<div class="feedback-card-text-box variant-neutral">
-			<EXPLANATION_ICON class={cn('w-4 h-4', iconColor)} />
-			<span class="content-long-sm">{strength.explanation}</span>
-		</div>
-	</div>
-</AIAdviceCard>
+<AiAdviceBaseV2 {color} {headerBlocks} {bodyBlocks} />
