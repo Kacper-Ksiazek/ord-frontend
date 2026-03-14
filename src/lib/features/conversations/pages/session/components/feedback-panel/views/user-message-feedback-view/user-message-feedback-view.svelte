@@ -1,6 +1,5 @@
 <script lang="ts">
 	import size from 'lodash/size';
-	import { getSidepanelContext } from '../../../../contexts/sidepanel-context.svelte';
 	import { getMessagesContext } from '../../../../contexts/messages-context.svelte';
 	import { Tabs } from '$lib/components/navigation/tabs';
 	import type { Tab } from '$lib/components/navigation/tabs';
@@ -18,7 +17,6 @@
 
 	let { feedback }: Props = $props();
 
-	const sidepanelContext = getSidepanelContext();
 	const messagesContext = getMessagesContext();
 	const messages = $derived(messagesContext.messages);
 
@@ -51,10 +49,6 @@
 {#if currentMessage}
 	<div class="flex flex-col h-full min-h-0">
 		<div class="shrink-0 space-y-6">
-			<button class="text-muted-small mb-4" onclick={() => (sidepanelContext.isOpened = false)}>
-				Back
-			</button>
-
 			<h2 class="heading-4 mb-4">Feedback Details</h2>
 
 			<Tabs

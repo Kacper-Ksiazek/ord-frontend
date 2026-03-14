@@ -10,7 +10,7 @@
 		score,
 		maxScore = 10,
 		size = 120,
-		strokeWidth = 5,
+		strokeWidth = 6,
 		class: className = ''
 	}: CircularProgressBarProps = $props();
 

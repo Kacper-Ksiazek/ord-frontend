@@ -1,11 +1,14 @@
 <script lang="ts">
 	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
-	import { Badge } from 'flowbite-svelte';
 	import CircularProgressBar from '$lib/components/scores/circular-progress-bar/circular-progress-bar.svelte';
-	import { ScoreBox } from '$lib/components/scores';
+	import { ScoreDiffIndicator } from '$lib/components/scores';
+	import AiInterlocutorAvatar from '$lib/features/conversations/shared/components/ai-interlocutor-avatar.svelte';
 	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import type { CompactConversationUserMessage } from '$lib/types/conversation/domain/conversation-message';
 	import type { ConversationMessagePerformanceScore } from '$lib/types/conversation/domain/conversation-message-feedback';
+	import { getConversationContext } from '$conversations/pages/session/contexts/conversation-context.svelte';
+	import AuthUserAvatar from '$lib/components/auth-user-avatar.svelte';
+	import UserMessageTextContent from '$conversations/pages/session/components/messages-panel/components/messages/user-message/lib/user-message-text-content.svelte';
 
 	interface OverviewTabProps {
 		feedback: ConversationUserMessageFeedbackDTO;
@@ -15,6 +18,7 @@
 
 	type PerformanceMetrics = Record<ConversationMessagePerformanceScore, number>;
 
+	const { interlocutor } = getConversationContext();
 	const { feedback, messageContent, userMessages }: OverviewTabProps = $props();
 
 	const feedbacks: ConversationUserMessageFeedbackDTO[] = $derived(
@@ -39,49 +43,54 @@
 			naturalness: sums.naturalness / (feedbacks.length || 1)
 		};
 	});
-
-	const averageCharacterCount = $derived.by(() => {
-		if (userMessages.length === 0) return 0;
-
-		const totalChars = userMessages.reduce((acc, msg) => acc + msg.content.length, 0);
-
-		return Math.round(totalChars / userMessages.length);
-	});
-
-	const currentCharacterCount = messageContent?.length ?? 0;
 </script>
 
 {#snippet performanceScore(props: { label: string; score: number | null; averageScore: number })}
 	<div class="flex flex-col items-center gap-2">
 		<CircularProgressBar label={props.label} score={props.score} />
+
 		<div class="flex items-center gap-2">
-			<ScoreBox score={props.score} />
-			<span class="text-xs text-muted-small">
+			<span class="text-sm text-muted-small">
 				avg: {props.averageScore.toFixed(1)}
 			</span>
+			<ScoreDiffIndicator currentScore={props.score} averageScore={props.averageScore} />
 		</div>
 	</div>
 {/snippet}
 
 <ScrollableWrapper wrapperClass="min-h-0" contentClass="px-0">
-	<div class="space-y-6">
-		<!-- Tutor Comment -->
-		{#if feedback.tutorComment}
-			<div
-				class="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600"
-			>
-				<div class="flex flex-wrap gap-2">
-					<Badge color="primary" large class="px-3 py-1.5 max-w-full">
-						<span class="font-medium wrap-break-word">{feedback.tutorComment}</span>
-					</Badge>
-				</div>
+	<div class="space-y-2">
+		<div class="space-y-2">
+			<div class="flex items-center gap-2">
+				<AuthUserAvatar size={40} />
+				<h3 class="heading-5 m-0">Message</h3>
 			</div>
-		{/if}
+		</div>
 
-		<!-- Performance Scores -->
+		<div class="content-long">
+			<UserMessageTextContent
+				messageIndex={0}
+				messageContent={messageContent ?? ''}
+				{feedback}
+				disableHoverHighlight={true}
+				showIconsInHighlightedParts={false}
+			/>
+		</div>
+	</div>
+
+	<div class="space-y-2">
+		<div class="space-y-2">
+			<div class="flex items-center gap-2">
+				<AiInterlocutorAvatar
+					avatarId={interlocutor.avatarId}
+					size="fullsize"
+					class="rounded-full w-10 h-10"
+				/>
+				<h3 class="heading-5 m-0">Tutor Comment</h3>
+			</div>
+		</div>
+
 		<div class="space-y-4">
-			<h3 class="heading-5">Performance Scores</h3>
-
 			<div class="grid grid-cols-3 gap-4">
 				{@render performanceScore({
 					label: 'Grammar',
@@ -101,22 +110,8 @@
 					averageScore: averageScores.naturalness
 				})}
 			</div>
-		</div>
 
-		<!-- Message Content -->
-		{#if messageContent}
-			<div class="space-y-2">
-				<h3 class="heading-5">Message</h3>
-				<div
-					class="p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg border border-gray-200 dark:border-gray-600"
-				>
-					<p class="body-small whitespace-pre-wrap">{messageContent}</p>
-				</div>
-				<div class="flex items-center gap-4 text-sm text-muted-small">
-					<span>Characters: {currentCharacterCount}</span>
-					<span>Average: {averageCharacterCount}</span>
-				</div>
-			</div>
-		{/if}
+			<span class="content-long">{feedback.tutorComment}</span>
+		</div>
 	</div>
 </ScrollableWrapper>
