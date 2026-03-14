@@ -3,11 +3,15 @@
 
 @layer components {
 	.feedback-card-container {
-		@apply p-4 rounded-lg border;
+		@apply p-4 rounded-lg border transition-all cursor-pointer;
+	}
+
+	.feedback-card-container:hover {
+		@apply brightness-95 dark:brightness-110;
 	}
 
 	.feedback-card-header {
-		@apply flex items-start justify-between mb-2;
+		@apply mb-2;
 	}
 
 	.feedback-card-section {
