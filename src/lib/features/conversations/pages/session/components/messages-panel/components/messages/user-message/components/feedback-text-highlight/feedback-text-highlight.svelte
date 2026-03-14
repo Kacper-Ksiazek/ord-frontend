@@ -12,7 +12,7 @@
 		MistakeCard,
 		StrengthCard,
 		SuggestionCard
-	} from '$lib/features/conversations/pages/session/components/shared/user-message-feedback/cards';
+	} from '$lib/features/conversations/pages/session/components/shared/ai-advice-base-v2/cards';
 	import { getUserMessageFeedbackColors } from '$conversations/pages/session/constants/user-message-feedback/colors';
 	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$conversations/pages/session/constants/user-message-feedback/icons';
 

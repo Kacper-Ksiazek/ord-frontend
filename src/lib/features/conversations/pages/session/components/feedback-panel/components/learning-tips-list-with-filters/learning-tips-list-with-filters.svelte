@@ -15,7 +15,7 @@
 		GrammarTipCard,
 		PhraseTipCard,
 		VocabularyTipCard
-	} from '$conversations/pages/session/components/shared/ai-message-learning-tips/cards';
+	} from '$lib/features/conversations/pages/session/components/shared/ai-advice-base-v2/cards';
 	import type {
 		AIMessageGrammarTip,
 		AIMessageVocabularyTip,

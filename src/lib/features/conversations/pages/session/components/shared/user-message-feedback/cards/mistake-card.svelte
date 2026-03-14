@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '../../cards.css';
 	import { Badge, cn } from 'flowbite-svelte';
 	import type { ConversationMessageMistake } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import { Check, X } from 'lucide-svelte';
@@ -7,6 +6,7 @@
 	import { EXPLANATION_ICON } from '$conversations/pages/session/constants/icons';
 	import { MISTAKE_SEVERITY_ICONS_MAP } from '$conversations/pages/session/constants/user-message-feedback/subcategory-icons';
 	import { MistakeSeverityIndicator } from '$lib/components/scores';
+	import AIAdviceCard from '../../ai-advice-card.svelte';
 
 	interface Props {
 		mistake: ConversationMessageMistake;
@@ -18,31 +18,33 @@
 	const SeverityIcon = MISTAKE_SEVERITY_ICONS_MAP[mistake.severity];
 </script>
 
-<div class={cn('feedback-card-container', cardBg, cardBorder)}>
-	<div class="feedback-card-header">
-		<Badge color={twColor}>{mistake.errorType}</Badge>
+<AIAdviceCard {cardBg} {cardBorder}>
+	{#snippet header()}
+		<div class="flex items-start justify-between mb-2">
+			<Badge color={twColor}>{mistake.errorType}</Badge>
 
-		<div class="flex items-start gap-2">
-			<SeverityIcon class={cn('w-5 h-5 mt-0.5', iconColor)} />
-			<MistakeSeverityIndicator severity={mistake.severity} />
+			<div class="flex items-start gap-2">
+				<SeverityIcon class={cn('w-5 h-5 mt-0.5', iconColor)} />
+				<MistakeSeverityIndicator severity={mistake.severity} />
+			</div>
 		</div>
-	</div>
 
-	<div class="feedback-card-section">
-		<p class="feedback-card-label">Phrase:</p>
-		<div class="feedback-card-text-box variant-red">
-			<X class={cn('w-4 h-4', iconColor)} />
-			<span class="content-long-sm">{mistake.phrase}</span>
+		<div class="feedback-card-section">
+			<p class="feedback-card-label">Phrase:</p>
+			<div class="feedback-card-text-box variant-red">
+				<X class={cn('w-4 h-4', iconColor)} />
+				<span class="content-long-sm">{mistake.phrase}</span>
+			</div>
 		</div>
-	</div>
 
-	<div class="feedback-card-section">
-		<p class="feedback-card-label">Correct form:</p>
-		<div class="feedback-card-text-box variant-green">
-			<Check class={cn('w-4 h-4', getUserMessageFeedbackColors('STRENGTHS').iconColor)} />
-			<span class="content-long-sm">{mistake.correctForm}</span>
+		<div class="feedback-card-section">
+			<p class="feedback-card-label">Correct form:</p>
+			<div class="feedback-card-text-box variant-green">
+				<Check class={cn('w-4 h-4', getUserMessageFeedbackColors('STRENGTHS').iconColor)} />
+				<span class="content-long-sm">{mistake.correctForm}</span>
+			</div>
 		</div>
-	</div>
+	{/snippet}
 
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Explanation:</p>
@@ -51,4 +53,4 @@
 			<span class="content-long-sm">{mistake.explanation}</span>
 		</div>
 	</div>
-</div>
+</AIAdviceCard>

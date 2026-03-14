@@ -1,5 +1,4 @@
 <script lang="ts">
-	import '../../cards.css';
 	import { Badge, cn } from 'flowbite-svelte';
 	import type {
 		AIMessagePhraseTip,
@@ -12,6 +11,7 @@
 	import LearningTipExampleSentence from './shared/learning-tip-example-sentence.svelte';
 	import TipRegisterBadge from './shared/tip-register-badge.svelte';
 	import AuthUserNativeLanguageFlag from '$lib/components/auth-user-native-language-flag.svelte';
+	import AIAdviceCard from '../../ai-advice-card.svelte';
 
 	interface Props {
 		tip: AIMessagePhraseTip;
@@ -28,26 +28,28 @@
 	}
 </script>
 
-<div class={cn('feedback-card-container', colors.cardBg, colors.cardBorder)}>
-	<div class="feedback-card-section">
-		<p class="feedback-card-label">Phrase:</p>
+<AIAdviceCard cardBg={colors.cardBg} cardBorder={colors.cardBorder}>
+	{#snippet header()}
+		<div class="feedback-card-section">
+			<p class="feedback-card-label">Phrase:</p>
 
-		<div class="feedback-card-text-box variant-purple flex gap-2">
-			<PhraseIcon class={cn('w-4 h-4', colors.iconColor)} />
-			<span class="flex-1 content-long-sm">{tip.phrase}</span>
+			<div class="feedback-card-text-box variant-purple flex gap-2">
+				<PhraseIcon class={cn('w-4 h-4', colors.iconColor)} />
+				<span class="flex-1 content-long-sm">{tip.phrase}</span>
 
-			<Badge color={colors.twColor} class="flex items-center gap-1">
-				<PhraseTypeIcon class="w-4 h-4" />
-				{getPhraseTypeLabel(tip.phraseType)}
-			</Badge>
-			<TipRegisterBadge register={tip.register} color={colors.twColor} />
+				<Badge color={colors.twColor} class="flex items-center gap-1">
+					<PhraseTypeIcon class="w-4 h-4" />
+					{getPhraseTypeLabel(tip.phraseType)}
+				</Badge>
+				<TipRegisterBadge register={tip.register} color={colors.twColor} />
+			</div>
+
+			<div class="feedback-card-text-box variant-neutral flex gap-2 mt-1">
+				<AuthUserNativeLanguageFlag class="w-4 h-4" />
+				<span class="flex-1 content-long-sm">{tip.nativeLanguageEquivalent}</span>
+			</div>
 		</div>
-
-		<div class="feedback-card-text-box variant-neutral flex gap-2 mt-1">
-			<AuthUserNativeLanguageFlag class="w-4 h-4" />
-			<span class="flex-1 content-long-sm">{tip.nativeLanguageEquivalent}</span>
-		</div>
-	</div>
+	{/snippet}
 
 	<div class="feedback-card-section">
 		<p class="feedback-card-label">Meaning:</p>
@@ -58,4 +60,4 @@
 	</div>
 
 	<LearningTipExampleSentence exampleSentence={tip.exampleSentences} category="PHRASES" />
-</div>
+</AIAdviceCard>
