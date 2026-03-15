@@ -58,7 +58,7 @@
 	</div>
 {/snippet}
 
-<ScrollableWrapper wrapperClass="min-h-0" contentClass="px-0">
+<ScrollableWrapper wrapperClass="min-h-0" contentClass="px-0 gap-12">
 	<div class="space-y-2">
 		<div class="space-y-2">
 			<div class="flex items-center gap-2">
@@ -90,7 +90,9 @@
 			</div>
 		</div>
 
-		<div class="space-y-4">
+		<div class="flex flex-col gap-4">
+			<span class="content-long">{feedback.tutorComment}</span>
+
 			<div class="grid grid-cols-3 gap-4">
 				{@render performanceScore({
 					label: 'Grammar',
@@ -110,8 +112,6 @@
 					averageScore: averageScores.naturalness
 				})}
 			</div>
-
-			<span class="content-long">{feedback.tutorComment}</span>
 		</div>
 	</div>
 </ScrollableWrapper>
