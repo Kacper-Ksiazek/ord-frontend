@@ -16,7 +16,7 @@
 
 	const theme = getTailwindColorTheme(color);
 	let isCollapsed = $state(!defaultExpandState);
-	let cardElement = $state<HTMLDivElement | undefined>(undefined);
+	let scrollRef: HTMLElement | undefined = $state(undefined);
 
 	function toggleExpandCollapse() {
 		const wasCollapsed = isCollapsed;
@@ -24,9 +24,10 @@
 
 		if (wasCollapsed && isExpandable) {
 			setTimeout(() => {
-				cardElement?.scrollIntoView({
+				scrollRef?.scrollIntoView({
 					behavior: 'smooth',
-					block: 'nearest'
+					block: 'start',
+					inline: 'nearest'
 				});
 			}, 200);
 		}
@@ -34,9 +35,9 @@
 </script>
 
 <div
-	bind:this={cardElement}
+	bind:this={scrollRef}
 	class={cn(
-		'feedback-card-container',
+		'feedback-card-container relative',
 		isExpandable && 'cursor-pointer expandable',
 		theme.cardBg,
 		theme.cardBorder
