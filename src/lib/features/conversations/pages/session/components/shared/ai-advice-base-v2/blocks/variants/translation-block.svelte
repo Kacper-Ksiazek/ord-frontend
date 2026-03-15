@@ -35,7 +35,7 @@
 	});
 </script>
 
-<div class="feedback-card-section">
+<div>
 	<p class="feedback-card-label">{block.label || 'Translation'}:</p>
 	<div class={cn('feedback-card-text-box', variantClass, 'flex gap-2')}>
 		<block.translation.Icon class={cn('w-4 h-4', theme.iconColor)} />

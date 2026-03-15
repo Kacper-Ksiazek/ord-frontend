@@ -3,19 +3,11 @@
 
 @layer components {
 	.feedback-card-container {
-		@apply p-4 rounded-lg border transition-all;
+		@apply p-4 rounded-lg border transition-all flex flex-col gap-2;
 	}
 
 	.feedback-card-container.expandable:hover {
 		@apply brightness-95 dark:brightness-110;
-	}
-
-	.feedback-card-header {
-		@apply mb-2;
-	}
-
-	.feedback-card-section {
-		@apply mb-3;
 	}
 
 	.feedback-card-label {

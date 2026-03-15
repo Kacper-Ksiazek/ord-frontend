@@ -46,7 +46,7 @@
 </script>
 
 {#if block.examples && block.examples.length > 0}
-	<div class="feedback-card-section">
+	<div>
 		<p class="feedback-card-label">{block.label}:</p>
 		<div class="space-y-2">
 			{#each block.examples as example (example)}

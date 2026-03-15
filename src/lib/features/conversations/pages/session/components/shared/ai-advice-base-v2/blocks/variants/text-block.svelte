@@ -27,7 +27,7 @@
 	});
 </script>
 
-<div class="feedback-card-section">
+<div>
 	<p class="feedback-card-label">{block.label}:</p>
 	<div class={cn('feedback-card-text-box', variantClass)}>
 		{#if block.Icon}

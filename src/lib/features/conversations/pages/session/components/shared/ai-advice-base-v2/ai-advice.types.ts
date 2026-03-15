@@ -65,6 +65,8 @@ export type AiAdviceBaseV2Block = TranslationBlock | ExamplesBlock | TextBlock |
 export interface DerivedAiAdviceCardProps {
 	/** Whether the card can be expanded/collapsed. Defaults to true. */
 	isExpandable?: boolean;
+	/** Whether the card starts expanded or collapsed. Defaults to false (collapsed). */
+	defaultExpandState?: boolean;
 }
 
 export interface AiAdviceBaseV2Props extends DerivedAiAdviceCardProps {

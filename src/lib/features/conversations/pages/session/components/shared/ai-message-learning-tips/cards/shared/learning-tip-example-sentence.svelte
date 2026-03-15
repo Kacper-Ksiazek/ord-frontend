@@ -37,7 +37,7 @@
 </script>
 
 {#if exampleSentence && exampleSentence.length > 0}
-	<div class="feedback-card-section">
+	<div>
 		<p class="feedback-card-label">Example Sentences:</p>
 		<div class="space-y-2">
 			{#each exampleSentence as sentence (sentence)}
