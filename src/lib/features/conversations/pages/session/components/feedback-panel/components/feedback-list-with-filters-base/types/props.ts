@@ -19,5 +19,12 @@ export interface FeedbackListWithFiltersBaseProps<
 		filters: TFilters
 	) => boolean;
 
-	listItem: Snippet<[{ item: FilterableItem<TData, TCategory, TSubcategory> }]>;
+	listItem: Snippet<
+		[
+			{
+				item: FilterableItem<TData, TCategory, TSubcategory>;
+				defaultExpandState: boolean;
+			}
+		]
+	>;
 }

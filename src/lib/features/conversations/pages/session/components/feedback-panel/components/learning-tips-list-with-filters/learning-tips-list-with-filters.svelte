@@ -40,7 +40,8 @@
 	let filters = $state<FilterBase<Category, Subcategory>>({
 		category: 'ALL',
 		subcategory: null,
-		searchQuery: ''
+		searchQuery: '',
+		defaultExpandState: false
 	});
 
 	const aggregatedTips = $derived.by<FilterableItem<Data, Category, Subcategory>[]>(() => {
@@ -133,13 +134,13 @@
 </script>
 
 <FeedbackListWithFiltersBase items={aggregatedTips} {categories} bind:filters>
-	{#snippet listItem({ item })}
+	{#snippet listItem({ item, defaultExpandState })}
 		{#if item.data.type === 'GRAMMAR'}
-			<GrammarTipCard tip={item.data.data as AIMessageGrammarTip} />
+			<GrammarTipCard tip={item.data.data as AIMessageGrammarTip} {defaultExpandState} />
 		{:else if item.data.type === 'VOCABULARY'}
-			<VocabularyTipCard tip={item.data.data as AIMessageVocabularyTip} />
+			<VocabularyTipCard tip={item.data.data as AIMessageVocabularyTip} {defaultExpandState} />
 		{:else if item.data.type === 'PHRASES'}
-			<PhraseTipCard tip={item.data.data as AIMessagePhraseTip} />
+			<PhraseTipCard tip={item.data.data as AIMessagePhraseTip} {defaultExpandState} />
 		{/if}
 	{/snippet}
 </FeedbackListWithFiltersBase>

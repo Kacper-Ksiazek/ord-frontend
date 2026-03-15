@@ -39,4 +39,6 @@ export interface FilterBase<
 	category: TCategory;
 	subcategory: TSubcategory;
 	searchQuery: string;
+	/** Whether cards start expanded or collapsed. Defaults to false (collapsed) when undefined. */
+	defaultExpandState?: boolean;
 }

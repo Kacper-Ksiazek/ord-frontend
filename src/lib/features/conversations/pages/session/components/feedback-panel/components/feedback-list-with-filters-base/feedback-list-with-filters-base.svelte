@@ -4,7 +4,12 @@
 
 <script
 	lang="ts"
-	generics="TData, TCategory extends CategoryFilterBase, TSubcategory extends string | null, TFilters extends FilterBase<TCategory, TSubcategory>"
+	generics="
+		TData, 
+		TCategory extends CategoryFilterBase, 
+		TSubcategory extends string | null, 
+		TFilters extends FilterBase<TCategory, TSubcategory>
+	"
 >
 	import isEmpty from 'lodash/isEmpty';
 	import type { FeedbackListWithFiltersBaseProps } from './types/props';
@@ -30,10 +35,30 @@
 				? JSON.stringify(filters) !== JSON.stringify(defaultFilters)
 				: filters.category !== ('ALL' satisfies CategoryFilterBase) ||
 					filters.subcategory !== null ||
-					filters.searchQuery.trim() !== '')
+					filters.searchQuery.trim() !== '' ||
+					(filters.defaultExpandState ?? false) === true)
 	);
 
-	const filteredItems = $derived(applyFilters({ evaluateCustomFilters, items, filters }));
+	const filteredItems = $derived(
+		applyFilters({
+			evaluateCustomFilters, //
+			items,
+			filters
+		})
+	);
+
+	function clearFilters() {
+		if (defaultFilters) {
+			Object.assign(filters, defaultFilters);
+		} else {
+			Object.assign(filters, {
+				category: 'ALL' satisfies CategoryFilterBase,
+				subcategory: null,
+				searchQuery: '',
+				defaultExpandState: false
+			});
+		}
+	}
 </script>
 
 <CategoriesAndSubcategories {categories} bind:filters />
@@ -42,17 +67,7 @@
 	bind:filters
 	areFiltersClearable={computedAreFiltersClearable}
 	{customFilters}
-	clearFilters={() => {
-		if (defaultFilters) {
-			Object.assign(filters, defaultFilters);
-		} else {
-			Object.assign(filters, {
-				category: 'ALL' satisfies CategoryFilterBase,
-				subcategory: null,
-				searchQuery: ''
-			});
-		}
-	}}
+	{clearFilters}
 />
 
 {#key Object.values(filters).join('-')}
@@ -60,7 +75,7 @@
 		{#if !isEmpty(filteredItems)}
 			<div class="space-y-4">
 				{#each filteredItems as item, i (i)}
-					{@render listItem({ item })}
+					{@render listItem({ item, defaultExpandState: filters.defaultExpandState ?? false })}
 				{/each}
 			</div>
 		{:else}

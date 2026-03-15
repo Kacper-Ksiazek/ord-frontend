@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Input from '$lib/components/forms/input/input.svelte';
 	import { IconButton } from '$lib/components/buttons/icon-button';
-	import { SearchIcon, TrashIcon } from 'lucide-svelte';
+	import { SearchIcon, TrashIcon, ChevronDown, ChevronUp } from 'lucide-svelte';
 	import type { Snippet } from 'svelte';
 	import type { FilterBase } from '../types/utility-types';
 
@@ -9,11 +9,18 @@
 		filters: FilterBase;
 		areFiltersClearable: boolean;
 		customFilters?: Snippet;
-
 		clearFilters: () => void;
 	}
 
 	let { filters = $bindable(), areFiltersClearable, customFilters, clearFilters }: Props = $props();
+
+	const isExpanded = $derived(filters.defaultExpandState ?? false);
+	const expandCollapseIcon = $derived(isExpanded ? ChevronDown : ChevronUp);
+	const expandCollapseTooltip = $derived(isExpanded ? 'Collapse all' : 'Expand all');
+
+	function toggleExpandCollapse() {
+		filters.defaultExpandState = !isExpanded;
+	}
 </script>
 
 <div class="flex items-center gap-3 mb-4">
@@ -22,6 +29,15 @@
 		placeholder="Search feedback..."
 		class="flex-1"
 		leftAdornment={SearchIcon}
+	/>
+
+	<IconButton
+		onClick={toggleExpandCollapse}
+		icon={expandCollapseIcon}
+		ariaLabel={expandCollapseTooltip}
+		tooltip={expandCollapseTooltip}
+		type="OUTLINED"
+		variant="TEXT"
 	/>
 
 	{#if customFilters}

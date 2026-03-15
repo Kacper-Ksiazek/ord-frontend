@@ -44,7 +44,8 @@
 	let filters = $state<FilterBase<Category, Subcategory>>({
 		category: 'ALL',
 		subcategory: null,
-		searchQuery: ''
+		searchQuery: '',
+		defaultExpandState: false
 	});
 
 	const aggregatedFeedbacks = $derived.by<FilterableItem<Data, Category, Subcategory>[]>(() => {
@@ -171,13 +172,16 @@
 </script>
 
 <FeedbackListWithFiltersBase items={aggregatedFeedbacks} {categories} bind:filters>
-	{#snippet listItem({ item })}
+	{#snippet listItem({ item, defaultExpandState })}
 		{#if item.data.type === 'MISTAKES'}
-			<MistakeCard mistake={item.data.data as ConversationMessageMistake} />
+			<MistakeCard mistake={item.data.data as ConversationMessageMistake} {defaultExpandState} />
 		{:else if item.data.type === 'STRENGTHS'}
-			<StrengthCard strength={item.data.data as ConversationMessageStrength} />
+			<StrengthCard strength={item.data.data as ConversationMessageStrength} {defaultExpandState} />
 		{:else if item.data.type === 'SUGGESTIONS'}
-			<SuggestionCard suggestion={item.data.data as ConversationMessageSuggestion} />
+			<SuggestionCard
+				suggestion={item.data.data as ConversationMessageSuggestion}
+				{defaultExpandState}
+			/>
 		{/if}
 	{/snippet}
 </FeedbackListWithFiltersBase>
