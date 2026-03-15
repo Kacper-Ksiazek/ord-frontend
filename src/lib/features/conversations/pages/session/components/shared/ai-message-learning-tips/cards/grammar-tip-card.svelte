@@ -1,15 +1,18 @@
 <script lang="ts">
 	import type { AIMessageGrammarTip } from '$lib/types/ongoing-conversation/api/responses';
-	import type { AiAdviceBaseV2Block } from '../../ai-advice-base-v2/ai-advice.types';
+	import type {
+		AiAdviceBaseV2Block,
+		DerivedAiAdviceCardProps
+	} from '../../ai-advice-base-v2/ai-advice.types';
 	import { EXPLANATION_ICON } from '$conversations/pages/session/constants/icons';
 	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
 	import AiAdviceBaseV2 from '../../ai-advice-base-v2/ai-advice-base-v2.svelte';
 
-	interface Props {
+	interface Props extends DerivedAiAdviceCardProps {
 		tip: AIMessageGrammarTip;
 	}
 
-	let { tip }: Props = $props();
+	let { tip, isExpandable }: Props = $props();
 
 	function toBlocks(tip: AIMessageGrammarTip): {
 		headerBlocks: AiAdviceBaseV2Block[];
@@ -62,4 +65,4 @@
 	const { headerBlocks, bodyBlocks } = toBlocks(tip);
 </script>
 
-<AiAdviceBaseV2 {color} {headerBlocks} {bodyBlocks} />
+<AiAdviceBaseV2 {color} {headerBlocks} {bodyBlocks} {isExpandable} />
