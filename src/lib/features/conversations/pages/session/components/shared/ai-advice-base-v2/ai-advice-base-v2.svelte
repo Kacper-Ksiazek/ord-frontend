@@ -6,18 +6,25 @@
 	import { getTailwindColorTheme } from '$lib/utils/theme/get-tailwind-colors';
 	import BlockRenderer from './blocks/block-renderer.svelte';
 
-	let { headerBlocks, bodyBlocks, color }: AiAdviceBaseV2Props = $props();
+	let { headerBlocks, bodyBlocks, color, isExpandable = true }: AiAdviceBaseV2Props = $props();
 
 	const theme = getTailwindColorTheme(color);
 	let isCollapsed = $state(false);
 </script>
 
 <div
-	class={cn('feedback-card-container cursor-pointer', theme.cardBg, theme.cardBorder)}
-	onclick={() => (isCollapsed = !isCollapsed)}
-	role="button"
-	tabindex="0"
-	onkeydown={(e) => e.key === 'Enter' && (isCollapsed = !isCollapsed)}
+	class={cn(
+		'feedback-card-container',
+		isExpandable && 'cursor-pointer expandable',
+		theme.cardBg,
+		theme.cardBorder
+	)}
+	{...isExpandable && {
+		onclick: () => (isCollapsed = !isCollapsed),
+		role: 'button',
+		tabindex: 0,
+		onkeydown: (e) => e.key === 'Enter' && (isCollapsed = !isCollapsed)
+	}}
 >
 	<div class="feedback-card-header">
 		{#each headerBlocks as block (block)}
@@ -25,7 +32,7 @@
 		{/each}
 	</div>
 
-	{#if !isCollapsed}
+	{#if !isCollapsed || !isExpandable}
 		<div transition:slide={{ duration: 150 }}>
 			{#each bodyBlocks as block (block)}
 				<BlockRenderer {block} {theme} />

@@ -59,7 +59,15 @@ export interface BadgesBlock extends BaseBlock {
 
 export type AiAdviceBaseV2Block = TranslationBlock | ExamplesBlock | TextBlock | BadgesBlock;
 
-export type AiAdviceBaseV2Props = {
+/**
+ * Props that always should be added to all derived cards props.
+ */
+export interface DerivedAiAdviceCardProps {
+	/** Whether the card can be expanded/collapsed. Defaults to true. */
+	isExpandable?: boolean;
+}
+
+export interface AiAdviceBaseV2Props extends DerivedAiAdviceCardProps {
 	color: TabsSupportedTailwindColor;
 
 	/** Not collapsible blocks */
@@ -67,4 +75,4 @@ export type AiAdviceBaseV2Props = {
 
 	/** Collapsible blocks */
 	bodyBlocks: AiAdviceBaseV2Block[];
-};
+}

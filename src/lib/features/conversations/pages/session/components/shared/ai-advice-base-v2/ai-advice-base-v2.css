@@ -3,10 +3,10 @@
 
 @layer components {
 	.feedback-card-container {
-		@apply p-4 rounded-lg border transition-all cursor-pointer;
+		@apply p-4 rounded-lg border transition-all;
 	}
 
-	.feedback-card-container:hover {
+	.feedback-card-container.expandable:hover {
 		@apply brightness-95 dark:brightness-110;
 	}
 
