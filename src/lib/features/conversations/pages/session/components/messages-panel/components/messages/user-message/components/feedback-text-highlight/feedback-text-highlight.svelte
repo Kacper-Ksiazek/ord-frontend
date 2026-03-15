@@ -71,6 +71,11 @@
 		e.preventDefault();
 		e.stopPropagation();
 
+		// Prevent text selection
+		if (window.getSelection) {
+			window.getSelection()?.removeAllRanges();
+		}
+
 		// FLOW: Mistakes -> Suggestions -> Strengths
 		switch (activeCard) {
 			case 'MISTAKES':
@@ -138,6 +143,7 @@
 	onkeydown={handleHighlightKeydown}
 	onmouseleave={handleMouseLeave}
 	onblur={handleMouseLeave}
+	onmousedown={(e) => e.preventDefault()}
 	role="button"
 	tabindex="0"
 >
@@ -214,11 +220,11 @@
 		{/if}
 
 		{#if activeCard === 'MISTAKES' && cards.MISTAKES}
-			<MistakeCard mistake={cards.MISTAKES} />
+			<MistakeCard mistake={cards.MISTAKES} isExpandable={false} />
 		{:else if activeCard === 'SUGGESTIONS' && cards.SUGGESTIONS}
-			<SuggestionCard suggestion={cards.SUGGESTIONS} />
+			<SuggestionCard suggestion={cards.SUGGESTIONS} isExpandable={false} />
 		{:else if activeCard === 'STRENGTHS' && cards.STRENGTHS}
-			<StrengthCard strength={cards.STRENGTHS} />
+			<StrengthCard strength={cards.STRENGTHS} isExpandable={false} />
 		{/if}
 	</Popover>
 {/if}

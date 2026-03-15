@@ -194,10 +194,10 @@
 	{/if}
 
 	{#if activeCard === 'GRAMMAR' && cards.GRAMMAR}
-		<GrammarTipCard tip={cards.GRAMMAR} />
+		<GrammarTipCard tip={cards.GRAMMAR} isExpandable={false} />
 	{:else if activeCard === 'VOCABULARY' && cards.VOCABULARY}
-		<VocabularyTipCard tip={cards.VOCABULARY} />
+		<VocabularyTipCard tip={cards.VOCABULARY} isExpandable={false} />
 	{:else if activeCard === 'PHRASES' && cards.PHRASES}
-		<PhraseTipCard tip={cards.PHRASES} />
+		<PhraseTipCard tip={cards.PHRASES} isExpandable={false} />
 	{/if}
 </Popover>
