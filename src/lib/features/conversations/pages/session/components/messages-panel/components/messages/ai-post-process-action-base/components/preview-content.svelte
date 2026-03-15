@@ -13,6 +13,7 @@
 	function onClick(e: MouseEvent) {
 		e.preventDefault();
 		e.stopPropagation();
+		(e.target as HTMLElement).blur();
 
 		onClickProp?.(e);
 	}
@@ -36,7 +37,7 @@
 	{onClick}
 	type="OUTLINED"
 	variant="TEXT"
-	class={cn('w-[160px]', isSelected && 'ring-2 ring-primary-300 mr-2')}
+	class={cn('w-[160px] h-[32px]', isSelected && 'ring-2 ring-primary-300')}
 >
 	<Icon class="w-4 h-4 mr-1" />
 

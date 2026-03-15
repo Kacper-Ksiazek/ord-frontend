@@ -30,4 +30,12 @@
 	}
 </script>
 
-<IconButton icon={Icon} ariaLabel={tooltip} {tooltip} {onClick} type="OUTLINED" variant="TEXT" />
+<IconButton
+	icon={Icon}
+	ariaLabel={tooltip}
+	{tooltip}
+	{onClick}
+	type="OUTLINED"
+	variant="TEXT"
+	class="h-[32px] w-[32px]"
+/>
