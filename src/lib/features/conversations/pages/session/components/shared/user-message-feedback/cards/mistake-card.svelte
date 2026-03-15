@@ -13,7 +13,7 @@
 		mistake: ConversationMessageMistake;
 	}
 
-	let { mistake, isExpandable }: Props = $props();
+	let { mistake, isExpandable, defaultExpandState }: Props = $props();
 
 	function toBlocks(mistake: ConversationMessageMistake): {
 		headerBlocks: AiAdviceBaseV2Block[];
@@ -63,4 +63,4 @@
 	const { headerBlocks, bodyBlocks } = toBlocks(mistake);
 </script>
 
-<AiAdviceBaseV2 {color} {headerBlocks} {bodyBlocks} {isExpandable} />
+<AiAdviceBaseV2 {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />

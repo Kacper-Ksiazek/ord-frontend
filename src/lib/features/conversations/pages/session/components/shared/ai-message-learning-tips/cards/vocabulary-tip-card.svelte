@@ -12,7 +12,7 @@
 		tip: AIMessageVocabularyTip;
 	}
 
-	let { tip, isExpandable }: Props = $props();
+	let { tip, isExpandable, defaultExpandState }: Props = $props();
 
 	function toBlocks(tip: AIMessageVocabularyTip): {
 		headerBlocks: AiAdviceBaseV2Block[];
@@ -65,4 +65,4 @@
 	const { headerBlocks, bodyBlocks } = toBlocks(tip);
 </script>
 
-<AiAdviceBaseV2 {color} {headerBlocks} {bodyBlocks} {isExpandable} />
+<AiAdviceBaseV2 {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />

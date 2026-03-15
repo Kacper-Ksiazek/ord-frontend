@@ -13,7 +13,7 @@
 		tip: AIMessagePhraseTip;
 	}
 
-	let { tip, isExpandable }: Props = $props();
+	let { tip, isExpandable, defaultExpandState }: Props = $props();
 
 	function getPhraseTypeLabel(phraseType: 'LITERAL' | 'IDIOMATIC'): string {
 		return phraseType === 'IDIOMATIC' ? 'Idiomatic' : 'Literal';
@@ -69,4 +69,4 @@
 	const { headerBlocks, bodyBlocks } = toBlocks(tip);
 </script>
 
-<AiAdviceBaseV2 {color} {headerBlocks} {bodyBlocks} {isExpandable} />
+<AiAdviceBaseV2 {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />

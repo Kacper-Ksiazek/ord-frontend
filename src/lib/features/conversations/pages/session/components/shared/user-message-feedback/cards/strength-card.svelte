@@ -12,7 +12,7 @@
 		strength: ConversationMessageStrength;
 	}
 
-	let { strength, isExpandable }: Props = $props();
+	let { strength, isExpandable, defaultExpandState }: Props = $props();
 
 	function toBlocks(strength: ConversationMessageStrength): {
 		headerBlocks: AiAdviceBaseV2Block[];
@@ -50,4 +50,4 @@
 	const { headerBlocks, bodyBlocks } = toBlocks(strength);
 </script>
 
-<AiAdviceBaseV2 {color} {headerBlocks} {bodyBlocks} {isExpandable} />
+<AiAdviceBaseV2 {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />

@@ -14,7 +14,7 @@
 		suggestion: ConversationMessageSuggestion;
 	}
 
-	let { suggestion, isExpandable }: Props = $props();
+	let { suggestion, isExpandable, defaultExpandState }: Props = $props();
 
 	function toBlocks(suggestion: ConversationMessageSuggestion): {
 		headerBlocks: AiAdviceBaseV2Block[];
@@ -58,4 +58,4 @@
 	const { headerBlocks, bodyBlocks } = toBlocks(suggestion);
 </script>
 
-<AiAdviceBaseV2 {color} {headerBlocks} {bodyBlocks} {isExpandable} />
+<AiAdviceBaseV2 {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />
