@@ -4,8 +4,8 @@
 @layer components {
 	/* Base form input styles - reusable across all form inputs */
 	.form-input-base {
-		@apply px-2.5 h-[40px] rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50;
-		@apply dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-600;
+		@apply px-2.5 h-[40px] rounded-lg border border-gray-400/60 bg-white text-gray-700 hover:bg-gray-50;
+		@apply dark:bg-gray-700 dark:border-gray-500/60 dark:text-gray-300 dark:hover:bg-gray-600;
 		@apply focus:outline-none focus:ring-2;
 	}
 

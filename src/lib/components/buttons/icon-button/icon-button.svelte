@@ -63,8 +63,8 @@
 						);
 					case 'TEXT':
 						return cn(
-							'bg-transparent border-gray-300/50',
-							'dark:bg-transparent dark:border-gray-500/50',
+							'bg-transparent border-gray-400/60',
+							'dark:bg-transparent dark:border-gray-500/60',
 							!disabled && 'hover:bg-black/5 dark:hover:bg-white/5',
 							'focus:ring-gray-300 dark:focus:ring-gray-800'
 						);
