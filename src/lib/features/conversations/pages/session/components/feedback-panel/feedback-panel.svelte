@@ -26,7 +26,7 @@
 
 	<div
 		class={cn(
-			'flex-1 overflow-y-auto min-h-0 p-8', // min-h-0 allows flex child to shrink below content size
+			'flex-1 overflow-y-auto min-h-0 px-6 py-8', // min-h-0 allows flex child to shrink below content size
 			'text-gray-900 dark:text-gray-100'
 		)}
 	>

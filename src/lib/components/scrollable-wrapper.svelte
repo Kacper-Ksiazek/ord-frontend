@@ -80,7 +80,7 @@
 	bind:this={scrollContainer}
 	onscroll={handleScroll}
 	class={cn(
-		'flex-1 overflow-y-auto overflow-x-hidden flex flex-col px-4 py-8 relative', //
+		'flex-1 overflow-y-auto flex flex-col px-4 py-8 relative', //
 		wrapperClass
 	)}
 	style={maskStyle}
