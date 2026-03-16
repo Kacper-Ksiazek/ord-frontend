@@ -64,6 +64,7 @@
 			<div class="flex items-center gap-2">
 				<AuthUserAvatar size={40} />
 				<h3 class="heading-5 m-0">Message</h3>
+				<span>TODO: Navigate to message</span>
 			</div>
 		</div>
 
