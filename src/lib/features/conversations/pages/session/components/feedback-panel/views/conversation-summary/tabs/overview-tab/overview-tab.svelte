@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
-	import { MistakesSeverity, PerformanceScores } from './sections';
+	import { MistakesSeverity, MetricsOverTime, PerformanceScores } from './sections';
 	import { getMessagesContext } from '$conversations/pages/session/contexts/messages-context.svelte';
 	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import type { CompactConversationUserMessage } from '$lib/types/conversation/domain/conversation-message';
@@ -17,8 +17,10 @@
 	);
 </script>
 
-<ScrollableWrapper wrapperClass="min-h-0" contentClass="px-0">
+<ScrollableWrapper wrapperClass="min-h-0" contentClass="px-0 mr-2">
 	<PerformanceScores {userMessages} {feedbacks} />
+
+	<MetricsOverTime {userMessages} />
 
 	<MistakesSeverity {feedbacks} />
 </ScrollableWrapper>
