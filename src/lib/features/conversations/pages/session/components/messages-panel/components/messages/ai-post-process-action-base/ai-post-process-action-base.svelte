@@ -48,7 +48,7 @@
 		isGenerating && 'generation-in-progress'
 	)}
 >
-	<div class="absolute top-2 right-4 flex items-center gap-1">
+	<div class="absolute top-2 right-4 flex items-center gap-0.5">
 		{#if onPreviewContentClick}
 			<PreviewContent {isSelected} onClick={onPreviewContentClick} />
 		{/if}

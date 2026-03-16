@@ -1,7 +1,6 @@
 <script lang="ts">
-	import Button from '$lib/components/buttons/button/button.svelte';
-	import { cn } from 'flowbite-svelte';
-	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
+	import { IconButton } from '$lib/components/buttons/icon-button';
+	import { PanelLeftClose, PanelLeftOpen } from 'lucide-svelte';
 
 	interface PreviewContentProps {
 		isSelected?: boolean;
@@ -10,38 +9,34 @@
 
 	let { isSelected = false, onClick: onClickProp }: PreviewContentProps = $props();
 
-	function onClick(e: MouseEvent) {
-		e.preventDefault();
-		e.stopPropagation();
-		(e.target as HTMLElement).blur();
-
-		onClickProp?.(e);
-	}
-
-	const { Icon, label } = $derived.by(() => {
+	const { Icon, tooltip } = $derived.by(() => {
 		if (isSelected) {
 			return {
-				Icon: ChevronLeft,
-				label: 'Hide details'
+				Icon: PanelLeftClose,
+				tooltip: 'Close panel'
 			};
 		} else {
 			return {
-				Icon: ChevronRight,
-				label: 'Show details'
+				Icon: PanelLeftOpen,
+				tooltip: 'Open panel'
 			};
 		}
 	});
+
+	function onClick(e: MouseEvent) {
+		e.preventDefault();
+		e.stopPropagation();
+
+		onClickProp?.(e);
+	}
 </script>
 
-<Button
+<IconButton
+	icon={Icon}
+	ariaLabel={tooltip}
+	{tooltip}
 	{onClick}
 	type="OUTLINED"
 	variant="TEXT"
-	class={cn('w-[160px] h-[32px]', isSelected && 'ring-2 ring-primary-300')}
->
-	<Icon class="w-4 h-4 mr-1" />
-
-	<span class={cn('text-sm font-medium', isSelected && 'text-primary-600 dark:text-primary-400')}>
-		{label}
-	</span>
-</Button>
+	class="h-[32px] w-[32px] border-none"
+/>

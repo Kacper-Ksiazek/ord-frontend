@@ -37,5 +37,5 @@
 	{onClick}
 	type="OUTLINED"
 	variant="TEXT"
-	class="h-[32px] w-[32px]"
+	class="h-[32px] w-[32px] border-none"
 />
