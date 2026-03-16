@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { ConversationMessageMistake } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import type {
-		AiAdviceBaseV2Block,
+		AiAdviceBaseBlock,
 		DerivedAiAdviceCardProps
-	} from '../../ai-advice-base-v2/ai-advice.types';
+	} from '../../ai-advice-base/ai-advice.types';
 	import { EXPLANATION_ICON } from '$conversations/pages/session/constants/icons';
 	import { MISTAKE_SEVERITY_ICONS_MAP } from '$conversations/pages/session/constants/user-message-feedback/subcategory-icons';
 	import { X, Check } from 'lucide-svelte';
-	import AiAdviceBaseV2 from '../../ai-advice-base-v2/ai-advice-base-v2.svelte';
+	import AiAdviceBase from '../../ai-advice-base/ai-advice-base.svelte';
 
 	interface Props extends DerivedAiAdviceCardProps {
 		mistake: ConversationMessageMistake;
@@ -16,8 +16,8 @@
 	let { mistake, isExpandable, defaultExpandState }: Props = $props();
 
 	function toBlocks(mistake: ConversationMessageMistake): {
-		headerBlocks: AiAdviceBaseV2Block[];
-		bodyBlocks: AiAdviceBaseV2Block[];
+		headerBlocks: AiAdviceBaseBlock[];
+		bodyBlocks: AiAdviceBaseBlock[];
 	} {
 		return {
 			headerBlocks: [
@@ -63,4 +63,4 @@
 	const { headerBlocks, bodyBlocks } = toBlocks(mistake);
 </script>
 
-<AiAdviceBaseV2 {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />
+<AiAdviceBase {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />

@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type { AIMessageVocabularyTip } from '$lib/types/ongoing-conversation/api/responses';
 	import type {
-		AiAdviceBaseV2Block,
+		AiAdviceBaseBlock,
 		DerivedAiAdviceCardProps
-	} from '../../ai-advice-base-v2/ai-advice.types';
+	} from '../../ai-advice-base/ai-advice.types';
 	import { EXPLANATION_ICON } from '$conversations/pages/session/constants/icons';
 	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
-	import AiAdviceBaseV2 from '../../ai-advice-base-v2/ai-advice-base-v2.svelte';
+	import AiAdviceBase from '../../ai-advice-base/ai-advice-base.svelte';
 
 	interface Props extends DerivedAiAdviceCardProps {
 		tip: AIMessageVocabularyTip;
@@ -15,8 +15,8 @@
 	let { tip, isExpandable, defaultExpandState }: Props = $props();
 
 	function toBlocks(tip: AIMessageVocabularyTip): {
-		headerBlocks: AiAdviceBaseV2Block[];
-		bodyBlocks: AiAdviceBaseV2Block[];
+		headerBlocks: AiAdviceBaseBlock[];
+		bodyBlocks: AiAdviceBaseBlock[];
 	} {
 		return {
 			headerBlocks: [
@@ -65,4 +65,4 @@
 	const { headerBlocks, bodyBlocks } = toBlocks(tip);
 </script>
 
-<AiAdviceBaseV2 {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />
+<AiAdviceBase {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />

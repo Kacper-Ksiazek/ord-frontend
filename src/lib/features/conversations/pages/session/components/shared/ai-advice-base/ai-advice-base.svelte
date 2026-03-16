@@ -1,8 +1,8 @@
 <script lang="ts">
-	import './ai-advice-base-v2.css';
+	import './ai-advice-base.css';
 	import { slide } from 'svelte/transition';
 	import { cn } from 'flowbite-svelte';
-	import type { AiAdviceBaseV2Props } from './ai-advice.types';
+	import type { AiAdviceBaseProps } from './ai-advice.types';
 	import { getTailwindColorTheme } from '$lib/utils/theme/get-tailwind-colors';
 	import BlockRenderer from './blocks/block-renderer.svelte';
 
@@ -12,7 +12,7 @@
 		color,
 		isExpandable = true,
 		defaultExpandState = false
-	}: AiAdviceBaseV2Props = $props();
+	}: AiAdviceBaseProps = $props();
 
 	const theme = getTailwindColorTheme(color);
 	let isCollapsed = $state(!defaultExpandState);

@@ -1,12 +1,12 @@
 <script lang="ts">
 	import type { ConversationMessageStrength } from '$lib/types/conversation/domain/conversation-message-feedback';
 	import type {
-		AiAdviceBaseV2Block,
+		AiAdviceBaseBlock,
 		DerivedAiAdviceCardProps
-	} from '../../ai-advice-base-v2/ai-advice.types';
+	} from '../../ai-advice-base/ai-advice.types';
 	import { EXPLANATION_ICON } from '$conversations/pages/session/constants/icons';
 	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$conversations/pages/session/constants/user-message-feedback/icons';
-	import AiAdviceBaseV2 from '../../ai-advice-base-v2/ai-advice-base-v2.svelte';
+	import AiAdviceBase from '../../ai-advice-base/ai-advice-base.svelte';
 
 	interface Props extends DerivedAiAdviceCardProps {
 		strength: ConversationMessageStrength;
@@ -15,8 +15,8 @@
 	let { strength, isExpandable, defaultExpandState }: Props = $props();
 
 	function toBlocks(strength: ConversationMessageStrength): {
-		headerBlocks: AiAdviceBaseV2Block[];
-		bodyBlocks: AiAdviceBaseV2Block[];
+		headerBlocks: AiAdviceBaseBlock[];
+		bodyBlocks: AiAdviceBaseBlock[];
 	} {
 		return {
 			headerBlocks: [
@@ -50,4 +50,4 @@
 	const { headerBlocks, bodyBlocks } = toBlocks(strength);
 </script>
 
-<AiAdviceBaseV2 {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />
+<AiAdviceBase {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />
