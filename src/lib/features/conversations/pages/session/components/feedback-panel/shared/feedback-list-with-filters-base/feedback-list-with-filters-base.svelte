@@ -12,11 +12,13 @@
 	"
 >
 	import isEmpty from 'lodash/isEmpty';
+	import { Inbox, RotateCcwIcon } from 'lucide-svelte';
 	import type { FeedbackListWithFiltersBaseProps } from './types/props';
 	import CategoriesAndSubcategories from './components/categories-and-subcategories.svelte';
 	import Filters from './components/filters.svelte';
 	import { applyFilters } from './utils/apply-filters';
 	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
+	import { Button } from '$lib/components/buttons/button';
 
 	let {
 		items,
@@ -26,7 +28,9 @@
 		listItem,
 		evaluateCustomFilters,
 		areFiltersClearable,
-		defaultFilters
+		defaultFilters,
+		emptyNoData,
+		emptyFiltered
 	}: FeedbackListWithFiltersBaseProps<TData, TCategory, TSubcategory, TFilters> = $props();
 
 	const computedAreFiltersClearable = $derived(
@@ -78,8 +82,50 @@
 					{@render listItem({ item, defaultExpandState: filters.defaultExpandState ?? false })}
 				{/each}
 			</div>
+		{:else if computedAreFiltersClearable}
+			<div
+				class="flex flex-col items-center justify-center gap-6 py-12 px-4 text-center flex-1"
+				role="status"
+				aria-live="polite"
+			>
+				<div class="flex flex-col items-center gap-3 max-w-sm">
+					{#if emptyFiltered}
+						{@render emptyFiltered()}
+					{:else}
+						<h3 class="heading-5 text-gray-900 dark:text-gray-100">No results match your filters</h3>
+						<p class="text-sm text-gray-600 dark:text-gray-400">
+							Try changing or clearing your filters to see more items.
+						</p>
+					{/if}
+				</div>
+				<Button type="OUTLINED" variant="DELETE" onClick={clearFilters}>
+					<RotateCcwIcon class="w-4 h-4" />
+
+					Reset filters
+				</Button>
+			</div>
 		{:else}
-			<!-- {@render emptyState()} -->
+			<div
+				class="flex flex-col items-center justify-center gap-4 py-12 px-4 text-center"
+				role="status"
+				aria-live="polite"
+			>
+				{#if emptyNoData}
+					{@render emptyNoData()}
+				{:else}
+					<Inbox
+						class="size-12 text-gray-400 dark:text-gray-500 shrink-0"
+						strokeWidth={1.25}
+						aria-hidden="true"
+					/>
+					<div class="flex flex-col gap-2 max-w-sm">
+						<h3 class="heading-5 text-gray-900 dark:text-gray-100">Nothing here yet</h3>
+						<p class="text-sm text-gray-600 dark:text-gray-400">
+							There’s nothing to show right now. Check back after more activity in this conversation.
+						</p>
+					</div>
+				{/if}
+			</div>
 		{/if}
 	</ScrollableWrapper>
 {/key}

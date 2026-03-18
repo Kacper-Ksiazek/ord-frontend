@@ -5,20 +5,20 @@
 		ConversationMessageSuggestionType
 	} from '$lib/types/conversation/domain/conversation-message-feedback';
 	import type { MessageFeedbackCriteria } from '$lib/types/conversation/domain/message-feedback-criteria';
-	import { SigmaIcon } from 'lucide-svelte';
+	import { Inbox, SigmaIcon } from 'lucide-svelte';
 	import type {
 		CategoryCard,
 		FilterableItem,
 		FilterBase
-	} from '../feedback-list-with-filters-base/types/utility-types';
-	import { aggregateFeedback } from './utils/aggregate-feedback';
+	} from '../../shared/feedback-list-with-filters-base/types/utility-types';
+	import { aggregateFeedback, type AggregatedFeedbackItem } from './utils/aggregate-feedback';
 	import { USER_MESSAGE_FEEDBACK_ICONS_MAP } from '$conversations/pages/session/constants/user-message-feedback/icons';
 	import { getUserMessageFeedbackColorName } from '$conversations/pages/session/constants/user-message-feedback/colors';
 	import {
 		MISTAKE_SEVERITY_ICONS_MAP,
 		SUGGESTION_TYPE_ICONS_MAP
 	} from '$conversations/pages/session/constants/user-message-feedback/subcategory-icons';
-	import FeedbackListWithFiltersBase from '../feedback-list-with-filters-base/feedback-list-with-filters-base.svelte';
+	import FeedbackListWithFiltersBase from '../../shared/feedback-list-with-filters-base/feedback-list-with-filters-base.svelte';
 	import {
 		MistakeCard,
 		StrengthCard,
@@ -29,7 +29,6 @@
 		ConversationMessageStrength,
 		ConversationMessageSuggestion
 	} from '$lib/types/conversation/domain/conversation-message-feedback';
-	import type { AggregatedFeedbackItem } from './utils/aggregate-feedback';
 
 	type Data = AggregatedFeedbackItem;
 	type Category = MessageFeedbackCriteria | 'ALL';
@@ -172,6 +171,25 @@
 </script>
 
 <FeedbackListWithFiltersBase items={aggregatedFeedbacks} {categories} bind:filters>
+	{#snippet emptyNoData()}
+		<Inbox
+			class="size-12 text-gray-400 dark:text-gray-500 shrink-0"
+			strokeWidth={1.25}
+			aria-hidden="true"
+		/>
+		<div class="flex flex-col gap-2 max-w-sm">
+			<h3 class="heading-5 text-gray-900 dark:text-gray-100">No feedback yet</h3>
+			<p class="text-sm text-gray-600 dark:text-gray-400">
+				Corrections, strengths, and suggestions will show here when available for this message.
+			</p>
+		</div>
+	{/snippet}
+	{#snippet emptyFiltered()}
+		<h3 class="heading-5 text-gray-900 dark:text-gray-100">No feedback matches your filters</h3>
+		<p class="text-sm text-gray-600 dark:text-gray-400">
+			Try changing or clearing your filters to see more items.
+		</p>
+	{/snippet}
 	{#snippet listItem({ item, defaultExpandState })}
 		{#if item.data.type === 'MISTAKES'}
 			<MistakeCard mistake={item.data.data as ConversationMessageMistake} {defaultExpandState} />

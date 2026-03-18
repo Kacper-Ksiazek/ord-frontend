@@ -23,13 +23,17 @@
 	}
 </script>
 
-<div class="flex items-center gap-3 mb-4">
+<div class="flex items-center gap-1 mb-4">
 	<Input
 		bind:value={filters.searchQuery}
 		placeholder="Search feedback..."
 		class="flex-1"
 		leftAdornment={SearchIcon}
 	/>
+
+	{#if customFilters}
+		{@render customFilters()}
+	{/if}
 
 	<IconButton
 		onClick={toggleExpandCollapse}
@@ -39,10 +43,6 @@
 		type="OUTLINED"
 		variant="TEXT"
 	/>
-
-	{#if customFilters}
-		{@render customFilters()}
-	{/if}
 
 	<IconButton
 		onClick={clearFilters}

@@ -1,2 +1,7 @@
 export { aggregateFeedback } from './aggregate-feedback';
-export type { AggregatedFeedbackItem } from './aggregate-feedback.types';
+export type {
+	AggregatedFeedbackItem,
+	AggregatedMistake,
+	AggregatedStrength,
+	AggregatedSuggestion
+} from './aggregate-feedback.types';

@@ -1,16 +1,18 @@
 <script lang="ts">
 	import type { CompactConversationMessage } from '$lib/types/conversation/domain/conversation-message';
-	import type { PhraseType } from '$lib/types/ongoing-conversation/api/responses';
-	import { SigmaIcon } from 'lucide-svelte';
+	import type { PhraseType, TipRegister } from '$lib/types/ongoing-conversation/api/responses';
+	import { Briefcase, Inbox, Layers, SigmaIcon, Users, Zap } from 'lucide-svelte';
+	import { DropdownSelect } from '$lib/components/forms/dropdown-select';
+	import type { DropdownSelectOption } from '$lib/components/forms/dropdown-select';
 	import type {
 		CategoryCard,
 		FilterableItem,
 		FilterBase
-	} from '../feedback-list-with-filters-base/types/utility-types';
+	} from '../../shared/feedback-list-with-filters-base/types/utility-types';
 	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
 	import { getAiMessageLearningTipColorName } from '$conversations/pages/session/constants/ai-message-learning-tips/colors';
 	import { PHRASE_TYPE_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/subcategory-icons';
-	import FeedbackListWithFiltersBase from '../feedback-list-with-filters-base/feedback-list-with-filters-base.svelte';
+	import FeedbackListWithFiltersBase from '../../shared/feedback-list-with-filters-base/feedback-list-with-filters-base.svelte';
 	import {
 		GrammarTipCard,
 		PhraseTipCard,
@@ -30,6 +32,9 @@
 	type Data = AggregatedLearningTip;
 	type Category = LearningTipCategory | 'ALL';
 	type Subcategory = PhraseType | null;
+	type LearningTipsFilters = FilterBase<Category, Subcategory> & {
+		register: TipRegister | 'ALL';
+	};
 
 	interface Props {
 		data: CompactConversationMessage | CompactConversationMessage[];
@@ -37,12 +42,31 @@
 
 	const { data }: Props = $props();
 
-	let filters = $state<FilterBase<Category, Subcategory>>({
+	const defaultLearningTipsFilters: LearningTipsFilters = {
 		category: 'ALL',
 		subcategory: null,
 		searchQuery: '',
-		defaultExpandState: false
-	});
+		defaultExpandState: false,
+		register: 'ALL'
+	};
+
+	let filters = $state<LearningTipsFilters>({ ...defaultLearningTipsFilters });
+
+	const registerOptions: DropdownSelectOption<TipRegister | 'ALL'>[] = [
+		{ label: 'All Registers', value: 'ALL', icon: Layers },
+		{ label: 'Formal', value: 'FORMAL', icon: Briefcase },
+		{ label: 'Neutral', value: 'NEUTRAL', icon: Users },
+		{ label: 'Colloquial', value: 'COLLOQUIAL', icon: Zap }
+	];
+
+	function evaluateCustomFilters(
+		item: FilterableItem<Data, Category, Subcategory>,
+		f: LearningTipsFilters
+	): boolean {
+		if (f.register === 'ALL') return true;
+
+		return item.data.register === f.register;
+	}
 
 	const aggregatedTips = $derived.by<FilterableItem<Data, Category, Subcategory>[]>(() => {
 		return aggregateLearningTips(Array.isArray(data) ? data : [data]) //
@@ -133,7 +157,43 @@
 	});
 </script>
 
-<FeedbackListWithFiltersBase items={aggregatedTips} {categories} bind:filters>
+<FeedbackListWithFiltersBase
+	items={aggregatedTips}
+	{categories}
+	bind:filters
+	defaultFilters={defaultLearningTipsFilters}
+	{evaluateCustomFilters}
+>
+	{#snippet emptyNoData()}
+		<Inbox
+			class="size-12 text-gray-400 dark:text-gray-500 shrink-0"
+			strokeWidth={1.25}
+			aria-hidden="true"
+		/>
+		<div class="flex flex-col gap-2 max-w-sm">
+			<h3 class="heading-5 text-gray-900 dark:text-gray-100">No learning tips yet</h3>
+			<p class="text-sm text-gray-600 dark:text-gray-400">
+				Tips from the tutor will appear here when available for this message.
+			</p>
+		</div>
+	{/snippet}
+	{#snippet emptyFiltered()}
+		<h3 class="heading-5 text-gray-900 dark:text-gray-100">No tips match your filters</h3>
+		<p class="text-sm text-gray-600 dark:text-gray-400">
+			Try changing or clearing your filters to see more items.
+		</p>
+	{/snippet}
+	{#snippet customFilters()}
+		<DropdownSelect
+			value={filters.register}
+			onValueChange={(v) => (filters.register = v as TipRegister | 'ALL')}
+			options={registerOptions}
+			ariaLabel="Filter by register"
+			buttonClass="w-44 shrink-0"
+			dropdownClass="w-44"
+		/>
+	{/snippet}
+
 	{#snippet listItem({ item, defaultExpandState })}
 		{#if item.data.type === 'GRAMMAR'}
 			<GrammarTipCard tip={item.data.data as AIMessageGrammarTip} {defaultExpandState} />

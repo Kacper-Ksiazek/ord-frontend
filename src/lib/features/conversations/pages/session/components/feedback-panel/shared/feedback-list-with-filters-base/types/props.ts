@@ -27,4 +27,9 @@ export interface FeedbackListWithFiltersBaseProps<
 			}
 		]
 	>;
+
+	/** Full replacement for the “no data / default filters” empty state */
+	emptyNoData?: Snippet;
+	/** Message area above “Reset filters”; defaults to generic no-results copy */
+	emptyFiltered?: Snippet;
 }
