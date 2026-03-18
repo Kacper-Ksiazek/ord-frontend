@@ -71,6 +71,7 @@
 		} else {
 			sidepanelContext.isOpened = true;
 			sidepanelContext.feedbackPreview = feedback;
+			sidepanelContext.learningTipsPreviewMessageOrder = null;
 		}
 
 		(e.target as HTMLElement).blur();

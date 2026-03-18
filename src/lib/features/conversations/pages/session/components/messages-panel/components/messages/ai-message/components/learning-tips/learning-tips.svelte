@@ -8,16 +8,25 @@
 	import HighlightsCountBadge from '$lib/features/conversations/pages/session/components/shared/highlights-count-badge.svelte';
 	import AiMessageLearningTipIcon from '$lib/features/conversations/pages/session/components/shared/ai-message-learning-tips/ai-message-learning-tip-icon.svelte';
 	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
+	import { getSidepanelContext } from '$lib/features/conversations/pages/session/contexts/sidepanel-context.svelte';
 
 	interface LearningTipsProps {
 		learningTips: AIMessageLearningTips | null;
 		showIconsInHighlightedParts: boolean;
+		messageIndex: number;
 	}
 
 	let {
 		learningTips, //
-		showIconsInHighlightedParts = $bindable()
+		showIconsInHighlightedParts = $bindable(),
+		messageIndex
 	}: LearningTipsProps = $props();
+
+	const sidepanelContext = getSidepanelContext();
+
+	const isSelected = $derived(
+		sidepanelContext.isOpened && sidepanelContext.learningTipsPreviewMessageOrder === messageIndex
+	);
 
 	const grammarTipsCount = size(learningTips?.grammarTips);
 	const vocabularyTipsCount = size(learningTips?.vocabularyTips);
@@ -50,6 +59,25 @@
 	label="Wskazówki do nauki"
 	isGenerating={!learningTips}
 	bind:showIconsInHighlightedParts
+	{isSelected}
+	onPreviewContentClick={(e) => {
+		const isSameMessageClickedAgain =
+			sidepanelContext.learningTipsPreviewMessageOrder === messageIndex;
+
+		if (isSameMessageClickedAgain) {
+			sidepanelContext.isOpened = false;
+
+			setTimeout(() => {
+				sidepanelContext.learningTipsPreviewMessageOrder = null;
+			}, 300);
+		} else {
+			sidepanelContext.isOpened = true;
+			sidepanelContext.learningTipsPreviewMessageOrder = messageIndex;
+			sidepanelContext.feedbackPreview = null;
+		}
+
+		(e.target as HTMLElement).blur();
+	}}
 >
 	{#snippet badges()}
 		{#each indicators as { category, count, label } (category)}

@@ -4,7 +4,11 @@
 	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
 	import { getSidepanelWidth } from '../constants.svelte';
 	import { fade } from 'svelte/transition';
-	import { UserMessageFeedbackView, ConversationSummaryView } from './views';
+	import {
+		UserMessageFeedbackView,
+		AiMessageLearningTipsView,
+		ConversationSummaryView
+	} from './views';
 
 	const sidepanelContext = getSidepanelContext();
 	const sidepanelWidth = getSidepanelWidth();
@@ -30,7 +34,9 @@
 			'text-gray-900 dark:text-gray-100'
 		)}
 	>
-		{#if sidepanelContext.feedbackPreview}
+		{#if sidepanelContext.learningTipsPreviewMessageOrder != null}
+			<AiMessageLearningTipsView />
+		{:else if sidepanelContext.feedbackPreview}
 			<UserMessageFeedbackView feedback={sidepanelContext.feedbackPreview} />
 		{:else}
 			<ConversationSummaryView />

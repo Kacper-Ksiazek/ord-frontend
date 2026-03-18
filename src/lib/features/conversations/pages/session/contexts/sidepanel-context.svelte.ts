@@ -4,6 +4,7 @@ import { createContext } from 'svelte';
 export type SidepanelContext = {
 	isOpened: boolean;
 	feedbackPreview: ConversationUserMessageFeedbackDTO | null;
+	learningTipsPreviewMessageOrder: number | null;
 };
 
 export const [getSidepanelContext, setSidepanelContext] = createContext<SidepanelContext>();
@@ -13,11 +14,13 @@ export function createSidepanelContext(latestFeedback?: ConversationUserMessageF
 		latestFeedback
 			? {
 					isOpened: true,
-					feedbackPreview: latestFeedback
+					feedbackPreview: latestFeedback,
+					learningTipsPreviewMessageOrder: null
 				}
 			: {
 					isOpened: false,
-					feedbackPreview: null
+					feedbackPreview: null,
+					learningTipsPreviewMessageOrder: null
 				}
 	);
 
