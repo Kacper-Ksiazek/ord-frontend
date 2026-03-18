@@ -45,7 +45,7 @@
 	let activeMainTab = $state<ConversationSummaryTab>('overview');
 
 	const mainTabs = $derived<Tab<ConversationSummaryTab>[]>([
-		{ id: 'overview', label: 'Overview', count: messages.length, icon: ChartBar },
+		{ id: 'overview', label: 'Overview', icon: ChartBar },
 
 		{
 			id: 'learning-tips',
