@@ -14,6 +14,7 @@
 	let {
 		value = $bindable(),
 		options,
+		onValueChange,
 		ariaLabel = 'Select option',
 		buttonClass = '',
 		dropdownClass = '',
@@ -24,8 +25,12 @@
 	const selectedOption = $derived(options.find((opt) => opt.value === value) ?? options[0]);
 
 	function handleSelect(selectedValue: typeof value) {
-		console.log('handleSelect', selectedValue);
-		value = selectedValue;
+		if (onValueChange) {
+			onValueChange(selectedValue);
+		} else {
+			value = selectedValue;
+		}
+
 		buttonElement?.click();
 	}
 </script>

@@ -9,6 +9,8 @@ export interface DropdownSelectOption<T = string> {
 export interface DropdownSelectProps<T = string> {
 	value: T;
 	options: DropdownSelectOption<T>[];
+	/** Use when binding to nested state (e.g. `obj.field`) is invalid; parent updates `value` in this callback. */
+	onValueChange?: (value: T) => void;
 	ariaLabel?: string;
 	buttonClass?: string;
 	dropdownClass?: string;
