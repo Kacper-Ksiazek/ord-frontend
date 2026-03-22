@@ -54,7 +54,7 @@
 				<div class="feedback-card-text-box variant-neutral">
 					<Icon class={cn('w-4 h-4', theme.iconColor)} />
 
-					<span class="content-long-sm">
+					<span class="content-long">
 						{#if block.parseBold}
 							{#each parseBoldText(example) as part (part.text)}
 								{#if part.bold}

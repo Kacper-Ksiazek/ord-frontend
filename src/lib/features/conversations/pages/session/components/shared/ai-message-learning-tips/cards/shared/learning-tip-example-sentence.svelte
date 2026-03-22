@@ -43,7 +43,7 @@
 			{#each exampleSentence as sentence (sentence)}
 				<div class="feedback-card-text-box variant-neutral">
 					<LEARNING_TIP_EXAMPLE_SENTENCE_ICON class={cn('w-4 h-4', iconColor)} />
-					<span class="content-long-sm">
+					<span class="content-long">
 						{#each parseBoldText(sentence) as part (part.text)}
 							{#if part.bold}
 								<span class={highlightStyle}>{part.text}</span>

@@ -34,6 +34,6 @@
 			<block.Icon class={cn('w-4 h-4', iconColor)} />
 		{/if}
 
-		<span class="content-long-sm">{block.text}</span>
+		<span class="content-long">{block.text}</span>
 	</div>
 </div>

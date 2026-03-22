@@ -39,7 +39,7 @@
 	<p class="feedback-card-label">{block.label || 'Translation'}:</p>
 	<div class={cn('feedback-card-text-box', variantClass, 'flex gap-2')}>
 		<block.translation.Icon class={cn('w-4 h-4', theme.iconColor)} />
-		<span class="flex-1 content-long-sm">{block.translation.text}</span>
+		<span class="flex-1 content-long">{block.translation.text}</span>
 
 		{#each block.translation.badges as badge (badge.text)}
 			{#if badge.register}
@@ -58,7 +58,7 @@
 	{#if block.nativeLanguage}
 		<div class="feedback-card-text-box variant-neutral flex gap-2 mt-1">
 			<AuthUserNativeLanguageFlag class="w-4 h-4" />
-			<span class="flex-1 content-long-sm">{block.nativeLanguage.text}</span>
+			<span class="flex-1 content-long">{block.nativeLanguage.text}</span>
 		</div>
 	{/if}
 </div>

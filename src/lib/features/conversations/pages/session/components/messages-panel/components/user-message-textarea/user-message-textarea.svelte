@@ -124,6 +124,7 @@
 		bind:this={textareaComponent}
 		bind:value={message}
 		placeholder="Type your message..."
+		className="content-long"
 		onkeydown={handleKeyDown}
 		onfocus={() => (isFocused = true)}
 		onblur={() => (isFocused = false)}

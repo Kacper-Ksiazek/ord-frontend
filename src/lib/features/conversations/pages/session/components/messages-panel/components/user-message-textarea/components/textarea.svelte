@@ -4,12 +4,14 @@
 	let {
 		value = $bindable(''),
 		placeholder = '',
+		className = '',
 		onkeydown,
 		onfocus,
 		onblur
 	}: {
 		value?: string;
 		placeholder?: string;
+		className?: string;
 		onfocus?: (e: FocusEvent) => void;
 		onblur?: (e: FocusEvent) => void;
 		onkeydown?: (e: KeyboardEvent) => void;
@@ -19,7 +21,8 @@
 
 	const MIN_ROWS = 3;
 	const MAX_ROWS = 10;
-	const LINE_HEIGHT = 24; // Approximate line height in pixels
+	// Match `content-long` / Tailwind `leading-8` (2rem at default root)
+	const LINE_HEIGHT = 32;
 
 	function adjustTextareaHeight() {
 		if (!textareaElement) return;
@@ -82,14 +85,15 @@
 	{placeholder}
 	rows={MIN_ROWS}
 	class={cn(
-		'w-full resize-none border-none outline-none rounded-lg px-3 py-2 leading-[1.8] tracking-wide',
+		'w-full resize-none border-none outline-none rounded-lg px-3 py-2',
 		'bg-transparent',
 		'hover:bg-transparent',
 		'focus:bg-transparent',
 		'focus:outline-none focus:ring-0 focus:border-none',
 		'transition-colors duration-200',
-		'text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500',
-		'text-sm leading-6 custom-scrollbar'
+		'placeholder:text-gray-400 dark:placeholder:text-gray-500',
+		'custom-scrollbar',
+		className
 	)}
 	style="min-height: {LINE_HEIGHT}px; max-height: {MAX_ROWS * LINE_HEIGHT}px;"
 ></textarea>
