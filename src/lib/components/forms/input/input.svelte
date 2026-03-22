@@ -20,17 +20,47 @@
 		adornmentClass = 'w-4 h-4',
 		ariaLabel,
 		ariaDescribedBy,
+		debounced = false,
+		debounceDelay = 300,
 		onInput,
 		onChange,
 		onFocus,
 		onBlur
 	}: Props = $props();
+
+	// eslint-disable-next-line svelte/prefer-writable-derived
+	let internalValue = $state(value ?? '');
+
+	$effect(() => {
+		internalValue = value ?? '';
+	});
+
+	let debounceTimer: ReturnType<typeof setTimeout> | undefined;
+
+	function handleInput(event: Event) {
+		const inputEl = event.target as HTMLInputElement;
+		internalValue = inputEl.value;
+
+		if (!debounced) {
+			value = internalValue;
+			onInput?.(event);
+
+			return;
+		}
+
+		clearTimeout(debounceTimer);
+
+		debounceTimer = setTimeout(() => {
+			value = internalValue;
+			onInput?.(event);
+		}, debounceDelay);
+	}
 </script>
 
 <div class={cn('relative', className)}>
 	<input
 		{type}
-		bind:value
+		value={internalValue}
 		{placeholder}
 		{disabled}
 		{readonly}
@@ -45,7 +75,7 @@
 			readonly && 'cursor-default',
 			inputClass
 		)}
-		oninput={onInput}
+		oninput={handleInput}
 		onchange={onChange}
 		onfocus={onFocus}
 		onblur={onBlur}

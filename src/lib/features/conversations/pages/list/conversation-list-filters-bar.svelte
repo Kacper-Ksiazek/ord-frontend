@@ -33,6 +33,7 @@
 
 <div class="flex gap-2 mb-6">
 	<Input
+		debounced
 		bind:value={filtersState.filters.search}
 		type="search"
 		placeholder="Topic or AI name"

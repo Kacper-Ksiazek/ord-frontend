@@ -65,6 +65,7 @@ export default [
 				ClipboardEvent: 'readonly',
 				FocusEvent: 'readonly',
 				setTimeout: 'readonly',
+				clearTimeout: 'readonly',
 				alert: 'readonly',
 				LucideIcon: 'readonly',
 				TailwindColor: 'readonly',

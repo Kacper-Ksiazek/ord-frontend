@@ -11,6 +11,8 @@ export interface InputProps {
 	leftAdornment?: LucideIcon;
 	rightAdornment?: LucideIcon;
 	adornmentClass?: string;
+	debounced?: boolean;
+	debounceDelay?: number;
 	onInput?: (event: Event) => void;
 	onChange?: (event: Event) => void;
 	onFocus?: (event: Event) => void;
