@@ -4,7 +4,7 @@
 	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
 	import { getSidepanelWidth } from '../constants.svelte';
 	import { fade } from 'svelte/transition';
-	import { Breadcrumbs } from '$lib/components/navigation/breadcrumbs';
+	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
 	import {
 		UserMessageFeedbackView,
 		AiMessageLearningTipsView,
@@ -19,23 +19,9 @@
 			sidepanelContext.feedbackPreview != null
 	);
 
-	const breadcrumbItems = $derived.by(() => {
-		if (!showBreadcrumb) return [];
-
-		const label =
-			sidepanelContext.learningTipsPreviewMessageOrder != null ? 'Learning Tips' : 'Feedback';
-
-		return [
-			{
-				label: 'Summary',
-				onClick: () => {
-					sidepanelContext.feedbackPreview = null;
-					sidepanelContext.learningTipsPreviewMessageOrder = null;
-				}
-			},
-			{ label }
-		];
-	});
+	const breadcrumbLabel = $derived(
+		sidepanelContext.learningTipsPreviewMessageOrder != null ? 'Learning Tips' : 'Feedback'
+	);
 </script>
 
 <ContentCard
@@ -59,7 +45,19 @@
 		)}
 	>
 		{#if showBreadcrumb}
-			<Breadcrumbs items={breadcrumbItems} class="mb-3" />
+			<Breadcrumb class="mb-3">
+				<BreadcrumbItem
+					home
+					spanClass="cursor-pointer"
+					onclick={() => {
+						sidepanelContext.feedbackPreview = null;
+						sidepanelContext.learningTipsPreviewMessageOrder = null;
+					}}
+				>
+					Summary
+				</BreadcrumbItem>
+				<BreadcrumbItem>{breadcrumbLabel}</BreadcrumbItem>
+			</Breadcrumb>
 		{/if}
 		{#if sidepanelContext.learningTipsPreviewMessageOrder != null}
 			<AiMessageLearningTipsView />
