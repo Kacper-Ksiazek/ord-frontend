@@ -14,7 +14,7 @@
 <div
 	{...restProps}
 	class={cn(
-		'bg-slate-50 dark:bg-slate-800 rounded-2xl px-4 py-8 flex flex-col w-full', //
+		' rounded-2xl px-4 py-8 flex flex-col w-full', //
 		customClass
 	)}
 >
