@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
-	import { fade } from 'svelte/transition';
 
 	interface Props {
 		barClass?: string;
@@ -12,7 +11,7 @@
 	const barBaseClasses = cn('animation-bar w-8 h-32 bg-primary-200 rounded-md', barClass);
 </script>
 
-<div class={cn('flex items-end gap-2', wrapperClass)} transition:fade>
+<div class={cn('flex items-end gap-2', wrapperClass)}>
 	<div class={cn(barBaseClasses)} style="animation-delay: 0s;"></div>
 	<div class={cn(barBaseClasses)} style="animation-delay: 0.2s;"></div>
 	<div class={cn(barBaseClasses)} style="animation-delay: 0.4s;"></div>
