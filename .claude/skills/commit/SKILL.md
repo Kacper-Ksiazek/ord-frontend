@@ -12,6 +12,7 @@ Create atomic commits from staged and unstaged changes, following conventional c
 ## Workflow
 
 1. **Check git status**
+
    ```bash
    git status --porcelain
    ```
@@ -35,19 +36,20 @@ Create atomic commits from staged and unstaged changes, following conventional c
    - Use conventional commit format: `type: description`
    - Types: `feat`, `refactor`, `fix`, `chore`, `docs`, `style`, `test`
    - Always use HEREDOC for commit messages:
+
      ```bash
      git commit -m "$(cat <<'EOF'
      type: commit message here
-
-     Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>
      EOF
      )"
      ```
 
 6. **Verify and report**
+
    ```bash
    git status && git log --oneline -N
    ```
+
    - Report: commits created, working tree status, how many commits ahead of origin
 
 ## Commit Grouping Guidelines
