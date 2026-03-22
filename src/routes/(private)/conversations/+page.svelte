@@ -9,25 +9,19 @@
 	import { Alert, Button } from 'flowbite-svelte';
 	import ContentCard from '$lib/components/utils/content-card.svelte';
 	import { ConversationListRow } from '$lib/features/conversations/pages/list';
-	import { conversationListFiltersFromSearchParams } from '$lib/features/conversations/pages/list/conversation-list-filters';
 	import {
 		groupConversationsByRecencyBucket,
 		RECENCY_BUCKET_LABEL
 	} from '$lib/features/conversations/pages/list/group-conversations-by-recency-bucket';
+	import { ConversationListFiltersState } from '$conversations/pages/list/state/conversation-list-state.svelte';
 
-	const conversationsQuery = createConversationsQuery(() =>
-		conversationListFiltersFromSearchParams(page.url.searchParams)
+	const conversationListFiltersState = new ConversationListFiltersState(page.url.searchParams);
+
+	const conversationsQuery = createConversationsQuery(conversationListFiltersState.queryPayload);
+
+	const groupedConversations = $derived(
+		groupConversationsByRecencyBucket(conversationsQuery.data ?? [])
 	);
-	const conversations = $derived(conversationsQuery.data ?? []);
-	const sortedConversations = $derived(
-		[...conversations].sort(
-			(a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
-		)
-	);
-	const groupedConversations = $derived(groupConversationsByRecencyBucket(sortedConversations));
-	const isLoading = $derived(conversationsQuery.isLoading);
-	const isError = $derived(conversationsQuery.isError);
-	const error = $derived(conversationsQuery.error);
 
 	const breadcrumbItems = $derived([
 		{ label: m['features.conversation.create.form.breadcrumb.home'](), onClick: () => goto('/') },
@@ -55,21 +49,23 @@
 			>
 		</div>
 
-		{#if isLoading}
+		{#if conversationsQuery.isLoading}
 			<div class="flex items-center justify-center py-16">
 				<Loader />
 			</div>
-		{:else if isError}
+		{:else if conversationsQuery.isError}
 			<Alert color="red" class="mb-4">
 				<div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 					<div>
 						<span class="font-medium">Couldn’t load conversations</span>
-						<p class="mt-1 text-sm">{error?.message || 'Something went wrong. Try again.'}</p>
+						<p class="mt-1 text-sm">
+							{conversationsQuery.error?.message || 'Something went wrong. Try again.'}
+						</p>
 					</div>
 					<Button color="red" outline onclick={() => conversationsQuery.refetch()}>Retry</Button>
 				</div>
 			</Alert>
-		{:else if sortedConversations.length === 0}
+		{:else if conversationsQuery.data?.length === 0}
 			<div
 				class="rounded-xl border border-primary-200 bg-primary-50 px-6 py-12 text-center dark:border-primary-800 dark:bg-primary-900/20"
 			>

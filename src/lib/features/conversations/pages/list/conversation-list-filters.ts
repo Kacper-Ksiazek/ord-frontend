@@ -2,7 +2,13 @@ import { CONVERSATION_TYPES } from '$lib/features/conversations/shared/constants
 import type { ConversationType, RecencyBucket } from '$lib/types/conversation/domain/conversation';
 import type { GetConversationsFilters } from '$lib/types/conversation/api/list-conversations';
 
-const RECENCY_BUCKETS: RecencyBucket[] = ['TODAY', 'YESTERDAY', 'THIS_WEEK', 'THIS_MONTH', 'LATER'];
+export const RECENCY_BUCKETS: RecencyBucket[] = [
+	'TODAY',
+	'YESTERDAY',
+	'THIS_WEEK',
+	'THIS_MONTH',
+	'LATER'
+];
 
 const conversationTypeSet = new Set<string>(CONVERSATION_TYPES);
 const recencyBucketSet = new Set<string>(RECENCY_BUCKETS);

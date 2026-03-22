@@ -4,10 +4,8 @@ import type { GetConversationsFilters } from '$lib/types/conversation/api/list-c
 import { getConversations } from '../api/get-conversations';
 import { conversationKeys } from '../keys';
 
-export function createConversationsQuery(getFilters: () => GetConversationsFilters = () => ({})) {
+export function createConversationsQuery(filters: GetConversationsFilters = {}) {
 	return createQuery<ConversationSummaryDTO[]>(() => {
-		const filters = getFilters();
-
 		return {
 			queryKey: conversationKeys.list(filters),
 			queryFn: () => getConversations(filters)
