@@ -7,3 +7,5 @@ export type ConversationAIInterlocutorAvatarId =
 	components['schemas']['GeneratedAIInterlocutorData']['avatarId'];
 
 export type ConversationDTO = components['schemas']['ConversationDTO'];
+export type ConversationSummaryDTO = components['schemas']['ConversationSummaryDTO'];
+export type RecencyBucket = components['schemas']['RecencyBucket'];
