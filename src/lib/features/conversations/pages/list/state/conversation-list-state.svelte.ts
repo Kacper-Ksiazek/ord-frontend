@@ -1,7 +1,12 @@
 import isEqual from 'lodash/isEqual';
-import type { ConversationListFilters } from '../conversation-list-url';
 import type { ConversationType, RecencyBucket } from '$lib/types/conversation/domain/conversation';
 import type { GetConversationsFilters } from '$lib/types/conversation/api/list-conversations';
+
+export interface ConversationListFilters {
+	search: string;
+	recencyBucket: RecencyBucket | null;
+	type: ConversationType | null;
+}
 
 export class ConversationListFiltersState {
 	private static readonly DEFAULT_FILTERS: ConversationListFilters = {

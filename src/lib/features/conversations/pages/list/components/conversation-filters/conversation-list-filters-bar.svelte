@@ -2,9 +2,9 @@
 	import Input from '$lib/components/forms/input/input.svelte';
 	import { IconButton } from '$lib/components/buttons/icon-button';
 	import { DropdownSelect, type DropdownSelectOption } from '$lib/components/forms/dropdown-select';
-	import { ConversationListFiltersState } from './state/conversation-list-state.svelte';
+	import { ConversationListFiltersState } from '../../state/conversation-list-state.svelte';
 	import { ClockIcon, MessageSquare, SearchIcon, TrashIcon } from 'lucide-svelte';
-	import type { ConversationListFilters } from './conversation-list-url';
+	import type { ConversationListFilters } from '../../state/conversation-list-state.svelte';
 
 	interface Props {
 		filtersState: ConversationListFiltersState;

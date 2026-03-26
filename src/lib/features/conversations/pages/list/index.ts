@@ -1,2 +1,2 @@
-export { default as ConversationListRow } from './conversation-list-row.svelte';
-export { default as ConversationListFiltersBar } from './conversation-list-filters-bar.svelte';
+export { default as ConversationList } from './components/conversation-list/conversation-list.svelte';
+export { default as ConversationListFiltersBar } from './components/conversation-filters/conversation-list-filters-bar.svelte';
