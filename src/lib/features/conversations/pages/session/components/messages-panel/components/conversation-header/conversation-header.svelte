@@ -17,20 +17,26 @@
 <div class="flex flex-col gap-8">
 	<InterlocutorDetails />
 
-	<div class="flex gap-2 w-full">
-		<ConversationMetadataCard label="Topic" value={getConversationTypeLabel(type)} class="flex-1">
-			{#snippet Icon({ className })}
-				<ConversationTypeIcon conversationType={type} class={className} />
-			{/snippet}
-		</ConversationMetadataCard>
+	<div class="flex flex-col gap-2 w-full">
+		<div class="flex gap-2">
+			<ConversationMetadataCard label="Topic" value={getConversationTypeLabel(type)} class="flex-1">
+				{#snippet Icon({ className })}
+					<ConversationTypeIcon conversationType={type} class={className} />
+				{/snippet}
+			</ConversationMetadataCard>
 
-		<ConversationMetadataCard label="AI Tone" value={getConversationToneLabel(aiTone)} class="flex-1">
-			{#snippet Icon({ className })}
-				<ConversationToneIcon tone={aiTone} class={className} />
-			{/snippet}
-		</ConversationMetadataCard>
+			<ConversationMetadataCard
+				label="AI Tone"
+				value={getConversationToneLabel(aiTone)}
+				class="flex-1"
+			>
+				{#snippet Icon({ className })}
+					<ConversationToneIcon tone={aiTone} class={className} />
+				{/snippet}
+			</ConversationMetadataCard>
+		</div>
 
-		<ConversationMetadataCard label="Topic" value={topic} class="flex-2">
+		<ConversationMetadataCard label="Topic" value={topic} class="w-full">
 			{#snippet Icon({ className })}
 				<MessagesSquare class={cn(className, 'opacity-70')} />
 			{/snippet}

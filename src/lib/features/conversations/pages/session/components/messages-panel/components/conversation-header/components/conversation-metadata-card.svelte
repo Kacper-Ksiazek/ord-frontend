@@ -20,12 +20,12 @@
 >
 	<div class="flex items-center gap-3">
 		{@render Icon({
-			className: 'w-8 h-8 text-gray-500 dark:text-gray-400'
+			className: 'size-10 text-gray-500 dark:text-gray-400'
 		})}
 
 		<div>
 			<div class="caption">{label}</div>
-			<div class="heading-6">{value}</div>
+			<div class="content-long">{value}</div>
 		</div>
 	</div>
 </div>
