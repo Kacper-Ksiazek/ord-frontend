@@ -3,7 +3,6 @@
 
 	const { children } = $props();
 
-	// Initialize conversation context with mocked data for Storybook
 	setConversationContext({
 		id: 'storybook-conversation',
 		topic: 'Learning English',
