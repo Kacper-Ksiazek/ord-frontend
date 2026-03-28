@@ -1,25 +1,25 @@
-import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
+import type { ConversationUserMessageAnalysisDTO } from '$lib/types/conversation/domain/conversation-message-analysis';
 import { createContext } from 'svelte';
 
 export type SidepanelContext = {
 	isOpened: boolean;
-	feedbackPreview: ConversationUserMessageFeedbackDTO | null;
+	analysisPreview: ConversationUserMessageAnalysisDTO | null;
 	learningTipsPreviewMessageOrder: number | null;
 };
 
 export const [getSidepanelContext, setSidepanelContext] = createContext<SidepanelContext>();
 
-export function createSidepanelContext(latestFeedback?: ConversationUserMessageFeedbackDTO | null) {
+export function createSidepanelContext(latestAnalysis?: ConversationUserMessageAnalysisDTO | null) {
 	const context: SidepanelContext = $state(
-		latestFeedback
+		latestAnalysis
 			? {
 					isOpened: true,
-					feedbackPreview: latestFeedback,
+					analysisPreview: latestAnalysis,
 					learningTipsPreviewMessageOrder: null
 				}
 			: {
 					isOpened: false,
-					feedbackPreview: null,
+					analysisPreview: null,
 					learningTipsPreviewMessageOrder: null
 				}
 	);

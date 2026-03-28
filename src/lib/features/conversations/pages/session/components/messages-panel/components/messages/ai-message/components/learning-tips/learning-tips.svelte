@@ -73,7 +73,7 @@
 		} else {
 			sidepanelContext.isOpened = true;
 			sidepanelContext.learningTipsPreviewMessageOrder = messageIndex;
-			sidepanelContext.feedbackPreview = null;
+			sidepanelContext.analysisPreview = null;
 		}
 
 		(e.target as HTMLElement).blur();

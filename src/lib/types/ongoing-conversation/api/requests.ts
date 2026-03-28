@@ -6,8 +6,8 @@ export type CreateOngoingConversationMessageRequest =
 export type SaveUserConversationMessageRequest =
 	components['schemas']['SaveUserConversationMessageRequest'];
 
-export type GetFeedbackOnUserConversationMessageRequest =
-	components['schemas']['GetFeedbackOnUserConversationMessageRequest'];
+export type GetAnalysisForUserConversationMessageRequest =
+	components['schemas']['GetAnalysisForUserConversationMessageRequest'];
 
 export type GetLearningTipsForAIMessageRequest =
 	components['schemas']['GetLearningTipsForAIMessageRequest'];

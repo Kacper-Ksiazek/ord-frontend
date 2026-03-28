@@ -1,6 +1,6 @@
 <script lang="ts">
 	import {
-		FeedbackPanel,
+		AnalysisPanel,
 		MessagesPanel
 	} from '$lib/features/conversations/pages/session/components';
 	import { onMount } from 'svelte';
@@ -58,5 +58,5 @@
 <div class="w-full flex-1 mx-auto flex h-full justify-between">
 	<MessagesPanel />
 
-	<FeedbackPanel />
+	<AnalysisPanel />
 </div>

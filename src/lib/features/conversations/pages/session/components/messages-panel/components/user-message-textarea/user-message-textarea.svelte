@@ -6,10 +6,10 @@
 	import { getConversationContext } from '../../../../contexts/conversation-context.svelte';
 	import { getMessagesContext } from '../../../../contexts/messages-context.svelte';
 	import { requestAIMessage } from '$lib/api-client/ongoing-conversation/sse/request-ai-message';
-	import { createRequestFeedbackForUserMessageMutation } from '$lib/api-client/ongoing-conversation/mutations/use-request-feedback-for-user-message';
+	import { createRequestAnalysisForUserMessageMutation } from '$lib/api-client/ongoing-conversation/mutations/use-request-analysis-for-user-message';
 	import { createRequestLearningTipsForAIMessageMutation } from '$lib/api-client/ongoing-conversation/mutations/use-request-learning-tips-for-ai-message';
 	import type { CompactConversationUserMessage } from '$lib/types/conversation/domain/conversation-message';
-	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
+	import type { ConversationUserMessageAnalysisDTO } from '$lib/types/conversation/domain/conversation-message-analysis';
 	import type { CompactConversationAiMessage } from '$lib/types/conversation/domain/conversation-message';
 	import { getMessagesMaxWidth } from '../../../constants.svelte';
 
@@ -23,7 +23,7 @@
 	const messagesMaxWidth = $derived(getMessagesMaxWidth());
 
 	const { mutateAsync: saveUserMessageMutation } = createSaveUserMessageMutation();
-	const { mutateAsync: requestAIMessageMutation } = createRequestFeedbackForUserMessageMutation();
+	const { mutateAsync: requestAIMessageMutation } = createRequestAnalysisForUserMessageMutation();
 	const { mutateAsync: requestLearningTipsMutation } =
 		createRequestLearningTipsForAIMessageMutation();
 
@@ -38,7 +38,7 @@
 			messagesContext.messages.push({
 				sender: 'USER',
 				content: message,
-				feedback: null,
+				analysis: null,
 				createdAt: new Date().toISOString()
 			});
 
@@ -55,8 +55,8 @@
 				messageOrder,
 				latestAIMessage: messagesContext.messages[messageOrder - 1].content
 			}).then((data) => {
-				(messagesContext.messages[messageOrder] as CompactConversationUserMessage).feedback =
-					data as ConversationUserMessageFeedbackDTO;
+				(messagesContext.messages[messageOrder] as CompactConversationUserMessage).analysis =
+					data as ConversationUserMessageAnalysisDTO;
 			});
 
 			const aiMessageOrder = messageOrder + 1;

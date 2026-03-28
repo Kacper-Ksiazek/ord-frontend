@@ -47,11 +47,11 @@
 
 {#if block.examples && block.examples.length > 0}
 	<div>
-		<p class="feedback-card-label">{block.label}:</p>
+		<p class="analysis-card-label">{block.label}:</p>
 		<div class="space-y-2">
 			{#each block.examples as example (example)}
 				{@const Icon = icon}
-				<div class="feedback-card-text-box variant-neutral">
+				<div class="analysis-card-text-box variant-neutral">
 					<Icon class={cn('w-4 h-4', theme.iconColor)} />
 
 					<span class="content-long">

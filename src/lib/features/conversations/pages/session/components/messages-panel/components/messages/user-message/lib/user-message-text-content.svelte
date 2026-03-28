@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { highlightFeedbackContent } from '../utils/highlight-feedback';
-	import FeedbackTextHighlight from '../components/feedback-text-highlight/feedback-text-highlight.svelte';
+	import { highlightAnalysisContent } from '../utils/highlight-analysis';
+	import AnalysisTextHighlight from '../components/analysis-text-highlight/analysis-text-highlight.svelte';
 	import isNil from 'lodash/isNil';
-	import type { ConversationUserMessageFeedbackDTO } from '$lib/types/conversation/domain/conversation-message-feedback';
+	import type { ConversationUserMessageAnalysisDTO } from '$lib/types/conversation/domain/conversation-message-analysis';
 
 	interface UserMessageProps {
 		messageIndex: number;
 		messageContent: string;
-		feedback: ConversationUserMessageFeedbackDTO | null;
+		analysis: ConversationUserMessageAnalysisDTO | null;
 		disableHoverHighlight?: boolean;
 		showIconsInHighlightedParts?: boolean;
 	}
@@ -15,32 +15,32 @@
 	let {
 		messageIndex,
 		messageContent,
-		feedback,
+		analysis,
 		disableHoverHighlight = false,
 		showIconsInHighlightedParts = false
 	}: UserMessageProps = $props();
 
 	const highlightedParts = $derived.by(() => {
-		if (isNil(feedback)) {
+		if (isNil(analysis)) {
 			return null;
 		}
 
-		return highlightFeedbackContent(messageContent, feedback);
+		return highlightAnalysisContent(messageContent, analysis);
 	});
 </script>
 
 <p>
-	{#if highlightedParts && feedback}
+	{#if highlightedParts && analysis}
 		{#each highlightedParts as part, index (index)}
 			{#if part.highlight}
 				{@const id = `highlight-${messageIndex}-${part.highlight}-${index}`}
 
-				<FeedbackTextHighlight
+				<AnalysisTextHighlight
 					{id}
 					highlightType={part.highlight}
 					highlightedText={part.text}
 					{disableHoverHighlight}
-					{feedback}
+					{analysis}
 					{showIconsInHighlightedParts}
 				/>
 			{:else}

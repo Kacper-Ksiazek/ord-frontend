@@ -28,8 +28,8 @@
 </script>
 
 <div>
-	<p class="feedback-card-label">{block.label}:</p>
-	<div class={cn('feedback-card-text-box', variantClass)}>
+	<p class="analysis-card-label">{block.label}:</p>
+	<div class={cn('analysis-card-text-box', variantClass)}>
 		{#if block.Icon}
 			<block.Icon class={cn('w-4 h-4', iconColor)} />
 		{/if}

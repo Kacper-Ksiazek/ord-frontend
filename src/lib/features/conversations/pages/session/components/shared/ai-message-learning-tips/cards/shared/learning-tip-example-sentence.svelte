@@ -38,10 +38,10 @@
 
 {#if exampleSentence && exampleSentence.length > 0}
 	<div>
-		<p class="feedback-card-label">Example Sentences:</p>
+		<p class="analysis-card-label">Example Sentences:</p>
 		<div class="space-y-2">
 			{#each exampleSentence as sentence (sentence)}
-				<div class="feedback-card-text-box variant-neutral">
+				<div class="analysis-card-text-box variant-neutral">
 					<LEARNING_TIP_EXAMPLE_SENTENCE_ICON class={cn('w-4 h-4', iconColor)} />
 					<span class="content-long">
 						{#each parseBoldText(sentence) as part (part.text)}

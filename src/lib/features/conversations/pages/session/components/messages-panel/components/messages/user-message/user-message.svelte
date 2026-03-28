@@ -1,7 +1,7 @@
 <script lang="ts">
 	import MessageBase from '../message-base.svelte';
 	import type { CompactConversationUserMessage } from '$lib/types/conversation/domain/conversation-message';
-	import { Feedback } from './components';
+	import { Analysis } from './components';
 	import UserMessageTextContent from './lib/user-message-text-content.svelte';
 
 	interface UserMessageProps {
@@ -20,11 +20,11 @@
 			{messageIndex}
 			{showIconsInHighlightedParts}
 			messageContent={message.content}
-			feedback={message.feedback}
+			analysis={message.analysis}
 		/>
 	{/snippet}
 
 	{#snippet footer()}
-		<Feedback feedback={message.feedback} bind:showIconsInHighlightedParts />
+		<Analysis analysis={message.analysis} bind:showIconsInHighlightedParts />
 	{/snippet}
 </MessageBase>

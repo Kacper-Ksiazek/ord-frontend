@@ -1,10 +1,17 @@
 import type { components } from '@ord-api/ord-api-types';
-import type { ConversationUserMessageFeedbackDTO } from './conversation-message-feedback';
+import type { ConversationUserMessageAnalysisDTO } from './conversation-message-analysis';
 import type { AIMessageLearningTips } from '$lib/types/ongoing-conversation/api/responses';
 
 export type ConversationMessageSender = components['schemas']['ConversationMessageDTO']['sender'];
 
 export type ConversationMessageDTO = components['schemas']['ConversationMessageDTO'];
+
+// The openapi-typescript generator uses Java class names as TypeScript discriminants
+// (sender: "ConversationAIMessageDTO" | "ConversationUserMessageDTO"), but the runtime
+// JSON sends sender: "AI" | "USER". This normalized union matches the actual runtime shape.
+export type NormalizedConversationMessage =
+	| (Omit<components['schemas']['ConversationAIMessageDTO'], 'sender'> & { sender: 'AI' })
+	| (Omit<components['schemas']['ConversationUserMessageDTO'], 'sender'> & { sender: 'USER' });
 
 export type CompactConversationAiMessage = {
 	sender: 'AI';
@@ -16,7 +23,7 @@ export type CompactConversationAiMessage = {
 export type CompactConversationUserMessage = {
 	sender: 'USER';
 	content: string;
-	feedback: ConversationUserMessageFeedbackDTO | null;
+	analysis: ConversationUserMessageAnalysisDTO | null;
 	createdAt: string;
 };
 

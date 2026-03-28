@@ -37,7 +37,7 @@
 <div
 	bind:this={scrollRef}
 	class={cn(
-		'feedback-card-container relative',
+		'analysis-card-container relative',
 		isExpandable && 'cursor-pointer expandable',
 		theme.cardBg,
 		theme.cardBorder

@@ -10,15 +10,13 @@
 		sender: 'USER',
 		content: 'Hello, how are you today?',
 		createdAt: new Date().toISOString(),
-		feedback: {
-			id: 'feedback-1',
+		analysis: {
+			id: 'analysis-1',
 			tutorComment: 'Good effort! Keep practicing.',
 			grammar: 7,
 			vocabulary: 8,
-			answerLength: 6,
 			naturalness: 7,
 			coherenceWithContext: 8,
-			registerAppropriate: true,
 			messageId: 'msg-1',
 			mistakes: [
 				{
@@ -71,8 +69,8 @@
 <Story name="Default" />
 
 <Story
-	name="Generating Feedback"
+	name="Generating Analysis"
 	args={{
-		message: { ...defaultMessage, feedback: null }
+		message: { ...defaultMessage, analysis: null }
 	}}
 />

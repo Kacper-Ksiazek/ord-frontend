@@ -6,7 +6,7 @@
 	// Initialize sidepanel context with mocked data for Storybook
 	let sidepanelContext = $state({
 		isOpened: false,
-		feedbackPreview: null,
+		analysisPreview: null,
 		learningTipsPreviewMessageOrder: null as number | null
 	});
 

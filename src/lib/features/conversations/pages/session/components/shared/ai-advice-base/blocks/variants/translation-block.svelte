@@ -36,8 +36,8 @@
 </script>
 
 <div>
-	<p class="feedback-card-label">{block.label || 'Translation'}:</p>
-	<div class={cn('feedback-card-text-box', variantClass, 'flex gap-2')}>
+	<p class="analysis-card-label">{block.label || 'Translation'}:</p>
+	<div class={cn('analysis-card-text-box', variantClass, 'flex gap-2')}>
 		<block.translation.Icon class={cn('w-4 h-4', theme.iconColor)} />
 		<span class="flex-1 content-long">{block.translation.text}</span>
 
@@ -56,7 +56,7 @@
 	</div>
 
 	{#if block.nativeLanguage}
-		<div class="feedback-card-text-box variant-neutral flex gap-2 mt-1">
+		<div class="analysis-card-text-box variant-neutral flex gap-2 mt-1">
 			<AuthUserNativeLanguageFlag class="w-4 h-4" />
 			<span class="flex-1 content-long">{block.nativeLanguage.text}</span>
 		</div>
