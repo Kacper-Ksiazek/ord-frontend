@@ -3,9 +3,11 @@
 ## Component Complexity Levels
 
 ### Small Components (Single File)
+
 **Use when:** Component is simple, self-contained, < 100 lines, no sub-components.
 
 **Structure:**
+
 ```
 component-name.svelte
 ```
@@ -13,9 +15,11 @@ component-name.svelte
 **Example:** `skeleton.svelte`, `divider.svelte`
 
 ### Medium/Complex Components (Folder Structure)
+
 **Use when:** Component has sub-components, stores, types, or exceeds ~100 lines.
 
 **Structure:**
+
 ```
 component-name/
 ├── component-name.svelte      # Main component
@@ -32,11 +36,13 @@ component-name/
 ## Folder Structure Pattern
 
 ### Main Component File
+
 - Named: `{component-name}.svelte`
 - Contains main component logic and markup
 - Imports sub-components from `./components/`
 
 ### Barrel Export (`index.ts`)
+
 **Always include for folder-based components:**
 
 ```typescript
@@ -46,15 +52,17 @@ export { default as ComponentName } from './component-name.svelte';
 **Usage:** Allows clean imports: `import { ComponentName } from '$lib/components/...'`
 
 ### Types File (`component-name.types.ts`)
+
 **Include when:** Component has complex prop types or interfaces.
 
 ```typescript
 export interface ComponentNameProps {
-  // Props definition
+	// Props definition
 }
 ```
 
 ### Store File (`component-name.store.svelte.ts`)
+
 **Include when:** Component needs local reactive state shared across sub-components.
 
 ```typescript
@@ -64,6 +72,7 @@ export const componentState = new SvelteMap<Key, Value>([]);
 ```
 
 ### Sub-components Folder (`components/`)
+
 **Include when:** Component has child components that are only used within this component.
 
 - Place sub-components in `components/` subfolder
@@ -97,6 +106,7 @@ import { cn } from 'flowbite-svelte';
 ```
 
 **Rules:**
+
 - Import `cn` from `flowbite-svelte` (not `clsx`)
 - Always merge `customClass` prop at the end
 - Use conditional classes with `&&` operator
@@ -125,24 +135,27 @@ topic-picker/
 ```
 
 **Main component imports:**
+
 ```svelte
 <script lang="ts">
-  import TopicRow from './components/topic-row.svelte';
-  import { topics } from './topic-picker.store.svelte';
-  import type { TopicPickerProps } from './topic-picker.types';
+	import TopicRow from './components/topic-row.svelte';
+	import { topics } from './topic-picker.store.svelte';
+	import type { TopicPickerProps } from './topic-picker.types';
 </script>
 ```
 
 **Usage from outside:**
+
 ```svelte
 <script lang="ts">
-  import { TopicPicker } from '$lib/components/.../topic-picker';
+	import { TopicPicker } from '$lib/components/.../topic-picker';
 </script>
 ```
 
 ## Best Practices
 
 ### ✅ DO
+
 - Use folder structure for components with sub-components
 - Always include `index.ts` barrel export for folder-based components
 - Use `cn` from `flowbite-svelte` for all class merging
@@ -151,9 +164,9 @@ topic-picker/
 - Separate stores/types into dedicated files when complex
 
 ### ❌ DON'T
+
 - Don't use `clsx` - always use `cn` from `flowbite-svelte`
 - Don't create folders for simple single-file components
 - Don't skip `index.ts` for folder-based components
 - Don't mix component concerns - separate stores/types when needed
 - Don't use PascalCase for file names (use kebab-case)
-

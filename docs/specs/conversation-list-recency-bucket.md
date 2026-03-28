@@ -13,13 +13,13 @@ Support chat-app–style grouping on the conversations list (**Today**, **Yester
 
 String enum (exact casing as agreed with API conventions; frontend today expects these semantic labels):
 
-| Value          | Meaning (see rules below)      |
-| -------------- | ------------------------------ |
-| `TODAY`        | Activity falls on “today”      |
-| `YESTERDAY`    | Activity falls on “yesterday”    |
-| `THIS_WEEK`    | Same ISO-style week as “now”, before today, not yesterday |
-| `THIS_MONTH`   | Same calendar month/year as “now”, before start of that week |
-| `LATER`        | Everything else                |
+| Value        | Meaning (see rules below)                                    |
+| ------------ | ------------------------------------------------------------ |
+| `TODAY`      | Activity falls on “today”                                    |
+| `YESTERDAY`  | Activity falls on “yesterday”                                |
+| `THIS_WEEK`  | Same ISO-style week as “now”, before today, not yesterday    |
+| `THIS_MONTH` | Same calendar month/year as “now”, before start of that week |
+| `LATER`      | Everything else                                              |
 
 (OpenAPI: `enum` on `ConversationDTO` or a dedicated extension field.)
 

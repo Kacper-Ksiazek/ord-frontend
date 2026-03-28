@@ -31,7 +31,9 @@ Generate comprehensive unit tests for TypeScript utility functions using Vitest.
 ## Test Structure Rules
 
 ### AAA Pattern (Arrange, Act, Assert)
+
 Every `it` block must follow the AAA structure with sections separated by blank lines. Do NOT add `// Arrange`, `// Act`, `// Assert` comments — the blank lines are sufficient:
+
 ```ts
 it('should ...', () => {
   const input = ...;
@@ -43,6 +45,7 @@ it('should ...', () => {
 ```
 
 ### Describe Block Structure
+
 Each function gets its own top-level `describe`. Inside, always use three nested `describe` blocks:
 
 ```ts
@@ -54,6 +57,7 @@ describe('functionName', () => {
 ```
 
 ### Mocking Strategy
+
 - Hoist mocks with `vi.mock(...)` at the top of the file (outside describe blocks)
 - Set up mock implementations/return values in `beforeEach` blocks, not inside individual tests
 - Use `vi.clearAllMocks()` in a top-level `beforeEach` to reset state between tests
@@ -65,38 +69,38 @@ import { vi, describe, it, expect, beforeEach } from 'vitest';
 vi.mock('../some-dep', () => ({ helperFn: vi.fn() }));
 
 describe('myFunction', () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-    (helperFn as Mock).mockReturnValue('default');
-  });
+	beforeEach(() => {
+		vi.clearAllMocks();
+		(helperFn as Mock).mockReturnValue('default');
+	});
 
-  describe('positive path', () => {
-    it('should return expected value for valid input', () => {
-      const input = 'valid';
+	describe('positive path', () => {
+		it('should return expected value for valid input', () => {
+			const input = 'valid';
 
-      const result = myFunction(input);
+			const result = myFunction(input);
 
-      expect(result).toBe('expected');
-    });
-  });
+			expect(result).toBe('expected');
+		});
+	});
 
-  describe('negative path', () => {
-    it('should throw when input is invalid', () => {
-      const input = null;
+	describe('negative path', () => {
+		it('should throw when input is invalid', () => {
+			const input = null;
 
-      expect(() => myFunction(input)).toThrow('some error');
-    });
-  });
+			expect(() => myFunction(input)).toThrow('some error');
+		});
+	});
 
-  describe('edge cases', () => {
-    it('should handle empty string', () => {
-      const input = '';
+	describe('edge cases', () => {
+		it('should handle empty string', () => {
+			const input = '';
 
-      const result = myFunction(input);
+			const result = myFunction(input);
 
-      expect(result).toBe('fallback');
-    });
-  });
+			expect(result).toBe('fallback');
+		});
+	});
 });
 ```
 
