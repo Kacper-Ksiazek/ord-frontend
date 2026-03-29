@@ -1,7 +1,7 @@
 import flatMap from 'lodash/flatMap';
 import type { ConversationUserMessageAnalysisDTO } from '$lib/types/conversation/domain/conversation-message-analysis';
 import type { MessageAnalysisCriteria } from '$lib/types/conversation/domain/message-analysis-criteria';
-import { highlightText, type HighlightPart } from '$lib/utils/text-highlight';
+import { highlightText, type HighlightPart } from '$lib/utils/text/highlight-segments';
 
 export type { HighlightPart };
 

@@ -1,7 +1,7 @@
 import isEmpty from 'lodash/isEmpty';
 import flatMap from 'lodash/flatMap';
-import type { HighlightPart, TextCategoryPair } from './text-highlight.types';
-import { findTextRanges, mergeRanges, buildHighlightParts } from './text-highlight.utils';
+import type { HighlightPart, TextCategoryPair } from './highlight-segments.types';
+import { findTextRanges, mergeRanges, buildHighlightParts } from './highlight-segments.utils';
 
 /** Highlights text fragments in content based on text-category pairs */
 export function highlightText<TCategory extends string | number | symbol>(

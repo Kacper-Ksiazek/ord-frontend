@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty';
 import uniq from 'lodash/uniq';
-import type { HighlightRange, HighlightPart } from './text-highlight.types';
+import type { HighlightRange, HighlightPart } from './highlight-segments.types';
 
 function escapeRegex(str: string): string {
 	return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
