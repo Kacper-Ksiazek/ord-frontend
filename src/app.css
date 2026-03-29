@@ -110,6 +110,10 @@
 	}
 }
 
+.app-bg-col {
+	@apply bg-slate-100 dark:bg-slate-900;
+}
+
 /* @keyframes generation-in-progress {
 	from {
 		background-color: var(--color-primary-100);
