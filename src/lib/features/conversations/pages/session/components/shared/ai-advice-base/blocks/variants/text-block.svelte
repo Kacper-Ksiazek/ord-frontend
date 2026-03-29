@@ -28,7 +28,7 @@
 </script>
 
 <div>
-	<p class="analysis-card-label">{block.label}:</p>
+	<p class="label mb-1">{block.label}:</p>
 	<div class={cn('analysis-card-text-box', variantClass)}>
 		{#if block.Icon}
 			<block.Icon class={cn('w-4 h-4', iconColor)} />

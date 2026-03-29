@@ -4,6 +4,7 @@
 	import type { TailwindColorTheme } from '$lib/utils/theme/get-tailwind-colors';
 	import { ArrowRight } from 'lucide-svelte';
 	import { getAiMessageLearningTipColors } from '$conversations/pages/session/constants/ai-message-learning-tips/colors';
+	import { parseBoldText } from '$lib/utils/text/parse-bold-text';
 
 	interface Props {
 		block: ExamplesBlock;
@@ -22,32 +23,11 @@
 
 		return theme.highlightedText;
 	});
-
-	function parseBoldText(text: string) {
-		const parts: Array<{ text: string; bold: boolean }> = [];
-		const regex = /\*\*(.*?)\*\*/g;
-		let lastIndex = 0;
-		let match;
-
-		while ((match = regex.exec(text)) !== null) {
-			if (match.index > lastIndex) {
-				parts.push({ text: text.slice(lastIndex, match.index), bold: false });
-			}
-			parts.push({ text: match[1], bold: true });
-			lastIndex = match.index + match[0].length;
-		}
-
-		if (lastIndex < text.length) {
-			parts.push({ text: text.slice(lastIndex), bold: false });
-		}
-
-		return parts.length > 0 ? parts : [{ text, bold: false }];
-	}
 </script>
 
 {#if block.examples && block.examples.length > 0}
 	<div>
-		<p class="analysis-card-label">{block.label}:</p>
+		<p class="label mb-1">{block.label}:</p>
 		<div class="space-y-2">
 			{#each block.examples as example (example)}
 				{@const Icon = icon}

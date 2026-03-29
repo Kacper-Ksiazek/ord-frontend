@@ -10,12 +10,8 @@
 		@apply brightness-95 dark:brightness-110;
 	}
 
-	.analysis-card-label {
-		@apply text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2;
-	}
-
 	.analysis-card-text-box {
-		@apply flex items-center gap-2 text-sm p-3 rounded-lg border text-gray-900 dark:text-gray-100;
+		@apply flex items-center gap-2 text-sm py-1.5 px-3 rounded-lg border text-gray-900 dark:text-gray-100;
 	}
 
 	.analysis-card-text-box svg {

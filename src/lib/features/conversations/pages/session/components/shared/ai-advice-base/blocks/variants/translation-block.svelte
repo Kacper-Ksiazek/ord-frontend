@@ -36,7 +36,7 @@
 </script>
 
 <div>
-	<p class="analysis-card-label">{block.label || 'Translation'}:</p>
+	<p class="label mb-1">{block.label || 'Translation'}:</p>
 	<div class={cn('analysis-card-text-box', variantClass, 'flex gap-2')}>
 		<block.translation.Icon class={cn('w-4 h-4', theme.iconColor)} />
 		<span class="flex-1 content-long">{block.translation.text}</span>

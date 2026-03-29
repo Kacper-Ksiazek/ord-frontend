@@ -3,6 +3,7 @@
 	import { getAiMessageLearningTipColors } from '$conversations/pages/session/constants/ai-message-learning-tips/colors';
 	import { LEARNING_TIP_EXAMPLE_SENTENCE_ICON } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
 	import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
+	import { parseBoldText } from '$lib/utils/text/parse-bold-text';
 
 	interface Props {
 		exampleSentence: string[];
@@ -13,32 +14,11 @@
 
 	const highlightStyle = getAiMessageLearningTipColors(category).highlightedText;
 	const iconColor = getAiMessageLearningTipColors(category).iconColor;
-
-	function parseBoldText(text: string) {
-		const parts: Array<{ text: string; bold: boolean }> = [];
-		const regex = /\*\*(.*?)\*\*/g;
-		let lastIndex = 0;
-		let match;
-
-		while ((match = regex.exec(text)) !== null) {
-			if (match.index > lastIndex) {
-				parts.push({ text: text.slice(lastIndex, match.index), bold: false });
-			}
-			parts.push({ text: match[1], bold: true });
-			lastIndex = match.index + match[0].length;
-		}
-
-		if (lastIndex < text.length) {
-			parts.push({ text: text.slice(lastIndex), bold: false });
-		}
-
-		return parts.length > 0 ? parts : [{ text, bold: false }];
-	}
 </script>
 
 {#if exampleSentence && exampleSentence.length > 0}
 	<div>
-		<p class="analysis-card-label">Example Sentences:</p>
+		<p class="label mb-1">Example Sentences:</p>
 		<div class="space-y-2">
 			{#each exampleSentence as sentence (sentence)}
 				<div class="analysis-card-text-box variant-neutral">
