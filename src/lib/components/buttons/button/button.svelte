@@ -10,6 +10,8 @@
 		disabled = false,
 		class: className = '',
 		onClick,
+		ariaLabel,
+		title,
 		children
 	}: ButtonProps = $props();
 
@@ -30,6 +32,8 @@
 <button
 	{disabled}
 	type="button"
+	aria-label={ariaLabel}
+	{title}
 	class={cn(baseClasses, typeVariantClasses, textColorClasses, className)}
 	onclick={onClick}
 >
