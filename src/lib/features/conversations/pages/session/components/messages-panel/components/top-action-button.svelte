@@ -1,37 +1,47 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
+	import { Button } from '$lib/components/buttons/button';
+	import type { Snippet } from 'svelte';
 
 	interface Props {
-		icon: LucideIcon;
-		onclick: () => void;
 		ariaLabel: string;
 		title: string;
 		position?: 'left' | 'right';
 		class?: string;
+		disabled?: boolean;
+
+		onClick: () => void;
+
+		icon: LucideIcon;
+		children?: Snippet;
 	}
 
 	const {
 		icon: Icon,
-		onclick,
+		onClick,
 		ariaLabel,
 		title,
 		position = 'right',
-		class: customClass = ''
+		class: customClass = '',
+		disabled = false,
+		children
 	}: Props = $props();
 </script>
 
-<button
-	{onclick}
+<Button
+	type="OUTLINED"
+	variant="TEXT"
+	{onClick}
+	{ariaLabel}
+	{title}
+	{disabled}
 	class={cn(
-		'absolute top-[20px] flex items-center justify-center p-3 rounded-xl border-2 transition-all cursor-pointer z-10',
-		'bg-white dark:bg-slate-800 text-gray-700 dark:text-gray-300',
-		'hover:bg-gray-50 dark:hover:bg-slate-700',
-		'border-gray-300 dark:border-gray-600',
+		'absolute z-10 h-auto! p-3 rounded-xl border-2 bg-white dark:bg-slate-800 hover:bg-gray-100 dark:hover:bg-slate-700',
 		position === 'left' ? 'left-0 mr-auto' : 'right-0 ml-auto',
 		customClass
 	)}
-	aria-label={ariaLabel}
-	{title}
 >
 	<Icon class="w-5 h-5" />
-</button>
+
+	{@render children?.()}
+</Button>

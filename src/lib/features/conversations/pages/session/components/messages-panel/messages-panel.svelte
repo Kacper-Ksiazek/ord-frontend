@@ -5,7 +5,7 @@
 	import { getMessagesContext } from '../../contexts/messages-context.svelte';
 	import { UserMessageTextarea } from './components/user-message-textarea';
 	import { getSidepanelWidth, getMessagesMaxWidth } from '../constants.svelte';
-	import { AppWindow, Columns2, ChevronLeft } from 'lucide-svelte';
+	import { Columns2, ChevronLeft, PanelLeftClose } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
 	import { onMount } from 'svelte';
@@ -35,30 +35,39 @@
 	)}
 	style={sidepanelContext.isOpened ? `width: calc(100% - ${sidepanelWidth}px)` : 'width: 100%'}
 >
-	<!-- Back Button -->
-	<TopActionButton
-		icon={ChevronLeft}
-		onclick={() => goto('/conversations')}
-		ariaLabel="Go back"
-		title="Go back"
-		position="left"
-	/>
-
-	<!-- Layout Toggle Button -->
-	<TopActionButton
-		icon={sidepanelContext.isOpened ? AppWindow : Columns2}
-		onclick={() => (sidepanelContext.isOpened = !sidepanelContext.isOpened)}
-		ariaLabel={sidepanelContext.isOpened ? 'Switch to full width layout' : 'Switch to split layout'}
-		title={sidepanelContext.isOpened ? 'Switch to full width layout' : 'Switch to split layout'}
-		position="right"
-	/>
-
 	<div
 		class={cn(
-			'flex flex-col mx-auto h-full shrink-0', //
+			'flex flex-col mx-auto h-full shrink-0 relative', //
 			!sidepanelContext.isOpened && 'w-full'
 		)}
 	>
+		<!-- Back Button -->
+		<TopActionButton
+			icon={ChevronLeft}
+			onClick={() => goto('/conversations')}
+			ariaLabel="Go back"
+			title="Go back"
+			position="left"
+		>
+			{#if !sidepanelContext.isOpened}
+				<span>Go back</span>
+			{/if}
+		</TopActionButton>
+
+		<!-- Layout Toggle Button -->
+		<TopActionButton
+			icon={sidepanelContext.isOpened ? PanelLeftClose : Columns2}
+			onClick={() => (sidepanelContext.isOpened = !sidepanelContext.isOpened)}
+			ariaLabel={sidepanelContext.isOpened ? 'Switch to full width layout' : 'Switch to split layout'}
+			title={sidepanelContext.isOpened ? 'Switch to full width layout' : 'Switch to split layout'}
+			position="right"
+			disabled={messagesContext.messages.length < 2}
+		>
+			{#if !sidepanelContext.isOpened}
+				<span> View summary </span>
+			{/if}
+		</TopActionButton>
+
 		<!-- Scrollable messages area -->
 		<ScrollableWrapper
 			bind:scrollContainer
