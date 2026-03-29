@@ -5,7 +5,7 @@
 	import { StatusScreen } from '$lib/components/utils/status-screen';
 	import { PageContentContainer } from '$lib/components/utils/page-content-container';
 	import ContentCard from '$lib/components/utils/content-card.svelte';
-	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
+	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';
 	import * as m from '$lib/paraglide/messages.js';
 	import { Button } from '$lib/components/buttons/button';
 	import { goto } from '$app/navigation';
@@ -33,15 +33,13 @@
 {:else}
 	<PageContentContainer>
 		<ContentCard class="p-6">
-			<Breadcrumb class="mb-6">
-				<BreadcrumbItem href="/" home>
-					{m['features.conversation.create.form.breadcrumb.home']()}
-				</BreadcrumbItem>
-
-				<BreadcrumbItem>
-					{m['features.conversation.create.form.breadcrumb.conversations']()}
-				</BreadcrumbItem>
-			</Breadcrumb>
+			<Breadcrumb
+				class="mb-6"
+				crumbs={[
+					{ label: m['features.conversation.create.form.breadcrumb.home'](), href: '/' },
+					{ label: m['features.conversation.create.form.breadcrumb.conversations']() }
+				]}
+			/>
 
 			<div class="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
 				<div>

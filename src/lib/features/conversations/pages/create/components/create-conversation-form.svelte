@@ -3,7 +3,7 @@
 	import type { StepConfig } from '$lib/components/utils/multi-step-form';
 	import { Loader } from '$lib/components/utils/loader';
 	import { getCreateConversationPayload } from '../stores/create-conversation-payload.svelte';
-	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
+	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';
 	import * as m from '$lib/paraglide/messages.js';
 	import { createCreateConversationMutation } from '$lib/api-client/conversation/mutations/use-create-conversation';
 	import { goto } from '$app/navigation';
@@ -111,19 +111,17 @@
 			<p class="text-sm text-red-800 dark:text-red-200">{error}</p>
 		</div>
 	{/if}
-	<Breadcrumb class="mb-6">
-		<BreadcrumbItem href="/" home
-			>{m['features.conversation.create.form.breadcrumb.home']()}</BreadcrumbItem
-		>
-		<BreadcrumbItem href="/conversations"
-			>{m['features.conversation.create.form.breadcrumb.conversations']()}</BreadcrumbItem
-		>
-		<BreadcrumbItem>
-			<span class="text-black dark:text-white"
-				>{m['features.conversation.create.form.breadcrumb.create_new']()}</span
-			></BreadcrumbItem
-		>
-	</Breadcrumb>
+	<Breadcrumb
+		class="mb-6"
+		crumbs={[
+			{ label: m['features.conversation.create.form.breadcrumb.home'](), href: '/' },
+			{
+				label: m['features.conversation.create.form.breadcrumb.conversations'](),
+				href: '/conversations'
+			},
+			{ label: m['features.conversation.create.form.breadcrumb.create_new']() }
+		]}
+	/>
 
 	<MultiStepForm
 		{steps}
