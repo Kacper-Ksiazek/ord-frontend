@@ -4,7 +4,7 @@
 	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
 	import { getSidepanelWidth } from '../constants.svelte';
 	import { fade } from 'svelte/transition';
-	import { Breadcrumb, BreadcrumbItem } from 'flowbite-svelte';
+	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';
 	import {
 		UserMessageAnalysisView,
 		AiMessageLearningTipsView,
@@ -45,19 +45,19 @@
 		)}
 	>
 		{#if showBreadcrumb}
-			<Breadcrumb class="mb-3">
-				<BreadcrumbItem
-					home
-					spanClass="cursor-pointer"
-					onclick={() => {
-						sidepanelContext.analysisPreview = null;
-						sidepanelContext.learningTipsPreviewMessageOrder = null;
-					}}
-				>
-					Summary
-				</BreadcrumbItem>
-				<BreadcrumbItem>{breadcrumbLabel}</BreadcrumbItem>
-			</Breadcrumb>
+			<Breadcrumb
+				class="mb-3"
+				crumbs={[
+					{
+						label: 'Summary',
+						onClick: () => {
+							sidepanelContext.analysisPreview = null;
+							sidepanelContext.learningTipsPreviewMessageOrder = null;
+						}
+					},
+					{ label: breadcrumbLabel }
+				]}
+			/>
 		{/if}
 		{#if sidepanelContext.learningTipsPreviewMessageOrder != null}
 			<AiMessageLearningTipsView />
