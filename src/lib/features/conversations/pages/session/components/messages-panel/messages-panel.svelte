@@ -9,9 +9,12 @@
 	import { goto } from '$app/navigation';
 	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
 	import { onMount } from 'svelte';
+	import { getConversationContext } from '../../contexts/conversation-context.svelte';
+	import ConversationTypeIcon from '$conversations/shared/components/conversation-type-icon.svelte';
 
 	const sidepanelContext = getSidepanelContext();
 	const messagesContext = getMessagesContext();
+	const conversation = getConversationContext();
 
 	const sidepanelWidth = $derived(getSidepanelWidth());
 	const messagesMaxWidth = $derived(getMessagesMaxWidth());
@@ -49,9 +52,13 @@
 			title="Go back"
 			position="left"
 		>
-			{#if !sidepanelContext.isOpened}
-				<span>Go back</span>
-			{/if}
+			<span>Go back</span>
+
+			{#snippet additionalContent()}
+				<ConversationTypeIcon conversationType={conversation.type} class="size-6" />
+
+				<span>{conversation.topic}</span>
+			{/snippet}
 		</TopActionButton>
 
 		<!-- Layout Toggle Button -->
