@@ -19,21 +19,25 @@
 	const colors = $derived(getVariantColors(variant, isActive));
 	const isClickable = typeof onclick === 'function';
 
-	const focusRingColor = $derived(
-		disabled
-			? ''
-			: variant === 'primary'
-				? 'focus:ring-primary-500'
-				: variant === 'blue'
-					? 'focus:ring-blue-500'
-					: variant === 'green'
-						? 'focus:ring-green-500'
-						: variant === 'purple'
-							? 'focus:ring-purple-500'
-							: variant === 'red'
-								? 'focus:ring-red-500'
-								: ''
-	);
+	const focusRingColor = $derived.by(() => {
+		if (disabled) return '';
+		switch (variant) {
+			case 'primary':
+				return 'focus:ring-primary-500';
+			case 'blue':
+				return 'focus:ring-blue-500';
+			case 'green':
+				return 'focus:ring-green-500';
+			case 'purple':
+				return 'focus:ring-purple-500';
+			case 'red':
+				return 'focus:ring-red-500';
+			case 'inactive':
+				return 'focus:ring-gray-400';
+			default:
+				return '';
+		}
+	});
 
 	function handleKeydown(e: KeyboardEvent & { currentTarget: EventTarget & HTMLDivElement }) {
 		if (disabled) return;
@@ -59,13 +63,6 @@
 </script>
 
 <div
-	role={isClickable ? 'button' : undefined}
-	{...isClickable
-		? {
-				tabindex: disabled ? -1 : 0,
-				'aria-disabled': disabled
-			}
-		: {}}
 	class={cn(
 		'p-4 rounded-lg flex-1 relative border transition-colors',
 		'focus:outline-none focus:ring-2 focus:ring-offset-2',
@@ -77,16 +74,26 @@
 		disabled && 'opacity-50 cursor-not-allowed focus:ring-0',
 		customClass
 	)}
-	onclick={handleClick}
-	onkeydown={handleKeydown}
+	{...isClickable
+		? {
+				role: 'button',
+				tabindex: disabled ? -1 : 0,
+				'aria-disabled': disabled,
+				onclick: handleClick,
+				onkeydown: handleKeydown
+			}
+		: {}}
 	{...restProps}
 >
 	<div class={cn('text-sm', colors.text)}>{title}</div>
 	<div class={cn('text-2xl font-bold', colors.valueText)}>{value}</div>
 
-	<div class="absolute bottom-0 right-0 w-16 h-16">
+	<div class="absolute bottom-1 right-1 w-16 h-16">
 		{@render icon({
-			className: cn('w-full h-full transition-opacity', colors.icon, isActive && 'opacity-15')
+			className: cn(
+				'w-full h-full transition-colors', //
+				colors.icon
+			)
 		})}
 	</div>
 </div>
