@@ -11,10 +11,14 @@
 	import { goto } from '$app/navigation';
 	import {
 		ConversationListFiltersBar,
-		ConversationList
+		ConversationList,
+		ConversationActivitySection
 	} from '$lib/features/conversations/pages/list';
+	import { buildMockConversationActivity } from '$lib/features/conversations/pages/list/mocks/conversation-activity.mock';
 
 	const filtersState = new ConversationListFiltersState(page.url.searchParams);
+
+	const conversationActivity = buildMockConversationActivity(new Date());
 
 	const conversationsQuery = createConversationsQuery(() => filtersState.queryPayload);
 </script>
@@ -53,6 +57,8 @@
 					New conversation
 				</Button>
 			</div>
+
+			<ConversationActivitySection activity={conversationActivity} />
 
 			<ConversationListFiltersBar {filtersState} />
 
