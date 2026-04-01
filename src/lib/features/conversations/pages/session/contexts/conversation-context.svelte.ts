@@ -15,6 +15,7 @@ export interface CompactConversationData {
 		name: string;
 		avatarId: ConversationAIInterlocutorAvatarId;
 	};
+	createdAt: string;
 }
 
 const [getConversationContext, setConversationContext] = createContext<CompactConversationData>();
@@ -30,6 +31,7 @@ export function createConversationContext(conversation: ConversationDTO) {
 		interlocutor: {
 			name: conversation.aiInterlocutorName ?? '',
 			avatarId: conversation.aiInterlocutorAvatarId as ConversationAIInterlocutorAvatarId
-		}
+		},
+		createdAt: conversation.createdAt
 	});
 }

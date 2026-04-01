@@ -1,45 +1,24 @@
 <script lang="ts">
 	import { getConversationContext } from '$lib/features/conversations/pages/session/contexts/conversation-context.svelte';
-	import ConversationToneIcon from '$lib/features/conversations/shared/components/conversation-tone-icon.svelte';
-	import {
-		getConversationTypeLabel,
-		getConversationToneLabel
-	} from '$lib/features/conversations/shared/utils';
-	import { MessagesSquare } from 'lucide-svelte';
-	import { ConversationMetadataCard, InterlocutorDetails } from './components';
-	import ConversationTypeIcon from '$conversations/shared/components/conversation-type-icon.svelte';
-	import { cn } from 'flowbite-svelte';
+	import { formatDateDayMonthYearTime } from '$lib/utils/format-date-day-month-year-time';
+
+	import { InterlocutorDetails } from './components';
 
 	const conversation = getConversationContext();
-	const { type, aiTone, topic } = conversation;
 </script>
 
-<div class="flex flex-col gap-8">
+<div class="flex flex-col items-center gap-6 text-center">
 	<InterlocutorDetails />
 
-	<div class="flex flex-col gap-2 w-full">
-		<div class="flex gap-2">
-			<ConversationMetadataCard label="Topic" value={getConversationTypeLabel(type)} class="flex-1">
-				{#snippet Icon({ className })}
-					<ConversationTypeIcon conversationType={type} class={className} />
-				{/snippet}
-			</ConversationMetadataCard>
-
-			<ConversationMetadataCard
-				label="AI Tone"
-				value={getConversationToneLabel(aiTone)}
-				class="flex-1"
-			>
-				{#snippet Icon({ className })}
-					<ConversationToneIcon tone={aiTone} class={className} />
-				{/snippet}
-			</ConversationMetadataCard>
-		</div>
-
-		<ConversationMetadataCard label="Topic" value={topic} class="w-full">
-			{#snippet Icon({ className })}
-				<MessagesSquare class={cn(className, 'opacity-70')} />
-			{/snippet}
-		</ConversationMetadataCard>
+	<div class="flex w-full max-w-lg flex-col gap-1 px-2">
+		<p class="text-[16px] font-medium leading-snug text-gray-600 dark:text-gray-400">
+			{conversation.topic}
+		</p>
+		<time
+			class="text-[14px] tabular-nums text-gray-500 dark:text-gray-400"
+			datetime={conversation.createdAt}
+		>
+			{formatDateDayMonthYearTime(conversation.createdAt)}
+		</time>
 	</div>
 </div>
