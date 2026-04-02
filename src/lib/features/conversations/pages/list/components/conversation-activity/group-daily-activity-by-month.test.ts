@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import type { DailyActivityPoint } from '$lib/types/conversation/api/conversation-list-activity';
+import { HeatmapPercentile } from '$lib/types/conversation/api/conversation-list-activity';
+import type { HeatmapDay } from '$lib/types/conversation/api/conversation-list-activity';
 import { buildMonthWeekGrid, groupDailyActivityByMonth } from './group-daily-activity-by-month';
 import { buildMockConversationActivity } from '../../mocks/conversation-activity.mock';
 
@@ -20,9 +21,9 @@ describe('groupDailyActivityByMonth', () => {
 	});
 
 	it('fills the entire calendar month for a single partial month', () => {
-		const daily: DailyActivityPoint[] = [
-			{ date: '2026-01-07', messageCount: 1 },
-			{ date: '2026-01-08', messageCount: 2 }
+		const daily: HeatmapDay[] = [
+			{ date: '2026-01-07', count: 1, percentile: HeatmapPercentile.P20 },
+			{ date: '2026-01-08', count: 2, percentile: HeatmapPercentile.P40 }
 		];
 		const today = new Date(2026, 0, 15, 12, 0, 0, 0);
 		const result = groupDailyActivityByMonth(daily, { today });
@@ -31,23 +32,25 @@ describe('groupDailyActivityByMonth', () => {
 		expect(result[0].days).toHaveLength(31);
 		expect(result[0].days[0]).toEqual({
 			date: '2026-01-01',
-			messageCount: 0,
+			count: 0,
+			percentile: null,
 			hasData: false,
 			isFuture: false
 		});
 		expect(result[0].days[6]).toEqual({
 			date: '2026-01-07',
-			messageCount: 1,
+			count: 1,
+			percentile: HeatmapPercentile.P20,
 			hasData: true,
 			isFuture: false
 		});
 	});
 
 	it('includes full months between partial start and end months', () => {
-		const daily: DailyActivityPoint[] = [
-			{ date: '2026-01-30', messageCount: 1 },
-			{ date: '2026-01-31', messageCount: 2 },
-			{ date: '2026-02-01', messageCount: 0 }
+		const daily: HeatmapDay[] = [
+			{ date: '2026-01-30', count: 1, percentile: HeatmapPercentile.P20 },
+			{ date: '2026-01-31', count: 2, percentile: HeatmapPercentile.P40 },
+			{ date: '2026-02-01', count: 0, percentile: HeatmapPercentile.P0 }
 		];
 		const today = new Date(2026, 2, 1, 12, 0, 0, 0);
 		const result = groupDailyActivityByMonth(daily, { today });
@@ -58,9 +61,9 @@ describe('groupDailyActivityByMonth', () => {
 	});
 
 	it('marks days after today as future', () => {
-		const daily: DailyActivityPoint[] = [
-			{ date: '2026-04-01', messageCount: 3 },
-			{ date: '2026-04-03', messageCount: 1 }
+		const daily: HeatmapDay[] = [
+			{ date: '2026-04-01', count: 3, percentile: HeatmapPercentile.P60 },
+			{ date: '2026-04-03', count: 1, percentile: HeatmapPercentile.P20 }
 		];
 		const today = new Date(2026, 3, 3, 12, 0, 0, 0);
 		const result = groupDailyActivityByMonth(daily, { today });
@@ -75,18 +78,18 @@ describe('groupDailyActivityByMonth', () => {
 	});
 
 	it('treats explicit zero in the payload as data', () => {
-		const daily: DailyActivityPoint[] = [{ date: '2026-02-01', messageCount: 0 }];
+		const daily: HeatmapDay[] = [{ date: '2026-02-01', count: 0, percentile: HeatmapPercentile.P0 }];
 		const today = new Date(2026, 2, 15, 12, 0, 0, 0);
 		const result = groupDailyActivityByMonth(daily, { today });
 		const feb1 = result[0].days.find((d) => d.date === '2026-02-01');
 		expect(feb1?.hasData).toBe(true);
-		expect(feb1?.messageCount).toBe(0);
+		expect(feb1?.count).toBe(0);
 	});
 });
 
 describe('buildMonthWeekGrid', () => {
 	it('lays out January 2026 with Monday-aligned weeks (Jan 1 is Thursday)', () => {
-		const daily: DailyActivityPoint[] = [{ date: '2026-01-15', messageCount: 1 }];
+		const daily: HeatmapDay[] = [{ date: '2026-01-15', count: 1, percentile: HeatmapPercentile.P20 }];
 		const today = new Date(2026, 0, 20, 12, 0, 0, 0);
 		const group = groupDailyActivityByMonth(daily, { today })[0];
 		const grid = buildMonthWeekGrid(group.days);
@@ -110,11 +113,11 @@ describe('buildMockConversationActivity', () => {
 	it('produces 90 contiguous local calendar days ending on the anchor date', () => {
 		const anchor = new Date(2026, 3, 1, 12, 0, 0, 0);
 		const snapshot = buildMockConversationActivity(anchor);
-		expect(snapshot.daily).toHaveLength(90);
+		expect(snapshot.heatmap).toHaveLength(90);
 
 		for (let i = 0; i < 90; i++) {
 			const expected = addDaysYmd('2026-04-01', -(89 - i));
-			expect(snapshot.daily[i].date).toBe(expected);
+			expect(snapshot.heatmap[i].date).toBe(expected);
 		}
 	});
 

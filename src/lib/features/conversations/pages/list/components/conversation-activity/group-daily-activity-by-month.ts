@@ -1,8 +1,12 @@
-import type { DailyActivityPoint } from '$lib/types/conversation/api/conversation-list-activity';
+import type {
+	HeatmapDay,
+	HeatmapPercentile
+} from '$lib/types/conversation/api/conversation-list-activity';
 
 export interface HeatmapDayCell {
 	date: string;
-	messageCount: number;
+	count: number;
+	percentile: HeatmapPercentile | null;
 	/** True when this day appears in the API payload (including explicit zero). */
 	hasData: boolean;
 	/** True when the calendar day is strictly after "today" in local time. */
@@ -80,7 +84,7 @@ function* eachMonthInclusive(
  * {@link HeatmapDayCell.isFuture} for styling.
  */
 export function groupDailyActivityByMonth(
-	daily: DailyActivityPoint[],
+	daily: HeatmapDay[],
 	options?: GroupDailyActivityByMonthOptions
 ): DailyActivityMonthGroup[] {
 	if (daily.length === 0) return [];
@@ -88,12 +92,12 @@ export function groupDailyActivityByMonth(
 	const today = options?.today ?? new Date();
 	const todayStr = formatLocalYmd(today);
 
-	const counts = new Map<string, number>();
+	const byDate = new Map<string, HeatmapDay>();
 	let minDate = daily[0].date;
 	let maxDate = daily[0].date;
 
 	for (const point of daily) {
-		counts.set(point.date, point.messageCount);
+		byDate.set(point.date, point);
 		if (point.date < minDate) minDate = point.date;
 		if (point.date > maxDate) maxDate = point.date;
 	}
@@ -108,11 +112,13 @@ export function groupDailyActivityByMonth(
 
 		for (let d = 1; d <= dim; d += 1) {
 			const date = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-			const hasData = counts.has(date);
-			const messageCount = counts.get(date) ?? 0;
+			const row = byDate.get(date);
+			const hasData = byDate.has(date);
+			const count = row?.count ?? 0;
+			const percentile = row?.percentile ?? null;
 			const isFuture = date > todayStr;
 
-			days.push({ date, messageCount, hasData, isFuture });
+			days.push({ date, count, percentile, hasData, isFuture });
 		}
 
 		groups.push({
