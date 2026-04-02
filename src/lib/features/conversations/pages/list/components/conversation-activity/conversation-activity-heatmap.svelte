@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
-	import type { DailyActivityPoint } from '$lib/types/conversation/api/conversation-list-activity';
+	import { HeatmapPercentile } from '$lib/types/conversation/api/conversation-list-activity';
+	import type { HeatmapDay } from '$lib/types/conversation/api/conversation-list-activity';
 	import {
 		buildMonthWeekGrid,
 		groupDailyActivityByMonth,
@@ -9,25 +10,34 @@
 	} from './group-daily-activity-by-month';
 
 	interface Props {
-		days: DailyActivityPoint[];
+		heatmap: HeatmapDay[];
 	}
 
-	const { days }: Props = $props();
+	const { heatmap }: Props = $props();
 
-	const monthGroups = $derived(groupDailyActivityByMonth(days));
+	const monthGroups = $derived(groupDailyActivityByMonth(heatmap));
 
 	function dotClasses(point: HeatmapDayCell): string {
 		if (point.isFuture || !point.hasData) {
 			return 'bg-gray-100 dark:bg-gray-800';
 		}
-		if (point.messageCount <= 0) {
+		if (point.percentile === null) {
 			return 'bg-gray-200 dark:bg-gray-700';
 		}
-		if (point.messageCount < 5) {
-			return 'bg-primary-400 dark:bg-primary-600';
+		switch (point.percentile) {
+			case HeatmapPercentile.P0:
+				return 'bg-gray-200 dark:bg-gray-700';
+			case HeatmapPercentile.P20:
+				return 'bg-primary-300 dark:bg-primary-700';
+			case HeatmapPercentile.P40:
+				return 'bg-primary-400 dark:bg-primary-600';
+			case HeatmapPercentile.P60:
+				return 'bg-primary-500 dark:bg-primary-500';
+			case HeatmapPercentile.P80:
+				return 'bg-primary-600 dark:bg-primary-400';
+			default:
+				return 'bg-primary-600 dark:bg-primary-500';
 		}
-
-		return 'bg-primary-600 dark:bg-primary-500';
 	}
 
 	function ariaLabel(point: HeatmapDayCell): string {
@@ -37,7 +47,7 @@
 		if (!point.hasData) {
 			return `${point.date}: No data`;
 		}
-		const c = point.messageCount;
+		const c = point.count;
 		const label = c === 0 ? 'No messages' : c === 1 ? '1 message' : `${c} messages`;
 
 		return `${point.date}: ${label}`;
@@ -50,7 +60,7 @@
 		if (!point.hasData) {
 			return `${point.date}: No data`;
 		}
-		const c = point.messageCount;
+		const c = point.count;
 
 		return `${point.date}: ${c} message${c === 1 ? '' : 's'}`;
 	}
@@ -70,7 +80,9 @@
 	{#if monthGroups.length > 0}
 		<div class="flex shrink-0 flex-col gap-2" aria-hidden="true">
 			<!-- Matches month title row height so weekday labels line up with heatmap rows -->
-			<div class="invisible select-none text-xs font-medium text-gray-500 dark:text-gray-400">
+			<div
+				class="invisible select-none text-[10px] font-medium leading-none text-gray-400 dark:text-gray-500"
+			>
 				{monthGroups[0].label}
 			</div>
 			<div class="flex flex-col gap-1 pt-px">
