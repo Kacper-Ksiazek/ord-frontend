@@ -1,7 +1,12 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
 	import type { DailyActivityPoint } from '$lib/types/conversation/api/conversation-list-activity';
-	import { groupDailyActivityByMonth } from './group-daily-activity-by-month';
+	import {
+		buildMonthWeekGrid,
+		groupDailyActivityByMonth,
+		HEATMAP_WEEKDAY_LABELS,
+		type HeatmapDayCell
+	} from './group-daily-activity-by-month';
 
 	interface Props {
 		days: DailyActivityPoint[];
@@ -11,57 +16,106 @@
 
 	const monthGroups = $derived(groupDailyActivityByMonth(days));
 
-	function dotClasses(count: number): string {
-		if (count <= 0) {
+	function dotClasses(point: HeatmapDayCell): string {
+		if (point.isFuture || !point.hasData) {
+			return 'bg-gray-100 dark:bg-gray-800';
+		}
+		if (point.messageCount <= 0) {
 			return 'bg-gray-200 dark:bg-gray-700';
 		}
-		if (count < 5) {
+		if (point.messageCount < 5) {
 			return 'bg-primary-400 dark:bg-primary-600';
 		}
 
 		return 'bg-primary-600 dark:bg-primary-500';
 	}
 
-	function ariaLabel(date: string, count: number): string {
-		const label = count === 0 ? 'No messages' : count === 1 ? '1 message' : `${count} messages`;
+	function ariaLabel(point: HeatmapDayCell): string {
+		if (point.isFuture) {
+			return `${point.date}: Future`;
+		}
+		if (!point.hasData) {
+			return `${point.date}: No data`;
+		}
+		const c = point.messageCount;
+		const label = c === 0 ? 'No messages' : c === 1 ? '1 message' : `${c} messages`;
 
-		return `${date}: ${label}`;
+		return `${point.date}: ${label}`;
+	}
+
+	function titleText(point: HeatmapDayCell): string {
+		if (point.isFuture) {
+			return `${point.date}: Future`;
+		}
+		if (!point.hasData) {
+			return `${point.date}: No data`;
+		}
+		const c = point.messageCount;
+
+		return `${point.date}: ${c} message${c === 1 ? '' : 's'}`;
 	}
 </script>
 
 <div
 	class={cn(
-		'flex gap-6',
+		'min-w-0',
 		'bg-gray-50 dark:bg-gray-700/50',
 		'text-gray-600 dark:text-gray-400',
-		'border-gray-200 dark:border-gray-600 border rounded-lg p-4'
+		'border-gray-200 dark:border-gray-600 border rounded-lg p-4',
+		monthGroups.length > 0 && 'flex items-start'
 	)}
 	role="group"
-	aria-label="Message activity over the last 90 days, grouped by month"
+	aria-label="Message activity by month; each row is a weekday from Monday through Sunday"
 >
-	{#each monthGroups as group (group.monthKey)}
-		<div class="flex min-w-0 flex-col gap-2 md:shrink-0">
-			<div
-				class="text-xs font-medium text-gray-500 dark:text-gray-400"
-				id="activity-month-{group.monthKey}"
-			>
-				{group.label}
+	{#if monthGroups.length > 0}
+		<div class="flex shrink-0 flex-col gap-2" aria-hidden="true">
+			<!-- Matches month title row height so weekday labels line up with heatmap rows -->
+			<div class="invisible select-none text-xs font-medium text-gray-500 dark:text-gray-400">
+				{monthGroups[0].label}
 			</div>
-
-			<div
-				class="max-w-full flex-wrap gap-1 grid grid-cols-7"
-				role="list"
-				aria-labelledby="activity-month-{group.monthKey}"
-			>
-				{#each group.days as point (point.date)}
+			<div class="flex flex-col gap-1 pt-px">
+				{#each HEATMAP_WEEKDAY_LABELS as label (label)}
 					<span
-						role="listitem"
-						class={cn('size-4 rounded-sm transition-colors', dotClasses(point.messageCount))}
-						title="{point.date}: {point.messageCount} message{point.messageCount === 1 ? '' : 's'}"
-						aria-label={ariaLabel(point.date, point.messageCount)}
-					></span>
+						class="flex h-4 items-center text-[10px] font-medium leading-none text-gray-400 dark:text-gray-500"
+					>
+						{label}
+					</span>
 				{/each}
 			</div>
 		</div>
-	{/each}
+
+		<div class="flex min-w-0 flex-1 gap-4">
+			{#each monthGroups as group (group.monthKey)}
+				{@const weekGrid = buildMonthWeekGrid(group.days)}
+				<div class="flex min-w-0 flex-col gap-2 md:shrink-0">
+					<div
+						class="text-xs font-medium text-gray-500 dark:text-gray-400"
+						id="activity-month-{group.monthKey}"
+					>
+						{group.label}
+					</div>
+
+					<div
+						class="grid min-w-0 gap-1"
+						style="grid-template-rows: repeat(7, minmax(0, auto)); grid-template-columns: repeat({weekGrid.numCols}, minmax(0, auto)); grid-auto-flow: column;"
+						role="grid"
+						aria-labelledby="activity-month-{group.monthKey}"
+					>
+						{#each weekGrid.cells as cell, i (cell?.date ?? `${group.monthKey}-pad-${i}`)}
+							{#if cell}
+								<span
+									role="gridcell"
+									class={cn('size-4 shrink-0 rounded-sm transition-colors', dotClasses(cell))}
+									title={titleText(cell)}
+									aria-label={ariaLabel(cell)}
+								></span>
+							{:else}
+								<span class="size-4 shrink-0" aria-hidden="true" role="presentation"></span>
+							{/if}
+						{/each}
+					</div>
+				</div>
+			{/each}
+		</div>
+	{/if}
 </div>

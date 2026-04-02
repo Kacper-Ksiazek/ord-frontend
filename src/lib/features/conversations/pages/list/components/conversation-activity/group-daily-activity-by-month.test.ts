@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import type { DailyActivityPoint } from '$lib/types/conversation/api/conversation-list-activity';
-import { groupDailyActivityByMonth } from './group-daily-activity-by-month';
+import { buildMonthWeekGrid, groupDailyActivityByMonth } from './group-daily-activity-by-month';
 import { buildMockConversationActivity } from '../../mocks/conversation-activity.mock';
 
 function addDaysYmd(ymd: string, delta: number): string {
@@ -19,29 +19,90 @@ describe('groupDailyActivityByMonth', () => {
 		expect(groupDailyActivityByMonth([])).toEqual([]);
 	});
 
-	it('groups consecutive days within the same month into one bucket', () => {
+	it('fills the entire calendar month for a single partial month', () => {
 		const daily: DailyActivityPoint[] = [
-			{ date: '2026-01-30', messageCount: 1 },
-			{ date: '2026-01-31', messageCount: 2 }
+			{ date: '2026-01-07', messageCount: 1 },
+			{ date: '2026-01-08', messageCount: 2 }
 		];
-		const result = groupDailyActivityByMonth(daily);
+		const today = new Date(2026, 0, 15, 12, 0, 0, 0);
+		const result = groupDailyActivityByMonth(daily, { today });
 		expect(result).toHaveLength(1);
 		expect(result[0].monthKey).toBe('2026-01');
-		expect(result[0].days).toEqual(daily);
-		expect(result[0].label).toMatch(/Jan/);
+		expect(result[0].days).toHaveLength(31);
+		expect(result[0].days[0]).toEqual({
+			date: '2026-01-01',
+			messageCount: 0,
+			hasData: false,
+			isFuture: false
+		});
+		expect(result[0].days[6]).toEqual({
+			date: '2026-01-07',
+			messageCount: 1,
+			hasData: true,
+			isFuture: false
+		});
 	});
 
-	it('splits when the calendar month changes', () => {
+	it('includes full months between partial start and end months', () => {
 		const daily: DailyActivityPoint[] = [
-			{ date: '2026-01-31', messageCount: 1 },
+			{ date: '2026-01-30', messageCount: 1 },
+			{ date: '2026-01-31', messageCount: 2 },
 			{ date: '2026-02-01', messageCount: 0 }
 		];
-		const result = groupDailyActivityByMonth(daily);
+		const today = new Date(2026, 2, 1, 12, 0, 0, 0);
+		const result = groupDailyActivityByMonth(daily, { today });
 		expect(result).toHaveLength(2);
-		expect(result[0].monthKey).toBe('2026-01');
-		expect(result[1].monthKey).toBe('2026-02');
-		expect(result[0].days).toHaveLength(1);
-		expect(result[1].days).toHaveLength(1);
+		expect(result[0].days).toHaveLength(31);
+		expect(result[1].days).toHaveLength(28);
+		expect(result[1].days[0].hasData).toBe(true);
+	});
+
+	it('marks days after today as future', () => {
+		const daily: DailyActivityPoint[] = [
+			{ date: '2026-04-01', messageCount: 3 },
+			{ date: '2026-04-03', messageCount: 1 }
+		];
+		const today = new Date(2026, 3, 3, 12, 0, 0, 0);
+		const result = groupDailyActivityByMonth(daily, { today });
+		expect(result).toHaveLength(1);
+		expect(result[0].days).toHaveLength(30);
+		const april3 = result[0].days.find((d) => d.date === '2026-04-03');
+		const april4 = result[0].days.find((d) => d.date === '2026-04-04');
+		expect(april3?.isFuture).toBe(false);
+		expect(april3?.hasData).toBe(true);
+		expect(april4?.isFuture).toBe(true);
+		expect(april4?.hasData).toBe(false);
+	});
+
+	it('treats explicit zero in the payload as data', () => {
+		const daily: DailyActivityPoint[] = [{ date: '2026-02-01', messageCount: 0 }];
+		const today = new Date(2026, 2, 15, 12, 0, 0, 0);
+		const result = groupDailyActivityByMonth(daily, { today });
+		const feb1 = result[0].days.find((d) => d.date === '2026-02-01');
+		expect(feb1?.hasData).toBe(true);
+		expect(feb1?.messageCount).toBe(0);
+	});
+});
+
+describe('buildMonthWeekGrid', () => {
+	it('lays out January 2026 with Monday-aligned weeks (Jan 1 is Thursday)', () => {
+		const daily: DailyActivityPoint[] = [{ date: '2026-01-15', messageCount: 1 }];
+		const today = new Date(2026, 0, 20, 12, 0, 0, 0);
+		const group = groupDailyActivityByMonth(daily, { today })[0];
+		const grid = buildMonthWeekGrid(group.days);
+
+		expect(grid.numCols).toBe(5);
+		expect(grid.cells).toHaveLength(35);
+		// Column-major: col0 rows 0–2 pad, row 3 = Jan 1
+		expect(grid.cells[0]).toBe(null);
+		expect(grid.cells[1]).toBe(null);
+		expect(grid.cells[2]).toBe(null);
+		expect(grid.cells[3]?.date).toBe('2026-01-01');
+		expect(grid.cells[6]?.date).toBe('2026-01-04');
+	});
+
+	it('returns empty grid for empty month array', () => {
+		expect(buildMonthWeekGrid([])).toEqual({ numCols: 0, cells: [] });
 	});
 });
 
