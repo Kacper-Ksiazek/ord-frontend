@@ -1,5 +1,9 @@
-import type { ConversationListActivitySnapshot } from '$lib/types/conversation/api/conversation-list-activity';
-import type { LineChartDataPoint } from '$lib/components/cards/line-chart-card';
+import {
+	HeatmapPercentile,
+	type ActivityWeekPoint,
+	type ConversationActivityOverview,
+	type HeatmapDay
+} from '$lib/types/conversation/api/conversation-list-activity';
 
 function formatLocalYmd(d: Date): string {
 	const y = d.getFullYear();
@@ -19,11 +23,81 @@ function hashDay(date: string): number {
 	return Math.abs(h);
 }
 
+function countToPercentile(count: number): HeatmapPercentile {
+	if (count <= 0) return HeatmapPercentile.P0;
+	if (count < 3) return HeatmapPercentile.P20;
+	if (count < 6) return HeatmapPercentile.P40;
+	if (count < 9) return HeatmapPercentile.P60;
+
+	return HeatmapPercentile.P80;
+}
+
+/** Monday 00:00 local time of the ISO week containing `d`. */
+function startOfIsoWeekMonday(d: Date): Date {
+	const copy = new Date(d);
+	copy.setHours(0, 0, 0, 0);
+	const jsDow = copy.getDay();
+	const offset = jsDow === 0 ? -6 : 1 - jsDow;
+	copy.setDate(copy.getDate() + offset);
+
+	return copy;
+}
+
+function addDays(d: Date, delta: number): Date {
+	const next = new Date(d);
+	next.setDate(next.getDate() + delta);
+
+	return next;
+}
+
+function weekRangeLabel(weekStart: Date, weekEnd: Date): string {
+	const start = weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+	const end = weekEnd.toLocaleDateString('en-US', {
+		month: 'short',
+		day: 'numeric',
+		year: 'numeric'
+	});
+
+	return `${start} – ${end}`;
+}
+
+function buildWeekAggregates(
+	days: HeatmapDay[],
+	anchor: Date,
+	numWeeks: number,
+	countForDay: (date: string, messageCount: number) => number
+): ActivityWeekPoint[] {
+	const byDate = new Map(days.map((d) => [d.date, d.count]));
+	const anchorWeekStart = startOfIsoWeekMonday(anchor);
+	const points: ActivityWeekPoint[] = [];
+
+	for (let w = numWeeks - 1; w >= 0; w -= 1) {
+		const weekStart = addDays(anchorWeekStart, -w * 7);
+		const weekEnd = addDays(weekStart, 6);
+		let sum = 0;
+
+		for (let i = 0; i < 7; i += 1) {
+			const day = addDays(weekStart, i);
+			const ymd = formatLocalYmd(day);
+			const messages = byDate.get(ymd) ?? 0;
+			sum += countForDay(ymd, messages);
+		}
+
+		points.push({
+			weekRange: weekRangeLabel(weekStart, weekEnd),
+			count: sum
+		});
+	}
+
+	return points;
+}
+
 /**
- * Builds the last 90 calendar days ending on `anchor` (local timezone), with deterministic per-day counts.
+ * Builds the last 90 calendar days ending on `anchor` (local timezone), with deterministic per-day counts,
+ * plus weekly series aligned to the last 14 ISO weeks ending on the anchor week.
  */
-export function buildMockConversationActivity(anchor: Date): ConversationListActivitySnapshot {
-	const daily: ConversationListActivitySnapshot['daily'] = [];
+export function buildMockConversationActivity(anchor: Date): ConversationActivityOverview {
+	const heatmap: HeatmapDay[] = [];
 
 	for (let offset = 89; offset >= 0; offset--) {
 		const d = new Date(anchor);
@@ -31,55 +105,36 @@ export function buildMockConversationActivity(anchor: Date): ConversationListAct
 		d.setDate(d.getDate() - offset);
 		const date = formatLocalYmd(d);
 		const h = hashDay(date);
-		const messageCount = h % 4 === 0 ? 0 : (h % 11) + 1;
-		daily.push({ date, messageCount });
+		const count = h % 4 === 0 ? 0 : (h % 11) + 1;
+		heatmap.push({
+			date,
+			count,
+			percentile: countToPercentile(count)
+		});
 	}
 
-	const messagesLast90Days = daily.reduce((acc, p) => acc + p.messageCount, 0);
+	const messagesTotal = heatmap.reduce((acc, p) => acc + p.count, 0);
 	const anchorStr = formatLocalYmd(anchor);
-	const conversationsStartedLast90Days = 18 + (hashDay(`${anchorStr}:conv`) % 31);
+	const conversationsTotal = 18 + (hashDay(`${anchorStr}:conv`) % 31);
+
+	const messagesByWeek = buildWeekAggregates(
+		heatmap,
+		anchor,
+		14,
+		(_date, messageCount) => messageCount
+	);
+	const conversationsByWeek = buildWeekAggregates(heatmap, anchor, 14, (date, messageCount) => {
+		const h = hashDay(`${date}:conv`);
+
+		return Math.max(0, Math.round((messageCount + (h % 5)) / 3));
+	});
 
 	return {
-		daily,
-		stats: {
-			messagesCount: messagesLast90Days,
-			conversationsCount: conversationsStartedLast90Days,
-			period: 'Last 90 days'
-		}
+		periodLabel: 'Last 90 days',
+		messagesTotal,
+		conversationsTotal,
+		heatmap,
+		messagesByWeek,
+		conversationsByWeek
 	};
-}
-
-/** Last `points` days of daily message counts for mini line charts (labels not shown on chart). */
-export function buildMessagesTrendSeries(
-	daily: ConversationListActivitySnapshot['daily'],
-	points = 14
-): LineChartDataPoint[] {
-	if (daily.length === 0) return [];
-	const slice = daily.slice(-points);
-
-	return slice.map((d) => ({
-		label: d.date,
-		value: d.messageCount
-	}));
-}
-
-/**
- * Deterministic mock conversations-per-day trend (no real per-day API yet).
- * Mirrors the date range of `buildMessagesTrendSeries` for coherent demos.
- */
-export function buildConversationsTrendMock(
-	daily: ConversationListActivitySnapshot['daily'],
-	points = 14
-): LineChartDataPoint[] {
-	if (daily.length === 0) return [];
-	const slice = daily.slice(-points);
-
-	return slice.map((d) => {
-		const h = hashDay(`${d.date}:conv`);
-
-		return {
-			label: d.date,
-			value: 1 + (h % 12)
-		};
-	});
 }
