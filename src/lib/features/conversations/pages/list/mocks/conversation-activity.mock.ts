@@ -1,4 +1,5 @@
 import type { ConversationListActivitySnapshot } from '$lib/types/conversation/api/conversation-list-activity';
+import type { LineChartDataPoint } from '$lib/components/cards/line-chart-card';
 
 function formatLocalYmd(d: Date): string {
 	const y = d.getFullYear();
@@ -46,4 +47,39 @@ export function buildMockConversationActivity(anchor: Date): ConversationListAct
 			period: 'Last 90 days'
 		}
 	};
+}
+
+/** Last `points` days of daily message counts for mini line charts (labels not shown on chart). */
+export function buildMessagesTrendSeries(
+	daily: ConversationListActivitySnapshot['daily'],
+	points = 14
+): LineChartDataPoint[] {
+	if (daily.length === 0) return [];
+	const slice = daily.slice(-points);
+
+	return slice.map((d) => ({
+		label: d.date,
+		value: d.messageCount
+	}));
+}
+
+/**
+ * Deterministic mock conversations-per-day trend (no real per-day API yet).
+ * Mirrors the date range of `buildMessagesTrendSeries` for coherent demos.
+ */
+export function buildConversationsTrendMock(
+	daily: ConversationListActivitySnapshot['daily'],
+	points = 14
+): LineChartDataPoint[] {
+	if (daily.length === 0) return [];
+	const slice = daily.slice(-points);
+
+	return slice.map((d) => {
+		const h = hashDay(`${d.date}:conv`);
+
+		return {
+			label: d.date,
+			value: 1 + (h % 12)
+		};
+	});
 }
