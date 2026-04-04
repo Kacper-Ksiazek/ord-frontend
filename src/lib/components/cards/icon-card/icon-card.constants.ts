@@ -12,11 +12,11 @@ type IconCardStyles = Record<IconCardVariant, VariantStyles>;
 
 export const VARIANT_STYLES: IconCardStyles = {
 	inactive: {
-		bg: 'bg-gray-100/60 dark:bg-gray-800/40',
-		border: 'border-gray-200/80 dark:border-gray-700/60',
-		text: 'text-gray-400 dark:text-gray-500',
-		valueText: 'text-gray-500 dark:text-gray-400',
-		icon: 'opacity-[0.1] text-gray-400 dark:text-gray-500'
+		bg: 'bg-gray-50 dark:bg-gray-700/50',
+		border: 'border-gray-200 dark:border-gray-600',
+		text: 'text-gray-600 dark:text-gray-400',
+		valueText: 'dark:text-gray-100',
+		icon: 'opacity-[0.1]'
 	},
 
 	neutral: {

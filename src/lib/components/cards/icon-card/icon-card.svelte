@@ -88,7 +88,7 @@
 	<div class={cn('text-sm', colors.text)}>{title}</div>
 	<div class={cn('text-2xl font-bold', colors.valueText)}>{value}</div>
 
-	<div class="absolute bottom-1 right-1 w-16 h-16">
+	<div class="absolute bottom-1 right-1 size-14">
 		{@render icon({
 			className: cn(
 				'w-full h-full transition-colors', //
