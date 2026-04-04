@@ -12,7 +12,7 @@
 	} from './views';
 
 	const sidepanelContext = getSidepanelContext();
-	const sidepanelWidth = getSidepanelWidth();
+	const sidepanelWidth = $derived(getSidepanelWidth());
 
 	const showBreadcrumb = $derived(
 		sidepanelContext.learningTipsPreviewMessageOrder != null ||
