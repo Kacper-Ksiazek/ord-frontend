@@ -1,10 +1,12 @@
 <script lang="ts">
 	import size from 'lodash/size';
 	import { getMessagesContext } from '../../../../contexts/messages-context.svelte';
+	import { getSidepanelContext } from '../../../../contexts/sidepanel-context.svelte';
+	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';
 	import { Tabs } from '$lib/components/navigation/tabs';
 	import type { Tab } from '$lib/components/navigation/tabs';
 	import { OverviewTab, LearningTipsTab, UserMessageReviewsTab } from './tabs';
-	import { ChartBar, Lightbulb, MessageSquare } from 'lucide-svelte';
+	import { ChartBar, ChevronLeft, Lightbulb, MessageSquare } from 'lucide-svelte';
 	import type { ConversationUserMessageAnalysisDTO } from '$lib/types/conversation/domain/conversation-message-analysis';
 	import type {
 		CompactConversationAiMessage,
@@ -14,6 +16,7 @@
 	type ConversationSummaryTab = 'overview' | 'learning-tips' | 'analysis';
 
 	const messagesContext = getMessagesContext();
+	const sidepanelContext = getSidepanelContext();
 	const messages = $derived(messagesContext.messages);
 
 	const userMessages: CompactConversationUserMessage[] = $derived(
@@ -67,6 +70,19 @@
 
 <div class="flex flex-col h-full min-h-0">
 	<div class="shrink-0 space-y-6">
+		<Breadcrumb
+			class="mb-3"
+			crumbs={[
+				{
+					label: 'Close',
+					icon: ChevronLeft,
+					onClick: () => {
+						sidepanelContext.isOpened = false;
+					}
+				}
+			]}
+		/>
+
 		<h2 class="heading-4 mb-4">Conversation Summary</h2>
 
 		<Tabs
