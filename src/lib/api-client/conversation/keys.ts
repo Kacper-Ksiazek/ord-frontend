@@ -10,6 +10,8 @@ const listFilterKey = (filters: GetConversationsFilters) =>
 export const conversationKeys = {
 	all: ['conversations'] as const,
 
+	overview: () => [...conversationKeys.all, 'overview'] as const,
+
 	lists: () => [...conversationKeys.all, 'list'] as const,
 
 	list: (filters: GetConversationsFilters = {}) =>
