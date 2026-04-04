@@ -54,9 +54,9 @@
 			}
 		},
 		yaxis: {
-			min: isScoreMetric ? 1 : undefined,
+			min: isScoreMetric ? 0 : undefined,
 			max: isScoreMetric ? 10 : undefined,
-			tickAmount: isScoreMetric ? 9 : undefined, // Shows 1, 2, 3, ..., 10 (9 intervals)
+			tickAmount: isScoreMetric ? 10 : undefined, // 0–10 (10 intervals, 11 ticks)
 			title: {
 				text: metricLabel,
 				style: {

@@ -1,9 +1,12 @@
 <script lang="ts">
 	import type { ConversationUserMessageAnalysisDTO } from '$lib/types/conversation/domain/conversation-message-analysis';
 	import { cn } from 'flowbite-svelte';
+	import { ChevronDown, ChevronUp } from 'lucide-svelte';
 	import { CircularProgressBars, ProgressTableHeader } from './components';
 	import type { CompactConversationUserMessage } from '$lib/types/conversation/domain/conversation-message';
 	import { ScoreBox } from '$lib/components/scores';
+
+	const COLLAPSED_ROW_LIMIT = 5;
 
 	interface PerformanceScoresProps {
 		userMessages: CompactConversationUserMessage[];
@@ -11,6 +14,28 @@
 	}
 
 	const { userMessages, analyses }: PerformanceScoresProps = $props();
+
+	let isListExpanded = $state(false);
+
+	const orderedChronologicalAsc = $derived(
+		[...userMessages].sort(
+			(a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+		)
+	);
+
+	const orderedNewestFirst = $derived([...orderedChronologicalAsc].reverse());
+
+	const visibleRows = $derived(
+		isListExpanded ? orderedNewestFirst : orderedNewestFirst.slice(0, COLLAPSED_ROW_LIMIT)
+	);
+
+	const hasMoreRowsThanLimit = $derived(orderedNewestFirst.length > COLLAPSED_ROW_LIMIT);
+
+	const hiddenRowCount = $derived(Math.max(0, orderedNewestFirst.length - COLLAPSED_ROW_LIMIT));
+
+	function chronologicalIndex(message: CompactConversationUserMessage) {
+		return orderedChronologicalAsc.indexOf(message) + 1;
+	}
 </script>
 
 <div class="space-y-6">
@@ -29,23 +54,24 @@
 				<ProgressTableHeader />
 
 				<tbody>
-					{#each userMessages as message, index (index)}
+					{#each visibleRows as message (message.createdAt + message.content.slice(0, 48))}
+						{@const rowNumber = chronologicalIndex(message)}
 						{@const trimmedMessage =
 							message.content.length > 50 ? message.content.substring(0, 60) + '...' : message.content}
 
 						<tr
 							class="bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 cursor-pointer transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/50"
-							onclick={() => alert(`Message ${index + 1}`)}
+							onclick={() => alert(`Message ${rowNumber}`)}
 							role="button"
 							tabindex="0"
 							onkeydown={(e) => {
 								if (e.key === 'Enter' || e.key === ' ') {
 									e.preventDefault();
-									alert(`Message ${index + 1}`);
+									alert(`Message ${rowNumber}`);
 								}
 							}}
 						>
-							<td class="text-xs text-gray-500 dark:text-gray-400">{index + 1}.</td>
+							<td class="text-xs text-gray-500 dark:text-gray-400">{rowNumber}.</td>
 							<td class="body-small">
 								{trimmedMessage}
 							</td>
@@ -65,6 +91,29 @@
 					{/each}
 				</tbody>
 			</table>
+
+			{#if hasMoreRowsThanLimit}
+				<div class="flex justify-center border-t border-gray-200 pt-2 dark:border-gray-700">
+					<button
+						type="button"
+						class={cn(
+							'inline-flex items-center gap-1.5 rounded-md px-2 py-1.5 text-xs text-gray-500 transition-colors',
+							'hover:bg-gray-50 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-800/60 dark:hover:text-gray-200',
+							'focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 dark:focus-visible:ring-gray-500'
+						)}
+						onclick={() => (isListExpanded = !isListExpanded)}
+						aria-expanded={isListExpanded}
+					>
+						{#if isListExpanded}
+							<ChevronUp class="size-3.5 shrink-0 opacity-70" aria-hidden="true" />
+							<span>Show fewer</span>
+						{:else}
+							<ChevronDown class="size-3.5 shrink-0 opacity-70" aria-hidden="true" />
+							<span>Show {hiddenRowCount} more</span>
+						{/if}
+					</button>
+				</div>
+			{/if}
 		</div>
 	</div>
 </div>

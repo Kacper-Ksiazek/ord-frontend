@@ -9,9 +9,11 @@
 		severity: ConversationMessageMistakeSeverity;
 		showLabel?: boolean;
 		class?: string;
+		/** When false, all segments are gray (e.g. no mistakes in this category on the chart). */
+		hasMistakes?: boolean;
 	}
 
-	let { severity, showLabel = true, class: className = '' }: Props = $props();
+	let { severity, showLabel = true, class: className = '', hasMistakes = true }: Props = $props();
 
 	const severityLevel = CONVERSATION_MESSAGE_MISTAKE_SEVERITY_LEVEL_MAP[severity];
 	const severityLabel = severity.charAt(0) + severity.slice(1).toLowerCase();
@@ -23,7 +25,9 @@
 			<div
 				class={cn(
 					'w-2.5 h-2.5 rounded-sm',
-					severityLevel > i ? 'bg-red-600 dark:bg-red-400' : 'bg-gray-300 dark:bg-gray-700'
+					hasMistakes && severityLevel > i
+						? 'bg-red-600 dark:bg-red-400'
+						: 'bg-gray-300 dark:bg-gray-700'
 				)}
 			></div>
 		{/each}

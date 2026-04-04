@@ -22,11 +22,14 @@
 	<div class="space-y-3">
 		{#each Object.entries(mistakeStats) as [severity, stats] (severity)}
 			{@const Icon = MISTAKE_SEVERITY_ICONS_MAP[severity as ConversationMessageMistakeSeverity]}
+			{@const hasMistakes = stats.count > 0}
 
-			<div class="flex items-center gap-3">
+			<div class="flex items-center gap-3 {hasMistakes ? '' : 'opacity-70'}">
 				<div
-					class="rounded-full shrink-0 flex items-center justify-center p-2.5"
-					style="background-color: {stats.color}"
+					class="rounded-full shrink-0 flex items-center justify-center p-2.5 {hasMistakes
+						? ''
+						: 'bg-gray-300 dark:bg-gray-600'}"
+					style={hasMistakes ? `background-color: ${stats.color}` : undefined}
 				>
 					<Icon class="w-5 h-5 text-white" />
 				</div>
@@ -34,13 +37,18 @@
 				<div class="flex-1">
 					<div class="label">{stats.label}</div>
 					<div class="caption">
-						{getMistakesCountLabel(stats.count)} • {stats.fraction}%
+						{#if hasMistakes}
+							{getMistakesCountLabel(stats.count)} • {stats.fraction}%
+						{:else}
+							No mistakes
+						{/if}
 					</div>
 				</div>
 
 				<MistakeSeverityIndicator
 					severity={severity as ConversationMessageMistakeSeverity}
 					showLabel={false}
+					{hasMistakes}
 				/>
 			</div>
 		{/each}
