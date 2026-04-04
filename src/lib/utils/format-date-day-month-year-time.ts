@@ -1,19 +1,28 @@
+export type FormatDateDayMonthYearTimeOptions = {
+	/** BCP 47 locale(s) for `Intl`; omit for the runtime default. */
+	locale?: string | string[];
+};
+
 /**
- * Formats an instant as `DD MM YYYY ⋅ HH MM` (zero-padded day, month, hours, minutes).
+ * Formats an instant as a medium-style date plus time in 24-hour clock (locale-aware date parts).
  * Uses the runtime local timezone.
  */
-export function formatDateDayMonthYearTime(input: string | Date | number): string {
+export function formatDateDayMonthYearTime(
+	input: string | Date | number,
+	options?: FormatDateDayMonthYearTimeOptions
+): string {
 	const date = input instanceof Date ? input : new Date(input);
 
 	if (Number.isNaN(date.getTime())) {
 		return typeof input === 'string' ? input : '';
 	}
 
-	const dd = String(date.getDate()).padStart(2, '0');
-	const mm = String(date.getMonth() + 1).padStart(2, '0');
-	const yyyy = String(date.getFullYear());
-	const hh = String(date.getHours()).padStart(2, '0');
-	const min = String(date.getMinutes()).padStart(2, '0');
-
-	return `${dd} ${mm} ${yyyy} ⋅ ${hh}:${min}`;
+	return new Intl.DateTimeFormat(options?.locale, {
+		year: 'numeric',
+		month: 'short',
+		day: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit',
+		hour12: false
+	}).format(date);
 }
