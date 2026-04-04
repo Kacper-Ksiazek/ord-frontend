@@ -15,6 +15,7 @@
 	} from '$lib/features/conversations/pages/session/components/shared/user-message-analysis/cards';
 	import { getUserMessageAnalysisColors } from '$conversations/pages/session/constants/user-message-analysis/colors';
 	import { USER_MESSAGE_ANALYSIS_ICONS_MAP } from '$conversations/pages/session/constants/user-message-analysis/icons';
+	import { highlightPopoverFloatingMiddlewares } from '../../../highlight-popover-floating-middleware';
 
 	const {
 		id,
@@ -193,6 +194,7 @@
 	<Popover
 		triggeredBy={`#${id}`}
 		trigger="hover"
+		middlewares={highlightPopoverFloatingMiddlewares}
 		class={cn(
 			'w-[800px] bg-white dark:bg-gray-800 shadow-lg border-2 rounded-lg',
 			activeCardColors.cardBorder
