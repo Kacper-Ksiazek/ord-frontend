@@ -101,7 +101,7 @@
 				{@const weekGrid = buildMonthWeekGrid(group.days)}
 				<div class="flex min-w-0 flex-col gap-2 md:shrink-0">
 					<div
-						class="text-xs font-medium text-gray-500 dark:text-gray-400"
+						class="text-[10px] font-medium leading-none text-gray-400 dark:text-gray-500"
 						id="activity-month-{group.monthKey}"
 					>
 						{group.label}

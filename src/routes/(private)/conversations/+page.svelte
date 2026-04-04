@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { createConversationsQuery } from '$lib/api-client/conversation/queries';
+	import {
+		createConversationActivityOverviewQuery,
+		createConversationsQuery
+	} from '$lib/api-client/conversation/queries';
 	import { ConversationListFiltersState } from '$conversations/pages/list/state/conversation-list-state.svelte';
 	import { StatusScreen } from '$lib/components/utils/status-screen';
 	import { PageContentContainer } from '$lib/components/utils/page-content-container';
@@ -14,12 +17,11 @@
 		ConversationList,
 		ConversationActivitySection
 	} from '$lib/features/conversations/pages/list';
-	import { buildMockConversationActivity } from '$lib/features/conversations/pages/list/mocks/conversation-activity.mock';
+	import { Loader } from '$lib/components/utils/loader';
 
 	const filtersState = new ConversationListFiltersState(page.url.searchParams);
 
-	const conversationActivity = buildMockConversationActivity(new Date());
-
+	const activityOverviewQuery = createConversationActivityOverviewQuery();
 	const conversationsQuery = createConversationsQuery(() => filtersState.queryPayload);
 </script>
 
@@ -58,7 +60,29 @@
 				</Button>
 			</div>
 
-			<ConversationActivitySection activity={conversationActivity} />
+			{#if activityOverviewQuery.isPending}
+				<div
+					class="mb-6 flex min-h-[120px] items-center justify-center rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-600 dark:bg-gray-700/50"
+					aria-busy="true"
+					aria-label="Loading activity overview"
+				>
+					<Loader wrapperClass="py-8" />
+				</div>
+			{:else if activityOverviewQuery.isError}
+				<div
+					class="mb-6 flex flex-col items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4 dark:border-red-800 dark:bg-red-900/20"
+					role="alert"
+				>
+					<p class="text-sm text-red-800 dark:text-red-200">
+						{activityOverviewQuery.error?.message ?? "Couldn't load activity overview."}
+					</p>
+					<Button type="OUTLINED" variant="PRIMARY" onClick={() => activityOverviewQuery.refetch()}>
+						Try again
+					</Button>
+				</div>
+			{:else if activityOverviewQuery.data}
+				<ConversationActivitySection activity={activityOverviewQuery.data} />
+			{/if}
 
 			<ConversationListFiltersBar {filtersState} />
 
