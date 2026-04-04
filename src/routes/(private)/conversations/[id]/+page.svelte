@@ -12,14 +12,14 @@
 	import type { CompactConversationAiMessage } from '$lib/types/conversation/domain/conversation-message';
 	import { page } from '$app/state';
 
-	onMount(() => {
-		const messagesContext = getMessagesContext();
-		const conversation = getConversationContext();
-		const { mutateAsync: requestLearningTipsMutation } =
-			createRequestLearningTipsForAIMessageMutation();
+	const messagesContext = getMessagesContext();
+	const conversation = getConversationContext();
+	const { mutateAsync: requestLearningTipsMutation } =
+		createRequestLearningTipsForAIMessageMutation();
 
+	onMount(() => {
 		if (isEmpty(messagesContext.messages)) {
-			messagesContext.isGenerating = true;
+			messagesContext.isGeneratingAiMessage = true;
 			messagesContext.messages.push({
 				sender: 'AI',
 				content: '',
@@ -31,11 +31,11 @@
 					messagesContext.messages[0].content += data;
 				},
 				complete: () => {
-					messagesContext.isGenerating = false;
+					messagesContext.isGeneratingAiMessage = false;
 					// Check if message already has learning tips from backend
 					const aiMessage = messagesContext.messages[0] as CompactConversationAiMessage;
 					if (!aiMessage.learningTips) {
-						// Automatically fetch learning tips for the initial AI message
+						messagesContext.isGeneratingLearningTips = true;
 						requestLearningTipsMutation({
 							conversationId: conversation.id
 						})
@@ -44,11 +44,14 @@
 							})
 							.catch((error) => {
 								console.error('Failed to fetch learning tips:', error);
+							})
+							.finally(() => {
+								messagesContext.isGeneratingLearningTips = false;
 							});
 					}
 				},
 				error: () => {
-					messagesContext.isGenerating = false;
+					messagesContext.isGeneratingAiMessage = false;
 				}
 			});
 		}

@@ -22,42 +22,46 @@
 		messageIndex
 	}: LearningTipsProps = $props();
 
+	const isGeneratingTips = $derived(!learningTips);
+
 	const sidepanelContext = getSidepanelContext();
 
 	const isSelected = $derived(
 		sidepanelContext.isOpened && sidepanelContext.learningTipsPreviewMessageOrder === messageIndex
 	);
 
-	const grammarTipsCount = size(learningTips?.grammarTips);
-	const vocabularyTipsCount = size(learningTips?.vocabularyTips);
-	const phraseTipsCount = size(learningTips?.phraseTips);
+	const grammarTipsCount = $derived(size(learningTips?.grammarTips));
+	const vocabularyTipsCount = $derived(size(learningTips?.vocabularyTips));
+	const phraseTipsCount = $derived(size(learningTips?.phraseTips));
 
-	const indicators = compact([
-		grammarTipsCount > 0 && {
-			category: 'GRAMMAR' as LearningTipCategory,
-			count: grammarTipsCount,
-			label: 'Gramatyka'
-		},
-		vocabularyTipsCount > 0 && {
-			category: 'VOCABULARY' as LearningTipCategory,
-			count: vocabularyTipsCount,
-			label: 'Słownictwo'
-		},
-		phraseTipsCount > 0 && {
-			category: 'PHRASES' as LearningTipCategory,
-			count: phraseTipsCount,
-			label: 'Frazy'
-		}
-	]) satisfies {
-		category: LearningTipCategory;
-		count: number;
-		label: string;
-	}[];
+	const indicators = $derived(
+		compact([
+			grammarTipsCount > 0 && {
+				category: 'GRAMMAR' as LearningTipCategory,
+				count: grammarTipsCount,
+				label: 'Gramatyka'
+			},
+			vocabularyTipsCount > 0 && {
+				category: 'VOCABULARY' as LearningTipCategory,
+				count: vocabularyTipsCount,
+				label: 'Słownictwo'
+			},
+			phraseTipsCount > 0 && {
+				category: 'PHRASES' as LearningTipCategory,
+				count: phraseTipsCount,
+				label: 'Frazy'
+			}
+		]) satisfies {
+			category: LearningTipCategory;
+			count: number;
+			label: string;
+		}[]
+	);
 </script>
 
 <AiPostProcessActionBase
 	label="Wskazówki do nauki"
-	isGenerating={!learningTips}
+	isGenerating={isGeneratingTips}
 	bind:showIconsInHighlightedParts
 	{isSelected}
 	onPreviewContentClick={(e) => {
@@ -91,7 +95,7 @@
 		{/each}
 	{/snippet}
 
-	{#if !learningTips}
+	{#if isGeneratingTips}
 		<TextWithThreeDotsAnimation
 			text="Trwa przygotowywanie materiałów edukacyjnych"
 			dotsWrapperClass="mb-1"

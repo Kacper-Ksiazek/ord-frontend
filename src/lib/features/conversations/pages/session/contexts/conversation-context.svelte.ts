@@ -11,6 +11,7 @@ export interface CompactConversationData {
 	topic: string;
 	type: ConversationType;
 	aiTone: ConversationAITone;
+	proficiencyLevel: ConversationDTO['proficiencyLevel'];
 	interlocutor: {
 		name: string;
 		avatarId: ConversationAIInterlocutorAvatarId;
@@ -28,6 +29,7 @@ export function createConversationContext(conversation: ConversationDTO) {
 		topic: conversation.topic,
 		type: conversation.type,
 		aiTone: conversation.aiTone,
+		proficiencyLevel: conversation.proficiencyLevel,
 		interlocutor: {
 			name: conversation.aiInterlocutorName ?? '',
 			avatarId: conversation.aiInterlocutorAvatarId as ConversationAIInterlocutorAvatarId

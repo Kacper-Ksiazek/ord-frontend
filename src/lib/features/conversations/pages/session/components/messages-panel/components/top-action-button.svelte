@@ -3,6 +3,7 @@
 	import { Button } from '$lib/components/buttons/button';
 	import type { Snippet } from 'svelte';
 	import { getSidepanelContext } from '$conversations/pages/session/contexts/sidepanel-context.svelte';
+	import { fade } from 'svelte/transition';
 
 	interface Props {
 		ariaLabel: string;
@@ -10,6 +11,7 @@
 		position?: 'left' | 'right';
 		class?: string;
 		disabled?: boolean;
+		showAdditionalContent?: boolean;
 
 		onClick: () => void;
 
@@ -28,6 +30,7 @@
 		position = 'right',
 		class: customClass = '',
 		disabled = false,
+		showAdditionalContent = true,
 		children,
 		additionalContent
 	}: Props = $props();
@@ -66,8 +69,8 @@
 		{/if}
 	</Button>
 
-	{#if additionalContent && !sidepanelContext.isOpened}
-		<div class={additionalContentClass}>
+	{#if additionalContent && !sidepanelContext.isOpened && showAdditionalContent}
+		<div class={additionalContentClass} transition:fade={{ duration: 150 }}>
 			{@render additionalContent?.()}
 		</div>
 	{/if}

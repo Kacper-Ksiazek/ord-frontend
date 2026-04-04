@@ -21,41 +21,46 @@
 		showIconsInHighlightedParts = $bindable()
 	}: AnalysisProps = $props();
 
+	const showAnalysisLoading = $derived(!analysis);
+
 	const sidepanelContext = getSidepanelContext();
 
 	const isSelected = $derived(
 		sidepanelContext.isOpened && sidepanelContext.analysisPreview?.id === analysis?.id
 	);
 
-	const mistakesCount = size(analysis?.mistakes);
-	const strengthsCount = size(analysis?.strengths);
-	const suggestionsCount = size(analysis?.suggestions);
+	const mistakesCount = $derived(size(analysis?.mistakes));
+	const strengthsCount = $derived(size(analysis?.strengths));
+	const suggestionsCount = $derived(size(analysis?.suggestions));
 
-	const indicators = compact([
-		mistakesCount && {
-			criteria: 'MISTAKES',
-			count: mistakesCount,
-			label: 'Mistakes'
-		},
-		strengthsCount && {
-			criteria: 'STRENGTHS',
-			count: strengthsCount,
-			label: 'Strengths'
-		},
-		suggestionsCount && {
-			criteria: 'SUGGESTIONS',
-			count: suggestionsCount,
-			label: 'Suggestions'
-		}
-	]) satisfies {
-		criteria: MessageAnalysisCriteria;
-		count: number;
-		label: string;
-	}[];
+	const indicators = $derived(
+		compact([
+			mistakesCount && {
+				criteria: 'MISTAKES',
+				count: mistakesCount,
+				label: 'Mistakes'
+			},
+			strengthsCount && {
+				criteria: 'STRENGTHS',
+				count: strengthsCount,
+				label: 'Strengths'
+			},
+			suggestionsCount && {
+				criteria: 'SUGGESTIONS',
+				count: suggestionsCount,
+				label: 'Suggestions'
+			}
+		]) satisfies {
+			criteria: MessageAnalysisCriteria;
+			count: number;
+			label: string;
+		}[]
+	);
 </script>
 
 <AiPostProcessActionBase
 	label="Analiza wiadomości"
+	isGenerating={showAnalysisLoading}
 	bind:showIconsInHighlightedParts
 	{isSelected}
 	enableExpandCollapse
@@ -101,7 +106,7 @@
 			<RoundedBoxesScore field="Słownictwo" score={analysis.vocabulary} />
 			<RoundedBoxesScore field="Naturalność" score={analysis.naturalness} />
 		</div>
-	{:else}
+	{:else if showAnalysisLoading}
 		<TextWithThreeDotsAnimation
 			text="Trwa przygotowywanie materiałów edukacyjnych"
 			dotsWrapperClass="mb-1"

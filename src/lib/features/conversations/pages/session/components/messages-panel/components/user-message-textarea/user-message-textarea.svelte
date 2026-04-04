@@ -49,18 +49,26 @@
 				messageId
 			});
 
+			messagesContext.isGeneratingUserMessageAnalysis = true;
 			requestAIMessageMutation({
 				conversationId: conversation.id,
 				messageId,
 				messageOrder,
 				latestAIMessage: messagesContext.messages[messageOrder - 1].content
-			}).then((data) => {
-				(messagesContext.messages[messageOrder] as CompactConversationUserMessage).analysis =
-					data as ConversationUserMessageAnalysisDTO;
-			});
+			})
+				.then((data) => {
+					(messagesContext.messages[messageOrder] as CompactConversationUserMessage).analysis =
+						data as ConversationUserMessageAnalysisDTO;
+				})
+				.catch((error) => {
+					console.error('Failed to fetch user message analysis:', error);
+				})
+				.finally(() => {
+					messagesContext.isGeneratingUserMessageAnalysis = false;
+				});
 
 			const aiMessageOrder = messageOrder + 1;
-			messagesContext.isGenerating = true;
+			messagesContext.isGeneratingAiMessage = true;
 			messagesContext.messages.push({
 				sender: 'AI',
 				content: '',
@@ -76,8 +84,9 @@
 					messagesContext.messages[aiMessageOrder].content += data;
 				},
 				complete: () => {
-					messagesContext.isGenerating = false;
-					// Automatically fetch learning tips for the AI message
+					messagesContext.isGeneratingAiMessage = false;
+					messagesContext.isGeneratingLearningTips = true;
+
 					requestLearningTipsMutation({
 						conversationId: conversation.id
 					})
@@ -87,14 +96,16 @@
 						})
 						.catch((error) => {
 							console.error('Failed to fetch learning tips:', error);
+						})
+						.finally(() => {
+							messagesContext.isGeneratingLearningTips = false;
 						});
 				},
 				error: () => {
-					messagesContext.isGenerating = false;
+					messagesContext.isGeneratingAiMessage = false;
 				}
 			});
 
-			// TODO: Implement actual message sending
 			message = '';
 			textareaComponent?.resetHeight();
 		} finally {

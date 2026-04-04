@@ -7,42 +7,49 @@ import { createContext } from 'svelte';
 
 export type MessagesContext = {
 	messages: CompactConversationMessage[];
-	isGenerating: boolean;
+	isGeneratingAiMessage: boolean;
+	isGeneratingLearningTips: boolean;
+	isGeneratingUserMessageAnalysis: boolean;
 };
 
 export const [getMessagesContext, setMessagesContext] = createContext<MessagesContext>();
 
 export function createMessagesContext(conversation: ConversationDTO) {
-	const context: MessagesContext = $state<MessagesContext>({
-		messages: (conversation.messages as unknown as NormalizedConversationMessage[]).map((message) => {
-			if (message.sender === 'AI') {
-				// Convert ConversationAIMessageLearningTipsDTO to AIMessageLearningTips format
-				const learningTips = message.learningTips
-					? {
-							grammarTips: message.learningTips.grammarTips,
-							vocabularyTips: message.learningTips.vocabularyTips,
-							phraseTips: message.learningTips.phraseTips,
-							createdAt: message.createdAt
-						}
-					: null;
+	const messages: CompactConversationMessage[] = conversation.messages.map((_message) => {
+		const message = _message as unknown as NormalizedConversationMessage;
 
-				return {
-					sender: 'AI',
-					content: message.content,
-					learningTips,
-					createdAt: message.createdAt
-				} satisfies CompactConversationMessage;
-			}
+		if (message.sender === 'AI') {
+			const learningTips = message.learningTips
+				? {
+						grammarTips: message.learningTips.grammarTips,
+						vocabularyTips: message.learningTips.vocabularyTips,
+						phraseTips: message.learningTips.phraseTips,
+						createdAt: message.createdAt
+					}
+				: null;
 
 			return {
-				sender: 'USER',
+				sender: 'AI',
 				content: message.content,
-				analysis: message.analysis ?? null,
+				learningTips,
 				createdAt: message.createdAt
 			} satisfies CompactConversationMessage;
-		}),
-		isGenerating: false
+		}
+
+		return {
+			sender: 'USER',
+			content: message.content,
+			analysis: message.analysis ?? null,
+			createdAt: message.createdAt
+		} satisfies CompactConversationMessage;
 	});
 
-	setMessagesContext(context);
+	const messagesContext = $state<MessagesContext>({
+		messages,
+		isGeneratingAiMessage: false,
+		isGeneratingLearningTips: false,
+		isGeneratingUserMessageAnalysis: false
+	});
+
+	setMessagesContext(messagesContext);
 }

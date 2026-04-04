@@ -8,6 +8,7 @@
 		topic: 'Learning English',
 		type: 'SMALL_TALK',
 		aiTone: 'FRIENDLY',
+		proficiencyLevel: 'B1',
 		interlocutor: {
 			name: 'Alex',
 			avatarId: 'AVATAR_EPSILON'

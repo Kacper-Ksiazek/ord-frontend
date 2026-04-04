@@ -55,7 +55,7 @@
 		{/each}
 	</div>
 
-	{#if block.nativeLanguage}
+	{#if block.nativeLanguage?.text?.trim()}
 		<div class="analysis-card-text-box variant-neutral flex gap-2 mt-1">
 			<AuthUserNativeLanguageFlag class="w-4 h-4" />
 			<span class="flex-1 content-long">{block.nativeLanguage.text}</span>

@@ -12,6 +12,12 @@
 	import { getConversationContext } from '../../contexts/conversation-context.svelte';
 	import ConversationTypeIcon from '$conversations/shared/components/conversation-type-icon.svelte';
 
+	/** Hide the sticky topic strip while the main header topic is in view (top of scroll area). */
+	const TOPIC_BAR_SHOW_AFTER_SCROLL_PX = 260;
+
+	/** Poll scroll position while the assistant streams so layout growth is always followed. */
+	const SCROLL_FOLLOW_INTERVAL_MS = 100;
+
 	const sidepanelContext = getSidepanelContext();
 	const messagesContext = getMessagesContext();
 	const conversation = getConversationContext();
@@ -20,6 +26,52 @@
 	const messagesMaxWidth = $derived(getMessagesMaxWidth());
 
 	let scrollContainer: HTMLDivElement | undefined = $state(undefined);
+	let messagesScrollTop = $state(0);
+
+	$effect(() => {
+		const el = scrollContainer;
+		if (!el) return;
+
+		const syncScrollTop = () => {
+			messagesScrollTop = el.scrollTop;
+		};
+
+		syncScrollTop();
+		el.addEventListener('scroll', syncScrollTop, { passive: true });
+
+		return () => el.removeEventListener('scroll', syncScrollTop);
+	});
+
+	const showStickyTopicBar = $derived(messagesScrollTop >= TOPIC_BAR_SHOW_AFTER_SCROLL_PX);
+
+	function scrollMessagesToBottom() {
+		const el = scrollContainer;
+
+		if (!el) {
+			return;
+		}
+
+		el.scrollTo({
+			top: el.scrollHeight,
+			behavior: 'instant'
+		});
+	}
+
+	const isFollowingGeneration = $derived(
+		messagesContext.isGeneratingAiMessage || messagesContext.isGeneratingLearningTips
+	);
+
+	/** Pin to bottom while streaming/tips; immediate scroll + interval covers bind-after-start and growing content. */
+	$effect(() => {
+		if (!scrollContainer || !isFollowingGeneration) {
+			return;
+		}
+
+		scrollMessagesToBottom();
+		const id = window.setInterval(scrollMessagesToBottom, SCROLL_FOLLOW_INTERVAL_MS);
+
+		return () => window.clearInterval(id);
+	});
 
 	onMount(() => {
 		if (scrollContainer) {
@@ -27,6 +79,8 @@
 				top: scrollContainer.scrollHeight,
 				behavior: 'instant'
 			});
+
+			messagesScrollTop = scrollContainer.scrollTop;
 		}
 	});
 </script>
@@ -51,6 +105,7 @@
 			ariaLabel="Go back"
 			title="Go back"
 			position="left"
+			showAdditionalContent={showStickyTopicBar}
 		>
 			<span>Go back</span>
 
@@ -85,12 +140,10 @@
 
 			{#each messagesContext.messages as message, index (index)}
 				{#if message.sender === 'AI'}
-					{@const isLastMessage = index === messagesContext.messages.length - 1}
-
 					<AiMessage
 						message={message.content}
 						messageIndex={index}
-						isStillGenerating={isLastMessage && messagesContext.isGenerating}
+						isStillGenerating={messagesContext.isGeneratingAiMessage}
 						learningTips={message.learningTips ?? null}
 					/>
 				{/if}
