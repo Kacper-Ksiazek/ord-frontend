@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Button } from 'flowbite-svelte';
+	import { Button } from '$lib/components/buttons/button';
 	import { cn } from 'flowbite-svelte';
 	import { fade } from 'svelte/transition';
 	import * as m from '$lib/paraglide/messages.js';
@@ -46,6 +46,11 @@
 			onStepChange?.(newStep);
 		}
 	}
+
+	/** Cmd/Ctrl + ← / → — avoid bare arrows (text fields); Mod+Enter only on final action */
+	const hotkeyPrevious = 'Mod+ArrowLeft';
+	const hotkeyNext = 'Mod+ArrowRight';
+	const hotkeyComplete = 'Mod+Enter';
 </script>
 
 <div class="flex flex-col gap-6 flex-1">
@@ -104,7 +109,13 @@
 	<div class="flex items-center gap-2 pt-4">
 		{#if canGoPrevious}
 			<div transition:fade={{ duration: 150 }}>
-				<Button color="alternative" onclick={previousStep} class="min-w-64">
+				<Button
+					type="OUTLINED"
+					variant="PRIMARY"
+					onClick={previousStep}
+					hotkey={hotkeyPrevious}
+					class="min-w-64"
+				>
 					{m['components.utils.multi-step-form.previous']()}
 				</Button>
 			</div>
@@ -112,13 +123,21 @@
 
 		<div class="ml-auto">
 			{#if currentStep < totalSteps - 1}
-				<Button color="primary" onclick={nextStep} disabled={!canGoNext} class="min-w-64">
+				<Button
+					type="FILLED"
+					variant="PRIMARY"
+					onClick={nextStep}
+					disabled={!canGoNext}
+					hotkey={hotkeyNext}
+					class="min-w-64"
+				>
 					{m['components.utils.multi-step-form.next']()}
 				</Button>
 			{:else if finalStepButtonText}
 				<Button
-					color="primary"
-					onclick={() => {
+					type="FILLED"
+					variant="PRIMARY"
+					onClick={() => {
 						if (onFinalStepClick) {
 							onFinalStepClick();
 						} else {
@@ -126,6 +145,7 @@
 						}
 					}}
 					disabled={!canGoNext}
+					hotkey={hotkeyComplete}
 					class="min-w-64"
 				>
 					{finalStepButtonText}
