@@ -5,6 +5,7 @@
       "name": "ord-frontend",
       "dependencies": {
         "@ord-api/ord-api-types": "^1.0.37",
+        "@tanstack/svelte-hotkeys": "^0.9.1",
         "@tanstack/svelte-query": "^6.0.5",
         "axios": "^1.13.2",
         "clsx": "^2.1.1",
@@ -320,7 +321,13 @@
 
     "@tailwindcss/vite": ["@tailwindcss/vite@4.1.16", "", { "dependencies": { "@tailwindcss/node": "4.1.16", "@tailwindcss/oxide": "4.1.16", "tailwindcss": "4.1.16" }, "peerDependencies": { "vite": "^5.2.0 || ^6 || ^7" } }, "sha512-bbguNBcDxsRmi9nnlWJxhfDWamY3lmcyACHcdO1crxfzuLpOhHLLtEIN/nCbbAtj5rchUgQD17QVAKi1f7IsKg=="],
 
+    "@tanstack/hotkeys": ["@tanstack/hotkeys@0.7.1", "", { "dependencies": { "@tanstack/store": "^0.9.3" } }, "sha512-YHVO1z6wnvUCu7bg870Kv5k2D+FIuIOSIcbN0dAmTTsJ3mLMDLwcTVx0qVaq+SZp1B514JJTqGVstvUp85yIpQ=="],
+
     "@tanstack/query-core": ["@tanstack/query-core@5.90.7", "", {}, "sha512-6PN65csiuTNfBMXqQUxQhCNdtm1rV+9kC9YwWAIKcaxAauq3Wu7p18j3gQY3YIBJU70jT/wzCCZ2uqto/vQgiQ=="],
+
+    "@tanstack/store": ["@tanstack/store@0.9.3", "", {}, "sha512-8reSzl/qGWGGVKhBoxXPMWzATSbZLZFWhwBAFO9NAyp0TxzfBP0mIrGb8CP8KrQTmvzXlR/vFPPUrHTLBGyFyw=="],
+
+    "@tanstack/svelte-hotkeys": ["@tanstack/svelte-hotkeys@0.9.1", "", { "dependencies": { "@tanstack/hotkeys": "0.7.1" }, "peerDependencies": { "svelte": "^5.25.0" } }, "sha512-y4Th0egC64BkJ8kOnPaPZc5ZQS7Sapc2w5+zd/xUAcRITiNMbflglLeK2+TiuyZ2hbpsBMaIwL9wL4hVwrI7Nw=="],
 
     "@tanstack/svelte-query": ["@tanstack/svelte-query@6.0.5", "", { "dependencies": { "@tanstack/query-core": "5.90.7" }, "peerDependencies": { "svelte": "^5.25.0" } }, "sha512-9YgwlQJc1leQVknEalcvIzhUhKUHaxdq3xn8fc735fOAiS0uelvY6lBncKFS4uzfbj+iLyw/XsABU6FKj8XP4Q=="],
 
