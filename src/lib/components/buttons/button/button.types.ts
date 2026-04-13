@@ -1,3 +1,4 @@
+import type { RegisterableHotkey } from '@tanstack/svelte-hotkeys';
 import type { Snippet } from 'svelte';
 import type { ButtonType, ButtonVariant } from '../shared-button-types';
 
@@ -12,5 +13,7 @@ export interface ButtonProps {
 	/** Native `aria-label` for icon-only or abbreviated buttons */
 	ariaLabel?: string;
 	title?: string;
+	/** When set, registers a document-level shortcut and shows it after the label */
+	hotkey?: RegisterableHotkey;
 	children: Snippet;
 }
