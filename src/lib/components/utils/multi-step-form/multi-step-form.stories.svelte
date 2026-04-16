@@ -69,12 +69,6 @@
 					{/if}
 				{/snippet}
 			</MultiStepForm>
-
-			<div class="mt-6 p-4 rounded-lg bg-gray-100 dark:bg-gray-700">
-				<p class="text-sm text-gray-700 dark:text-gray-300">
-					Current step: <strong>{currentStep + 1}</strong>
-				</p>
-			</div>
 		</div>
 	</div>
 </Story>
