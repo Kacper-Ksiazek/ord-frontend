@@ -35,12 +35,117 @@
 </script>
 
 <Story name="Default">
-	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Basic Input</h3>
-		<Input bind:value={basicValue} placeholder="Enter text..." ariaLabel="Basic input" />
-		<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-			Value: <strong>{basicValue || '(empty)'}</strong>
-		</p>
+	<div class="w-full max-w-5xl space-y-10 text-left">
+		<div>
+			<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Basic input</h3>
+			<Input bind:value={basicValue} placeholder="Enter text..." ariaLabel="Basic input" />
+			<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+				Value: <strong>{basicValue || '(empty)'}</strong>
+			</p>
+		</div>
+
+		<div>
+			<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+				Outlined variants (inputs are outlined-only)
+			</h3>
+			<p class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+				Normal and disabled cells show a document hotkey on the right (<code class="text-xs"
+					>Mod+Alt+1</code
+				>
+				through <code class="text-xs">Mod+Alt+6</code>); readonly inputs omit hotkeys.
+			</p>
+			<div class="grid grid-cols-4 gap-x-4 gap-y-3 items-center text-sm">
+				{#snippet colHeader(text: string)}
+					<div class="font-medium text-gray-600 dark:text-gray-400">{text}</div>
+				{/snippet}
+				{#snippet rowLabel(text: string)}
+					<div class="font-medium text-gray-700 dark:text-gray-300">{text}</div>
+				{/snippet}
+
+				<div></div>
+				{@render colHeader('Normal')}
+				{@render colHeader('Disabled')}
+				{@render colHeader('Readonly')}
+
+				{@render rowLabel('Primary')}
+				<Input
+					variant="PRIMARY"
+					placeholder="Primary…"
+					leftAdornment={User}
+					hotkey="Mod+Alt+1"
+					ariaLabel="Primary"
+				/>
+				<Input
+					variant="PRIMARY"
+					placeholder="Disabled"
+					value="Cannot edit"
+					disabled
+					leftAdornment={User}
+					hotkey="Mod+Alt+2"
+					ariaLabel="Primary disabled"
+				/>
+				<Input
+					variant="PRIMARY"
+					placeholder="Readonly"
+					value="Read only"
+					readonly
+					leftAdornment={User}
+					ariaLabel="Primary readonly"
+				/>
+
+				{@render rowLabel('Text')}
+				<Input
+					variant="TEXT"
+					placeholder="Text…"
+					leftAdornment={User}
+					hotkey="Mod+Alt+4"
+					ariaLabel="Text"
+				/>
+				<Input
+					variant="TEXT"
+					placeholder="Disabled"
+					value="Cannot edit"
+					disabled
+					leftAdornment={User}
+					hotkey="Mod+Alt+5"
+					ariaLabel="Text disabled"
+				/>
+				<Input
+					variant="TEXT"
+					placeholder="Readonly"
+					value="Read only"
+					readonly
+					leftAdornment={User}
+					ariaLabel="Text readonly"
+				/>
+
+				{@render rowLabel('Delete')}
+				<Input
+					variant="DELETE"
+					placeholder="Delete…"
+					leftAdornment={User}
+					hotkey="Mod+Alt+7"
+					ariaLabel="Delete"
+				/>
+				<Input
+					variant="DELETE"
+					placeholder="Disabled"
+					value="Cannot edit"
+					disabled
+					leftAdornment={User}
+					hotkey="Mod+Alt+8"
+					ariaLabel="Delete disabled"
+				/>
+				<Input
+					variant="DELETE"
+					placeholder="Readonly"
+					value="Read only"
+					readonly
+					leftAdornment={User}
+					ariaLabel="Delete readonly"
+				/>
+			</div>
+		</div>
 	</div>
 </Story>
 

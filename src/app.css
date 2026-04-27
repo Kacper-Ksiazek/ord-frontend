@@ -81,8 +81,8 @@
 		transition-duration: 200ms;
 	}
 
-	/* Global focus styles using primary color */
-	input:focus,
+	/* Global focus styles using primary color (skip design-system inputs — they use variant focus in control-appearance). */
+	input:not(.form-input-base):focus,
 	textarea:focus,
 	select:focus,
 	button:focus-visible {
@@ -92,12 +92,13 @@
 	}
 
 	/* Override Flowbite default focus styles */
-	input[type='text']:focus,
-	input[type='email']:focus,
-	input[type='password']:focus,
-	input[type='number']:focus,
-	input[type='tel']:focus,
-	input[type='url']:focus,
+	input[type='text']:focus:not(.form-input-base),
+	input[type='email']:focus:not(.form-input-base),
+	input[type='password']:focus:not(.form-input-base),
+	input[type='number']:focus:not(.form-input-base),
+	input[type='tel']:focus:not(.form-input-base),
+	input[type='url']:focus:not(.form-input-base),
+	input[type='search']:focus:not(.form-input-base),
 	textarea:focus,
 	select:focus {
 		border-color: var(--color-primary-600) !important;
