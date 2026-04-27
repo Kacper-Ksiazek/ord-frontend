@@ -1,6 +1,6 @@
 import type { RegisterableHotkey } from '@tanstack/svelte-hotkeys';
 import type { Snippet } from 'svelte';
-import type { ButtonType, ButtonVariant } from '../shared-button-types';
+import type { ButtonType, ButtonVariant } from '$lib/components/control-appearance';
 
 export type { ButtonType, ButtonVariant };
 

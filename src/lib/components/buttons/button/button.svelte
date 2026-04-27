@@ -8,7 +8,7 @@
 		getButtonHotkeyChipClasses,
 		getButtonTextColorClasses,
 		getButtonTypeVariantClasses
-	} from '../shared-button-styles';
+	} from '$lib/components/control-appearance';
 
 	let {
 		type = 'FILLED',
@@ -35,7 +35,6 @@
 	const baseClasses = $derived.by(() =>
 		cn(
 			'px-4 h-[40px] rounded-lg transition-colors flex items-center gap-1 border',
-			'focus:outline-none focus:ring-2 focus:ring-offset-2',
 			'form-input-text',
 			disabled && 'cursor-not-allowed opacity-50',
 			!disabled && 'cursor-pointer'

@@ -1,5 +1,12 @@
 import { cn } from 'flowbite-svelte';
-import type { ButtonType, ButtonVariant } from './shared-button-types';
+
+export type ButtonType = 'FILLED' | 'OUTLINED';
+export type ButtonVariant = 'PRIMARY' | 'TEXT' | 'DELETE';
+
+/** Focus ring width + offset bundled with variant color so merge/cascade keeps the correct hue. */
+function buttonFocusRing(colorLight: string, colorDark: string): string {
+	return cn('focus:outline-none focus:ring-2 focus:ring-offset-2', colorLight, colorDark);
+}
 
 /**
  * Get the CSS classes for button type and variant combinations.
@@ -18,21 +25,21 @@ export function getButtonTypeVariantClasses(
 						'bg-primary-600 border-primary-600',
 						'dark:bg-primary-800 dark:border-primary-800',
 						!disabled && 'hover:bg-primary-700 dark:hover:bg-primary-700',
-						'focus:ring-primary-300 dark:focus:ring-primary-800'
+						buttonFocusRing('focus:ring-primary-300', 'dark:focus:ring-primary-800')
 					);
 				case 'TEXT':
 					return cn(
 						'bg-gray-700 border-gray-700',
 						'dark:bg-gray-800 dark:border-gray-800',
 						!disabled && 'hover:bg-gray-800 dark:hover:bg-gray-700',
-						'focus:ring-gray-300 dark:focus:ring-gray-800'
+						buttonFocusRing('focus:ring-gray-300', 'dark:focus:ring-gray-800')
 					);
 				case 'DELETE':
 					return cn(
 						'bg-red-600 border-red-600',
 						'dark:bg-red-800 dark:border-red-800',
 						!disabled && 'hover:bg-red-700 dark:hover:bg-red-700',
-						'focus:ring-red-300 dark:focus:ring-red-800'
+						buttonFocusRing('focus:ring-red-300', 'dark:focus:ring-red-800')
 					);
 			}
 			break;
@@ -44,21 +51,21 @@ export function getButtonTypeVariantClasses(
 						'dark:border-primary-400',
 						disabled ? 'dark:bg-primary-950/15' : 'dark:bg-transparent',
 						!disabled && 'hover:bg-primary-50 dark:hover:bg-primary-900/20',
-						'focus:ring-primary-300 dark:focus:ring-primary-800'
+						buttonFocusRing('focus:ring-primary-300', 'dark:focus:ring-primary-800')
 					);
 				case 'TEXT':
 					return cn(
 						'bg-transparent border-gray-400/60',
 						'dark:bg-transparent dark:border-gray-500/60',
 						!disabled && 'hover:bg-black/5 dark:hover:bg-white/5',
-						'focus:ring-gray-300 dark:focus:ring-gray-800'
+						buttonFocusRing('focus:ring-gray-300', 'dark:focus:ring-gray-800')
 					);
 				case 'DELETE':
 					return cn(
 						'bg-transparent border-red-600',
 						'dark:bg-transparent dark:border-red-400',
 						!disabled && 'hover:bg-red-50 dark:hover:bg-red-900/20',
-						'focus:ring-red-300 dark:focus:ring-red-800'
+						buttonFocusRing('focus:ring-red-300', 'dark:focus:ring-red-800')
 					);
 			}
 			break;
@@ -88,8 +95,8 @@ export function getButtonTextColorClasses(type: ButtonType, variant: ButtonVaria
 }
 
 /**
- * Per-key chip styles for HotkeyKbd inside Button: filled uses white chips in light mode, darker
- * integrated chips in dark mode only; outlined uses transparent fill + accent border/text.
+ * Per-key chip styles for HotkeyKbd inside Button: filled uses translucent white chips in light
+ * mode (mirroring dark’s integrated /45–/50 overlays); outlined uses transparent fill + accent border/text.
  */
 export function getButtonHotkeyChipClasses(
 	type: ButtonType,
@@ -104,19 +111,19 @@ export function getButtonHotkeyChipClasses(
 				case 'PRIMARY':
 					return cn(
 						shell,
-						'bg-white text-gray-900 border-white/40 shadow-sm',
+						'bg-white/25 text-white/95 border-white/30',
 						'dark:bg-primary-900/45 dark:text-white dark:border-primary-950/40'
 					);
 				case 'TEXT':
 					return cn(
 						shell,
-						'bg-white text-gray-900 border-white/40 shadow-sm',
+						'bg-white/25 text-white/95 border-white/30',
 						'dark:bg-gray-900/50 dark:text-white dark:border-gray-950/35'
 					);
 				case 'DELETE':
 					return cn(
 						shell,
-						'bg-white text-gray-900 border-white/40 shadow-sm',
+						'bg-white/25 text-white/95 border-white/30',
 						'dark:bg-red-950/50 dark:text-white dark:border-red-950/45'
 					);
 			}

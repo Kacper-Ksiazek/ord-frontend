@@ -1,4 +1,4 @@
-import type { ButtonType, ButtonVariant } from '../shared-button-types';
+import type { ButtonType, ButtonVariant } from '$lib/components/control-appearance';
 
 export type { ButtonType, ButtonVariant };
 
