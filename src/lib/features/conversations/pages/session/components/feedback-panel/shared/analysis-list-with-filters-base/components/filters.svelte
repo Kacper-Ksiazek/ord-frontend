@@ -1,18 +1,32 @@
 <script lang="ts">
 	import Input from '$lib/components/forms/input/input.svelte';
 	import { IconButton } from '$lib/components/buttons/icon-button';
-	import { SearchIcon, TrashIcon, ChevronDown, ChevronUp } from 'lucide-svelte';
+	import {
+		SearchIcon,
+		TrashIcon,
+		ChevronDown,
+		ChevronUp,
+		FoldVertical,
+		UnfoldVertical
+	} from 'lucide-svelte';
 	import type { Snippet } from 'svelte';
 	import type { FilterBase } from '../types/utility-types';
 
 	interface Props {
 		filters: FilterBase;
+		showCategoryCards?: boolean;
 		areFiltersClearable: boolean;
 		customFilters?: Snippet;
 		clearFilters: () => void;
 	}
 
-	let { filters = $bindable(), areFiltersClearable, customFilters, clearFilters }: Props = $props();
+	let {
+		filters = $bindable(),
+		showCategoryCards = $bindable(true),
+		areFiltersClearable,
+		customFilters,
+		clearFilters
+	}: Props = $props();
 
 	const isExpanded = $derived(filters.defaultExpandState ?? false);
 	const expandCollapseIcon = $derived(isExpanded ? ChevronDown : ChevronUp);
@@ -20,6 +34,15 @@
 
 	function toggleExpandCollapse() {
 		filters.defaultExpandState = !isExpanded;
+	}
+
+	const categoryCardsToggleIcon = $derived(showCategoryCards ? FoldVertical : UnfoldVertical);
+	const categoryCardsToggleLabel = $derived(
+		showCategoryCards ? 'Hide category filters' : 'Show category filters'
+	);
+
+	function toggleCategoryCards() {
+		showCategoryCards = !showCategoryCards;
 	}
 </script>
 
@@ -34,6 +57,15 @@
 	{#if customFilters}
 		{@render customFilters()}
 	{/if}
+
+	<IconButton
+		onClick={toggleCategoryCards}
+		icon={categoryCardsToggleIcon}
+		ariaLabel={categoryCardsToggleLabel}
+		tooltip={categoryCardsToggleLabel}
+		type="OUTLINED"
+		variant="TEXT"
+	/>
 
 	<IconButton
 		onClick={toggleExpandCollapse}

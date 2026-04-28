@@ -19,6 +19,8 @@
 	import { applyFilters } from './utils/apply-filters';
 	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
 	import { Button } from '$lib/components/buttons/button';
+	import { cubicOut } from 'svelte/easing';
+	import { slide } from 'svelte/transition';
 
 	let {
 		items,
@@ -32,6 +34,8 @@
 		emptyNoData,
 		emptyFiltered
 	}: AnalysisListWithFiltersBaseProps<TData, TCategory, TSubcategory, TFilters> = $props();
+
+	let showCategoryCards = $state(true);
 
 	const computedAreFiltersClearable = $derived(
 		areFiltersClearable ??
@@ -65,10 +69,15 @@
 	}
 </script>
 
-<CategoriesAndSubcategories {categories} bind:filters />
+{#if showCategoryCards}
+	<div class="overflow-hidden" transition:slide={{ duration: 220, easing: cubicOut }}>
+		<CategoriesAndSubcategories {categories} bind:filters />
+	</div>
+{/if}
 
 <Filters
 	bind:filters
+	bind:showCategoryCards
 	areFiltersClearable={computedAreFiltersClearable}
 	{customFilters}
 	{clearFilters}
