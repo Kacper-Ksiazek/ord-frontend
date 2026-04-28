@@ -19,10 +19,16 @@
 
 	let textareaElement: HTMLTextAreaElement | undefined = $state();
 
-	const MIN_ROWS = 3;
+	const MIN_ROWS = 1;
 	const MAX_ROWS = 10;
 	// Match `content-long` / Tailwind `leading-8` (2rem at default root)
 	const LINE_HEIGHT = 32;
+	// Must stay in sync with vertical padding class on `<textarea>` (`py-1.5` → 12px total)
+	const VERTICAL_PADDING = 12;
+
+	function totalHeightPx(rows: number) {
+		return rows * LINE_HEIGHT + VERTICAL_PADDING;
+	}
 
 	function adjustTextareaHeight() {
 		if (!textareaElement) return;
@@ -30,16 +36,19 @@
 		// Reset height to auto to get the correct scrollHeight
 		textareaElement.style.height = 'auto';
 
-		// Calculate the number of rows needed
 		const scrollHeight = textareaElement.scrollHeight;
-		const rows = Math.ceil(scrollHeight / LINE_HEIGHT);
-		const clampedRows = Math.max(MIN_ROWS, Math.min(rows, MAX_ROWS));
+		const measuredRows = Math.ceil(Math.max(0, scrollHeight - VERTICAL_PADDING) / LINE_HEIGHT);
+		let rowsForHeight = measuredRows;
+		// Empty: single row; scrollHeight can still read as ~2 “lines” in some browsers
+		if (!value.trim()) {
+			rowsForHeight = MIN_ROWS;
+		}
+		const clampedRows = Math.max(MIN_ROWS, Math.min(rowsForHeight, MAX_ROWS));
 
-		// Set the height based on rows
-		textareaElement.style.height = `${clampedRows * LINE_HEIGHT}px`;
+		// Include vertical padding so placeholder/text aren’t clipped (border-box height)
+		textareaElement.style.height = `${totalHeightPx(clampedRows)}px`;
 
-		// Enable scrolling if content exceeds max rows
-		if (rows > MAX_ROWS) {
+		if (measuredRows > MAX_ROWS) {
 			textareaElement.style.overflowY = 'auto';
 		} else {
 			textareaElement.style.overflowY = 'hidden';
@@ -85,7 +94,7 @@
 	{placeholder}
 	rows={MIN_ROWS}
 	class={cn(
-		'w-full resize-none border-none outline-none rounded-lg px-3 py-2',
+		'w-full resize-none border-none outline-none rounded-lg px-3 py-1.5',
 		'bg-transparent',
 		'hover:bg-transparent',
 		'focus:bg-transparent',
@@ -95,7 +104,7 @@
 		'custom-scrollbar',
 		className
 	)}
-	style="min-height: {LINE_HEIGHT}px; max-height: {MAX_ROWS * LINE_HEIGHT}px;"
+	style="min-height: {totalHeightPx(MIN_ROWS)}px; max-height: {totalHeightPx(MAX_ROWS)}px;"
 ></textarea>
 
 <style>

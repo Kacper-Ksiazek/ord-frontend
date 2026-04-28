@@ -110,9 +110,9 @@
 			<span>Go back</span>
 
 			{#snippet additionalContent()}
-				<ConversationTypeIcon conversationType={conversation.type} class="size-6" />
+				<ConversationTypeIcon conversationType={conversation.type} class="size-5 shrink-0" />
 
-				<span>{conversation.topic}</span>
+				<span class="min-w-0 truncate leading-none">{conversation.topic}</span>
 			{/snippet}
 		</TopActionButton>
 

@@ -43,7 +43,7 @@
 	const additionalContentClass = cn(
 		surfaceClass,
 		'text-gray-700 dark:text-gray-300 font-medium text-sm',
-		'h-[48px] px-3 flex items-center ml-2 gap-2'
+		'h-10 min-h-10 max-h-10 min-w-0 max-w-md shrink-0 px-3 flex items-center ml-2 gap-2'
 	);
 </script>
 
@@ -60,13 +60,19 @@
 		{ariaLabel}
 		{title}
 		{disabled}
-		class={cn(surfaceClass, 'h-auto! p-3 hover:bg-gray-100 dark:hover:bg-slate-700', customClass)}
+		class={cn(
+			surfaceClass,
+			'h-10! min-h-10 max-h-10 shrink-0 px-3 py-0 hover:bg-gray-100 dark:hover:bg-slate-700 [&>span]:justify-start',
+			customClass
+		)}
 	>
-		<Icon class="w-5 h-5" />
+		<span class="inline-flex min-h-0 flex-nowrap items-center gap-2 leading-none">
+			<Icon class="h-5 w-5 shrink-0" />
 
-		{#if !sidepanelContext.isOpened}
-			{@render children?.()}
-		{/if}
+			{#if !sidepanelContext.isOpened}
+				{@render children?.()}
+			{/if}
+		</span>
 	</Button>
 
 	{#if additionalContent && !sidepanelContext.isOpened && showAdditionalContent}
