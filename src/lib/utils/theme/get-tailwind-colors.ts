@@ -3,9 +3,14 @@ import type { TabsSupportedTailwindColor } from '$lib/components/navigation/tabs
 export interface TailwindColorTheme {
 	/** Base Tailwind color name used for theme identification */
 	twColor: TabsSupportedTailwindColor;
-	/** Background color classes for card components */
-	cardBg: string;
-	/** Border color classes for card components */
+	/** Resting surface for AiAdviceBase cards (before hover) */
+	adviceCardBg: string;
+	adviceCardBorder: string;
+	/** Stronger surface when hovering an expandable AiAdviceBase card */
+	adviceCardHover: string;
+	/** Icons inside AiAdviceBase — muted until the card is hovered (`group/advice-card`) */
+	adviceIconColor: string;
+	/** Border color classes for larger chrome (e.g. highlight popovers) */
 	cardBorder: string;
 	/** Text color classes for standard text content */
 	text: string;
@@ -24,7 +29,12 @@ export interface TailwindColorTheme {
 const TailwindColorThemeMap: Partial<Record<TailwindColor, TailwindColorTheme>> = {
 	red: {
 		twColor: 'red',
-		cardBg: 'bg-red-50/50 dark:bg-red-900/10',
+		adviceCardBg: 'bg-red-50/35 dark:bg-red-900/10',
+		adviceCardBorder: 'border-red-100 dark:border-red-800',
+		adviceCardHover:
+			'hover:bg-red-50/90 dark:hover:bg-red-900/25 hover:border-red-300 dark:hover:border-red-700',
+		adviceIconColor:
+			'text-red-600/50 dark:text-red-400/50 group-hover/advice-card:text-red-600 dark:group-hover/advice-card:text-red-400',
 		cardBorder: 'border-red-200 dark:border-red-800',
 		text: 'text-red-500 dark:text-red-400',
 		iconColor: 'text-red-500 dark:text-red-400',
@@ -35,7 +45,12 @@ const TailwindColorThemeMap: Partial<Record<TailwindColor, TailwindColorTheme>> 
 
 	green: {
 		twColor: 'green',
-		cardBg: 'bg-green-50/50 dark:bg-green-900/10',
+		adviceCardBg: 'bg-green-50/35 dark:bg-green-900/10',
+		adviceCardBorder: 'border-green-100 dark:border-green-800',
+		adviceCardHover:
+			'hover:bg-green-50/90 dark:hover:bg-green-900/25 hover:border-green-300 dark:hover:border-green-700',
+		adviceIconColor:
+			'text-green-600/50 dark:text-green-400/50 group-hover/advice-card:text-green-600 dark:group-hover/advice-card:text-green-400',
 		cardBorder: 'border-green-200 dark:border-green-800',
 		text: 'text-green-500 dark:text-green-400',
 		iconColor: 'text-green-500 dark:text-green-400',
@@ -46,7 +61,12 @@ const TailwindColorThemeMap: Partial<Record<TailwindColor, TailwindColorTheme>> 
 
 	blue: {
 		twColor: 'blue',
-		cardBg: 'bg-blue-50/50 dark:bg-blue-900/10',
+		adviceCardBg: 'bg-blue-50/35 dark:bg-blue-900/10',
+		adviceCardBorder: 'border-blue-100 dark:border-blue-800',
+		adviceCardHover:
+			'hover:bg-blue-50/90 dark:hover:bg-blue-900/25 hover:border-blue-300 dark:hover:border-blue-700',
+		adviceIconColor:
+			'text-blue-600/50 dark:text-blue-400/50 group-hover/advice-card:text-blue-600 dark:group-hover/advice-card:text-blue-400',
 		cardBorder: 'border-blue-200 dark:border-blue-800',
 		text: 'text-blue-500 dark:text-blue-400',
 		iconColor: 'text-blue-500 dark:text-blue-400',
@@ -57,7 +77,12 @@ const TailwindColorThemeMap: Partial<Record<TailwindColor, TailwindColorTheme>> 
 
 	purple: {
 		twColor: 'purple',
-		cardBg: 'bg-purple-50/50 dark:bg-purple-900/10',
+		adviceCardBg: 'bg-purple-50/35 dark:bg-purple-900/10',
+		adviceCardBorder: 'border-purple-100 dark:border-purple-800',
+		adviceCardHover:
+			'hover:bg-purple-50/90 dark:hover:bg-purple-900/25 hover:border-purple-300 dark:hover:border-purple-700',
+		adviceIconColor:
+			'text-purple-600/50 dark:text-purple-400/50 group-hover/advice-card:text-purple-600 dark:group-hover/advice-card:text-purple-400',
 		cardBorder: 'border-purple-200 dark:border-purple-800',
 		text: 'text-purple-500 dark:text-purple-400',
 		iconColor: 'text-purple-500 dark:text-purple-400',

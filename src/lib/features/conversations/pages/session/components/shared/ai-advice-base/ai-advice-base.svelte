@@ -14,7 +14,11 @@
 		defaultExpandState = false
 	}: AiAdviceBaseProps = $props();
 
-	const theme = getTailwindColorTheme(color);
+	const baseTheme = $derived(getTailwindColorTheme(color));
+	const theme = $derived({
+		...baseTheme,
+		iconColor: baseTheme.adviceIconColor
+	});
 	let isCollapsed = $state(!defaultExpandState);
 	let scrollRef: HTMLElement | undefined = $state(undefined);
 
@@ -37,10 +41,11 @@
 <div
 	bind:this={scrollRef}
 	class={cn(
-		'analysis-card-container relative',
+		'analysis-card-container relative group/advice-card',
 		isExpandable && 'cursor-pointer expandable',
-		theme.cardBg,
-		theme.cardBorder
+		baseTheme.adviceCardBg,
+		baseTheme.adviceCardBorder,
+		isExpandable && baseTheme.adviceCardHover
 	)}
 	{...isExpandable && {
 		onclick: toggleExpandCollapse,
