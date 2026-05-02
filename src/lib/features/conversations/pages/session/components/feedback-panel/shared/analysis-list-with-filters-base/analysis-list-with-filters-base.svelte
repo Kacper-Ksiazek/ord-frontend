@@ -70,7 +70,7 @@
 </script>
 
 {#if showCategoryCards}
-	<div class="overflow-hidden" transition:slide={{ duration: 220, easing: cubicOut }}>
+	<div class="overflow-hidden -m-1.5 p-1.5" transition:slide={{ duration: 220, easing: cubicOut }}>
 		<CategoriesAndSubcategories {categories} bind:filters />
 	</div>
 {/if}
