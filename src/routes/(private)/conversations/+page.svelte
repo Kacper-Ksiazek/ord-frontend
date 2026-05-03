@@ -38,7 +38,7 @@
 	/>
 {:else}
 	<PageContentContainer>
-		<ContentCard class="p-6">
+		<ContentCard>
 			<Breadcrumb
 				class="mb-6"
 				crumbs={[

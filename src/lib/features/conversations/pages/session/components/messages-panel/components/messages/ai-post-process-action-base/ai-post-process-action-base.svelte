@@ -43,7 +43,7 @@
 	transition:fade
 	class={cn(
 		'flex flex-col gap-3 px-4 py-3 mt-2 rounded-lg w-full relative', //
-		'bg-gray-50  dark:text-gray-200',
+		'bg-gray-50 dark:bg-gray-800 dark:text-gray-200',
 		customClass,
 		isGenerating && 'generation-in-progress'
 	)}
@@ -60,19 +60,19 @@
 		{/if}
 	</div>
 
-	<div class="w-full flex gap-2 text-gray-600 dark:bg-gray-800">
+	<div class="w-full flex gap-2 text-gray-600">
 		<div
 			class={cn(
-				'flex text-gray-500 dark:text-gray-400 items-center gap-2 flex-1',
+				'flex text-gray-500 dark:text-gray-400 items-center gap-1.5 flex-1',
 				isGenerating && 'text-gray-400 dark:text-gray-400'
 			)}
 		>
-			<Sparkles class="w-4.5 h-4.5" />
-			<span class="font-medium">{label}</span>
+			<Sparkles class="size-4" />
+			<span class="font-medium text-sm">{label}</span>
 		</div>
 	</div>
 
-	<div class="flex flex-col mt-1">
+	<div class="flex flex-col">
 		<div class="flex flex-row gap-2 items-center justify-between">
 			<div class="flex flex-row gap-2 overflow-x-auto min-w-0">
 				{#if badges}

@@ -27,11 +27,11 @@
 			className
 		)}
 	>
-		<span class={cn('[&_svg]:w-4 [&_svg]:h-4', iconColor)}>
+		<span class={cn('[&_svg]:size-3.5', iconColor)}>
 			{@render icon()}
 		</span>
 
-		<span class="text-sm font-medium">{label} - </span>
-		<span class="text-sm font-semibold">{count}</span>
+		<span class="text-xs font-medium">{label} - </span>
+		<span class="text-xs font-semibold">{count}</span>
 	</span>
 {/if}
