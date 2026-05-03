@@ -6,17 +6,26 @@
 	interface Props extends HTMLAttributes<HTMLDivElement> {
 		class?: string;
 		isSelected?: boolean;
+		disabled?: boolean;
 		onclick: () => void;
 		children: Snippet;
 	}
 
-	const { class: customClass = '', onclick, isSelected, children, ...restProps }: Props = $props();
+	const {
+		class: customClass = '',
+		onclick,
+		isSelected,
+		disabled = false,
+		children,
+		...restProps
+	}: Props = $props();
 </script>
 
 <div
 	class={cn(
-		'flex flex-col items-center justify-center p-2 bg-white dark:bg-slate-900 hover:bg-primary-50 cursor-pointer rounded-xl hover:dark:bg-primary-900',
+		'flex flex-col items-center justify-center p-2 bg-white dark:bg-slate-900 rounded-xl',
 		'text-gray-500 dark:text-gray-200',
+		!disabled && 'hover:bg-primary-50 cursor-pointer hover:dark:bg-primary-900',
 		isSelected && 'bg-primary-200! dark:bg-primary-500! cursor-default',
 		customClass
 	)}
