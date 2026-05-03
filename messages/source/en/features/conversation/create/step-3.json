@@ -11,16 +11,21 @@
 		"placeholder": "Enter a topic...",
 		"selected_topic": "Selected topic",
 		"no_topic_selected": "No topic selected",
+		"topic_row": {
+			"pin_tooltip": "Save for later (coming soon)",
+			"remove_tooltip": "Remove topic from the list"
+		},
 		"custom_topic": {
 			"label": "Custom topic",
-			"add_button": "Add",
-			"input_placeholder": "Enter your own topic"
+			"input_placeholder": "Enter your own topic",
+			"use_own_topic": "Use your own topic"
 		},
 		"generate_suggestions": {
 			"button": "Write additional instructions to personalize suggested topics (optional)",
 			"generating": "Generating suggestions...",
 			"success": "Suggestions generated",
-			"failed": "Failed to generate suggestions"
+			"failed": "Failed to generate suggestions",
+			"shortcut_hint": "⌘/Ctrl+Shift+Enter — generate (instruction field shortcut)"
 		}
 	}
 }

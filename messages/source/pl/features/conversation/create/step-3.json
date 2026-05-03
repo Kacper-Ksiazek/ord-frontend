@@ -11,16 +11,21 @@
 		"placeholder": "Wprowadź temat...",
 		"selected_topic": "Wybrany temat",
 		"no_topic_selected": "Nie wybrano tematu",
+		"topic_row": {
+			"pin_tooltip": "Zapisz na później (wkrótce)",
+			"remove_tooltip": "Usuń temat z listy"
+		},
 		"custom_topic": {
 			"label": "Niestandardowy temat",
-			"add_button": "Dodaj",
-			"input_placeholder": "Wprowadz wlasny temat"
+			"input_placeholder": "Wprowadź własny temat",
+			"use_own_topic": "Użyj własnego tematu"
 		},
 		"generate_suggestions": {
 			"button": "Wpisz dodatkowa instrukcje, by spersonalizować sugerowane tematy ( opcjonalne )",
 			"generating": "Generowanie sugestii...",
 			"success": "Sugestie wygenerowane",
-			"failed": "Nie udało się wygenerować sugestii"
+			"failed": "Nie udało się wygenerować sugestii",
+			"shortcut_hint": "⌘/Ctrl+Shift+Enter — generuj (skrót w polu instrukcji)"
 		}
 	}
 }

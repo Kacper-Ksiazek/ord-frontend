@@ -1,53 +1,88 @@
 <script lang="ts">
-	import { Button, Input } from 'flowbite-svelte';
-	import { getCreateConversationPayload } from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
-	import { topics } from '../topic-picker.store.svelte';
+	import { onMount } from 'svelte';
+	import { Toggle } from 'flowbite-svelte';
+	import { AutoHeightTextarea } from '$lib/components/forms/auto-height-textarea';
+	import {
+		getCreateConversationPayload,
+		setCreateConversationPayload
+	} from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
+	import { topics, topicPickerUi } from '../topic-picker.store.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 
 	let userTopicInput = $state('');
 
-	function addTopic() {
+	const topicInputDisabled = $derived.by(() => {
+		const type = getCreateConversationPayload().type;
+
+		return !type || !topicPickerUi.useOwnTopic;
+	});
+
+	function syncPayloadTopicFromInput() {
+		const trimmed = userTopicInput.trim();
+		setCreateConversationPayload({ topic: trimmed || undefined });
+	}
+
+	function handleUseOwnTopicChange(next: boolean) {
+		topicPickerUi.useOwnTopic = next;
+
+		if (next) {
+			syncPayloadTopicFromInput();
+
+			return;
+		}
+
 		const payload = getCreateConversationPayload();
-		if (!payload.type || !userTopicInput.trim()) {
-			return;
-		}
+		const list = payload.type ? topics.get(payload.type) || [] : [];
+		const current = payload.topic;
 
-		const trimmedTopic = userTopicInput.trim();
-		const currentTopicsList = topics.get(payload.type) || [];
-
-		// Don't add duplicate topics
-		if (currentTopicsList.includes(trimmedTopic)) {
-			return;
-		}
-
-		topics.set(payload.type, [...currentTopicsList, trimmedTopic]);
-		userTopicInput = '';
-	}
-
-	function handleKeydown(event: KeyboardEvent) {
-		if (event.key === 'Enter') {
-			event.preventDefault();
-			addTopic();
+		if (current && !list.includes(current)) {
+			setCreateConversationPayload({ topic: undefined });
 		}
 	}
+
+	function handleCustomTopicInput() {
+		if (topicPickerUi.useOwnTopic) {
+			syncPayloadTopicFromInput();
+		}
+	}
+
+	onMount(() => {
+		const payload = getCreateConversationPayload();
+		const list = payload.type ? topics.get(payload.type) || [] : [];
+
+		if (payload.topic && !list.includes(payload.topic)) {
+			topicPickerUi.useOwnTopic = true;
+			userTopicInput = payload.topic;
+		} else {
+			topicPickerUi.useOwnTopic = false;
+			userTopicInput = '';
+		}
+	});
 </script>
 
-<div class="flex items-center gap-2">
-	<Input
-		placeholder={m[
-			'features.conversation.create.step-3.topic_picker.custom_topic.input_placeholder'
-		]()}
-		class="flex-1"
-		bind:value={userTopicInput}
-		onkeydown={handleKeydown}
-		disabled={!getCreateConversationPayload().type}
-	/>
+<div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
+	<div class="flex flex-col min-w-0 flex-1 gap-3">
+		<Toggle
+			checked={topicPickerUi.useOwnTopic}
+			onchange={(e) => handleUseOwnTopicChange(e.currentTarget.checked)}
+			class="shrink-0 sm:pt-1.5"
+		>
+			<span class="text-sm font-medium text-gray-800 dark:text-gray-200">
+				{m['features.conversation.create.step-3.topic_picker.custom_topic.use_own_topic']()}
+			</span>
+		</Toggle>
 
-	<Button
-		onclick={addTopic}
-		disabled={!getCreateConversationPayload().type || !userTopicInput.trim()}
-		class="shrink-0"
-	>
-		{m['features.conversation.create.step-3.topic_picker.custom_topic.add_button']()}
-	</Button>
+		<div class="relative min-w-0 flex-1">
+			<AutoHeightTextarea
+				bind:value={userTopicInput}
+				formField={true}
+				disabled={topicInputDisabled}
+				placeholder={m[
+					'features.conversation.create.step-3.topic_picker.custom_topic.input_placeholder'
+				]()}
+				onInput={handleCustomTopicInput}
+				LINE_HEIGHT={20}
+			/>
+		</div>
+	</div>
 </div>

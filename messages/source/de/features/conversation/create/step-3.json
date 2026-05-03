@@ -11,16 +11,21 @@
 		"placeholder": "Thema eingeben...",
 		"selected_topic": "Ausgewähltes Thema",
 		"no_topic_selected": "Kein Thema ausgewählt",
+		"topic_row": {
+			"pin_tooltip": "Für später speichern (demnächst)",
+			"remove_tooltip": "Thema aus der Liste entfernen"
+		},
 		"custom_topic": {
 			"label": "Benutzerdefiniertes Thema",
-			"add_button": "Hinzufügen",
-			"input_placeholder": "Geben Sie Ihr eigenes Thema ein"
+			"input_placeholder": "Geben Sie Ihr eigenes Thema ein",
+			"use_own_topic": "Eigenes Thema verwenden"
 		},
 		"generate_suggestions": {
 			"button": "Schreiben Sie zusätzliche Anweisungen, um vorgeschlagene Themen zu personalisieren (optional)",
 			"generating": "Vorschläge werden generiert...",
 			"success": "Vorschläge generiert",
-			"failed": "Vorschläge konnten nicht generiert werden"
+			"failed": "Vorschläge konnten nicht generiert werden",
+			"shortcut_hint": "⌘/Strg+Umschalt+Enter — generieren (Kurzbefehl im Anweisungsfeld)"
 		}
 	}
 }

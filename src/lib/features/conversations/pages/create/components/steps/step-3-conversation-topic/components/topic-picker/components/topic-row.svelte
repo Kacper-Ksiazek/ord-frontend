@@ -1,18 +1,21 @@
 <script lang="ts">
+	import { IconButton } from '$lib/components/buttons/icon-button';
 	import SelectableCard from '$lib/components/utils/selectable-card.svelte';
 	import { cn } from 'flowbite-svelte';
-	import { X } from 'lucide-svelte';
+	import { Pin, X } from 'lucide-svelte';
 	import { topics } from '../topic-picker.store.svelte';
 	import { getCreateConversationPayload } from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
+	import * as m from '$lib/paraglide/messages.js';
 
 	interface TopicRowProps {
 		index: number;
 		topic: string;
 		isSelected: boolean;
+		selectionDisabled?: boolean;
 		onclick: () => void;
 	}
 
-	const { index, topic, isSelected, onclick }: TopicRowProps = $props();
+	const { index, topic, isSelected, selectionDisabled = false, onclick }: TopicRowProps = $props();
 
 	function removeTopic(topicToRemove: string) {
 		const payload = getCreateConversationPayload();
@@ -25,41 +28,66 @@
 
 		topics.set(payload.type, updatedTopics);
 	}
+
+	function noopPin(event: MouseEvent) {
+		event.stopPropagation();
+	}
+
+	const isActionDisabled = $derived(isSelected || selectionDisabled);
 </script>
 
 <SelectableCard
-	{onclick}
-	class="flex-row gap-3 justify-start p-0 overflow-hidden h-12"
-	{isSelected}
+	disabled={isActionDisabled}
+	onclick={isActionDisabled ? () => {} : onclick}
+	class={cn(
+		'flex-row gap-2 justify-between items-center px-2 py-1',
+		'border border-gray-200 dark:border-slate-600',
+		selectionDisabled && 'cursor-not-allowed opacity-60',
+		isSelected &&
+			'border-primary-400 ring-1 ring-primary-300 dark:border-primary-500 dark:ring-primary-800'
+	)}
+	isSelected={isSelected && !selectionDisabled}
 >
-	<span
-		class={cn(
-			'flex items-center justify-center min-w-10 bg-gray-100 dark:bg-gray-700 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 font-semibold text-sm transition-all',
-			isSelected && 'bg-primary-500! dark:bg-primary-500! text-white px-5'
-		)}>{index + 1}</span
-	>
-
-	<span
-		class={cn(
-			'text-sm flex-1 py-3 px-2 font-medium', //
-			isSelected && 'text-gray-900 dark:text-gray-50',
-			!isSelected && 'text-gray-700 dark:text-gray-300'
-		)}>{topic}</span
-	>
-
-	{#if !isSelected}
-		<button
+	<div class="flex min-w-0 flex-1 items-center gap-2">
+		<span
 			class={cn(
-				'cursor-pointer text-gray-400 dark:text-gray-500 p-2 mr-1 rounded-md transition-colors', //
-				'hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 dark:hover:text-red-400'
-			)}
-			onclick={(e) => {
-				e.stopPropagation();
-				removeTopic(topic);
-			}}
-			aria-label="Remove topic"
+				'flex h-8 min-w-8 shrink-0 items-center justify-center rounded-lg text-sm font-semibold tabular-nums',
+				'bg-gray-200 text-gray-900 dark:bg-gray-600 dark:text-gray-50',
+				isSelected && 'bg-primary-600 text-white dark:bg-primary-500 dark:text-white'
+			)}>{index + 1}</span
 		>
-			<X class="w-4 h-4" />
-		</button>
-	{/if}
+
+		<span
+			class={cn(
+				'text-sm min-w-0 flex-1 py-1 pr-2',
+				isSelected && 'text-gray-900 dark:text-gray-50',
+				!isSelected && 'text-gray-800 dark:text-gray-200'
+			)}>{topic}</span
+		>
+	</div>
+
+	<IconButton
+		icon={Pin}
+		ariaLabel={m['features.conversation.create.step-3.topic_picker.topic_row.pin_tooltip']()}
+		tooltip={m['features.conversation.create.step-3.topic_picker.topic_row.pin_tooltip']()}
+		type="OUTLINED"
+		variant="TEXT"
+		class="shrink-0 self-center size-8"
+		onClick={noopPin}
+		disabled={isActionDisabled}
+	/>
+
+	<IconButton
+		icon={X}
+		ariaLabel={m['features.conversation.create.step-3.topic_picker.topic_row.remove_tooltip']()}
+		tooltip={m['features.conversation.create.step-3.topic_picker.topic_row.remove_tooltip']()}
+		type="OUTLINED"
+		variant={isActionDisabled ? 'TEXT' : 'DELETE'}
+		class="shrink-0 self-center size-8"
+		onClick={(e) => {
+			e.stopPropagation();
+			removeTopic(topic);
+		}}
+		disabled={isActionDisabled}
+	/>
 </SelectableCard>
