@@ -53,7 +53,7 @@
 	const hotkeyComplete = 'Mod+Enter';
 </script>
 
-<div class="flex flex-col gap-6 flex-1">
+<div class="flex min-h-0 flex-1 flex-col gap-6">
 	<!-- Step Indicator -->
 	<div class="flex flex-col gap-2">
 		<div class="flex flex-col gap-2">
@@ -93,14 +93,10 @@
 	</div>
 
 	<!-- Step Content -->
-	<div class="relative min-h-[400px] flex-1">
+	<div class="relative min-h-0 flex-1">
 		{#key currentStep}
-			<div class="absolute inset-0 w-full" transition:fade={{ duration: 200 }}>
-				<div class="relative w-full">
-					<div class="absolute inset-0 w-full">
-						{@render children(currentStep)}
-					</div>
-				</div>
+			<div class="absolute inset-0 min-h-0 w-full" transition:fade={{ duration: 200 }}>
+				{@render children(currentStep)}
 			</div>
 		{/key}
 	</div>
