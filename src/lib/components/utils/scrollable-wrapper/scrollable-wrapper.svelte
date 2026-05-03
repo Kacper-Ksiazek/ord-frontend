@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
 	import type { Snippet } from 'svelte';
-	import { onMount } from 'svelte';
 
 	interface Props {
 		wrapperClass?: string;
@@ -17,10 +16,12 @@
 		scrollContainer = $bindable()
 	}: Props = $props();
 
+	let innerEl = $state<HTMLDivElement | undefined>(undefined);
+
 	let maskStyle = $state('');
 
-	const FADE_HEIGHT = 40; // Height of the fade effect in pixels
-	const TOP_OFFSET = 150; // Offset from top before top fade appears
+	const FADE_HEIGHT = 40;
+	const TOP_OFFSET = 150;
 
 	function updateMask() {
 		if (!scrollContainer) return;
@@ -31,7 +32,6 @@
 		const hasScroll = scrollHeight > clientHeight;
 		const isWithinTopOffset = scrollTop < TOP_OFFSET;
 
-		// Don't apply mask if content doesn't scroll
 		if (!hasScroll) {
 			maskStyle = '';
 
@@ -40,20 +40,13 @@
 
 		let gradient: string;
 
-		// When at the very top, fade the bottom only
 		if (isAtTop) {
 			gradient = `linear-gradient(to bottom, black 0, black calc(100% - ${FADE_HEIGHT}px), transparent 100%)`;
-		}
-		// When at the very bottom, fade the top only
-		else if (isAtBottom) {
+		} else if (isAtBottom) {
 			gradient = `linear-gradient(to bottom, transparent 0, black ${FADE_HEIGHT}px, black 100%)`;
-		}
-		// When within top offset (0-150px), only fade bottom
-		else if (isWithinTopOffset) {
+		} else if (isWithinTopOffset) {
 			gradient = `linear-gradient(to bottom, black 0, black calc(100% - ${FADE_HEIGHT}px), transparent 100%)`;
-		}
-		// When scrolling past top offset, fade both top and bottom using a single gradient
-		else {
+		} else {
 			gradient = `linear-gradient(to bottom, transparent 0, black ${FADE_HEIGHT}px, black calc(100% - ${FADE_HEIGHT}px), transparent 100%)`;
 		}
 
@@ -71,8 +64,18 @@
 		updateMask();
 	}
 
-	onMount(() => {
-		updateMask();
+	$effect(() => {
+		if (!scrollContainer || !innerEl) return;
+
+		const schedule = () => globalThis.queueMicrotask(updateMask);
+
+		schedule();
+
+		const ro = new globalThis.ResizeObserver(schedule);
+		ro.observe(scrollContainer);
+		ro.observe(innerEl);
+
+		return () => ro.disconnect();
 	});
 </script>
 
@@ -80,18 +83,12 @@
 	bind:this={scrollContainer}
 	onscroll={handleScroll}
 	class={cn(
-		'flex-1 overflow-y-auto flex flex-col px-4 py-8 relative', //
+		'relative flex h-full max-h-full min-h-0 flex-1 flex-col overflow-y-auto overflow-x-hidden',
 		wrapperClass
 	)}
 	style={maskStyle}
 >
-	<div
-		class={cn(
-			'flex flex-col gap-16 h-full', //
-			'absolute top-0 left-0 right-0',
-			contentClass
-		)}
-	>
+	<div bind:this={innerEl} class={cn('flex min-h-min flex-col', contentClass)}>
 		{@render children()}
 	</div>
 </div>

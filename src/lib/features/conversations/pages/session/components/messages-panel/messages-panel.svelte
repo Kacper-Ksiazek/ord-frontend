@@ -7,7 +7,7 @@
 	import { getSidepanelWidth, getMessagesMaxWidth } from '../constants.svelte';
 	import { Columns2, ChevronLeft, PanelLeftClose } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
-	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
+	import { ScrollableWrapper } from '$lib/components/utils/scrollable-wrapper';
 	import { onMount } from 'svelte';
 	import { getConversationContext } from '../../contexts/conversation-context.svelte';
 	import ConversationTypeIcon from '$conversations/shared/components/conversation-type-icon.svelte';
@@ -133,7 +133,7 @@
 		<!-- Scrollable messages area -->
 		<ScrollableWrapper
 			bind:scrollContainer
-			contentClass="{messagesMaxWidth} mx-auto"
+			contentClass="{messagesMaxWidth} mx-auto gap-12"
 			wrapperClass="mb-4"
 		>
 			<ConversationHeader />

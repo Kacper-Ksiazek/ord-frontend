@@ -17,7 +17,7 @@
 	import CategoriesAndSubcategories from './components/categories-and-subcategories.svelte';
 	import Filters from './components/filters.svelte';
 	import { applyFilters } from './utils/apply-filters';
-	import ScrollableWrapper from '$lib/components/scrollable-wrapper.svelte';
+	import { ScrollableWrapper } from '$lib/components/utils/scrollable-wrapper';
 	import { Button } from '$lib/components/buttons/button';
 	import { cubicOut } from 'svelte/easing';
 	import { slide } from 'svelte/transition';
