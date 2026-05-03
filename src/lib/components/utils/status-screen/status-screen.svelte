@@ -9,6 +9,8 @@
 		header?: string;
 		code?: string | number;
 		description?: string;
+		/** Merged onto the description paragraph (e.g. `content-long`). */
+		descriptionClass?: string;
 		primaryButton?: StatusButtonProps;
 		secondaryButton?: StatusButtonProps;
 		class?: string;
@@ -19,6 +21,7 @@
 		header,
 		code,
 		description,
+		descriptionClass = '',
 		primaryButton,
 		secondaryButton,
 		class: customClass = ''
@@ -88,7 +91,7 @@
 		{/if}
 
 		{#if description}
-			<p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">
+			<p class={cn('text-sm text-gray-500 dark:text-gray-400 leading-relaxed', descriptionClass)}>
 				{description}
 			</p>
 		{/if}
