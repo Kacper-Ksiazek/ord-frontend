@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
-	import Textarea from './components/textarea.svelte';
+	import { AutoHeightTextarea } from '$lib/components/forms/auto-height-textarea';
 	import SendButton from './components/send-button.svelte';
 	import { createSaveUserMessageMutation } from '$lib/api-client/ongoing-conversation/mutations/use-save-user-message';
 	import { getConversationContext } from '../../../../contexts/conversation-context.svelte';
@@ -16,7 +16,7 @@
 	let isFocused = $state(false);
 	let message = $state('');
 	let pending = $state(false);
-	let textareaComponent: Textarea | undefined = $state();
+	let textareaComponent: AutoHeightTextarea | undefined = $state();
 
 	const conversation = getConversationContext();
 	const messagesContext = getMessagesContext();
@@ -123,19 +123,19 @@
 
 <div
 	class={cn(
-		'flex items-end gap-1 p-3 rounded-2xl w-full',
+		'flex items-end gap-1 rounded-2xl w-full mb-2 px-2 py-1',
 		messagesMaxWidth,
-		'mx-auto mb-2',
+		'mx-auto',
 		'border-2 border-gray-200 dark:border-gray-700',
 		'bg-white dark:bg-slate-800',
 		isFocused && 'border-primary-300 dark:border-primary-600'
 	)}
 >
-	<Textarea
+	<AutoHeightTextarea
 		bind:this={textareaComponent}
 		bind:value={message}
 		placeholder="Type your message..."
-		className="content-long"
+		className="content-long "
 		onkeydown={handleKeyDown}
 		onfocus={() => (isFocused = true)}
 		onblur={() => (isFocused = false)}
