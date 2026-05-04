@@ -82,6 +82,8 @@
 				]()}
 				onInput={handleCustomTopicInput}
 				LINE_HEIGHT={20}
+				maxLength={255}
+				className="py-1 px-2"
 			/>
 		</div>
 	</div>

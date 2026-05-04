@@ -4,7 +4,7 @@
 	import type { AiActionButtonStatus } from '$lib/components/buttons/ai-action-button/ai-action-button.types';
 	import { Input } from '$lib/components/forms/input';
 	import { getCreateConversationPayload } from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
-	import { topics } from '../topic-picker.store.svelte';
+	import { topicPickerUi, topics } from '../topic-picker.store.svelte';
 	import { TextQuote } from 'lucide-svelte';
 	import * as m from '$lib/paraglide/messages.js';
 
@@ -19,6 +19,7 @@
 	}: GenerateTopicsSuggestionsButtonProps = $props();
 
 	let clueForGeneration = $state('');
+	let isClueForGenerationValid = $state<boolean>(true);
 	let generateButtonStatus = $state<AiActionButtonStatus>('default');
 
 	async function generateTopics() {
@@ -68,7 +69,11 @@
 	title={m['features.conversation.create.step-3.topic_picker.generate_suggestions.shortcut_hint']()}
 >
 	<div class="shrink-0">
-		<AiActionButton status={generateButtonStatus} onclick={generateTopics} />
+		<AiActionButton
+			status={generateButtonStatus}
+			onclick={generateTopics}
+			disabled={topicPickerUi.useOwnTopic || !isClueForGenerationValid}
+		/>
 	</div>
 
 	<Input
@@ -76,6 +81,8 @@
 		class="min-w-0 flex-1"
 		leftAdornment={TextQuote}
 		bind:value={clueForGeneration}
-		disabled={generateButtonStatus === 'loading'}
+		disabled={generateButtonStatus === 'loading' || topicPickerUi.useOwnTopic}
+		maxLength={128}
+		bind:isValid={isClueForGenerationValid}
 	/>
 </div>

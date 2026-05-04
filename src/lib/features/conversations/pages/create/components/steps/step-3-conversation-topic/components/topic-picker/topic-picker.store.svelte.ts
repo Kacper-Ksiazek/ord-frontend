@@ -1,7 +1,6 @@
 import { SvelteMap } from 'svelte/reactivity';
 import type { ConversationType } from '$lib/types/conversation/domain/conversation';
 
-/** When true, the chosen topic is the manual field only; list rows cannot be selected. */
 export const topicPickerUi = $state({
 	useOwnTopic: false
 });

@@ -47,7 +47,7 @@
 			validate: () => {
 				const payload = getCreateConversationPayload();
 
-				return !!payload.topic;
+				return !!payload.topic && payload.topic.length <= 255;
 			}
 		},
 		{
