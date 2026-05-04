@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
 	import { getOutlinedInputFieldClasses } from '$lib/components/control-appearance';
+	import type { AutoHeightTextareaProps } from './auto-height-textarea.types';
 	import '../forms.css';
 
 	let {
@@ -9,25 +10,23 @@
 		className = '',
 		formField = false,
 		disabled = false,
+		variant = 'TEXT',
+		maxLength,
+		isValid = $bindable(true),
 		LINE_HEIGHT = 26,
 		VERTICAL_PADDING = 12,
 		onkeydown,
 		onfocus,
 		onblur,
 		onInput
-	}: {
-		value?: string;
-		placeholder?: string;
-		className?: string;
-		formField?: boolean;
-		disabled?: boolean;
-		LINE_HEIGHT?: number;
-		VERTICAL_PADDING?: number;
-		onfocus?: (e: FocusEvent) => void;
-		onblur?: (e: FocusEvent) => void;
-		onkeydown?: (e: KeyboardEvent) => void;
-		onInput?: (event: Event) => void;
-	} = $props();
+	}: AutoHeightTextareaProps = $props();
+
+	const lengthConstraintActive = $derived(maxLength !== undefined);
+
+	/** Design tokens use `DELETE` for semantic error (invalid) chrome. */
+	const appearanceVariant = $derived(
+		lengthConstraintActive && !isValid ? ('DELETE' as const) : variant
+	);
 
 	let textareaElement: HTMLTextAreaElement | undefined = $state();
 
@@ -75,6 +74,13 @@
 		}
 	});
 
+	$effect(() => {
+		const limit = maxLength;
+		if (limit === undefined) return;
+
+		isValid = (value ?? '').length <= limit;
+	});
+
 	function handleKeyDown(e: KeyboardEvent) {
 		onkeydown?.(e);
 	}
@@ -93,7 +99,7 @@
 		'w-full',
 		formField &&
 			cn(
-				getOutlinedInputFieldClasses('TEXT', disabled, false),
+				getOutlinedInputFieldClasses(appearanceVariant, disabled, false),
 				disabled && 'cursor-not-allowed opacity-50',
 				'text-sm border rounded-lg text-gray-800 dark:text-gray-200'
 			),
@@ -110,6 +116,7 @@
 		bind:this={textareaElement}
 		bind:value
 		{disabled}
+		aria-invalid={lengthConstraintActive && !isValid ? true : undefined}
 		{onfocus}
 		{onblur}
 		onkeydown={handleKeyDown}
@@ -126,9 +133,12 @@
 						'focus:border-none focus:outline-none focus:ring-0',
 						'placeholder:text-gray-500/90 dark:placeholder:text-gray-400/80'
 					],
-			className,
 			formField &&
-				'text-sm font-medium text-gray-800 dark:text-gray-200 placeholder:font-normal placeholder:text-gray-500/90 dark:placeholder:text-gray-400/80'
+				'text-sm font-medium text-gray-800 dark:text-gray-200 placeholder:font-normal placeholder:text-gray-500/90 dark:placeholder:text-gray-400/80',
+			!formField &&
+				lengthConstraintActive &&
+				!isValid &&
+				'ring-2 ring-inset ring-red-600/60 dark:ring-red-400/60'
 		)}
 		style="min-height: {totalHeightPx(MIN_ROWS)}px; max-height: {totalHeightPx(MAX_ROWS)}px;"
 	></textarea>
