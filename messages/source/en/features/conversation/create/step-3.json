@@ -7,6 +7,17 @@
 	"selected_tone": {
 		"label": "Selected conversation tone"
 	},
+	"summary_cards": {
+		"edit_type": {
+			"aria_label": "Edit conversation type",
+			"tooltip": "Edit conversation type"
+		},
+		"edit_tone": {
+			"aria_label": "Edit conversation tone",
+			"tooltip": "Edit conversation tone"
+		},
+		"done_button": "Done"
+	},
 	"topic_picker": {
 		"placeholder": "Enter a topic...",
 		"selected_topic": "Selected topic",

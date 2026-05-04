@@ -1,64 +1,55 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
 	import ConversationTypeIcon from '$lib/features/conversations/shared/components/conversation-type-icon.svelte';
 	import ConversationToneIcon from '$lib/features/conversations/shared/components/conversation-tone-icon.svelte';
+	import { Step1ConversationType } from '../../../step-1-conversation-type';
+	import { Step2ConversationTone } from '../../../step-2-conversation-tone';
 	import { getCreateConversationPayload } from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
 	import {
 		getConversationTypeLabel,
 		getConversationToneLabel
 	} from '$lib/features/conversations/shared/utils';
 	import * as m from '$lib/paraglide/messages.js';
+	import { EditableSelectionSummaryCard } from './components';
 
 	const payload = getCreateConversationPayload();
 	const selectedConversationType = $derived(payload.type);
 	const selectedConversationTone = $derived(payload.tone);
 </script>
 
-{#snippet selectionCard(label: string, title: string, icon: Snippet)}
-	<div
-		class="flex-1 p-4 bg-primary-50 dark:bg-primary-900/20 rounded-lg border border-primary-200 dark:border-primary-800"
-	>
-		<div class="flex items-center gap-4">
-			{@render icon()}
-
-			<div>
-				<p class="text-xs text-gray-500 dark:text-gray-400">{label}</p>
-				<h3 class="text-lg font-bold text-gray-900 dark:text-gray-50">{title}</h3>
-			</div>
-		</div>
-	</div>
-{/snippet}
-
 {#if selectedConversationType || selectedConversationTone}
 	<div class="mb-6 flex gap-4">
 		{#if selectedConversationType}
-			{#snippet typeIcon()}
-				<ConversationTypeIcon
-					conversationType={selectedConversationType}
-					class="size-12 text-primary-500 dark:text-primary-400"
-				/>
-			{/snippet}
-
-			{@render selectionCard(
-				m['features.conversation.create.step-3.selected_type.label'](),
-				getConversationTypeLabel(selectedConversationType),
-				typeIcon
-			)}
+			<EditableSelectionSummaryCard
+				label={m['features.conversation.create.step-3.selected_type.label']()}
+				title={getConversationTypeLabel(selectedConversationType)}
+				editAriaLabel={m['features.conversation.create.step-3.summary_cards.edit_type.aria_label']()}
+				editTooltip={m['features.conversation.create.step-3.summary_cards.edit_type.tooltip']()}
+				modalTitle={m['features.conversation.create.step-1.header']()}
+			>
+				{#snippet icon(className)}
+					<ConversationTypeIcon conversationType={selectedConversationType} class={className} />
+				{/snippet}
+				{#snippet modalBody()}
+					<Step1ConversationType />
+				{/snippet}
+			</EditableSelectionSummaryCard>
 		{/if}
 
 		{#if selectedConversationTone}
-			{#snippet toneIcon()}
-				<ConversationToneIcon
-					tone={selectedConversationTone}
-					class="size-12 text-primary-500 dark:text-primary-400"
-				/>
-			{/snippet}
-
-			{@render selectionCard(
-				m['features.conversation.create.step-3.selected_tone.label'](),
-				getConversationToneLabel(selectedConversationTone),
-				toneIcon
-			)}
+			<EditableSelectionSummaryCard
+				label={m['features.conversation.create.step-3.selected_tone.label']()}
+				title={getConversationToneLabel(selectedConversationTone)}
+				editAriaLabel={m['features.conversation.create.step-3.summary_cards.edit_tone.aria_label']()}
+				editTooltip={m['features.conversation.create.step-3.summary_cards.edit_tone.tooltip']()}
+				modalTitle={m['features.conversation.create.step-2.header']()}
+			>
+				{#snippet icon(className)}
+					<ConversationToneIcon tone={selectedConversationTone} class={className} />
+				{/snippet}
+				{#snippet modalBody()}
+					<Step2ConversationTone />
+				{/snippet}
+			</EditableSelectionSummaryCard>
 		{/if}
 	</div>
 {/if}

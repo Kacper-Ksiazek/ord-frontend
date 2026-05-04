@@ -7,6 +7,17 @@
 	"selected_tone": {
 		"label": "Wybrany ton rozmowy"
 	},
+	"summary_cards": {
+		"edit_type": {
+			"aria_label": "Zmień typ rozmowy",
+			"tooltip": "Zmień typ rozmowy"
+		},
+		"edit_tone": {
+			"aria_label": "Zmień ton rozmowy",
+			"tooltip": "Zmień ton rozmowy"
+		},
+		"done_button": "Gotowe"
+	},
 	"topic_picker": {
 		"placeholder": "Wprowadź temat...",
 		"selected_topic": "Wybrany temat",

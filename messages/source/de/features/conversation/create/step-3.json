@@ -7,6 +7,17 @@
 	"selected_tone": {
 		"label": "Ausgewählter Gesprächston"
 	},
+	"summary_cards": {
+		"edit_type": {
+			"aria_label": "Gesprächstyp bearbeiten",
+			"tooltip": "Gesprächstyp bearbeiten"
+		},
+		"edit_tone": {
+			"aria_label": "Gesprächston bearbeiten",
+			"tooltip": "Gesprächston bearbeiten"
+		},
+		"done_button": "Fertig"
+	},
 	"topic_picker": {
 		"placeholder": "Thema eingeben...",
 		"selected_topic": "Ausgewähltes Thema",
