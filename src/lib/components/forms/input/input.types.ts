@@ -19,6 +19,10 @@ export interface InputProps {
 	leftAdornment?: LucideIcon;
 	rightAdornment?: LucideIcon;
 	adornmentClass?: string;
+	/** When set, `isValid` reflects whether length is within this limit; over-limit values are allowed (no typing cap), invalid uses error styling. */
+	maxLength?: number;
+	/** Reflects whether the value length is within `maxLength` (always `true` when `maxLength` is unset). */
+	isValid?: boolean;
 	debounced?: boolean;
 	debounceDelay?: number;
 	onInput?: (event: Event) => void;

@@ -28,6 +28,8 @@
 		adornmentClass = 'w-4 h-4',
 		ariaLabel,
 		ariaDescribedBy,
+		maxLength,
+		isValid = $bindable(true),
 		debounced = false,
 		debounceDelay = 300,
 		onInput,
@@ -49,7 +51,16 @@
 		inputEl?.focus();
 	}
 
-	const hotkeyChipClasses = $derived(getButtonHotkeyChipClasses('OUTLINED', variant, disabled));
+	const lengthConstraintActive = $derived(maxLength !== undefined);
+
+	/** Design tokens use `DELETE` for semantic error (invalid) chrome. */
+	const appearanceVariant = $derived(
+		lengthConstraintActive && !isValid ? ('DELETE' as const) : variant
+	);
+
+	const hotkeyChipClasses = $derived(
+		getButtonHotkeyChipClasses('OUTLINED', appearanceVariant, disabled)
+	);
 
 	const showRightChrome = $derived(Boolean(rightAdornment) || (hotkey !== undefined && !readonly));
 
@@ -62,9 +73,13 @@
 		return 'pr-10';
 	});
 
-	const fieldAppearanceClasses = $derived(getOutlinedInputFieldClasses(variant, disabled, readonly));
+	const fieldAppearanceClasses = $derived(
+		getOutlinedInputFieldClasses(appearanceVariant, disabled, readonly)
+	);
 	const adornmentColorClasses = $derived(
-		disabled ? 'text-gray-400 dark:text-gray-500' : getButtonTextColorClasses('OUTLINED', variant)
+		disabled
+			? 'text-gray-400 dark:text-gray-500'
+			: getButtonTextColorClasses('OUTLINED', appearanceVariant)
 	);
 
 	// eslint-disable-next-line svelte/prefer-writable-derived
@@ -72,6 +87,13 @@
 
 	$effect(() => {
 		internalValue = value ?? '';
+	});
+
+	$effect(() => {
+		const limit = maxLength;
+		if (limit === undefined) return;
+
+		isValid = (internalValue ?? '').length <= limit;
 	});
 
 	let debounceTimer: ReturnType<typeof setTimeout> | undefined;
@@ -101,6 +123,7 @@
 		<span
 			aria-label={ariaLabel}
 			aria-describedby={ariaDescribedBy}
+			aria-invalid={lengthConstraintActive && !isValid ? true : undefined}
 			class={cn(
 				'form-input-base form-input-text',
 				'flex w-full min-w-0 items-center transition-colors',
@@ -130,6 +153,7 @@
 			{disabled}
 			aria-label={ariaLabel}
 			aria-describedby={ariaDescribedBy}
+			aria-invalid={lengthConstraintActive && !isValid ? true : undefined}
 			aria-keyshortcuts={ariaKeyShortcuts}
 			class={cn(
 				'form-input-base form-input-text',
