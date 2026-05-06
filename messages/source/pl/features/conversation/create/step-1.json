@@ -1,4 +1,9 @@
 {
 	"header": "Wybierz typ rozmowy",
-	"description": "Wybierz typ rozmowy, którą chcesz ćwiczyć. Każdy typ oferuje inne doświadczenie edukacyjne."
+	"description": "Wybierz typ rozmowy, którą chcesz ćwiczyć. Każdy typ oferuje inne doświadczenie edukacyjne.",
+	"coming_soon_badge": "Wkrótce",
+	"default_type_star_tooltip": "Zapisz jako domyślny typ. Przy kolejnym tworzeniu rozmowy zostanie wybrany automatycznie.",
+	"default_type_star_tooltip_remove": "Usuń zapisaną domyślną opcję. Jeśli ten typ jest wybrany, zostanie wyczyszczony.",
+	"default_type_star_aria_label": "Zapisz jako domyślny typ rozmowy",
+	"default_type_star_aria_label_remove": "Usuń domyślny typ rozmowy"
 }
