@@ -1,8 +1,16 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { browser } from '$app/environment';
 	import { MultiStepForm } from '$lib/components/utils/multi-step-form';
 	import type { StepConfig } from '$lib/components/utils/multi-step-form';
 	import { Loader } from '$lib/components/utils/loader';
-	import { getCreateConversationPayload } from '../stores/create-conversation-payload.svelte';
+	import {
+		getCreateConversationPayload,
+		setCreateConversationPayload
+	} from '../stores/create-conversation-payload.svelte';
+	import { resetTopicPickerCustomState } from '$lib/features/conversations/pages/create/components/steps/step-3-conversation-topic/components/topic-picker/topic-picker.store.svelte';
+	import { readDefaultConversationTypeFromStorage } from '$lib/features/conversations/pages/create/utils/default-conversation-type-storage';
+	import { readDefaultConversationToneFromStorage } from '$lib/features/conversations/pages/create/utils/default-conversation-tone-storage';
 	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';
 	import * as m from '$lib/paraglide/messages.js';
 	import { createCreateConversationMutation } from '$lib/api-client/conversation/mutations/use-create-conversation';
@@ -59,6 +67,29 @@
 	function handleStepChange(stepIndex: number) {
 		currentStep = stepIndex;
 	}
+
+	onMount(() => {
+		if (!browser) return;
+
+		const typeDefault = readDefaultConversationTypeFromStorage();
+		const toneDefault = readDefaultConversationToneFromStorage();
+		const payload = getCreateConversationPayload();
+
+		if (typeDefault && payload.type === undefined) {
+			setCreateConversationPayload({ type: typeDefault });
+			resetTopicPickerCustomState();
+		}
+
+		if (toneDefault && getCreateConversationPayload().tone === undefined) {
+			setCreateConversationPayload({ tone: toneDefault });
+		}
+
+		if (typeDefault && toneDefault) {
+			currentStep = 2;
+		} else if (typeDefault) {
+			currentStep = 1;
+		}
+	});
 
 	async function handleFinalStepClick() {
 		const payload = getCreateConversationPayload();
