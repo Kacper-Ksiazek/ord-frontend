@@ -35,8 +35,7 @@
 			"button": "Wpisz dodatkowa instrukcje, by spersonalizować sugerowane tematy ( opcjonalne )",
 			"generating": "Generowanie sugestii...",
 			"success": "Sugestie wygenerowane",
-			"failed": "Nie udało się wygenerować sugestii",
-			"shortcut_hint": "⌘/Ctrl+Shift+Enter — generuj (skrót w polu instrukcji)"
+			"failed": "Nie udało się wygenerować sugestii"
 		}
 	}
 }

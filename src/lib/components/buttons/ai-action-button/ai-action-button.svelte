@@ -27,12 +27,7 @@
 			)}
 			{...props}
 		>
-			<Sparkles
-				class={cn(
-					'w-5 h-5 text-amber-400', //
-					disabled && 'text-gray-500'
-				)}
-			/>
+			<Sparkles class="size-4 shrink-0" aria-hidden="true" />
 			<span>{m['components.utils.generate-with-ai.button_label']()}</span>
 		</Button>
 	{/snippet}

@@ -64,10 +64,7 @@
 	}
 </script>
 
-<div
-	class="flex items-center gap-3"
-	title={m['features.conversation.create.step-3.topic_picker.generate_suggestions.shortcut_hint']()}
->
+<div class="flex items-center gap-3">
 	<div class="shrink-0">
 		<AiActionButton
 			status={generateButtonStatus}

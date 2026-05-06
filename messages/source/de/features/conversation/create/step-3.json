@@ -35,8 +35,7 @@
 			"button": "Schreiben Sie zusätzliche Anweisungen, um vorgeschlagene Themen zu personalisieren (optional)",
 			"generating": "Vorschläge werden generiert...",
 			"success": "Vorschläge generiert",
-			"failed": "Vorschläge konnten nicht generiert werden",
-			"shortcut_hint": "⌘/Strg+Umschalt+Enter — generieren (Kurzbefehl im Anweisungsfeld)"
+			"failed": "Vorschläge konnten nicht generiert werden"
 		}
 	}
 }
