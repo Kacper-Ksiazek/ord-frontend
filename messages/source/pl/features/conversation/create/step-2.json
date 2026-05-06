@@ -1,4 +1,8 @@
 {
 	"header": "Wybierz ton rozmowy",
-	"description": "Wybierz ton rozmowy. To wpłynie na sposób komunikacji rozmówcy AI z Tobą."
+	"description": "Wybierz ton rozmowy. To wpłynie na sposób komunikacji rozmówcy AI z Tobą.",
+	"default_tone_star_tooltip": "Zapisz jako domyślny ton. Przy kolejnym tworzeniu rozmowy zostanie wybrany automatycznie.",
+	"default_tone_star_tooltip_remove": "Usuń zapisaną domyślną opcję. Jeśli ten ton jest wybrany, zostanie wyczyszczony.",
+	"default_tone_star_aria_label": "Zapisz jako domyślny ton rozmowy",
+	"default_tone_star_aria_label_remove": "Usuń domyślny ton rozmowy"
 }

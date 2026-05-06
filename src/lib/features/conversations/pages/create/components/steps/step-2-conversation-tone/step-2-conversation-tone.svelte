@@ -1,14 +1,42 @@
 <script lang="ts">
+	import { browser } from '$app/environment';
+	import type { ConversationAITone } from '$lib/types/conversation/domain/conversation';
 	import { ToneCard } from './components';
 	import { CONVERSATION_TONES } from '$lib/features/conversations/shared/constants/enum_values';
 	import {
 		getCreateConversationPayload,
 		setCreateConversationPayload
 	} from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
+	import {
+		clearDefaultConversationToneFromStorage,
+		readDefaultConversationToneFromStorage,
+		writeDefaultConversationToneToStorage
+	} from '$lib/features/conversations/pages/create/utils/default-conversation-tone-storage';
 	import * as m from '$lib/paraglide/messages.js';
 	import { getConversationToneMessages } from '$lib/features/conversations/shared/utils';
 
 	const selectedPayload = $derived(getCreateConversationPayload());
+
+	let preferredTone = $state<ConversationAITone | null>(
+		browser ? readDefaultConversationToneFromStorage() : null
+	);
+
+	function handleToggleDefault(tone: ConversationAITone) {
+		if (preferredTone === tone) {
+			clearDefaultConversationToneFromStorage();
+			preferredTone = null;
+
+			const currentPayload = getCreateConversationPayload();
+
+			if (currentPayload.tone === tone) {
+				setCreateConversationPayload({ tone: undefined });
+			}
+		} else {
+			writeDefaultConversationToneToStorage(tone);
+			preferredTone = tone;
+			setCreateConversationPayload({ tone });
+		}
+	}
 </script>
 
 <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
@@ -25,6 +53,8 @@
 			{label}
 			{description}
 			{isSelected}
+			isPreferredDefault={preferredTone === tone}
+			onToggleDefault={() => handleToggleDefault(tone)}
 			onclick={() => {
 				setCreateConversationPayload({ tone });
 			}}

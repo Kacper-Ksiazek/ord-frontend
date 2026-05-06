@@ -1,4 +1,8 @@
 {
 	"header": "Gesprächston auswählen",
-	"description": "Wählen Sie den Ton für Ihr Gespräch. Dies beeinflusst, wie der KI-Gesprächspartner mit Ihnen kommuniziert."
+	"description": "Wählen Sie den Ton für Ihr Gespräch. Dies beeinflusst, wie der KI-Gesprächspartner mit Ihnen kommuniziert.",
+	"default_tone_star_tooltip": "Als Standardton speichern. Wird beim nächsten neuen Gespräch automatisch ausgewählt.",
+	"default_tone_star_tooltip_remove": "Gespeicherten Standard entfernen. Wenn dieser Ton gewählt ist, wird die Auswahl zurückgesetzt.",
+	"default_tone_star_aria_label": "Als Standard-Gesprächston speichern",
+	"default_tone_star_aria_label_remove": "Standard-Gesprächston entfernen"
 }

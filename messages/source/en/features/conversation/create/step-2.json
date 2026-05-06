@@ -1,4 +1,8 @@
 {
 	"header": "Select conversation tone",
-	"description": "Choose the tone for your conversation. This will influence how the AI interlocutor communicates with you."
+	"description": "Choose the tone for your conversation. This will influence how the AI interlocutor communicates with you.",
+	"default_tone_star_tooltip": "Save as your default tone. It will be selected automatically when you start a new conversation.",
+	"default_tone_star_tooltip_remove": "Remove saved default. If this tone is selected, it will be cleared.",
+	"default_tone_star_aria_label": "Save as default conversation tone",
+	"default_tone_star_aria_label_remove": "Remove default conversation tone"
 }
