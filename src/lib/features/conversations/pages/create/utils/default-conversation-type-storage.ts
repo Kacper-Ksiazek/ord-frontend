@@ -1,11 +1,14 @@
 import type { ConversationType } from '$lib/types/conversation/domain/conversation';
-import { getStorageItem, removeStorageItem, setStorageItem } from '$lib/utils/local-storage';
+import {
+	getStorageItem,
+	LOCAL_STORAGE_KEYS,
+	removeStorageItem,
+	setStorageItem
+} from '$lib/utils/local-storage';
 import {
 	CONVERSATION_TYPES,
 	DISABLED_CONVERSATION_TYPES
 } from '$lib/features/conversations/shared/constants/enum_values';
-
-const STORAGE_KEY = 'default_conversation_type';
 
 function isAllowedConversationType(value: string): value is ConversationType {
 	return (
@@ -22,14 +25,14 @@ export function readDefaultConversationTypeFromStorage(): ConversationType | nul
 		return null;
 	}
 
-	const raw = getStorageItem<string>(STORAGE_KEY);
+	const raw = getStorageItem<string>(LOCAL_STORAGE_KEYS.DEFAULT_CONVERSATION_TYPE);
 
 	if (raw === null || typeof raw !== 'string') {
 		return null;
 	}
 
 	if (!isAllowedConversationType(raw)) {
-		removeStorageItem(STORAGE_KEY);
+		removeStorageItem(LOCAL_STORAGE_KEYS.DEFAULT_CONVERSATION_TYPE);
 
 		return null;
 	}
@@ -42,9 +45,9 @@ export function writeDefaultConversationTypeToStorage(type: ConversationType): v
 		return;
 	}
 
-	setStorageItem(STORAGE_KEY, type);
+	setStorageItem(LOCAL_STORAGE_KEYS.DEFAULT_CONVERSATION_TYPE, type);
 }
 
 export function clearDefaultConversationTypeFromStorage(): void {
-	removeStorageItem(STORAGE_KEY);
+	removeStorageItem(LOCAL_STORAGE_KEYS.DEFAULT_CONVERSATION_TYPE);
 }

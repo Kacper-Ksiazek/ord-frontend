@@ -13,12 +13,22 @@ function getKeyWithPrefix(key: string): string {
 }
 
 /**
- * Storage keys used throughout the application
+ * Keys removed by {@link clearAppStorage} (e.g. on logout).
  */
 export const STORAGE_KEYS = {
 	USER: `${APP_PREFIX}user`,
 	SESSION_INITIALIZED: `${APP_PREFIX}session_initialized`,
 	THEME: `${APP_PREFIX}theme`
+} as const;
+
+/**
+ * Logical keys for {@link getStorageItem} / {@link setStorageItem} / {@link removeStorageItem}
+ * (prefix is applied automatically). Not cleared by {@link clearAppStorage}.
+ */
+export const LOCAL_STORAGE_KEYS = {
+	DEFAULT_CONVERSATION_TYPE: 'default_conversation_type',
+	RECENT_INTERLOCUTORS: 'recent_interlocutors',
+	CREATE_CONVERSATION_TOPIC_PICKER_PINNED_TOPICS: 'create_conversation_topic_picker_pinned_topics'
 } as const;
 
 /**
@@ -68,7 +78,7 @@ export function removeStorageItem(key: string): void {
 }
 
 /**
- * Clear all app-specific items from localStorage
+ * Clears session-related entries ({@link STORAGE_KEYS}) from localStorage (e.g. on logout).
  */
 export function clearAppStorage(): void {
 	try {
