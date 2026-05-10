@@ -1,20 +1,14 @@
 {
 	"header": "Generate AI Interlocutor",
 	"description": "Review your selections and start the conversation.",
-	"selected_type": {
-		"label": "Selected conversation type"
+	"details_section": {
+		"title": "Your selections"
 	},
 	"selected_topic": {
 		"label": "Selected topic"
 	},
 	"ai_interlocutor": {
-		"title": "Your AI Interlocutor",
-		"context_label": "Optional context",
-		"context_placeholder": "Add any additional context or preferences for the AI interlocutor (e.g., personality traits, speaking style, etc.)",
-		"context_helper": "This will help personalize the AI's responses and make the conversation more engaging.",
-		"generate_button": "Generate Interlocutor",
 		"generating": "Generating interlocutor...",
-		"success": "Interlocutor generated successfully",
 		"failed": "Failed to generate interlocutor"
 	}
 }

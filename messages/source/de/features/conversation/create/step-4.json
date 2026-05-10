@@ -1,20 +1,14 @@
 {
 	"header": "KI-Gesprächspartner generieren",
 	"description": "Überprüfen Sie Ihre Auswahl und beginnen Sie das Gespräch.",
-	"selected_type": {
-		"label": "Ausgewählter Gesprächstyp"
+	"details_section": {
+		"title": "Ihre Auswahl"
 	},
 	"selected_topic": {
 		"label": "Ausgewähltes Thema"
 	},
 	"ai_interlocutor": {
-		"title": "Ihr KI-Gesprächspartner",
-		"context_label": "Optionaler Kontext",
-		"context_placeholder": "Fügen Sie zusätzlichen Kontext oder Präferenzen für den KI-Gesprächspartner hinzu (z.B. Persönlichkeitsmerkmale, Sprechstil usw.)",
-		"context_helper": "Dies hilft, die Antworten der KI zu personalisieren und das Gespräch ansprechender zu gestalten.",
-		"generate_button": "Gesprächspartner generieren",
 		"generating": "Gesprächspartner wird generiert...",
-		"success": "Gesprächspartner erfolgreich generiert",
 		"failed": "Gesprächspartner konnte nicht generiert werden"
 	}
 }

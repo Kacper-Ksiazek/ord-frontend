@@ -11,13 +11,20 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import { EditableSelectionSummaryCard } from './components';
 
+	interface Props {
+		/** When true, type and tone cards stack vertically (e.g. summary step two-column layout). */
+		stackVertically?: boolean;
+	}
+
+	let { stackVertically = false }: Props = $props();
+
 	const payload = getCreateConversationPayload();
 	const selectedConversationType = $derived(payload.type);
 	const selectedConversationTone = $derived(payload.tone);
 </script>
 
 {#if selectedConversationType || selectedConversationTone}
-	<div class="mb-6 flex gap-4">
+	<div class="flex gap-4 {stackVertically ? 'mb-0 w-full flex-col' : 'mb-6'}">
 		{#if selectedConversationType}
 			<EditableSelectionSummaryCard
 				label={m['features.conversation.create.step-3.selected_type.label']()}
