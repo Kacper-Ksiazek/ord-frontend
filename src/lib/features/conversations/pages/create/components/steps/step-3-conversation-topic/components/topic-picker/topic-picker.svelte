@@ -1,5 +1,4 @@
 <script lang="ts">
-	import _isEmpty from 'lodash/isEmpty';
 	import { tick } from 'svelte';
 	import { ScrollableWrapper } from '$lib/components/utils/scrollable-wrapper';
 	import { StatusScreen } from '$lib/components/utils/status-screen';
@@ -11,7 +10,7 @@
 		getCreateConversationPayload,
 		setCreateConversationPayload
 	} from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
-	import { topics, topicPickerUi } from './topic-picker.store.svelte';
+	import { topicPickerUi, topics } from './topic-picker.store.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 
 	let amountOfSkeletons = $state(0);
@@ -25,11 +24,18 @@
 		});
 	}
 
-	const topicsForSelectedConversationType = $derived.by(() => {
+	const topicBuckets = $derived.by(() => {
 		const payload = getCreateConversationPayload();
+		if (!payload.type) {
+			return { pinned: [] as string[], unpinned: [] as string[] };
+		}
 
-		return payload.type ? topics.get(payload.type) || [] : [];
+		return topics.get(payload.type) ?? { pinned: [], unpinned: [] };
 	});
+
+	const hasAnyTopicsOrSkeletons = $derived(
+		topicBuckets.pinned.length > 0 || topicBuckets.unpinned.length > 0 || amountOfSkeletons > 0
+	);
 </script>
 
 <section class="my-2 flex min-h-0 flex-1 flex-col gap-6">
@@ -38,7 +44,7 @@
 		onStreamChunkReceive={scrollTopicListToEnd}
 	/>
 
-	{#if _isEmpty(topicsForSelectedConversationType) && amountOfSkeletons === 0}
+	{#if !hasAnyTopicsOrSkeletons}
 		<StatusScreen
 			variant="information"
 			class="w-full shrink-0 rounded-lg border-2 border-dashed border-gray-200 bg-gray-50 py-8 dark:border-gray-700 dark:bg-gray-800/50 h-full"
@@ -47,28 +53,59 @@
 			descriptionClass="content-long"
 		/>
 	{:else}
-		<ScrollableWrapper
-			bind:scrollContainer={topicListScrollEl}
-			wrapperClass="min-h-0 flex-1"
-			contentClass="gap-3"
-		>
-			{#each topicsForSelectedConversationType as topic, index (index)}
-				{@const payload = getCreateConversationPayload()}
-				<TopicRow
-					{index}
-					{topic}
-					selectionDisabled={topicPickerUi.useOwnTopic}
-					isSelected={payload.topic === topic}
-					onclick={() => setCreateConversationPayload({ topic })}
-				/>
-			{/each}
-
-			{#if amountOfSkeletons > 0}
-				{#each Array.from({ length: amountOfSkeletons })}
-					<Skeleton class="h-10 shrink-0 rounded-lg" />
-				{/each}
+		<div class="flex min-h-0 flex-1 flex-col gap-6">
+			{#if topicBuckets.pinned.length > 0}
+				<div class="flex shrink-0 flex-col gap-2">
+					<p class="text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
+						{m['features.conversation.create.step-3.topic_picker.pinned_section_title']()}
+					</p>
+					<div class="flex flex-col gap-3">
+						{#each topicBuckets.pinned as topic, i (topic)}
+							{@const payload = getCreateConversationPayload()}
+							<TopicRow
+								index={i}
+								{topic}
+								isPinned={true}
+								selectionDisabled={topicPickerUi.useOwnTopic}
+								isSelected={payload.topic === topic}
+								onclick={() => setCreateConversationPayload({ topic })}
+							/>
+						{/each}
+					</div>
+				</div>
 			{/if}
-		</ScrollableWrapper>
+
+			{#if topicBuckets.unpinned.length > 0 || amountOfSkeletons > 0}
+				<div class="flex min-h-0 flex-1 flex-col gap-2">
+					<p class="text-xs font-medium uppercase tracking-wide text-gray-500 dark:text-gray-400">
+						{m['features.conversation.create.step-3.topic_picker.suggested_section_title']()}
+					</p>
+					<ScrollableWrapper
+						bind:scrollContainer={topicListScrollEl}
+						wrapperClass="min-h-0 flex-1"
+						contentClass="gap-3"
+					>
+						{#each topicBuckets.unpinned as topic, i (topic)}
+							{@const payload = getCreateConversationPayload()}
+							<TopicRow
+								index={topicBuckets.pinned.length + i}
+								{topic}
+								isPinned={false}
+								selectionDisabled={topicPickerUi.useOwnTopic}
+								isSelected={payload.topic === topic}
+								onclick={() => setCreateConversationPayload({ topic })}
+							/>
+						{/each}
+
+						{#if amountOfSkeletons > 0}
+							{#each Array.from({ length: amountOfSkeletons })}
+								<Skeleton class="h-10 shrink-0 rounded-lg" />
+							{/each}
+						{/if}
+					</ScrollableWrapper>
+				</div>
+			{/if}
+		</div>
 	{/if}
 
 	<CustomTopicManagement />

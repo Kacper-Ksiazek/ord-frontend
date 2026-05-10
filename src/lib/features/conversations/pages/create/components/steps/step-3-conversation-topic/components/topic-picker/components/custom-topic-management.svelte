@@ -6,7 +6,7 @@
 		getCreateConversationPayload,
 		setCreateConversationPayload
 	} from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
-	import { topics, topicPickerUi } from '../topic-picker.store.svelte';
+	import { getAllTopics, topicPickerUi } from '../topic-picker.store.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 
 	let userTopicInput = $state('');
@@ -32,7 +32,7 @@
 		}
 
 		const payload = getCreateConversationPayload();
-		const list = payload.type ? topics.get(payload.type) || [] : [];
+		const list = payload.type ? getAllTopics(payload.type) : [];
 		const current = payload.topic;
 
 		if (current && !list.includes(current)) {
@@ -48,7 +48,7 @@
 
 	onMount(() => {
 		const payload = getCreateConversationPayload();
-		const list = payload.type ? topics.get(payload.type) || [] : [];
+		const list = payload.type ? getAllTopics(payload.type) : [];
 
 		if (payload.topic && !list.includes(payload.topic)) {
 			topicPickerUi.useOwnTopic = true;

@@ -2,35 +2,48 @@
 	import { IconButton } from '$lib/components/buttons/icon-button';
 	import SelectableCard from '$lib/components/utils/selectable-card.svelte';
 	import { cn } from 'flowbite-svelte';
-	import { Pin, X } from 'lucide-svelte';
-	import { topics } from '../topic-picker.store.svelte';
+	import { Pin, PinOff, X } from 'lucide-svelte';
+	import { pinTopic, removeTopicFromList, unpinTopic } from '../topic-picker.store.svelte';
 	import { getCreateConversationPayload } from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 
 	interface TopicRowProps {
 		index: number;
 		topic: string;
+		isPinned: boolean;
 		isSelected: boolean;
 		selectionDisabled?: boolean;
 		onclick: () => void;
 	}
 
-	const { index, topic, isSelected, selectionDisabled = false, onclick }: TopicRowProps = $props();
+	const {
+		index,
+		topic,
+		isPinned,
+		isSelected,
+		selectionDisabled = false,
+		onclick
+	}: TopicRowProps = $props();
 
 	function removeTopic(topicToRemove: string) {
 		const payload = getCreateConversationPayload();
 		if (!payload.type) {
 			return;
 		}
-
-		const currentTopicsList = topics.get(payload.type) || [];
-		const updatedTopics = currentTopicsList.filter((topic) => topic !== topicToRemove);
-
-		topics.set(payload.type, updatedTopics);
+		removeTopicFromList(payload.type, topicToRemove);
 	}
 
-	function noopPin(event: MouseEvent) {
+	function handlePinToggle(event: MouseEvent) {
 		event.stopPropagation();
+		const payload = getCreateConversationPayload();
+		if (!payload.type || isActionDisabled) {
+			return;
+		}
+		if (isPinned) {
+			unpinTopic(payload.type, topic);
+		} else {
+			pinTopic(payload.type, topic);
+		}
 	}
 
 	const isActionDisabled = $derived(isSelected || selectionDisabled);
@@ -66,16 +79,31 @@
 		>
 	</div>
 
-	<IconButton
-		icon={Pin}
-		ariaLabel={m['features.conversation.create.step-3.topic_picker.topic_row.pin_tooltip']()}
-		tooltip={m['features.conversation.create.step-3.topic_picker.topic_row.pin_tooltip']()}
-		type="OUTLINED"
-		variant="TEXT"
-		class="shrink-0 self-center size-8"
-		onClick={noopPin}
-		disabled={isActionDisabled}
-	/>
+	{#if isPinned}
+		<IconButton
+			icon={PinOff}
+			ariaLabel={m['features.conversation.create.step-3.topic_picker.topic_row.unpin_tooltip']()}
+			tooltip={m['features.conversation.create.step-3.topic_picker.topic_row.unpin_tooltip']()}
+			type="OUTLINED"
+			variant="TEXT"
+			class="shrink-0 self-center size-7"
+			iconClass="h-3.5 w-3.5"
+			onClick={handlePinToggle}
+			disabled={isActionDisabled}
+		/>
+	{:else}
+		<IconButton
+			icon={Pin}
+			ariaLabel={m['features.conversation.create.step-3.topic_picker.topic_row.pin_tooltip']()}
+			tooltip={m['features.conversation.create.step-3.topic_picker.topic_row.pin_tooltip']()}
+			type="OUTLINED"
+			variant="TEXT"
+			class="shrink-0 self-center size-7"
+			iconClass="h-3.5 w-3.5"
+			onClick={handlePinToggle}
+			disabled={isActionDisabled}
+		/>
+	{/if}
 
 	<IconButton
 		icon={X}
@@ -83,7 +111,8 @@
 		tooltip={m['features.conversation.create.step-3.topic_picker.topic_row.remove_tooltip']()}
 		type="OUTLINED"
 		variant={isActionDisabled ? 'TEXT' : 'DELETE'}
-		class="shrink-0 self-center size-8"
+		class="shrink-0 self-center size-7"
+		iconClass="h-3.5 w-3.5"
 		onClick={(e) => {
 			e.stopPropagation();
 			removeTopic(topic);

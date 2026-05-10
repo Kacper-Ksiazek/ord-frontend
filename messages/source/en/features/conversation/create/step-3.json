@@ -22,8 +22,11 @@
 		"placeholder": "Enter a topic...",
 		"selected_topic": "Selected topic",
 		"no_topic_selected": "No topic selected",
+		"pinned_section_title": "Pinned",
+		"suggested_section_title": "Suggested topics",
 		"topic_row": {
-			"pin_tooltip": "Save for later (coming soon)",
+			"pin_tooltip": "Pin topic",
+			"unpin_tooltip": "Unpin topic",
 			"remove_tooltip": "Remove topic from the list"
 		},
 		"custom_topic": {

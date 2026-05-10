@@ -4,7 +4,7 @@
 	import type { AiActionButtonStatus } from '$lib/components/buttons/ai-action-button/ai-action-button.types';
 	import { Input } from '$lib/components/forms/input';
 	import { getCreateConversationPayload } from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
-	import { topicPickerUi, topics } from '../topic-picker.store.svelte';
+	import { appendUnpinnedTopic, getAllTopics, topicPickerUi } from '../topic-picker.store.svelte';
 	import { TextQuote } from 'lucide-svelte';
 	import * as m from '$lib/paraglide/messages.js';
 
@@ -38,13 +38,13 @@
 				conversationType,
 				language: payload.language,
 				clueFromUser: clueForGeneration || undefined,
-				excludeTopics: topics.get(conversationType) || []
+				excludeTopics: getAllTopics(conversationType)
 			}).subscribe({
 				next: (topic) => {
 					if (topic?.value) {
 						amountOfSkeletons = Math.max(0, amountOfSkeletons - 1);
 
-						topics.set(conversationType, [...(topics.get(conversationType) || []), topic.value]);
+						appendUnpinnedTopic(conversationType, topic.value);
 						onStreamChunkReceive?.();
 					} else {
 						console.error('Topic is not a string');
