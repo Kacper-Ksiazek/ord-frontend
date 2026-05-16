@@ -7,15 +7,18 @@
 	import AIInterlocutorAvatar from '$lib/features/conversations/shared/components/ai-interlocutor-avatar.svelte';
 	import type { ConversationAIInterlocutorAvatarId } from '$lib/types/conversation/domain/conversation';
 	import Skeleton from '$lib/components/utils/skeleton.svelte';
+	import { IconButton } from '$lib/components/buttons/icon-button';
 	import {
 		getRecentInterlocutorsFromLocalStorage,
 		saveNewInterlocutorToLocalStorage
 	} from './utils';
-	import { cn } from 'flowbite-svelte';
+	import { RefreshCw } from 'lucide-svelte';
 	import * as m from '$lib/paraglide/messages.js';
+	import { cn } from 'flowbite-svelte';
 
 	let isGenerating = $state(false);
 	let hasAutoFetched = $state(false);
+	let generationFailed = $state(false);
 
 	const { mutateAsync: handleGenerateInterlocutor } = createGenerateAiInterlocutorMutation();
 
@@ -31,6 +34,7 @@
 			return;
 		}
 
+		generationFailed = false;
 		isGenerating = true;
 
 		try {
@@ -53,6 +57,7 @@
 			});
 		} catch (error) {
 			console.error('Failed to generate AI interlocutor:', error);
+			generationFailed = true;
 		} finally {
 			isGenerating = false;
 		}
@@ -67,61 +72,94 @@
 	});
 </script>
 
-<section class="flex w-full flex-col gap-4">
-	{#if isGenerating}
-		<div class="flex flex-col items-center gap-4">
-			<Skeleton class="aspect-square w-full max-w-[min(100%,512px)] rounded-full" />
-			<Skeleton class="h-8 w-64 max-w-full" />
-		</div>
-	{:else if hasGeneratedInterlocutor}
-		<div class="flex w-full flex-col items-center gap-4">
-			<div class="relative aspect-square w-full max-w-[min(100%,512px)]">
-				<button
-					onclick={generateInterlocutor}
-					disabled={!canGenerate || isGenerating}
-					class={cn(
-						'absolute right-0 top-0 z-10 p-2 rounded-lg transition-colors',
-						'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400',
-						'hover:bg-gray-300 dark:hover:bg-gray-600',
-						'disabled:opacity-50 disabled:cursor-not-allowed',
-						'cursor-pointer'
-					)}
-					title="Generate a different AI interlocutor"
-				>
-					<svg
-						class="w-6 h-6"
-						fill="none"
-						stroke="currentColor"
-						viewBox="0 0 24 24"
-						xmlns="http://www.w3.org/2000/svg"
-					>
-						<path
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-						/>
-					</svg>
-				</button>
+{#snippet generated_avatar()}
+	<div class="relative mx-auto flex w-full flex-col items-center gap-3">
+		<IconButton
+			icon={RefreshCw}
+			ariaLabel={m['features.conversation.create.step-4.ai_interlocutor.regenerate_aria_label']()}
+			tooltip={m['features.conversation.create.step-4.ai_interlocutor.regenerate_tooltip']()}
+			disabled={!canGenerate || isGenerating}
+			onClick={generateInterlocutor}
+			variant="TEXT"
+			type="OUTLINED"
+			class="absolute right-0 top-0 z-10 shrink-0"
+		/>
 
-				<AIInterlocutorAvatar
-					avatarId={payload.aiInterlocutorAvatarId as ConversationAIInterlocutorAvatarId}
-					size="fullsize"
-					class="rounded-full"
-				/>
-			</div>
-
-			<h3 class="max-w-full text-center text-2xl font-semibold text-gray-900 dark:text-gray-200">
-				{payload.aiInterlocutorName}
-			</h3>
+		<div
+			class={cn(
+				'avatar-regen-shell relative size-[320px] shrink-0 overflow-hidden rounded-full pt-4',
+				isGenerating && 'avatar-regen-shell--busy'
+			)}
+			aria-busy={isGenerating}
+		>
+			<AIInterlocutorAvatar
+				avatarId={payload.aiInterlocutorAvatarId as ConversationAIInterlocutorAvatarId}
+				size="fullsize"
+				class="size-full rounded-full"
+			/>
 		</div>
-	{:else}
-		<div class="flex min-h-[200px] w-full items-center justify-center">
-			<p class="text-sm text-gray-400 dark:text-gray-500">
-				{!payload.topic
-					? m['features.conversation.create.step-4.ai_interlocutor.failed']()
-					: m['features.conversation.create.step-4.ai_interlocutor.generating']()}
+
+		<h3 class="heading-5 w-full text-center">
+			{payload.aiInterlocutorName}
+		</h3>
+	</div>
+{/snippet}
+
+{#snippet generating_in_progress()}
+	<div class="mx-auto flex w-full max-w-96 flex-col items-center gap-3">
+		<Skeleton class="size-[320px] rounded-full" />
+		<div class="flex min-h-10 w-full items-center justify-center px-2 text-center">
+			<p class="caption">
+				{m['features.conversation.create.step-4.ai_interlocutor.generating']()}
 			</p>
 		</div>
+	</div>
+{/snippet}
+
+{#snippet generation_error_screen()}
+	<div class="mx-auto flex w-full max-w-96 flex-col items-center gap-3">
+		<div class="flex min-h-10 w-full flex-col items-center justify-center gap-2 px-2 text-center">
+			<p class="body-small text-error">
+				{m['features.conversation.create.step-4.ai_interlocutor.failed']()}
+			</p>
+			{#if canGenerate}
+				<button
+					type="button"
+					disabled={isGenerating}
+					class="link body-small font-semibold disabled:cursor-not-allowed disabled:opacity-50"
+					onclick={() => generateInterlocutor()}
+				>
+					{m['features.conversation.create.step-4.ai_interlocutor.retry']()}
+				</button>
+			{/if}
+		</div>
+	</div>
+{/snippet}
+
+<section class="flex w-[360px] flex-col items-center gap-4">
+	{#if hasGeneratedInterlocutor}
+		{@render generated_avatar()}
+	{:else if isGenerating}
+		{@render generating_in_progress()}
+	{:else if generationFailed || !canGenerate}
+		{@render generation_error_screen()}
 	{/if}
 </section>
+
+<style>
+	@keyframes avatar-regen-pulse {
+		0%,
+		100% {
+			opacity: 0.42;
+		}
+		50% {
+			opacity: 0.88;
+		}
+	}
+
+	.avatar-regen-shell--busy {
+		filter: grayscale(1);
+		animation: avatar-regen-pulse 1.15s ease-in-out infinite;
+		pointer-events: none;
+	}
+</style>

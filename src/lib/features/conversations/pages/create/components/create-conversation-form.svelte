@@ -169,7 +169,13 @@
 			{:else if stepIndex === 2}
 				<Step3ConversationTopic />
 			{:else if stepIndex === 3}
-				<Step4Summary />
+				<Step4Summary
+					onEditTopic={() => {
+						const newStep = 2;
+						currentStep = newStep;
+						handleStepChange(newStep);
+					}}
+				/>
 			{/if}
 		{/snippet}
 	</MultiStepForm>
