@@ -1,5 +1,6 @@
 import type { TabsSupportedTailwindColor } from '$lib/components/navigation/tabs/tabs.types';
 import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
+import type { ConversationMessageMistakeSeverity } from '$lib/types/conversation/domain/conversation-message-analysis';
 import type { TipRegister } from '$lib/types/ongoing-conversation/api/responses';
 
 interface BaseBlock {
@@ -52,8 +53,8 @@ export interface BadgesBlock extends BaseBlock {
 		Icon?: LucideIcon;
 	}[];
 	severity?: {
-		Icon: LucideIcon;
-		value: string;
+		Icon?: LucideIcon;
+		value: ConversationMessageMistakeSeverity;
 	};
 }
 

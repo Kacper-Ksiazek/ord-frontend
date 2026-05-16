@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Badge, cn } from 'flowbite-svelte';
+	import { MistakeSeverityIndicator } from '$lib/components/scores';
 	import type { BadgesBlock } from '../../ai-advice.types';
 	import type { TailwindColorTheme } from '$lib/utils/theme/get-tailwind-colors';
 
@@ -24,10 +25,11 @@
 	</div>
 
 	{#if block.severity}
-		<div class="flex items-start gap-2">
-			<block.severity.Icon class={cn('w-5 h-5 mt-0.5', theme.iconColor)} />
-			<!-- TODO: Add MistakeSeverityIndicator component -->
-			<span class="text-sm text-gray-600 dark:text-gray-400">{block.severity.value}</span>
+		<div class="flex items-center gap-2 shrink-0">
+			{#if block.severity.Icon}
+				<block.severity.Icon class={cn('w-5 h-5 shrink-0', theme.iconColor)} />
+			{/if}
+			<MistakeSeverityIndicator severity={block.severity.value} layout="inline" class="shrink-0" />
 		</div>
 	{/if}
 </div>
