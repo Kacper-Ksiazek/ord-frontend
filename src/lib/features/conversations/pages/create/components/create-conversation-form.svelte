@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 	import { MultiStepForm } from '$lib/components/utils/multi-step-form';
 	import type { StepConfig } from '$lib/components/utils/multi-step-form';
@@ -24,7 +23,35 @@
 		Step4Summary
 	} from './steps';
 
-	let currentStep = $state(0);
+	function hydrateStoredDefaultsAndGetInitialStep(): number {
+		if (!browser) {
+			return 0;
+		}
+
+		const typeDefault = readDefaultConversationTypeFromStorage();
+		const toneDefault = readDefaultConversationToneFromStorage();
+		const payload = getCreateConversationPayload();
+
+		if (typeDefault && payload.type === undefined) {
+			setCreateConversationPayload({ type: typeDefault });
+			resetTopicPickerCustomState();
+		}
+
+		if (toneDefault && getCreateConversationPayload().tone === undefined) {
+			setCreateConversationPayload({ tone: toneDefault });
+		}
+
+		if (typeDefault && toneDefault) {
+			return 2;
+		}
+		if (typeDefault) {
+			return 1;
+		}
+
+		return 0;
+	}
+
+	let currentStep = $state(hydrateStoredDefaultsAndGetInitialStep());
 	let error = $state<string | null>(null);
 
 	const createConversationMutation = createCreateConversationMutation();
@@ -67,29 +94,6 @@
 	function handleStepChange(stepIndex: number) {
 		currentStep = stepIndex;
 	}
-
-	onMount(() => {
-		if (!browser) return;
-
-		const typeDefault = readDefaultConversationTypeFromStorage();
-		const toneDefault = readDefaultConversationToneFromStorage();
-		const payload = getCreateConversationPayload();
-
-		if (typeDefault && payload.type === undefined) {
-			setCreateConversationPayload({ type: typeDefault });
-			resetTopicPickerCustomState();
-		}
-
-		if (toneDefault && getCreateConversationPayload().tone === undefined) {
-			setCreateConversationPayload({ tone: toneDefault });
-		}
-
-		if (typeDefault && toneDefault) {
-			currentStep = 2;
-		} else if (typeDefault) {
-			currentStep = 1;
-		}
-	});
 
 	async function handleFinalStepClick() {
 		const payload = getCreateConversationPayload();
