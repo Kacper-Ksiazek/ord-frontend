@@ -5,10 +5,17 @@
 		"title": "Ihre Auswahl"
 	},
 	"selected_topic": {
-		"label": "Ausgewähltes Thema"
+		"label": "Ausgewähltes Thema",
+		"edit": {
+			"aria_label": "Gesprächsthema bearbeiten",
+			"tooltip": "Gesprächsthema bearbeiten"
+		}
 	},
 	"ai_interlocutor": {
 		"generating": "Gesprächspartner wird generiert...",
-		"failed": "Gesprächspartner konnte nicht generiert werden"
+		"failed": "Gesprächspartner konnte nicht generiert werden",
+		"retry": "Erneut versuchen",
+		"regenerate_aria_label": "KI-Gesprächspartner neu generieren",
+		"regenerate_tooltip": "Einen anderen KI-Gesprächspartner generieren"
 	}
 }

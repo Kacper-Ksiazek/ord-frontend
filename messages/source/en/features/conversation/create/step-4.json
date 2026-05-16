@@ -5,10 +5,17 @@
 		"title": "Your selections"
 	},
 	"selected_topic": {
-		"label": "Selected topic"
+		"label": "Selected topic",
+		"edit": {
+			"aria_label": "Edit conversation topic",
+			"tooltip": "Edit conversation topic"
+		}
 	},
 	"ai_interlocutor": {
 		"generating": "Generating interlocutor...",
-		"failed": "Failed to generate interlocutor"
+		"failed": "Failed to generate interlocutor",
+		"retry": "Try again",
+		"regenerate_aria_label": "Regenerate AI interlocutor",
+		"regenerate_tooltip": "Generate a different AI interlocutor"
 	}
 }

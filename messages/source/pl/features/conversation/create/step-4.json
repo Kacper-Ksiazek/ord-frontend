@@ -5,10 +5,17 @@
 		"title": "Twoje wybory"
 	},
 	"selected_topic": {
-		"label": "Wybrany temat"
+		"label": "Wybrany temat",
+		"edit": {
+			"aria_label": "Edytuj temat rozmowy",
+			"tooltip": "Edytuj temat rozmowy"
+		}
 	},
 	"ai_interlocutor": {
 		"generating": "Generowanie rozmówcy...",
-		"failed": "Nie udało się wygenerować rozmówcy"
+		"failed": "Nie udało się wygenerować rozmówcy",
+		"retry": "Spróbuj ponownie",
+		"regenerate_aria_label": "Wygeneruj ponownie rozmówcę AI",
+		"regenerate_tooltip": "Wygeneruj innego rozmówcę AI"
 	}
 }
