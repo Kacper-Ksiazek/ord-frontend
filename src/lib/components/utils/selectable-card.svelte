@@ -22,6 +22,14 @@
 		children,
 		...restProps
 	}: Props = $props();
+
+	function isFromNestedButton(target: EventTarget | null): boolean {
+		if (!target || typeof (target as { closest?: (sel: string) => unknown }).closest !== 'function') {
+			return false;
+		}
+
+		return Boolean((target as { closest: (sel: string) => unknown }).closest('button'));
+	}
 </script>
 
 <div
@@ -44,12 +52,14 @@
 	role="button"
 	tabindex={disabled ? -1 : 0}
 	aria-disabled={disabled}
-	onclick={() => {
-		if (!disabled) onclick();
+	onclick={(e) => {
+		if (disabled || isFromNestedButton(e.target)) return;
+		onclick();
 	}}
 	onkeydown={(e) => {
 		if (disabled) return;
 		if (e.key === 'Enter' || e.key === ' ') {
+			if (isFromNestedButton(e.target)) return;
 			onclick();
 		}
 	}}
