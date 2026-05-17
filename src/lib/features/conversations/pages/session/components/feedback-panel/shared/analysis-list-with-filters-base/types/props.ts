@@ -1,0 +1,35 @@
+import type { Snippet } from 'svelte';
+import type { FilterableItem, CategoryFilterBase, CategoryCard, FilterBase } from './utility-types';
+
+export interface AnalysisListWithFiltersBaseProps<
+	TData,
+	TCategory extends CategoryFilterBase = CategoryFilterBase,
+	TSubcategory extends string | null = string | null,
+	TFilters extends FilterBase<TCategory, TSubcategory> = FilterBase<TCategory, TSubcategory>
+> {
+	items: FilterableItem<TData, TCategory, TSubcategory>[];
+	categories: CategoryCard<TCategory, TSubcategory>[];
+	filters: TFilters;
+
+	defaultFilters?: TFilters;
+	areFiltersClearable?: boolean;
+	customFilters?: Snippet;
+	evaluateCustomFilters?: (
+		item: FilterableItem<TData, TCategory, TSubcategory>,
+		filters: TFilters
+	) => boolean;
+
+	listItem: Snippet<
+		[
+			{
+				item: FilterableItem<TData, TCategory, TSubcategory>;
+				defaultExpandState: boolean;
+			}
+		]
+	>;
+
+	/** Full replacement for the “no data / default filters” empty state */
+	emptyNoData?: Snippet;
+	/** Message area above “Reset filters”; defaults to generic no-results copy */
+	emptyFiltered?: Snippet;
+}

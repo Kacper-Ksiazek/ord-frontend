@@ -1,0 +1,9 @@
+{
+	"header": "Select conversation type",
+	"description": "Choose the type of conversation you'd like to practice. Each type offers a different learning experience.",
+	"coming_soon_badge": "Coming soon",
+	"default_type_star_tooltip": "Save as your default type. It will be selected automatically when you start a new conversation.",
+	"default_type_star_tooltip_remove": "Remove saved default. If this type is selected, it will be cleared.",
+	"default_type_star_aria_label": "Save as default conversation type",
+	"default_type_star_aria_label_remove": "Remove default conversation type"
+}

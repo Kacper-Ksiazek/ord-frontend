@@ -1,0 +1,50 @@
+{
+	"conversation_types": {
+		"SMALL_TALK": {
+			"label": "Small Talk",
+			"description": "Practice casual and everyday conversations to build fluency and confidence."
+		},
+		"SCENARIO_ROLEPLAY": {
+			"label": "Scenario Roleplay",
+			"description": "Act out realistic scenarios and roles for immersive language learning."
+		},
+		"EXAM_PRACTICE": {
+			"label": "Exam Practice",
+			"description": "Prepare for language exams with focused practice on common test situations."
+		},
+		"TOPIC_EXPLORATION": {
+			"label": "Topic Exploration",
+			"description": "Engage in in-depth discussions about various topics to expand your vocabulary and comprehension."
+		},
+		"OXFORD_DEBATE": {
+			"label": "Oxford Debate",
+			"description": "Participate in a structured debate format to develop persuasive and critical thinking skills."
+		}
+	},
+	"conversation_tones": {
+		"FRIENDLY": {
+			"label": "Friendly",
+			"description": "The AI will communicate in a warm, casual manner, like chatting with a friend."
+		},
+		"FORMAL": {
+			"label": "Formal",
+			"description": "The AI will use professional language and proper etiquette, suitable for business or academic contexts."
+		},
+		"HUMOROUS": {
+			"label": "Humorous",
+			"description": "The AI will incorporate humor and keep the conversation light and entertaining."
+		},
+		"NEUTRAL": {
+			"label": "Neutral",
+			"description": "The AI will maintain a balanced, objective tone without being too casual or formal."
+		},
+		"ENCOURAGING": {
+			"label": "Encouraging",
+			"description": "The AI will be supportive and positive, celebrating your progress and building your confidence."
+		},
+		"CHALLENGING": {
+			"label": "Challenging",
+			"description": "The AI will push you to think critically and express complex ideas with deeper questions."
+		}
+	}
+}

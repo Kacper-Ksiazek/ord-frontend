@@ -1,0 +1,44 @@
+{
+	"header": "Gesprächsthema auswählen",
+	"description": "Wählen Sie ein Thema für das Gespräch - entweder von KI generiert oder manuell geschrieben",
+	"selected_type": {
+		"label": "Ausgewählter Gesprächstyp"
+	},
+	"selected_tone": {
+		"label": "Ausgewählter Gesprächston"
+	},
+	"summary_cards": {
+		"edit_type": {
+			"aria_label": "Gesprächstyp bearbeiten",
+			"tooltip": "Gesprächstyp bearbeiten"
+		},
+		"edit_tone": {
+			"aria_label": "Gesprächston bearbeiten",
+			"tooltip": "Gesprächston bearbeiten"
+		},
+		"done_button": "Fertig"
+	},
+	"topic_picker": {
+		"placeholder": "Thema eingeben...",
+		"selected_topic": "Ausgewähltes Thema",
+		"no_topic_selected": "Kein Thema ausgewählt",
+		"pinned_section_title": "Angepinnt",
+		"suggested_section_title": "Vorgeschlagene Themen",
+		"topic_row": {
+			"pin_tooltip": "Thema anpinnen",
+			"unpin_tooltip": "Thema lösen",
+			"remove_tooltip": "Thema aus der Liste entfernen"
+		},
+		"custom_topic": {
+			"label": "Benutzerdefiniertes Thema",
+			"input_placeholder": "Geben Sie Ihr eigenes Thema ein",
+			"use_own_topic": "Eigenes Thema verwenden"
+		},
+		"generate_suggestions": {
+			"button": "Schreiben Sie zusätzliche Anweisungen, um vorgeschlagene Themen zu personalisieren (optional)",
+			"generating": "Vorschläge werden generiert...",
+			"success": "Vorschläge generiert",
+			"failed": "Vorschläge konnten nicht generiert werden"
+		}
+	}
+}

@@ -1,0 +1,44 @@
+{
+	"header": "Wybierz temat rozmowy",
+	"description": "Wybierz temat rozmowy - albo wygenerowany przez AI, albo wpiasany własnoręcznie",
+	"selected_type": {
+		"label": "Wybrany typ rozmowy"
+	},
+	"selected_tone": {
+		"label": "Wybrany ton rozmowy"
+	},
+	"summary_cards": {
+		"edit_type": {
+			"aria_label": "Zmień typ rozmowy",
+			"tooltip": "Zmień typ rozmowy"
+		},
+		"edit_tone": {
+			"aria_label": "Zmień ton rozmowy",
+			"tooltip": "Zmień ton rozmowy"
+		},
+		"done_button": "Gotowe"
+	},
+	"topic_picker": {
+		"placeholder": "Wprowadź temat...",
+		"selected_topic": "Wybrany temat",
+		"no_topic_selected": "Nie wybrano tematu",
+		"pinned_section_title": "Przypięte",
+		"suggested_section_title": "Sugerowane tematy",
+		"topic_row": {
+			"pin_tooltip": "Przypnij temat",
+			"unpin_tooltip": "Odepnij temat",
+			"remove_tooltip": "Usuń temat z listy"
+		},
+		"custom_topic": {
+			"label": "Niestandardowy temat",
+			"input_placeholder": "Wprowadź własny temat",
+			"use_own_topic": "Użyj własnego tematu"
+		},
+		"generate_suggestions": {
+			"button": "Wpisz dodatkowa instrukcje, by spersonalizować sugerowane tematy ( opcjonalne )",
+			"generating": "Generowanie sugestii...",
+			"success": "Sugestie wygenerowane",
+			"failed": "Nie udało się wygenerować sugestii"
+		}
+	}
+}

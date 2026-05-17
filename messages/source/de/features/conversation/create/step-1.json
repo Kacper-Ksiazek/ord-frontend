@@ -1,0 +1,9 @@
+{
+	"header": "Gesprächstyp auswählen",
+	"description": "Wählen Sie die Art des Gesprächs aus, das Sie üben möchten. Jeder Typ bietet eine andere Lernerfahrung.",
+	"coming_soon_badge": "Demnächst",
+	"default_type_star_tooltip": "Als Standardtyp speichern. Wird beim nächsten neuen Gespräch automatisch ausgewählt.",
+	"default_type_star_tooltip_remove": "Gespeicherten Standard entfernen. Wenn dieser Typ gewählt ist, wird die Auswahl zurückgesetzt.",
+	"default_type_star_aria_label": "Als Standard-Gesprächstyp speichern",
+	"default_type_star_aria_label_remove": "Standard-Gesprächstyp entfernen"
+}

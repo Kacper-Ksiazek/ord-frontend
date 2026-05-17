@@ -1,0 +1,6 @@
+{
+	"step_indicator": "Step {current} of {total}",
+	"step_label": "Step {step} of {total}",
+	"previous": "Previous",
+	"next": "Next"
+}

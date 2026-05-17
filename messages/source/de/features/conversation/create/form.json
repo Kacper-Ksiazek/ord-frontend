@@ -1,0 +1,10 @@
+{
+	"breadcrumb": {
+		"home": "Startseite",
+		"conversations": "Gespräche",
+		"create_new": "Neu erstellen"
+	},
+	"continue_button": "Weiter",
+	"start_conversation_button": "Gespräch beginnen",
+	"loading": "Ihr Gespräch wird generiert..."
+}

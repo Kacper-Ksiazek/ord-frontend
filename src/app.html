@@ -11,8 +11,10 @@
 				const theme = localStorage.getItem('ord_app_theme');
 				const storedTheme = theme ? JSON.parse(theme) : null;
 
-				if (storedTheme === 'dark' ||
-				    (!storedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+				if (
+					storedTheme === 'dark' ||
+					(!storedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)
+				) {
 					document.documentElement.classList.add('dark');
 				}
 			} catch (e) {

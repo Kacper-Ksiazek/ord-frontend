@@ -6,7 +6,14 @@
 const APP_PREFIX = 'ord_app_';
 
 /**
- * Storage keys used throughout the application
+ * Internal helper to ensure a key has the app prefix
+ */
+function getKeyWithPrefix(key: string): string {
+	return key.startsWith(APP_PREFIX) ? key : `${APP_PREFIX}${key}`;
+}
+
+/**
+ * Keys removed by {@link clearAppStorage} (e.g. on logout).
  */
 export const STORAGE_KEYS = {
 	USER: `${APP_PREFIX}user`,
@@ -15,12 +22,24 @@ export const STORAGE_KEYS = {
 } as const;
 
 /**
+ * Logical keys for {@link getStorageItem} / {@link setStorageItem} / {@link removeStorageItem}
+ * (prefix is applied automatically). Not cleared by {@link clearAppStorage}.
+ */
+export const LOCAL_STORAGE_KEYS = {
+	DEFAULT_CONVERSATION_TYPE: 'default_conversation_type',
+	RECENT_INTERLOCUTORS: 'recent_interlocutors',
+	CREATE_CONVERSATION_TOPIC_PICKER_PINNED_TOPICS: 'create_conversation_topic_picker_pinned_topics'
+} as const;
+
+/**
  * Set an item in localStorage with automatic JSON serialization
  */
 export function setStorageItem<T>(key: string, value: T): void {
 	try {
+		const keyWithPrefix = getKeyWithPrefix(key);
+
 		const serialized = JSON.stringify(value);
-		localStorage.setItem(key, serialized);
+		localStorage.setItem(keyWithPrefix, serialized);
 	} catch (error) {
 		console.error('Error saving to localStorage:', error);
 	}
@@ -31,13 +50,17 @@ export function setStorageItem<T>(key: string, value: T): void {
  */
 export function getStorageItem<T>(key: string): T | null {
 	try {
-		const item = localStorage.getItem(key);
+		const keyWithPrefix = getKeyWithPrefix(key);
+
+		const item = localStorage.getItem(keyWithPrefix);
 		if (item === null) {
 			return null;
 		}
+
 		return JSON.parse(item) as T;
 	} catch (error) {
 		console.error('Error reading from localStorage:', error);
+
 		return null;
 	}
 }
@@ -47,19 +70,21 @@ export function getStorageItem<T>(key: string): T | null {
  */
 export function removeStorageItem(key: string): void {
 	try {
-		localStorage.removeItem(key);
+		const keyWithPrefix = getKeyWithPrefix(key);
+		localStorage.removeItem(keyWithPrefix);
 	} catch (error) {
 		console.error('Error removing from localStorage:', error);
 	}
 }
 
 /**
- * Clear all app-specific items from localStorage
+ * Clears session-related entries ({@link STORAGE_KEYS}) from localStorage (e.g. on logout).
  */
 export function clearAppStorage(): void {
 	try {
 		Object.values(STORAGE_KEYS).forEach((key) => {
-			localStorage.removeItem(key);
+			const keyWithPrefix = getKeyWithPrefix(key);
+			localStorage.removeItem(keyWithPrefix);
 		});
 	} catch (error) {
 		console.error('Error clearing localStorage:', error);
@@ -72,8 +97,11 @@ export function clearAppStorage(): void {
 export function isLocalStorageAvailable(): boolean {
 	try {
 		const testKey = `${APP_PREFIX}test`;
-		localStorage.setItem(testKey, 'test');
-		localStorage.removeItem(testKey);
+		const keyWithPrefix = getKeyWithPrefix(testKey);
+
+		localStorage.setItem(keyWithPrefix, 'test');
+		localStorage.removeItem(keyWithPrefix);
+
 		return true;
 	} catch {
 		return false;

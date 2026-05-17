@@ -1,0 +1,6 @@
+{
+	"step_indicator": "Krok {current} z {total}",
+	"step_label": "Krok {step} z {total}",
+	"previous": "Wstecz",
+	"next": "Dalej"
+}

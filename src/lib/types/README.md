@@ -33,16 +33,21 @@ src/lib/types/
 ## Type Categories
 
 ### 1. `api/` - API Layer Types
+
 Contains types directly related to HTTP communication with the backend API.
 
 - **`requests.ts`** - Request payloads sent to the API
+
   ```typescript
-  export type OtpRequestBody = paths['/api/v1/auth/otp-request']['post']['requestBody']['content']['application/json'];
+  export type OtpRequestBody =
+  	paths['/api/v1/auth/otp-request']['post']['requestBody']['content']['application/json'];
   ```
 
 - **`responses.ts`** - Response types received from the API
+
   ```typescript
-  export type LoginResponse = paths['/api/v1/auth/login']['post']['responses']['200']['content']['application/json'];
+  export type LoginResponse =
+  	paths['/api/v1/auth/login']['post']['responses']['200']['content']['application/json'];
   ```
 
 - **`errors.ts`** - Feature-specific error types
@@ -51,6 +56,7 @@ Contains types directly related to HTTP communication with the backend API.
   ```
 
 ### 2. `domain/` - Domain Layer Types
+
 Contains core business domain entities and DTOs from the OpenAPI specification.
 
 - **`entities.ts`** - Domain entities (Data Transfer Objects)
@@ -60,6 +66,7 @@ Contains core business domain entities and DTOs from the OpenAPI specification.
   ```
 
 ### 3. `ui/` - UI Layer Types
+
 Contains types specific to the user interface and component layer.
 
 - Component prop types
@@ -70,6 +77,7 @@ Contains types specific to the user interface and component layer.
 ## Usage
 
 ### Import from Specific Feature
+
 ```typescript
 // Recommended: Import from specific feature for clarity
 import type { UserDTO, OtpRequestBody } from '$lib/types/auth';
@@ -77,6 +85,7 @@ import type { ConversationDTO } from '$lib/types/conversation';
 ```
 
 ### Import from Root (All Features)
+
 ```typescript
 // Alternative: Import from root barrel export
 import type { UserDTO, ConversationDTO } from '$lib/types';
@@ -95,6 +104,7 @@ import type { components, paths } from '@ord-api/ord-api-types';
 When adding a new feature, follow this structure:
 
 1. **Create feature directory**
+
    ```bash
    mkdir -p src/lib/types/new-feature/{api,domain,ui}
    ```
@@ -106,6 +116,7 @@ When adding a new feature, follow this structure:
    - `domain/entities.ts`
 
 3. **Create feature barrel export** (`new-feature/index.ts`)
+
    ```typescript
    export * from './domain/entities';
    export * from './api/requests';
@@ -131,6 +142,7 @@ When adding a new feature, follow this structure:
 ## Best Practices
 
 ### ✅ DO
+
 - Keep all feature types within the feature directory
 - Use singular form for feature names (`conversation`, not `conversations`)
 - Use kebab-case for multi-word features (`language-proficiency`)
@@ -139,6 +151,7 @@ When adding a new feature, follow this structure:
 - Document complex type relationships
 
 ### ❌ DON'T
+
 - Don't create types outside the feature structure
 - Don't duplicate types across features (import from owning feature)
 - Don't mix concerns (keep API types separate from domain types)
@@ -149,6 +162,7 @@ When adding a new feature, follow this structure:
 When a type is needed across multiple features, it belongs in the feature that **owns** that domain concept.
 
 **Example:**
+
 - `UserDTO` lives in `auth/` (auth owns user management)
 - Other features import from `$lib/types/auth`
 - This creates a clear dependency graph
@@ -183,12 +197,14 @@ When migrating from old feature-scoped type files (e.g., `api-client/auth/types.
 ## Examples
 
 ### Auth Feature
+
 ```typescript
 // auth/domain/entities.ts
 export type UserDTO = components['schemas']['UserDTO'];
 
 // auth/api/requests.ts
-export type OtpRequestBody = paths['/api/v1/auth/otp-request']['post']['requestBody']['content']['application/json'];
+export type OtpRequestBody =
+	paths['/api/v1/auth/otp-request']['post']['requestBody']['content']['application/json'];
 
 // auth/api/errors.ts
 export type BadRequestResponse = components['schemas']['BadRequestResponse'];
@@ -196,14 +212,15 @@ export type FieldError = components['schemas']['FieldError'];
 ```
 
 ### Using Auth Types
+
 ```typescript
 // In an API function
 import { api } from '$lib/api-client/axios';
 import type { UserDTO } from '$lib/types/auth';
 
 export async function getCurrentUser(): Promise<UserDTO> {
-  const response = await api.get<UserDTO>('/api/v1/users/me');
-  return response.data;
+	const response = await api.get<UserDTO>('/api/v1/users/me');
+	return response.data;
 }
 ```
 

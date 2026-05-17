@@ -2,6 +2,11 @@ node_modules
 project.inlang/project_id
 project.inlang/cache
 
+# Messages
+messages/de.json
+messages/en.json
+messages/pl.json
+
 # Output
 .output
 .vercel
@@ -29,3 +34,6 @@ src/lib/paraglide
 
 *storybook.log
 storybook-static
+
+# Debug logs
+.cursor/debug.log

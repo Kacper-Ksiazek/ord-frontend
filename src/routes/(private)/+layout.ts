@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import { getCurrentUser } from '$lib/api-client/auth/api/get-current-user';
+import { getCurrentUser } from '$auth/api-client/api';
 import { STORAGE_KEYS, setStorageItem } from '$lib/utils/local-storage';
 import type { LayoutLoad } from './$types';
 
@@ -21,6 +21,7 @@ export const load: LayoutLoad = async () => {
 		return { user };
 	} catch (error) {
 		console.error('Failed to fetch current user:', error);
+
 		// If the request fails, clear auth and redirect will happen in layout
 		return { user: null };
 	}

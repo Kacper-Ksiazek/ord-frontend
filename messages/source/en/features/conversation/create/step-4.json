@@ -1,0 +1,21 @@
+{
+	"header": "Generate AI Interlocutor",
+	"description": "Review your selections and start the conversation.",
+	"details_section": {
+		"title": "Your selections"
+	},
+	"selected_topic": {
+		"label": "Selected topic",
+		"edit": {
+			"aria_label": "Edit conversation topic",
+			"tooltip": "Edit conversation topic"
+		}
+	},
+	"ai_interlocutor": {
+		"generating": "Generating interlocutor...",
+		"failed": "Failed to generate interlocutor",
+		"retry": "Try again",
+		"regenerate_aria_label": "Regenerate AI interlocutor",
+		"regenerate_tooltip": "Generate a different AI interlocutor"
+	}
+}

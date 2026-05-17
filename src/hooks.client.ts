@@ -10,6 +10,7 @@ let sessionInitialized = false;
 
 export async function handleError({ error }: { error: unknown }) {
 	console.error('Client error:', error);
+
 	return {
 		message: 'An unexpected error occurred'
 	};

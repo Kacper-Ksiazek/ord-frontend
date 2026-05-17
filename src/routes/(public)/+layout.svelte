@@ -1,7 +1,9 @@
 <script lang="ts">
-const { children } = $props();
+	import { PublicLayout } from '$lib/features/app-layouts';
+
+	const { children } = $props();
 </script>
 
-<div class="min-h-full flex items-center justify-center">
+<PublicLayout>
 	{@render children()}
-</div>
+</PublicLayout>

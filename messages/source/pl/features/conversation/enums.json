@@ -1,0 +1,50 @@
+{
+	"conversation_types": {
+		"SMALL_TALK": {
+			"label": "Swobodna rozmowa",
+			"description": "Ćwicz swobodne i codzienne rozmowy, aby budować płynność i pewność siebie."
+		},
+		"SCENARIO_ROLEPLAY": {
+			"label": "Odgrywanie scenek",
+			"description": "Odtwarzaj realistyczne scenariusze i role dla immersyjnej nauki języka."
+		},
+		"EXAM_PRACTICE": {
+			"label": "Przygotowanie do Egzaminu",
+			"description": "Przygotuj się do egzaminów językowych z ukierunkowaną praktyką na typowe sytuacje testowe."
+		},
+		"TOPIC_EXPLORATION": {
+			"label": "Eksploracja Tematów",
+			"description": "Angażuj się w dogłębne dyskusje na różne tematy, aby poszerzyć swoje słownictwo i zrozumienie."
+		},
+		"OXFORD_DEBATE": {
+			"label": "Debata Oksfordzka",
+			"description": "Weź udział w ustrukturyzowanym formacie debaty, aby rozwijać umiejętności perswazyjne i krytycznego myślenia."
+		}
+	},
+	"conversation_tones": {
+		"FRIENDLY": {
+			"label": "Przyjazny",
+			"description": "AI będzie komunikować się w ciepły, swobodny sposób, jak podczas rozmowy z przyjacielem."
+		},
+		"FORMAL": {
+			"label": "Formalny",
+			"description": "AI będzie używać profesjonalnego języka i odpowiedniej etykiety, odpowiedniej dla kontekstów biznesowych lub akademickich."
+		},
+		"HUMOROUS": {
+			"label": "Humorystyczny",
+			"description": "AI będzie wprowadzać humor i utrzymywać rozmowę lekką i zabawną."
+		},
+		"NEUTRAL": {
+			"label": "Neutralny",
+			"description": "AI będzie utrzymywać zrównoważony, obiektywny ton, nie będąc ani zbyt swobodnym, ani zbyt formalnym."
+		},
+		"ENCOURAGING": {
+			"label": "Wspierający",
+			"description": "AI będzie wspierające i pozytywne, celebrując Twoje postępy i budując Twoją pewność siebie."
+		},
+		"CHALLENGING": {
+			"label": "Wymagający",
+			"description": "AI będzie zachęcać Cię do krytycznego myślenia i wyrażania złożonych idei poprzez głębsze pytania."
+		}
+	}
+}
