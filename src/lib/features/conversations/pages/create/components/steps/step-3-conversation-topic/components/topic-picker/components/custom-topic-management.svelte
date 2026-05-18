@@ -6,7 +6,7 @@
 		getCreateConversationPayload,
 		setCreateConversationPayload
 	} from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
-	import { getAllTopics, topicPickerUi } from '../topic-picker.store.svelte';
+	import { topicPickerStore } from '../topic-picker.store.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 
 	let userTopicInput = $state('');
@@ -14,7 +14,7 @@
 	const topicInputDisabled = $derived.by(() => {
 		const type = getCreateConversationPayload().type;
 
-		return !type || !topicPickerUi.useOwnTopic;
+		return !type || !topicPickerStore.useOwnTopic;
 	});
 
 	function syncPayloadTopicFromInput() {
@@ -23,7 +23,7 @@
 	}
 
 	function handleUseOwnTopicChange(next: boolean) {
-		topicPickerUi.useOwnTopic = next;
+		topicPickerStore.useOwnTopic = next;
 
 		if (next) {
 			syncPayloadTopicFromInput();
@@ -32,7 +32,7 @@
 		}
 
 		const payload = getCreateConversationPayload();
-		const list = payload.type ? getAllTopics(payload.type) : [];
+		const list = payload.type ? topicPickerStore.getAllTopics(payload.type) : [];
 		const current = payload.topic;
 
 		if (current && !list.includes(current)) {
@@ -41,20 +41,20 @@
 	}
 
 	function handleCustomTopicInput() {
-		if (topicPickerUi.useOwnTopic) {
+		if (topicPickerStore.useOwnTopic) {
 			syncPayloadTopicFromInput();
 		}
 	}
 
 	onMount(() => {
 		const payload = getCreateConversationPayload();
-		const list = payload.type ? getAllTopics(payload.type) : [];
+		const list = payload.type ? topicPickerStore.getAllTopics(payload.type) : [];
 
 		if (payload.topic && !list.includes(payload.topic)) {
-			topicPickerUi.useOwnTopic = true;
+			topicPickerStore.useOwnTopic = true;
 			userTopicInput = payload.topic;
 		} else {
-			topicPickerUi.useOwnTopic = false;
+			topicPickerStore.useOwnTopic = false;
 			userTopicInput = '';
 		}
 	});
@@ -63,7 +63,7 @@
 <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
 	<div class="flex flex-col min-w-0 flex-1 gap-3">
 		<Toggle
-			checked={topicPickerUi.useOwnTopic}
+			checked={topicPickerStore.useOwnTopic}
 			onchange={(e) => handleUseOwnTopicChange(e.currentTarget.checked)}
 			class="shrink-0 sm:pt-1.5"
 		>

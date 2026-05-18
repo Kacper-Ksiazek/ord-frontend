@@ -10,7 +10,7 @@
 		getCreateConversationPayload,
 		setCreateConversationPayload
 	} from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
-	import { topicPickerUi, topics } from './topic-picker.store.svelte';
+	import { topicPickerStore } from './topic-picker.store.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 
 	let amountOfSkeletons = $state(0);
@@ -30,7 +30,7 @@
 			return { pinned: [] as string[], unpinned: [] as string[] };
 		}
 
-		return topics.get(payload.type) ?? { pinned: [], unpinned: [] };
+		return topicPickerStore.topics.get(payload.type) ?? { pinned: [], unpinned: [] };
 	});
 
 	const hasAnyTopicsOrSkeletons = $derived(
@@ -66,7 +66,7 @@
 								index={i}
 								{topic}
 								isPinned={true}
-								selectionDisabled={topicPickerUi.useOwnTopic}
+								selectionDisabled={topicPickerStore.useOwnTopic}
 								isSelected={payload.topic === topic}
 								onclick={() => setCreateConversationPayload({ topic })}
 							/>
@@ -91,7 +91,7 @@
 								index={topicBuckets.pinned.length + i}
 								{topic}
 								isPinned={false}
-								selectionDisabled={topicPickerUi.useOwnTopic}
+								selectionDisabled={topicPickerStore.useOwnTopic}
 								isSelected={payload.topic === topic}
 								onclick={() => setCreateConversationPayload({ topic })}
 							/>
