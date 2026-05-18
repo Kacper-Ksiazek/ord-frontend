@@ -10,7 +10,7 @@
 		getCreateConversationPayload,
 		setCreateConversationPayload
 	} from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
-	import { resetTopicPickerCustomState } from '$lib/features/conversations/pages/create/components/steps/step-3-conversation-topic/components/topic-picker/topic-picker.store.svelte';
+	import { topicPickerStore } from '$lib/features/conversations/pages/create/components/steps/step-3-conversation-topic/components/topic-picker/topic-picker.store.svelte';
 	import {
 		clearDefaultConversationTypeFromStorage,
 		readDefaultConversationTypeFromStorage,
@@ -34,7 +34,7 @@
 
 			if (currentPayload.type === type) {
 				setCreateConversationPayload({ type: undefined });
-				resetTopicPickerCustomState();
+				topicPickerStore.resetCustomState();
 			}
 		} else {
 			writeDefaultConversationTypeToStorage(type);
@@ -44,7 +44,7 @@
 
 			if (currentPayload.type !== type) {
 				setCreateConversationPayload({ type, topic: undefined });
-				resetTopicPickerCustomState();
+				topicPickerStore.resetCustomState();
 			} else {
 				setCreateConversationPayload({ type });
 			}
@@ -75,7 +75,7 @@
 				// Reset topic only if the type is actually changing
 				if (currentPayload.type !== type) {
 					setCreateConversationPayload({ type, topic: undefined });
-					resetTopicPickerCustomState();
+					topicPickerStore.resetCustomState();
 				} else {
 					setCreateConversationPayload({ type });
 				}

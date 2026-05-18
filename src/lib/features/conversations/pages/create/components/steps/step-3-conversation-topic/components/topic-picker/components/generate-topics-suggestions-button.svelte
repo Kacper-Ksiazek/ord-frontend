@@ -4,7 +4,7 @@
 	import type { AiActionButtonStatus } from '$lib/components/buttons/ai-action-button/ai-action-button.types';
 	import { Input } from '$lib/components/forms/input';
 	import { getCreateConversationPayload } from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
-	import { appendUnpinnedTopic, getAllTopics, topicPickerUi } from '../topic-picker.store.svelte';
+	import { topicPickerStore } from '../topic-picker.store.svelte';
 	import { TextQuote } from 'lucide-svelte';
 	import * as m from '$lib/paraglide/messages.js';
 
@@ -38,13 +38,13 @@
 				conversationType,
 				language: payload.language,
 				clueFromUser: clueForGeneration || undefined,
-				excludeTopics: getAllTopics(conversationType)
+				excludeTopics: topicPickerStore.getAllTopics(conversationType)
 			}).subscribe({
 				next: (topic) => {
 					if (topic?.value) {
 						amountOfSkeletons = Math.max(0, amountOfSkeletons - 1);
 
-						appendUnpinnedTopic(conversationType, topic.value);
+						topicPickerStore.appendUnpinnedTopic(conversationType, topic.value);
 						onStreamChunkReceive?.();
 					} else {
 						console.error('Topic is not a string');
@@ -69,7 +69,7 @@
 		<AiActionButton
 			status={generateButtonStatus}
 			onclick={generateTopics}
-			disabled={topicPickerUi.useOwnTopic || !isClueForGenerationValid}
+			disabled={topicPickerStore.useOwnTopic || !isClueForGenerationValid}
 		/>
 	</div>
 
@@ -78,7 +78,7 @@
 		class="min-w-0 flex-1"
 		leftAdornment={TextQuote}
 		bind:value={clueForGeneration}
-		disabled={generateButtonStatus === 'loading' || topicPickerUi.useOwnTopic}
+		disabled={generateButtonStatus === 'loading' || topicPickerStore.useOwnTopic}
 		maxLength={128}
 		bind:isValid={isClueForGenerationValid}
 	/>
