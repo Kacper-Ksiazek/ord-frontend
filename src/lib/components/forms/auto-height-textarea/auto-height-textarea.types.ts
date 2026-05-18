@@ -3,9 +3,10 @@ import type { InputVariant } from '$lib/components/control-appearance';
 export type { InputVariant };
 
 export interface AutoHeightTextareaProps {
-	value?: string;
+	value?: string | null;
 	placeholder?: string;
 	className?: string;
+	textAreaClassName?: string;
 	formField?: boolean;
 	disabled?: boolean;
 	/** Outlined semantic variant when `formField` is true; invalid length forces error chrome. */

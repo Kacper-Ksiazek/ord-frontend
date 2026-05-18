@@ -15,6 +15,7 @@
 		isValid = $bindable(true),
 		LINE_HEIGHT = 26,
 		VERTICAL_PADDING = 12,
+		textAreaClassName = '',
 		onkeydown,
 		onfocus,
 		onblur,
@@ -47,7 +48,7 @@
 
 		let rowsForHeight = measuredRows;
 
-		if (!value.trim()) {
+		if (!value?.trim()) {
 			rowsForHeight = MIN_ROWS;
 		}
 
@@ -138,7 +139,8 @@
 			!formField &&
 				lengthConstraintActive &&
 				!isValid &&
-				'ring-2 ring-inset ring-red-600/60 dark:ring-red-400/60'
+				'ring-2 ring-inset ring-red-600/60 dark:ring-red-400/60',
+			textAreaClassName
 		)}
 		style="min-height: {totalHeightPx(MIN_ROWS)}px; max-height: {totalHeightPx(MAX_ROWS)}px;"
 	></textarea>
