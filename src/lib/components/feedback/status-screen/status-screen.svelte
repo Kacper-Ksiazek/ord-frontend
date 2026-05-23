@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
 	import { ServerCrash, Info, CheckCircle2 } from 'lucide-svelte';
-	import { Button } from '$lib/components/buttons/button';
+	import { Button } from '$lib/components/actions/button';
 	import type { StatusButtonProps, StatusScreenVariant } from './status-screen.types';
 
 	interface Props {
