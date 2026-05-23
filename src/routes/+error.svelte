@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import AppLogo from '$lib/components/app-logo/app-logo.svelte';
+	import { AppLogo } from '$lib/components/identity/app-logo';
 </script>
 
 <svelte:head>
