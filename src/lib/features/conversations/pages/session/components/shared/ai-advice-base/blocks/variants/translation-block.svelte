@@ -10,7 +10,7 @@
 	import type { TranslationBlock } from '../../ai-advice.types';
 	import type { TailwindColorTheme } from '$lib/utils/theme/get-tailwind-colors';
 	import TipRegisterBadge from '$conversations/pages/session/components/shared/ai-message-learning-tips/cards/shared/tip-register-badge.svelte';
-	import AuthUserNativeLanguageFlag from '$lib/components/auth-user-native-language-flag.svelte';
+	import { UserNativeLanguageFlag as AuthUserNativeLanguageFlag } from '$lib/components/identity/user-native-language-flag';
 
 	interface Props {
 		block: TranslationBlock;
