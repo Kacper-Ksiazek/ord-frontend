@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { IconButton } from '$lib/components/buttons/icon-button';
-	import SelectableCard from '$lib/components/utils/selectable-card.svelte';
+	import { IconButton } from '$lib/components/actions/icon-button';
+	import { SelectableCard } from '$lib/components/surfaces/selectable-card';
 	import { cn } from 'flowbite-svelte';
 	import { Pin, PinOff, X } from 'lucide-svelte';
 	import { pinTopic, removeTopicFromList, unpinTopic } from '../topic-picker.store.svelte';

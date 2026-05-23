@@ -3,7 +3,7 @@
 	import { Alert, Button, Input } from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
 	import { createRequestOtpMutation, createVerifyOtpMutation } from '$auth/api-client/mutations';
-	import { AppLogo } from '$lib/components/app-logo';
+	import { AppLogo } from '$lib/components/identity/app-logo';
 	import { OtpInput } from '$auth/components';
 	import { m } from '$lib/paraglide/messages.js';
 	import { authStore } from '$lib/stores/auth.svelte';

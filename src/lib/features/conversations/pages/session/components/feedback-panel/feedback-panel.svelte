@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ContentCard from '$lib/components/utils/content-card.svelte';
+	import { ContentCard } from '$lib/components/surfaces/content-card';
 	import { cn } from 'flowbite-svelte';
 	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
 	import { getSidepanelWidth } from '../constants.svelte';
