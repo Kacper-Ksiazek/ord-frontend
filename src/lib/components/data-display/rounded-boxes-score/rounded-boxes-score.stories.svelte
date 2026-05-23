@@ -3,7 +3,7 @@
 	import CenterComponentDecorator from '$lib/storybook/decorators/center-component-decorator.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Components/Scores/RoundedBoxesScore',
+		title: 'Data Display/RoundedBoxesScore',
 		decorators: [() => CenterComponentDecorator as any]
 	});
 </script>

@@ -3,7 +3,7 @@
 	import CenterComponentDecorator from '$lib/storybook/decorators/center-component-decorator.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Components/Scores/ScoreBox',
+		title: 'Data Display/ScoreBox',
 		decorators: [() => CenterComponentDecorator as any],
 		tags: ['autodocs']
 	});

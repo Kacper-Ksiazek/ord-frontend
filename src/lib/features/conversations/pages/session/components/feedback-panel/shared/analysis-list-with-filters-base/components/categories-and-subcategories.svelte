@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { IconCard } from '$lib/components/cards/icon-card';
+	import { IconCard } from '$lib/components/data-display/icon-card';
 	import type { CategoryCard, FilterBase } from '../types/utility-types';
 
 	interface Props {
