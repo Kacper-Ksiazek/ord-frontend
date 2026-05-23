@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { IconButton } from '$lib/components/buttons/icon-button';
-	import { Button } from '$lib/components/buttons/button';
+	import { IconButton } from '$lib/components/actions/icon-button';
+	import { Button } from '$lib/components/actions/button';
 	import { ChevronDown, ChevronUp } from 'lucide-svelte';
 
 	interface ToggleExpandCollapseProps {

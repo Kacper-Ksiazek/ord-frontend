@@ -4,7 +4,7 @@
 	import {
 		getButtonTypeVariantClasses,
 		getButtonTextColorClasses
-	} from '$lib/components/control-appearance';
+	} from '$lib/styles/control-appearance';
 
 	let {
 		icon: Icon,

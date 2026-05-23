@@ -18,7 +18,7 @@
 	import Filters from './components/filters.svelte';
 	import { applyFilters } from './utils/apply-filters';
 	import { ScrollableWrapper } from '$lib/components/utils/scrollable-wrapper';
-	import { Button } from '$lib/components/buttons/button';
+	import { Button } from '$lib/components/actions/button';
 	import { cubicOut } from 'svelte/easing';
 	import { slide } from 'svelte/transition';
 
