@@ -2,7 +2,7 @@
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 
 	const { Story } = defineMeta({
-		title: 'Components/LanguagePicker'
+		title: 'Features/AppLayouts/LanguagePicker'
 	});
 </script>
 
