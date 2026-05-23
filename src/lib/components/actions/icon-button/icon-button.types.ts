@@ -1,4 +1,4 @@
-import type { ButtonType, ButtonVariant } from '$lib/components/control-appearance';
+import type { ButtonType, ButtonVariant } from '$lib/styles/control-appearance';
 
 export type { ButtonType, ButtonVariant };
 

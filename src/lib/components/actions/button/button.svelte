@@ -8,7 +8,7 @@
 		getButtonHotkeyChipClasses,
 		getButtonTextColorClasses,
 		getButtonTypeVariantClasses
-	} from '$lib/components/control-appearance';
+	} from '$lib/styles/control-appearance';
 
 	let {
 		type = 'FILLED',
