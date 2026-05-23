@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
-	import Loader from '$lib/components/utils/loader/loader.svelte';
+	import Loader from '$lib/components/feedback/loader/loader.svelte';
 
 	interface Props {
 		label?: string;
