@@ -3,7 +3,7 @@
 	import CenterComponentDecorator from '$lib/storybook/decorators/center-component-decorator.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Components/Utils/ScrollableWrapper',
+		title: 'Surfaces/ScrollableWrapper',
 		decorators: [() => CenterComponentDecorator as any],
 		tags: ['autodocs']
 	});
