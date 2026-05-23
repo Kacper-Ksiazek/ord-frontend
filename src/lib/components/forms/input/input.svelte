@@ -5,7 +5,7 @@
 		getButtonHotkeyChipClasses,
 		getButtonTextColorClasses,
 		getOutlinedInputFieldClasses
-	} from '$lib/components/control-appearance';
+	} from '$lib/styles/control-appearance';
 	import { HotkeyKbd } from '$lib/components/keyboard/hotkey-kbd';
 	import type { InputProps } from './input.types';
 	import '../forms.css';

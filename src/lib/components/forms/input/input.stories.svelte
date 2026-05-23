@@ -3,7 +3,7 @@
 	import CenterComponentDecorator from '$lib/storybook/decorators/center-component-decorator.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Components/Forms/Input',
+		title: 'Forms/Input',
 		decorators: [() => CenterComponentDecorator as any]
 	});
 </script>
