@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ScrollableWrapper } from '$lib/components/utils/scrollable-wrapper';
+	import { ScrollableWrapper } from '$lib/components/surfaces/scrollable-wrapper';
 	import CircularProgressBar from '$lib/components/data-display/circular-progress-bar/circular-progress-bar.svelte';
 	import { ScoreDiffIndicator } from '$lib/components/data-display';
 	import AiInterlocutorAvatar from '$lib/features/conversations/shared/components/ai-interlocutor-avatar.svelte';

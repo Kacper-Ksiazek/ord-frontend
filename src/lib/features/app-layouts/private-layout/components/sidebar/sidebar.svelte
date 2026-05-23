@@ -19,7 +19,7 @@
 	import { themeStore } from '$lib/stores/theme.svelte';
 	import { AppLogo } from '$lib/components/identity/app-logo';
 	import { UserAvatar as AuthUserAvatar } from '$lib/components/identity/user-avatar';
-	import Divider from '../../../../../components/utils/divider.svelte';
+	import { Divider } from '$lib/components/surfaces/divider';
 	import SidebarLearningLanguage from './components/sidebar-learning-language.svelte';
 	import SidebarLink from './components/sidebar-link.svelte';
 	import { sidebarStore } from './sidebar.store.svelte';

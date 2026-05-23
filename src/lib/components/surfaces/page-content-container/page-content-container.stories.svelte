@@ -2,7 +2,7 @@
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 
 	const { Story } = defineMeta({
-		title: 'Components/PageContentContainer',
+		title: 'Surfaces/PageContentContainer',
 		tags: ['autodocs']
 	});
 </script>
