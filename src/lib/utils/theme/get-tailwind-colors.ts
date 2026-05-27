@@ -89,6 +89,38 @@ const TailwindColorThemeMap: Partial<Record<TailwindColor, TailwindColorTheme>> 
 		highlightedText:
 			'bg-purple-100/70 text-purple-800 hover:bg-purple-300/70 dark:bg-purple-900/70 dark:text-purple-100 dark:hover:bg-purple-600',
 		chipBorder: 'border-purple-300 dark:border-purple-700'
+	},
+
+	orange: {
+		twColor: 'orange',
+		adviceCardBg: 'bg-orange-50/35 dark:bg-orange-900/10',
+		adviceCardBorder: 'border-orange-100 dark:border-orange-800',
+		adviceCardHover:
+			'hover:bg-orange-50/90 dark:hover:bg-orange-900/25 hover:border-orange-300 dark:hover:border-orange-700',
+		adviceIconColor:
+			'text-orange-600/50 dark:text-orange-400/50 group-hover/advice-card:text-orange-600 dark:group-hover/advice-card:text-orange-400',
+		cardBorder: 'border-orange-200 dark:border-orange-800',
+		text: 'text-orange-500 dark:text-orange-400',
+		iconColor: 'text-orange-500 dark:text-orange-400',
+		highlightedText:
+			'bg-orange-100/70 text-orange-800 hover:bg-orange-300/70 dark:bg-orange-900/70 dark:text-orange-100 dark:hover:bg-orange-600',
+		chipBorder: 'border-orange-300 dark:border-orange-700'
+	},
+
+	yellow: {
+		twColor: 'yellow',
+		adviceCardBg: 'bg-yellow-50/35 dark:bg-yellow-900/10',
+		adviceCardBorder: 'border-yellow-100 dark:border-yellow-800',
+		adviceCardHover:
+			'hover:bg-yellow-50/90 dark:hover:bg-yellow-900/25 hover:border-yellow-300 dark:hover:border-yellow-700',
+		adviceIconColor:
+			'text-yellow-600/50 dark:text-yellow-400/50 group-hover/advice-card:text-yellow-600 dark:group-hover/advice-card:text-yellow-400',
+		cardBorder: 'border-yellow-200 dark:border-yellow-800',
+		text: 'text-yellow-600 dark:text-yellow-400',
+		iconColor: 'text-yellow-600 dark:text-yellow-400',
+		highlightedText:
+			'bg-yellow-100/70 text-yellow-900 hover:bg-yellow-300/70 dark:bg-yellow-900/70 dark:text-yellow-100 dark:hover:bg-yellow-600',
+		chipBorder: 'border-yellow-300 dark:border-yellow-700'
 	}
 };
 
