@@ -1,18 +1,35 @@
 <script lang="ts">
+	import { flip, shift } from '@floating-ui/dom';
 	import { Button } from '$lib/components/actions/button';
 	import { Input } from '$lib/components/forms/input';
 	import { cn, Popover, Toggle } from 'flowbite-svelte';
-	import { addQAWPopoverStore } from './add-qaw-popover.store.svelte';
+	import {
+		ADD_QAW_POPOVER_MAX_COUNT,
+		ADD_QAW_POPOVER_ROW_HEIGHT_PX,
+		ADD_QAW_POPOVER_SCROLL_FROM_COUNT,
+		addQAWPopoverStore
+	} from './add-qaw-popover.store.svelte';
+	import { tick } from 'svelte';
 	import { ArrowLeftRight, BinaryIcon, EyeIcon, Minus, Plus } from 'lucide-svelte';
 	import IconButton from '$lib/components/actions/icon-button/icon-button.svelte';
 	import DropdownSelect from '$lib/components/forms/dropdown-select/dropdown-select.svelte';
+	import type { DropdownSelectOption } from '$lib/components/forms/dropdown-select';
 	import { WordTypeOptions } from '$lib/types/word/domain/constants';
+	import { getWordTypeSwatchClasses } from '$lib/types/word';
 	import { Divider } from '$lib/components/surfaces/divider';
 	import { AutoHeightTextarea } from '$lib/components/forms/auto-height-textarea';
 
+	/** Min gap between popover and viewport edges (px) — external margin, not inner padding. */
+	const SIDEBAR_POPOVER_VIEWPORT_MARGIN = 120;
+
+	const sidebarPopoverMiddlewares = [
+		flip({ padding: SIDEBAR_POPOVER_VIEWPORT_MARGIN }),
+		shift({ padding: SIDEBAR_POPOVER_VIEWPORT_MARGIN })
+	];
+
 	/** Match sidebar (`bg-black`, `border-gray-800`) — override Flowbite `dark:bg-gray-800` on popover. */
 	const sidebarPopoverClass = cn(
-		'ml-4.5 max-w-[720px] py-2 px-3',
+		'ml-4.5 w-[866px] max-w-[920px] py-2 px-3',
 		'bg-black dark:bg-black text-white shadow-none',
 		'border border-gray-800 dark:border-gray-800',
 		'divide-gray-800 dark:divide-gray-800'
@@ -34,12 +51,50 @@
 		'[&_button.font-semibold]:bg-primary-900 [&_button.font-semibold]:text-gray-100'
 	);
 
+	/** Flowbite toggle track/focus — dark tokens without scoping popover as `.dark`. */
+	const sidebarToggleSpanClass = cn(
+		'bg-gray-600 after:border-gray-500',
+		'peer-focus:ring-primary-800'
+	);
+
+	/** Outlined footer actions on black chrome — override light-theme hovers. */
+	const sidebarAddMoreButtonClass = cn(
+		'border-0 pl-0 text-gray-300',
+		'hover:bg-white/10 hover:text-white',
+		'focus:ring-offset-black focus:ring-gray-600'
+	);
+
+	const sidebarResetButtonClass = cn(
+		'border-0 text-red-400',
+		'hover:bg-red-900/30 hover:text-red-300',
+		'focus:ring-offset-black focus:ring-red-800'
+	);
+
+	const recordsScrollMaxHeightPx =
+		(ADD_QAW_POPOVER_SCROLL_FROM_COUNT - 1) * ADD_QAW_POPOVER_ROW_HEIGHT_PX;
+
+	let recordsScrollEl: HTMLDivElement | undefined = $state();
+
+	const isRecordsScrollable = $derived(
+		addQAWPopoverStore.values.length >= ADD_QAW_POPOVER_SCROLL_FROM_COUNT
+	);
+
+	async function handleAddMore() {
+		addQAWPopoverStore.addEmptyRecord();
+		await tick();
+		recordsScrollEl?.scrollTo({ top: recordsScrollEl.scrollHeight, behavior: 'smooth' });
+	}
+
 	$effect(() => {
 		if (addQAWPopoverStore.values.length === 0) {
 			addQAWPopoverStore.addEmptyRecord();
 		}
 	});
 </script>
+
+{#snippet wordTypeOptionLeading(option: DropdownSelectOption)}
+	<span class={getWordTypeSwatchClasses(option.value)} aria-hidden="true"></span>
+{/snippet}
 
 {#snippet addWordsLayout()}
 	<h2 class=" text-white">Add QAW</h2>
@@ -48,7 +103,14 @@
 		Aliquip cillum in eu. Veniam mollit quis aliquip esse consectetur aliqua exercitation. Enim cillum
 	</p>
 
-	<div class="gap-1 mt-2 mb-1 flex flex-col">
+	<div
+		bind:this={recordsScrollEl}
+		class={cn(
+			'gap-1 mt-2 mb-1 flex flex-col min-h-0',
+			isRecordsScrollable && 'overflow-y-auto overscroll-contain pr-1'
+		)}
+		style:max-height={isRecordsScrollable ? `${recordsScrollMaxHeightPx}px` : undefined}
+	>
 		{#each addQAWPopoverStore.values as wordRecord, index (index)}
 			{#if index !== 0}
 				<Divider />
@@ -79,6 +141,7 @@
 						options={WordTypeOptions}
 						buttonClass={cn('w-[160px]', sidebarFieldClass)}
 						dropdownClass={sidebarDropdownMenuClass}
+						optionLeading={wordTypeOptionLeading}
 					/>
 
 					<IconButton
@@ -91,7 +154,11 @@
 				</div>
 
 				<div class="flex gap-1">
-					<Toggle bind:checked={wordRecord.isDescriptionEnabled} />
+					<Toggle
+						bind:checked={wordRecord.isDescriptionEnabled}
+						class="text-gray-200"
+						spanClass={sidebarToggleSpanClass}
+					/>
 
 					<AutoHeightTextarea
 						formField
@@ -109,11 +176,11 @@
 
 	<div class="flex w-full justify-between">
 		<Button
-			onClick={() => addQAWPopoverStore.addEmptyRecord()}
+			onClick={handleAddMore}
 			type="OUTLINED"
 			variant="TEXT"
-			class="border-0 pl-0"
-			disabled={addQAWPopoverStore.values.length > 10}
+			class={sidebarAddMoreButtonClass}
+			disabled={addQAWPopoverStore.values.length >= ADD_QAW_POPOVER_MAX_COUNT}
 		>
 			<Plus />
 			<span>Add more</span>
@@ -123,7 +190,7 @@
 			onClick={() => addQAWPopoverStore.reset()}
 			type="OUTLINED"
 			variant="DELETE"
-			class="border-0"
+			class={sidebarResetButtonClass}
 			disabled={addQAWPopoverStore.values.length === 1}
 		>
 			<BinaryIcon />
@@ -136,6 +203,13 @@
 	</div>
 {/snippet}
 
-<Popover isOpen triggeredBy="#dupa" trigger="click" placement="right" class={sidebarPopoverClass}>
+<Popover
+	isOpen
+	triggeredBy="#dupa"
+	trigger="click"
+	placement="right"
+	class={sidebarPopoverClass}
+	middlewares={sidebarPopoverMiddlewares}
+>
 	{@render addWordsLayout()}
 </Popover>

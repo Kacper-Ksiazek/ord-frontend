@@ -113,7 +113,7 @@
 
 			<SidebarLink title="Conversations" Icon={MessageSquare} href="/conversations" />
 
-			<SidebarLink title="QAW" Icon={Lightbulb} disabled />
+			<SidebarLink title="QAW" Icon={Lightbulb} href="/quickly-added-words" />
 		</div>
 	</nav>
 
