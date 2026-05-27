@@ -1,0 +1,24 @@
+{
+	"breadcrumb": {
+		"quickly_added_words": "Szybko dodane słowa"
+	},
+	"header": {
+		"title": "Szybko dodane słowa",
+		"description": "Twoje zapisane słownictwo, od najnowszych."
+	},
+	"overview": {
+		"aria_label": "Statystyki szybko dodanych słów",
+		"loading_aria_label": "Ładowanie statystyk szybko dodanych słów",
+		"total": "Wszystkie",
+		"approved": "Zatwierdzone",
+		"pending": "Oczekujące",
+		"error": "Nie udało się załadować statystyk szybko dodanych słów.",
+		"try_again": "Spróbuj ponownie"
+	},
+	"actions": {
+		"confirm": "Potwierdź",
+		"delete": "Skasuj"
+	},
+	"unconfirmed_badge": "Niepotwierdzone",
+	"unconfirmed_tooltip": "To słowo pochodzi z niezweryfikowanego źródła."
+}

@@ -1,0 +1,24 @@
+{
+	"breadcrumb": {
+		"quickly_added_words": "Quickly Added Words"
+	},
+	"header": {
+		"title": "Quickly Added Words",
+		"description": "Your captured vocabulary, newest first."
+	},
+	"overview": {
+		"aria_label": "Quickly added words statistics",
+		"loading_aria_label": "Loading quickly added words statistics",
+		"total": "All",
+		"approved": "Approved",
+		"pending": "Pending",
+		"error": "Couldn't load quickly added words statistics.",
+		"try_again": "Try again"
+	},
+	"actions": {
+		"confirm": "Confirm",
+		"delete": "Delete"
+	},
+	"unconfirmed_badge": "Unconfirmed",
+	"unconfirmed_tooltip": "This word comes from an unverified source."
+}

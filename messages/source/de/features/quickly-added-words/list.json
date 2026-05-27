@@ -1,0 +1,24 @@
+{
+	"breadcrumb": {
+		"quickly_added_words": "Schnell hinzugefügte Wörter"
+	},
+	"header": {
+		"title": "Schnell hinzugefügte Wörter",
+		"description": "Dein erfasstes Vokabular, zuerst die neuesten."
+	},
+	"overview": {
+		"aria_label": "Statistik zu schnell hinzugefügten Wörtern",
+		"loading_aria_label": "Statistik zu schnell hinzugefügten Wörtern wird geladen",
+		"total": "Alle",
+		"approved": "Genehmigt",
+		"pending": "Ausstehend",
+		"error": "Statistik zu schnell hinzugefügten Wörtern konnte nicht geladen werden.",
+		"try_again": "Erneut versuchen"
+	},
+	"actions": {
+		"confirm": "Bestätigen",
+		"delete": "Löschen"
+	},
+	"unconfirmed_badge": "Unbestätigt",
+	"unconfirmed_tooltip": "Dieses Wort stammt aus einer nicht verifizierten Quelle."
+}
