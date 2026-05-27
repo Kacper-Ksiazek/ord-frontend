@@ -12,8 +12,11 @@ export interface DropdownSelectProps<T> {
 	ariaLabel?: string;
 	buttonClass?: string;
 	dropdownClass?: string;
-	/** This snippet overrides the default icon for the selected option. */
+	/** Overrides the default leading content for the selected option in the trigger button. */
 	icon?: Snippet<[{ selectedOption: DropdownSelectOption<T> }]>;
+
+	/** Leading content rendered for each option in the list and on the trigger when selected. */
+	optionLeading?: Snippet<[DropdownSelectOption<T>]>;
 
 	/** Use when binding to nested state (e.g. `obj.field`) is invalid; parent updates `value` in this callback. */
 	onValueChange?: (value: T) => void;
