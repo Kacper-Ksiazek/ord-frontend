@@ -15,7 +15,8 @@
 		ariaLabel = 'Select option',
 		buttonClass = '',
 		dropdownClass = '',
-		icon
+		icon,
+		optionLeading
 	}: DropdownSelectProps<T> = $props();
 
 	const selectedOption = $derived(options.find((opt) => opt.value === value) ?? options[0]);
@@ -41,10 +42,10 @@
 	onclick={() => (dropdownOpen = !dropdownOpen)}
 >
 	<div class="form-input-container">
-		<!-- Use snippet when available -->
-		{#if icon}
+		{#if optionLeading && selectedOption}
+			{@render optionLeading(selectedOption)}
+		{:else if icon}
 			{@render icon({ selectedOption })}
-			<!-- Use default icon when available -->
 		{:else if selectedOption?.icon}
 			{@const Icon = selectedOption.icon}
 			<Icon class="w-4 h-4" />
@@ -73,7 +74,9 @@
 				'form-input-text'
 			)}
 		>
-			{#if Icon}
+			{#if optionLeading}
+				{@render optionLeading(option)}
+			{:else if Icon}
 				<Icon class="w-4 h-4" />
 			{/if}
 			{option.label}
