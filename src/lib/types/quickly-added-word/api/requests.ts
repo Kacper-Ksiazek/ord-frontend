@@ -1,4 +1,3 @@
-// Quickly added word API request types
-// Add request types here as needed
+import type { components } from '@ord-api/ord-api-types';
 
-export {};
+export type ApproveManyQAWRequest = components['schemas']['ApproveManyQAWRequest'];
