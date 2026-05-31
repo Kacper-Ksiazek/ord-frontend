@@ -19,6 +19,16 @@
 		"confirm": "Confirm",
 		"delete": "Delete"
 	},
+	"selection": {
+		"select_row": "Select \"{word}\" for bulk actions"
+	},
+	"bulk": {
+		"toolbar_aria_label": "Bulk actions for pending words",
+		"select_all": "Select all on this page",
+		"unselect_all": "Unselect all on this page",
+		"approve_selected": "Approve selected",
+		"remove_selected": "Remove selected"
+	},
 	"unconfirmed_badge": "Unconfirmed",
 	"unconfirmed_tooltip": "This word comes from an unverified source."
 }

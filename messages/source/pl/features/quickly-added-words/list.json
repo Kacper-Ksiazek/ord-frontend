@@ -19,6 +19,16 @@
 		"confirm": "Potwierdź",
 		"delete": "Skasuj"
 	},
+	"selection": {
+		"select_row": "Zaznacz „{word}” do akcji zbiorczych"
+	},
+	"bulk": {
+		"toolbar_aria_label": "Akcje zbiorcze dla oczekujących słów",
+		"select_all": "Zaznacz wszystkie na tej stronie",
+		"unselect_all": "Odznacz wszystkie na tej stronie",
+		"approve_selected": "Zatwierdź zaznaczone",
+		"remove_selected": "Usuń zaznaczone"
+	},
 	"unconfirmed_badge": "Niepotwierdzone",
 	"unconfirmed_tooltip": "To słowo pochodzi z niezweryfikowanego źródła."
 }

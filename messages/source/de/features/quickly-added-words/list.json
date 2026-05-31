@@ -19,6 +19,16 @@
 		"confirm": "Bestätigen",
 		"delete": "Löschen"
 	},
+	"selection": {
+		"select_row": "„{word}“ für Sammelaktionen auswählen"
+	},
+	"bulk": {
+		"toolbar_aria_label": "Sammelaktionen für ausstehende Wörter",
+		"select_all": "Alle auf dieser Seite auswählen",
+		"unselect_all": "Alle auf dieser Seite abwählen",
+		"approve_selected": "Ausgewählte bestätigen",
+		"remove_selected": "Ausgewählte entfernen"
+	},
 	"unconfirmed_badge": "Unbestätigt",
 	"unconfirmed_tooltip": "Dieses Wort stammt aus einer nicht verifizierten Quelle."
 }

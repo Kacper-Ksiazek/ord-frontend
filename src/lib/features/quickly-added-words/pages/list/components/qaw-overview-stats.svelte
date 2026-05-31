@@ -4,28 +4,39 @@
 	import { Button } from '$lib/components/actions/button';
 	import { Loader } from '$lib/components/feedback/loader';
 	import type { QAWOverviewResponse } from '$lib/types/quickly-added-word/api/overview';
+	import type { QawListApprovalFilter } from '$lib/types/quickly-added-word/api/list-quickly-added-words';
 	import { BookOpen, CheckCircle2, Clock3 } from 'lucide-svelte';
 	import * as m from '$lib/paraglide/messages.js';
 
 	interface Props {
 		overviewQuery: ReturnType<typeof createQAWOverviewQuery>;
+		approvalFilter: QawListApprovalFilter;
+		onApprovalFilterChange: (filter: QawListApprovalFilter) => void;
 	}
 
-	let { overviewQuery }: Props = $props();
+	let { overviewQuery, approvalFilter, onApprovalFilterChange }: Props = $props();
 
 	const overview = $derived(overviewQuery.data);
+
+	function toggleFilter(filter: QawListApprovalFilter) {
+		onApprovalFilterChange(approvalFilter === filter ? 'all' : filter);
+	}
 </script>
 
 {#snippet statCards(data: QAWOverviewResponse)}
 	<div
 		class="flex flex-wrap gap-4"
+		role="group"
 		aria-label={m['features.quickly-added-words.list.overview.aria_label']()}
 	>
 		<IconCard
 			title={m['features.quickly-added-words.list.overview.total']()}
 			value={data.total}
-			variant="neutral"
+			variant="primary"
+			isActive={approvalFilter === 'all'}
 			class="min-w-[140px] flex-1"
+			aria-pressed={approvalFilter === 'all'}
+			onclick={() => toggleFilter('all')}
 		>
 			{#snippet icon({ className })}
 				<BookOpen class={className} />
@@ -35,8 +46,11 @@
 		<IconCard
 			title={m['features.quickly-added-words.list.overview.approved']()}
 			value={data.approvedCount}
-			variant="green"
+			variant="primary"
+			isActive={approvalFilter === 'approved'}
 			class="min-w-[140px] flex-1"
+			aria-pressed={approvalFilter === 'approved'}
+			onclick={() => toggleFilter('approved')}
 		>
 			{#snippet icon({ className })}
 				<CheckCircle2 class={className} />
@@ -47,7 +61,10 @@
 			title={m['features.quickly-added-words.list.overview.pending']()}
 			value={data.unapprovedCount}
 			variant="primary"
+			isActive={approvalFilter === 'pending'}
 			class="min-w-[140px] flex-1"
+			aria-pressed={approvalFilter === 'pending'}
+			onclick={() => toggleFilter('pending')}
 		>
 			{#snippet icon({ className })}
 				<Clock3 class={className} />
