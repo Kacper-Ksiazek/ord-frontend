@@ -2,8 +2,9 @@ import type { GetQuicklyAddedWordsParams } from '$lib/types/quickly-added-word/a
 
 const listParamsKey = (params: GetQuicklyAddedWordsParams) =>
 	({
-		page: params.page ?? 1,
-		perPage: params.perPage ?? 50
+		page: params.page ?? 0,
+		perPage: params.perPage ?? 50,
+		...(params.isApproved !== undefined ? { isApproved: params.isApproved } : {})
 	}) as const;
 
 export const qawKeys = {
