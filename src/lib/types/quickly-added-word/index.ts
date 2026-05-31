@@ -1,6 +1,7 @@
 // Quickly added word feature types
 
 export * from './api/errors';
+export * from './api/fill-gaps';
 export * from './api/list-quickly-added-words';
 export * from './api/overview';
 export * from './api/requests';
