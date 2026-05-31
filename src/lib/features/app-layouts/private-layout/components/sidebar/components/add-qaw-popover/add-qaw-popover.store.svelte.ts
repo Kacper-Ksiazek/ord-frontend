@@ -1,24 +1,19 @@
-import type { CompactQAW } from '$lib/types/quickly-added-word';
+import { ADD_QAW_POPOVER_MAX_COUNT } from './add-qaw-popover.constants';
+import type { AddQAWFormRow } from './add-qaw-popover.types';
 
-export const ADD_QAW_POPOVER_MAX_COUNT = 20;
-export const ADD_QAW_POPOVER_SCROLL_FROM_COUNT = 6;
-/** Approx. height of one QAW block (inputs + description row + divider). */
-export const ADD_QAW_POPOVER_ROW_HEIGHT_PX = 96;
+export {
+	ADD_QAW_POPOVER_MAX_COUNT,
+	ADD_QAW_POPOVER_ROW_HEIGHT_PX,
+	ADD_QAW_POPOVER_SCROLL_FROM_COUNT
+} from './add-qaw-popover.constants';
 
 class AddQAWPopoverStore {
-	values = $state<(CompactQAW & { isDescriptionEnabled: boolean })[]>([]);
+	values = $state<AddQAWFormRow[]>([]);
 
 	addEmptyRecord() {
 		if (this.values.length >= ADD_QAW_POPOVER_MAX_COUNT) return;
 
-		this.values.push({
-			isDescriptionEnabled: false,
-			word: '',
-			translation: '',
-			type: null,
-			extraMark: undefined,
-			definition: ''
-		});
+		this.values.push(createEmptyRow());
 	}
 
 	removeRecord(index: number) {
@@ -26,8 +21,26 @@ class AddQAWPopoverStore {
 	}
 
 	reset() {
-		this.values = [];
+		this.values = [createEmptyRow()];
 	}
+
+	clearAiErrors() {
+		for (const row of this.values) {
+			row.aiError = null;
+		}
+	}
+}
+
+function createEmptyRow(): AddQAWFormRow {
+	return {
+		isDescriptionEnabled: false,
+		word: '',
+		translation: '',
+		type: null,
+		extraMark: undefined,
+		definition: '',
+		aiError: null
+	};
 }
 
 export const addQAWPopoverStore = new AddQAWPopoverStore();
