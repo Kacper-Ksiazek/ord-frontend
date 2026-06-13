@@ -10,7 +10,8 @@
 		Lightbulb,
 		MessageSquare,
 		Moon,
-		Sun
+		Sun,
+		CirclePlus
 	} from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
@@ -24,6 +25,7 @@
 	import { sidebarStore } from './sidebar.store.svelte';
 	import { createLogoutMutation } from '$auth/api-client';
 	import { goto } from '$app/navigation';
+	import AddQawPopover from './components/add-qaw-popover/add-qaw-popover.svelte';
 
 	const { mutateAsync: handleLogout } = createLogoutMutation();
 
@@ -111,9 +113,18 @@
 
 			<SidebarLink title="Conversations" Icon={MessageSquare} href="/conversations" />
 
-			<SidebarLink title="QAW" Icon={Lightbulb} disabled />
+			<SidebarLink title="QAW" Icon={Lightbulb} href="/quickly-added-words" />
 		</div>
 	</nav>
+
+	<Divider />
+
+	<div class="flex flex-col gap-2 px-3">
+		<AddQawPopover />
+
+		<!-- Settings -->
+		<SidebarLink id="dupa" title="Add QAW" Icon={CirclePlus} />
+	</div>
 
 	<Divider />
 
