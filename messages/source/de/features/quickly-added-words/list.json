@@ -1,0 +1,53 @@
+{
+	"breadcrumb": {
+		"quickly_added_words": "Schnell hinzugefügte Wörter"
+	},
+	"header": {
+		"title": "Schnell hinzugefügte Wörter",
+		"description": "Dein erfasstes Vokabular, zuerst die neuesten."
+	},
+	"overview": {
+		"aria_label": "Statistik zu schnell hinzugefügten Wörtern",
+		"loading_aria_label": "Statistik zu schnell hinzugefügten Wörtern wird geladen",
+		"total": "Alle",
+		"approved": "Genehmigt",
+		"pending": "Ausstehend",
+		"error": "Statistik zu schnell hinzugefügten Wörtern konnte nicht geladen werden.",
+		"try_again": "Erneut versuchen"
+	},
+	"actions": {
+		"confirm": "Bestätigen",
+		"delete": "Löschen"
+	},
+	"selection": {
+		"select_row": "„{word}“ für Sammelaktionen auswählen"
+	},
+	"bulk": {
+		"toolbar_aria_label": "Sammelaktionen für ausstehende Wörter",
+		"select_all": "Alle auf dieser Seite auswählen",
+		"unselect_all": "Alle auf dieser Seite abwählen",
+		"approve_selected": "Ausgewählte bestätigen",
+		"remove_selected": "Ausgewählte entfernen"
+	},
+	"unconfirmed_badge": "Unbestätigt",
+	"unconfirmed_tooltip": "Dieses Wort stammt aus einer nicht verifizierten Quelle.",
+	"load_error": {
+		"header": "Schnell hinzugefügte Wörter konnten nicht geladen werden",
+		"description": "Etwas ist schiefgelaufen. Versuche es erneut.",
+		"try_again": "Erneut versuchen"
+	},
+	"empty": {
+		"header": "Noch keine schnell hinzugefügten Wörter",
+		"description": "Wörter, die du hinzufügst, erscheinen hier."
+	},
+	"list_aria_label": "Deine schnell hinzugefügten Wörter",
+	"week_sections": {
+		"this_week": "Diese Woche",
+		"last_week": "Letzte Woche"
+	},
+	"pagination": {
+		"previous": "Zurück",
+		"next": "Weiter",
+		"page_of": "Seite {page} von {totalPages}"
+	}
+}
