@@ -1,0 +1,28 @@
+{
+	"title": "Dodaj QAW",
+	"description": "Wpisz słowa do szybkiego zapisu. Użyj AI, aby uzupełnić tłumaczenie, opis i typ, a następnie zapisz.",
+	"word_placeholder": "Słowo",
+	"translation_placeholder": "Tłumaczenie",
+	"description_placeholder": "Wpisz opis słowa",
+	"add_more": "Dodaj więcej",
+	"reset": "Resetuj",
+	"save": "Zapisz",
+	"saving": "Zapisywanie…",
+	"fill_with_ai": "Uzupełnij AI",
+	"fill_progress": "Uzupełnianie {count} słów…",
+	"fill_validation": {
+		"no_words": "Wpisz co najmniej jedno słowo przed użyciem AI.",
+		"word_too_long": "Słowo może mieć maksymalnie 255 znaków.",
+		"too_many_words": "Możesz uzupełnić maksymalnie 20 słów naraz."
+	},
+	"fill_global_error": "Nie udało się uzupełnić słów. Sprawdź język nauki i spróbuj ponownie.",
+	"fill_row_errors": {
+		"NON_EXISTENT_WORD": "Nie udało się rozpoznać tego słowa.",
+		"AMBIGUOUS_WORD": "Słowo jest zbyt niejednoznaczne — doprecyzuj lub popraw pisownię.",
+		"unknown": "Nie udało się uzupełnić tego wiersza."
+	},
+	"save_no_words": "Wpisz co najmniej jedno słowo, aby zapisać.",
+	"save_no_language": "Ustaw język nauki w profilu przed zapisem.",
+	"close": "Zamknij",
+	"remove_record": "Usuń wiersz słowa"
+}

@@ -4,14 +4,15 @@
 
 	interface Props {
 		title: string;
-		Icon: LucideIcon;
 		disabled?: boolean;
 		href?: string;
-		onclick?: () => void;
 		fadeDelay?: number;
+		id?: string;
+		onclick?: () => void;
+		Icon: LucideIcon;
 	}
 
-	let { title, Icon, disabled = false, href, onclick, fadeDelay = 150 }: Props = $props();
+	let { title, Icon, id, disabled = false, href, onclick, fadeDelay = 150 }: Props = $props();
 
 	const classList = disabled
 		? 'text-gray-500 cursor-not-allowed opacity-50'
@@ -27,6 +28,7 @@
 	<a
 		{href}
 		{title}
+		{id}
 		class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors w-full {classList} {disabled
 			? ''
 			: 'justify-start'}"
@@ -40,6 +42,7 @@
 	<button
 		{disabled}
 		{title}
+		{id}
 		class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors w-full {classList} {disabled
 			? ''
 			: 'justify-start'}"

@@ -1,0 +1,28 @@
+{
+	"title": "Add QAW",
+	"description": "Enter words to capture quickly. Use AI to fill translation, description, and type, then save.",
+	"word_placeholder": "Word",
+	"translation_placeholder": "Translation",
+	"description_placeholder": "Enter description of the word",
+	"add_more": "Add more",
+	"reset": "Reset",
+	"save": "Save",
+	"saving": "Saving...",
+	"fill_with_ai": "Fill with AI",
+	"fill_progress": "Filling {count} words…",
+	"fill_validation": {
+		"no_words": "Enter at least one word before using AI fill.",
+		"word_too_long": "A word must be at most 255 characters.",
+		"too_many_words": "You can fill at most 20 words at once."
+	},
+	"fill_global_error": "Could not fill words. Check your learning language and try again.",
+	"fill_row_errors": {
+		"NON_EXISTENT_WORD": "Could not identify this word.",
+		"AMBIGUOUS_WORD": "This word is too ambiguous — add more context or fix spelling.",
+		"unknown": "Could not fill this row."
+	},
+	"save_no_words": "Enter at least one word to save.",
+	"save_no_language": "Select a learning language in your profile before saving.",
+	"close": "Close",
+	"remove_record": "Remove word row"
+}

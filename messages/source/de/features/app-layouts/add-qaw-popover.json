@@ -1,0 +1,28 @@
+{
+	"title": "QAW hinzufügen",
+	"description": "Wörter zum schnellen Erfassen eingeben. Mit KI Übersetzung, Beschreibung und Typ ergänzen und speichern.",
+	"word_placeholder": "Wort",
+	"translation_placeholder": "Übersetzung",
+	"description_placeholder": "Beschreibung des Wortes eingeben",
+	"add_more": "Weitere hinzufügen",
+	"reset": "Zurücksetzen",
+	"save": "Speichern",
+	"saving": "Speichern…",
+	"fill_with_ai": "Mit KI ausfüllen",
+	"fill_progress": "{count} Wörter werden ausgefüllt…",
+	"fill_validation": {
+		"no_words": "Gib mindestens ein Wort ein, bevor du die KI nutzt.",
+		"word_too_long": "Ein Wort darf höchstens 255 Zeichen lang sein.",
+		"too_many_words": "Es können höchstens 20 Wörter auf einmal ausgefüllt werden."
+	},
+	"fill_global_error": "Wörter konnten nicht ausgefüllt werden. Prüfe deine Lernsprache und versuche es erneut.",
+	"fill_row_errors": {
+		"NON_EXISTENT_WORD": "Dieses Wort konnte nicht erkannt werden.",
+		"AMBIGUOUS_WORD": "Dieses Wort ist zu mehrdeutig — präzisiere oder korrigiere die Schreibweise.",
+		"unknown": "Diese Zeile konnte nicht ausgefüllt werden."
+	},
+	"save_no_words": "Gib mindestens ein Wort ein, um zu speichern.",
+	"save_no_language": "Lege zuerst eine Lernsprache in deinem Profil fest.",
+	"close": "Schließen",
+	"remove_record": "Wortzeile entfernen"
+}
