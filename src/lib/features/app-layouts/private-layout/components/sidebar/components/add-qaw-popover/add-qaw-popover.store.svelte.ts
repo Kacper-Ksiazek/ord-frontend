@@ -1,12 +1,6 @@
 import { ADD_QAW_POPOVER_MAX_COUNT } from './add-qaw-popover.constants';
 import type { AddQAWFormRow } from './add-qaw-popover.types';
 
-export {
-	ADD_QAW_POPOVER_MAX_COUNT,
-	ADD_QAW_POPOVER_ROW_HEIGHT_PX,
-	ADD_QAW_POPOVER_SCROLL_FROM_COUNT
-} from './add-qaw-popover.constants';
-
 class AddQAWPopoverStore {
 	values = $state<AddQAWFormRow[]>([]);
 

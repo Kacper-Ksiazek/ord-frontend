@@ -22,5 +22,7 @@
 		"unknown": "Diese Zeile konnte nicht ausgefüllt werden."
 	},
 	"save_no_words": "Gib mindestens ein Wort ein, um zu speichern.",
-	"save_no_language": "Lege zuerst eine Lernsprache in deinem Profil fest."
+	"save_no_language": "Lege zuerst eine Lernsprache in deinem Profil fest.",
+	"close": "Schließen",
+	"remove_record": "Wortzeile entfernen"
 }

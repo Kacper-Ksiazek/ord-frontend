@@ -22,5 +22,7 @@
 		"unknown": "Nie udało się uzupełnić tego wiersza."
 	},
 	"save_no_words": "Wpisz co najmniej jedno słowo, aby zapisać.",
-	"save_no_language": "Ustaw język nauki w profilu przed zapisem."
+	"save_no_language": "Ustaw język nauki w profilu przed zapisem.",
+	"close": "Zamknij",
+	"remove_record": "Usuń wiersz słowa"
 }

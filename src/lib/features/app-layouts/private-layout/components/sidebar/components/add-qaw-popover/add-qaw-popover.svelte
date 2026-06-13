@@ -9,10 +9,12 @@
 		ADD_QAW_POPOVER_MAX_COUNT,
 		ADD_QAW_POPOVER_ROW_HEIGHT_PX,
 		ADD_QAW_POPOVER_SCROLL_FROM_COUNT,
-		addQAWPopoverStore
-	} from './add-qaw-popover.store.svelte';
+		ADD_QAW_POPOVER_TRIGGER_ID
+	} from './add-qaw-popover.constants';
+	import { addQAWPopoverStore } from './add-qaw-popover.store.svelte';
 	import { tick } from 'svelte';
-	import { ArrowLeftRight, BinaryIcon, EyeIcon, Minus, Plus, X } from 'lucide-svelte';
+	import { ArrowLeftRight, BinaryIcon, CirclePlus, EyeIcon, Minus, Plus, X } from 'lucide-svelte';
+	import SidebarLink from '../sidebar-link.svelte';
 	import IconButton from '$lib/components/actions/icon-button/icon-button.svelte';
 	import DropdownSelect from '$lib/components/forms/dropdown-select/dropdown-select.svelte';
 	import type { DropdownSelectOption } from '$lib/components/forms/dropdown-select';
@@ -25,7 +27,6 @@
 		createQawFillGapsMutation
 	} from '$lib/api-client/quickly-added-words/mutations';
 	import { authStore } from '$lib/stores/auth.svelte';
-	import type { LanguageName } from '$lib/types/core/domain/languages';
 	import * as m from '$lib/paraglide/messages.js';
 	import {
 		applyFillResultToRow,
@@ -35,7 +36,6 @@
 	import type { QAWFillGapsRowErrorCode } from '$lib/types/quickly-added-word/api/fill-gaps';
 	import { isAxiosError } from 'axios';
 
-	/** Min gap between popover and viewport edges (px) — external margin, not inner padding. */
 	const SIDEBAR_POPOVER_VIEWPORT_MARGIN = 120;
 
 	const sidebarPopoverMiddlewares = [
@@ -43,7 +43,6 @@
 		shift({ padding: SIDEBAR_POPOVER_VIEWPORT_MARGIN })
 	];
 
-	/** Match sidebar (`bg-black`, `border-gray-800`) — override Flowbite `dark:bg-gray-800` on popover. */
 	const sidebarPopoverClass = cn(
 		'ml-4.5 w-[866px] max-w-[920px] py-2 px-3',
 		'bg-black dark:bg-black text-white shadow-none',
@@ -51,7 +50,6 @@
 		'divide-gray-800 dark:divide-gray-800'
 	);
 
-	/** Fields on black chrome: gray-900 surface; typography/focus fixed in light theme. */
 	const sidebarFieldClass = cn(
 		'bg-gray-900 hover:bg-gray-900 border-gray-800',
 		'text-gray-200 placeholder:text-gray-400/80',
@@ -67,13 +65,11 @@
 		'[&_button.font-semibold]:bg-primary-900 [&_button.font-semibold]:text-gray-100'
 	);
 
-	/** Flowbite toggle track/focus — dark tokens without scoping popover as `.dark`. */
 	const sidebarToggleSpanClass = cn(
 		'bg-gray-600 after:border-gray-500',
 		'peer-focus:ring-primary-800'
 	);
 
-	/** Outlined footer actions on black chrome — override light-theme hovers. */
 	const sidebarAddMoreButtonClass = cn(
 		'border-0 pl-0 text-gray-300',
 		'hover:bg-white/10 hover:text-white',
@@ -98,9 +94,7 @@
 	let fillGlobalError = $state<string | null>(null);
 	let saveValidationError = $state<string | null>(null);
 
-	const learningLanguage = $derived(
-		authStore.user?.selectedLearningLanguage as LanguageName | undefined
-	);
+	const learningLanguage = $derived(authStore.user?.selectedLearningLanguage ?? undefined);
 
 	const isRecordsScrollable = $derived(
 		addQAWPopoverStore.values.length >= ADD_QAW_POPOVER_SCROLL_FROM_COUNT
@@ -242,7 +236,7 @@
 
 		<button
 			type="button"
-			aria-label="Close"
+			aria-label={m['features.app-layouts.add-qaw-popover.close']()}
 			class={cn(
 				'shrink-0 -mr-0.5 -mt-0.5 rounded-md p-1',
 				'text-gray-500 transition-colors',
@@ -322,7 +316,7 @@
 					<IconButton
 						type="OUTLINED"
 						variant="DELETE"
-						ariaLabel="Remove QAW record"
+						ariaLabel={m['features.app-layouts.add-qaw-popover.remove_record']()}
 						onClick={() => addQAWPopoverStore.removeRecord(index)}
 						icon={Minus}
 						disabled={isBusy}
@@ -410,9 +404,15 @@
 	</div>
 {/snippet}
 
+<SidebarLink
+	id={ADD_QAW_POPOVER_TRIGGER_ID}
+	title={m['features.app-layouts.add-qaw-popover.title']()}
+	Icon={CirclePlus}
+/>
+
 <Popover
 	bind:isOpen
-	triggeredBy="#dupa"
+	triggeredBy={`#${ADD_QAW_POPOVER_TRIGGER_ID}`}
 	trigger="click"
 	placement="right"
 	class={sidebarPopoverClass}

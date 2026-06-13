@@ -22,5 +22,7 @@
 		"unknown": "Could not fill this row."
 	},
 	"save_no_words": "Enter at least one word to save.",
-	"save_no_language": "Select a learning language in your profile before saving."
+	"save_no_language": "Select a learning language in your profile before saving.",
+	"close": "Close",
+	"remove_record": "Remove word row"
 }

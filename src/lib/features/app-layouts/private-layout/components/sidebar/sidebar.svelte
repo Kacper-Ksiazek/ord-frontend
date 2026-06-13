@@ -10,8 +10,7 @@
 		Lightbulb,
 		MessageSquare,
 		Moon,
-		Sun,
-		CirclePlus
+		Sun
 	} from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
@@ -121,9 +120,6 @@
 
 	<div class="flex flex-col gap-2 px-3">
 		<AddQawPopover />
-
-		<!-- Settings -->
-		<SidebarLink id="dupa" title="Add QAW" Icon={CirclePlus} />
 	</div>
 
 	<Divider />

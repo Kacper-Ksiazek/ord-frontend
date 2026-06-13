@@ -1,7 +1,7 @@
 import type { QAWFillGapsResultItem } from '$lib/types/quickly-added-word/api/fill-gaps';
 import type { CreateQAWRequest } from '$lib/types/quickly-added-word/api/requests';
 import type { LanguageName } from '$lib/types/core/domain/languages';
-import { ADD_QAW_POPOVER_MAX_COUNT } from './add-qaw-popover.store.svelte';
+import { ADD_QAW_POPOVER_MAX_COUNT } from './add-qaw-popover.constants';
 import type { AddQAWFormRow, CollectFillGapsItemsResult } from './add-qaw-popover.types';
 
 const MAX_WORD_LENGTH = 255;
