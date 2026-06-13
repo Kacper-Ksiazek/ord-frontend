@@ -14,6 +14,7 @@ export default [
 			'coverage/',
 			'.vercel/',
 			'src/lib/paraglide/',
+			'src/paraglide/',
 			'storybook-static/'
 		]
 	},
