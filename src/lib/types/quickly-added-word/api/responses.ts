@@ -1,4 +1,4 @@
-// Quickly added word API response types
-// Add response types here as needed
+import type { components } from '@ord-api/ord-api-types';
 
-export {};
+export type PaginationData = components['schemas']['PaginationData'];
+export type QAWPaginatedDataResponse = components['schemas']['QAWPaginatedDataResponse'];
