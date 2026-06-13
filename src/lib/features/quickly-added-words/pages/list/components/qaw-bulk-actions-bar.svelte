@@ -6,7 +6,6 @@
 	interface Props {
 		pageItemIds: string[];
 		selectedIds?: string[];
-		disabled?: boolean;
 		isBusy?: boolean;
 		onApproveSelected: () => void;
 		onRemoveSelected: () => void;
@@ -15,7 +14,6 @@
 	let {
 		pageItemIds,
 		selectedIds = $bindable([]),
-		disabled = false,
 		isBusy = false,
 		onApproveSelected,
 		onRemoveSelected
@@ -26,7 +24,7 @@
 	const allPageSelected = $derived(
 		hasPageItems && pageItemIds.every((id) => selectedIds.includes(id))
 	);
-	const isActionsDisabled = $derived(disabled || isBusy);
+	const isActionsDisabled = $derived(isBusy);
 
 	function selectAllOnPage() {
 		const merged = new Set([...selectedIds, ...pageItemIds]);

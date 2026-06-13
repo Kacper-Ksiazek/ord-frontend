@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { IconButton } from '$lib/components/actions/icon-button';
-	import { m } from '$lib/paraglide/messages.js';
+	import * as m from '$lib/paraglide/messages.js';
 	import { Check, Trash2 } from 'lucide-svelte';
 
 	interface Props {

@@ -30,5 +30,24 @@
 		"remove_selected": "Usuń zaznaczone"
 	},
 	"unconfirmed_badge": "Niepotwierdzone",
-	"unconfirmed_tooltip": "To słowo pochodzi z niezweryfikowanego źródła."
+	"unconfirmed_tooltip": "To słowo pochodzi z niezweryfikowanego źródła.",
+	"load_error": {
+		"header": "Nie udało się załadować szybko dodanych słów",
+		"description": "Coś poszło nie tak. Spróbuj ponownie.",
+		"try_again": "Spróbuj ponownie"
+	},
+	"empty": {
+		"header": "Brak szybko dodanych słów",
+		"description": "Dodane słowa pojawią się tutaj."
+	},
+	"list_aria_label": "Twoje szybko dodane słowa",
+	"week_sections": {
+		"this_week": "Ten tydzień",
+		"last_week": "Poprzedni tydzień"
+	},
+	"pagination": {
+		"previous": "Poprzednia",
+		"next": "Następna",
+		"page_of": "Strona {page} z {totalPages}"
+	}
 }
