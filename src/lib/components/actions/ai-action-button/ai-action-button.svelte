@@ -5,7 +5,21 @@
 	import type { AiActionButtonProps } from './ai-action-button.types';
 	import Stage from './components/stage.svelte';
 
-	let { status = $bindable('default'), disabled = false, ...rest }: AiActionButtonProps = $props();
+	let {
+		status = $bindable('default'),
+		disabled = false,
+		labels,
+		...rest
+	}: AiActionButtonProps = $props();
+
+	const defaultLabel = $derived(
+		labels?.default ?? m['components.utils.generate-with-ai.button_label']()
+	);
+	const loadingLabel = $derived(
+		labels?.loading ?? m['components.utils.generate-with-ai.generating']()
+	);
+	const successLabel = $derived(labels?.success ?? m['components.utils.generate-with-ai.success']());
+	const failedLabel = $derived(labels?.failed ?? m['components.utils.generate-with-ai.failed']());
 
 	$effect(() => {
 		if (status === 'success' || status === 'failed') {
@@ -28,7 +42,7 @@
 			{...props}
 		>
 			<Sparkles class="size-4 shrink-0" aria-hidden="true" />
-			<span>{m['components.utils.generate-with-ai.button_label']()}</span>
+			<span>{defaultLabel}</span>
 		</Button>
 	{/snippet}
 
@@ -50,19 +64,19 @@
 	{:else if status === 'loading'}
 		<Stage class="bg-gray-200 text-gray-700">
 			<Spinner size="4" class="fill-gray-700" />
-			<span>{m['components.utils.generate-with-ai.generating']()}</span>
+			<span>{loadingLabel}</span>
 		</Stage>
 		<!--  -->
 	{:else if status === 'success'}
 		<Stage class="bg-green-100">
 			<CircleCheck class="w-5 h-5 text-green-500" aria-hidden="true" />
-			<span>{m['components.utils.generate-with-ai.success']()}</span>
+			<span>{successLabel}</span>
 		</Stage>
 		<!--  -->
 	{:else if status === 'failed'}
 		<Stage class="bg-red-200">
 			<CircleX class="w-5 h-5 text-red-500" aria-hidden="true" />
-			<span>{m['components.utils.generate-with-ai.failed']()}</span>
+			<span>{failedLabel}</span>
 		</Stage>
 	{/if}
 </div>

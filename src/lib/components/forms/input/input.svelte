@@ -10,8 +10,8 @@
 	import type { InputProps } from './input.types';
 	import '../forms.css';
 
-	interface Props extends InputProps {
-		value?: string;
+	interface Props extends Omit<InputProps, 'value'> {
+		value?: string | null;
 	}
 
 	let {
