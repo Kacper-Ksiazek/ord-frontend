@@ -26,8 +26,6 @@ export const STORAGE_KEYS = {
  * (prefix is applied automatically). Not cleared by {@link clearAppStorage}.
  */
 export const LOCAL_STORAGE_KEYS = {
-	DEFAULT_CONVERSATION_TYPE: 'default_conversation_type',
-	RECENT_INTERLOCUTORS: 'recent_interlocutors',
 	CREATE_CONVERSATION_TOPIC_PICKER_PINNED_TOPICS: 'create_conversation_topic_picker_pinned_topics'
 } as const;
 

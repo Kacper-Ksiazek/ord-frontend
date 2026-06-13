@@ -3,7 +3,7 @@
 	import { SelectableCard } from '$lib/components/surfaces/selectable-card';
 	import { cn } from 'flowbite-svelte';
 	import { Pin, PinOff, X } from 'lucide-svelte';
-	import { pinTopic, removeTopicFromList, unpinTopic } from '../topic-picker.store.svelte';
+	import { topicPickerStore } from '../topic-picker.store.svelte';
 	import { getCreateConversationPayload } from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 
@@ -30,7 +30,7 @@
 		if (!payload.type) {
 			return;
 		}
-		removeTopicFromList(payload.type, topicToRemove);
+		topicPickerStore.removeTopicFromList(payload.type, topicToRemove);
 	}
 
 	function handlePinToggle(event: MouseEvent) {
@@ -40,9 +40,9 @@
 			return;
 		}
 		if (isPinned) {
-			unpinTopic(payload.type, topic);
+			topicPickerStore.unpinTopic(payload.type, topic);
 		} else {
-			pinTopic(payload.type, topic);
+			topicPickerStore.pinTopic(payload.type, topic);
 		}
 	}
 
