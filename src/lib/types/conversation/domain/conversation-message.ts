@@ -1,4 +1,4 @@
-import type { components } from '@ord-api/ord-api-types';
+import type { components } from '@kacper-ksiazek/ord-api-types';
 import type { ConversationUserMessageAnalysisDTO } from './conversation-message-analysis';
 import type { AIMessageLearningTips } from '$lib/types/ongoing-conversation/api/responses';
 

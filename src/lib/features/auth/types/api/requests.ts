@@ -1,4 +1,4 @@
-import type { paths } from '@ord-api/ord-api-types';
+import type { paths } from '@kacper-ksiazek/ord-api-types';
 
 export type OtpRequestBody =
 	paths['/api/v1/auth/otp-request']['post']['requestBody']['content']['application/json'];

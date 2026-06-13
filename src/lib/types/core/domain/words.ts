@@ -1,4 +1,4 @@
-import type { components } from '@ord-api/ord-api-types';
+import type { components } from '@kacper-ksiazek/ord-api-types';
 
 export type WordType = components['schemas']['WordType'];
 export type WordExtraMark = components['schemas']['WordExtraMark'];

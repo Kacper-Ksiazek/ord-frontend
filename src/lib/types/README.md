@@ -93,10 +93,10 @@ import type { UserDTO, ConversationDTO } from '$lib/types';
 
 ## Type Source
 
-All types are re-exported from the `@ord-api/ord-api-types` package, which is auto-generated from the backend OpenAPI specification. This ensures type safety and consistency between frontend and backend.
+All types are re-exported from the `@kacper-ksiazek/ord-api-types` package, which is auto-generated from the backend OpenAPI specification. This ensures type safety and consistency between frontend and backend.
 
 ```typescript
-import type { components, paths } from '@ord-api/ord-api-types';
+import type { components, paths } from '@kacper-ksiazek/ord-api-types';
 ```
 
 ## Adding a New Feature
@@ -146,7 +146,7 @@ When adding a new feature, follow this structure:
 - Keep all feature types within the feature directory
 - Use singular form for feature names (`conversation`, not `conversations`)
 - Use kebab-case for multi-word features (`language-proficiency`)
-- Re-export types from `@ord-api/ord-api-types` rather than duplicating
+- Re-export types from `@kacper-ksiazek/ord-api-types` rather than duplicating
 - Create UI types when component prop types become complex
 - Document complex type relationships
 
@@ -228,7 +228,7 @@ export async function getCurrentUser(): Promise<UserDTO> {
 
 This type organization is maintained to match the backend API structure. When the backend API changes:
 
-1. Update `@ord-api/ord-api-types` package version
+1. Update `@kacper-ksiazek/ord-api-types` package version
 2. Update affected type re-exports
 3. TypeScript compiler will catch any breaking changes
 
@@ -236,4 +236,4 @@ This type organization is maintained to match the backend API structure. When th
 
 **Last Updated:** 2025-11-08
 **Architecture:** Feature-Driven Development (FDD)
-**Type Source:** `@ord-api/ord-api-types` (OpenAPI Auto-Generated)
+**Type Source:** `@kacper-ksiazek/ord-api-types` (OpenAPI Auto-Generated)
