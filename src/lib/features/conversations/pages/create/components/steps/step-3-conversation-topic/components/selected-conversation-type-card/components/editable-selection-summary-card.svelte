@@ -2,8 +2,8 @@
 	import type { Snippet } from 'svelte';
 	import { Modal } from 'flowbite-svelte';
 	import { Pencil } from 'lucide-svelte';
-	import { Button } from '$lib/components/buttons/button';
-	import { IconButton } from '$lib/components/buttons/icon-button';
+	import { Button } from '$lib/components/actions/button';
+	import { IconButton } from '$lib/components/actions/icon-button';
 	import * as m from '$lib/paraglide/messages.js';
 
 	const summaryIconClass = 'size-12 text-primary-500 dark:text-primary-400';

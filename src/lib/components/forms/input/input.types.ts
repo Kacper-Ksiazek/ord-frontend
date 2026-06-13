@@ -1,5 +1,5 @@
 import type { RegisterableHotkey } from '@tanstack/svelte-hotkeys';
-import type { InputVariant } from '$lib/components/control-appearance';
+import type { InputVariant } from '$lib/styles/control-appearance';
 
 export type { InputVariant };
 

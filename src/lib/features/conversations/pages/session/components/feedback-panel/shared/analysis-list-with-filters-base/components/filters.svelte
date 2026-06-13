@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Input from '$lib/components/forms/input/input.svelte';
-	import { IconButton } from '$lib/components/buttons/icon-button';
+	import { IconButton } from '$lib/components/actions/icon-button';
 	import {
 		SearchIcon,
 		TrashIcon,
