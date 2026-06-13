@@ -1,4 +1,4 @@
-import type { components } from '@ord-api/ord-api-types';
+import type { components } from '@kacper-ksiazek/ord-api-types';
 
 export type ConversationType = components['schemas']['ConversationDTO']['type'];
 export type ConversationAITone = components['schemas']['ConversationDTO']['aiTone'];
