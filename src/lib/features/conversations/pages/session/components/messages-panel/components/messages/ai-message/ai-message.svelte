@@ -76,7 +76,7 @@
 
 	{#snippet footer()}
 		{#if !isStillGenerating}
-			<LearningTips {learningTips} {messageIndex} bind:showIconsInHighlightedParts />
+			<LearningTips {message} {learningTips} {messageIndex} bind:showIconsInHighlightedParts />
 		{/if}
 	{/snippet}
 </MessageBase>

@@ -3,7 +3,7 @@
 		FeedbackPanel,
 		MessagesPanel
 	} from '$lib/features/conversations/pages/session/components';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 	import isEmpty from 'lodash/isEmpty';
 	import { getMessagesContext } from '$lib/features/conversations/pages/session/contexts/messages-context.svelte';
 	import { getConversationContext } from '$lib/features/conversations/pages/session/contexts/conversation-context.svelte';
@@ -11,6 +11,7 @@
 	import { createRequestLearningTipsForAIMessageMutation } from '$lib/api-client/ongoing-conversation/mutations/use-request-learning-tips-for-ai-message';
 	import type { CompactConversationAiMessage } from '$lib/types/conversation/domain/conversation-message';
 	import { page } from '$app/state';
+	import { stopSpeaking } from '$lib/utils/speak-text';
 
 	const messagesContext = getMessagesContext();
 	const conversation = getConversationContext();
@@ -55,6 +56,10 @@
 				}
 			});
 		}
+	});
+
+	onDestroy(() => {
+		stopSpeaking();
 	});
 </script>
 
