@@ -19,10 +19,10 @@ This repository contains the **frontend** — a SvelteKit 2 + Svelte 5 single-pa
 
 <br />
 
-<!-- Update the href once your demo is live (and remove this comment). -->
+<!-- Update the href once your demo is live (and remove this comment). 
 [![Live Demo](https://img.shields.io/badge/▶_Live_Demo-FF3E00?style=for-the-badge)](#)
 [![Storybook](https://img.shields.io/badge/📚_Storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white)](#)
-
+-->
 </div>
 
 <p align="center">
