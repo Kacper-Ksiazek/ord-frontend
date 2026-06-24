@@ -19,7 +19,6 @@ let audio: HTMLAudioElement | null = null;
 let objectUrl: string | null = null;
 let abortController: AbortController | null = null;
 let requestId = 0;
-let speaking = false;
 
 function resetPlaybackState() {
 	speakTextPlayback.id = null;
@@ -66,22 +65,10 @@ function resetAudio() {
 	revokeObjectUrl();
 }
 
-export function isSpeaking(): boolean {
-	return speaking;
-}
-
-export function getSpeakingId(): string | number | null {
-	return speakTextPlayback.id;
-}
-
-export function getSpeakTextStatus(): SpeakTextStatus {
-	return speakTextPlayback.status;
-}
-
 export function stopSpeaking(): void {
+	++requestId;
 	abortController?.abort();
 	resetAudio();
-	speaking = false;
 	resetPlaybackState();
 }
 
@@ -180,7 +167,6 @@ function waitForPlayback(
 			}
 
 			emitProgress(speakingId, { currentTime: duration, duration }, onProgress);
-			speaking = false;
 			revokeObjectUrl();
 			resolve();
 		};
@@ -192,7 +178,6 @@ function waitForPlayback(
 				return;
 			}
 
-			speaking = false;
 			revokeObjectUrl();
 			reject(new Error('Playback failed'));
 		};
@@ -210,7 +195,6 @@ function waitForPlayback(
 				return;
 			}
 
-			speaking = false;
 			revokeObjectUrl();
 			reject(error instanceof Error ? error : new Error('Playback failed'));
 		});
@@ -237,7 +221,6 @@ export async function speakText(
 		options.signal.addEventListener('abort', () => controller.abort(), { once: true });
 	}
 
-	speaking = true;
 	setPlaybackState(speakingId, 'loading');
 
 	try {
@@ -273,11 +256,14 @@ export async function speakText(
 
 		return { duration };
 	} catch (error) {
-		if (controller.signal.aborted || axios.isCancel(error) || id !== requestId) {
+		if (
+			controller.signal.aborted ||
+			(axios.isAxiosError(error) && error.code === 'ERR_CANCELED') ||
+			id !== requestId
+		) {
 			return;
 		}
 
-		speaking = false;
 		resetAudio();
 		resetPlaybackState();
 		throw error instanceof Error ? error : new Error('Request failed');

@@ -6,6 +6,5 @@
 
 	<ul class="flex flex-col gap-2 text-primary-600 dark:text-primary-400">
 		<li><a href="/demo/paraglide" class="hover:underline">Paraglide i18n</a></li>
-		<li><a href="/demo/speak-text" class="hover:underline">Speak text (TTS)</a></li>
 	</ul>
 </div>

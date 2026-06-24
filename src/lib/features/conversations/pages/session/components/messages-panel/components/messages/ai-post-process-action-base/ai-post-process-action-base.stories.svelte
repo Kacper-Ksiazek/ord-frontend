@@ -29,7 +29,7 @@
 <script lang="ts">
 	import PlayMessageAudio from './components/play-message-audio.svelte';
 	import { speakTextPlayback } from '$lib/utils/speak-text.svelte';
-	import { formatTime } from '$lib/utils/format-time';
+	import PlaybackProgressBar from '$lib/components/playback-progress-bar/playback-progress-bar.svelte';
 
 	const sampleMessage =
 		"The trail sounds magnificent! I'd love to hear more about the wildlife you encountered.";
@@ -39,14 +39,6 @@
 
 	const showPlaybackProgress = $derived(
 		speakTextPlayback.id === messageIndex && speakTextPlayback.progress.duration > 0
-	);
-	const progressPercent = $derived(
-		speakTextPlayback.progress.duration > 0
-			? Math.min(
-					100,
-					(speakTextPlayback.progress.currentTime / speakTextPlayback.progress.duration) * 100
-				)
-			: 0
 	);
 </script>
 
@@ -70,26 +62,10 @@
 
 		{#snippet playbackProgress()}
 			{#if showPlaybackProgress}
-				<div class="flex flex-col gap-2" aria-live="polite">
-					<div
-						class="h-1.5 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700"
-						role="progressbar"
-						aria-valuemin="0"
-						aria-valuemax={speakTextPlayback.progress.duration}
-						aria-valuenow={speakTextPlayback.progress.currentTime}
-						aria-label="Playback progress"
-					>
-						<div
-							class="h-full w-full origin-left rounded-full bg-primary-600 transition-transform duration-300 ease-linear"
-							style:transform="scaleX({progressPercent / 100})"
-						></div>
-					</div>
-					<p class="text-xs text-gray-500 dark:text-gray-400">
-						{formatTime(speakTextPlayback.progress.currentTime)} / {formatTime(
-							speakTextPlayback.progress.duration
-						)}
-					</p>
-				</div>
+				<PlaybackProgressBar
+					currentTime={speakTextPlayback.progress.currentTime}
+					duration={speakTextPlayback.progress.duration}
+				/>
 			{/if}
 		{/snippet}
 

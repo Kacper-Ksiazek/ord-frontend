@@ -12,12 +12,23 @@
 
 	let { message, messageIndex, disabled = false }: PlayMessageAudioProps = $props();
 
+	let errorMessage = $state<string | null>(null);
+	let errorTimeoutId: ReturnType<typeof setTimeout> | undefined;
+
 	const isThisMessageActive = $derived(speakTextPlayback.id === messageIndex);
 	const isLoading = $derived(isThisMessageActive && speakTextPlayback.status === 'loading');
 	const isPlaying = $derived(isThisMessageActive && speakTextPlayback.status === 'playing');
 	const isActive = $derived(isLoading || isPlaying);
 
 	const { Icon, tooltip, ariaLabel } = $derived.by(() => {
+		if (errorMessage) {
+			return {
+				Icon: Volume2,
+				tooltip: errorMessage,
+				ariaLabel: errorMessage
+			};
+		}
+
 		if (isLoading) {
 			return {
 				Icon: Loader2,
@@ -43,12 +54,32 @@
 
 	const isDisabled = $derived(disabled || !message.trim());
 
+	function showError(message: string) {
+		errorMessage = message;
+
+		if (errorTimeoutId) {
+			clearTimeout(errorTimeoutId);
+		}
+
+		errorTimeoutId = setTimeout(() => {
+			errorMessage = null;
+			errorTimeoutId = undefined;
+		}, 5000);
+	}
+
 	async function onClick(e: MouseEvent) {
 		e.preventDefault();
 		e.stopPropagation();
 
 		if (isDisabled) {
 			return;
+		}
+
+		errorMessage = null;
+
+		if (errorTimeoutId) {
+			clearTimeout(errorTimeoutId);
+			errorTimeoutId = undefined;
 		}
 
 		if (isActive) {
@@ -63,7 +94,7 @@
 				id: messageIndex
 			});
 		} catch (error) {
-			console.error('Failed to play message audio:', error);
+			showError(error instanceof Error ? error.message : 'Request failed');
 		}
 
 		(e.target as HTMLElement).blur();

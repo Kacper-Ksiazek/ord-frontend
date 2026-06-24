@@ -12,7 +12,7 @@
 	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
 	import { getSidepanelContext } from '$lib/features/conversations/pages/session/contexts/sidepanel-context.svelte';
 	import { speakTextPlayback } from '$lib/utils/speak-text.svelte';
-	import { formatTime } from '$lib/utils/format-time';
+	import PlaybackProgressBar from '$lib/components/playback-progress-bar/playback-progress-bar.svelte';
 
 	interface LearningTipsProps {
 		message: string;
@@ -39,14 +39,6 @@
 	const isThisMessagePlaying = $derived(speakTextPlayback.id === messageIndex);
 	const showPlaybackProgress = $derived(
 		isThisMessagePlaying && speakTextPlayback.progress.duration > 0
-	);
-	const progressPercent = $derived(
-		speakTextPlayback.progress.duration > 0
-			? Math.min(
-					100,
-					(speakTextPlayback.progress.currentTime / speakTextPlayback.progress.duration) * 100
-				)
-			: 0
 	);
 
 	const grammarTipsCount = $derived(size(learningTips?.grammarTips));
@@ -108,25 +100,11 @@
 
 	{#snippet playbackProgress()}
 		{#if showPlaybackProgress}
-			<div class="flex flex-col gap-2" aria-live="polite" transition:fade={{ duration: 200 }}>
-				<div
-					class="h-1.5 overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700"
-					role="progressbar"
-					aria-valuemin="0"
-					aria-valuemax={speakTextPlayback.progress.duration}
-					aria-valuenow={speakTextPlayback.progress.currentTime}
-					aria-label="Playback progress"
-				>
-					<div
-						class="h-full w-full origin-left rounded-full bg-primary-600 will-change-transform transition-transform duration-300 ease-linear"
-						style:transform="scaleX({progressPercent / 100})"
-					></div>
-				</div>
-				<p class="text-xs text-gray-500 dark:text-gray-400">
-					{formatTime(speakTextPlayback.progress.currentTime)} / {formatTime(
-						speakTextPlayback.progress.duration
-					)}
-				</p>
+			<div transition:fade={{ duration: 200 }}>
+				<PlaybackProgressBar
+					currentTime={speakTextPlayback.progress.currentTime}
+					duration={speakTextPlayback.progress.duration}
+				/>
 			</div>
 		{/if}
 	{/snippet}

@@ -21,7 +21,7 @@ export async function requestTtsAudio(text: string, signal?: AbortSignal): Promi
 
 		return response.data;
 	} catch (error) {
-		if (axios.isCancel(error)) {
+		if (axios.isAxiosError(error) && error.code === 'ERR_CANCELED') {
 			throw error;
 		}
 

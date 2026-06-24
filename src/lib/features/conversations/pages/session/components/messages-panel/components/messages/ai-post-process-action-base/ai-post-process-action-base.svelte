@@ -7,7 +7,7 @@
 	import ToggleExpandCollapse from './components/toggle-expand-collapse.svelte';
 	import PreviewContent from './components/preview-content.svelte';
 
-	interface LearningTipsProps {
+	interface AiPostProcessActionBaseProps {
 		label: string;
 		class?: string;
 		isSelected?: boolean;
@@ -35,7 +35,7 @@
 		playbackProgress,
 		badges,
 		children
-	}: LearningTipsProps = $props();
+	}: AiPostProcessActionBaseProps = $props();
 
 	let isCollapsed = $state(true);
 
