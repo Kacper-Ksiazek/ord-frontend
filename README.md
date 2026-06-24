@@ -104,6 +104,8 @@ The codebase follows a **feature-sliced architecture** — each feature is self-
 - [`docs/API_STRUCTURE_GUIDELINES.md`](./docs/API_STRUCTURE_GUIDELINES.md) — how REST calls, SSE streams, mutations, and queries are organized.
 - [`docs/COMPONENT_CREATION_GUIDELINES.md`](./docs/COMPONENT_CREATION_GUIDELINES.md) — when to use single-file vs. folder components, naming, and class-merging conventions.
 
+> 🚧 **Architecture docs are a work in progress.** They'll be expanded to fully document how the frontend is structured and built. For the intended approach and a more complete reference, see the backend repo: [**Kacper-Ksiazek/ord-api**](https://github.com/Kacper-Ksiazek/ord-api).
+
 ```
 src/
 ├── lib/
@@ -138,8 +140,8 @@ src/
 3. Install dependencies and start the dev server:
 
 ```bash
-bun install   # or: npm install
-bun run dev   # or: npm run dev
+bun install
+bun run dev
 ```
 
 The app runs at `http://localhost:5173`.
@@ -148,15 +150,15 @@ The app runs at `http://localhost:5173`.
 
 | Script                    | Description                                  |
 | ------------------------- | -------------------------------------------- |
-| `npm run dev`             | Start the dev server (Vite)                  |
-| `npm run build`           | Production build                             |
-| `npm run preview`         | Preview the production build                 |
-| `npm run storybook`       | Launch Storybook on port `6006`              |
-| `npm test`                | Run the unit/component test suite once       |
-| `npm run test:unit`       | Run tests in watch mode                      |
-| `npm run check`           | Type-check with `svelte-check`               |
-| `npm run lint`            | Lint with ESLint                             |
-| `npm run format`          | Format with Prettier                         |
+| `bun run dev`             | Start the dev server (Vite)                  |
+| `bun run build`           | Production build                             |
+| `bun run preview`         | Preview the production build                 |
+| `bun run storybook`       | Launch Storybook on port `6006`              |
+| `bun run test`            | Run the unit/component test suite once       |
+| `bun run test:unit`       | Run tests in watch mode                      |
+| `bun run check`           | Type-check with `svelte-check`               |
+| `bun run lint`            | Lint with ESLint                             |
+| `bun run format`          | Format with Prettier                         |
 
 ---
 
@@ -167,8 +169,8 @@ The app runs at `http://localhost:5173`.
 - **Husky + lint-staged** run Prettier and ESLint on every commit, keeping the tree clean.
 
 ```bash
-npm test          # run all tests
-npm run storybook # explore components in isolation
+bun run test       # run all tests
+bun run storybook  # explore components in isolation
 ```
 
 ---
