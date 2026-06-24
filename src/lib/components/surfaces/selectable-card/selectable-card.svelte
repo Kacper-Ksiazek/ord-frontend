@@ -28,7 +28,7 @@
 			return false;
 		}
 
-		return Boolean((target as { closest: (sel: string) => unknown }).closest('button'));
+		return Boolean((target as unknown as { closest: (sel: string) => unknown }).closest('button'));
 	}
 </script>
 

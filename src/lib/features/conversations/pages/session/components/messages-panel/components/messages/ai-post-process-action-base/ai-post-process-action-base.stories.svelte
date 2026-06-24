@@ -26,6 +26,17 @@
 	});
 </script>
 
+<script lang="ts">
+	import PlayMessageAudio from './components/play-message-audio.svelte';
+	import PlayMessageAudioProgress from './components/play-message-audio-progress.svelte';
+
+	const sampleMessage =
+		"The trail sounds magnificent! I'd love to hear more about the wildlife you encountered.";
+
+	const messageIndex = 0;
+	let showIconsInHighlightedParts = $state(false);
+</script>
+
 <Story
 	name="Default"
 	args={{
@@ -36,4 +47,21 @@
 		text="Trwa przygotowywanie materiałów edukacyjnych"
 		dotsWrapperClass="mb-1"
 	/>
+</Story>
+
+<Story name="With Play Audio">
+	<AiPostProcessActionBase label="Wskazówki do nauki" bind:showIconsInHighlightedParts>
+		{#snippet headerActions()}
+			<PlayMessageAudio message={sampleMessage} {messageIndex} />
+		{/snippet}
+
+		{#snippet playbackProgress()}
+			<PlayMessageAudioProgress {messageIndex} />
+		{/snippet}
+
+		<TextWithThreeDotsAnimation
+			text="Trwa przygotowywanie materiałów edukacyjnych"
+			dotsWrapperClass="mb-1"
+		/>
+	</AiPostProcessActionBase>
 </Story>

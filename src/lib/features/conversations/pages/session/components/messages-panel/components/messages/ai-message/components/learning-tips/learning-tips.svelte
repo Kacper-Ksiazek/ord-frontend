@@ -3,6 +3,8 @@
 	import size from 'lodash/size';
 	import compact from 'lodash/compact';
 	import AiPostProcessActionBase from '../../../ai-post-process-action-base/ai-post-process-action-base.svelte';
+	import PlayMessageAudio from '../../../ai-post-process-action-base/components/play-message-audio.svelte';
+	import PlayMessageAudioProgress from '../../../ai-post-process-action-base/components/play-message-audio-progress.svelte';
 	import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
 	import { getAiMessageLearningTipColors } from '$conversations/pages/session/constants/ai-message-learning-tips/colors';
 	import HighlightsCountBadge from '$lib/features/conversations/pages/session/components/shared/highlights-count-badge.svelte';
@@ -11,13 +13,15 @@
 	import { getSidepanelContext } from '$lib/features/conversations/pages/session/contexts/sidepanel-context.svelte';
 
 	interface LearningTipsProps {
+		message: string;
 		learningTips: AIMessageLearningTips | null;
 		showIconsInHighlightedParts: boolean;
 		messageIndex: number;
 	}
 
 	let {
-		learningTips, //
+		message,
+		learningTips,
 		showIconsInHighlightedParts = $bindable(),
 		messageIndex
 	}: LearningTipsProps = $props();
@@ -83,6 +87,14 @@
 		(e.target as HTMLElement).blur();
 	}}
 >
+	{#snippet headerActions()}
+		<PlayMessageAudio {message} {messageIndex} />
+	{/snippet}
+
+	{#snippet playbackProgress()}
+		<PlayMessageAudioProgress {messageIndex} />
+	{/snippet}
+
 	{#snippet badges()}
 		{#each indicators as { category, count, label } (category)}
 			{@const { iconColor } = getAiMessageLearningTipColors(category)}

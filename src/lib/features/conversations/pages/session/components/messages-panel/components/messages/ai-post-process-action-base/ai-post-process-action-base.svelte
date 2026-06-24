@@ -7,7 +7,7 @@
 	import ToggleExpandCollapse from './components/toggle-expand-collapse.svelte';
 	import PreviewContent from './components/preview-content.svelte';
 
-	interface LearningTipsProps {
+	interface AiPostProcessActionBaseProps {
 		label: string;
 		class?: string;
 		isSelected?: boolean;
@@ -15,6 +15,8 @@
 		enableExpandCollapse?: boolean;
 		showIconsInHighlightedParts: boolean;
 		onPreviewContentClick?: (e: MouseEvent) => void;
+		headerActions?: Snippet;
+		playbackProgress?: Snippet;
 		children: Snippet;
 		badges?: Snippet;
 	}
@@ -29,9 +31,11 @@
 		enableExpandCollapse = false,
 
 		onPreviewContentClick,
+		headerActions,
+		playbackProgress,
 		badges,
 		children
-	}: LearningTipsProps = $props();
+	}: AiPostProcessActionBaseProps = $props();
 
 	let isCollapsed = $state(true);
 
@@ -49,6 +53,10 @@
 	)}
 >
 	<div class="absolute top-2 right-4 flex items-center gap-0.5">
+		{#if headerActions}
+			{@render headerActions()}
+		{/if}
+
 		{#if onPreviewContentClick}
 			<PreviewContent {isSelected} onClick={onPreviewContentClick} />
 		{/if}
@@ -71,6 +79,10 @@
 			<span class="font-medium text-sm">{label}</span>
 		</div>
 	</div>
+
+	{#if playbackProgress}
+		{@render playbackProgress()}
+	{/if}
 
 	<div class="flex flex-col">
 		<div class="flex flex-row gap-2 items-center justify-between">
