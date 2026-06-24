@@ -149,7 +149,10 @@ describe('speakText', () => {
 			await Promise.resolve();
 			stopSpeaking();
 
-			const outcome = await settled;
+			const outcome = (await settled) as
+				| { kind: 'resolved'; value: Awaited<typeof playback> }
+				| { kind: 'rejected'; error: unknown }
+				| { kind: 'timeout' };
 
 			expect(outcome.kind).not.toBe('timeout');
 		});

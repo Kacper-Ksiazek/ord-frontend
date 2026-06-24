@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { tick } from 'svelte';
-	import { ScrollableWrapper } from '$lib/components/utils/scrollable-wrapper';
-	import { StatusScreen } from '$lib/components/utils/status-screen';
-	import Skeleton from '$lib/components/utils/skeleton.svelte';
+	import { ScrollableWrapper } from '$lib/components/surfaces/scrollable-wrapper';
+	import { StatusScreen } from '$lib/components/feedback/status-screen';
+	import { Skeleton } from '$lib/components/feedback/skeleton';
 	import TopicRow from './components/topic-row.svelte';
 	import GenerateTopicsSuggestionsButton from './components/generate-topics-suggestions-button.svelte';
 	import CustomTopicManagement from './components/custom-topic-management.svelte';
@@ -10,7 +10,7 @@
 		getCreateConversationPayload,
 		setCreateConversationPayload
 	} from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
-	import { topicPickerUi, topics } from './topic-picker.store.svelte';
+	import { topicPickerStore } from './topic-picker.store.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 
 	let amountOfSkeletons = $state(0);
@@ -30,7 +30,7 @@
 			return { pinned: [] as string[], unpinned: [] as string[] };
 		}
 
-		return topics.get(payload.type) ?? { pinned: [], unpinned: [] };
+		return topicPickerStore.topics.get(payload.type) ?? { pinned: [], unpinned: [] };
 	});
 
 	const hasAnyTopicsOrSkeletons = $derived(
@@ -66,7 +66,7 @@
 								index={i}
 								{topic}
 								isPinned={true}
-								selectionDisabled={topicPickerUi.useOwnTopic}
+								selectionDisabled={topicPickerStore.useOwnTopic}
 								isSelected={payload.topic === topic}
 								onclick={() => setCreateConversationPayload({ topic })}
 							/>
@@ -91,7 +91,7 @@
 								index={topicBuckets.pinned.length + i}
 								{topic}
 								isPinned={false}
-								selectionDisabled={topicPickerUi.useOwnTopic}
+								selectionDisabled={topicPickerStore.useOwnTopic}
 								isSelected={payload.topic === topic}
 								onclick={() => setCreateConversationPayload({ topic })}
 							/>

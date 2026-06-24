@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
-	import { getOutlinedInputFieldClasses } from '$lib/components/control-appearance';
+	import { getOutlinedInputFieldClasses } from '$lib/styles/control-appearance';
 	import type { AutoHeightTextareaProps } from './auto-height-textarea.types';
 	import '../forms.css';
 

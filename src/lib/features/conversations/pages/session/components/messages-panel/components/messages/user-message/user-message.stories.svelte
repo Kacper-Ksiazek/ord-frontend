@@ -12,6 +12,7 @@
 		createdAt: new Date().toISOString(),
 		analysis: {
 			id: 'analysis-1',
+			isSabotage: false,
 			tutorComment: 'Good effort! Keep practicing.',
 			grammar: 7,
 			vocabulary: 8,

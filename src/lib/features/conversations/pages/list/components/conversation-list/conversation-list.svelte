@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { createConversationsQuery } from '$lib/api-client/conversation/queries';
-	import { Loader } from '$lib/components/utils/loader';
+	import { Loader } from '$lib/components/feedback/loader';
 	import ConversationListRow from './components/conversation-list-row.svelte';
 	import {
 		groupConversationsByRecencyBucket,
 		RECENCY_BUCKET_LABEL
 	} from './utils/group-conversations-by-recency-bucket';
 	import type { ConversationListFiltersState } from '$lib/features/conversations/pages/list/state/conversation-list-state.svelte';
-	import { StatusScreen } from '$lib/components/utils/status-screen';
+	import { StatusScreen } from '$lib/components/feedback/status-screen';
 	import type { RecencyBucket } from '$lib/types/conversation/domain/conversation';
 
 	interface Props {

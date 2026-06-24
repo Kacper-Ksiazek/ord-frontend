@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { MultiStepForm } from '$lib/components/utils/multi-step-form';
-	import type { StepConfig } from '$lib/components/utils/multi-step-form';
-	import { Loader } from '$lib/components/utils/loader';
+	import { MultiStepForm } from '$lib/components/navigation/multi-step-form';
+	import type { StepConfig } from '$lib/components/navigation/multi-step-form';
+	import { Loader } from '$lib/components/feedback/loader';
 	import {
 		getCreateConversationPayload,
 		setCreateConversationPayload
 	} from '../stores/create-conversation-payload.svelte';
-	import { resetTopicPickerCustomState } from '$lib/features/conversations/pages/create/components/steps/step-3-conversation-topic/components/topic-picker/topic-picker.store.svelte';
+	import { topicPickerStore } from '$lib/features/conversations/pages/create/components/steps/step-3-conversation-topic/components/topic-picker/topic-picker.store.svelte';
 	import { readDefaultConversationTypeFromStorage } from '$lib/features/conversations/pages/create/utils/default-conversation-type-storage';
 	import { readDefaultConversationToneFromStorage } from '$lib/features/conversations/pages/create/utils/default-conversation-tone-storage';
 	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';
@@ -34,7 +34,7 @@
 
 		if (typeDefault && payload.type === undefined) {
 			setCreateConversationPayload({ type: typeDefault });
-			resetTopicPickerCustomState();
+			topicPickerStore.resetCustomState();
 		}
 
 		if (toneDefault && getCreateConversationPayload().tone === undefined) {

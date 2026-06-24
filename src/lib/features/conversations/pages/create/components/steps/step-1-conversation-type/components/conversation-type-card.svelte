@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
 	import { Heart } from 'lucide-svelte';
-	import { IconButton } from '$lib/components/buttons/icon-button';
-	import SelectableCard from '$lib/components/utils/selectable-card.svelte';
+	import { IconButton } from '$lib/components/actions/icon-button';
+	import { SelectableCard } from '$lib/components/surfaces/selectable-card';
 	import * as m from '$lib/paraglide/messages.js';
 	import type { ConversationType } from '$lib/types/conversation/domain/conversation';
 	import ConversationTypeIcon from '$lib/features/conversations/shared/components/conversation-type-icon.svelte';

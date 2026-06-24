@@ -1,4 +1,4 @@
-import type { components } from '@ord-api/ord-api-types';
+import type { components } from '@kacper-ksiazek/ord-api-types';
 
 export type CreateOngoingConversationMessageRequest =
 	components['schemas']['CreateAIConversationMessageRequest'];

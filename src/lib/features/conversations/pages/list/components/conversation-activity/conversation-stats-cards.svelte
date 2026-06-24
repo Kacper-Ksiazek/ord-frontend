@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
 	import type { ConversationActivityOverview } from '$lib/types/conversation/api/conversation-list-activity';
-	import { LineChartCard } from '$lib/components/cards/line-chart-card';
+	import { LineChartCard } from '$lib/components/data-display/line-chart-card';
 
 	interface Props {
 		activity: ConversationActivityOverview;
