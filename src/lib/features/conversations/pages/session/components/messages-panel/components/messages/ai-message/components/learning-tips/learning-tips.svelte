@@ -2,17 +2,15 @@
 	import type { AIMessageLearningTips } from '$lib/types/ongoing-conversation/api/responses';
 	import size from 'lodash/size';
 	import compact from 'lodash/compact';
-	import { fade } from 'svelte/transition';
 	import AiPostProcessActionBase from '../../../ai-post-process-action-base/ai-post-process-action-base.svelte';
 	import PlayMessageAudio from '../../../ai-post-process-action-base/components/play-message-audio.svelte';
+	import PlayMessageAudioProgress from '../../../ai-post-process-action-base/components/play-message-audio-progress.svelte';
 	import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
 	import { getAiMessageLearningTipColors } from '$conversations/pages/session/constants/ai-message-learning-tips/colors';
 	import HighlightsCountBadge from '$lib/features/conversations/pages/session/components/shared/highlights-count-badge.svelte';
 	import AiMessageLearningTipIcon from '$lib/features/conversations/pages/session/components/shared/ai-message-learning-tips/ai-message-learning-tip-icon.svelte';
 	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
 	import { getSidepanelContext } from '$lib/features/conversations/pages/session/contexts/sidepanel-context.svelte';
-	import { speakTextPlayback } from '$lib/utils/speak-text.svelte';
-	import PlaybackProgressBar from '$lib/components/playback-progress-bar/playback-progress-bar.svelte';
 
 	interface LearningTipsProps {
 		message: string;
@@ -34,11 +32,6 @@
 
 	const isSelected = $derived(
 		sidepanelContext.isOpened && sidepanelContext.learningTipsPreviewMessageOrder === messageIndex
-	);
-
-	const isThisMessagePlaying = $derived(speakTextPlayback.id === messageIndex);
-	const showPlaybackProgress = $derived(
-		isThisMessagePlaying && speakTextPlayback.progress.duration > 0
 	);
 
 	const grammarTipsCount = $derived(size(learningTips?.grammarTips));
@@ -99,14 +92,7 @@
 	{/snippet}
 
 	{#snippet playbackProgress()}
-		{#if showPlaybackProgress}
-			<div transition:fade={{ duration: 200 }}>
-				<PlaybackProgressBar
-					currentTime={speakTextPlayback.progress.currentTime}
-					duration={speakTextPlayback.progress.duration}
-				/>
-			</div>
-		{/if}
+		<PlayMessageAudioProgress {messageIndex} />
 	{/snippet}
 
 	{#snippet badges()}

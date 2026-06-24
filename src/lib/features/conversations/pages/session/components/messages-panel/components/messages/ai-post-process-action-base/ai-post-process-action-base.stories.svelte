@@ -28,18 +28,13 @@
 
 <script lang="ts">
 	import PlayMessageAudio from './components/play-message-audio.svelte';
-	import { speakTextPlayback } from '$lib/utils/speak-text.svelte';
-	import PlaybackProgressBar from '$lib/components/playback-progress-bar/playback-progress-bar.svelte';
+	import PlayMessageAudioProgress from './components/play-message-audio-progress.svelte';
 
 	const sampleMessage =
 		"The trail sounds magnificent! I'd love to hear more about the wildlife you encountered.";
 
 	const messageIndex = 0;
 	let showIconsInHighlightedParts = $state(false);
-
-	const showPlaybackProgress = $derived(
-		speakTextPlayback.id === messageIndex && speakTextPlayback.progress.duration > 0
-	);
 </script>
 
 <Story
@@ -61,12 +56,7 @@
 		{/snippet}
 
 		{#snippet playbackProgress()}
-			{#if showPlaybackProgress}
-				<PlaybackProgressBar
-					currentTime={speakTextPlayback.progress.currentTime}
-					duration={speakTextPlayback.progress.duration}
-				/>
-			{/if}
+			<PlayMessageAudioProgress {messageIndex} />
 		{/snippet}
 
 		<TextWithThreeDotsAnimation

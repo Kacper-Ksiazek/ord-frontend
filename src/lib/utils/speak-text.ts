@@ -15,10 +15,18 @@ export type SpeakTextOptions = {
 	onProgress?: (progress: SpeakTextProgress) => void;
 };
 
+export class SpeakTextCanceledError extends Error {
+	constructor() {
+		super('Playback canceled');
+		this.name = 'SpeakTextCanceledError';
+	}
+}
+
 let audio: HTMLAudioElement | null = null;
 let objectUrl: string | null = null;
 let abortController: AbortController | null = null;
 let requestId = 0;
+const pendingCancellations = new Set<() => void>();
 
 function resetPlaybackState() {
 	speakTextPlayback.id = null;
@@ -67,55 +75,104 @@ function resetAudio() {
 
 export function stopSpeaking(): void {
 	++requestId;
+
+	for (const cancel of pendingCancellations) {
+		cancel();
+	}
+
+	pendingCancellations.clear();
 	abortController?.abort();
 	resetAudio();
 	resetPlaybackState();
 }
 
+function rejectIfSuperseded(id: number, reject: (error: Error) => void): boolean {
+	if (id !== requestId) {
+		reject(new SpeakTextCanceledError());
+
+		return true;
+	}
+
+	return false;
+}
+
+function trackPendingCancellation(id: number, reject: (error: Error) => void, cleanup: () => void) {
+	const cancel = () => {
+		cleanup();
+		pendingCancellations.delete(cancel);
+
+		if (id !== requestId) {
+			reject(new SpeakTextCanceledError());
+		}
+	};
+
+	pendingCancellations.add(cancel);
+
+	const disarm = () => {
+		cleanup();
+		pendingCancellations.delete(cancel);
+	};
+
+	return { cancel, disarm };
+}
+
 function waitForMetadata(element: HTMLAudioElement, id: number): Promise<number> {
 	return new Promise((resolve, reject) => {
-		const cleanup = () => {
+		function onLoadedMetadata() {
+			settle(() => {
+				if (rejectIfSuperseded(id, reject)) {
+					return;
+				}
+
+				const duration = element.duration;
+
+				if (!Number.isFinite(duration)) {
+					reject(new Error('Could not determine audio duration'));
+
+					return;
+				}
+
+				resolve(duration);
+			});
+		}
+
+		function onError() {
+			settle(() => {
+				if (rejectIfSuperseded(id, reject)) {
+					return;
+				}
+
+				reject(new Error('Playback failed'));
+			});
+		}
+
+		const { disarm: disarmPending } = trackPendingCancellation(id, reject, () => {
 			element.removeEventListener('loadedmetadata', onLoadedMetadata);
 			element.removeEventListener('error', onError);
-		};
+		});
 
-		const onLoadedMetadata = () => {
-			cleanup();
-
-			if (id !== requestId) {
-				return;
-			}
-
-			const duration = element.duration;
-
-			if (!Number.isFinite(duration)) {
-				reject(new Error('Could not determine audio duration'));
-
-				return;
-			}
-
-			resolve(duration);
-		};
-
-		const onError = () => {
-			cleanup();
-
-			if (id !== requestId) {
-				return;
-			}
-
-			reject(new Error('Playback failed'));
+		const settle = (handler: () => void) => {
+			disarmPending();
+			handler();
 		};
 
 		if (element.readyState >= HTMLMediaElement.HAVE_METADATA) {
+			if (rejectIfSuperseded(id, reject)) {
+				disarmPending();
+
+				return;
+			}
+
 			const duration = element.duration;
 
 			if (!Number.isFinite(duration)) {
+				disarmPending();
 				reject(new Error('Could not determine audio duration'));
 
 				return;
 			}
 
+			disarmPending();
 			resolve(duration);
 
 			return;
@@ -134,22 +191,15 @@ function waitForPlayback(
 	onProgress?: (progress: SpeakTextProgress) => void
 ): Promise<void> {
 	return new Promise((resolve, reject) => {
-		const cleanupListeners = () => {
-			element.removeEventListener('ended', onEnded);
-			element.removeEventListener('error', onError);
-			element.removeEventListener('timeupdate', onTimeUpdate);
-			element.removeEventListener('playing', onPlaying);
-		};
-
-		const onTimeUpdate = () => {
+		function onTimeUpdate() {
 			if (id !== requestId) {
 				return;
 			}
 
 			emitProgress(speakingId, { currentTime: element.currentTime, duration }, onProgress);
-		};
+		}
 
-		const onPlaying = () => {
+		function onPlaying() {
 			if (id !== requestId) {
 				return;
 			}
@@ -157,29 +207,41 @@ function waitForPlayback(
 			if (speakingId !== null) {
 				speakTextPlayback.status = 'playing';
 			}
-		};
+		}
 
-		const onEnded = () => {
-			cleanupListeners();
+		function onEnded() {
+			settle(() => {
+				if (rejectIfSuperseded(id, reject)) {
+					return;
+				}
 
-			if (id !== requestId) {
-				return;
-			}
+				emitProgress(speakingId, { currentTime: duration, duration }, onProgress);
+				revokeObjectUrl();
+				resolve();
+			});
+		}
 
-			emitProgress(speakingId, { currentTime: duration, duration }, onProgress);
-			revokeObjectUrl();
-			resolve();
-		};
+		function onError() {
+			settle(() => {
+				if (rejectIfSuperseded(id, reject)) {
+					return;
+				}
 
-		const onError = () => {
-			cleanupListeners();
+				revokeObjectUrl();
+				reject(new Error('Playback failed'));
+			});
+		}
 
-			if (id !== requestId) {
-				return;
-			}
+		const { disarm: disarmPending } = trackPendingCancellation(id, reject, () => {
+			element.removeEventListener('ended', onEnded);
+			element.removeEventListener('error', onError);
+			element.removeEventListener('timeupdate', onTimeUpdate);
+			element.removeEventListener('playing', onPlaying);
+		});
 
-			revokeObjectUrl();
-			reject(new Error('Playback failed'));
+		const settle = (handler: () => void) => {
+			disarmPending();
+			handler();
 		};
 
 		emitProgress(speakingId, { currentTime: 0, duration }, onProgress);
@@ -189,14 +251,14 @@ function waitForPlayback(
 		element.addEventListener('timeupdate', onTimeUpdate);
 		element.addEventListener('playing', onPlaying);
 		element.play().catch((error) => {
-			cleanupListeners();
+			settle(() => {
+				if (rejectIfSuperseded(id, reject)) {
+					return;
+				}
 
-			if (id !== requestId) {
-				return;
-			}
-
-			revokeObjectUrl();
-			reject(error instanceof Error ? error : new Error('Playback failed'));
+				revokeObjectUrl();
+				reject(error instanceof Error ? error : new Error('Playback failed'));
+			});
 		});
 	});
 }
@@ -257,6 +319,7 @@ export async function speakText(
 		return { duration };
 	} catch (error) {
 		if (
+			error instanceof SpeakTextCanceledError ||
 			controller.signal.aborted ||
 			(axios.isAxiosError(error) && error.code === 'ERR_CANCELED') ||
 			id !== requestId

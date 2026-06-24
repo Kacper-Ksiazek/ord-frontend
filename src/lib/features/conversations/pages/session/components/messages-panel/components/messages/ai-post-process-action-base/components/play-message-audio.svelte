@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import { IconButton } from '$lib/components/buttons/icon-button';
 	import { Loader2, Square, Volume2 } from 'lucide-svelte';
 	import { speakText, stopSpeaking } from '$lib/utils/speak-text';
@@ -54,8 +55,8 @@
 
 	const isDisabled = $derived(disabled || !message.trim());
 
-	function showError(message: string) {
-		errorMessage = message;
+	function showError(errorText: string) {
+		errorMessage = errorText;
 
 		if (errorTimeoutId) {
 			clearTimeout(errorTimeoutId);
@@ -99,6 +100,12 @@
 
 		(e.target as HTMLElement).blur();
 	}
+
+	onDestroy(() => {
+		if (errorTimeoutId) {
+			clearTimeout(errorTimeoutId);
+		}
+	});
 </script>
 
 <IconButton
