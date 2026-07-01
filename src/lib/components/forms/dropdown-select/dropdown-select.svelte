@@ -15,7 +15,8 @@
 		ariaLabel = 'Select option',
 		buttonClass = '',
 		dropdownClass = '',
-		icon
+		icon,
+		testId
 	}: DropdownSelectProps<T> = $props();
 
 	const selectedOption = $derived(options.find((opt) => opt.value === value) ?? options[0]);
@@ -35,6 +36,7 @@
 
 <button
 	bind:this={openButtonElement}
+	data-testid={testId}
 	class={cn('form-input-base form-input-container justify-between', buttonClass)}
 	aria-label={ariaLabel}
 	type="button"

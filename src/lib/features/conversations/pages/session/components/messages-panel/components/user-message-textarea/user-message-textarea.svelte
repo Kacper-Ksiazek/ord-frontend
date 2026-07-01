@@ -12,6 +12,7 @@
 	import type { ConversationUserMessageAnalysisDTO } from '$lib/types/conversation/domain/conversation-message-analysis';
 	import type { CompactConversationAiMessage } from '$lib/types/conversation/domain/conversation-message';
 	import { getMessagesMaxWidth } from '../../../constants.svelte';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	let isFocused = $state(false);
 	let message = $state('');
@@ -122,6 +123,7 @@
 </script>
 
 <div
+	data-testid={E2E_TEST_IDS.session.messageComposer}
 	class={cn(
 		'flex items-end gap-1 rounded-2xl w-full mb-2 px-2 py-1',
 		messagesMaxWidth,
@@ -133,6 +135,7 @@
 >
 	<AutoHeightTextarea
 		bind:this={textareaComponent}
+		testId={E2E_TEST_IDS.session.messageInput}
 		bind:value={message}
 		placeholder="Type your message..."
 		className="content-long "

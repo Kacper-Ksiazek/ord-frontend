@@ -20,4 +20,6 @@ export interface AutoHeightTextareaProps {
 	onblur?: (e: FocusEvent) => void;
 	onkeydown?: (e: KeyboardEvent) => void;
 	onInput?: (event: Event) => void;
+	/** Stable selector for E2E tests (`data-testid`) */
+	testId?: string;
 }

@@ -16,6 +16,7 @@
 		onStepChange,
 		finalStepButtonText,
 		onFinalStepClick,
+		testIdPrefix,
 		children
 	}: Props = $props();
 
@@ -69,12 +70,16 @@
 			</span>
 		</div>
 
-		<div class="flex items-center w-full gap-2 h-2.5">
+		<div
+			class="flex items-center w-full gap-2 h-2.5"
+			data-testid={testIdPrefix ? `${testIdPrefix}-stepper` : undefined}
+		>
 			{#each steps as _step, index (index)}
 				{@const isActive = index === currentStep}
 				{@const isCompleted = index < currentStep}
 
 				<div
+					data-testid={testIdPrefix ? `${testIdPrefix}-step-${index}` : undefined}
 					class={cn(
 						'rounded-full transition-all duration-300 ease-in-out',
 						isActive && 'h-2.5 bg-primary-600 dark:bg-primary-500',
@@ -110,6 +115,7 @@
 					variant="PRIMARY"
 					onClick={previousStep}
 					hotkey={hotkeyPrevious}
+					testId={testIdPrefix ? `${testIdPrefix}-previous` : undefined}
 					class="min-w-64"
 				>
 					{m['components.utils.multi-step-form.previous']()}
@@ -125,6 +131,7 @@
 					onClick={nextStep}
 					disabled={!canGoNext}
 					hotkey={hotkeyNext}
+					testId={testIdPrefix ? `${testIdPrefix}-next` : undefined}
 					class="min-w-64"
 				>
 					{m['components.utils.multi-step-form.next']()}
@@ -142,6 +149,7 @@
 					}}
 					disabled={!canGoNext}
 					hotkey={hotkeyComplete}
+					testId={testIdPrefix ? `${testIdPrefix}-start` : undefined}
 					class="min-w-64"
 				>
 					{finalStepButtonText}

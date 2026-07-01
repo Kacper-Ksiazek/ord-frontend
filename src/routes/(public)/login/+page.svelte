@@ -7,6 +7,7 @@
 	import { OtpInput } from '$auth/components';
 	import { m } from '$lib/paraglide/messages.js';
 	import { authStore } from '$lib/stores/auth.svelte';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	let step = $state<'email' | 'otp'>('email');
 	let email = $state('kacper.b.ksiazek@gmail.com');
@@ -66,7 +67,7 @@
 	<title>{m['auth.login.title']()}</title>
 </svelte:head>
 
-<div class="w-full max-w-md px-4">
+<div class="w-full max-w-md px-4" data-testid={E2E_TEST_IDS.login.page}>
 	<div>
 		<div class="mb-6">
 			<div class="w-32 h-32 mx-auto mb-4">
@@ -84,7 +85,7 @@
 		</div>
 
 		{#if error}
-			<Alert color="red" class="mb-4">
+			<Alert color="red" class="mb-4" data-testid={E2E_TEST_IDS.login.error}>
 				<span class="font-medium">{m['auth.login.error_prefix']()}</span>
 				{error}
 			</Alert>
@@ -92,6 +93,7 @@
 
 		{#if step === 'email'}
 			<form
+				data-testid={E2E_TEST_IDS.login.emailForm}
 				onsubmit={(e) => {
 					e.preventDefault();
 					handleEmailSubmit();
@@ -100,6 +102,7 @@
 				<div class="mb-6">
 					<Input
 						id="email"
+						data-testid={E2E_TEST_IDS.login.emailInput}
 						type="email"
 						bind:value={email}
 						placeholder={m['auth.login.email_placeholder']()}
@@ -112,6 +115,7 @@
 					type="submit"
 					size="lg"
 					class="w-full"
+					data-testid={E2E_TEST_IDS.login.emailSubmit}
 					disabled={requestOtpMutation.isPending || !email || !email.includes('@')}
 				>
 					{requestOtpMutation.isPending
@@ -121,6 +125,7 @@
 			</form>
 		{:else}
 			<form
+				data-testid={E2E_TEST_IDS.login.otpForm}
 				onsubmit={(e) => {
 					e.preventDefault();
 					handleOtpSubmit();
@@ -137,6 +142,7 @@
 					type="submit"
 					size="lg"
 					class="w-full mb-3"
+					data-testid={E2E_TEST_IDS.login.otpSubmit}
 					disabled={verifyOtpMutation.isPending || otpCode.length !== 6}
 				>
 					{verifyOtpMutation.isPending ? m['auth.login.verifying']() : m['auth.login.verify_button']()}

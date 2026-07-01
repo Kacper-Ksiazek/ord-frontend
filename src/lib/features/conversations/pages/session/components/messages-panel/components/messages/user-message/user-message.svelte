@@ -3,6 +3,7 @@
 	import type { CompactConversationUserMessage } from '$lib/types/conversation/domain/conversation-message';
 	import { Analysis } from './components';
 	import UserMessageTextContent from './lib/user-message-text-content.svelte';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	interface UserMessageProps {
 		messageIndex: number;
@@ -14,7 +15,7 @@
 	let showIconsInHighlightedParts = $state(false);
 </script>
 
-<MessageBase orientation="right">
+<MessageBase testId={E2E_TEST_IDS.session.userMessage(messageIndex)} orientation="right">
 	{#snippet content()}
 		<UserMessageTextContent
 			{messageIndex}
@@ -25,6 +26,6 @@
 	{/snippet}
 
 	{#snippet footer()}
-		<Analysis analysis={message.analysis} bind:showIconsInHighlightedParts />
+		<Analysis analysis={message.analysis} {messageIndex} bind:showIconsInHighlightedParts />
 	{/snippet}
 </MessageBase>
