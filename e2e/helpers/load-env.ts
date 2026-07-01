@@ -6,6 +6,8 @@ const ENV_FILE = resolve(fileURLToPath(new URL('../../.env.e2e', import.meta.url
 
 /**
  * Loads `.env.e2e` into `process.env` without overwriting existing variables.
+ *
+ * Simple KEY=value parser — no quotes, `export` prefix, or variable expansion.
  */
 export function loadEnvE2e(): void {
 	if (!existsSync(ENV_FILE)) {

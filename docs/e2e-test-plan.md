@@ -104,17 +104,15 @@ Wszystkie testy E2E **muszą** stosować wzorzec Page Object Model. Pliki `*.spe
 | **Selektory tylko w Page/Component Objects** | `page.locator()`, `getByRole()` itd. nigdy w plikach `*.spec.ts` |
 | **Akcje użytkownika jako metody** | Np. `loginPage.loginWithOtp(email)`, `sidebar.logout()` |
 | **Asercje na lokatorach z Page Object** | `await expect(loginPage.errorAlert).toBeVisible()` |
-| **Fixtures wstrzykują Page Objects** | Używaj `loginPage`, `sidebar` z fixture — nie `new LoginPage(page)` w spec (wyjątek: nowy browser context) |
+| **Fixtures wstrzykują Page Objects** | Domyślnie z `pages.fixture`; dodatkowe konteksty przez `create*Page(page)` w `e2e/helpers/page-objects.ts` |
 | **Helpers tylko dla logiki spoza UI** | OTP resolution, localStorage seed — nie selektory |
 
 ### Hierarchia
 
 ```
-BasePage                    ← wspólna klasa bazowa (trzyma referencję do Page)
-├── LoginPage               ← strona /login
-└── ConversationsListPage   ← strona /conversations
-
-SidebarComponent            ← fragment UI (sidebar), nie dziedziczy BasePage
+LoginPage                   ← strona /login
+ConversationsListPage       ← strona /conversations
+SidebarComponent            ← fragment UI (sidebar)
 
 # Dodawane w kolejnych fazach (nie wcześniej):
 # CreateConversationPage    ← Faza 3
@@ -132,7 +130,8 @@ test('user can log in and see conversations', async ({
   await loginPage.loginWithOtp(testEnv.testEmail);
   await conversationsListPage.goto();
   await conversationsListPage.expectLoaded();
-  await expect(sidebar.userEmail).toContainText(testEnv.testEmail);
+  await sidebar.ensureExpanded();
+  await expect(sidebar.userEmail(testEnv.testEmail)).toBeVisible();
 });
 ```
 
@@ -170,7 +169,8 @@ e2e/
 │   ├── auth.fixture.ts                 # authenticatedPage (logowanie OTP)
 │   └── test-env.ts
 ├── helpers/                            # tylko logika spoza UI
-│   ├── load-env.ts                     # ładowanie .env.e2e w playwright.config
+│   ├── load-env.ts                     # ładowanie .env.e2e (wywoływane z test-env.ts)
+│   ├── page-objects.ts                 # fabryki Page Object dla dodatkowych kontekstów
 │   ├── otp.ts
 │   └── storage.ts
 └── flows/                              # specy — wyłącznie user flow, bez selektorów
@@ -242,7 +242,7 @@ e2e/
 
 5. **POM** — każdy nowy flow wymaga Page Object przed napisaniem specu (patrz [sekcja 3](#3-wzorzec-page-object-model-pom)). Nie tworzyć stubów Page Objects na przyszłe fazy.
 
-6. **`.env.e2e`** — ładowany automatycznie przez `playwright.config.ts` (patrz `e2e/helpers/load-env.ts`).
+6. **`.env.e2e`** — ładowany automatycznie przez `test-env.ts` przy imporcie (patrz `e2e/helpers/load-env.ts`).
 
 ---
 
@@ -250,7 +250,7 @@ e2e/
 
 - [x] **E2E-000** Zainstalować `@playwright/test` i dodać skrypt `test:e2e` w `package.json`
 - [x] **E2E-001** Utworzyć `e2e/playwright.config.ts` (baseURL, webServer, retries, auto-load `.env.e2e`)
-- [x] **E2E-002** Utworzyć `e2e/fixtures/test-env.ts` — zmienne środowiskowe testowe
+- [x] **E2E-002** Utworzyć `e2e/fixtures/test-env.ts` — zmienne środowiskowe + auto-load `.env.e2e`
 - [x] **E2E-003** Utworzyć `e2e/fixtures/auth.fixture.ts` — `authenticatedPage` via OTP login (skip gdy brak env)
 - [x] **E2E-004** Utworzyć `e2e/helpers/otp.ts` — pobieranie/wstrzykiwanie kodu OTP
 - [x] **E2E-005** Selektory w Page Objects (`e2e/pages/`) — nie w osobnym pliku helpers

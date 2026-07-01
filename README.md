@@ -181,9 +181,9 @@ Test specs live in `e2e/flows/` and use **Page Objects** from `e2e/pages/` — n
 
 ```bash
 cp .env.e2e.example .env.e2e   # configure E2E_TEST_EMAIL, E2E_OTP_CODE, E2E_API_URL
-npm run test:e2e:install        # install Chromium for Playwright
-npm run test:e2e                # run all E2E flows (auto-loads .env.e2e)
-npm run test:e2e:ui             # interactive UI mode
+bun run test:e2e:install       # install Chromium for Playwright
+bun run test:e2e               # run all E2E flows (auto-loads .env.e2e)
+bun run test:e2e:ui            # interactive UI mode
 ```
 
 ---

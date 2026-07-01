@@ -1,6 +1,6 @@
 import { test, expect } from '../../fixtures/pages.fixture';
 import { isE2eAuthConfigured, testEnv } from '../../fixtures/test-env';
-import { resolveOtpCode } from '../../helpers/otp';
+import { resolveOtpCode, wrongOtpCode } from '../../helpers/otp';
 
 test.describe('Login — validation errors', () => {
 	test('submit button is disabled when email has no @ symbol', async ({ loginPage }) => {
@@ -36,7 +36,9 @@ test.describe('Login — validation errors', () => {
 		});
 
 		test('shows error for incorrect OTP from API', async ({ page, loginPage }) => {
-			await loginPage.fillOtp('999999');
+			const correctCode = await resolveOtpCode(testEnv.testEmail);
+
+			await loginPage.fillOtp(wrongOtpCode(correctCode));
 			await loginPage.submitOtp();
 
 			await expect(loginPage.errorAlert).toBeVisible();
@@ -44,11 +46,12 @@ test.describe('Login — validation errors', () => {
 		});
 
 		test('recovers from wrong OTP and logs in with correct code', async ({ loginPage }) => {
-			await loginPage.fillOtp('999999');
+			const correctCode = await resolveOtpCode(testEnv.testEmail);
+
+			await loginPage.fillOtp(wrongOtpCode(correctCode));
 			await loginPage.submitOtp();
 			await expect(loginPage.errorAlert).toBeVisible();
 
-			const correctCode = await resolveOtpCode(testEnv.testEmail);
 			await loginPage.fillOtp(correctCode);
 			await loginPage.submitOtp();
 			await loginPage.waitForLoginSuccess();

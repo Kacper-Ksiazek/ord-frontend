@@ -1,8 +1,7 @@
 import type { Locator, Page } from '@playwright/test';
 import { resolveOtpCode } from '../helpers/otp';
-import { BasePage } from './base.page';
 
-export class LoginPage extends BasePage {
+export class LoginPage {
 	readonly path = '/login';
 
 	readonly emailInput: Locator;
@@ -12,9 +11,7 @@ export class LoginPage extends BasePage {
 	readonly otpSubmitButton: Locator;
 	readonly errorAlert: Locator;
 
-	constructor(page: Page) {
-		super(page);
-
+	constructor(protected readonly page: Page) {
 		this.emailInput = page.locator('#email');
 		this.emailSubmitButton = page.locator('form:has(#email) button[type="submit"]');
 		this.otpGroup = page.locator('[aria-label="OTP Input"]');
@@ -48,16 +45,8 @@ export class LoginPage extends BasePage {
 	}
 
 	async fillOtp(code: string): Promise<void> {
-		const digits = code.padEnd(6, ' ').slice(0, 6);
-
 		for (let i = 0; i < 6; i++) {
-			const digit = digits[i]!.trim();
-
-			if (digit) {
-				await this.otpDigit(i + 1).fill(digit);
-			} else {
-				await this.otpDigit(i + 1).fill('');
-			}
+			await this.otpDigit(i + 1).fill(code[i] ?? '');
 		}
 	}
 

@@ -9,7 +9,7 @@ type PageObjectFixtures = {
 
 /**
  * Playwright fixture that injects Page Objects into every test.
- * Spec files must use these fixtures — never instantiate Page Objects directly.
+ * For additional browser contexts, use factories from `e2e/helpers/page-objects.ts`.
  */
 export const test = base.extend<PageObjectFixtures>({
 	loginPage: async ({ page }, use) => {

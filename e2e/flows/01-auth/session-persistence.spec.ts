@@ -1,6 +1,6 @@
 import { test, expect } from '../../fixtures/auth.fixture';
 import { isE2eAuthConfigured, testEnv } from '../../fixtures/test-env';
-import { ConversationsListPage } from '../../pages';
+import { createConversationsListPage } from '../../helpers/page-objects';
 
 test.describe('Session persistence', () => {
 	test.beforeEach(() => {
@@ -30,7 +30,7 @@ test.describe('Session persistence', () => {
 		const storageState = await page.context().storageState();
 		const newContext = await browser.newContext({ storageState });
 		const newPage = await newContext.newPage();
-		const conversationsListPage = new ConversationsListPage(newPage);
+		const conversationsListPage = createConversationsListPage(newPage);
 
 		await conversationsListPage.goto();
 		await conversationsListPage.expectLoaded();

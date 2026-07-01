@@ -43,3 +43,8 @@ export async function resolveOtpCode(email: string): Promise<string> {
 		'E2E auth is not configured. Set E2E_OTP_CODE or E2E_OTP_FETCH_URL in .env.e2e'
 	);
 }
+
+/** Returns an OTP code guaranteed to differ from the configured correct code. */
+export function wrongOtpCode(correctCode: string): string {
+	return correctCode === '999999' ? '888888' : '999999';
+}

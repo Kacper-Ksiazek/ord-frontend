@@ -1,7 +1,3 @@
-import { loadEnvE2e } from './helpers/load-env';
-
-loadEnvE2e();
-
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig, devices } from '@playwright/test';
@@ -37,7 +33,7 @@ export default defineConfig({
 		}
 	],
 	webServer: {
-		command: 'npm run dev',
+		command: 'bun run dev',
 		url: testEnv.baseUrl,
 		reuseExistingServer: !process.env.CI,
 		timeout: 120_000,
