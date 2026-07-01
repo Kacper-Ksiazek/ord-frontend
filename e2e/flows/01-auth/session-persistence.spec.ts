@@ -1,8 +1,12 @@
 import { test, expect } from '../../fixtures/auth.fixture';
-import { testEnv } from '../../fixtures/test-env';
+import { isE2eAuthConfigured, testEnv } from '../../fixtures/test-env';
 import { createConversationsListPage } from '../../helpers/page-objects';
 
 test.describe('Session persistence', () => {
+	test.beforeEach(() => {
+		test.skip(!isE2eAuthConfigured(), 'E2E_OTP_CODE or E2E_OTP_FETCH_URL required');
+	});
+
 	test('session survives page reload', async ({
 		authenticatedPage,
 		conversationsListPage

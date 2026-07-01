@@ -261,9 +261,9 @@ e2e/
 
 | Krok | Akcja | Asercja |
 |------|-------|---------|
-| 1 | Submit pustego / niepoprawnego emaila | Alert z błędem walidacji |
+| 1 | Email bez `@` lub wyczyszczony email | Przycisk submit wyłączony (walidacja przez disabled state, bez alertu) |
 | 2 | Poprawny email → OTP | Przejście do OTP |
-| 3 | Submit niepełnego kodu | Błąd walidacji OTP |
+| 3 | Submit niepełnego kodu (form event) | Alert z błędem walidacji OTP |
 | 4 | Niepoprawny kod z API | Komunikat błędu z backendu |
 | 5 | Poprawny kod | Logowanie udane |
 
@@ -528,9 +528,3 @@ Activity overview — patrz **E2E-203** w Fazie 2.
 | **Infra** | Playwright setup | 10 zadań | E2E-000–009 ✅, E2E-010 ⬜ |
 
 **Łącznie:** ~30 zadań (10 infra + ~20 scenariuszy testowych)
-
----
-
-## Roadmap — Fazy 2–8 (planowane, niezaimplementowane)
-
-Poniższe sekcje opisują przyszłe user flow. Pliki spec i Page Objects powstają **dopiero w danej fazie** — zgodnie z zasadą POM (§6, pkt 5).

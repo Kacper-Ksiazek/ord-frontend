@@ -74,6 +74,7 @@ export class LoginPage {
 	}
 
 	async waitForLoginSuccess(): Promise<void> {
+		// App redirects to `/` after OTP verify (placeholder home), not `/conversations`.
 		await this.page.waitForURL((url) => !url.pathname.startsWith('/login'), { timeout: 15_000 });
 	}
 }
