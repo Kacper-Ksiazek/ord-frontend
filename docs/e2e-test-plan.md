@@ -1,71 +1,72 @@
 # Plan testów integracyjnych E2E (Playwright)
 
-> Dokument opisuje pełne user flow do pokrycia testami integracyjnymi w projekcie **ord-frontend**.
-> Testy odzwierciedlają ścieżki użytkownika end-to-end — nie izolowane komponenty.
+> Pełne user flow end-to-end dla **ord-frontend** — nie testy izolowanych komponentów.
 >
-> **Status:** plan zaakceptowany do realizacji sekwencyjnej po fazach.
-> **Ostatnia aktualizacja:** 2026-06-30 (dodano wzorzec POM)
+> **Status:** Faza 0 + Faza 1 gotowe do merge (pending weryfikacja `bun run test:e2e` z backendem + E2E-010 CI).
+> **Ostatnia aktualizacja:** 2026-07-01 (uwzględniono 5 rund code review)
 
 ---
 
 ## Spis treści
 
-1. [Analiza krytyczności funkcji](#1-analiza-krytyczności-funkcji)
-2. [Stan testów dziś](#2-stan-testów-dziś)
-3. [Wzorzec Page Object Model (POM)](#3-wzorzec-page-object-model-pom)
-4. [Struktura katalogów](#4-struktura-katalogów)
-5. [Harmonogram i kolejność realizacji](#5-harmonogram-i-kolejność-realizacji)
-6. [Wymagania infrastrukturalne](#6-wymagania-infrastrukturalne)
-7. [Zadania — Faza 0: Infrastruktura](#faza-0-infrastruktura)
-8. [Zadania — Faza 1: Auth (P0)](#faza-1-auth-p0)
-9. [Zadania — Faza 2: Lista rozmów (P0)](#faza-2-lista-rozmów-p0)
-10. [Zadania — Faza 3: Tworzenie rozmowy (P0)](#faza-3-tworzenie-rozmowy-p0)
-11. [Zadania — Faza 4: Sesja na żywo (P0)](#faza-4-sesja-na-żywo-p0)
-12. [Zadania — Faza 5: Feedback (P1)](#faza-5-feedback-p1)
-13. [Zadania — Faza 6: Filtry i AI topics (P1)](#faza-6-filtry-i-ai-topics-p1)
-14. [Zadania — Faza 7: TTS (P1)](#faza-7-tts-p1)
-15. [Zadania — Faza 8: Activity i chrome (P2)](#faza-8-activity-i-chrome-p2)
+1. [Podsumowanie stanu](#1-podsumowanie-stanu)
+2. [Analiza krytyczności funkcji](#2-analiza-krytyczności-funkcji)
+3. [Konwencje i wzorzec POM](#3-konwencje-i-wzorzec-pom)
+4. [Lekcje z code review](#4-lekcje-z-code-review)
+5. [Struktura katalogów](#5-struktura-katalogów)
+6. [Harmonogram](#6-harmonogram)
+7. [Wymagania infrastrukturalne](#7-wymagania-infrastrukturalne)
+8. [Faza 0: Infrastruktura](#faza-0-infrastruktura)
+9. [Faza 1: Auth — zaimplementowane](#faza-1-auth--zaimplementowane)
+10. [Roadmap: Fazy 2–8](#roadmap-fazy-28)
+11. [Znane ograniczenia i tech debt](#znane-ograniczenia-i-tech-debt)
+12. [Podsumowanie pokrycia](#podsumowanie-pokrycia)
 
 ---
 
-## 1. Analiza krytyczności funkcji
-
-Ord to aplikacja do nauki języków przez rozmowy z AI z natychmiastowym feedbackiem.
-Rdzeń produktu to pętla: **logowanie → lista rozmów → tworzenie → sesja na żywo → analiza i wskazówki**.
-
-### P0 — Krytyczne (bez tego produkt nie działa)
-
-| Obszar | Dlaczego krytyczne | Zależności |
-|--------|-------------------|------------|
-| **Autentykacja OTP** | Bramka do całej aplikacji; sesja cookie + cache w `localStorage` | Backend `/auth/otp-request`, `/auth/otp-verify`, `/users/me` |
-| **Lista rozmów** | Główny hub po zalogowaniu; powrót z sesji | Auth, `/conversations/`, `/conversations/overview` |
-| **Tworzenie rozmowy (4 kroki)** | Wejście w nową sesję | Auth, profil użytkownika (`selectedLearningLanguage`), SSE topic suggestions, AI interlocutor |
-| **Sesja na żywo — podstawowy chat** | Rdzeń wartości produktu | SSE init + stream AI, save message |
-| **Wylogowanie** | Bezpieczeństwo sesji | `/auth/logout`, czyszczenie storage |
-
-### P1 — Ważne (silne różnicowanie produktu)
-
-| Obszar | Dlaczego ważne |
-|--------|----------------|
-| **Analiza wiadomości użytkownika** | Główna wartość edukacyjna — highlighty, metryki |
-| **Learning tips na wiadomościach AI** | Drugi filar feedbacku |
-| **Panel feedbacku (summary / analysis / tips)** | Pełny obraz postępów, wykresy |
-| **TTS (odtwarzanie AI)** | UX słuchania wymowy |
-| **Filtrowanie listy rozmów** | Nawigacja przy wielu sesjach |
-| **Wznawianie istniejącej rozmowy** | Retencja użytkownika |
-
-### P2 — Wspierające / niekompletne
+## 1. Podsumowanie stanu
 
 | Obszar | Status |
 |--------|--------|
-| Activity heatmap + statystyki | Ważne wizualnie, ale nie blokuje core loop |
-| Theme switcher (light/dark) | UX, nie biznesowe |
-| i18n (en/pl/de) | Częściowo — login i create są przetłumaczone, sesja ma hardcoded PL |
-| Home `/` | Placeholder — po logowaniu użytkownik ląduje na pustej stronie |
-| Words, Challenges, QAW, Settings | Wyłączone lub brak route |
-| 3 typy rozmów (roleplay, exam, debate) | Disabled w UI |
+| Infrastruktura Playwright (`e2e/`, POM, fixtures) | ✅ Zrobione |
+| Faza 1 — auth (4 specy) | ✅ Zaimplementowane |
+| CI workflow (`bun run test:e2e`) | ⬜ E2E-010 |
+| Fazy 2–8 | ⬜ Roadmap (poniżej) |
+| Testy jednostkowe (Vitest) | ✅ 8 plików (utils, TTS API, lista) |
 
-### Mapa zależności (core loop)
+### Uruchomienie
+
+```bash
+cp .env.e2e.example .env.e2e   # repo root — E2E_TEST_EMAIL, E2E_OTP_CODE, E2E_API_URL
+bun run test:e2e:install
+bun run test:e2e
+```
+
+Bez `.env.e2e` testy auth **skipują się** (`isE2eAuthConfigured()`), nie failują.
+
+---
+
+## 2. Analiza krytyczności funkcji
+
+Rdzeń produktu: **logowanie → lista rozmów → tworzenie → sesja na żywo → analiza i wskazówki**.
+
+### P0 — Krytyczne
+
+| Obszar | Zależności |
+|--------|------------|
+| Autentykacja OTP | `/auth/otp-request`, `/auth/otp-verify`, `/users/me` |
+| Lista rozmów | Auth, `/conversations/`, `/conversations/overview` |
+| Tworzenie rozmowy (4 kroki) | Auth, SSE topics, AI interlocutor |
+| Sesja na żywo — chat | SSE init + stream, save message |
+| Wylogowanie | `/auth/logout`, czyszczenie storage |
+
+### P1 — Ważne
+
+Analiza wiadomości, learning tips, panel feedbacku, TTS, filtry listy, wznawianie rozmowy.
+
+### P2 — Wspierające
+
+Activity heatmap, theme, i18n (częściowe), home `/` (placeholder).
 
 ```mermaid
 flowchart LR
@@ -73,86 +74,107 @@ flowchart LR
     A --> C[Tworzenie rozmowy]
     C --> D[Sesja na żywo]
     B --> D
-    D --> E[Analiza wiadomości]
-    D --> F[AI stream + tips]
-    D --> G[Panel feedbacku]
-    D --> H[TTS]
+    D --> E[Analiza]
+    D --> F[AI + tips]
     A --> I[Wylogowanie]
-    B --> I
 ```
 
 ---
 
-## 2. Stan testów dziś
+## 3. Konwencje i wzorzec POM
 
-- Playwright E2E skonfigurowany w `e2e/` z wzorcem **Page Object Model**.
-- 4 scenariusze auth (Faza 1) zaimplementowane z użyciem Page Objects.
-- 8 testów jednostkowych (utils, TTS API, grupowanie listy).
-
----
-
-## 3. Wzorzec Page Object Model (POM)
-
-Wszystkie testy E2E **muszą** stosować wzorzec Page Object Model. Pliki `*.spec.ts` opisują wyłącznie user flow — nie zawierają selektorów DOM ani bezpośrednich interakcji z `page.locator()`.
+Pliki `*.spec.ts` opisują **wyłącznie user flow** — bez selektorów DOM.
 
 ### Zasady
 
 | Zasada | Opis |
 |--------|------|
-| **Jeden Page Object = jedna strona lub widok** | Np. `LoginPage` → `/login`, `ConversationsListPage` → `/conversations` |
-| **Component Object = fragment UI współdzielony** | Np. `SidebarComponent` używany na wielu stronach prywatnych |
-| **Selektory tylko w Page/Component Objects** | `page.locator()`, `getByRole()` itd. nigdy w plikach `*.spec.ts` |
-| **Akcje użytkownika jako metody** | Np. `loginPage.loginWithOtp(email)`, `sidebar.logout()` |
-| **Asercje na lokatorach z Page Object** | `await expect(loginPage.errorAlert).toBeVisible()` |
-| **Fixtures wstrzykują Page Objects** | Domyślnie z `pages.fixture`; dodatkowe konteksty przez `create*Page(page)` w `e2e/helpers/page-objects.ts` |
-| **Helpers tylko dla logiki spoza UI** | OTP resolution, localStorage seed — nie selektory |
+| Page Object = strona/widok | `LoginPage`, `ConversationsListPage` |
+| Component Object = fragment UI | `SidebarComponent` |
+| Selektory tylko w Page/Component Objects | Nigdy w `*.spec.ts` |
+| Fixtures dla domyślnego kontekstu | `pages.fixture`, `auth.fixture` |
+| Fabryki dla dodatkowych kontekstów | `createConversationsListPage(page)` w `e2e/helpers/page-objects.ts` |
+| Brak stubów na przyszłe fazy | Page Object powstaje **w tej samej fazie** co spec |
+| Helpers = logika spoza UI | OTP, env, storage — nie selektory |
 
-### Hierarchia
+### Hierarchia (stan aktualny)
 
 ```
-LoginPage                   ← strona /login
-ConversationsListPage       ← strona /conversations
-SidebarComponent            ← fragment UI (sidebar)
+LoginPage
+ConversationsListPage
+SidebarComponent
 
-# Dodawane w kolejnych fazach (nie wcześniej):
-# CreateConversationPage    ← Faza 3
-# ConversationSessionPage   ← Faza 4
+# Powstaną w swojej fazie:
+# CreateConversationPage      → Faza 3
+# ConversationSessionPage     → Faza 4
 ```
 
-### Przykład — poprawny test (spec)
+### Wzorce selektorów (ustalone w review)
 
-```typescript
-test('user can log in and see conversations', async ({
-  loginPage,
-  conversationsListPage,
-  sidebar
-}) => {
-  await loginPage.loginWithOtp(testEnv.testEmail);
-  await conversationsListPage.goto();
-  await conversationsListPage.expectLoaded();
-  await sidebar.ensureExpanded();
-  await expect(sidebar.userEmail(testEnv.testEmail)).toBeVisible();
-});
-```
+| Element UI | Zalecany selektor | Uwaga |
+|------------|-------------------|-------|
+| Przyciski z ikoną (sidebar toggle, logout) | `button[title="…"]` | `title` ≠ accessible name — `getByRole` nie zadziała |
+| Email w sidebarze | `aside.getByText(email)` + `ensureExpanded()` | Email widoczny tylko gdy sidebar rozwinięty |
+| Błąd logowania | `getByText(/^(Error:\|Błąd:\|Fehler:)/)` | Kruche przy zmianie locale — docelowo `data-testid` |
+| OTP input | `[aria-label="Digit N"]` | Po `fill()` wymagany `submitOtp()` — `oncomplete` nie odpala się programowo |
 
-### Przykład — zabroniony test (spec)
+### Skip guard — kiedy i gdzie
 
-```typescript
-// ❌ NIE — selektory i akcje bezpośrednio w spec
-await page.fill('#email', email);
-await page.click('button[type="submit"]');
-await expect(page.locator('[role="alert"]')).toBeVisible();
-```
+| Miejsce | Kiedy |
+|---------|-------|
+| `test.beforeEach` na `describe` | Gdy **jakikolwiek** test w grupie woła `loginWithOtp` bez `authenticatedPage` fixture |
+| `auth.fixture` → `testInfo.skip` | Gdy test używa wyłącznie `authenticatedPage` |
+| Nie duplikować obu | `session-persistence` używa `describe`-level skip (test 2 nie korzysta z fixture) |
 
-### Kiedy tworzyć nowy Page Object
+### Konfiguracja Playwright
 
-- Nowa trasa / widok w aplikacji → nowy plik w `e2e/pages/`
-- Współdzielony fragment UI (sidebar, modal, panel) → `e2e/pages/components/`
-- Nowy Page Object rejestruj w `e2e/fixtures/pages.fixture.ts`
+| Ustawienie | Wartość | Powód |
+|------------|---------|-------|
+| `fullyParallel` | `false` | Współdzielony `E2E_TEST_EMAIL` — race na OTP |
+| `workers` | `1` | To samo |
+| `outputDir` / report | `e2e/test-results`, `e2e/playwright-report` | Absolutne ścieżki w config |
+| `webServer` | `bun run dev` | Spójność z resztą repo |
+| `.env.e2e` | Ładowany w `test-env.ts` (lazy getters) | ESM import order — nie w `playwright.config.ts` |
 
 ---
 
-## 4. Struktura katalogów (stan w tym PR)
+## 4. Lekcje z code review
+
+Zebrane z 5 rund automatycznego CR na PR #16. **Obowiązują przy kolejnych fazach.**
+
+### Bugi, które omijamy
+
+1. **OTP submit** — `fillOtp()` + `submitOtp()`; programowe fill nie wywołuje `oncomplete`.
+2. **Disabled button** — nie klikać; użyć `submitOtpForm()` (dispatch submit) lub asercji `toBeDisabled()`.
+3. **Hardcoded email na loginie** — test „pustego emaila” musi `fillEmail('')` po `goto()`.
+4. **`.env.e2e` path** — plik w **repo root**, nie `e2e/.env.e2e`.
+5. **ESM env loading** — `loadEnvE2e()` w `test-env.ts` przed odczytem; lazy getters na `testEnv`.
+6. **Icon buttons** — `button[title="…"]`, nie `getByRole({ name })`.
+7. **`wrongOtpCode()`** — generuj z poprawnego kodu (inkrementacja cyfry), nie hardcoded `999999`.
+8. **Skip guard** — każdy describe z OTP musi skipować gdy brak env.
+9. **Storage keys** — importuj `STORAGE_KEYS` z app utils, nie duplikuj stringów.
+10. **Multi-context** — `createConversationsListPage(page)`, nie `new` w spec.
+
+### Antywzorce (nie powtarzać)
+
+- Stub Page Objects / fixture / factory „na zapas"
+- `BasePage` abstract class bez współdzielonej logiki
+- `helpers/selectors.ts` obok Page Objects (selektory żyją w PO)
+- Oznaczanie zadań ✅ gdy plik nie istnieje
+- 500+ linii planu z pełnymi tabelami kroków dla niezaimplementowanych faz
+- `fullyParallel: true` przy współdzielonym użytkowniku OTP
+
+### Dobre decyzje (zachować)
+
+- POM — specy bez selektorów
+- `submitOtp()` vs `submitOtpForm()` — rozdzielone use case'y
+- `storageState` w teście persistence
+- `fullyParallel: false` + `workers: 1`
+- Roadmap oddzielony od zaimplementowanego kodu
+
+---
+
+## 5. Struktura katalogów
 
 ```
 e2e/
@@ -160,371 +182,152 @@ e2e/
 ├── pages/
 │   ├── login.page.ts
 │   ├── conversations-list.page.ts
-│   ├── components/
-│   │   └── sidebar.component.ts
+│   ├── components/sidebar.component.ts
 │   └── index.ts
 ├── fixtures/
 │   ├── pages.fixture.ts
 │   ├── auth.fixture.ts
-│   └── test-env.ts
+│   └── test-env.ts              # loadEnvE2e() + lazy getters
 ├── helpers/
 │   ├── load-env.ts
-│   ├── page-objects.ts
-│   ├── otp.ts
-│   └── storage.ts
+│   ├── page-objects.ts          # fabryki dla dodatkowych kontekstów
+│   ├── otp.ts                     # resolveOtpCode, wrongOtpCode
+│   └── storage.ts                 # getStoredUser (STORAGE_KEYS z app)
 └── flows/
-    └── 01-auth/                        # ✅ zaimplementowane
+    └── 01-auth/                   # ✅
         ├── login-happy-path.spec.ts
         ├── login-validation-errors.spec.ts
         ├── session-persistence.spec.ts
         └── logout.spec.ts
 ```
 
-> **Fazy 2–8** poniżej to roadmap — pliki `02-*` … `07-*` **jeszcze nie istnieją** w repozytorium.
+---
+
+## 6. Harmonogram
+
+| Etap | Zakres | ID | Status |
+|------|--------|-----|--------|
+| **0** | Infrastruktura Playwright | E2E-000–009 | ✅ |
+| **0b** | CI workflow | E2E-010 | ⬜ |
+| **1** | Auth | E2E-101–104 | ✅ |
+| **2** | Lista + nawigacja | E2E-201 | ⬜ **następna** |
+| **3** | Tworzenie rozmowy | E2E-301, E2E-303 | ⬜ |
+| **4** | Sesja na żywo | E2E-401–404, E2E-006 | ⬜ |
+| **5** | Feedback | E2E-501–504 | ⬜ |
+| **6** | Filtry + AI topics | E2E-202, E2E-302 | ⬜ |
+| **7** | TTS | E2E-601 | ⬜ |
+| **8** | Activity + chrome | E2E-203, E2E-701–702 | ⬜ |
 
 ---
 
-## 5. Harmonogram i kolejność realizacji
+## 7. Wymagania infrastrukturalne
 
-| Etap | Zakres | Pliki testów | Priorytet | Status |
-|------|--------|--------------|-----------|--------|
-| **0** | Infrastruktura Playwright | `playwright.config.ts`, fixtures, helpers | — | ✅ Zrobione |
-| **0b** | CI workflow | `.github/workflows/e2e.yml` | — | ⬜ Do zrobienia |
-| **1** | Auth | `01-auth/*` (4 pliki) | P0 | 🟡 Zaimplementowane — wymaga `bun run test:e2e` z backendem |
-| **2** | Lista + nawigacja | `02-conversations-list/list-and-navigation` | P0 | ⬜ Do zrobienia |
-| **3** | Tworzenie rozmowy | `03-create-conversation/create-full-flow` | P0 | ⬜ Do zrobienia |
-| **4** | Sesja na żywo | `04-live-session/*` (4 pliki) | P0 | ⬜ Do zrobienia |
-| **5** | Feedback | `05-feedback/*` (4 pliki) | P1 | ⬜ Do zrobienia |
-| **6** | Filtry + AI topics | `02-filters`, `03-create-with-ai-topics` | P1 | ⬜ Do zrobienia |
-| **7** | TTS | `06-tts/*` | P1 | ⬜ Do zrobienia |
-| **8** | Activity + chrome | `activity-overview`, `07-app-chrome/*` | P2 | ⬜ Do zrobienia |
-
----
-
-## 6. Wymagania infrastrukturalne
-
-1. **Backend testowy** — dedykowane środowisko (`PUBLIC_API_URL`) z możliwością:
-   - deterministycznego OTP (endpoint testowy lub stały kod dla test usera),
-   - seed data (użytkownik z historią rozmów),
-   - stabilnych odpowiedzi AI (mock SSE lub timeouty w testach).
-
-2. **Selektory w Page Objects** — brak `data-testid` w aplikacji; Page Objects używają `aria-label`, role i tekst. Warto dodać kluczowe `data-testid` w aplikacji i zaktualizować odpowiednie Page Objects:
-   - textarea sesji, send button,
-   - kroki multi-step form,
-   - wiersze listy rozmów.
-
-3. **Czekanie na SSE** — metody w `ConversationSessionPage` (do utworzenia w Fazie 4).
-
-4. **CI** — osobny job `test:e2e` z uruchomionym backendem (docker-compose lub staging). **Status: ⬜ E2E-010**
-
-5. **POM** — każdy nowy flow wymaga Page Object przed napisaniem specu (patrz [sekcja 3](#3-wzorzec-page-object-model-pom)). Nie tworzyć stubów Page Objects na przyszłe fazy.
-
-6. **`.env.e2e`** — ładowany automatycznie przez `test-env.ts` przy imporcie (patrz `e2e/helpers/load-env.ts`).
+1. **Backend testowy** — `PUBLIC_API_URL`, deterministyczny OTP (`E2E_OTP_CODE` lub `E2E_OTP_FETCH_URL`), seed data.
+2. **`data-testid` w aplikacji** — priorytet przy Fazach 3–4: textarea sesji, send button, kroki formularza, wiersze listy. Docelowo też login error alert (zamiast regex locale).
+3. **SSE waits** — metody w `ConversationSessionPage` (Faza 4, E2E-006).
+4. **CI** — `.github/workflows/e2e.yml` uruchamiający `bun run test:e2e` z backendem (E2E-010).
+5. **`.env.e2e`** — format `KEY=value`, bez cudzysłowów/exportu/expansion (patrz `.env.e2e.example`).
 
 ---
 
 ## Faza 0: Infrastruktura
 
-- [x] **E2E-000** Zainstalować `@playwright/test` i dodać skrypt `test:e2e` w `package.json`
-- [x] **E2E-001** Utworzyć `e2e/playwright.config.ts` (baseURL, webServer, retries, auto-load `.env.e2e`)
-- [x] **E2E-002** Utworzyć `e2e/fixtures/test-env.ts` — zmienne środowiskowe + auto-load `.env.e2e`
-- [x] **E2E-003** Utworzyć `e2e/fixtures/auth.fixture.ts` — `authenticatedPage` via OTP login (skip gdy brak env)
-- [x] **E2E-004** Utworzyć `e2e/helpers/otp.ts` — pobieranie/wstrzykiwanie kodu OTP
-- [x] **E2E-005** Selektory w Page Objects (`e2e/pages/`) — nie w osobnym pliku helpers
-- [ ] **E2E-006** `ConversationSessionPage` z metodami SSE wait — **Faza 4**
-- [x] **E2E-007** Dodać `.env.e2e.example` z wymaganymi zmiennymi
-- [x] **E2E-008** Zaktualizować README o sekcję E2E
-- [x] **E2E-009** Wdrożyć wzorzec Page Object Model (`e2e/pages/`, `pages.fixture.ts`)
-- [ ] **E2E-010** Dodać GitHub Actions workflow uruchamiający `bun run test:e2e`
+- [x] **E2E-000** `@playwright/test` + skrypty `test:e2e*` w `package.json`
+- [x] **E2E-001** `playwright.config.ts` (baseURL, webServer, artefakty w `e2e/`)
+- [x] **E2E-002** `test-env.ts` — env + auto-load `.env.e2e` (lazy getters)
+- [x] **E2E-003** `auth.fixture.ts` — `authenticatedPage`, skip gdy brak env
+- [x] **E2E-004** `otp.ts` — `resolveOtpCode`, `wrongOtpCode`
+- [x] **E2E-005** Selektory w Page Objects (`e2e/pages/`)
+- [ ] **E2E-006** `ConversationSessionPage` + SSE wait — **Faza 4**
+- [x] **E2E-007** `.env.e2e.example`
+- [x] **E2E-008** README — sekcja E2E
+- [x] **E2E-009** POM (`pages/`, `pages.fixture.ts`, `page-objects.ts`)
+- [ ] **E2E-010** GitHub Actions workflow
 
 ---
 
-## Faza 1: Auth (P0)
+## Faza 1: Auth — zaimplementowane
 
-### `01-auth/login-happy-path.spec.ts`
+### Zachowanie aplikacji (ważne dla testów)
 
-**Flow:** Niezalogowany użytkownik → pełne logowanie → dostęp do chronionej strefy
+| Obszar | Rzeczywiste zachowanie |
+|--------|------------------------|
+| Po OTP verify | Redirect na `/` (placeholder home), nie `/conversations` |
+| Walidacja email | Przycisk disabled gdy brak `@` lub pusty email — **bez alertu** |
+| Login page default | Hardcoded email w dev — testy muszą czyścić pole |
+| Sidebar email | Widoczny tylko gdy sidebar expanded (`ensureExpanded()`) |
+| OTP incomplete | Przycisk verify disabled — test via `submitOtpForm()` |
 
-| Krok | Akcja użytkownika | Asercja |
-|------|-------------------|---------|
-| 1 | Wejście na `/conversations` | Redirect na `/login` |
-| 2 | Wpisanie poprawnego emaila → submit | Przejście do kroku OTP |
-| 3 | Wpisanie 6-cyfrowego kodu (auto-submit) | Redirect po zalogowaniu |
-| 4 | Nawigacja do `/conversations` | Lista rozmów widoczna, brak redirectu |
-| 5 | Sprawdzenie sidebara | Avatar/email użytkownika widoczny |
+### Scenariusze
 
-- [x] **E2E-101** Zaimplementować `login-happy-path.spec.ts`
+| Plik | Flow | ID | Kroki kluczowe |
+|------|------|-----|----------------|
+| `login-happy-path.spec.ts` | Redirect → login → conversations → sidebar email | E2E-101 | `loginWithOtp` → `conversationsListPage` → `sidebar.ensureExpanded()` |
+| `login-validation-errors.spec.ts` | Błędne dane → poprawka → sukces | E2E-102 | disabled button / `submitOtpForm` / `wrongOtpCode` |
+| `session-persistence.spec.ts` | Reload + storageState w nowym kontekście | E2E-103 | `describe`-level skip; `createConversationsListPage` |
+| `logout.spec.ts` | Logout → brak dostępu → storage czysty | E2E-104 | `getStoredUser` via `STORAGE_KEYS.USER` |
 
-### `01-auth/login-validation-errors.spec.ts`
-
-**Flow:** Błędne dane → komunikaty błędów → poprawka → sukces
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | Email bez `@` lub wyczyszczony email | Przycisk submit wyłączony (walidacja przez disabled state, bez alertu) |
-| 2 | Poprawny email → OTP | Przejście do OTP |
-| 3 | Submit niepełnego kodu (form event) | Alert z błędem walidacji OTP |
-| 4 | Niepoprawny kod z API | Komunikat błędu z backendu |
-| 5 | Poprawny kod | Logowanie udane |
-
-- [x] **E2E-102** Zaimplementować `login-validation-errors.spec.ts`
-
-### `01-auth/session-persistence.spec.ts`
-
-**Flow:** Zalogowanie → odświeżenie strony → sesja zachowana
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | Login przez fixture | Zalogowany |
-| 2 | `page.reload()` na `/conversations` | Brak redirectu na login |
-| 3 | Nowa karta z `storageState` | Sesja aktywna bez ponownego logowania |
-
-- [x] **E2E-103** Zaimplementować `session-persistence.spec.ts`
-
-### `01-auth/logout.spec.ts`
-
-**Flow:** Zalogowany użytkownik → wylogowanie → utrata dostępu
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | Klik „Logout" w sidebarze | Redirect na `/login` |
-| 2 | Próba wejścia na `/conversations` | Redirect na `/login` |
-| 3 | Sprawdzenie `localStorage` | Dane użytkownika wyczyszczone |
-
-- [x] **E2E-104** Zaimplementować `logout.spec.ts`
+- [x] **E2E-101** `login-happy-path.spec.ts`
+- [x] **E2E-102** `login-validation-errors.spec.ts`
+- [x] **E2E-103** `session-persistence.spec.ts`
+- [x] **E2E-104** `logout.spec.ts`
 
 ---
 
-## Roadmap — Fazy 2–8 (planowane, niezaimplementowane)
+## Roadmap: Fazy 2–8
 
-Poniższe sekcje opisują przyszłe user flow. Pliki spec i Page Objects powstają **dopiero w danej fazie** — zgodnie z zasadą POM (§6, pkt 5).
+> Poniżej **backlog** — bez tabel kroków. Szczegóły user flow ustalamy przy implementacji danej fazy.
+> Każda faza = nowy Page Object + spec(y) w tej samej PR.
 
-## Faza 2: Lista rozmów (P0)
+| Faza | Priorytet | Zadania | User flow (skrót) | Nowe Page Objects |
+|------|-----------|---------|-------------------|-------------------|
+| **2** | P0 | E2E-201 | Lista → klik rozmowy → New conversation | Rozszerzyć `ConversationsListPage` |
+| **3** | P0 | E2E-301, E2E-303 | 4-krokowy builder → start sesji; walidacja/back | `CreateConversationPage` |
+| **4** | P0 | E2E-401–404, E2E-006 | Init SSE → chat → resume → back | `ConversationSessionPage` |
+| **5** | P1 | E2E-501–504 | Inline highlights, panel feedbacku | `FeedbackPanelComponent` |
+| **6** | P1 | E2E-202, E2E-302 | Filtry listy; AI topic suggestions | Rozszerzenia PO z Faz 2–3 |
+| **7** | P1 | E2E-601 | TTS play/stop na wiadomości AI | Metody w `ConversationSessionPage` |
+| **8** | P2 | E2E-203, E2E-701–702 | Activity heatmap; theme; locale switching | `PublicLayoutComponent` |
 
-### `02-conversations-list/list-and-navigation.spec.ts`
+### Kolejność realizacji
 
-**Flow:** Dashboard → przeglądanie → wejście w rozmowę / tworzenie nowej
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | Wejście na `/conversations` (zalogowany) | Nagłówek, przycisk „New conversation" |
-| 2 | Sprawdzenie listy | Rozmowy pogrupowane (Today, Yesterday, …) lub empty state |
-| 3 | Klik wiersza rozmowy | Nawigacja do `/conversations/{id}` |
-| 4 | Powrót breadcrumb/back | Powrót na listę |
-| 5 | Klik „New conversation" | Nawigacja do `/conversations/create` |
-
-- [ ] **E2E-201** Zaimplementować `list-and-navigation.spec.ts`
-
-### `02-conversations-list/filters.spec.ts` *(Faza 6)*
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | Wpisanie tekstu w search (debounce) | Lista przefiltrowana |
-| 2 | Wybór recency bucket | Tylko pasujące rozmowy |
-| 3 | Wybór typu rozmowy | Filtrowanie po typie |
-| 4 | Clear filters | Pełna lista / empty state |
-
-- [ ] **E2E-202** Zaimplementować `filters.spec.ts`
-
-### `02-conversations-list/activity-overview.spec.ts` *(Faza 8)*
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | Wejście na listę | Sekcja activity widoczna |
-| 2 | Heatmapa | Komórki z `aria-label` |
-| 3 | Stat cards | Liczby wiadomości/rozmów |
-| 4 | (opcjonalnie) symulacja błędu API | Banner błędu + retry, lista nadal działa |
-
-- [ ] **E2E-203** Zaimplementować `activity-overview.spec.ts`
+```
+E2E-010 (CI) ──┐
+               ├──► Faza 2 (E2E-201) ──► Faza 3 (E2E-301) ──► Faza 4 (E2E-401–404)
+Faza 1 merge ──┘         │                      │                    │
+                         └── Faza 6 (E2E-202) ──┘                    │
+                         └── Faza 6 (E2E-302) ─────────────────────┘
+                                              Faza 5 (E2E-501–504)
+                                              Faza 7 (E2E-601)
+                                              Faza 8 (E2E-203, 701–702)
+```
 
 ---
 
-## Faza 3: Tworzenie rozmowy (P0)
+## Znane ograniczenia i tech debt
 
-### `03-create-conversation/create-full-flow.spec.ts`
+Akceptowalne na Fazę 1; adresować przy implementacji kolejnych faz.
 
-**Flow:** Pełny 4-krokowy builder → start sesji
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | `/conversations/create` | Krok 1: wybór typu (np. Small talk) |
-| 2 | Next (lub skrót klawiszowy) | Krok 2: wybór tonu |
-| 3 | Next | Krok 3: wpisanie/wybór tematu |
-| 4 | Next | Krok 4: podsumowanie + AI interlocutor (loading → gotowy) |
-| 5 | „Start conversation" | Redirect na `/conversations/{id}` |
-| 6 | Czekanie na init SSE | Pierwsza wiadomość AI widoczna w panelu |
-
-- [ ] **E2E-301** Zaimplementować `create-full-flow.spec.ts`
-
-### `03-create-conversation/create-with-ai-topics.spec.ts` *(Faza 6)*
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | Krok 3: klik „generate topics" | SSE stream → lista tematów |
-| 2 | Pin/unpin tematu | Stan pinezki zmieniony |
-| 3 | Wybór tematu → dalej | Temat w podsumowaniu |
-
-- [ ] **E2E-302** Zaimplementować `create-with-ai-topics.spec.ts`
-
-### `03-create-conversation/create-validation-and-back.spec.ts`
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | Próba Next bez wyboru typu/tonu/tematu | Walidacja blokuje przejście |
-| 2 | Back między krokami | Poprzednie wybory zachowane |
-| 3 | Anulowanie / powrót do listy | Nawigacja na `/conversations` |
-
-- [ ] **E2E-303** Zaimplementować `create-validation-and-back.spec.ts`
-
----
-
-## Faza 4: Sesja na żywo (P0)
-
-### `04-live-session/new-session-initialization.spec.ts`
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | Fixture: utworzona rozmowa | Sesja załadowana |
-| 2 | Obserwacja panelu wiadomości | Streaming AI (lub finalna wiadomość) |
-| 3 | Czekanie na zakończenie generacji | Brak spinnera „generating" |
-| 4 | Sprawdzenie pod wiadomością AI | Sekcja learning tips (lub loading → content) |
-| 5 | Header sesji | Temat, typ, ton widoczne |
-
-- [ ] **E2E-401** Zaimplementować `new-session-initialization.spec.ts`
-
-### `04-live-session/send-message-and-receive-ai-reply.spec.ts`
-
-**Flow:** Pełna tura rozmowy — najważniejszy test integracyjny
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | Sesja z wiadomością AI (fixture) | Textarea aktywna |
-| 2 | Wpisanie wiadomości użytkownika → Enter | Wiadomość pojawia się w czacie |
-| 3 | Czekanie na analizę (async) | Pod wiadomością użytkownika: sekcja analizy / highlighty |
-| 4 | Czekanie na odpowiedź AI (SSE) | Nowa wiadomość AI w czacie |
-| 5 | Czekanie na learning tips | Tips pod wiadomością AI |
-| 6 | Liczba wiadomości | Min. 3 (AI init + user + AI reply) |
-
-- [ ] **E2E-402** Zaimplementować `send-message-and-receive-ai-reply.spec.ts`
-
-### `04-live-session/resume-existing-conversation.spec.ts`
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | Lista → klik istniejącej rozmowy | Historia wiadomości załadowana |
-| 2 | Brak ponownego init SSE | Istniejące wiadomości od razu widoczne |
-| 3 | Wysłanie nowej wiadomości | Normalna tura (save + AI reply) |
-
-- [ ] **E2E-403** Zaimplementować `resume-existing-conversation.spec.ts`
-
-### `04-live-session/session-navigation-back.spec.ts`
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | W trakcie sesji klik „back" / breadcrumb | `/conversations` |
-| 2 | Ponowne wejście w tę samą rozmowę | Wszystkie wiadomości na miejscu |
-
-- [ ] **E2E-404** Zaimplementować `session-navigation-back.spec.ts`
-
----
-
-## Faza 5: Feedback (P1)
-
-### `05-feedback/inline-analysis-highlights.spec.ts`
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | Wysłanie wiadomości z celowym błędem gramatycznym | Wiadomość w czacie |
-| 2 | Czekanie na analizę | Sekcja analizy pod wiadomością |
-| 3 | Hover/klik na highlight | Popover z opisem błędu |
-| 4 | Toggle highlight icons | Highlighty włącz/wyłącz |
-
-- [ ] **E2E-501** Zaimplementować `inline-analysis-highlights.spec.ts`
-
-### `05-feedback/learning-tips-on-ai-message.spec.ts`
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | Po odpowiedzi AI | Sekcja learning tips widoczna |
-| 2 | Expand tips | Pełna lista wskazówek |
-| 3 | Highlighty w tekście AI | Gramatyka/słownictwo podświetlone |
-
-- [ ] **E2E-502** Zaimplementować `learning-tips-on-ai-message.spec.ts`
-
-### `05-feedback/feedback-panel-summary.spec.ts`
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | Po kilku turach rozmowy | Otwarcie panelu feedbacku |
-| 2 | Tab Overview | Wykresy performance, metryki |
-| 3 | Tab Learning Tips | Zagregowane wskazówki |
-| 4 | Tab Analysis | Lista analiz wiadomości |
-
-- [ ] **E2E-503** Zaimplementować `feedback-panel-summary.spec.ts`
-
-### `05-feedback/feedback-panel-drilldown.spec.ts`
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | Klik analizy konkretnej wiadomości | Widok szczegółowy |
-| 2 | Breadcrumb back | Powrót do summary |
-| 3 | To samo dla learning tips | Drill-down + powrót |
-
-- [ ] **E2E-504** Zaimplementować `feedback-panel-drilldown.spec.ts`
-
----
-
-## Faza 6: Filtry i AI topics (P1)
-
-Zadania realizowane w ramach Faz 2 i 3 — patrz **E2E-202** (`filters.spec.ts`) oraz **E2E-302** (`create-with-ai-topics.spec.ts`).
-
----
-
-## Faza 7: TTS (P1)
-
-### `06-tts/play-ai-message-audio.spec.ts`
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | Klik play na wiadomości AI | Przycisk zmienia się na stop |
-| 2 | Progress bar | Postęp odtwarzania |
-| 3 | Klik stop / play na innej wiadomości | Poprzednie zatrzymane |
-
-- [ ] **E2E-601** Zaimplementować `play-ai-message-audio.spec.ts`
-
----
-
-## Faza 8: Activity i chrome (P2)
-
-### `07-app-chrome/theme-persistence.spec.ts`
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | Toggle dark mode | Klasa `dark` na `<html>` |
-| 2 | Reload | Motyw zachowany |
-
-- [ ] **E2E-701** Zaimplementować `theme-persistence.spec.ts`
-
-### `07-app-chrome/locale-switching.spec.ts`
-
-| Krok | Akcja | Asercja |
-|------|-------|---------|
-| 1 | Zmiana języka na loginie | Teksty UI zmienione (pl/de/en) |
-| 2 | Nawigacja po zmianie | Locale utrzymany |
-
-- [ ] **E2E-702** Zaimplementować `locale-switching.spec.ts`
-
-Activity overview — patrz **E2E-203** w Fazie 2.
+| Ograniczenie | Wpływ | Planowana poprawa |
+|--------------|-------|-------------------|
+| `waitForLoginSuccess()` sprawdza tylko „nie `/login`" | Przechodzi na `/` placeholder | Zaostrzyć gdy produkt zdefiniuje post-auth route (E2E-101+) |
+| Error alert via regex locale | Flake przy E2E-702 | `data-testid="login-error"` w app |
+| `Conversations` heading hardcoded EN | Flake przy locale tests | i18n-aware locator lub `data-testid` |
+| `submitOtpForm()` synthetic event | Testuje handler, nie UX disabled button | OK dla incomplete OTP; dokumentowane |
+| Brak CI (E2E-010) | Brak automatycznej weryfikacji | Następny krok infra |
+| Hand-rolled `.env` parser | Brak quotes/export/expansion | Wystarczy na 5-liniowy `.env.e2e` |
 
 ---
 
 ## Podsumowanie pokrycia
 
-| Priorytet | User flows | Liczba scenariuszy | ID zadań |
-|-----------|------------|-------------------|----------|
-| **P0** | Auth, lista, create, sesja (init + chat + resume + back) | ~10 | E2E-101–104, E2E-201, E2E-301, E2E-303, E2E-401–404 |
-| **P1** | Feedback (inline + panel), filtry, AI topics, TTS | ~7 | E2E-202, E2E-302, E2E-501–504, E2E-601 |
-| **P2** | Activity overview, theme, locale | ~3 | E2E-203, E2E-701–702 |
-| **Infra** | Playwright setup | 10 zadań | E2E-000–009 ✅, E2E-010 ⬜ |
+| Priorytet | Scenariusze | Zadania | Status |
+|-----------|-------------|---------|--------|
+| **Infra** | Setup Playwright | E2E-000–009 | ✅ |
+| **Infra** | CI | E2E-010 | ⬜ |
+| **P0** | Auth | E2E-101–104 | ✅ |
+| **P0** | Lista, create, sesja | E2E-201, 301, 303, 401–404 | ⬜ |
+| **P1** | Feedback, filtry, topics, TTS | E2E-202, 302, 501–504, 601 | ⬜ |
+| **P2** | Activity, theme, locale | E2E-203, 701–702 | ⬜ |
 
-**Łącznie:** ~30 zadań (10 infra + ~20 scenariuszy testowych)
+**Łącznie:** ~30 zadań — **14 zrobionych**, **16 w roadmap**.
