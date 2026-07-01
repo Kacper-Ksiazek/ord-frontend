@@ -8,6 +8,7 @@ export class LoginPage extends BasePage {
 	readonly emailInput: Locator;
 	readonly emailSubmitButton: Locator;
 	readonly otpGroup: Locator;
+	readonly otpForm: Locator;
 	readonly otpSubmitButton: Locator;
 	readonly errorAlert: Locator;
 
@@ -17,8 +18,9 @@ export class LoginPage extends BasePage {
 		this.emailInput = page.locator('#email');
 		this.emailSubmitButton = page.locator('form:has(#email) button[type="submit"]');
 		this.otpGroup = page.locator('[aria-label="OTP Input"]');
-		this.otpSubmitButton = page.locator('form:has([aria-label="OTP Input"]) button[type="submit"]');
-		this.errorAlert = page.locator('[role="alert"]');
+		this.otpForm = page.locator('form:has([aria-label="OTP Input"])');
+		this.otpSubmitButton = this.otpForm.locator('button[type="submit"]');
+		this.errorAlert = page.getByText(/^(Error:|Błąd:|Fehler:)/);
 	}
 
 	otpDigit(index: number): Locator {
@@ -46,8 +48,16 @@ export class LoginPage extends BasePage {
 	}
 
 	async fillOtp(code: string): Promise<void> {
+		const digits = code.padEnd(6, ' ').slice(0, 6);
+
 		for (let i = 0; i < 6; i++) {
-			await this.otpDigit(i + 1).fill(code[i]!);
+			const digit = digits[i]!.trim();
+
+			if (digit) {
+				await this.otpDigit(i + 1).fill(digit);
+			} else {
+				await this.otpDigit(i + 1).fill('');
+			}
 		}
 	}
 
@@ -55,11 +65,22 @@ export class LoginPage extends BasePage {
 		await this.otpSubmitButton.click();
 	}
 
+	/**
+	 * Dispatches a form submit event — used when the submit button is disabled
+	 * but client-side validation should still run (e.g. incomplete OTP).
+	 */
+	async submitOtpForm(): Promise<void> {
+		await this.otpForm.evaluate((form) => {
+			form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
+		});
+	}
+
 	async loginWithOtp(email: string, otpCode?: string): Promise<void> {
 		const code = otpCode ?? (await resolveOtpCode(email));
 
 		await this.proceedToOtpStep(email);
 		await this.fillOtp(code);
+		await this.submitOtp();
 		await this.waitForLoginSuccess();
 	}
 

@@ -104,7 +104,7 @@ Wszystkie testy E2E **muszą** stosować wzorzec Page Object Model. Pliki `*.spe
 | **Selektory tylko w Page/Component Objects** | `page.locator()`, `getByRole()` itd. nigdy w plikach `*.spec.ts` |
 | **Akcje użytkownika jako metody** | Np. `loginPage.loginWithOtp(email)`, `sidebar.logout()` |
 | **Asercje na lokatorach z Page Object** | `await expect(loginPage.errorAlert).toBeVisible()` |
-| **Fixtures wstrzykują Page Objects** | Używaj `loginPage`, `sidebar` z fixture — nie `new LoginPage(page)` w spec |
+| **Fixtures wstrzykują Page Objects** | Używaj `loginPage`, `sidebar` z fixture — nie `new LoginPage(page)` w spec (wyjątek: nowy browser context) |
 | **Helpers tylko dla logiki spoza UI** | OTP resolution, localStorage seed — nie selektory |
 
 ### Hierarchia
@@ -112,11 +112,13 @@ Wszystkie testy E2E **muszą** stosować wzorzec Page Object Model. Pliki `*.spe
 ```
 BasePage                    ← wspólna klasa bazowa (trzyma referencję do Page)
 ├── LoginPage               ← strona /login
-├── ConversationsListPage   ← strona /conversations
-├── CreateConversationPage  ← strona /conversations/create
-└── ConversationSessionPage ← strona /conversations/[id]
+└── ConversationsListPage   ← strona /conversations
 
 SidebarComponent            ← fragment UI (sidebar), nie dziedziczy BasePage
+
+# Dodawane w kolejnych fazach (nie wcześniej):
+# CreateConversationPage    ← Faza 3
+# ConversationSessionPage   ← Faza 4
 ```
 
 ### Przykład — poprawny test (spec)
@@ -157,20 +159,18 @@ await expect(page.locator('[role="alert"]')).toBeVisible();
 e2e/
 ├── playwright.config.ts
 ├── pages/                              # Page Object Model
-│   ├── base.page.ts                    # klasa bazowa
+│   ├── base.page.ts
 │   ├── login.page.ts
 │   ├── conversations-list.page.ts
-│   ├── create-conversation.page.ts
-│   ├── conversation-session.page.ts
 │   ├── components/
-│   │   └── sidebar.component.ts        # Component Object
-│   └── index.ts                        # barrel export
+│   │   └── sidebar.component.ts
+│   └── index.ts
 ├── fixtures/
 │   ├── pages.fixture.ts                # wstrzykuje Page Objects do testów
-│   ├── auth.fixture.ts                 # authenticatedPage (extends pages.fixture)
-│   ├── conversation.fixture.ts
+│   ├── auth.fixture.ts                 # authenticatedPage (logowanie OTP)
 │   └── test-env.ts
 ├── helpers/                            # tylko logika spoza UI
+│   ├── load-env.ts                     # ładowanie .env.e2e w playwright.config
 │   ├── otp.ts
 │   └── storage.ts
 └── flows/                              # specy — wyłącznie user flow, bez selektorów
@@ -213,7 +213,7 @@ e2e/
 | Etap | Zakres | Pliki testów | Priorytet | Status |
 |------|--------|--------------|-----------|--------|
 | **0** | Infrastruktura Playwright | `playwright.config.ts`, fixtures, helpers, CI | — | ✅ Zrobione |
-| **1** | Auth | `01-auth/*` (4 pliki) | P0 | ✅ Zrobione |
+| **1** | Auth | `01-auth/*` (4 pliki) | P0 | 🟡 Zaimplementowane — wymaga `npm run test:e2e` z backendem |
 | **2** | Lista + nawigacja | `02-conversations-list/list-and-navigation` | P0 | ⬜ Do zrobienia |
 | **3** | Tworzenie rozmowy | `03-create-conversation/create-full-flow` | P0 | ⬜ Do zrobienia |
 | **4** | Sesja na żywo | `04-live-session/*` (4 pliki) | P0 | ⬜ Do zrobienia |
@@ -236,26 +236,28 @@ e2e/
    - kroki multi-step form,
    - wiersze listy rozmów.
 
-3. **Czekanie na SSE** — metody w `ConversationSessionPage` (`waitForAiGenerationComplete`, `waitForMessageCount`).
+3. **Czekanie na SSE** — metody w `ConversationSessionPage` (do utworzenia w Fazie 4).
 
 4. **CI** — osobny job `test:e2e` z uruchomionym backendem (docker-compose lub staging).
 
-5. **POM** — każdy nowy flow wymaga Page Object przed napisaniem specu (patrz [sekcja 3](#3-wzorzec-page-object-model-pom)).
+5. **POM** — każdy nowy flow wymaga Page Object przed napisaniem specu (patrz [sekcja 3](#3-wzorzec-page-object-model-pom)). Nie tworzyć stubów Page Objects na przyszłe fazy.
+
+6. **`.env.e2e`** — ładowany automatycznie przez `playwright.config.ts` (patrz `e2e/helpers/load-env.ts`).
 
 ---
 
 ## Faza 0: Infrastruktura
 
 - [x] **E2E-000** Zainstalować `@playwright/test` i dodać skrypt `test:e2e` w `package.json`
-- [x] **E2E-001** Utworzyć `e2e/playwright.config.ts` (baseURL, webServer, storageState, retries)
+- [x] **E2E-001** Utworzyć `e2e/playwright.config.ts` (baseURL, webServer, retries, auto-load `.env.e2e`)
 - [x] **E2E-002** Utworzyć `e2e/fixtures/test-env.ts` — zmienne środowiskowe testowe
-- [x] **E2E-003** Utworzyć `e2e/fixtures/auth.fixture.ts` — helper logowania + `storageState`
+- [x] **E2E-003** Utworzyć `e2e/fixtures/auth.fixture.ts` — `authenticatedPage` via OTP login (skip gdy brak env)
 - [x] **E2E-004** Utworzyć `e2e/helpers/otp.ts` — pobieranie/wstrzykiwanie kodu OTP
-- [x] **E2E-005** Utworzyć `e2e/helpers/selectors.ts` — scentralizowane selektory UI
-- [x] **E2E-006** Utworzyć `e2e/helpers/wait-for-sse.ts` — helper czekania na stream AI
+- [x] **E2E-005** Selektory w Page Objects (`e2e/pages/`) — nie w osobnym pliku helpers
+- [ ] **E2E-006** `ConversationSessionPage` z metodami SSE wait — **Faza 4**
 - [x] **E2E-007** Dodać `.env.e2e.example` z wymaganymi zmiennymi
 - [x] **E2E-008** Zaktualizować README o sekcję E2E
-- [x] **E2E-009** Wdrożyć wzorzec Page Object Model (`e2e/pages/`, `pages.fixture.ts`, refaktor Fazy 1)
+- [x] **E2E-009** Wdrożyć wzorzec Page Object Model (`e2e/pages/`, `pages.fixture.ts`)
 
 ---
 

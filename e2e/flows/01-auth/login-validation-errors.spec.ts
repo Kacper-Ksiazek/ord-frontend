@@ -25,9 +25,10 @@ test.describe('Login — validation errors', () => {
 			await loginPage.proceedToOtpStep(testEnv.testEmail);
 		});
 
-		test('shows error for incomplete OTP on manual submit', async ({ page, loginPage }) => {
+		test('shows error for incomplete OTP on form submit', async ({ page, loginPage }) => {
 			await loginPage.fillOtp('12');
-			await loginPage.submitOtp();
+			await expect(loginPage.otpSubmitButton).toBeDisabled();
+			await loginPage.submitOtpForm();
 
 			await expect(loginPage.errorAlert).toBeVisible();
 			await expect(page).toHaveURL(/\/login/);

@@ -1,8 +1,12 @@
 import { test, expect } from '../../fixtures/auth.fixture';
-import { testEnv } from '../../fixtures/test-env';
-import { seedUserInLocalStorage } from '../../helpers/storage';
+import { isE2eAuthConfigured, testEnv } from '../../fixtures/test-env';
+import { ConversationsListPage } from '../../pages';
 
 test.describe('Session persistence', () => {
+	test.beforeEach(() => {
+		test.skip(!isE2eAuthConfigured(), 'E2E_OTP_CODE or E2E_OTP_FETCH_URL required');
+	});
+
 	test('session survives page reload', async ({
 		authenticatedPage,
 		conversationsListPage
@@ -18,25 +22,19 @@ test.describe('Session persistence', () => {
 
 	test('session is restored in a new browser context via storage state', async ({
 		browser,
+		page,
 		loginPage
 	}) => {
-		const context = await browser.newContext();
-		const page = await context.newPage();
+		await loginPage.loginWithOtp(testEnv.testEmail);
 
-		await loginPage.goto();
-		await seedUserInLocalStorage(page, {
-			id: 'e2e-user-id',
-			email: testEnv.testEmail,
-			name: 'E2E Test User',
-			selectedLearningLanguage: 'English'
-		});
+		const storageState = await page.context().storageState();
+		const newContext = await browser.newContext({ storageState });
+		const newPage = await newContext.newPage();
+		const conversationsListPage = new ConversationsListPage(newPage);
 
-		await page.goto('/conversations');
+		await conversationsListPage.goto();
+		await conversationsListPage.expectLoaded();
 
-		// hooks.client.ts allows navigation when localStorage has user;
-		// private layout still validates via /me — this test documents current behavior.
-		await page.waitForURL(/\/(conversations|login)/);
-
-		await context.close();
+		await newContext.close();
 	});
 });

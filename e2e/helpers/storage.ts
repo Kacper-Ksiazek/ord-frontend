@@ -1,5 +1,4 @@
-const USER_STORAGE_KEY = 'ord_app_user';
-const SESSION_INITIALIZED_KEY = 'ord_app_session_initialized';
+import { STORAGE_KEYS } from '../../src/lib/utils/local-storage';
 
 type SeedUser = {
 	id: string;
@@ -22,8 +21,8 @@ export async function seedUserInLocalStorage(
 			localStorage.setItem(sessionKey, JSON.stringify(true));
 		},
 		{
-			userKey: USER_STORAGE_KEY,
-			sessionKey: SESSION_INITIALIZED_KEY,
+			userKey: STORAGE_KEYS.USER,
+			sessionKey: STORAGE_KEYS.SESSION_INITIALIZED,
 			userData: user
 		}
 	);
@@ -32,7 +31,7 @@ export async function seedUserInLocalStorage(
 export async function getStoredUser(
 	page: import('@playwright/test').Page
 ): Promise<string | null> {
-	return page.evaluate((key) => localStorage.getItem(key), USER_STORAGE_KEY);
+	return page.evaluate((key) => localStorage.getItem(key), STORAGE_KEYS.USER);
 }
 
-export { USER_STORAGE_KEY };
+export { STORAGE_KEYS };

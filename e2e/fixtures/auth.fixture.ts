@@ -8,11 +8,10 @@ type AuthFixtures = {
 };
 
 export const test = pagesTest.extend<AuthFixtures>({
-	authenticatedPage: async ({ page, loginPage }, use) => {
+	authenticatedPage: async ({ page, loginPage }, use, testInfo) => {
 		if (!isE2eAuthConfigured()) {
-			throw new Error(
-				'E2E auth is not configured. Set E2E_OTP_CODE or E2E_OTP_FETCH_URL in .env.e2e'
-			);
+			testInfo.skip(true, 'E2E_OTP_CODE or E2E_OTP_FETCH_URL required');
+			return;
 		}
 
 		await loginPage.loginWithOtp(testEnv.testEmail);

@@ -1,3 +1,7 @@
+import { loadEnvE2e } from './helpers/load-env';
+
+loadEnvE2e();
+
 import { defineConfig, devices } from '@playwright/test';
 import { testEnv } from './fixtures/test-env';
 
