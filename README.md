@@ -165,12 +165,25 @@ The app runs at `http://localhost:5173`.
 ## ✅ Quality & testing
 
 - **Component & unit tests** run in a real browser via Vitest's browser mode + Playwright.
+- **E2E integration tests** exercise full user flows via `@playwright/test` (see [`docs/e2e-test-plan.md`](./docs/e2e-test-plan.md)).
 - **Storybook** documents shared components with built-in **accessibility** checks.
 - **Husky + lint-staged** run Prettier and ESLint on every commit, keeping the tree clean.
 
 ```bash
-bun run test       # run all tests
+bun run test       # run all unit tests
 bun run storybook  # explore components in isolation
+```
+
+### E2E tests (Playwright)
+
+Requires a running backend API and test credentials. See [`.env.e2e.example`](./.env.e2e.example).
+
+```bash
+cp .env.e2e.example .env.e2e   # configure E2E_TEST_EMAIL, E2E_OTP_CODE, E2E_API_URL
+export $(grep -v '^#' .env.e2e | xargs)
+npm run test:e2e:install        # install Chromium for Playwright
+npm run test:e2e                # run all E2E flows
+npm run test:e2e:ui             # interactive UI mode
 ```
 
 ---
