@@ -6,6 +6,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import type { ConversationType } from '$lib/types/conversation/domain/conversation';
 	import ConversationTypeIcon from '$lib/features/conversations/shared/components/conversation-type-icon.svelte';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	type ConversationTypeCardProps = {
 		isSelected: boolean;
@@ -44,6 +45,7 @@
 	{isSelected}
 	{disabled}
 	locked={disabled}
+	data-testid={E2E_TEST_IDS.createConversation.typeCard(type)}
 	class={cn('relative w-[378px] py-10 px-4')}
 >
 	{#if onToggleDefault}

@@ -12,6 +12,7 @@
 		CompactConversationAiMessage,
 		CompactConversationUserMessage
 	} from '$lib/types/conversation/domain/conversation-message';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	type ConversationSummaryTab = 'overview' | 'learning-tips' | 'analysis';
 
@@ -68,7 +69,7 @@
 	]);
 </script>
 
-<div class="flex flex-col h-full min-h-0">
+<div class="flex flex-col h-full min-h-0" data-testid={E2E_TEST_IDS.session.feedbackSummary}>
 	<div class="shrink-0 space-y-6">
 		<Breadcrumb
 			class="mb-3"
@@ -86,6 +87,7 @@
 		<h2 class="heading-4 mb-4">Conversation Summary</h2>
 
 		<Tabs
+			testId={E2E_TEST_IDS.session.feedbackSummaryTabs}
 			tabs={mainTabs}
 			bind:activeTab={activeMainTab}
 			activeColor="primary"

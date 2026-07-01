@@ -36,7 +36,8 @@
 		onChange,
 		onFocus,
 		onBlur,
-		hotkey
+		hotkey,
+		testId
 	}: Props = $props();
 
 	let inputEl: HTMLInputElement | undefined = $state();
@@ -121,6 +122,7 @@
 <div class={cn('relative', className)}>
 	{#if readonly}
 		<span
+			data-testid={testId}
 			aria-label={ariaLabel}
 			aria-describedby={ariaDescribedBy}
 			aria-invalid={lengthConstraintActive && !isValid ? true : undefined}
@@ -147,6 +149,7 @@
 	{:else}
 		<input
 			bind:this={inputEl}
+			data-testid={testId}
 			{type}
 			value={internalValue}
 			{placeholder}

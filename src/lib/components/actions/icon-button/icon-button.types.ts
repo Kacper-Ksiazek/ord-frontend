@@ -12,4 +12,6 @@ export interface IconButtonProps {
 	class?: string;
 	iconClass?: string;
 	onClick?: (event: MouseEvent) => void;
+	/** Stable selector for E2E tests (`data-testid`) */
+	testId?: string;
 }

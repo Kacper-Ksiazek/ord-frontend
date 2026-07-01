@@ -22,6 +22,7 @@
 		Step3ConversationTopic,
 		Step4Summary
 	} from './steps';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	function hydrateStoredDefaultsAndGetInitialStep(): number {
 		if (!browser) {
@@ -142,6 +143,7 @@
 	{#if error}
 		<div
 			class="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg"
+			data-testid={E2E_TEST_IDS.createConversation.error}
 		>
 			<p class="text-sm text-red-800 dark:text-red-200">{error}</p>
 		</div>
@@ -161,6 +163,7 @@
 	<MultiStepForm
 		{steps}
 		bind:currentStep
+		testIdPrefix="create-conversation"
 		onStepChange={handleStepChange}
 		finalStepButtonText={m['features.conversation.create.form.start_conversation_button']()}
 		onFinalStepClick={handleFinalStepClick}

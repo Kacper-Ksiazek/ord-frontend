@@ -8,6 +8,7 @@
 	} from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
 	import { topicPickerStore } from '../topic-picker.store.svelte';
 	import * as m from '$lib/paraglide/messages.js';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	let userTopicInput = $state('');
 
@@ -63,6 +64,7 @@
 <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
 	<div class="flex flex-col min-w-0 flex-1 gap-3">
 		<Toggle
+			data-testid={E2E_TEST_IDS.createConversation.topicCustomToggle}
 			checked={topicPickerStore.useOwnTopic}
 			onchange={(e) => handleUseOwnTopicChange(e.currentTarget.checked)}
 			class="shrink-0 sm:pt-1.5"
@@ -74,6 +76,7 @@
 
 		<div class="relative min-w-0 flex-1">
 			<AutoHeightTextarea
+				testId={E2E_TEST_IDS.createConversation.topicCustomInput}
 				bind:value={userTopicInput}
 				formField={true}
 				disabled={topicInputDisabled}

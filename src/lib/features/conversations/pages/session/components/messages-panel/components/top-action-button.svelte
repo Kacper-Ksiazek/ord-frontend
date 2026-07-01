@@ -18,6 +18,8 @@
 		icon: LucideIcon;
 		children?: Snippet;
 		additionalContent?: Snippet;
+		/** Stable selector for E2E tests (`data-testid`) */
+		testId?: string;
 	}
 
 	const sidepanelContext = getSidepanelContext();
@@ -32,7 +34,8 @@
 		disabled = false,
 		showAdditionalContent = true,
 		children,
-		additionalContent
+		additionalContent,
+		testId
 	}: Props = $props();
 
 	/** Shared shell with OUTLINED + TEXT border tokens */
@@ -54,6 +57,7 @@
 	)}
 >
 	<Button
+		testId={testId}
 		type="OUTLINED"
 		variant="TEXT"
 		{onClick}

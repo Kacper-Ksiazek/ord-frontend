@@ -2,8 +2,8 @@
 
 > Pełne user flow end-to-end dla **ord-frontend** — nie testy izolowanych komponentów.
 >
-> **Status:** Faza 0 + Faza 1 gotowe do merge (pending weryfikacja `bun run test:e2e` z backendem + E2E-010 CI).
-> **Ostatnia aktualizacja:** 2026-07-01 (uwzględniono 5 rund code review)
+> **Status:** Faza 0 + Faza 1 gotowe do merge; **Faza 2 (data-testid) zaimplementowana** — pending weryfikacja `bun run test:e2e` z backendem + E2E-010 CI.
+> **Ostatnia aktualizacja:** 2026-07-01 (Faza 2: data-testid w aplikacji)
 
 ---
 
@@ -30,8 +30,9 @@
 |--------|--------|
 | Infrastruktura Playwright (`e2e/`, POM, fixtures) | ✅ Zrobione |
 | Faza 1 — auth (4 specy) | ✅ Zaimplementowane |
+| Faza 2 — `data-testid` w aplikacji | ✅ Zaimplementowane |
 | CI workflow (`bun run test:e2e`) | ⬜ E2E-010 |
-| Fazy 2–8 | ⬜ Roadmap (poniżej) |
+| Fazy 3–8 | ⬜ Roadmap (poniżej) |
 | Testy jednostkowe (Vitest) | ✅ 8 plików (utils, TTS API, lista) |
 
 ### Uruchomienie
@@ -109,14 +110,14 @@ SidebarComponent
 # ConversationSessionPage     → Faza 4
 ```
 
-### Wzorce selektorów (ustalone w review)
+### Wzorce selektorów
 
-| Element UI | Zalecany selektor | Uwaga |
-|------------|-------------------|-------|
-| Przyciski z ikoną (sidebar toggle, logout) | `button[title="…"]` | `title` ≠ accessible name — `getByRole` nie zadziała |
-| Email w sidebarze | `aside.getByText(email)` + `ensureExpanded()` | Email widoczny tylko gdy sidebar rozwinięty |
-| Błąd logowania | `getByText(/^(Error:\|Błąd:\|Fehler:)/)` | Kruche przy zmianie locale — docelowo `data-testid` |
-| OTP input | `[aria-label="Digit N"]` | Po `fill()` wymagany `submitOtp()` — `oncomplete` nie odpala się programowo |
+| Element UI | Selektor | Uwaga |
+|------------|----------|-------|
+| Wszystkie kluczowe elementy E2E | `getByTestId(E2E_TEST_IDS.…)` | Stałe w `src/lib/testing/e2e-test-ids.ts`, re-export w `e2e/helpers/test-ids.ts` |
+| Sidebar expand | `E2E_TEST_IDS.sidebar.toggle` + sprawdzenie `title` | Rozwijanie tylko gdy zwinięty |
+| OTP input | `E2E_TEST_IDS.login.otpDigit(n)` | Po `fill()` wymagany `submitOtp()` — `oncomplete` nie odpala się programowo |
+| Wiersze listy / wiadomości | `E2E_TEST_IDS.conversations.row(id)`, `session.aiMessage(i)` | Dynamiczne ID przez helpery |
 
 ### Skip guard — kiedy i gdzie
 
@@ -210,21 +211,23 @@ e2e/
 | **0** | Infrastruktura Playwright | E2E-000–009 | ✅ |
 | **0b** | CI workflow | E2E-010 | ⬜ |
 | **1** | Auth | E2E-101–104 | ✅ |
-| **2** | Lista + nawigacja | E2E-201 | ⬜ **następna** |
-| **3** | Tworzenie rozmowy | E2E-301, E2E-303 | ⬜ |
-| **4** | Sesja na żywo | E2E-401–404, E2E-006 | ⬜ |
-| **5** | Feedback | E2E-501–504 | ⬜ |
-| **6** | Filtry + AI topics | E2E-202, E2E-302 | ⬜ |
-| **7** | TTS | E2E-601 | ⬜ |
-| **8** | Activity + chrome | E2E-203, E2E-701–702 | ⬜ |
+| **2** | `data-testid` w aplikacji | E2E-110 | ✅ |
+| **2b** | CI workflow | E2E-010 | ⬜ |
+| **3** | Lista + nawigacja | E2E-201 | ⬜ **następna** |
+| **4** | Tworzenie rozmowy | E2E-301, E2E-303 | ⬜ |
+| **5** | Sesja na żywo | E2E-401–404, E2E-006 | ⬜ |
+| **6** | Feedback | E2E-501–504 | ⬜ |
+| **7** | Filtry + AI topics | E2E-202, E2E-302 | ⬜ |
+| **8** | TTS | E2E-601 | ⬜ |
+| **9** | Activity + chrome | E2E-203, E2E-701–702 | ⬜ |
 
 ---
 
 ## 7. Wymagania infrastrukturalne
 
 1. **Backend testowy** — `PUBLIC_API_URL`, deterministyczny OTP (`E2E_OTP_CODE` lub `E2E_OTP_FETCH_URL`), seed data.
-2. **`data-testid` w aplikacji** — priorytet przy Fazach 3–4: textarea sesji, send button, kroki formularza, wiersze listy. Docelowo też login error alert (zamiast regex locale).
-3. **SSE waits** — metody w `ConversationSessionPage` (Faza 4, E2E-006).
+2. **`data-testid` w aplikacji** — ✅ Faza 2 (`src/lib/testing/e2e-test-ids.ts`). Shared components: `Button`, `Input`, `IconButton`, `AutoHeightTextarea`, `DropdownSelect`, `Tabs` — prop `testId`.
+3. **SSE waits** — metody w `ConversationSessionPage` (Faza 5, E2E-006).
 4. **CI** — `.github/workflows/e2e.yml` uruchamiający `bun run test:e2e` z backendem (E2E-010).
 5. **`.env.e2e`** — format `KEY=value`, bez cudzysłowów/exportu/expansion (patrz `.env.e2e.example`).
 
@@ -274,32 +277,58 @@ e2e/
 
 ---
 
-## Roadmap: Fazy 2–8
+## Faza 2: data-testid w aplikacji — zaimplementowane
+
+Centralne stałe: `src/lib/testing/e2e-test-ids.ts` (re-export: `e2e/helpers/test-ids.ts`).
+
+### Zakres
+
+| Obszar | Kluczowe testid | Pliki |
+|--------|-----------------|-------|
+| Auth | `login-page`, `login-email-input`, `login-otp-digit-N`, `login-error` | `login/+page.svelte`, `otp-input.svelte` |
+| Sidebar | `sidebar-toggle`, `sidebar-user-email`, `sidebar-logout` | `sidebar.svelte` |
+| Lista | `conversations-heading`, `conversations-list`, `conversation-row-{id}`, filtry | `conversations/+page.svelte`, list components |
+| Create | `create-conversation-stepper`, `conversation-type-card-{type}`, `topic-row-{i}`, `create-conversation-start` | multi-step-form, create steps |
+| Sesja | `session-message-input`, `session-send-button`, `ai-message-{i}`, `feedback-panel` | session components |
+
+### Shared components z `testId` prop
+
+`Button`, `Input`, `IconButton`, `AutoHeightTextarea`, `DropdownSelect`, `Tabs`, `MultiStepForm` (`testIdPrefix`).
+
+### Page Objects zaktualizowane
+
+`LoginPage`, `ConversationsListPage`, `SidebarComponent` — wszystkie selektory przez `getByTestId(E2E_TEST_IDS.…)`.
+
+- [x] **E2E-110** `data-testid` w aplikacji + aktualizacja POM auth/lista/sidebar
+
+---
+
+## Roadmap: Fazy 3–9
 
 > Poniżej **backlog** — bez tabel kroków. Szczegóły user flow ustalamy przy implementacji danej fazy.
 > Każda faza = nowy Page Object + spec(y) w tej samej PR.
 
 | Faza | Priorytet | Zadania | User flow (skrót) | Nowe Page Objects |
 |------|-----------|---------|-------------------|-------------------|
-| **2** | P0 | E2E-201 | Lista → klik rozmowy → New conversation | Rozszerzyć `ConversationsListPage` |
-| **3** | P0 | E2E-301, E2E-303 | 4-krokowy builder → start sesji; walidacja/back | `CreateConversationPage` |
-| **4** | P0 | E2E-401–404, E2E-006 | Init SSE → chat → resume → back | `ConversationSessionPage` |
-| **5** | P1 | E2E-501–504 | Inline highlights, panel feedbacku | `FeedbackPanelComponent` |
-| **6** | P1 | E2E-202, E2E-302 | Filtry listy; AI topic suggestions | Rozszerzenia PO z Faz 2–3 |
-| **7** | P1 | E2E-601 | TTS play/stop na wiadomości AI | Metody w `ConversationSessionPage` |
-| **8** | P2 | E2E-203, E2E-701–702 | Activity heatmap; theme; locale switching | `PublicLayoutComponent` |
+| **3** | P0 | E2E-201 | Lista → klik rozmowy → New conversation | Rozszerzyć `ConversationsListPage` |
+| **4** | P0 | E2E-301, E2E-303 | 4-krokowy builder → start sesji; walidacja/back | `CreateConversationPage` |
+| **5** | P0 | E2E-401–404, E2E-006 | Init SSE → chat → resume → back | `ConversationSessionPage` |
+| **6** | P1 | E2E-501–504 | Inline highlights, panel feedbacku | `FeedbackPanelComponent` |
+| **7** | P1 | E2E-202, E2E-302 | Filtry listy; AI topic suggestions | Rozszerzenia PO z Faz 3–4 |
+| **8** | P1 | E2E-601 | TTS play/stop na wiadomości AI | Metody w `ConversationSessionPage` |
+| **9** | P2 | E2E-203, E2E-701–702 | Activity heatmap; theme; locale switching | `PublicLayoutComponent` |
 
 ### Kolejność realizacji
 
 ```
 E2E-010 (CI) ──┐
-               ├──► Faza 2 (E2E-201) ──► Faza 3 (E2E-301) ──► Faza 4 (E2E-401–404)
-Faza 1 merge ──┘         │                      │                    │
-                         └── Faza 6 (E2E-202) ──┘                    │
-                         └── Faza 6 (E2E-302) ─────────────────────┘
-                                              Faza 5 (E2E-501–504)
-                                              Faza 7 (E2E-601)
-                                              Faza 8 (E2E-203, 701–702)
+               ├──► Faza 3 (E2E-201) ──► Faza 4 (E2E-301) ──► Faza 5 (E2E-401–404)
+Faza 1–2 merge ┘         │                      │                    │
+                         └── Faza 7 (E2E-202) ──┘                    │
+                         └── Faza 7 (E2E-302) ─────────────────────┘
+                                              Faza 6 (E2E-501–504)
+                                              Faza 8 (E2E-601)
+                                              Faza 9 (E2E-203, 701–702)
 ```
 
 ---
@@ -311,8 +340,6 @@ Akceptowalne na Fazę 1; adresować przy implementacji kolejnych faz.
 | Ograniczenie | Wpływ | Planowana poprawa |
 |--------------|-------|-------------------|
 | `waitForLoginSuccess()` sprawdza tylko „nie `/login`" | Przechodzi na `/` placeholder | Zaostrzyć gdy produkt zdefiniuje post-auth route (E2E-101+) |
-| Error alert via regex locale | Flake przy E2E-702 | `data-testid="login-error"` w app |
-| `Conversations` heading hardcoded EN | Flake przy locale tests | i18n-aware locator lub `data-testid` |
 | `submitOtpForm()` synthetic event | Testuje handler, nie UX disabled button | OK dla incomplete OTP; dokumentowane |
 | Brak CI (E2E-010) | Brak automatycznej weryfikacji | Następny krok infra |
 | Hand-rolled `.env` parser | Brak quotes/export/expansion | Wystarczy na 5-liniowy `.env.e2e` |
@@ -326,8 +353,9 @@ Akceptowalne na Fazę 1; adresować przy implementacji kolejnych faz.
 | **Infra** | Setup Playwright | E2E-000–009 | ✅ |
 | **Infra** | CI | E2E-010 | ⬜ |
 | **P0** | Auth | E2E-101–104 | ✅ |
+| **P0** | data-testid | E2E-110 | ✅ |
 | **P0** | Lista, create, sesja | E2E-201, 301, 303, 401–404 | ⬜ |
 | **P1** | Feedback, filtry, topics, TTS | E2E-202, 302, 501–504, 601 | ⬜ |
 | **P2** | Activity, theme, locale | E2E-203, 701–702 | ⬜ |
 
-**Łącznie:** ~30 zadań — **14 zrobionych**, **16 w roadmap**.
+**Łącznie:** ~31 zadań — **15 zrobionych**, **16 w roadmap**.

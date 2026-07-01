@@ -7,6 +7,7 @@
 	import { topicPickerStore } from '../topic-picker.store.svelte';
 	import { TextQuote } from 'lucide-svelte';
 	import * as m from '$lib/paraglide/messages.js';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	interface GenerateTopicsSuggestionsButtonProps {
 		amountOfSkeletons: number;
@@ -64,7 +65,7 @@
 	}
 </script>
 
-<div class="flex items-center gap-3">
+<div class="flex items-center gap-3" data-testid={E2E_TEST_IDS.createConversation.topicGenerateButton}>
 	<div class="shrink-0">
 		<AiActionButton
 			status={generateButtonStatus}
@@ -74,6 +75,7 @@
 	</div>
 
 	<Input
+		testId={E2E_TEST_IDS.createConversation.topicGenerateClueInput}
 		placeholder={m['features.conversation.create.step-3.topic_picker.generate_suggestions.button']()}
 		class="min-w-0 flex-1"
 		leftAdornment={TextQuote}

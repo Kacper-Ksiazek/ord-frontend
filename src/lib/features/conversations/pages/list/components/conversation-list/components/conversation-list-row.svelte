@@ -11,6 +11,7 @@
 	} from '$lib/features/conversations/shared/utils';
 	import { cn } from 'flowbite-svelte';
 	import { formatRelativeOrMediumDate } from '$lib/utils/format-relative-or-medium-date';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	interface Props {
 		conversation: ConversationSummaryDTO;
@@ -40,6 +41,7 @@
 <li class="list-none">
 	<button
 		type="button"
+		data-testid={E2E_TEST_IDS.conversations.row(conversation.id)}
 		class={cn(
 			'group w-full rounded-xl border border-gray-200 bg-white px-6 py-4 text-left transition-colors',
 			'dark:border-gray-700 dark:bg-gray-800',

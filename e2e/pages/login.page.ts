@@ -1,4 +1,5 @@
 import type { Locator, Page } from '@playwright/test';
+import { E2E_TEST_IDS } from '../helpers/test-ids';
 import { resolveOtpCode } from '../helpers/otp';
 
 export class LoginPage {
@@ -12,16 +13,16 @@ export class LoginPage {
 	readonly errorAlert: Locator;
 
 	constructor(protected readonly page: Page) {
-		this.emailInput = page.locator('#email');
-		this.emailSubmitButton = page.locator('form:has(#email) button[type="submit"]');
-		this.otpGroup = page.locator('[aria-label="OTP Input"]');
-		this.otpForm = page.locator('form:has([aria-label="OTP Input"])');
-		this.otpSubmitButton = this.otpForm.locator('button[type="submit"]');
-		this.errorAlert = page.getByText(/^(Error:|Błąd:|Fehler:)/);
+		this.emailInput = page.getByTestId(E2E_TEST_IDS.login.emailInput);
+		this.emailSubmitButton = page.getByTestId(E2E_TEST_IDS.login.emailSubmit);
+		this.otpGroup = page.getByTestId(E2E_TEST_IDS.login.otpInput);
+		this.otpForm = page.getByTestId(E2E_TEST_IDS.login.otpForm);
+		this.otpSubmitButton = page.getByTestId(E2E_TEST_IDS.login.otpSubmit);
+		this.errorAlert = page.getByTestId(E2E_TEST_IDS.login.error);
 	}
 
 	otpDigit(index: number): Locator {
-		return this.page.locator(`[aria-label="Digit ${index}"]`);
+		return this.page.getByTestId(E2E_TEST_IDS.login.otpDigit(index));
 	}
 
 	async goto(): Promise<void> {
