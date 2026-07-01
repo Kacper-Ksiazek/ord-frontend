@@ -44,7 +44,15 @@ export async function resolveOtpCode(email: string): Promise<string> {
 	);
 }
 
-/** Returns an OTP code guaranteed to differ from the configured correct code. */
+/** Returns a 6-digit OTP code guaranteed to differ from the correct one. */
 export function wrongOtpCode(correctCode: string): string {
-	return correctCode === '999999' ? '888888' : '999999';
+	if (correctCode.length !== 6) {
+		throw new Error('OTP code must be 6 digits');
+	}
+
+	const digits = correctCode.split('');
+	const lastDigit = Number(digits[5]);
+	digits[5] = String((lastDigit + 1) % 10);
+
+	return digits.join('');
 }

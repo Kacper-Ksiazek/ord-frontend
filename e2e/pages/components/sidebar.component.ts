@@ -16,7 +16,7 @@ export class SidebarComponent {
 	}
 
 	async ensureExpanded(): Promise<void> {
-		const expandButton = this.page.getByRole('button', { name: 'Expand sidebar' });
+		const expandButton = this.page.locator('button[title="Expand sidebar"]');
 
 		if (await expandButton.isVisible()) {
 			await expandButton.click();

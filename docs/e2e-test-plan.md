@@ -152,59 +152,35 @@ await expect(page.locator('[role="alert"]')).toBeVisible();
 
 ---
 
-## 4. Struktura katalogów
+## 4. Struktura katalogów (stan w tym PR)
 
 ```
 e2e/
 ├── playwright.config.ts
-├── pages/                              # Page Object Model
-│   ├── base.page.ts
+├── pages/
 │   ├── login.page.ts
 │   ├── conversations-list.page.ts
 │   ├── components/
 │   │   └── sidebar.component.ts
 │   └── index.ts
 ├── fixtures/
-│   ├── pages.fixture.ts                # wstrzykuje Page Objects do testów
-│   ├── auth.fixture.ts                 # authenticatedPage (logowanie OTP)
+│   ├── pages.fixture.ts
+│   ├── auth.fixture.ts
 │   └── test-env.ts
-├── helpers/                            # tylko logika spoza UI
-│   ├── load-env.ts                     # ładowanie .env.e2e (wywoływane z test-env.ts)
-│   ├── page-objects.ts                 # fabryki Page Object dla dodatkowych kontekstów
+├── helpers/
+│   ├── load-env.ts
+│   ├── page-objects.ts
 │   ├── otp.ts
 │   └── storage.ts
-└── flows/                              # specy — wyłącznie user flow, bez selektorów
-    ├── 01-auth/
-    │   ├── login-happy-path.spec.ts
-    │   ├── login-validation-errors.spec.ts
-    │   ├── session-persistence.spec.ts
-    │   └── logout.spec.ts
-    ├── 02-conversations-list/
-    │   ├── list-and-navigation.spec.ts
-    │   ├── filters.spec.ts
-    │   └── activity-overview.spec.ts
-    ├── 03-create-conversation/
-    │   ├── create-full-flow.spec.ts
-    │   ├── create-with-ai-topics.spec.ts
-    │   └── create-validation-and-back.spec.ts
-    ├── 04-live-session/
-    │   ├── new-session-initialization.spec.ts
-    │   ├── send-message-and-receive-ai-reply.spec.ts
-    │   ├── resume-existing-conversation.spec.ts
-    │   └── session-navigation-back.spec.ts
-    ├── 05-feedback/
-    │   ├── inline-analysis-highlights.spec.ts
-    │   ├── learning-tips-on-ai-message.spec.ts
-    │   ├── feedback-panel-summary.spec.ts
-    │   └── feedback-panel-drilldown.spec.ts
-    ├── 06-tts/
-    │   └── play-ai-message-audio.spec.ts
-    └── 07-app-chrome/
-        ├── theme-persistence.spec.ts
-        └── locale-switching.spec.ts
+└── flows/
+    └── 01-auth/                        # ✅ zaimplementowane
+        ├── login-happy-path.spec.ts
+        ├── login-validation-errors.spec.ts
+        ├── session-persistence.spec.ts
+        └── logout.spec.ts
 ```
 
-**Szacunkowa liczba scenariuszy:** ~20 testów integracyjnych w 7 grupach flow.
+> **Fazy 2–8** poniżej to roadmap — pliki `02-*` … `07-*` **jeszcze nie istnieją** w repozytorium.
 
 ---
 
@@ -212,8 +188,9 @@ e2e/
 
 | Etap | Zakres | Pliki testów | Priorytet | Status |
 |------|--------|--------------|-----------|--------|
-| **0** | Infrastruktura Playwright | `playwright.config.ts`, fixtures, helpers, CI | — | ✅ Zrobione |
-| **1** | Auth | `01-auth/*` (4 pliki) | P0 | 🟡 Zaimplementowane — wymaga `npm run test:e2e` z backendem |
+| **0** | Infrastruktura Playwright | `playwright.config.ts`, fixtures, helpers | — | ✅ Zrobione |
+| **0b** | CI workflow | `.github/workflows/e2e.yml` | — | ⬜ Do zrobienia |
+| **1** | Auth | `01-auth/*` (4 pliki) | P0 | 🟡 Zaimplementowane — wymaga `bun run test:e2e` z backendem |
 | **2** | Lista + nawigacja | `02-conversations-list/list-and-navigation` | P0 | ⬜ Do zrobienia |
 | **3** | Tworzenie rozmowy | `03-create-conversation/create-full-flow` | P0 | ⬜ Do zrobienia |
 | **4** | Sesja na żywo | `04-live-session/*` (4 pliki) | P0 | ⬜ Do zrobienia |
@@ -238,7 +215,7 @@ e2e/
 
 3. **Czekanie na SSE** — metody w `ConversationSessionPage` (do utworzenia w Fazie 4).
 
-4. **CI** — osobny job `test:e2e` z uruchomionym backendem (docker-compose lub staging).
+4. **CI** — osobny job `test:e2e` z uruchomionym backendem (docker-compose lub staging). **Status: ⬜ E2E-010**
 
 5. **POM** — każdy nowy flow wymaga Page Object przed napisaniem specu (patrz [sekcja 3](#3-wzorzec-page-object-model-pom)). Nie tworzyć stubów Page Objects na przyszłe fazy.
 
@@ -258,6 +235,7 @@ e2e/
 - [x] **E2E-007** Dodać `.env.e2e.example` z wymaganymi zmiennymi
 - [x] **E2E-008** Zaktualizować README o sekcję E2E
 - [x] **E2E-009** Wdrożyć wzorzec Page Object Model (`e2e/pages/`, `pages.fixture.ts`)
+- [ ] **E2E-010** Dodać GitHub Actions workflow uruchamiający `bun run test:e2e`
 
 ---
 
@@ -316,6 +294,10 @@ e2e/
 - [x] **E2E-104** Zaimplementować `logout.spec.ts`
 
 ---
+
+## Roadmap — Fazy 2–8 (planowane, niezaimplementowane)
+
+Poniższe sekcje opisują przyszłe user flow. Pliki spec i Page Objects powstają **dopiero w danej fazie** — zgodnie z zasadą POM (§6, pkt 5).
 
 ## Faza 2: Lista rozmów (P0)
 
@@ -532,7 +514,7 @@ Zadania realizowane w ramach Faz 2 i 3 — patrz **E2E-202** (`filters.spec.ts`)
 
 - [ ] **E2E-702** Zaimplementować `locale-switching.spec.ts`
 
-- [ ] **E2E-203** Activity overview — patrz Faza 2
+Activity overview — patrz **E2E-203** w Fazie 2.
 
 ---
 
@@ -543,6 +525,12 @@ Zadania realizowane w ramach Faz 2 i 3 — patrz **E2E-202** (`filters.spec.ts`)
 | **P0** | Auth, lista, create, sesja (init + chat + resume + back) | ~10 | E2E-101–104, E2E-201, E2E-301, E2E-303, E2E-401–404 |
 | **P1** | Feedback (inline + panel), filtry, AI topics, TTS | ~7 | E2E-202, E2E-302, E2E-501–504, E2E-601 |
 | **P2** | Activity overview, theme, locale | ~3 | E2E-203, E2E-701–702 |
-| **Infra** | Playwright setup | 9 zadań | E2E-000–008 |
+| **Infra** | Playwright setup | 10 zadań | E2E-000–009 ✅, E2E-010 ⬜ |
 
-**Łącznie:** ~29 zadań (9 infra + ~20 scenariuszy testowych)
+**Łącznie:** ~30 zadań (10 infra + ~20 scenariuszy testowych)
+
+---
+
+## Roadmap — Fazy 2–8 (planowane, niezaimplementowane)
+
+Poniższe sekcje opisują przyszłe user flow. Pliki spec i Page Objects powstają **dopiero w danej fazie** — zgodnie z zasadą POM (§6, pkt 5).
