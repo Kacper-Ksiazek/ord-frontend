@@ -2,8 +2,12 @@ import { loadEnvE2e } from './helpers/load-env';
 
 loadEnvE2e();
 
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { defineConfig, devices } from '@playwright/test';
 import { testEnv } from './fixtures/test-env';
+
+const e2eDir = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
 	testDir: './flows',
@@ -13,9 +17,9 @@ export default defineConfig({
 	workers: process.env.CI ? 1 : undefined,
 	reporter: [
 		['list'],
-		['html', { open: 'never', outputFolder: 'playwright-report' }]
+		['html', { open: 'never', outputFolder: path.join(e2eDir, 'playwright-report') }]
 	],
-	outputDir: 'test-results',
+	outputDir: path.join(e2eDir, 'test-results'),
 	timeout: 60_000,
 	expect: {
 		timeout: 15_000

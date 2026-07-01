@@ -10,8 +10,9 @@ test.describe('Login — validation errors', () => {
 		await expect(loginPage.emailSubmitButton).toBeDisabled();
 	});
 
-	test('submit button is disabled when email is empty', async ({ loginPage }) => {
+	test('submit button is disabled when email is cleared', async ({ loginPage }) => {
 		await loginPage.goto();
+		await loginPage.fillEmail('');
 
 		await expect(loginPage.emailSubmitButton).toBeDisabled();
 	});

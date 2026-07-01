@@ -29,6 +29,6 @@ test.describe('Login — happy path', () => {
 		await loginPage.loginWithOtp(testEnv.testEmail);
 		await conversationsListPage.goto();
 
-		await expect(sidebar.userEmail).toContainText(testEnv.testEmail);
+		await expect(sidebar.userEmail(testEnv.testEmail)).toBeVisible();
 	});
 });

@@ -494,8 +494,7 @@ e2e/
 
 ## Faza 6: Filtry i AI topics (P1)
 
-- [ ] **E2E-202** Filtry listy rozmów — patrz Faza 2
-- [ ] **E2E-302** Generowanie tematów AI w create flow — patrz Faza 3
+Zadania realizowane w ramach Faz 2 i 3 — patrz **E2E-202** (`filters.spec.ts`) oraz **E2E-302** (`create-with-ai-topics.spec.ts`).
 
 ---
 
