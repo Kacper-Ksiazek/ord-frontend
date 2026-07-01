@@ -1,7 +1,5 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../../fixtures/pages.fixture';
 import { isE2eAuthConfigured, testEnv } from '../../fixtures/test-env';
-import { loginViaOtp } from '../../helpers/auth';
-import { loginSelectors, sidebarSelectors } from '../../helpers/selectors';
 
 test.describe('Login — happy path', () => {
 	test.beforeEach(() => {
@@ -9,22 +7,28 @@ test.describe('Login — happy path', () => {
 	});
 
 	test('unauthenticated user is redirected to login, then can access conversations', async ({
-		page
+		page,
+		loginPage,
+		conversationsListPage
 	}) => {
-		await page.goto('/conversations');
+		await conversationsListPage.goto();
 		await expect(page).toHaveURL(/\/login/);
 
-		await loginViaOtp(page, testEnv.testEmail);
+		await loginPage.loginWithOtp(testEnv.testEmail);
 
-		await page.goto('/conversations');
+		await conversationsListPage.goto();
 		await expect(page).toHaveURL(/\/conversations/);
-		await expect(page.getByRole('heading', { name: 'Conversations' })).toBeVisible();
+		await conversationsListPage.expectLoaded();
 	});
 
-	test('after login sidebar shows user email', async ({ page }) => {
-		await loginViaOtp(page, testEnv.testEmail);
-		await page.goto('/conversations');
+	test('after login sidebar shows user email', async ({
+		loginPage,
+		conversationsListPage,
+		sidebar
+	}) => {
+		await loginPage.loginWithOtp(testEnv.testEmail);
+		await conversationsListPage.goto();
 
-		await expect(page.locator(sidebarSelectors.userEmail)).toContainText(testEnv.testEmail);
+		await expect(sidebar.userEmail).toContainText(testEnv.testEmail);
 	});
 });

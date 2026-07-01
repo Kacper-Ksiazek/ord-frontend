@@ -8,11 +8,10 @@ type ConversationFixtures = {
 
 /**
  * Extended fixture for conversation flows.
- * Full implementation will be added in Phase 3 (create conversation).
+ * Phase 3: use createConversationPage + conversationSessionPage from pages.fixture.
  */
 export const test = authTest.extend<ConversationFixtures>({
 	conversationPage: async ({ authenticatedPage }, use) => {
-		// Phase 3: navigate through create flow and land on /conversations/{id}
 		await use(authenticatedPage);
 	}
 });

@@ -1,29 +1,30 @@
 import { test, expect } from '../../fixtures/auth.fixture';
-import { logoutViaSidebar } from '../../helpers/auth';
-
-const USER_STORAGE_KEY = 'ord_app_user';
+import { getStoredUser } from '../../helpers/storage';
 
 test.describe('Logout', () => {
-	test('logout redirects to login and clears session', async ({ authenticatedPage }) => {
-		await authenticatedPage.goto('/conversations');
-		await expect(authenticatedPage.getByRole('heading', { name: 'Conversations' })).toBeVisible();
+	test('logout redirects to login and clears session', async ({
+		authenticatedPage,
+		conversationsListPage,
+		sidebar
+	}) => {
+		await conversationsListPage.goto();
+		await conversationsListPage.expectLoaded();
 
-		await logoutViaSidebar(authenticatedPage);
+		await sidebar.logout();
 
 		await expect(authenticatedPage).toHaveURL(/\/login/);
-
-		const storedUser = await authenticatedPage.evaluate(
-			(key) => localStorage.getItem(key),
-			USER_STORAGE_KEY
-		);
-		expect(storedUser).toBeNull();
+		expect(await getStoredUser(authenticatedPage)).toBeNull();
 	});
 
-	test('cannot access private routes after logout', async ({ authenticatedPage }) => {
-		await authenticatedPage.goto('/conversations');
-		await logoutViaSidebar(authenticatedPage);
+	test('cannot access private routes after logout', async ({
+		authenticatedPage,
+		conversationsListPage,
+		sidebar
+	}) => {
+		await conversationsListPage.goto();
+		await sidebar.logout();
 
-		await authenticatedPage.goto('/conversations');
+		await conversationsListPage.goto();
 		await expect(authenticatedPage).toHaveURL(/\/login/);
 	});
 });

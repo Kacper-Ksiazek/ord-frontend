@@ -4,7 +4,7 @@
 > Testy odzwierciedlają ścieżki użytkownika end-to-end — nie izolowane komponenty.
 >
 > **Status:** plan zaakceptowany do realizacji sekwencyjnej po fazach.
-> **Ostatnia aktualizacja:** 2026-06-30
+> **Ostatnia aktualizacja:** 2026-06-30 (dodano wzorzec POM)
 
 ---
 
@@ -12,18 +12,19 @@
 
 1. [Analiza krytyczności funkcji](#1-analiza-krytyczności-funkcji)
 2. [Stan testów dziś](#2-stan-testów-dziś)
-3. [Struktura katalogów](#3-struktura-katalogów)
-4. [Harmonogram i kolejność realizacji](#4-harmonogram-i-kolejność-realizacji)
-5. [Wymagania infrastrukturalne](#5-wymagania-infrastrukturalne)
-6. [Zadania — Faza 0: Infrastruktura](#faza-0-infrastruktura)
-7. [Zadania — Faza 1: Auth (P0)](#faza-1-auth-p0)
-8. [Zadania — Faza 2: Lista rozmów (P0)](#faza-2-lista-rozmów-p0)
-9. [Zadania — Faza 3: Tworzenie rozmowy (P0)](#faza-3-tworzenie-rozmowy-p0)
-10. [Zadania — Faza 4: Sesja na żywo (P0)](#faza-4-sesja-na-żywo-p0)
-11. [Zadania — Faza 5: Feedback (P1)](#faza-5-feedback-p1)
-12. [Zadania — Faza 6: Filtry i AI topics (P1)](#faza-6-filtry-i-ai-topics-p1)
-13. [Zadania — Faza 7: TTS (P1)](#faza-7-tts-p1)
-14. [Zadania — Faza 8: Activity i chrome (P2)](#faza-8-activity-i-chrome-p2)
+3. [Wzorzec Page Object Model (POM)](#3-wzorzec-page-object-model-pom)
+4. [Struktura katalogów](#4-struktura-katalogów)
+5. [Harmonogram i kolejność realizacji](#5-harmonogram-i-kolejność-realizacji)
+6. [Wymagania infrastrukturalne](#6-wymagania-infrastrukturalne)
+7. [Zadania — Faza 0: Infrastruktura](#faza-0-infrastruktura)
+8. [Zadania — Faza 1: Auth (P0)](#faza-1-auth-p0)
+9. [Zadania — Faza 2: Lista rozmów (P0)](#faza-2-lista-rozmów-p0)
+10. [Zadania — Faza 3: Tworzenie rozmowy (P0)](#faza-3-tworzenie-rozmowy-p0)
+11. [Zadania — Faza 4: Sesja na żywo (P0)](#faza-4-sesja-na-żywo-p0)
+12. [Zadania — Faza 5: Feedback (P1)](#faza-5-feedback-p1)
+13. [Zadania — Faza 6: Filtry i AI topics (P1)](#faza-6-filtry-i-ai-topics-p1)
+14. [Zadania — Faza 7: TTS (P1)](#faza-7-tts-p1)
+15. [Zadania — Faza 8: Activity i chrome (P2)](#faza-8-activity-i-chrome-p2)
 
 ---
 
@@ -84,26 +85,95 @@ flowchart LR
 
 ## 2. Stan testów dziś
 
-- Playwright jest w `devDependencies`, ale **tylko jako provider dla Vitest browser mode** — brak folderu `e2e/`, brak `@playwright/test`, brak skryptu `test:e2e`.
+- Playwright E2E skonfigurowany w `e2e/` z wzorcem **Page Object Model**.
+- 4 scenariusze auth (Faza 1) zaimplementowane z użyciem Page Objects.
 - 8 testów jednostkowych (utils, TTS API, grupowanie listy).
-- **Brak testów integracyjnych** auth, create flow, sesji SSE.
 
 ---
 
-## 3. Struktura katalogów
+## 3. Wzorzec Page Object Model (POM)
+
+Wszystkie testy E2E **muszą** stosować wzorzec Page Object Model. Pliki `*.spec.ts` opisują wyłącznie user flow — nie zawierają selektorów DOM ani bezpośrednich interakcji z `page.locator()`.
+
+### Zasady
+
+| Zasada | Opis |
+|--------|------|
+| **Jeden Page Object = jedna strona lub widok** | Np. `LoginPage` → `/login`, `ConversationsListPage` → `/conversations` |
+| **Component Object = fragment UI współdzielony** | Np. `SidebarComponent` używany na wielu stronach prywatnych |
+| **Selektory tylko w Page/Component Objects** | `page.locator()`, `getByRole()` itd. nigdy w plikach `*.spec.ts` |
+| **Akcje użytkownika jako metody** | Np. `loginPage.loginWithOtp(email)`, `sidebar.logout()` |
+| **Asercje na lokatorach z Page Object** | `await expect(loginPage.errorAlert).toBeVisible()` |
+| **Fixtures wstrzykują Page Objects** | Używaj `loginPage`, `sidebar` z fixture — nie `new LoginPage(page)` w spec |
+| **Helpers tylko dla logiki spoza UI** | OTP resolution, localStorage seed — nie selektory |
+
+### Hierarchia
+
+```
+BasePage                    ← wspólna klasa bazowa (trzyma referencję do Page)
+├── LoginPage               ← strona /login
+├── ConversationsListPage   ← strona /conversations
+├── CreateConversationPage  ← strona /conversations/create
+└── ConversationSessionPage ← strona /conversations/[id]
+
+SidebarComponent            ← fragment UI (sidebar), nie dziedziczy BasePage
+```
+
+### Przykład — poprawny test (spec)
+
+```typescript
+test('user can log in and see conversations', async ({
+  loginPage,
+  conversationsListPage,
+  sidebar
+}) => {
+  await loginPage.loginWithOtp(testEnv.testEmail);
+  await conversationsListPage.goto();
+  await conversationsListPage.expectLoaded();
+  await expect(sidebar.userEmail).toContainText(testEnv.testEmail);
+});
+```
+
+### Przykład — zabroniony test (spec)
+
+```typescript
+// ❌ NIE — selektory i akcje bezpośrednio w spec
+await page.fill('#email', email);
+await page.click('button[type="submit"]');
+await expect(page.locator('[role="alert"]')).toBeVisible();
+```
+
+### Kiedy tworzyć nowy Page Object
+
+- Nowa trasa / widok w aplikacji → nowy plik w `e2e/pages/`
+- Współdzielony fragment UI (sidebar, modal, panel) → `e2e/pages/components/`
+- Nowy Page Object rejestruj w `e2e/fixtures/pages.fixture.ts`
+
+---
+
+## 4. Struktura katalogów
 
 ```
 e2e/
 ├── playwright.config.ts
+├── pages/                              # Page Object Model
+│   ├── base.page.ts                    # klasa bazowa
+│   ├── login.page.ts
+│   ├── conversations-list.page.ts
+│   ├── create-conversation.page.ts
+│   ├── conversation-session.page.ts
+│   ├── components/
+│   │   └── sidebar.component.ts        # Component Object
+│   └── index.ts                        # barrel export
 ├── fixtures/
-│   ├── auth.fixture.ts          # login helper, storageState
-│   ├── conversation.fixture.ts  # tworzenie rozmowy przez UI
-│   └── test-env.ts              # PUBLIC_API_URL, test user email
-├── helpers/
-│   ├── otp.ts                   # pobranie OTP z backendu testowego / mock
-│   ├── selectors.ts             # aria-label, role-based selectors
-│   └── wait-for-sse.ts          # czekanie na zakończenie streamu AI
-└── flows/
+│   ├── pages.fixture.ts                # wstrzykuje Page Objects do testów
+│   ├── auth.fixture.ts                 # authenticatedPage (extends pages.fixture)
+│   ├── conversation.fixture.ts
+│   └── test-env.ts
+├── helpers/                            # tylko logika spoza UI
+│   ├── otp.ts
+│   └── storage.ts
+└── flows/                              # specy — wyłącznie user flow, bez selektorów
     ├── 01-auth/
     │   ├── login-happy-path.spec.ts
     │   ├── login-validation-errors.spec.ts
@@ -138,7 +208,7 @@ e2e/
 
 ---
 
-## 4. Harmonogram i kolejność realizacji
+## 5. Harmonogram i kolejność realizacji
 
 | Etap | Zakres | Pliki testów | Priorytet | Status |
 |------|--------|--------------|-----------|--------|
@@ -154,21 +224,23 @@ e2e/
 
 ---
 
-## 5. Wymagania infrastrukturalne
+## 6. Wymagania infrastrukturalne
 
 1. **Backend testowy** — dedykowane środowisko (`PUBLIC_API_URL`) z możliwością:
    - deterministycznego OTP (endpoint testowy lub stały kod dla test usera),
    - seed data (użytkownik z historią rozmów),
    - stabilnych odpowiedzi AI (mock SSE lub timeouty w testach).
 
-2. **Selektory** — dziś brak `data-testid`; testy oparte na `aria-label`, role i tekst. Warto dodać kluczowe `data-testid` w:
+2. **Selektory w Page Objects** — brak `data-testid` w aplikacji; Page Objects używają `aria-label`, role i tekst. Warto dodać kluczowe `data-testid` w aplikacji i zaktualizować odpowiednie Page Objects:
    - textarea sesji, send button,
    - kroki multi-step form,
    - wiersze listy rozmów.
 
-3. **Czekanie na SSE** — helper `wait-for-sse.ts` z timeoutem i detekcją zakończenia streamu.
+3. **Czekanie na SSE** — metody w `ConversationSessionPage` (`waitForAiGenerationComplete`, `waitForMessageCount`).
 
 4. **CI** — osobny job `test:e2e` z uruchomionym backendem (docker-compose lub staging).
+
+5. **POM** — każdy nowy flow wymaga Page Object przed napisaniem specu (patrz [sekcja 3](#3-wzorzec-page-object-model-pom)).
 
 ---
 
@@ -183,6 +255,7 @@ e2e/
 - [x] **E2E-006** Utworzyć `e2e/helpers/wait-for-sse.ts` — helper czekania na stream AI
 - [x] **E2E-007** Dodać `.env.e2e.example` z wymaganymi zmiennymi
 - [x] **E2E-008** Zaktualizować README o sekcję E2E
+- [x] **E2E-009** Wdrożyć wzorzec Page Object Model (`e2e/pages/`, `pages.fixture.ts`, refaktor Fazy 1)
 
 ---
 
