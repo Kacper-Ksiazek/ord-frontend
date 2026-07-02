@@ -196,8 +196,8 @@ e2e/
 │   └── storage.ts                 # getStoredUser (STORAGE_KEYS z app)
 └── flows/
     └── 01-auth/                   # ✅
-        ├── login-happy-path.spec.ts
-        ├── login-validation-errors.spec.ts
+        ├── 00-login-happy-path.spec.ts
+        ├── 01-login-validation-errors.spec.ts
         ├── 02-session-persistence.spec.ts
         └── 03-logout.spec.ts
 ```
@@ -278,13 +278,13 @@ Jeden `otp-request` na run (`login-happy-path` test 1). Kolejne testy używają 
 |------|------|-----|----------------|
 | `login-happy-path.spec.ts` | Redirect → login → conversations → sidebar email | E2E-101 | `loginWithOtp` → `conversationsListPage` → `sidebar.ensureExpanded()` |
 | `login-validation-errors.spec.ts` | Walidacja email (disabled button) | E2E-102 | `toBeDisabled()` na submit |
-| `session-persistence.spec.ts` | Reload + storageState w nowym kontekście | E2E-103 | `describe`-level skip; `createConversationsListPage` |
-| `logout.spec.ts` | Logout → brak dostępu → storage czysty | E2E-104 | `getStoredUser` via `STORAGE_KEYS.USER` |
+| `02-session-persistence.spec.ts` | Reload + storageState w nowym kontekście | E2E-103 | przed logout; wymaga `e2e/.auth/storage.json` |
+| `03-logout.spec.ts` | Logout → brak dostępu → usuwa storage | E2E-104 | jeden test; `getStoredUser` |
 
 - [x] **E2E-101** `login-happy-path.spec.ts`
 - [x] **E2E-102** `login-validation-errors.spec.ts`
-- [x] **E2E-103** `session-persistence.spec.ts`
-- [x] **E2E-104** `logout.spec.ts`
+- [x] **E2E-103** `02-session-persistence.spec.ts`
+- [x] **E2E-104** `03-logout.spec.ts`
 
 ---
 
