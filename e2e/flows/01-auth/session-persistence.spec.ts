@@ -8,10 +8,9 @@ test.describe('Session persistence', () => {
 		test.skip(!isE2eAuthConfigured(), 'E2E_OTP_CODE or E2E_OTP_FETCH_URL required');
 	});
 
-	test('session survives page reload', async ({
-		authenticatedPage,
-		conversationsListPage
-	}) => {
+	test('session survives page reload', async ({ authenticatedPage }) => {
+		const conversationsListPage = createConversationsListPage(authenticatedPage);
+
 		await conversationsListPage.goto();
 		await conversationsListPage.expectLoaded();
 

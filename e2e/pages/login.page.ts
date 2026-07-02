@@ -40,32 +40,10 @@ export class LoginPage {
 	}
 
 	async proceedToOtpStep(email: string): Promise<void> {
-		const maxAttempts = 3;
-
-		for (let attempt = 1; attempt <= maxAttempts; attempt++) {
-			await this.goto();
-			await this.fillEmail(email);
-			await this.emailSubmitButton.waitFor({ state: 'visible' });
-			await this.submitEmail();
-
-			try {
-				await this.otpGroup.waitFor({ state: 'visible', timeout: 15_000 });
-				return;
-			} catch {
-				const errorText = (await this.errorAlert.textContent().catch(() => null))?.trim();
-
-				if (attempt === maxAttempts) {
-					throw new Error(
-						errorText
-							? `OTP step not reached: ${errorText}`
-							: 'OTP step not reached — backend may be rate-limiting otp-request for the E2E user'
-					);
-				}
-
-				// Backend often rate-limits repeated otp-request for the same email.
-				await this.page.waitForTimeout(65_000);
-			}
-		}
+		await this.goto();
+		await this.fillEmail(email);
+		await this.submitEmail();
+		await this.otpGroup.waitFor({ state: 'visible' });
 	}
 
 	async fillOtp(code: string): Promise<void> {
@@ -98,16 +76,6 @@ export class LoginPage {
 
 	async submitOtp(): Promise<void> {
 		await this.otpSubmitButton.click();
-	}
-
-	/**
-	 * Dispatches a form submit event — used when the submit button is disabled
-	 * but client-side validation should still run (e.g. incomplete OTP).
-	 */
-	async submitOtpForm(): Promise<void> {
-		await this.otpForm.evaluate((form) => {
-			form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
-		});
 	}
 
 	async loginWithOtp(email: string, otpCode?: string): Promise<void> {

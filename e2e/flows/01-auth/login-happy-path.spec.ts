@@ -2,8 +2,7 @@ import { existsSync, unlinkSync } from 'node:fs';
 import { test, expect } from '../../fixtures/auth.fixture';
 import { isE2eAuthConfigured, testEnv } from '../../fixtures/test-env';
 import { AUTH_STORAGE_PATH, saveAuthStorage } from '../../helpers/auth-storage';
-import { createConversationsListPage } from '../../helpers/page-objects';
-import { LoginPage, SidebarComponent } from '../../pages';
+import { createConversationsListPage, createSidebarComponent } from '../../helpers/page-objects';
 
 test.describe('Login — happy path', () => {
 	test.describe.configure({ mode: 'serial' });
@@ -36,7 +35,7 @@ test.describe('Login — happy path', () => {
 
 	test('after login sidebar shows user email', async ({ authenticatedPage }) => {
 		const conversationsListPage = createConversationsListPage(authenticatedPage);
-		const sidebar = new SidebarComponent(authenticatedPage);
+		const sidebar = createSidebarComponent(authenticatedPage);
 
 		await conversationsListPage.goto();
 		await conversationsListPage.expectLoaded();

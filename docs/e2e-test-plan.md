@@ -259,7 +259,18 @@ e2e/
 | Walidacja email | Przycisk disabled gdy brak `@` lub pusty email — **bez alertu** |
 | Login page default | Hardcoded email w dev — testy muszą czyścić pole |
 | Sidebar email | Widoczny tylko gdy sidebar expanded (`ensureExpanded()`) |
-| OTP incomplete | Przycisk verify disabled — test via `submitOtpForm()` |
+### Smoke scope (auth)
+
+Jeden `otp-request` na run (`login-happy-path` test 1). Kolejne testy używają `e2e/.auth/storage.json` — bez ponownego logowania, bez testów wrong OTP / retry.
+
+| Plik | Scenariusze |
+|------|-------------|
+| `login-happy-path.spec.ts` | Redirect → login → lista → sidebar email |
+| `login-validation-errors.spec.ts` | Disabled submit przy złym/pustym email |
+| `logout.spec.ts` | Wylogowanie + brak dostępu |
+| `session-persistence.spec.ts` | Reload + nowy kontekst ze storage |
+
+**8 testów** — szybki smoke, nie pełne pokrycie edge case OTP.
 
 ### Scenariusze
 

@@ -1,5 +1,5 @@
 import type { Page } from '@playwright/test';
-import { ConversationsListPage } from '../pages';
+import { ConversationsListPage, SidebarComponent } from '../pages';
 
 /**
  * Factory helpers for Page Objects bound to a specific Playwright page.
@@ -7,4 +7,8 @@ import { ConversationsListPage } from '../pages';
  */
 export function createConversationsListPage(page: Page): ConversationsListPage {
 	return new ConversationsListPage(page);
+}
+
+export function createSidebarComponent(page: Page): SidebarComponent {
+	return new SidebarComponent(page);
 }
