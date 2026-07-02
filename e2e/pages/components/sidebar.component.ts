@@ -19,11 +19,13 @@ export class SidebarComponent {
 	}
 
 	async ensureExpanded(): Promise<void> {
-		if (await this.toggleButton.isVisible()) {
-			const title = await this.toggleButton.getAttribute('title');
-			if (title === 'Expand sidebar') {
-				await this.toggleButton.click();
-			}
+		await this.page.getByTestId(E2E_TEST_IDS.sidebar.root).waitFor({ state: 'visible' });
+
+		if ((await this.toggleButton.getAttribute('title')) === 'Expand sidebar') {
+			await this.toggleButton.click();
+			await this.page
+				.locator(`[data-testid="${E2E_TEST_IDS.sidebar.toggle}"][title="Collapse sidebar"]`)
+				.waitFor({ state: 'visible' });
 		}
 	}
 

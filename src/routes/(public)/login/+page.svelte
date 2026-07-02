@@ -85,10 +85,12 @@
 		</div>
 
 		{#if error}
-			<Alert color="red" class="mb-4" data-testid={E2E_TEST_IDS.login.error}>
-				<span class="font-medium">{m['auth.login.error_prefix']()}</span>
-				{error}
-			</Alert>
+			<div data-testid={E2E_TEST_IDS.login.error} role="alert">
+				<Alert color="red" class="mb-4">
+					<span class="font-medium">{m['auth.login.error_prefix']()}</span>
+					{error}
+				</Alert>
+			</div>
 		{/if}
 
 		{#if step === 'email'}
