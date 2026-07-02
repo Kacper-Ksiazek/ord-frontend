@@ -12,6 +12,7 @@
 	import type { CompactConversationAiMessage } from '$lib/types/conversation/domain/conversation-message';
 	import { page } from '$app/state';
 	import { stopSpeaking } from '$lib/utils/speak-text';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	const messagesContext = getMessagesContext();
 	const conversation = getConversationContext();
@@ -63,7 +64,10 @@
 	});
 </script>
 
-<div class="w-full flex-1 mx-auto flex h-full justify-between">
+<div
+	class="w-full flex-1 mx-auto flex h-full justify-between"
+	data-testid={E2E_TEST_IDS.session.page}
+>
 	<MessagesPanel />
 
 	<FeedbackPanel />

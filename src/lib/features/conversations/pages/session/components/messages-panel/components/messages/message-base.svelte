@@ -11,6 +11,8 @@
 		content?: Snippet;
 		footer?: Snippet;
 		avatar?: Snippet;
+		/** Stable selector for E2E tests (`data-testid`) */
+		dataTestId?: string;
 	}
 
 	const {
@@ -19,11 +21,13 @@
 		orientation = 'left',
 		avatar,
 		content,
-		footer
+		footer,
+		dataTestId
 	}: MessageBaseProps = $props();
 </script>
 
 <div
+	data-testid={dataTestId}
 	class={cn(
 		'flex gap-4 w-full', //
 		orientation === 'right' ? 'flex-row-reverse self-end' : 'flex-row self-start'

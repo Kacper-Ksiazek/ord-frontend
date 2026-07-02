@@ -10,6 +10,7 @@
 	import { highlightLearningTipsContent } from './utils/highlight-learning-tips';
 	import { LearningTipTextHighlight } from './components/learning-tip-text-highlight';
 	import isNil from 'lodash/isNil';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	interface AiMessageProps {
 		message: string;
@@ -34,6 +35,7 @@
 </script>
 
 <MessageBase
+	dataTestId={E2E_TEST_IDS.session.aiMessage(messageIndex)}
 	messageClass={cn(
 		isStillGenerating && 'generation-in-progress' //
 	)}

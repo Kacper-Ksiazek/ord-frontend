@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Button, Spinner, cn } from 'flowbite-svelte';
 	import { Send } from 'lucide-svelte';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	interface Props {
 		disabled?: boolean;
@@ -13,6 +14,7 @@
 </script>
 
 <Button
+	data-testid={E2E_TEST_IDS.session.sendButton}
 	class={cn(
 		'p-3 rounded-xl bg-transparent dark:bg-transparent transition-all duration-200',
 		disabled && 'cursor-not-allowed opacity-30 hover:bg-transparent hover:dark:bg-transparent',

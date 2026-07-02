@@ -10,6 +10,7 @@
 		AiMessageLearningTipsView,
 		ConversationSummaryView
 	} from './views';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	const sidepanelContext = getSidepanelContext();
 	const sidepanelWidth = $derived(getSidepanelWidth());
@@ -25,6 +26,7 @@
 </script>
 
 <ContentCard
+	data-testid={E2E_TEST_IDS.session.feedbackPanel}
 	class={cn(
 		'flex flex-col transition-transform duration-300 origin-right h-full relative rounded-none',
 		'bg-white dark:bg-gray-800 transition-[width] overflow-hidden p-0!'

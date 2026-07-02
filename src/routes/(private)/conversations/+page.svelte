@@ -18,6 +18,7 @@
 		ConversationActivitySection
 	} from '$lib/features/conversations/pages/list';
 	import { Loader } from '$lib/components/utils/loader';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	const filtersState = new ConversationListFiltersState(page.url.searchParams);
 
@@ -38,7 +39,7 @@
 	/>
 {:else}
 	<PageContentContainer>
-		<ContentCard>
+		<ContentCard data-testid={E2E_TEST_IDS.conversations.page}>
 			<Breadcrumb
 				class="mb-6"
 				crumbs={[
@@ -49,13 +50,22 @@
 
 			<div class="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
 				<div>
-					<h1 class="text-2xl font-bold text-gray-900 dark:text-white">Conversations</h1>
+					<h1
+						class="text-2xl font-bold text-gray-900 dark:text-white"
+						data-testid={E2E_TEST_IDS.conversations.heading}
+					>
+						Conversations
+					</h1>
 					<p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
 						Continue a practice chat or start a new one.
 					</p>
 				</div>
 
-				<Button class="w-full shrink-0 sm:w-auto" onClick={() => goto('/conversations/create')}>
+				<Button
+					dataTestId={E2E_TEST_IDS.conversations.newButton}
+					class="w-full shrink-0 sm:w-auto"
+					onClick={() => goto('/conversations/create')}
+				>
 					New conversation
 				</Button>
 			</div>

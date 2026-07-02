@@ -29,4 +29,6 @@ export interface InputProps {
 	onChange?: (event: Event) => void;
 	onFocus?: (event: Event) => void;
 	onBlur?: (event: Event) => void;
+	/** Stable selector for E2E tests (`data-testid`) */
+	dataTestId?: string;
 }

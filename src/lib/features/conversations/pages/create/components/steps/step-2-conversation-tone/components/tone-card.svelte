@@ -6,6 +6,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import type { ConversationAITone } from '$lib/types/conversation/domain/conversation';
 	import ConversationToneIcon from '$lib/features/conversations/shared/components/conversation-tone-icon.svelte';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	type ToneCardProps = {
 		isSelected: boolean;
@@ -30,7 +31,12 @@
 	const enableHints = true;
 </script>
 
-<SelectableCard {onclick} {isSelected} class={cn('relative w-[378px] py-10 px-4')}>
+<SelectableCard
+	{onclick}
+	{isSelected}
+	data-testid={E2E_TEST_IDS.createConversation.toneCard(tone)}
+	class={cn('relative w-[378px] py-10 px-4')}
+>
 	{#if onToggleDefault}
 		<IconButton
 			icon={Heart}

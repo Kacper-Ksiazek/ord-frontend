@@ -17,4 +17,6 @@ export interface DropdownSelectProps<T> {
 
 	/** Use when binding to nested state (e.g. `obj.field`) is invalid; parent updates `value` in this callback. */
 	onValueChange?: (value: T) => void;
+	/** Stable selector for E2E tests — applied to the trigger button */
+	dataTestId?: string;
 }

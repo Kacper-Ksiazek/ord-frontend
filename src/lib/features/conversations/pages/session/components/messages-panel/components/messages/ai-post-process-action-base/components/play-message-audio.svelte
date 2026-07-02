@@ -4,6 +4,7 @@
 	import { Loader2, Square, Volume2 } from 'lucide-svelte';
 	import { speakText, stopSpeaking } from '$lib/utils/speak-text';
 	import { speakTextPlayback } from '$lib/utils/speak-text.svelte';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	interface PlayMessageAudioProps {
 		message: string;
@@ -109,6 +110,7 @@
 </script>
 
 <IconButton
+	dataTestId={E2E_TEST_IDS.session.messageTtsButton(messageIndex)}
 	icon={Icon}
 	{ariaLabel}
 	{tooltip}

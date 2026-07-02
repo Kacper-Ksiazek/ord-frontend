@@ -19,6 +19,7 @@
 		ariaLabel,
 		title,
 		hotkey,
+		dataTestId,
 		children
 	}: ButtonProps = $props();
 
@@ -48,6 +49,7 @@
 
 <button
 	bind:this={buttonEl}
+	data-testid={dataTestId}
 	{disabled}
 	type="button"
 	aria-label={ariaLabel}

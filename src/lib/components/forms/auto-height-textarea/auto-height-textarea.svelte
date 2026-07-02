@@ -18,7 +18,8 @@
 		onkeydown,
 		onfocus,
 		onblur,
-		onInput
+		onInput,
+		dataTestId
 	}: AutoHeightTextareaProps = $props();
 
 	const lengthConstraintActive = $derived(maxLength !== undefined);
@@ -114,6 +115,7 @@
 >
 	<textarea
 		bind:this={textareaElement}
+		data-testid={dataTestId}
 		bind:value
 		{disabled}
 		aria-invalid={lengthConstraintActive && !isValid ? true : undefined}

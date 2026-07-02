@@ -12,6 +12,7 @@
 	} from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
 	import { topicPickerStore } from './topic-picker.store.svelte';
 	import * as m from '$lib/paraglide/messages.js';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	let amountOfSkeletons = $state(0);
 	let topicListScrollEl = $state<HTMLDivElement | undefined>(undefined);
@@ -38,7 +39,10 @@
 	);
 </script>
 
-<section class="my-2 flex min-h-0 flex-1 flex-col gap-6">
+<section
+	class="my-2 flex min-h-0 flex-1 flex-col gap-6"
+	data-testid={E2E_TEST_IDS.createConversation.topicPicker}
+>
 	<GenerateTopicsSuggestionsButton
 		bind:amountOfSkeletons
 		onStreamChunkReceive={scrollTopicListToEnd}

@@ -5,6 +5,7 @@
 	import { ConversationListFiltersState } from '../../state/conversation-list-state.svelte';
 	import { ClockIcon, MessageSquare, SearchIcon, TrashIcon } from 'lucide-svelte';
 	import type { ConversationListFilters } from '../../state/conversation-list-state.svelte';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	interface Props {
 		filtersState: ConversationListFiltersState;
@@ -31,8 +32,9 @@
 	];
 </script>
 
-<div class="flex gap-2 mb-6">
+<div class="flex gap-2 mb-6" data-testid={E2E_TEST_IDS.conversations.filters}>
 	<Input
+		dataTestId={E2E_TEST_IDS.conversations.filterSearch}
 		debounced
 		bind:value={filtersState.filters.search}
 		type="search"
@@ -42,6 +44,7 @@
 	/>
 
 	<DropdownSelect
+		dataTestId={E2E_TEST_IDS.conversations.filterRecency}
 		bind:value={filtersState.filters.recencyBucket}
 		options={RECENCY_BUCKETS}
 		ariaLabel="Filter by recency"
@@ -53,6 +56,7 @@
 	</DropdownSelect>
 
 	<DropdownSelect
+		dataTestId={E2E_TEST_IDS.conversations.filterType}
 		bind:value={filtersState.filters.type}
 		options={CONVERSATION_TYPES}
 		ariaLabel="Filter by conversation type"
@@ -64,6 +68,7 @@
 	</DropdownSelect>
 
 	<IconButton
+		dataTestId={E2E_TEST_IDS.conversations.filterClear}
 		onClick={() => filtersState.clearFilters()}
 		icon={TrashIcon}
 		ariaLabel="Clear filters"

@@ -11,6 +11,7 @@
 	import AiMessageLearningTipIcon from '$lib/features/conversations/pages/session/components/shared/ai-message-learning-tips/ai-message-learning-tip-icon.svelte';
 	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
 	import { getSidepanelContext } from '$lib/features/conversations/pages/session/contexts/sidepanel-context.svelte';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	interface LearningTipsProps {
 		message: string;
@@ -64,6 +65,7 @@
 </script>
 
 <AiPostProcessActionBase
+	dataTestId={E2E_TEST_IDS.session.messageLearningTips(messageIndex)}
 	label="Wskazówki do nauki"
 	isGenerating={isGeneratingTips}
 	bind:showIconsInHighlightedParts
