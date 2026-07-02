@@ -9,6 +9,9 @@ export default defineConfig({
 	testDir: './flows',
 	forbidOnly: !!process.env.CI,
 	retries: process.env.CI ? 2 : 0,
+	// All auth tests share one test user and the backend keeps a single active
+	// session per user — parallel logins invalidate each other. Run serially.
+	workers: 1,
 	reporter: [
 		['list'],
 		['html', { open: 'never', outputFolder: path.join(e2eDir, 'playwright-report') }]

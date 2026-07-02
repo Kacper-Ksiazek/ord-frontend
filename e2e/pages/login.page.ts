@@ -87,6 +87,7 @@ export class LoginPage {
 
 	async waitForLoginSuccess(): Promise<void> {
 		// App redirects to `/` after OTP verify (placeholder home), not `/conversations`.
-		await this.page.waitForURL('/', { timeout: 15_000 });
+		// Predicate form is reliable for SvelteKit client-side (pushState) navigation.
+		await this.page.waitForURL((url) => url.pathname === '/', { timeout: 15_000 });
 	}
 }

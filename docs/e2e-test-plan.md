@@ -135,7 +135,9 @@ SidebarComponent
 | `webServer` | `bun run dev` | Spójność z resztą repo |
 | `.env.e2e` | Ładowany w `test-env.ts` (lazy getters) | ESM import order — nie w `playwright.config.ts` |
 
-Testy auth są **niezależne** — każdy zalogowany scenariusz robi własny `loginWithOtp` (API bez rate limitu). Brak współdzielonego pliku `e2e/.auth`.
+| `workers` | `1` | Wszystkie testy dzielą jednego usera; backend trzyma **jedną aktywną sesję na usera** — równoległe loginy się unieważniają |
+
+Każdy zalogowany scenariusz robi własny `loginWithOtp` (API bez rate limitu, brak pliku `e2e/.auth`). Testy jadą **serialnie** (`workers: 1`), bo współbieżne loginy tego samego usera unieważniają sobie nawzajem sesje (`/users/me` → 401 → odbicie na `/login`).
 
 ---
 
@@ -164,6 +166,7 @@ Zebrane z 5 rund automatycznego CR na PR #16. **Obowiązują przy kolejnych faza
 - Oznaczanie zadań ✅ gdy plik nie istnieje
 - 500+ linii planu z pełnymi tabelami kroków dla niezaimplementowanych faz
 - Współdzielony `storage.json` między testami „żeby oszczędzić OTP" (niepotrzebne — API bez limitu)
+- Równoległe loginy tego samego usera (backend = jedna sesja na usera → wyścig na `/users/me`)
 
 ### Dobre decyzje (zachować)
 
@@ -259,7 +262,7 @@ e2e/
 | Sidebar email | Widoczny tylko gdy sidebar expanded (`ensureExpanded()`) |
 ### Smoke scope (auth)
 
-Każdy test z auth sam się loguje (`loginWithOtp` lub fixture `authenticatedPage`). **Kolejność plików nie ma znaczenia** — brak `e2e/.auth/`.
+Każdy test z auth sam się loguje (`loginWithOtp` lub fixture `authenticatedPage`). **Kolejność plików nie ma znaczenia**, ale run jest serialny (`workers: 1`) — brak `e2e/.auth/`.
 
 | Plik | Scenariusze |
 |------|-------------|
