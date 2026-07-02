@@ -151,7 +151,7 @@ Zebrane z 5 rund automatycznego CR na PR #16. **Obowiązują przy kolejnych faza
 2. **Disabled button** — nie klikać; asercja `toBeDisabled()` na submit (smoke scope — bez synthetic submit).
 3. **Hardcoded email na loginie** — test „pustego emaila” musi `fillEmail('')` po `goto()`.
 4. **`.env.e2e` path** — plik w **repo root**, nie `e2e/.env.e2e`.
-5. **ESM env loading** — `loadEnvE2e()` w `test-env.ts` przed odczytem; lazy getters na `testEnv`.
+5. **ESM env loading** — `loadEnvE2e()` (`dotenv`) w `test-env.ts` przed odczytem; lazy getters na `testEnv`.
 6. **Icon buttons** — `data-testid` + `aria-expanded` (sidebar), nie `title` / locale.
 7. **Skip guard** — każdy describe z OTP musi skipować gdy brak env.
 8. **Storage keys** — importuj `STORAGE_KEYS` z app utils, nie duplikuj stringów.
@@ -191,7 +191,7 @@ e2e/
 │   ├── auth.fixture.ts
 │   └── test-env.ts              # loadEnvE2e() + lazy getters
 ├── helpers/
-│   ├── load-env.ts
+│   ├── load-env.ts              # dotenv → .env.e2e
 │   ├── page-objects.ts          # fabryki dla dodatkowych kontekstów
 │   ├── otp.ts                     # resolveOtpCode
 │   └── storage.ts                 # getStoredUser (STORAGE_KEYS z app)
@@ -353,7 +353,6 @@ Akceptowalne na Fazę 1; adresować przy implementacji kolejnych faz.
 |--------------|-------|-------------------|
 | `waitForLoginSuccess()` czeka na `/` (placeholder home) | Zmiana gdy produkt zdefiniuje inny post-auth route | Zaostrzyć w `LoginPage` (E2E-101+) |
 | Brak CI (E2E-010) | Brak automatycznej weryfikacji | Następny krok infra |
-| Hand-rolled `.env` parser | Brak quotes/export/expansion | Wystarczy na 5-liniowy `.env.e2e` |
 
 ---
 
