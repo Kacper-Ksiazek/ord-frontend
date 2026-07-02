@@ -1,10 +1,10 @@
 import type { Page } from '@playwright/test';
 import { test as pagesTest } from './pages.fixture';
-import { isE2eAuthConfigured } from './test-env';
-import { resolveAuthStoragePath } from '../helpers/auth-storage';
+import { isE2eAuthConfigured, testEnv } from './test-env';
+import { LoginPage } from '../pages/login.page';
 
 type AuthFixtures = {
-	/** Raw Playwright page already logged in via OTP flow. */
+	/** Fresh Playwright page logged in via OTP for this test. */
 	authenticatedPage: Page;
 };
 
@@ -15,9 +15,11 @@ export const test = pagesTest.extend<AuthFixtures>({
 			return;
 		}
 
-		const storagePath = await resolveAuthStoragePath(browser);
-		const context = await browser.newContext({ storageState: storagePath });
+		const context = await browser.newContext();
 		const page = await context.newPage();
+		const loginPage = new LoginPage(page);
+
+		await loginPage.loginWithOtp(testEnv.testEmail);
 
 		await use(page);
 		await context.close();

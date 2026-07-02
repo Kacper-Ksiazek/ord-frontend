@@ -1,14 +1,12 @@
 import { test, expect } from '../../fixtures/auth.fixture';
-import { isE2eAuthConfigured } from '../../fixtures/test-env';
-import { AUTH_STORAGE_PATH } from '../../helpers/auth-storage';
+import { isE2eAuthConfigured, testEnv } from '../../fixtures/test-env';
 import { createConversationsListPage } from '../../helpers/page-objects';
 import { getStoredUser } from '../../helpers/storage';
-import { existsSync } from 'node:fs';
+import { LoginPage } from '../../pages/login.page';
 
 test.describe('Session persistence', () => {
 	test.beforeEach(() => {
 		test.skip(!isE2eAuthConfigured(), 'E2E_OTP_CODE or E2E_OTP_FETCH_URL required');
-		test.skip(!existsSync(AUTH_STORAGE_PATH), 'Auth storage missing — run login happy path first');
 	});
 
 	test('session survives page reload', async ({ authenticatedPage }) => {
@@ -24,7 +22,14 @@ test.describe('Session persistence', () => {
 	});
 
 	test('session is restored in a new browser context via storage state', async ({ browser }) => {
-		const newContext = await browser.newContext({ storageState: AUTH_STORAGE_PATH });
+		const sourceContext = await browser.newContext();
+		const sourcePage = await sourceContext.newPage();
+
+		await new LoginPage(sourcePage).loginWithOtp(testEnv.testEmail);
+		const storageState = await sourceContext.storageState();
+		await sourceContext.close();
+
+		const newContext = await browser.newContext({ storageState });
 		const newPage = await newContext.newPage();
 		const conversationsListPage = createConversationsListPage(newPage);
 

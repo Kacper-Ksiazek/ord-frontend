@@ -125,17 +125,17 @@ SidebarComponent
 |---------|-------|
 | `test.beforeEach` na `describe` | Gdy **jakikolwiek** test w grupie woła `loginWithOtp` bez `authenticatedPage` fixture |
 | `auth.fixture` → `testInfo.skip` | Gdy test używa wyłącznie `authenticatedPage` |
-| Nie duplikować obu | `session-persistence` używa `describe`-level skip (test 2 nie korzysta z fixture) |
+| Nie duplikować obu | `describe`-level skip wystarczy dla całej grupy auth |
 
 ### Konfiguracja Playwright
 
 | Ustawienie | Wartość | Powód |
 |------------|---------|-------|
-| `fullyParallel` | `false` | Współdzielony `E2E_TEST_EMAIL` — race na OTP |
-| `workers` | `1` | To samo |
 | `outputDir` / report | `e2e/test-results`, `e2e/playwright-report` | Absolutne ścieżki w config |
 | `webServer` | `bun run dev` | Spójność z resztą repo |
 | `.env.e2e` | Ładowany w `test-env.ts` (lazy getters) | ESM import order — nie w `playwright.config.ts` |
+
+Testy auth są **niezależne** — każdy zalogowany scenariusz robi własny `loginWithOtp` (API bez rate limitu). Brak współdzielonego pliku `e2e/.auth`.
 
 ---
 
@@ -154,7 +154,7 @@ Zebrane z 5 rund automatycznego CR na PR #16. **Obowiązują przy kolejnych faza
 7. **Skip guard** — każdy describe z OTP musi skipować gdy brak env.
 8. **Storage keys** — importuj `STORAGE_KEYS` z app utils, nie duplikuj stringów.
 9. **Multi-context** — `createConversationsListPage(page)`, nie `new` w spec.
-10. **Auth storage** — `resolveAuthStoragePath` waliduje cookies przed użyciem; logout kasuje plik.
+10. **`authenticatedPage` fixture** — świeże logowanie OTP na test; bez cache plikowego między specami.
 
 ### Antywzorce (nie powtarzać)
 
@@ -163,13 +163,12 @@ Zebrane z 5 rund automatycznego CR na PR #16. **Obowiązują przy kolejnych faza
 - `helpers/selectors.ts` obok Page Objects (selektory żyją w PO)
 - Oznaczanie zadań ✅ gdy plik nie istnieje
 - 500+ linii planu z pełnymi tabelami kroków dla niezaimplementowanych faz
-- `fullyParallel: true` przy współdzielonym użytkowniku OTP
+- Współdzielony `storage.json` między testami „żeby oszczędzić OTP" (niepotrzebne — API bez limitu)
 
 ### Dobre decyzje (zachować)
 
 - POM — specy bez selektorów
-- `storageState` w teście persistence + `getStoredUser` w restore
-- `fullyParallel: false` + `workers: 1`
+- `storageState` w teście persistence (in-memory z bieżącego logowania) + `getStoredUser` w restore
 - Roadmap oddzielony od zaimplementowanego kodu
 
 ---
@@ -256,18 +255,18 @@ e2e/
 |--------|------------------------|
 | Po OTP verify | Redirect na `/` (placeholder home), nie `/conversations` |
 | Walidacja email | Przycisk disabled gdy brak `@` lub pusty email — **bez alertu** |
-| Login page default | Hardcoded email w dev — testy muszą czyścić pole |
+| Login page default | Pusty email — testy walidacji same czyszczą pole |
 | Sidebar email | Widoczny tylko gdy sidebar expanded (`ensureExpanded()`) |
 ### Smoke scope (auth)
 
-Jeden `otp-request` na run (`00-login-happy-path` test 1). Testy uruchamiają się **w kolejności numerycznej** (`00`→`03`): login tworzy `e2e/.auth/storage.json`, session go używa, logout na końcu go kasuje.
+Każdy test z auth sam się loguje (`loginWithOtp` lub fixture `authenticatedPage`). **Kolejność plików nie ma znaczenia** — brak `e2e/.auth/`.
 
 | Plik | Scenariusze |
 |------|-------------|
 | `00-login-happy-path.spec.ts` | Redirect → login → lista → sidebar email |
 | `01-login-validation-errors.spec.ts` | Disabled submit przy złym/pustym email |
-| `02-session-persistence.spec.ts` | Reload + nowy kontekst ze storage |
-| `03-logout.spec.ts` | Wylogowanie + brak dostępu (ostatni — invaliduje storage) |
+| `02-session-persistence.spec.ts` | Reload + nowy kontekst ze `storageState` |
+| `03-logout.spec.ts` | Wylogowanie + brak dostępu |
 
 **7 testów** — szybki smoke, nie pełne pokrycie edge case OTP.
 
@@ -275,10 +274,10 @@ Jeden `otp-request` na run (`00-login-happy-path` test 1). Testy uruchamiają si
 
 | Plik | Flow | ID | Kroki kluczowe |
 |------|------|-----|----------------|
-| `00-login-happy-path.spec.ts` | Redirect → login → conversations → sidebar email | E2E-101 | `loginWithOtp` → zapis storage |
+| `00-login-happy-path.spec.ts` | Redirect → login → conversations → sidebar email | E2E-101 | `loginWithOtp` |
 | `01-login-validation-errors.spec.ts` | Walidacja email (disabled button) | E2E-102 | `toBeDisabled()` na submit |
-| `02-session-persistence.spec.ts` | Reload + storageState w nowym kontekście | E2E-103 | przed logout; wymaga `e2e/.auth/storage.json` |
-| `03-logout.spec.ts` | Logout → brak dostępu → usuwa storage | E2E-104 | jeden test; `getStoredUser` |
+| `02-session-persistence.spec.ts` | Reload + storageState w nowym kontekście | E2E-103 | login → `storageState()` → nowy context |
+| `03-logout.spec.ts` | Logout → brak dostępu | E2E-104 | `getStoredUser` |
 
 - [x] **E2E-101** `00-login-happy-path.spec.ts`
 - [x] **E2E-102** `01-login-validation-errors.spec.ts`

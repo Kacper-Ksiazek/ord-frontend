@@ -7,10 +7,8 @@ const e2eDir = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
 	testDir: './flows',
-	fullyParallel: false,
 	forbidOnly: !!process.env.CI,
 	retries: process.env.CI ? 2 : 0,
-	workers: 1,
 	reporter: [
 		['list'],
 		['html', { open: 'never', outputFolder: path.join(e2eDir, 'playwright-report') }]
