@@ -8,17 +8,13 @@ export class LoginPage {
 	readonly emailInput: Locator;
 	readonly emailSubmitButton: Locator;
 	readonly otpGroup: Locator;
-	readonly otpForm: Locator;
 	readonly otpSubmitButton: Locator;
-	readonly errorAlert: Locator;
 
 	constructor(protected readonly page: Page) {
 		this.emailInput = page.getByTestId(E2E_TEST_IDS.login.emailInput);
 		this.emailSubmitButton = page.getByTestId(E2E_TEST_IDS.login.emailSubmit);
 		this.otpGroup = page.getByTestId(E2E_TEST_IDS.login.otpInput);
-		this.otpForm = page.getByTestId(E2E_TEST_IDS.login.otpForm);
 		this.otpSubmitButton = page.getByTestId(E2E_TEST_IDS.login.otpSubmit);
-		this.errorAlert = page.getByTestId(E2E_TEST_IDS.login.error);
 	}
 
 	otpDigit(index: number): Locator {
@@ -53,24 +49,26 @@ export class LoginPage {
 			await this.otpDigit(i + 1).fill(code[i] ?? '');
 		}
 
+		const otpDigitPrefix = E2E_TEST_IDS.login.otpDigit(1).replace(/\d$/, '');
+
 		// Headless runs faster than Svelte bindable/effect flush — wait until digits are synced.
 		await this.page.waitForFunction(
-			(expectedValue) => {
+			({ expectedValue, digitPrefix }) => {
 				const inputs = document.querySelectorAll<HTMLInputElement>(
-					'[data-testid^="login-otp-digit-"]'
+					`[data-testid^="${digitPrefix}"]`
 				);
 				const value = Array.from(inputs)
 					.sort(
 						(a, b) =>
-							Number(a.dataset.testid?.replace('login-otp-digit-', '')) -
-							Number(b.dataset.testid?.replace('login-otp-digit-', ''))
+							Number(a.dataset.testid?.replace(digitPrefix, '')) -
+							Number(b.dataset.testid?.replace(digitPrefix, ''))
 					)
 					.map((input) => input.value)
 					.join('');
 
 				return value === expectedValue;
 			},
-			expected
+			{ expectedValue: expected, digitPrefix: otpDigitPrefix }
 		);
 	}
 
@@ -89,6 +87,6 @@ export class LoginPage {
 
 	async waitForLoginSuccess(): Promise<void> {
 		// App redirects to `/` after OTP verify (placeholder home), not `/conversations`.
-		await this.page.waitForURL((url) => !url.pathname.startsWith('/login'), { timeout: 15_000 });
+		await this.page.waitForURL('/', { timeout: 15_000 });
 	}
 }

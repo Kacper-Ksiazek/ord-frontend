@@ -21,10 +21,10 @@ export class SidebarComponent {
 	async ensureExpanded(): Promise<void> {
 		await this.page.getByTestId(E2E_TEST_IDS.sidebar.root).waitFor({ state: 'visible' });
 
-		if ((await this.toggleButton.getAttribute('title')) === 'Expand sidebar') {
+		if ((await this.toggleButton.getAttribute('aria-expanded')) === 'false') {
 			await this.toggleButton.click();
 			await this.page
-				.locator(`[data-testid="${E2E_TEST_IDS.sidebar.toggle}"][title="Collapse sidebar"]`)
+				.locator(`[data-testid="${E2E_TEST_IDS.sidebar.toggle}"][aria-expanded="true"]`)
 				.waitFor({ state: 'visible' });
 		}
 	}

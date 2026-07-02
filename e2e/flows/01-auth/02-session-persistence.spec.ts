@@ -2,6 +2,7 @@ import { test, expect } from '../../fixtures/auth.fixture';
 import { isE2eAuthConfigured } from '../../fixtures/test-env';
 import { AUTH_STORAGE_PATH } from '../../helpers/auth-storage';
 import { createConversationsListPage } from '../../helpers/page-objects';
+import { getStoredUser } from '../../helpers/storage';
 import { existsSync } from 'node:fs';
 
 test.describe('Session persistence', () => {
@@ -29,6 +30,7 @@ test.describe('Session persistence', () => {
 
 		await conversationsListPage.goto();
 		await conversationsListPage.expectLoaded();
+		expect(await getStoredUser(newPage)).not.toBeNull();
 
 		await newContext.close();
 	});

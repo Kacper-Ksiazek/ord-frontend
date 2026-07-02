@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync } from 'node:fs';
+import { existsSync, mkdirSync, unlinkSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { Browser, BrowserContext } from '@playwright/test';
@@ -35,10 +35,29 @@ export async function createAuthStorage(browser: Browser): Promise<string> {
 	return AUTH_STORAGE_PATH;
 }
 
+async function isAuthStorageValid(browser: Browser, storagePath: string): Promise<boolean> {
+	const context = await browser.newContext({ storageState: storagePath });
+	const page = await context.newPage();
+
+	try {
+		await page.goto('/conversations');
+		await page.waitForURL(/\/conversations/, { timeout: 10_000 });
+		return true;
+	} catch {
+		return false;
+	} finally {
+		await context.close();
+	}
+}
+
 export async function resolveAuthStoragePath(browser: Browser): Promise<string> {
-	if (!existsSync(AUTH_STORAGE_PATH)) {
-		return createAuthStorage(browser);
+	if (existsSync(AUTH_STORAGE_PATH)) {
+		if (await isAuthStorageValid(browser, AUTH_STORAGE_PATH)) {
+			return AUTH_STORAGE_PATH;
+		}
+
+		unlinkSync(AUTH_STORAGE_PATH);
 	}
 
-	return AUTH_STORAGE_PATH;
+	return createAuthStorage(browser);
 }

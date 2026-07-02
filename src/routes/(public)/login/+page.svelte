@@ -10,7 +10,7 @@
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	let step = $state<'email' | 'otp'>('email');
-	let email = $state('kacper.b.ksiazek@gmail.com');
+	let email = $state('');
 	let otpCode = $state('');
 	let error = $state<string | null>(null);
 

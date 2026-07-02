@@ -5,5 +5,3 @@ export async function getStoredUser(
 ): Promise<string | null> {
 	return page.evaluate((key) => localStorage.getItem(key), STORAGE_KEYS.USER);
 }
-
-export { STORAGE_KEYS };

@@ -70,6 +70,7 @@
 
 		<button
 			data-testid={E2E_TEST_IDS.sidebar.toggle}
+			aria-expanded={sidebarStore.isExpanded}
 			onclick={toggleSidebar}
 			class="p-2.5 hover:bg-gray-900 rounded-lg transition-colors cursor-pointer"
 			title={sidebarStore.isExpanded ? 'Collapse sidebar' : 'Expand sidebar'}

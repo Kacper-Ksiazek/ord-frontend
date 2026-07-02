@@ -43,16 +43,3 @@ export async function resolveOtpCode(email: string): Promise<string> {
 		'E2E auth is not configured. Set E2E_OTP_CODE or E2E_OTP_FETCH_URL in .env.e2e'
 	);
 }
-
-/** Returns a 6-digit OTP code guaranteed to differ from the correct one. */
-export function wrongOtpCode(correctCode: string): string {
-	if (correctCode.length !== 6) {
-		throw new Error('OTP code must be 6 digits');
-	}
-
-	const digits = correctCode.split('');
-	const lastDigit = Number(digits[5]);
-	digits[5] = String((lastDigit + 1) % 10);
-
-	return digits.join('');
-}
