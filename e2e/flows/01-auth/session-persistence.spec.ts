@@ -1,5 +1,6 @@
 import { test, expect } from '../../fixtures/auth.fixture';
-import { isE2eAuthConfigured, testEnv } from '../../fixtures/test-env';
+import { isE2eAuthConfigured } from '../../fixtures/test-env';
+import { resolveAuthStoragePath } from '../../helpers/auth-storage';
 import { createConversationsListPage } from '../../helpers/page-objects';
 
 test.describe('Session persistence', () => {
@@ -20,15 +21,9 @@ test.describe('Session persistence', () => {
 		await conversationsListPage.expectLoaded();
 	});
 
-	test('session is restored in a new browser context via storage state', async ({
-		browser,
-		page,
-		loginPage
-	}) => {
-		await loginPage.loginWithOtp(testEnv.testEmail);
-
-		const storageState = await page.context().storageState();
-		const newContext = await browser.newContext({ storageState });
+	test('session is restored in a new browser context via storage state', async ({ browser }) => {
+		const storagePath = await resolveAuthStoragePath(browser);
+		const newContext = await browser.newContext({ storageState: storagePath });
 		const newPage = await newContext.newPage();
 		const conversationsListPage = createConversationsListPage(newPage);
 

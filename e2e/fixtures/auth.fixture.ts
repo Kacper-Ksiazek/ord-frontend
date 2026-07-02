@@ -1,6 +1,7 @@
 import type { Page } from '@playwright/test';
 import { test as pagesTest } from './pages.fixture';
-import { isE2eAuthConfigured, testEnv } from './test-env';
+import { isE2eAuthConfigured } from './test-env';
+import { resolveAuthStoragePath } from '../helpers/auth-storage';
 
 type AuthFixtures = {
 	/** Raw Playwright page already logged in via OTP flow. */
@@ -8,14 +9,18 @@ type AuthFixtures = {
 };
 
 export const test = pagesTest.extend<AuthFixtures>({
-	authenticatedPage: async ({ page, loginPage }, use, testInfo) => {
+	authenticatedPage: async ({ browser }, use, testInfo) => {
 		if (!isE2eAuthConfigured()) {
 			testInfo.skip(true, 'E2E_OTP_CODE or E2E_OTP_FETCH_URL required');
 			return;
 		}
 
-		await loginPage.loginWithOtp(testEnv.testEmail);
+		const storagePath = await resolveAuthStoragePath(browser);
+		const context = await browser.newContext({ storageState: storagePath });
+		const page = await context.newPage();
+
 		await use(page);
+		await context.close();
 	}
 });
 
