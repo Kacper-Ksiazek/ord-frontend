@@ -227,7 +227,7 @@ e2e/
 ## 7. Wymagania infrastrukturalne
 
 1. **Backend testowy** — `PUBLIC_API_URL`, deterministyczny OTP (`E2E_OTP_CODE` lub `E2E_OTP_FETCH_URL`), seed data.
-2. **`data-testid` w aplikacji** — ✅ Faza 2 (`src/lib/testing/e2e-test-ids.ts`). Shared components: `Button`, `Input`, `IconButton`, `AutoHeightTextarea`, `DropdownSelect`, `Tabs` — prop `testId`.
+2. **`data-testid` w aplikacji** — ✅ Faza 2 (`src/lib/testing/e2e-test-ids.ts`). Shared components: `Button`, `Input`, `IconButton`, `AutoHeightTextarea`, `DropdownSelect`, `Tabs` — prop `dataTestId`.
 3. **SSE waits** — metody w `ConversationSessionPage` (Faza 5, E2E-006).
 4. **CI** — `.github/workflows/e2e.yml` uruchamiający `bun run test:e2e` z backendem (E2E-010).
 5. **`.env.e2e`** — format `KEY=value`, bez cudzysłowów/exportu/expansion (patrz `.env.e2e.example`).
@@ -303,9 +303,9 @@ Centralne stałe: `src/lib/testing/e2e-test-ids.ts` (re-export: `e2e/helpers/tes
 | Create | `create-conversation-stepper`, `conversation-type-card-{type}`, `topic-row-{i}`, `create-conversation-start` | multi-step-form, create steps |
 | Sesja | `session-message-input`, `session-send-button`, `ai-message-{i}`, `feedback-panel` | session components |
 
-### Shared components z `testId` prop
+### Shared components z `dataTestId` prop
 
-`Button`, `Input`, `IconButton`, `AutoHeightTextarea`, `DropdownSelect`, `Tabs`, `MultiStepForm` (`testIdPrefix`).
+`Button`, `Input`, `IconButton`, `AutoHeightTextarea`, `DropdownSelect`, `Tabs`, `MultiStepForm` (`dataTestIdPrefix`).
 
 ### Page Objects zaktualizowane
 

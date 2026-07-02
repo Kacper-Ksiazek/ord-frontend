@@ -87,7 +87,7 @@
 		<h2 class="heading-4 mb-4">Conversation Summary</h2>
 
 		<Tabs
-			testId={E2E_TEST_IDS.session.feedbackSummaryTabs}
+			dataTestId={E2E_TEST_IDS.session.feedbackSummaryTabs}
 			tabs={mainTabs}
 			bind:activeTab={activeMainTab}
 			activeColor="primary"

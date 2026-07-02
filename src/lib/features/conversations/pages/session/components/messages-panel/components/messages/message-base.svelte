@@ -12,7 +12,7 @@
 		footer?: Snippet;
 		avatar?: Snippet;
 		/** Stable selector for E2E tests (`data-testid`) */
-		testId?: string;
+		dataTestId?: string;
 	}
 
 	const {
@@ -22,12 +22,12 @@
 		avatar,
 		content,
 		footer,
-		testId
+		dataTestId
 	}: MessageBaseProps = $props();
 </script>
 
 <div
-	data-testid={testId}
+	data-testid={dataTestId}
 	class={cn(
 		'flex gap-4 w-full', //
 		orientation === 'right' ? 'flex-row-reverse self-end' : 'flex-row self-start'

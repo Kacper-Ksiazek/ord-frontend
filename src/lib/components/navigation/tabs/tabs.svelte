@@ -8,7 +8,7 @@
 		activeColor = 'red',
 		variant = 'underline',
 		class: className = '',
-		testId
+		dataTestId
 	}: TabsProps = $props();
 
 	// Initialize activeTab if not provided
@@ -55,12 +55,12 @@
 {#if tabs.length > 1}
 	{#if variant === 'underline'}
 		<div
-			data-testid={testId}
+			data-testid={dataTestId}
 			class={cn('border-b border-gray-200 dark:border-gray-700 flex gap-1', className)}
 		>
 			{#each tabs as tab (tab.id)}
 				<button
-					data-testid={testId ? `${testId}-tab-${tab.id}` : undefined}
+					data-testid={dataTestId ? `${dataTestId}-tab-${tab.id}` : undefined}
 					onclick={() => !tab.disabled && (activeTab = tab.id)}
 					disabled={tab.disabled}
 					class={cn(
@@ -84,10 +84,10 @@
 			{/each}
 		</div>
 	{:else if variant === 'outlined'}
-		<div data-testid={testId} class={cn('flex gap-2', className)}>
+		<div data-testid={dataTestId} class={cn('flex gap-2', className)}>
 			{#each tabs as tab (tab.id)}
 				<button
-					data-testid={testId ? `${testId}-tab-${tab.id}` : undefined}
+					data-testid={dataTestId ? `${dataTestId}-tab-${tab.id}` : undefined}
 					onclick={() => !tab.disabled && (activeTab = tab.id)}
 					disabled={tab.disabled}
 					class={cn(

@@ -62,7 +62,7 @@
 				</div>
 
 				<Button
-					testId={E2E_TEST_IDS.conversations.newButton}
+					dataTestId={E2E_TEST_IDS.conversations.newButton}
 					class="w-full shrink-0 sm:w-auto"
 					onClick={() => goto('/conversations/create')}
 				>

@@ -35,7 +35,7 @@
 </script>
 
 <MessageBase
-	testId={E2E_TEST_IDS.session.aiMessage(messageIndex)}
+	dataTestId={E2E_TEST_IDS.session.aiMessage(messageIndex)}
 	messageClass={cn(
 		isStillGenerating && 'generation-in-progress' //
 	)}

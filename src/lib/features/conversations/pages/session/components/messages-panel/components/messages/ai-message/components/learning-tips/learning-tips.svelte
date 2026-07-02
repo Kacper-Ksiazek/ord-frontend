@@ -65,7 +65,7 @@
 </script>
 
 <AiPostProcessActionBase
-	testId={E2E_TEST_IDS.session.messageLearningTips(messageIndex)}
+	dataTestId={E2E_TEST_IDS.session.messageLearningTips(messageIndex)}
 	label="Wskazówki do nauki"
 	isGenerating={isGeneratingTips}
 	bind:showIconsInHighlightedParts

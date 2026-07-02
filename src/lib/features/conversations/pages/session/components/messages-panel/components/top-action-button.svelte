@@ -19,7 +19,7 @@
 		children?: Snippet;
 		additionalContent?: Snippet;
 		/** Stable selector for E2E tests (`data-testid`) */
-		testId?: string;
+		dataTestId?: string;
 	}
 
 	const sidepanelContext = getSidepanelContext();
@@ -35,7 +35,7 @@
 		showAdditionalContent = true,
 		children,
 		additionalContent,
-		testId
+		dataTestId
 	}: Props = $props();
 
 	/** Shared shell with OUTLINED + TEXT border tokens */
@@ -57,7 +57,7 @@
 	)}
 >
 	<Button
-		testId={testId}
+		dataTestId={dataTestId}
 		type="OUTLINED"
 		variant="TEXT"
 		{onClick}

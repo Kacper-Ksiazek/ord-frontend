@@ -76,7 +76,7 @@
 
 		<div class="relative min-w-0 flex-1">
 			<AutoHeightTextarea
-				testId={E2E_TEST_IDS.createConversation.topicCustomInput}
+				dataTestId={E2E_TEST_IDS.createConversation.topicCustomInput}
 				bind:value={userTopicInput}
 				formField={true}
 				disabled={topicInputDisabled}

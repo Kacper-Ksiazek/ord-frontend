@@ -135,7 +135,7 @@
 >
 	<AutoHeightTextarea
 		bind:this={textareaComponent}
-		testId={E2E_TEST_IDS.session.messageInput}
+		dataTestId={E2E_TEST_IDS.session.messageInput}
 		bind:value={message}
 		placeholder="Type your message..."
 		className="content-long "

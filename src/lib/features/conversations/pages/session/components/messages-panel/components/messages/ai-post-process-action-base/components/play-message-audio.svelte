@@ -110,7 +110,7 @@
 </script>
 
 <IconButton
-	testId={E2E_TEST_IDS.session.messageTtsButton(messageIndex)}
+	dataTestId={E2E_TEST_IDS.session.messageTtsButton(messageIndex)}
 	icon={Icon}
 	{ariaLabel}
 	{tooltip}

@@ -75,7 +75,7 @@
 	</div>
 
 	<Input
-		testId={E2E_TEST_IDS.createConversation.topicGenerateClueInput}
+		dataTestId={E2E_TEST_IDS.createConversation.topicGenerateClueInput}
 		placeholder={m['features.conversation.create.step-3.topic_picker.generate_suggestions.button']()}
 		class="min-w-0 flex-1"
 		leftAdornment={TextQuote}

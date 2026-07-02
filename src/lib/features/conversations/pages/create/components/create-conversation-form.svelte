@@ -163,7 +163,7 @@
 	<MultiStepForm
 		{steps}
 		bind:currentStep
-		testIdPrefix="create-conversation"
+		dataTestIdPrefix="create-conversation"
 		onStepChange={handleStepChange}
 		finalStepButtonText={m['features.conversation.create.form.start_conversation_button']()}
 		onFinalStepClick={handleFinalStepClick}

@@ -102,7 +102,7 @@
 	>
 		<!-- Back Button -->
 		<TopActionButton
-			testId={E2E_TEST_IDS.session.backButton}
+			dataTestId={E2E_TEST_IDS.session.backButton}
 			icon={ChevronLeft}
 			onClick={() => goto('/conversations')}
 			ariaLabel="Go back"
@@ -121,7 +121,7 @@
 
 		<!-- Layout Toggle Button -->
 		<TopActionButton
-			testId={E2E_TEST_IDS.session.summaryToggle}
+			dataTestId={E2E_TEST_IDS.session.summaryToggle}
 			icon={sidepanelContext.isOpened ? PanelLeftClose : Columns2}
 			onClick={() => (sidepanelContext.isOpened = !sidepanelContext.isOpened)}
 			ariaLabel={sidepanelContext.isOpened ? 'Switch to full width layout' : 'Switch to split layout'}

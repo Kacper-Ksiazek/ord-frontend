@@ -16,6 +16,6 @@ export interface ButtonProps {
 	/** When set, registers a document-level shortcut and shows it after the label */
 	hotkey?: RegisterableHotkey;
 	/** Stable selector for E2E tests (`data-testid`) */
-	testId?: string;
+	dataTestId?: string;
 	children: Snippet;
 }

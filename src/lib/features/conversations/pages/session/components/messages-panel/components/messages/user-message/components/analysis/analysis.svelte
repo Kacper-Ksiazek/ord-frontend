@@ -62,7 +62,7 @@
 </script>
 
 <AiPostProcessActionBase
-	testId={E2E_TEST_IDS.session.messageAnalysis(messageIndex)}
+	dataTestId={E2E_TEST_IDS.session.messageAnalysis(messageIndex)}
 	label="Analiza wiadomości"
 	isGenerating={showAnalysisLoading}
 	bind:showIconsInHighlightedParts

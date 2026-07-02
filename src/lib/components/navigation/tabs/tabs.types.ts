@@ -20,5 +20,5 @@ export interface TabsProps {
 	variant?: TabsVariant;
 	class?: string;
 	/** Stable selector for E2E tests — applied to the tablist container */
-	testId?: string;
+	dataTestId?: string;
 }

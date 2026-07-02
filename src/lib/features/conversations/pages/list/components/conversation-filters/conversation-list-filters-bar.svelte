@@ -34,7 +34,7 @@
 
 <div class="flex gap-2 mb-6" data-testid={E2E_TEST_IDS.conversations.filters}>
 	<Input
-		testId={E2E_TEST_IDS.conversations.filterSearch}
+		dataTestId={E2E_TEST_IDS.conversations.filterSearch}
 		debounced
 		bind:value={filtersState.filters.search}
 		type="search"
@@ -44,7 +44,7 @@
 	/>
 
 	<DropdownSelect
-		testId={E2E_TEST_IDS.conversations.filterRecency}
+		dataTestId={E2E_TEST_IDS.conversations.filterRecency}
 		bind:value={filtersState.filters.recencyBucket}
 		options={RECENCY_BUCKETS}
 		ariaLabel="Filter by recency"
@@ -56,7 +56,7 @@
 	</DropdownSelect>
 
 	<DropdownSelect
-		testId={E2E_TEST_IDS.conversations.filterType}
+		dataTestId={E2E_TEST_IDS.conversations.filterType}
 		bind:value={filtersState.filters.type}
 		options={CONVERSATION_TYPES}
 		ariaLabel="Filter by conversation type"
@@ -68,7 +68,7 @@
 	</DropdownSelect>
 
 	<IconButton
-		testId={E2E_TEST_IDS.conversations.filterClear}
+		dataTestId={E2E_TEST_IDS.conversations.filterClear}
 		onClick={() => filtersState.clearFilters()}
 		icon={TrashIcon}
 		ariaLabel="Clear filters"

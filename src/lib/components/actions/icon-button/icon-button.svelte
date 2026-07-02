@@ -16,7 +16,7 @@
 		class: className = '',
 		iconClass = 'w-4 h-4',
 		onClick,
-		testId
+		dataTestId
 	}: IconButtonProps = $props();
 
 	const buttonId = `icon-button-${crypto.randomUUID()}`;
@@ -41,7 +41,7 @@
 
 <button
 	id={buttonId}
-	data-testid={testId}
+	data-testid={dataTestId}
 	{disabled}
 	aria-label={ariaLabel}
 	type="button"

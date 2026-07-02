@@ -15,7 +15,7 @@
 	let showIconsInHighlightedParts = $state(false);
 </script>
 
-<MessageBase testId={E2E_TEST_IDS.session.userMessage(messageIndex)} orientation="right">
+<MessageBase dataTestId={E2E_TEST_IDS.session.userMessage(messageIndex)} orientation="right">
 	{#snippet content()}
 		<UserMessageTextContent
 			{messageIndex}
