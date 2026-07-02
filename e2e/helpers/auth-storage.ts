@@ -36,9 +36,9 @@ export async function createAuthStorage(browser: Browser): Promise<string> {
 }
 
 export async function resolveAuthStoragePath(browser: Browser): Promise<string> {
-	if (existsSync(AUTH_STORAGE_PATH)) {
-		return AUTH_STORAGE_PATH;
+	if (!existsSync(AUTH_STORAGE_PATH)) {
+		return createAuthStorage(browser);
 	}
 
-	return createAuthStorage(browser);
+	return AUTH_STORAGE_PATH;
 }

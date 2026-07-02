@@ -198,8 +198,8 @@ e2e/
     └── 01-auth/                   # ✅
         ├── login-happy-path.spec.ts
         ├── login-validation-errors.spec.ts
-        ├── session-persistence.spec.ts
-        └── logout.spec.ts
+        ├── 02-session-persistence.spec.ts
+        └── 03-logout.spec.ts
 ```
 
 ---
@@ -210,7 +210,7 @@ e2e/
 |------|--------|-----|--------|
 | **0** | Infrastruktura Playwright | E2E-000–009 | ✅ |
 | **0b** | CI workflow | E2E-010 | ⬜ |
-| **1** | Auth | E2E-101–104 | ✅ |
+| **1** | Auth smoke | E2E-101–104, 102 | ✅ |
 | **2** | `data-testid` w aplikacji | E2E-110 | ✅ |
 | **2b** | CI workflow | E2E-010 | ⬜ |
 | **3** | Lista + nawigacja | E2E-201 | ⬜ **następna** |
@@ -267,17 +267,17 @@ Jeden `otp-request` na run (`login-happy-path` test 1). Kolejne testy używają 
 |------|-------------|
 | `login-happy-path.spec.ts` | Redirect → login → lista → sidebar email |
 | `login-validation-errors.spec.ts` | Disabled submit przy złym/pustym email |
-| `logout.spec.ts` | Wylogowanie + brak dostępu |
-| `session-persistence.spec.ts` | Reload + nowy kontekst ze storage |
+| `02-session-persistence.spec.ts` | Reload + nowy kontekst ze storage |
+| `03-logout.spec.ts` | Wylogowanie + brak dostępu (ostatni — invaliduje storage) |
 
-**8 testów** — szybki smoke, nie pełne pokrycie edge case OTP.
+**7 testów** — szybki smoke, nie pełne pokrycie edge case OTP.
 
 ### Scenariusze
 
 | Plik | Flow | ID | Kroki kluczowe |
 |------|------|-----|----------------|
 | `login-happy-path.spec.ts` | Redirect → login → conversations → sidebar email | E2E-101 | `loginWithOtp` → `conversationsListPage` → `sidebar.ensureExpanded()` |
-| `login-validation-errors.spec.ts` | Błędne dane → poprawka → sukces | E2E-102 | disabled button / `submitOtpForm` / `wrongOtpCode` |
+| `login-validation-errors.spec.ts` | Walidacja email (disabled button) | E2E-102 | `toBeDisabled()` na submit |
 | `session-persistence.spec.ts` | Reload + storageState w nowym kontekście | E2E-103 | `describe`-level skip; `createConversationsListPage` |
 | `logout.spec.ts` | Logout → brak dostępu → storage czysty | E2E-104 | `getStoredUser` via `STORAGE_KEYS.USER` |
 
