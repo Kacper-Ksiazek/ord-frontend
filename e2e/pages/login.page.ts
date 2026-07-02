@@ -46,9 +46,31 @@ export class LoginPage {
 	}
 
 	async fillOtp(code: string): Promise<void> {
+		const expected = Array.from({ length: 6 }, (_, i) => code[i] ?? '').join('');
+
 		for (let i = 0; i < 6; i++) {
 			await this.otpDigit(i + 1).fill(code[i] ?? '');
 		}
+
+		// Headless runs faster than Svelte bindable/effect flush — wait until digits are synced.
+		await this.page.waitForFunction(
+			(expectedValue) => {
+				const inputs = document.querySelectorAll<HTMLInputElement>(
+					'[data-testid^="login-otp-digit-"]'
+				);
+				const value = Array.from(inputs)
+					.sort(
+						(a, b) =>
+							Number(a.dataset.testid?.replace('login-otp-digit-', '')) -
+							Number(b.dataset.testid?.replace('login-otp-digit-', ''))
+					)
+					.map((input) => input.value)
+					.join('');
+
+				return value === expectedValue;
+			},
+			expected
+		);
 	}
 
 	async submitOtp(): Promise<void> {

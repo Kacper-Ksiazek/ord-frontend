@@ -89,11 +89,11 @@
 		<div class="flex items-center gap-2">
 			<AuthUserAvatar size={40} />
 			{#if sidebarStore.isExpanded && authStore.user}
-				<div class="flex-1 min-w-0" in:fade={{ delay: 150 }}>
+				<div class="flex-1 min-w-0" data-testid={E2E_TEST_IDS.sidebar.userEmail}>
 					<p class="text-sm font-semibold text-white truncate">
 						{authStore.user.name || authStore.user.email}
 					</p>
-					<p class="text-xs text-gray-400" data-testid={E2E_TEST_IDS.sidebar.userEmail}>
+					<p class="text-xs text-gray-400">
 						{authStore.user.email}
 					</p>
 				</div>

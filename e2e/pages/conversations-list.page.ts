@@ -23,6 +23,7 @@ export class ConversationsListPage {
 	}
 
 	async expectLoaded(): Promise<void> {
+		await this.page.getByTestId(E2E_TEST_IDS.sidebar.root).waitFor({ state: 'visible' });
 		await this.heading.waitFor({ state: 'visible' });
 	}
 }

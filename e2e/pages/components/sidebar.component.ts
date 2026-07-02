@@ -29,6 +29,11 @@ export class SidebarComponent {
 		}
 	}
 
+	async expectUserEmailVisible(email: string): Promise<void> {
+		await this.ensureExpanded();
+		await this.userEmail(email).waitFor({ state: 'visible' });
+	}
+
 	async logout(): Promise<void> {
 		await this.logoutButton.click();
 		await this.page.waitForURL('**/login');

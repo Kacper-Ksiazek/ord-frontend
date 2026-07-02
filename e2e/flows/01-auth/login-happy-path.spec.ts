@@ -30,7 +30,6 @@ test.describe('Login — happy path', () => {
 		await conversationsListPage.goto();
 		await conversationsListPage.expectLoaded();
 
-		await sidebar.ensureExpanded();
-		await expect(sidebar.userEmail(testEnv.testEmail)).toBeVisible();
+		await sidebar.expectUserEmailVisible(testEnv.testEmail);
 	});
 });
