@@ -11,6 +11,7 @@
 	import { onMount } from 'svelte';
 	import { getConversationContext } from '../../contexts/conversation-context.svelte';
 	import ConversationTypeIcon from '$conversations/shared/components/conversation-type-icon.svelte';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	/** Hide the sticky topic strip while the main header topic is in view (top of scroll area). */
 	const TOPIC_BAR_SHOW_AFTER_SCROLL_PX = 260;
@@ -86,6 +87,7 @@
 </script>
 
 <div
+	data-testid={E2E_TEST_IDS.session.messagesPanel}
 	class={cn(
 		'bg-transparent transition-[width] transition-padding duration-300 origin-left relative pt-8',
 		sidepanelContext.isOpened ? 'px-4' : 'px-12'
@@ -100,6 +102,7 @@
 	>
 		<!-- Back Button -->
 		<TopActionButton
+			dataTestId={E2E_TEST_IDS.session.backButton}
 			icon={ChevronLeft}
 			onClick={() => goto('/conversations')}
 			ariaLabel="Go back"
@@ -118,6 +121,7 @@
 
 		<!-- Layout Toggle Button -->
 		<TopActionButton
+			dataTestId={E2E_TEST_IDS.session.summaryToggle}
 			icon={sidepanelContext.isOpened ? PanelLeftClose : Columns2}
 			onClick={() => (sidepanelContext.isOpened = !sidepanelContext.isOpened)}
 			ariaLabel={sidepanelContext.isOpened ? 'Switch to full width layout' : 'Switch to split layout'}

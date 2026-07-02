@@ -10,14 +10,17 @@
 	import { getUserMessageAnalysisColors } from '$conversations/pages/session/constants/user-message-analysis/colors';
 	import HighlightsCountBadge from '$lib/features/conversations/pages/session/components/shared/highlights-count-badge.svelte';
 	import { TextDotsAnimation as TextWithThreeDotsAnimation } from '$lib/components/feedback/text-dots-animation';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	interface AnalysisProps {
 		analysis: ConversationUserMessageAnalysisDTO | null;
+		messageIndex: number;
 		showIconsInHighlightedParts: boolean;
 	}
 
 	let {
 		analysis, //
+		messageIndex,
 		showIconsInHighlightedParts = $bindable()
 	}: AnalysisProps = $props();
 
@@ -59,6 +62,7 @@
 </script>
 
 <AiPostProcessActionBase
+	dataTestId={E2E_TEST_IDS.session.messageAnalysis(messageIndex)}
 	label="Analiza wiadomości"
 	isGenerating={showAnalysisLoading}
 	bind:showIconsInHighlightedParts

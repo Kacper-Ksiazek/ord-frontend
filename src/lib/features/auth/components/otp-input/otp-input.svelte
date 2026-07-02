@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { OtpInputProps } from './otp-input.interface';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	let {
 		value = $bindable(''),
@@ -112,10 +113,16 @@
 	}
 </script>
 
-<div class="flex gap-2 justify-center" role="group" aria-label="OTP Input">
+<div
+	class="flex gap-2 justify-center"
+	role="group"
+	aria-label="OTP Input"
+	data-testid={E2E_TEST_IDS.login.otpInput}
+>
 	{#each digits as digit, index (index)}
 		<input
 			bind:this={inputs[index]}
+			data-testid={E2E_TEST_IDS.login.otpDigit(index + 1)}
 			type="text"
 			inputmode="numeric"
 			maxlength={1}

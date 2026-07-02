@@ -6,6 +6,7 @@
 	import { topicPickerStore } from '../topic-picker.store.svelte';
 	import { getCreateConversationPayload } from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
 	import * as m from '$lib/paraglide/messages.js';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	interface TopicRowProps {
 		index: number;
@@ -52,6 +53,7 @@
 <SelectableCard
 	disabled={isActionDisabled}
 	onclick={isActionDisabled ? () => {} : onclick}
+	data-testid={E2E_TEST_IDS.createConversation.topicRow(index)}
 	class={cn(
 		'flex-row gap-2 justify-between items-center px-2 py-1',
 		'border border-gray-200 dark:border-slate-600',

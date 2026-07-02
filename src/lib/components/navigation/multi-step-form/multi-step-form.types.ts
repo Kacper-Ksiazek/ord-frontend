@@ -20,4 +20,6 @@ export interface MultiStepFormProps {
 	finalStepButtonText?: string;
 	/** Callback when the final step button is clicked */
 	onFinalStepClick?: () => void;
+	/** Prefix for `data-testid` on stepper segments and navigation buttons */
+	dataTestIdPrefix?: string;
 }

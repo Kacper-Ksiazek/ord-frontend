@@ -19,6 +19,8 @@
 		playbackProgress?: Snippet;
 		children: Snippet;
 		badges?: Snippet;
+		/** Stable selector for E2E tests (`data-testid`) */
+		dataTestId?: string;
 	}
 
 	let {
@@ -34,7 +36,8 @@
 		headerActions,
 		playbackProgress,
 		badges,
-		children
+		children,
+		dataTestId
 	}: AiPostProcessActionBaseProps = $props();
 
 	let isCollapsed = $state(true);
@@ -44,6 +47,7 @@
 
 <div
 	{id}
+	data-testid={dataTestId}
 	transition:fade
 	class={cn(
 		'flex flex-col gap-3 px-4 py-3 mt-2 rounded-lg w-full relative', //

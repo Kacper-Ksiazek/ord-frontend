@@ -18,6 +18,7 @@
 	} from '$lib/features/conversations/pages/create/utils/default-conversation-type-storage';
 	import * as m from '$lib/paraglide/messages.js';
 	import { getConversationTypeMessages } from '$lib/features/conversations/shared/utils';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	const selectedType = $derived(getCreateConversationPayload());
 
@@ -56,7 +57,10 @@
 	{m['features.conversation.create.step-1.description']()}
 </p>
 
-<section class="flex flex-wrap gap-4 justify-center">
+<section
+	class="flex flex-wrap gap-4 justify-center"
+	data-testid={E2E_TEST_IDS.createConversation.stepType}
+>
 	{#each CONVERSATION_TYPES as type (type)}
 		{@const isSelected = selectedType.type === type}
 		{@const disabled = DISABLED_CONVERSATION_TYPES.has(type)}

@@ -24,6 +24,7 @@
 	import { sidebarStore } from './sidebar.store.svelte';
 	import { createLogoutMutation } from '$auth/api-client';
 	import { goto } from '$app/navigation';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	const { mutateAsync: handleLogout } = createLogoutMutation();
 
@@ -50,6 +51,7 @@
 </script>
 
 <aside
+	data-testid={E2E_TEST_IDS.sidebar.root}
 	class={cn(
 		'h-screen bg-black text-white flex flex-col',
 		sidebarWidth,
@@ -67,6 +69,8 @@
 		{/if}
 
 		<button
+			data-testid={E2E_TEST_IDS.sidebar.toggle}
+			aria-expanded={sidebarStore.isExpanded}
 			onclick={toggleSidebar}
 			class="p-2.5 hover:bg-gray-900 rounded-lg transition-colors cursor-pointer"
 			title={sidebarStore.isExpanded ? 'Collapse sidebar' : 'Expand sidebar'}
@@ -86,11 +90,13 @@
 		<div class="flex items-center gap-2">
 			<AuthUserAvatar size={40} />
 			{#if sidebarStore.isExpanded && authStore.user}
-				<div class="flex-1 min-w-0" in:fade={{ delay: 150 }}>
+				<div class="flex-1 min-w-0" data-testid={E2E_TEST_IDS.sidebar.userEmail}>
 					<p class="text-sm font-semibold text-white truncate">
 						{authStore.user.name || authStore.user.email}
 					</p>
-					<p class="text-xs text-gray-400">{authStore.user.email}</p>
+					<p class="text-xs text-gray-400">
+						{authStore.user.email}
+					</p>
 				</div>
 			{/if}
 		</div>
@@ -135,6 +141,7 @@
 	<!-- Logout Button Section -->
 	<div class="px-3">
 		<button
+			data-testid={E2E_TEST_IDS.sidebar.logout}
 			onclick={onLogoutClick}
 			title="Logout"
 			class={cn(
