@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { IconButton } from '$lib/components/actions/icon-button';
+	import { IconButton } from '$lib/components/buttons/icon-button';
 	import { PanelLeftClose, PanelLeftOpen } from 'lucide-svelte';
 
 	interface PreviewContentProps {

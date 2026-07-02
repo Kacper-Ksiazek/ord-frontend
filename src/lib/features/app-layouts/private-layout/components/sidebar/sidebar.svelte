@@ -16,9 +16,9 @@
 	import { fade } from 'svelte/transition';
 	import { authStore } from '$lib/stores/auth.svelte';
 	import { themeStore } from '$lib/stores/theme.svelte';
-	import { AppLogo } from '$lib/components/identity/app-logo';
-	import { UserAvatar as AuthUserAvatar } from '$lib/components/identity/user-avatar';
-	import { Divider } from '$lib/components/surfaces/divider';
+	import AppLogo from '$lib/components/app-logo/app-logo.svelte';
+	import AuthUserAvatar from '$lib/components/auth-user-avatar.svelte';
+	import Divider from '$lib/components/utils/divider.svelte';
 	import SidebarLearningLanguage from './components/sidebar-learning-language.svelte';
 	import SidebarLink from './components/sidebar-link.svelte';
 	import { sidebarStore } from './sidebar.store.svelte';

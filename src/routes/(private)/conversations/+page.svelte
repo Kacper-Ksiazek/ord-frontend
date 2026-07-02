@@ -5,19 +5,19 @@
 		createConversationsQuery
 	} from '$lib/api-client/conversation/queries';
 	import { ConversationListFiltersState } from '$conversations/pages/list/state/conversation-list-state.svelte';
-	import { StatusScreen } from '$lib/components/feedback/status-screen';
-	import { PageContentContainer } from '$lib/components/surfaces/page-content-container';
-	import { ContentCard } from '$lib/components/surfaces/content-card';
+	import { StatusScreen } from '$lib/components/utils/status-screen';
+	import { PageContentContainer } from '$lib/components/utils/page-content-container';
+	import ContentCard from '$lib/components/utils/content-card.svelte';
 	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';
 	import * as m from '$lib/paraglide/messages.js';
-	import { Button } from '$lib/components/actions/button';
+	import { Button } from '$lib/components/buttons/button';
 	import { goto } from '$app/navigation';
 	import {
 		ConversationListFiltersBar,
 		ConversationList,
 		ConversationActivitySection
 	} from '$lib/features/conversations/pages/list';
-	import { Loader } from '$lib/components/feedback/loader';
+	import { Loader } from '$lib/components/utils/loader';
 
 	const filtersState = new ConversationListFiltersState(page.url.searchParams);
 

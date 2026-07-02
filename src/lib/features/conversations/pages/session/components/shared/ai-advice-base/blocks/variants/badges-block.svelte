@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Badge, cn } from 'flowbite-svelte';
-	import { MistakeSeverityIndicator } from '$lib/components/data-display';
+	import { MistakeSeverityIndicator } from '$lib/components/scores';
 	import type { BadgesBlock } from '../../ai-advice.types';
 	import type { TailwindColorTheme } from '$lib/utils/theme/get-tailwind-colors';
 

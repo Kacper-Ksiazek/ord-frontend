@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import { MultiStepForm } from '$lib/components/navigation/multi-step-form';
-	import type { StepConfig } from '$lib/components/navigation/multi-step-form';
-	import { Loader } from '$lib/components/feedback/loader';
+	import { MultiStepForm } from '$lib/components/utils/multi-step-form';
+	import type { StepConfig } from '$lib/components/utils/multi-step-form';
+	import { Loader } from '$lib/components/utils/loader';
 	import {
 		getCreateConversationPayload,
 		setCreateConversationPayload

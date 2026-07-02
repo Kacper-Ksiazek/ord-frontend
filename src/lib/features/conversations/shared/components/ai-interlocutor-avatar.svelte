@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Skeleton } from '$lib/components/feedback/skeleton';
+	import Skeleton from '$lib/components/utils/skeleton.svelte';
 	import type { ConversationAIInterlocutorAvatarId } from '$lib/types/conversation/domain/conversation';
 	import { cn } from 'flowbite-svelte';
 

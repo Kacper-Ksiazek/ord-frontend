@@ -1,13 +1,13 @@
 <script lang="ts">
-	import { ScrollableWrapper } from '$lib/components/surfaces/scrollable-wrapper';
-	import CircularProgressBar from '$lib/components/data-display/circular-progress-bar/circular-progress-bar.svelte';
-	import { ScoreDiffIndicator } from '$lib/components/data-display';
+	import { ScrollableWrapper } from '$lib/components/utils/scrollable-wrapper';
+	import CircularProgressBar from '$lib/components/scores/circular-progress-bar/circular-progress-bar.svelte';
+	import { ScoreDiffIndicator } from '$lib/components/scores';
 	import AiInterlocutorAvatar from '$lib/features/conversations/shared/components/ai-interlocutor-avatar.svelte';
 	import type { ConversationUserMessageAnalysisDTO } from '$lib/types/conversation/domain/conversation-message-analysis';
 	import type { CompactConversationUserMessage } from '$lib/types/conversation/domain/conversation-message';
 	import type { ConversationMessagePerformanceScore } from '$lib/types/conversation/domain/conversation-message-analysis';
 	import { getConversationContext } from '$conversations/pages/session/contexts/conversation-context.svelte';
-	import { UserAvatar as AuthUserAvatar } from '$lib/components/identity/user-avatar';
+	import AuthUserAvatar from '$lib/components/auth-user-avatar.svelte';
 	import UserMessageTextContent from '$conversations/pages/session/components/messages-panel/components/messages/user-message/lib/user-message-text-content.svelte';
 
 	interface OverviewTabProps {

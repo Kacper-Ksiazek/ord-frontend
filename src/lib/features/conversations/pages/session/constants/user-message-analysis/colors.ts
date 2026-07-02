@@ -1,4 +1,4 @@
-import type { IconCardVariant } from '$lib/components/data-display/icon-card/icon-card.types';
+import type { IconCardVariant } from '$lib/components/cards/icon-card/icon-card.types';
 import type { MessageAnalysisCriteria } from '$lib/types/conversation/domain/message-analysis-criteria';
 import {
 	getTailwindColorTheme,

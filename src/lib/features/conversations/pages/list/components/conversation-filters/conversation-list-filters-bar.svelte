@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Input from '$lib/components/forms/input/input.svelte';
-	import { IconButton } from '$lib/components/actions/icon-button';
+	import { IconButton } from '$lib/components/buttons/icon-button';
 	import { DropdownSelect, type DropdownSelectOption } from '$lib/components/forms/dropdown-select';
 	import { ConversationListFiltersState } from '../../state/conversation-list-state.svelte';
 	import { ClockIcon, MessageSquare, SearchIcon, TrashIcon } from 'lucide-svelte';

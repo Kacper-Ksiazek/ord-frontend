@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { tick } from 'svelte';
-	import { ScrollableWrapper } from '$lib/components/surfaces/scrollable-wrapper';
-	import { StatusScreen } from '$lib/components/feedback/status-screen';
-	import { Skeleton } from '$lib/components/feedback/skeleton';
+	import { ScrollableWrapper } from '$lib/components/utils/scrollable-wrapper';
+	import { StatusScreen } from '$lib/components/utils/status-screen';
+	import Skeleton from '$lib/components/utils/skeleton.svelte';
 	import TopicRow from './components/topic-row.svelte';
 	import GenerateTopicsSuggestionsButton from './components/generate-topics-suggestions-button.svelte';
 	import CustomTopicManagement from './components/custom-topic-management.svelte';
