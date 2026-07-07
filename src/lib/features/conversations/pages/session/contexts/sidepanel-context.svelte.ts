@@ -1,4 +1,4 @@
-import type { ConversationUserMessageAnalysisDTO } from '$conversations/types/domain/conversation-message-analysis';
+import type { ConversationUserMessageAnalysisDTO } from '$conversations/types';
 import { createContext } from 'svelte';
 
 export type SidepanelContext = {

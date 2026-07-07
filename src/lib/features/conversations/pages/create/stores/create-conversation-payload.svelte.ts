@@ -1,6 +1,6 @@
 import { authStore } from '$lib/stores/auth.svelte';
-import type { CreateConversationRequest } from '$conversations/types/api/requests';
-import type { ConversationAIInterlocutorAvatarId } from '$conversations/types/domain/conversation';
+import type { CreateConversationRequest } from '$conversations/types';
+import type { ConversationAIInterlocutorAvatarId } from '$conversations/types';
 import type { LanguageName } from '$lib/types/core/domain/languages';
 
 type CreateConversationPayload = Partial<

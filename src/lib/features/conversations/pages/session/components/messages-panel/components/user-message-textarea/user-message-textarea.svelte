@@ -8,9 +8,9 @@
 	import { requestAIMessage } from '$lib/api-client/ongoing-conversation/sse/request-ai-message';
 	import { createRequestAnalysisForUserMessageMutation } from '$lib/api-client/ongoing-conversation/mutations/use-request-analysis-for-user-message';
 	import { createRequestLearningTipsForAIMessageMutation } from '$lib/api-client/ongoing-conversation/mutations/use-request-learning-tips-for-ai-message';
-	import type { CompactConversationUserMessage } from '$conversations/types/domain/conversation-message';
-	import type { ConversationUserMessageAnalysisDTO } from '$conversations/types/domain/conversation-message-analysis';
-	import type { CompactConversationAiMessage } from '$conversations/types/domain/conversation-message';
+	import type { CompactConversationUserMessage } from '$conversations/types';
+	import type { ConversationUserMessageAnalysisDTO } from '$conversations/types';
+	import type { CompactConversationAiMessage } from '$conversations/types';
 	import { getMessagesMaxWidth } from '../../../constants.svelte';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 

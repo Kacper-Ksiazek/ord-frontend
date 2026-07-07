@@ -3,7 +3,7 @@
 	import {
 		CONVERSATION_MESSAGE_MISTAKE_SEVERITY_LEVEL_MAP,
 		type ConversationMessageMistakeSeverity
-	} from '$conversations/types/domain/conversation-message-analysis';
+	} from '$conversations/types';
 
 	interface Props {
 		severity: ConversationMessageMistakeSeverity;

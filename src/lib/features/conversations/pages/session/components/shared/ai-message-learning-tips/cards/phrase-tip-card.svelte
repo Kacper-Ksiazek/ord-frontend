@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { AIMessagePhraseTip } from '$conversations/types/ongoing-conversation/api/responses';
+	import type { AIMessagePhraseTip } from '$conversations/types';
 	import type {
 		AiAdviceBaseBlock,
 		DerivedAiAdviceCardProps

@@ -1,6 +1,6 @@
 import { browser } from '$app/environment';
 import { SvelteMap } from 'svelte/reactivity';
-import type { ConversationType } from '$conversations/types/domain/conversation';
+import type { ConversationType } from '$conversations/types';
 import { getStorageItem, LOCAL_STORAGE_KEYS, setStorageItem } from '$lib/utils/local-storage';
 
 type TopicBuckets = {

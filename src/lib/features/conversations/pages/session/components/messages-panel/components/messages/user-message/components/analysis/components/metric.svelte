@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
-	import type { MessageAnalysisCriteria } from '$conversations/types/domain/message-analysis-criteria';
+	import type { MessageAnalysisCriteria } from '$conversations/types';
 	import AnalysisMetricIcon from '$lib/features/conversations/pages/session/components/shared/user-message-analysis/user-message-analysis-metric-icon.svelte';
 	import { getUserMessageAnalysisColors } from '$conversations/pages/session/constants/user-message-analysis/colors';
 

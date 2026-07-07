@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ConversationMessageMistake } from '$conversations/types/domain/conversation-message-analysis';
+	import type { ConversationMessageMistake } from '$conversations/types';
 	import type {
 		AiAdviceBaseBlock,
 		DerivedAiAdviceCardProps

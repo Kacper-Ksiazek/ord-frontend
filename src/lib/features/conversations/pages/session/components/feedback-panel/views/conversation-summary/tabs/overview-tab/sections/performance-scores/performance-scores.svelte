@@ -1,9 +1,9 @@
 <script lang="ts">
-	import type { ConversationUserMessageAnalysisDTO } from '$conversations/types/domain/conversation-message-analysis';
+	import type { ConversationUserMessageAnalysisDTO } from '$conversations/types';
 	import { cn } from 'flowbite-svelte';
 	import { ChevronDown, ChevronUp } from 'lucide-svelte';
 	import { CircularProgressBars, ProgressTableHeader } from './components';
-	import type { CompactConversationUserMessage } from '$conversations/types/domain/conversation-message';
+	import type { CompactConversationUserMessage } from '$conversations/types';
 	import { ScoreBox } from '$lib/components/scores';
 
 	const COLLAPSED_ROW_LIMIT = 5;

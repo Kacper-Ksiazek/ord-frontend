@@ -5,7 +5,7 @@
  * Uses Tailwind color palette matching the learning tips theme.
  */
 
-import type { LearningTipCategory } from '$conversations/types/domain/learning-tip-category';
+import type { LearningTipCategory } from '$conversations/types';
 
 /**
  * Color scheme for learning tips categories:

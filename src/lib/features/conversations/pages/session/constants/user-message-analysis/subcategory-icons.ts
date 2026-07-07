@@ -1,7 +1,7 @@
 import type {
 	ConversationMessageMistakeSeverity,
 	ConversationMessageSuggestionType
-} from '$conversations/types/domain/conversation-message-analysis';
+} from '$conversations/types';
 import { Info, ThumbsDown, TriangleAlert, BookOpen, Layers } from 'lucide-svelte';
 
 export const MISTAKE_SEVERITY_ICONS_MAP: Record<ConversationMessageMistakeSeverity, LucideIcon> = {

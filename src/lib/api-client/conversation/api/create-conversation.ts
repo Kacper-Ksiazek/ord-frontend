@@ -1,5 +1,5 @@
-import type { CreateConversationRequest } from '$conversations/types/api/requests';
-import type { ConversationDTO } from '$conversations/types/domain/conversation';
+import type { CreateConversationRequest } from '$conversations/types';
+import type { ConversationDTO } from '$conversations/types';
 import { api } from '../../axios';
 
 export async function createConversation(

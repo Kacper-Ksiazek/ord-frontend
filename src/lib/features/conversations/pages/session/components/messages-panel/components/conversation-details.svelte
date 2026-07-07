@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ContentCard from '$lib/components/utils/content-card.svelte';
-	import type { ConversationDTO } from '$conversations/types/domain/conversation';
+	import type { ConversationDTO } from '$conversations/types';
 	import { Button } from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
 	import ConversationTypeIcon from '$lib/features/conversations/shared/components/conversation-type-icon.svelte';

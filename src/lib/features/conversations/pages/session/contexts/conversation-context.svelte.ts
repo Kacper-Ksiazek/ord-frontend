@@ -3,7 +3,7 @@ import type {
 	ConversationType,
 	ConversationAITone,
 	ConversationAIInterlocutorAvatarId
-} from '$conversations/types/domain/conversation';
+} from '$conversations/types';
 import { createContext } from 'svelte';
 
 export interface CompactConversationData {

@@ -1,5 +1,5 @@
 import { getStorageItem, setStorageItem } from '$lib/utils/local-storage';
-import type { RecentInterlocutorInfo } from '$conversations/types/api/requests';
+import type { RecentInterlocutorInfo } from '$conversations/types';
 
 const MAX_RECENT_INTERLOCUTORS = 10;
 const LS_KEY = 'recent_interlocutors';

@@ -2,7 +2,7 @@ import round from 'lodash/round';
 import type {
 	ConversationMessageMistake,
 	ConversationMessageMistakeSeverity
-} from '$conversations/types/domain/conversation-message-analysis';
+} from '$conversations/types';
 import { MISTAKE_SEVERITY_CHART_COLORS_MAP } from '$conversations/pages/session/constants/mistake-severity-colors';
 
 export type MistakeStats = Record<

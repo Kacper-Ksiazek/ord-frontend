@@ -1,5 +1,5 @@
 import { createMutation } from '@tanstack/svelte-query';
-import type { SaveUserConversationMessageRequest } from '$conversations/types/ongoing-conversation/api/requests';
+import type { SaveUserConversationMessageRequest } from '$conversations/types';
 import { saveUserMessage } from '../api/save-user-message';
 
 export function createSaveUserMessageMutation() {

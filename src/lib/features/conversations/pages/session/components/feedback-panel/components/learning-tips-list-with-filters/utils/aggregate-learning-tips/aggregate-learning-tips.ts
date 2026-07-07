@@ -1,4 +1,4 @@
-import type { CompactConversationMessage } from '$conversations/types/domain/conversation-message';
+import type { CompactConversationMessage } from '$conversations/types';
 import type { AggregatedLearningTip } from './aggregate-learning-tips.types';
 
 export function aggregateLearningTips(

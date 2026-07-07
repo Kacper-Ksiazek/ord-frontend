@@ -3,7 +3,7 @@ import type {
 	AIMessageVocabularyTip,
 	AIMessagePhraseTip,
 	TipRegister
-} from '$conversations/types/ongoing-conversation/api/responses';
+} from '$conversations/types';
 
 interface AggregatedLearningTipBase {
 	phrase: string;

@@ -1,5 +1,5 @@
 import * as m from '$lib/paraglide/messages';
-import type { ConversationType } from '$conversations/types/domain/conversation';
+import type { ConversationType } from '$conversations/types';
 
 export function getConversationTypeLabel(type: ConversationType) {
 	const messageKey =

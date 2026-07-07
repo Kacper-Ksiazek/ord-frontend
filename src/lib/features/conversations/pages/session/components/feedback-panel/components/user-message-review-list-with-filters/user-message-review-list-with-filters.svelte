@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { CompactConversationUserMessage } from '$conversations/types/domain/conversation-message';
+	import type { CompactConversationUserMessage } from '$conversations/types';
 	import type {
 		ConversationMessageMistakeSeverity,
 		ConversationMessageSuggestionType
-	} from '$conversations/types/domain/conversation-message-analysis';
-	import type { MessageAnalysisCriteria } from '$conversations/types/domain/message-analysis-criteria';
+	} from '$conversations/types';
+	import type { MessageAnalysisCriteria } from '$conversations/types';
 	import { Inbox, SigmaIcon } from 'lucide-svelte';
 	import type {
 		CategoryCard,
@@ -28,7 +28,7 @@
 		ConversationMessageMistake,
 		ConversationMessageStrength,
 		ConversationMessageSuggestion
-	} from '$conversations/types/domain/conversation-message-analysis';
+	} from '$conversations/types';
 
 	type Data = AggregatedAnalysisItem;
 	type Category = MessageAnalysisCriteria | 'ALL';

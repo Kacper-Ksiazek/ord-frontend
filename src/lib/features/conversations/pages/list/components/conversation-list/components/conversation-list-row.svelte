@@ -2,7 +2,7 @@
 	import type {
 		ConversationAIInterlocutorAvatarId,
 		ConversationSummaryDTO
-	} from '$conversations/types/domain/conversation';
+	} from '$conversations/types';
 	import AiInterlocutorAvatar from '$lib/features/conversations/shared/components/ai-interlocutor-avatar.svelte';
 	import ConversationTypeIcon from '$lib/features/conversations/shared/components/conversation-type-icon.svelte';
 	import {

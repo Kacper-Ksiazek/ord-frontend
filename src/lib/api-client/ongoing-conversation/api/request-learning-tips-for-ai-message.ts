@@ -1,5 +1,5 @@
-import type { GetLearningTipsForAIMessageRequest } from '$conversations/types/ongoing-conversation/api/requests';
-import type { AIMessageLearningTips } from '$conversations/types/ongoing-conversation/api/responses';
+import type { GetLearningTipsForAIMessageRequest } from '$conversations/types';
+import type { AIMessageLearningTips } from '$conversations/types';
 import { api } from '../../axios';
 
 export async function requestLearningTipsForAIMessage(

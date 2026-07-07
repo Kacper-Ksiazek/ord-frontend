@@ -1,12 +1,12 @@
 <script lang="ts">
 	import size from 'lodash/size';
 	import compact from 'lodash/compact';
-	import type { ConversationUserMessageAnalysisDTO } from '$conversations/types/domain/conversation-message-analysis';
+	import type { ConversationUserMessageAnalysisDTO } from '$conversations/types';
 	import { RoundedBoxesScore } from '$lib/components/scores';
 	import { getSidepanelContext } from '$lib/features/conversations/pages/session/contexts/sidepanel-context.svelte';
 	import AiPostProcessActionBase from '../../../ai-post-process-action-base/ai-post-process-action-base.svelte';
 	import AnalysisMetricIcon from '$lib/features/conversations/pages/session/components/shared/user-message-analysis/user-message-analysis-metric-icon.svelte';
-	import type { MessageAnalysisCriteria } from '$conversations/types/domain/message-analysis-criteria';
+	import type { MessageAnalysisCriteria } from '$conversations/types';
 	import { getUserMessageAnalysisColors } from '$conversations/pages/session/constants/user-message-analysis/colors';
 	import HighlightsCountBadge from '$lib/features/conversations/pages/session/components/shared/highlights-count-badge.svelte';
 	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';

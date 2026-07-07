@@ -1,11 +1,11 @@
 <script lang="ts">
-	import type { AIMessageLearningTips } from '$conversations/types/ongoing-conversation/api/responses';
+	import type { AIMessageLearningTips } from '$conversations/types';
 	import size from 'lodash/size';
 	import compact from 'lodash/compact';
 	import AiPostProcessActionBase from '../../../ai-post-process-action-base/ai-post-process-action-base.svelte';
 	import PlayMessageAudio from '../../../ai-post-process-action-base/components/play-message-audio.svelte';
 	import PlayMessageAudioProgress from '../../../ai-post-process-action-base/components/play-message-audio-progress.svelte';
-	import type { LearningTipCategory } from '$conversations/types/domain/learning-tip-category';
+	import type { LearningTipCategory } from '$conversations/types';
 	import { getAiMessageLearningTipColors } from '$conversations/pages/session/constants/ai-message-learning-tips/colors';
 	import HighlightsCountBadge from '$lib/features/conversations/pages/session/components/shared/highlights-count-badge.svelte';
 	import AiMessageLearningTipIcon from '$lib/features/conversations/pages/session/components/shared/ai-message-learning-tips/ai-message-learning-tip-icon.svelte';

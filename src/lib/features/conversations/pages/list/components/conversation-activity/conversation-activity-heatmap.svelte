@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
-	import { HeatmapPercentile } from '$conversations/types/api/conversation-list-activity';
-	import type { HeatmapDay } from '$conversations/types/api/conversation-list-activity';
+	import { HeatmapPercentile } from '$conversations/types';
+	import type { HeatmapDay } from '$conversations/types';
 	import {
 		buildMonthWeekGrid,
 		groupDailyActivityByMonth,

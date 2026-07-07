@@ -2,7 +2,7 @@
 	import { highlightAnalysisContent } from '../utils/highlight-analysis';
 	import AnalysisTextHighlight from '../components/analysis-text-highlight/analysis-text-highlight.svelte';
 	import isNil from 'lodash/isNil';
-	import type { ConversationUserMessageAnalysisDTO } from '$conversations/types/domain/conversation-message-analysis';
+	import type { ConversationUserMessageAnalysisDTO } from '$conversations/types';
 
 	interface UserMessageProps {
 		messageIndex: number;

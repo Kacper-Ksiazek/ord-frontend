@@ -3,7 +3,7 @@
 	import compact from 'lodash/compact';
 	import type { LearningTipTextHighlightProps } from './learning-tip-text-highlight.types';
 	import { includesEitherWay } from '$lib/utils/functions/includes-either-way';
-	import type { LearningTipCategory } from '$conversations/types/domain/learning-tip-category';
+	import type { LearningTipCategory } from '$conversations/types';
 	import { cn, Popover } from 'flowbite-svelte';
 	import { Tabs } from '$lib/components/navigation/tabs';
 	import type { Tab } from '$lib/components/navigation/tabs';

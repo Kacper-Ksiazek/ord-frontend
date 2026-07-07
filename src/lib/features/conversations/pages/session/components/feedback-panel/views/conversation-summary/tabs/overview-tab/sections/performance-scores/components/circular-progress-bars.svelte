@@ -3,7 +3,7 @@
 	import type {
 		ConversationMessagePerformanceScore,
 		ConversationUserMessageAnalysisDTO
-	} from '$conversations/types/domain/conversation-message-analysis';
+	} from '$conversations/types';
 
 	interface CircularProgressBarsProps {
 		analyses: ConversationUserMessageAnalysisDTO[];

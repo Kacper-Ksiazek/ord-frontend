@@ -1,6 +1,6 @@
 <script lang="ts">
-	import type { ConversationMessagePerformanceScore } from '$conversations/types/domain/conversation-message-analysis';
-	import type { CompactConversationUserMessage } from '$conversations/types/domain/conversation-message';
+	import type { ConversationMessagePerformanceScore } from '$conversations/types';
+	import type { CompactConversationUserMessage } from '$conversations/types';
 	import { DropdownSelect } from '$lib/components/forms/dropdown-select';
 	import { MetricsLineChart } from './components';
 	import { METRIC_OPTIONS, type MetricsOverTimeProperty } from './metrics-over-time.types';

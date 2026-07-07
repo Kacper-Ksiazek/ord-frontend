@@ -6,7 +6,7 @@
 	import Humorous from '$lib/assets/images/conversation/tones/humorous.svg.svelte';
 	import Neutral from '$lib/assets/images/conversation/tones/neutral.svg.svelte';
 	import type { SVGIconProps } from '$lib/assets/images/types';
-	import type { ConversationAITone } from '$conversations/types/domain/conversation';
+	import type { ConversationAITone } from '$conversations/types';
 
 	interface ConversationToneProps extends SVGIconProps {
 		tone: ConversationAITone;

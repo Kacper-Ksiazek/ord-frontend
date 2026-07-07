@@ -1,5 +1,5 @@
 import * as m from '$lib/paraglide/messages';
-import type { ConversationAITone } from '$conversations/types/domain/conversation';
+import type { ConversationAITone } from '$conversations/types';
 
 export function getConversationToneLabel(tone: ConversationAITone) {
 	const messageKey =

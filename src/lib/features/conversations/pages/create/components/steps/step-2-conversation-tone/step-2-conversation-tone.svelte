@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import type { ConversationAITone } from '$conversations/types/domain/conversation';
+	import type { ConversationAITone } from '$conversations/types';
 	import { ToneCard } from './components';
 	import { CONVERSATION_TONES } from '$lib/features/conversations/shared/constants/enum_values';
 	import {

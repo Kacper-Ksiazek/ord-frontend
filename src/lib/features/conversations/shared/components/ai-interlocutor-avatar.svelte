@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Skeleton from '$lib/components/utils/skeleton.svelte';
-	import type { ConversationAIInterlocutorAvatarId } from '$conversations/types/domain/conversation';
+	import type { ConversationAIInterlocutorAvatarId } from '$conversations/types';
 	import { cn } from 'flowbite-svelte';
 
 	const avatarsModules = import.meta.glob('$lib/assets/images/conversation/avatars/*/*.jpg', {

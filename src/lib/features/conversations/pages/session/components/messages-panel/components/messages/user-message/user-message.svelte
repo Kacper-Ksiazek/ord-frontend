@@ -1,6 +1,6 @@
 <script lang="ts">
 	import MessageBase from '../message-base.svelte';
-	import type { CompactConversationUserMessage } from '$conversations/types/domain/conversation-message';
+	import type { CompactConversationUserMessage } from '$conversations/types';
 	import { Analysis } from './components';
 	import UserMessageTextContent from './lib/user-message-text-content.svelte';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';

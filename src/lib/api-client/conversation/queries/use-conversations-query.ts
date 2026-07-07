@@ -1,6 +1,6 @@
 import { createQuery } from '@tanstack/svelte-query';
-import type { ConversationSummaryDTO } from '$conversations/types/domain/conversation';
-import type { GetConversationsFilters } from '$conversations/types/api/list-conversations';
+import type { ConversationSummaryDTO } from '$conversations/types';
+import type { GetConversationsFilters } from '$conversations/types';
 import { getConversations } from '../api/get-conversations';
 import { conversationKeys } from '../keys';
 
