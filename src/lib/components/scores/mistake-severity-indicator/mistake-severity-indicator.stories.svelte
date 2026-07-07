@@ -11,7 +11,7 @@
 
 <script lang="ts">
 	import { MistakeSeverityIndicator } from './index';
-	import type { ConversationMessageMistakeSeverity } from '$lib/types/conversation/domain/conversation-message-analysis';
+	import type { ConversationMessageMistakeSeverity } from '$conversations/types';
 
 	const severities: ConversationMessageMistakeSeverity[] = ['MINOR', 'MODERATE', 'CRITICAL'];
 </script>

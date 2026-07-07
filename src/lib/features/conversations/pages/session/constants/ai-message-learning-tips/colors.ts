@@ -1,5 +1,5 @@
 import type { IconCardVariant } from '$lib/components/cards/icon-card/icon-card.types';
-import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
+import type { LearningTipCategory } from '$conversations/types';
 import {
 	getTailwindColorTheme,
 	type TailwindColorTheme

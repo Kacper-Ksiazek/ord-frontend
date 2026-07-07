@@ -1,4 +1,4 @@
-import type { ConversationMessageMistakeSeverity } from '$lib/types/conversation/domain/conversation-message-analysis';
+import type { ConversationMessageMistakeSeverity } from '$conversations/types';
 
 export const MISTAKE_SEVERITY_CHART_COLORS_MAP: Record<ConversationMessageMistakeSeverity, string> =
 	{

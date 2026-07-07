@@ -1,5 +1,5 @@
 import { createQuery } from '@tanstack/svelte-query';
-import type { ConversationActivityOverview } from '$lib/types/conversation/api/conversation-list-activity';
+import type { ConversationActivityOverview } from '$conversations/types';
 import { getConversationActivityOverview } from '../api/get-conversation-activity-overview';
 import { conversationKeys } from '../keys';
 

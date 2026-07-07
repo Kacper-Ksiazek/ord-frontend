@@ -9,7 +9,7 @@
 	import { getConversationContext } from '$lib/features/conversations/pages/session/contexts/conversation-context.svelte';
 	import { initializeConversationByAI } from '$lib/api-client/ongoing-conversation/sse/initialize-conversation-by-ai';
 	import { createRequestLearningTipsForAIMessageMutation } from '$lib/api-client/ongoing-conversation/mutations/use-request-learning-tips-for-ai-message';
-	import type { CompactConversationAiMessage } from '$lib/types/conversation/domain/conversation-message';
+	import type { CompactConversationAiMessage } from '$conversations/types';
 	import { page } from '$app/state';
 	import { stopSpeaking } from '$lib/utils/speak-text';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';

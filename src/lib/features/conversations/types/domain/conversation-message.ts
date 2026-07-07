@@ -1,8 +1,6 @@
 import type { components } from '@kacper-ksiazek/ord-api-types';
 import type { ConversationUserMessageAnalysisDTO } from './conversation-message-analysis';
-import type { AIMessageLearningTips } from '$lib/types/ongoing-conversation/api/responses';
-
-export type ConversationMessageSender = components['schemas']['ConversationMessageDTO']['sender'];
+import type { AIMessageLearningTips } from './ai-message-learning-tips';
 
 export type ConversationMessageDTO = components['schemas']['ConversationMessageDTO'];
 

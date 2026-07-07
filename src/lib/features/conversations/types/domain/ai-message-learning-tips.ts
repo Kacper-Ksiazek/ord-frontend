@@ -1,10 +1,5 @@
 import type { components } from '@kacper-ksiazek/ord-api-types';
 
-export type ReviewedUserConversationMessage =
-	components['schemas']['ConversationUserMessageAnalysisPayload'];
-
-export type ConversationMessageDTO = components['schemas']['ConversationMessageDTO'];
-
 export type AIMessageLearningTips = components['schemas']['AIMessageLearningTips'];
 
 export type AIMessageVocabularyTip = components['schemas']['AnnotatedVocabularyTip'];

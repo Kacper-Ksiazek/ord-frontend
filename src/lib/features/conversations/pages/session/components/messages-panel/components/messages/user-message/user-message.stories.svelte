@@ -4,7 +4,7 @@
 	import CenterComponentDecorator from '$lib/storybook/decorators/center-component-decorator.svelte';
 	import ConversationContextDecorator from '$lib/features/conversations/pages/session/contexts/storybook-decorators/conversation-context-decorator.svelte';
 	import SidepanelContextDecorator from '$lib/features/conversations/pages/session/contexts/storybook-decorators/sidepanel-context-decorator.svelte';
-	import type { CompactConversationUserMessage } from '$lib/types/conversation/domain/conversation-message';
+	import type { CompactConversationUserMessage } from '$conversations/types';
 
 	const defaultMessage: CompactConversationUserMessage = {
 		sender: 'USER',

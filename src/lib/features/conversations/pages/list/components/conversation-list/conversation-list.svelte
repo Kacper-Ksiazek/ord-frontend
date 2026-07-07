@@ -9,7 +9,7 @@
 	} from './utils/group-conversations-by-recency-bucket';
 	import type { ConversationListFiltersState } from '$lib/features/conversations/pages/list/state/conversation-list-state.svelte';
 	import { StatusScreen } from '$lib/components/utils/status-screen';
-	import type { RecencyBucket } from '$lib/types/conversation/domain/conversation';
+	import type { RecencyBucket } from '$conversations/types';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	interface Props {

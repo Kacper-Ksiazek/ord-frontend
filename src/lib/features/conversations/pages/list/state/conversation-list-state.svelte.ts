@@ -1,6 +1,6 @@
 import isEqual from 'lodash/isEqual';
-import type { ConversationType, RecencyBucket } from '$lib/types/conversation/domain/conversation';
-import type { GetConversationsFilters } from '$lib/types/conversation/api/list-conversations';
+import type { ConversationType, RecencyBucket } from '$conversations/types';
+import type { GetConversationsFilters } from '$conversations/types';
 
 export interface ConversationListFilters {
 	search: string;

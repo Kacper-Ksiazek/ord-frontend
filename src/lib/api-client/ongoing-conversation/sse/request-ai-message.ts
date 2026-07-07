@@ -1,5 +1,5 @@
 import type { Observable } from 'rxjs';
-import type { CreateOngoingConversationMessageRequest } from '$lib/types/ongoing-conversation/api/requests';
+import type { CreateOngoingConversationMessageRequest } from '$conversations/types';
 import { createSSEStream } from '../../utils/sse';
 
 export function requestAIMessage(

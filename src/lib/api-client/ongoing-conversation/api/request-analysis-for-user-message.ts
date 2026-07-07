@@ -1,5 +1,5 @@
-import type { GetAnalysisForUserConversationMessageRequest } from '$lib/types/ongoing-conversation/api/requests';
-import type { ReviewedUserConversationMessage } from '$lib/types/ongoing-conversation/api/responses';
+import type { GetAnalysisForUserConversationMessageRequest } from '$conversations/types';
+import type { ReviewedUserConversationMessage } from '$conversations/types';
 import { api } from '../../axios';
 
 export async function requestAnalysisForUserMessage(

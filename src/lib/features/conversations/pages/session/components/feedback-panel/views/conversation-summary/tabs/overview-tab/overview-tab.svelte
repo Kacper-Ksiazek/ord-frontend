@@ -2,8 +2,8 @@
 	import { ScrollableWrapper } from '$lib/components/utils/scrollable-wrapper';
 	import { MistakesSeverity, MetricsOverTime, PerformanceScores } from './sections';
 	import { getMessagesContext } from '$conversations/pages/session/contexts/messages-context.svelte';
-	import type { ConversationUserMessageAnalysisDTO } from '$lib/types/conversation/domain/conversation-message-analysis';
-	import type { CompactConversationUserMessage } from '$lib/types/conversation/domain/conversation-message';
+	import type { ConversationUserMessageAnalysisDTO } from '$conversations/types';
+	import type { CompactConversationUserMessage } from '$conversations/types';
 
 	const messagesContext = getMessagesContext();
 

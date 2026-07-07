@@ -1,4 +1,4 @@
-import type { GetConversationsFilters } from '$lib/types/conversation/api/list-conversations';
+import type { GetConversationsFilters } from '$conversations/types';
 
 const listFilterKey = (filters: GetConversationsFilters) =>
 	({

@@ -3,7 +3,7 @@
 	import { getMessagesContext } from '../../../../contexts/messages-context.svelte';
 	import LearningTipsListWithFilters from '../../components/learning-tips-list-with-filters/learning-tips-list-with-filters.svelte';
 	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
-	import type { CompactConversationAiMessage } from '$lib/types/conversation/domain/conversation-message';
+	import type { CompactConversationAiMessage } from '$conversations/types';
 
 	const sidepanelContext = getSidepanelContext();
 	const messagesContext = getMessagesContext();

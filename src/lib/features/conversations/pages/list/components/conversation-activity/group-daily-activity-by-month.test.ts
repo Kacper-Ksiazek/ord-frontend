@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { HeatmapPercentile } from '$lib/types/conversation/api/conversation-list-activity';
-import type { HeatmapDay } from '$lib/types/conversation/api/conversation-list-activity';
+import { HeatmapPercentile } from '$conversations/types';
+import type { HeatmapDay } from '$conversations/types';
 import { buildMonthWeekGrid, groupDailyActivityByMonth } from './group-daily-activity-by-month';
 import { buildMockConversationActivity } from '../../mocks/conversation-activity.mock';
 

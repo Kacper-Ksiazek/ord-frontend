@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import type { ConversationSummaryDTO } from '$lib/types/conversation/domain/conversation';
+import type { ConversationSummaryDTO } from '$conversations/types';
 import { groupConversationsByRecencyBucket } from './group-conversations-by-recency-bucket';
 
 function makeConversationSummary(

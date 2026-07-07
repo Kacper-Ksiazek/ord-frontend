@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Badge } from 'flowbite-svelte';
 	import { Briefcase, Users, Zap } from 'lucide-svelte';
-	import type { TipRegister } from '$lib/types/ongoing-conversation/api/responses';
+	import type { TipRegister } from '$conversations/types';
 	import type { TabsSupportedTailwindColor } from '$lib/components/navigation/tabs/tabs.types';
 
 	interface Props {

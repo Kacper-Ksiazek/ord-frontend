@@ -1,7 +1,4 @@
-import type {
-	ConversationAITone,
-	ConversationType
-} from '$lib/types/conversation/domain/conversation';
+import type { ConversationAITone, ConversationType } from '$conversations/types';
 
 export const CONVERSATION_TYPES: ConversationType[] = [
 	'SMALL_TALK',
