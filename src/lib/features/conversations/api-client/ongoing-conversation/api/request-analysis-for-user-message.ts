@@ -1,6 +1,6 @@
 import type { GetAnalysisForUserConversationMessageRequest } from '$conversations/types';
 import type { ReviewedUserConversationMessage } from '$conversations/types';
-import { api } from '../../axios';
+import { api } from '$lib/api-client/axios';
 
 export async function requestAnalysisForUserMessage(
 	body: GetAnalysisForUserConversationMessageRequest

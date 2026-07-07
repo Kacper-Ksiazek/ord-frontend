@@ -2,12 +2,12 @@
 	import { cn } from 'flowbite-svelte';
 	import { AutoHeightTextarea } from '$lib/components/forms/auto-height-textarea';
 	import SendButton from './components/send-button.svelte';
-	import { createSaveUserMessageMutation } from '$lib/api-client/ongoing-conversation/mutations/use-save-user-message';
+	import { createSaveUserMessageMutation } from '$conversations/api-client/ongoing-conversation/mutations/use-save-user-message';
 	import { getConversationContext } from '../../../../contexts/conversation-context.svelte';
 	import { getMessagesContext } from '../../../../contexts/messages-context.svelte';
-	import { requestAIMessage } from '$lib/api-client/ongoing-conversation/sse/request-ai-message';
-	import { createRequestAnalysisForUserMessageMutation } from '$lib/api-client/ongoing-conversation/mutations/use-request-analysis-for-user-message';
-	import { createRequestLearningTipsForAIMessageMutation } from '$lib/api-client/ongoing-conversation/mutations/use-request-learning-tips-for-ai-message';
+	import { requestAIMessage } from '$conversations/api-client/ongoing-conversation/sse/request-ai-message';
+	import { createRequestAnalysisForUserMessageMutation } from '$conversations/api-client/ongoing-conversation/mutations/use-request-analysis-for-user-message';
+	import { createRequestLearningTipsForAIMessageMutation } from '$conversations/api-client/ongoing-conversation/mutations/use-request-learning-tips-for-ai-message';
 	import type { CompactConversationUserMessage } from '$conversations/types';
 	import type { ConversationUserMessageAnalysisDTO } from '$conversations/types';
 	import type { CompactConversationAiMessage } from '$conversations/types';

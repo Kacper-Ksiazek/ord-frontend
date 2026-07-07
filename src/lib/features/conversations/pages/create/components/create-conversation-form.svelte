@@ -12,7 +12,7 @@
 	import { readDefaultConversationToneFromStorage } from '$lib/features/conversations/pages/create/utils/default-conversation-tone-storage';
 	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';
 	import * as m from '$lib/paraglide/messages.js';
-	import { createCreateConversationMutation } from '$lib/api-client/conversation/mutations/use-create-conversation';
+	import { createCreateConversationMutation } from '$conversations/api-client/conversation/mutations/use-create-conversation';
 	import { goto } from '$app/navigation';
 	import { AxiosError } from 'axios';
 	import type { CreateConversationRequest } from '$conversations/types';

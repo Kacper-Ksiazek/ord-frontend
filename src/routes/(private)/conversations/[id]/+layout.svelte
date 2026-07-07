@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { createConversationQuery } from '$lib/api-client/conversation/queries';
+	import { createConversationQuery } from '$conversations/api-client/queries';
 	import { createConversationContext } from '$lib/features/conversations/pages/session/contexts/conversation-context.svelte';
 	import { createMessagesContext } from '$lib/features/conversations/pages/session/contexts/messages-context.svelte';
 	import { createSidepanelContext } from '$lib/features/conversations/pages/session/contexts/sidepanel-context.svelte';

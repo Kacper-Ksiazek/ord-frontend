@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { createConversationsQuery } from '$lib/api-client/conversation/queries';
+	import { createConversationsQuery } from '$conversations/api-client/queries';
 	import { Loader } from '$lib/components/utils/loader';
 	import ConversationListRow from './components/conversation-list-row.svelte';
 	import {

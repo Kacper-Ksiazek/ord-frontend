@@ -1,6 +1,6 @@
 import type { GenerateAiInterlocutorRequest } from '$conversations/types';
 import type { GeneratedAIInterlocutorData } from '$conversations/types';
-import { api } from '../../axios';
+import { api } from '$lib/api-client/axios';
 
 export async function generateAiInterlocutor(
 	body: GenerateAiInterlocutorRequest
