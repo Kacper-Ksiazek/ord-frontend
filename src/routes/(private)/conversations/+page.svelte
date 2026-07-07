@@ -3,7 +3,7 @@
 	import {
 		createConversationActivityOverviewQuery,
 		createConversationsQuery
-	} from '$lib/api-client/conversation/queries';
+	} from '$conversations/api-client/queries';
 	import { ConversationListFiltersState } from '$conversations/pages/list/state/conversation-list-state.svelte';
 	import { StatusScreen } from '$lib/components/utils/status-screen';
 	import { PageContentContainer } from '$lib/components/utils/page-content-container';

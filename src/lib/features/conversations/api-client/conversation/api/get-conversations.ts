@@ -1,6 +1,6 @@
 import type { ConversationSummaryDTO } from '$conversations/types';
 import type { GetConversationsFilters } from '$conversations/types';
-import { api } from '../../axios';
+import { api } from '$lib/api-client/axios';
 
 export async function getConversations(
 	filters: GetConversationsFilters = {}

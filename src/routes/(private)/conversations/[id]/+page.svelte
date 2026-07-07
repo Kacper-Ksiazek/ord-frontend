@@ -7,8 +7,8 @@
 	import isEmpty from 'lodash/isEmpty';
 	import { getMessagesContext } from '$lib/features/conversations/pages/session/contexts/messages-context.svelte';
 	import { getConversationContext } from '$lib/features/conversations/pages/session/contexts/conversation-context.svelte';
-	import { initializeConversationByAI } from '$lib/api-client/ongoing-conversation/sse/initialize-conversation-by-ai';
-	import { createRequestLearningTipsForAIMessageMutation } from '$lib/api-client/ongoing-conversation/mutations/use-request-learning-tips-for-ai-message';
+	import { initializeConversationByAI } from '$conversations/api-client/ongoing-conversation/sse/initialize-conversation-by-ai';
+	import { createRequestLearningTipsForAIMessageMutation } from '$conversations/api-client/ongoing-conversation/mutations/use-request-learning-tips-for-ai-message';
 	import type { CompactConversationAiMessage } from '$conversations/types';
 	import { page } from '$app/state';
 	import { stopSpeaking } from '$lib/utils/speak-text';
