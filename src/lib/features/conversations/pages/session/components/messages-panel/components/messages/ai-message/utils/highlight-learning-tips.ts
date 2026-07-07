@@ -1,6 +1,6 @@
 import flatMap from 'lodash/flatMap';
-import type { AIMessageLearningTips } from '$lib/types/ongoing-conversation/api/responses';
-import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
+import type { AIMessageLearningTips } from '$conversations/types/ongoing-conversation/api/responses';
+import type { LearningTipCategory } from '$conversations/types/domain/learning-tip-category';
 import { highlightText, type HighlightPart } from '$lib/utils/text/highlight-segments';
 
 export function highlightLearningTipsContent(

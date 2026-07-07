@@ -1,5 +1,5 @@
 import type { IconCardVariant } from '$lib/components/cards/icon-card/icon-card.types';
-import type { MessageAnalysisCriteria } from '$lib/types/conversation/domain/message-analysis-criteria';
+import type { MessageAnalysisCriteria } from '$conversations/types/domain/message-analysis-criteria';
 import {
 	getTailwindColorTheme,
 	type TailwindColorTheme

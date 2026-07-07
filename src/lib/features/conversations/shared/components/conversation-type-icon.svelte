@@ -5,7 +5,7 @@
 	import SmallTalk from '$lib/assets/images/conversation/types/small-talk.svg.svelte';
 	import TopicExploration from '$lib/assets/images/conversation/types/topic-exploration.svg.svelte';
 	import type { SVGIconProps } from '$lib/assets/images/types';
-	import type { ConversationType } from '$lib/types/conversation/domain/conversation';
+	import type { ConversationType } from '$conversations/types/domain/conversation';
 
 	interface ConversationTypeProps extends SVGIconProps {
 		conversationType: ConversationType;

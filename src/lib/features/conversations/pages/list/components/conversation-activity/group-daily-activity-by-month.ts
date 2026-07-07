@@ -1,7 +1,7 @@
 import type {
 	HeatmapDay,
 	HeatmapPercentile
-} from '$lib/types/conversation/api/conversation-list-activity';
+} from '$conversations/types/api/conversation-list-activity';
 
 export interface HeatmapDayCell {
 	date: string;

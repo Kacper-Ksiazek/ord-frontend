@@ -1,7 +1,7 @@
 import type { TabsSupportedTailwindColor } from '$lib/components/navigation/tabs/tabs.types';
-import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
-import type { ConversationMessageMistakeSeverity } from '$lib/types/conversation/domain/conversation-message-analysis';
-import type { TipRegister } from '$lib/types/ongoing-conversation/api/responses';
+import type { LearningTipCategory } from '$conversations/types/domain/learning-tip-category';
+import type { ConversationMessageMistakeSeverity } from '$conversations/types/domain/conversation-message-analysis';
+import type { TipRegister } from '$conversations/types/ongoing-conversation/api/responses';
 
 interface BaseBlock {
 	type: 'translation' | 'examples' | 'text' | 'badges';

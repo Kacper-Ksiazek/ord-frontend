@@ -1,5 +1,5 @@
 import { createMutation } from '@tanstack/svelte-query';
-import type { CreateConversationRequest } from '$lib/types/conversation/api/requests';
+import type { CreateConversationRequest } from '$conversations/types/api/requests';
 import { createConversation } from '../api/create-conversation';
 
 export function createCreateConversationMutation() {

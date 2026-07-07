@@ -3,7 +3,7 @@
 	import compact from 'lodash/compact';
 	import type { AnalysisTextHighlightProps } from './analysis-text-highlight.types';
 	import { includesEitherWay } from '$lib/utils/functions/includes-either-way';
-	import type { MessageAnalysisCriteria } from '$lib/types/conversation/domain/message-analysis-criteria';
+	import type { MessageAnalysisCriteria } from '$conversations/types/domain/message-analysis-criteria';
 	import { cn, Popover } from 'flowbite-svelte';
 	import AnalysisMetricIcon from '$lib/features/conversations/pages/session/components/shared/user-message-analysis/user-message-analysis-metric-icon.svelte';
 	import { Tabs } from '$lib/components/navigation/tabs';

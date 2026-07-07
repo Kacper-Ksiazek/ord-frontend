@@ -3,7 +3,7 @@
 	import type {
 		ConversationMessageMistake,
 		ConversationUserMessageAnalysisDTO
-	} from '$lib/types/conversation/domain/conversation-message-analysis';
+	} from '$conversations/types/domain/conversation-message-analysis';
 	import { computeMessagesStats, type MistakeStats } from './utils/compute-message-stats';
 	import { MistakesSeverityPieChart, MistakesSeverityChartLegend } from './components';
 

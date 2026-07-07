@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
-	import type { ConversationType } from '$lib/types/conversation/domain/conversation';
+	import type { ConversationType } from '$conversations/types/domain/conversation';
 	import { ConversationTypeCard } from './components';
 	import {
 		CONVERSATION_TYPES,

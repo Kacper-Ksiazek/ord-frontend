@@ -1,5 +1,5 @@
 import { ArrowRight, Book, BookOpen, ScrollText } from 'lucide-svelte';
-import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
+import type { LearningTipCategory } from '$conversations/types/domain/learning-tip-category';
 
 export const AI_MESSAGE_LEARNING_TIP_ICONS_MAP: Record<LearningTipCategory, LucideIcon> = {
 	GRAMMAR: BookOpen,

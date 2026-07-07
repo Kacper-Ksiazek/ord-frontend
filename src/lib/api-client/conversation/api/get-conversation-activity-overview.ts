@@ -1,4 +1,4 @@
-import type { ConversationActivityOverview } from '$lib/types/conversation/api/conversation-list-activity';
+import type { ConversationActivityOverview } from '$conversations/types/api/conversation-list-activity';
 import { api } from '../../axios';
 
 export async function getConversationActivityOverview(): Promise<ConversationActivityOverview> {

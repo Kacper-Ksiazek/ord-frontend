@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ConversationActivityOverview } from '$lib/types/conversation/api/conversation-list-activity';
+	import type { ConversationActivityOverview } from '$conversations/types/api/conversation-list-activity';
 	import ConversationActivityHeatmap from './conversation-activity-heatmap.svelte';
 	import ConversationStatsCards from './conversation-stats-cards.svelte';
 

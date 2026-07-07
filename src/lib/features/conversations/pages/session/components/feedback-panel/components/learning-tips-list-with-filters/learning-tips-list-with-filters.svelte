@@ -1,6 +1,9 @@
 <script lang="ts">
-	import type { CompactConversationMessage } from '$lib/types/conversation/domain/conversation-message';
-	import type { PhraseType, TipRegister } from '$lib/types/ongoing-conversation/api/responses';
+	import type { CompactConversationMessage } from '$conversations/types/domain/conversation-message';
+	import type {
+		PhraseType,
+		TipRegister
+	} from '$conversations/types/ongoing-conversation/api/responses';
 	import { Briefcase, Inbox, Layers, SigmaIcon, Users, Zap } from 'lucide-svelte';
 	import { DropdownSelect } from '$lib/components/forms/dropdown-select';
 	import type { DropdownSelectOption } from '$lib/components/forms/dropdown-select';
@@ -22,8 +25,8 @@
 		AIMessageGrammarTip,
 		AIMessageVocabularyTip,
 		AIMessagePhraseTip
-	} from '$lib/types/ongoing-conversation/api/responses';
-	import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
+	} from '$conversations/types/ongoing-conversation/api/responses';
+	import type { LearningTipCategory } from '$conversations/types/domain/learning-tip-category';
 	import {
 		aggregateLearningTips,
 		type AggregatedLearningTip

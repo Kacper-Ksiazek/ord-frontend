@@ -7,11 +7,11 @@
 	import type { Tab } from '$lib/components/navigation/tabs';
 	import { OverviewTab, LearningTipsTab, UserMessageReviewsTab } from './tabs';
 	import { ChartBar, ChevronLeft, Lightbulb, MessageSquare } from 'lucide-svelte';
-	import type { ConversationUserMessageAnalysisDTO } from '$lib/types/conversation/domain/conversation-message-analysis';
+	import type { ConversationUserMessageAnalysisDTO } from '$conversations/types/domain/conversation-message-analysis';
 	import type {
 		CompactConversationAiMessage,
 		CompactConversationUserMessage
-	} from '$lib/types/conversation/domain/conversation-message';
+	} from '$conversations/types/domain/conversation-message';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	type ConversationSummaryTab = 'overview' | 'learning-tips' | 'analysis';

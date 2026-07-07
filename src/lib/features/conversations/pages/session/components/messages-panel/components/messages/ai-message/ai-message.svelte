@@ -1,7 +1,7 @@
 <script lang="ts">
 	import AiInterlocutorAvatar from '$lib/features/conversations/shared/components/ai-interlocutor-avatar.svelte';
-	import type { ConversationAIInterlocutorAvatarId } from '$lib/types/conversation/domain/conversation';
-	import type { AIMessageLearningTips } from '$lib/types/ongoing-conversation/api/responses';
+	import type { ConversationAIInterlocutorAvatarId } from '$conversations/types/domain/conversation';
+	import type { AIMessageLearningTips } from '$conversations/types/ongoing-conversation/api/responses';
 	import { cn } from 'flowbite-svelte';
 	import MessageBase from '../message-base.svelte';
 	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';

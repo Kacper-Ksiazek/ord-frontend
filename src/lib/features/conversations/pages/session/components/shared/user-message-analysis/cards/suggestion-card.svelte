@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ConversationMessageSuggestion } from '$lib/types/conversation/domain/conversation-message-analysis';
+	import type { ConversationMessageSuggestion } from '$conversations/types/domain/conversation-message-analysis';
 	import type {
 		AiAdviceBaseBlock,
 		DerivedAiAdviceCardProps

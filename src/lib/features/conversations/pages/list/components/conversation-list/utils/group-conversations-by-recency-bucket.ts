@@ -1,7 +1,7 @@
 import type {
 	ConversationSummaryDTO,
 	RecencyBucket
-} from '$lib/types/conversation/domain/conversation';
+} from '$conversations/types/domain/conversation';
 
 const RECENCY_BUCKET_ORDER: RecencyBucket[] = [
 	'TODAY',

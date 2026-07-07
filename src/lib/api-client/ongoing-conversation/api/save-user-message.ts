@@ -1,5 +1,5 @@
-import type { SaveUserConversationMessageRequest } from '$lib/types/ongoing-conversation/api/requests';
-import type { ConversationMessageDTO } from '$lib/types/ongoing-conversation/api/responses';
+import type { SaveUserConversationMessageRequest } from '$conversations/types/ongoing-conversation/api/requests';
+import type { ConversationMessageDTO } from '$conversations/types/ongoing-conversation/api/responses';
 import { api } from '../../axios';
 
 export async function saveUserMessage(

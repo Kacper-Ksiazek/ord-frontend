@@ -1,4 +1,4 @@
-import type { ConversationDTO } from '$lib/types/conversation/domain/conversation';
+import type { ConversationDTO } from '$conversations/types/domain/conversation';
 import { api } from '../../axios';
 
 export async function getConversation(id: string): Promise<ConversationDTO> {

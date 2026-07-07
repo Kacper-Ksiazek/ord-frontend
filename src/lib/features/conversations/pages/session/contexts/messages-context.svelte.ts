@@ -1,8 +1,8 @@
-import type { ConversationDTO } from '$lib/types/conversation/domain/conversation';
+import type { ConversationDTO } from '$conversations/types/domain/conversation';
 import type {
 	CompactConversationMessage,
 	NormalizedConversationMessage
-} from '$lib/types/conversation/domain/conversation-message';
+} from '$conversations/types/domain/conversation-message';
 import { createContext } from 'svelte';
 
 export type MessagesContext = {

@@ -1,6 +1,6 @@
 import type { Observable } from 'rxjs';
-import type { StreamSimpleItem } from '$lib/types/conversation/api';
-import type { SuggestTopicsRequest } from '$lib/types/conversation/api/requests';
+import type { StreamSimpleItem } from '$conversations/types/api';
+import type { SuggestTopicsRequest } from '$conversations/types/api/requests';
 import { createSSEStream } from '../../utils/sse';
 
 export function suggestConversationTopics<T = StreamSimpleItem>(

@@ -4,7 +4,7 @@
 	import CenterComponentDecorator from '$lib/storybook/decorators/center-component-decorator.svelte';
 	import ConversationContextDecorator from '$lib/features/conversations/pages/session/contexts/storybook-decorators/conversation-context-decorator.svelte';
 	import SidepanelContextDecorator from '$lib/features/conversations/pages/session/contexts/storybook-decorators/sidepanel-context-decorator.svelte';
-	import type { AIMessageLearningTips } from '$lib/types/ongoing-conversation/api/responses';
+	import type { AIMessageLearningTips } from '$conversations/types/ongoing-conversation/api/responses';
 
 	const defaultLearningTips: AIMessageLearningTips = {
 		grammarTips: [

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ConversationMessageStrength } from '$lib/types/conversation/domain/conversation-message-analysis';
+	import type { ConversationMessageStrength } from '$conversations/types/domain/conversation-message-analysis';
 	import type {
 		AiAdviceBaseBlock,
 		DerivedAiAdviceCardProps

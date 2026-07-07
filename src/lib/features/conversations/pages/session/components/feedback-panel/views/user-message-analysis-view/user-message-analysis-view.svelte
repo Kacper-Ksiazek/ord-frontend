@@ -5,8 +5,8 @@
 	import type { Tab } from '$lib/components/navigation/tabs';
 	import { OverviewTab } from './tabs';
 	import { ChartBar, MessageSquare } from 'lucide-svelte';
-	import type { ConversationUserMessageAnalysisDTO } from '$lib/types/conversation/domain/conversation-message-analysis';
-	import type { CompactConversationUserMessage } from '$lib/types/conversation/domain/conversation-message';
+	import type { ConversationUserMessageAnalysisDTO } from '$conversations/types/domain/conversation-message-analysis';
+	import type { CompactConversationUserMessage } from '$conversations/types/domain/conversation-message';
 	import UserMessageReviewListWithFilters from '../../components/user-message-review-list-with-filters/user-message-review-list-with-filters.svelte';
 
 	type UserMessageAnalysisTab = 'overview' | 'analysis';

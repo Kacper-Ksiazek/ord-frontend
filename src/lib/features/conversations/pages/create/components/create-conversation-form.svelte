@@ -15,7 +15,7 @@
 	import { createCreateConversationMutation } from '$lib/api-client/conversation/mutations/use-create-conversation';
 	import { goto } from '$app/navigation';
 	import { AxiosError } from 'axios';
-	import type { CreateConversationRequest } from '$lib/types/conversation/api/requests';
+	import type { CreateConversationRequest } from '$conversations/types/api/requests';
 	import {
 		Step1ConversationType,
 		Step2ConversationTone,

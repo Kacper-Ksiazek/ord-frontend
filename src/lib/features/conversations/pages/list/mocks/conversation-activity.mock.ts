@@ -3,7 +3,7 @@ import {
 	type ActivityWeekPoint,
 	type ConversationActivityOverview,
 	type HeatmapDay
-} from '$lib/types/conversation/api/conversation-list-activity';
+} from '$conversations/types/api/conversation-list-activity';
 
 function formatLocalYmd(d: Date): string {
 	const y = d.getFullYear();
