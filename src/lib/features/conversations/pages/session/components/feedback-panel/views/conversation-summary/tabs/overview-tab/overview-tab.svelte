@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ScrollableWrapper } from '$lib/components/surfaces/scrollable-wrapper';
+	import { ScrollableWrapper } from '$lib/components/utils/scrollable-wrapper';
 	import { MistakesSeverity, MetricsOverTime, PerformanceScores } from './sections';
 	import { getMessagesContext } from '$conversations/pages/session/contexts/messages-context.svelte';
 	import type { ConversationUserMessageAnalysisDTO } from '$lib/types/conversation/domain/conversation-message-analysis';

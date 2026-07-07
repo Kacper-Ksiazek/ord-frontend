@@ -9,6 +9,7 @@
 	$effect(() => {
 		if (data.user) {
 			authStore.setUser(data.user);
+
 			return;
 		}
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { AppLogo } from '$lib/components/identity/app-logo';
+	import AppLogo from '$lib/components/app-logo/app-logo.svelte';
 	import { LanguagePicker, ThemeSwitcher } from '../shared';
 
 	const { children } = $props();

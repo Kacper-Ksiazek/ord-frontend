@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { createConversationsQuery } from '$lib/api-client/conversation/queries';
-	import { Loader } from '$lib/components/feedback/loader';
+	import { Loader } from '$lib/components/utils/loader';
 	import ConversationListRow from './components/conversation-list-row.svelte';
 	import {
 		groupConversationsByRecencyBucket,
 		RECENCY_BUCKET_LABEL
 	} from './utils/group-conversations-by-recency-bucket';
 	import type { ConversationListFiltersState } from '$lib/features/conversations/pages/list/state/conversation-list-state.svelte';
-	import { StatusScreen } from '$lib/components/feedback/status-screen';
+	import { StatusScreen } from '$lib/components/utils/status-screen';
 	import type { RecencyBucket } from '$lib/types/conversation/domain/conversation';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
@@ -56,7 +56,11 @@
 		/>
 	{/if}
 {:else}
-	<div class="flex flex-col gap-8" aria-label="Your conversations" data-testid={E2E_TEST_IDS.conversations.list}>
+	<div
+		class="flex flex-col gap-8"
+		aria-label="Your conversations"
+		data-testid={E2E_TEST_IDS.conversations.list}
+	>
 		{#each groupedConversations as { section, items } (section)}
 			<section class="min-w-0" aria-labelledby="conversations-section-{section}">
 				{@render recencyBucketLabel(section)}

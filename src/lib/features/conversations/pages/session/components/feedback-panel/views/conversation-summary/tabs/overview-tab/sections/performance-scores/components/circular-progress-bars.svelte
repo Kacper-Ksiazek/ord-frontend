@@ -1,5 +1,5 @@
 <script lang="ts">
-	import CircularProgressBar from '$lib/components/data-display/circular-progress-bar/circular-progress-bar.svelte';
+	import CircularProgressBar from '$lib/components/scores/circular-progress-bar/circular-progress-bar.svelte';
 	import type {
 		ConversationMessagePerformanceScore,
 		ConversationUserMessageAnalysisDTO

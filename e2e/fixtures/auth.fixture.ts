@@ -12,6 +12,7 @@ export const test = pagesTest.extend<AuthFixtures>({
 	authenticatedPage: async ({ browser }, use, testInfo) => {
 		if (!isE2eAuthConfigured()) {
 			testInfo.skip(true, 'E2E_OTP_CODE or E2E_OTP_FETCH_URL required');
+
 			return;
 		}
 

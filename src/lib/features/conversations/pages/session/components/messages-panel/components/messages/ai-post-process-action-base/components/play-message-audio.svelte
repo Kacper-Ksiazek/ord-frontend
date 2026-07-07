@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
-	import { IconButton } from '$lib/components/actions/icon-button';
+	import { IconButton } from '$lib/components/buttons/icon-button';
 	import { Loader2, Square, Volume2 } from 'lucide-svelte';
 	import { speakText, stopSpeaking } from '$lib/utils/speak-text';
 	import { speakTextPlayback } from '$lib/utils/speak-text.svelte';

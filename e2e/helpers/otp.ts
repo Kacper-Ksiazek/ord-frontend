@@ -39,7 +39,5 @@ export async function resolveOtpCode(email: string): Promise<string> {
 		return code;
 	}
 
-	throw new Error(
-		'E2E auth is not configured. Set E2E_OTP_CODE or E2E_OTP_FETCH_URL in .env.e2e'
-	);
+	throw new Error('E2E auth is not configured. Set E2E_OTP_CODE or E2E_OTP_FETCH_URL in .env.e2e');
 }

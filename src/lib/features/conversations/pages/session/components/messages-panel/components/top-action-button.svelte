@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
-	import { Button } from '$lib/components/actions/button';
+	import { Button } from '$lib/components/buttons/button';
 	import type { Snippet } from 'svelte';
 	import { getSidepanelContext } from '$conversations/pages/session/contexts/sidepanel-context.svelte';
 	import { fade } from 'svelte/transition';
@@ -57,7 +57,7 @@
 	)}
 >
 	<Button
-		dataTestId={dataTestId}
+		{dataTestId}
 		type="OUTLINED"
 		variant="TEXT"
 		{onClick}

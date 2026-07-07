@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Pencil } from 'lucide-svelte';
-	import { IconButton } from '$lib/components/actions/icon-button';
+	import { IconButton } from '$lib/components/buttons/icon-button';
 	import { GenerateAIInterlocutor } from './components';
 	import { SelectedConversationTypeCard } from '../step-3-conversation-topic/components';
 	import { getCreateConversationPayload } from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';

@@ -54,9 +54,7 @@ export class LoginPage {
 		// Headless runs faster than Svelte bindable/effect flush — wait until digits are synced.
 		await this.page.waitForFunction(
 			({ expectedValue, digitPrefix }) => {
-				const inputs = document.querySelectorAll<HTMLInputElement>(
-					`[data-testid^="${digitPrefix}"]`
-				);
+				const inputs = document.querySelectorAll<HTMLInputElement>(`[data-testid^="${digitPrefix}"]`);
 				const value = Array.from(inputs)
 					.sort(
 						(a, b) =>
