@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ConversationsListPage } from '$conversations/pages/list';
+	import { ConversationsListScreen } from '$conversations/pages/list';
 </script>
 
-<ConversationsListPage />
+<ConversationsListScreen />
