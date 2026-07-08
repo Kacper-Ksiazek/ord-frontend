@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty';
-import { onMount } from 'svelte';
-import { SvelteDate } from 'svelte/reactivity';
+import type { Subscription } from 'rxjs';
+import { onDestroy, onMount } from 'svelte';
 import { page } from '$app/state';
 import { initializeConversationByAI } from '$conversations/api-client/ongoing-conversation/sse/initialize-conversation-by-ai';
 import { createRequestLearningTipsForAIMessageMutation } from '$conversations/api-client/ongoing-conversation/mutations/use-request-learning-tips-for-ai-message';
@@ -14,16 +14,19 @@ export function useInitializeConversation() {
 	const { mutateAsync: requestLearningTipsMutation } =
 		createRequestLearningTipsForAIMessageMutation();
 
+	let aiInitSubscription: Subscription | undefined;
+
 	onMount(() => {
 		if (isEmpty(messagesContext.messages)) {
 			messagesContext.isGeneratingAiMessage = true;
 			messagesContext.messages.push({
 				sender: 'AI',
 				content: '',
-				createdAt: new SvelteDate().toISOString()
+				// eslint-disable-next-line svelte/prefer-svelte-reactivity -- one-shot timestamp in onMount
+				createdAt: new Date().toISOString()
 			});
 
-			initializeConversationByAI(page.params.id).subscribe({
+			aiInitSubscription = initializeConversationByAI(page.params.id).subscribe({
 				next: (data) => {
 					messagesContext.messages[0].content += data;
 				},
@@ -51,5 +54,9 @@ export function useInitializeConversation() {
 				}
 			});
 		}
+	});
+
+	onDestroy(() => {
+		aiInitSubscription?.unsubscribe();
 	});
 }
