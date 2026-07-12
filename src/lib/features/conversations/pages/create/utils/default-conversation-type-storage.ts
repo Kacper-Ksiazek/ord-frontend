@@ -1,4 +1,4 @@
-import type { ConversationType } from '$lib/types/conversation/domain/conversation';
+import type { ConversationType } from '$conversations/types';
 import { getStorageItem, removeStorageItem, setStorageItem } from '$lib/utils/local-storage';
 import {
 	CONVERSATION_TYPES,

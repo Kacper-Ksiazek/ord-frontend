@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { createGenerateAiInterlocutorMutation } from '$lib/api-client/conversation/mutations/use-generate-ai-interlocutor';
+	import { createGenerateAiInterlocutorMutation } from '$conversations/api-client';
 	import {
 		getCreateConversationPayload,
 		setCreateConversationPayload
 	} from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
 	import AIInterlocutorAvatar from '$lib/features/conversations/shared/components/ai-interlocutor-avatar.svelte';
-	import type { ConversationAIInterlocutorAvatarId } from '$lib/types/conversation/domain/conversation';
+	import type { ConversationAIInterlocutorAvatarId } from '$conversations/types';
 	import Skeleton from '$lib/components/utils/skeleton.svelte';
 	import { IconButton } from '$lib/components/buttons/icon-button';
 	import {

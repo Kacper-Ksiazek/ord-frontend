@@ -10,24 +10,19 @@ Each feature is **self-contained** and owns its complete type definition hierarc
 
 ```
 src/lib/types/
-├── auth/                           # Auth feature (standalone)
-│   ├── api/
-│   │   ├── requests.ts            # API request payloads
-│   │   ├── responses.ts           # API response types
-│   │   └── errors.ts              # Feature-specific errors
-│   ├── domain/
-│   │   └── entities.ts            # Domain entities (UserDTO)
-│   ├── ui/                        # UI-specific types
-│   └── index.ts                   # Feature barrel export
-├── conversation/                   # Conversation feature
-│   ├── api/
-│   ├── domain/
-│   ├── ui/
-│   └── index.ts
-├── language-proficiency/           # Language proficiency feature
-├── word/                           # Word feature
-├── quickly-added-word/             # Quickly added word feature
-└── index.ts                        # Root barrel export (all features)
+├── core/                           # Cross-cutting domain types (e.g. languages)
+├── language-proficiency/           # Language proficiency feature (reserved)
+├── word/                           # Word feature (reserved)
+├── quickly-added-word/             # Quickly added word feature (reserved)
+└── index.ts                        # Root barrel export (global types)
+```
+
+Feature-owned types live next to their feature module, mirroring `auth`:
+
+```
+src/lib/features/
+├── auth/types/                     # Auth feature types → import from `$auth/types`
+└── conversations/types/            # Conversations feature types → import from `$conversations/types`
 ```
 
 ## Type Categories
@@ -79,9 +74,9 @@ Contains types specific to the user interface and component layer.
 ### Import from Specific Feature
 
 ```typescript
-// Recommended: Import from specific feature for clarity
-import type { UserDTO, OtpRequestBody } from '$lib/types/auth';
-import type { ConversationDTO } from '$lib/types/conversation';
+// Recommended: import from the owning feature barrel
+import type { UserDTO, OtpRequestBody } from '$auth/types';
+import type { ConversationDTO, CompactConversationMessage } from '$conversations/types';
 ```
 
 ### Import from Root (All Features)
@@ -103,10 +98,10 @@ import type { components, paths } from '@kacper-ksiazek/ord-api-types';
 
 When adding a new feature, follow this structure:
 
-1. **Create feature directory**
+1. **Create feature types directory** (next to the feature module, like `auth` and `conversations`)
 
    ```bash
-   mkdir -p src/lib/types/new-feature/{api,domain,ui}
+   mkdir -p src/lib/features/<feature>/types/{api,domain,ui}
    ```
 
 2. **Create type files**
@@ -115,7 +110,7 @@ When adding a new feature, follow this structure:
    - `api/errors.ts`
    - `domain/entities.ts`
 
-3. **Create feature barrel export** (`new-feature/index.ts`)
+3. **Create feature barrel export** (`src/lib/features/<feature>/types/index.ts`)
 
    ```typescript
    export * from './domain/entities';
@@ -124,9 +119,9 @@ When adding a new feature, follow this structure:
    export * from './api/errors';
    ```
 
-4. **Add to root barrel export** (`types/index.ts`)
+4. **Import from the feature alias** (e.g. `$auth/types`, `$conversations/types`)
    ```typescript
-   export * from './new-feature';
+   import type { UserDTO } from '$auth/types';
    ```
 
 ## Adding Types to an Existing Feature
@@ -134,7 +129,7 @@ When adding a new feature, follow this structure:
 1. **Identify the correct category** (api, domain, ui)
 2. **Add type to appropriate file**
    ```typescript
-   // In conversation/domain/entities.ts
+   // In src/lib/features/conversations/types/domain/entities.ts
    export type MessageDTO = components['schemas']['MessageDTO'];
    ```
 3. **Types automatically exported** via feature barrel export
@@ -163,8 +158,9 @@ When a type is needed across multiple features, it belongs in the feature that *
 
 **Example:**
 
-- `UserDTO` lives in `auth/` (auth owns user management)
-- Other features import from `$lib/types/auth`
+- `UserDTO` lives in `$auth/types` (auth owns user management)
+- `ConversationDTO` lives in `$conversations/types` (conversations owns conversation domain)
+- Other features import from the owning feature barrel
 - This creates a clear dependency graph
 
 ## Benefits of FDD Type Organization
@@ -181,8 +177,8 @@ When a type is needed across multiple features, it belongs in the feature that *
 
 When migrating from old feature-scoped type files (e.g., `api-client/auth/types.ts`):
 
-1. Move types to appropriate FDD location
-2. Update all imports to use `$lib/types/feature-name`
+1. Move types to `src/lib/features/<feature>/types/` (api, domain, ui)
+2. Update all imports to use the feature alias (e.g. `$auth/types`, `$conversations/types`)
 3. Delete old types file
 4. Update feature barrel exports
 
@@ -216,7 +212,7 @@ export type FieldError = components['schemas']['FieldError'];
 ```typescript
 // In an API function
 import { api } from '$lib/api-client/axios';
-import type { UserDTO } from '$lib/types/auth';
+import type { UserDTO } from '$auth/types';
 
 export async function getCurrentUser(): Promise<UserDTO> {
 	const response = await api.get<UserDTO>('/api/v1/users/me');

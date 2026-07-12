@@ -1,5 +1,5 @@
-import type { ConversationUserMessageAnalysisDTO } from '$lib/types/conversation/domain/conversation-message-analysis';
-import type { MessageAnalysisCriteria } from '$lib/types/conversation/domain/message-analysis-criteria';
+import type { ConversationUserMessageAnalysisDTO } from '$conversations/types';
+import type { MessageAnalysisCriteria } from '$conversations/types';
 
 export interface AnalysisTextHighlightProps {
 	id: string;

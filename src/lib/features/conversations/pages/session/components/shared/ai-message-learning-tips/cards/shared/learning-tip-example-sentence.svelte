@@ -2,7 +2,7 @@
 	import { cn } from 'flowbite-svelte';
 	import { getAiMessageLearningTipColors } from '$conversations/pages/session/constants/ai-message-learning-tips/colors';
 	import { LEARNING_TIP_EXAMPLE_SENTENCE_ICON } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
-	import type { LearningTipCategory } from '$lib/types/conversation/domain/learning-tip-category';
+	import type { LearningTipCategory } from '$conversations/types';
 	import { parseBoldText } from '$lib/utils/text/parse-bold-text';
 
 	interface Props {

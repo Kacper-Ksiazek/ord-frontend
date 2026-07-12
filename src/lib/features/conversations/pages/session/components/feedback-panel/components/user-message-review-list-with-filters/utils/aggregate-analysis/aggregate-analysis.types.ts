@@ -2,7 +2,7 @@ import type {
 	ConversationMessageMistake,
 	ConversationMessageStrength,
 	ConversationMessageSuggestion
-} from '$lib/types/conversation/domain/conversation-message-analysis';
+} from '$conversations/types';
 
 interface AggregatedAnalysisItemBase {
 	phrase: string;

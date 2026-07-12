@@ -1,4 +1,4 @@
-import type { ConversationAITone } from '$lib/types/conversation/domain/conversation';
+import type { ConversationAITone } from '$conversations/types';
 import { getStorageItem, removeStorageItem, setStorageItem } from '$lib/utils/local-storage';
 import { CONVERSATION_TONES } from '$lib/features/conversations/shared/constants/enum_values';
 
