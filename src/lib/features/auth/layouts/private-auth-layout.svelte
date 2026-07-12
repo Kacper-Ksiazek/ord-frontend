@@ -26,7 +26,7 @@
 	});
 </script>
 
-{#if authStore.user}
+{#if user}
 	<PrivateLayout>
 		{@render children()}
 	</PrivateLayout>

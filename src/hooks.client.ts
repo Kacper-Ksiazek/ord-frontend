@@ -1,6 +1,7 @@
 /**
- * Client-side hooks for authentication
- * Runs once when the app initializes in the browser
+ * Client-side hooks.
+ * `onNavigate` runs on every client navigation; the once-per-session auth
+ * check is handled inside `ensureSessionOnNavigate`.
  */
 
 import { ensureSessionOnNavigate } from '$auth/guards';

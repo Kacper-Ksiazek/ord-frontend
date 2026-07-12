@@ -61,6 +61,10 @@
 			}
 		}
 	}
+
+	function handleOtpComplete() {
+		void handleOtpSubmit();
+	}
 </script>
 
 <svelte:head>
@@ -134,7 +138,7 @@
 				}}
 			>
 				<div class="mb-6">
-					<OtpInput bind:value={otpCode} oncomplete={handleOtpSubmit} error={!!error} />
+					<OtpInput bind:value={otpCode} oncomplete={handleOtpComplete} error={!!error} />
 					<p class="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
 						{m['auth.login.otp_instruction']()}
 					</p>
