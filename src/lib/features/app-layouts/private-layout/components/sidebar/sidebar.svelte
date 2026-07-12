@@ -14,10 +14,10 @@
 	} from 'lucide-svelte';
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
-	import { authStore } from '$lib/stores/auth.svelte';
+	import { authStore } from '$auth/stores';
+	import { AuthUserAvatar } from '$auth/components';
 	import { themeStore } from '$lib/stores/theme.svelte';
 	import AppLogo from '$lib/components/app-logo/app-logo.svelte';
-	import AuthUserAvatar from '$lib/components/auth-user-avatar.svelte';
 	import Divider from '$lib/components/utils/divider.svelte';
 	import SidebarLearningLanguage from './components/sidebar-learning-language.svelte';
 	import SidebarLink from './components/sidebar-link.svelte';

@@ -7,7 +7,7 @@
 	import type { CompactConversationUserMessage } from '$conversations/types';
 	import type { ConversationMessagePerformanceScore } from '$conversations/types';
 	import { getConversationContext } from '$conversations/pages/session/contexts/conversation-context.svelte';
-	import AuthUserAvatar from '$lib/components/auth-user-avatar.svelte';
+	import { AuthUserAvatar } from '$auth/components';
 	import UserMessageTextContent from '$conversations/pages/session/components/messages-panel/components/messages/user-message/lib/user-message-text-content.svelte';
 
 	interface OverviewTabProps {

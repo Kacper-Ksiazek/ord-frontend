@@ -1,6 +1,6 @@
 <script lang="ts">
 	import gravatarUrl from 'gravatar-url';
-	import { authStore } from '$lib/stores/auth.svelte';
+	import { authStore } from '$auth/stores';
 	import { cn } from 'flowbite-svelte';
 
 	interface AuthUserAvatarProps {
