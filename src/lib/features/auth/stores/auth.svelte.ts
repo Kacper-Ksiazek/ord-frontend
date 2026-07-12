@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import type { UserDTO } from '$lib/features/auth/types';
+import type { UserDTO } from '$auth/types';
 import {
 	getStorageItem,
 	removeStorageItem,
@@ -11,7 +11,6 @@ class AuthStore {
 	user = $state<UserDTO | null>(null);
 
 	constructor() {
-		// Initialize from localStorage on client side
 		if (browser) {
 			this.loadUserFromStorage();
 		}

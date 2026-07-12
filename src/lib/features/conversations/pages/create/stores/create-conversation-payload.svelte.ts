@@ -1,4 +1,4 @@
-import { authStore } from '$lib/stores/auth.svelte';
+import { authStore } from '$auth/stores';
 import type { CreateConversationRequest } from '$conversations/types';
 import type { ConversationAIInterlocutorAvatarId } from '$conversations/types';
 import type { LanguageName } from '$lib/types/core/domain/languages';

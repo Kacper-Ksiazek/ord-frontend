@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { authStore } from '$lib/stores/auth.svelte';
+	import { authStore } from '$auth/stores';
 	import CountryFlag from '$lib/assets/images/country_flags/country_flag.svelte';
 
 	interface AuthUserNativeLanguageFlagProps {
