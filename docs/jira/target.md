@@ -12,7 +12,7 @@
 
 ## MCP
 
-Atlassian/Jira MCP is **not** committed in `.cursor/mcp.json` — enable the Atlassian plugin in Cursor (per-developer OAuth). ClickUp MCP was removed with the ClickUp docs migration.
+Atlassian/Jira MCP is **not** committed in `.cursor/mcp.json` — enable the Atlassian plugin in Cursor (per-developer OAuth).
 
 ## Epics (by name — do not hardcode keys)
 

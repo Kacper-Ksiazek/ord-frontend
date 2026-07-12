@@ -1,51 +1,85 @@
 # Jira Conventions
 
-## Naming
+> **Cel pliku:** jak tworzyć i nazywać issue w projekcie ORDUI.  
+> **Gdzie:** site, project key, epiki, JQL scope → `docs/jira/target.md`.
 
-- **Summary prefix:** `[ORD-UI]` — tylko dla pracy **poza** epicami (np. bugi, one-off)
-- **Issue format:** `[ORD-UI] <short title>` lub `<short title>` gdy issue jest w epicu
-- **Subtask format:** `<action or component> — <detail>`
+Identyfikatorem issue jest **klucz Jiry** (`ORDUI-42`) zwracany przez API — nie duplikuj go w polu `summary`.
 
-### Praca w epicu FDD Refactor
+---
 
-Grupowanie przez epic **FDD Refactor** (szukaj klucza po `summary` — patrz `docs/jira/target.md`). W summary issue **nie** używaj prefiksu `[ORD-UI]`:
+## Hierarchia
 
-| Poziom | Format | Przykład |
-|--------|--------|----------|
-| Epic | `FDD Refactor` | (nazwa epica) |
-| Faza (Task) | `Faza N — <cel>` | `Faza 1 — granice $lib/components` |
-| Subtask | `<akcja> — <szczegół>` | `Napraw odwróconą zależność scores → conversations` |
+```
+Epic          → temat / inicjatywa (np. FDD Refactor)
+  Task        → faza, feature chunk lub samodzielna jednostka pracy
+    Subtask   → konkretny krok implementacyjny pod Taskiem
+```
 
-Przykłady poza epicem:
-- `[ORD-UI] Sesja — streaming SSE`
-- `[ORD-UI] Login — walidacja OTP`
+| Poziom | Kiedy | Issue type | Parent / link |
+|--------|-------|------------|---------------|
+| Epic | Grupowanie większej inicjatywy | Epic | — |
+| Task | Faza refaktoru, feature, bugfix bez rozbicia | Task | epic link (parent w next-gen) |
+| Subtask | Atomowa praca pod istniejącym Taskiem | Subtask | `parent`: klucz Taska |
 
-## Issue types
+**Epic:** szukaj po `summary` (patrz `target.md`), nie hardcoduj `ORDUI-*` w repo.
 
-| Use case | Issue type name (ORDUI) |
-|----------|-------------------------|
-| Default new work | Task |
-| Bug | Bug |
-| Feature / story | Story |
-| Subtask | Subtask |
+---
 
-## Status mapping
+## Summary (tytuł)
 
-| Dev / workflow | Jira status | Notes |
-|----------------|-------------|-------|
-| not started | To Do | |
-| in progress | In Progress | |
-| review | In Progress | brak osobnego statusu review na boardzie |
-| done | Done | resolution: Done |
-| cancelled | Done | resolution: Done + komentarz `cancelled` / `won't do` (next-gen ORDUI nie ma osobnego statusu) |
+Krótki, czytelny tytuł po polsku. **Bez prefiksów** ani tagów w summary — kontekst daje epic, projekt i klucz issue.
 
-## Defaults (new issues)
+| Kontekst | Format | Przykład |
+|----------|--------|----------|
+| Faza w epicu FDD | `Faza N — <cel>` | `Faza 3 — enkapsulacja auth` |
+| Subtask | `<co> — <szczegół>` | `Przenieś authStore — features/auth/stores` |
+| Samodzielny Task / Story | `<krótki tytuł>` | `Login — walidacja OTP` |
+| Bug | `<co nie działa>` | `Sesja — SSE rozłącza się po idle` |
 
-| Field | Value |
-|-------|-------|
+W raportach i PR-ach podawaj **klucz Jiry** (`ORDUI-12`), nie prefiks w tytule.
+
+---
+
+## Issue types (ORDUI)
+
+| Sytuacja | Typ |
+|----------|-----|
+| Nowa praca (domyślnie) | Task |
+| User story / feature | Story |
+| Błąd | Bug |
+| Krok pod Taskiem | Subtask |
+| Inicjatywa / grupa | Epic |
+
+Nazwy typów są case-sensitive — używaj dokładnie jak w tabeli (zweryfikowane: `Subtask`, nie `Sub-task`).
+
+---
+
+## Statusy
+
+Board ORDUI: **To Do** → **In Progress** → **Done**.
+
+| Intencja | Status | Uwagi |
+|----------|--------|-------|
+| Nie zaczęte | To Do | |
+| W toku / review | In Progress | brak osobnego statusu review |
+| Ukończone | Done | resolution: Done |
+| Anulowane | Done | resolution: Done + komentarz `cancelled` |
+
+Zmiana statusu: `getTransitionsForJiraIssue` → `transitionJiraIssue` (nigdy bezpośrednio pole `status`).
+
+---
+
+## Domyślne pola (nowe issue)
+
+| Pole | Wartość |
+|------|---------|
 | Priority | Medium |
+| Assignee | nie ustawiaj (chyba że user wskaże) |
+| Labels / Components | nie ustawiaj (chyba że user wskaże) |
 
-## Description template
+---
+
+## Szablon opisu
 
 ```markdown
 ## Kontekst
@@ -55,9 +89,20 @@ Przykłady poza epicem:
 - [ ] ...
 
 ## Linki
+- Jira: ORDUI-…
 - Branch/PR: ...
 - Docs: ...
 
 ## Definition of Done
 - [ ] ...
 ```
+
+---
+
+## Reguły dla agenta
+
+1. **Search-before-create** — szukaj duplikatu po `summary` w `project = ORDUI` zanim utworzysz issue.
+2. **Klucz z API** — po utworzeniu używaj `ORDUI-N` w odpowiedziach i linkach; nie zakładaj numeru z góry.
+3. **Epic** — przed linkowaniem znajdź epic JQL-em z `target.md`.
+4. **Subtask** — wymaga `parent` (klucz Taska) i typu `Subtask`.
+5. **Zapis do Jiry** — skill `jira-manage-tasks` (preview → OK użytkownika → MCP).
