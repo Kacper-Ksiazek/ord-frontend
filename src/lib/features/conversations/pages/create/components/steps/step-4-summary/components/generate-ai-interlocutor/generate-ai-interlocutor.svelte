@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createGenerateAiInterlocutorMutation } from '$conversations/api-client/conversation/mutations/use-generate-ai-interlocutor';
+	import { createGenerateAiInterlocutorMutation } from '$conversations/api-client';
 	import {
 		getCreateConversationPayload,
 		setCreateConversationPayload

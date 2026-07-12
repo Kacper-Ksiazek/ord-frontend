@@ -98,10 +98,10 @@ import type { components, paths } from '@kacper-ksiazek/ord-api-types';
 
 When adding a new feature, follow this structure:
 
-1. **Create feature directory**
+1. **Create feature types directory** (next to the feature module, like `auth` and `conversations`)
 
    ```bash
-   mkdir -p src/lib/types/new-feature/{api,domain,ui}
+   mkdir -p src/lib/features/<feature>/types/{api,domain,ui}
    ```
 
 2. **Create type files**
@@ -110,7 +110,7 @@ When adding a new feature, follow this structure:
    - `api/errors.ts`
    - `domain/entities.ts`
 
-3. **Create feature barrel export** (`new-feature/index.ts`)
+3. **Create feature barrel export** (`src/lib/features/<feature>/types/index.ts`)
 
    ```typescript
    export * from './domain/entities';
@@ -119,9 +119,9 @@ When adding a new feature, follow this structure:
    export * from './api/errors';
    ```
 
-4. **Add to root barrel export** (`types/index.ts`)
+4. **Import from the feature alias** (e.g. `$auth/types`, `$conversations/types`)
    ```typescript
-   export * from './new-feature';
+   import type { UserDTO } from '$auth/types';
    ```
 
 ## Adding Types to an Existing Feature
@@ -129,7 +129,7 @@ When adding a new feature, follow this structure:
 1. **Identify the correct category** (api, domain, ui)
 2. **Add type to appropriate file**
    ```typescript
-   // In conversation/domain/entities.ts
+   // In src/lib/features/conversations/types/domain/entities.ts
    export type MessageDTO = components['schemas']['MessageDTO'];
    ```
 3. **Types automatically exported** via feature barrel export
@@ -177,8 +177,8 @@ When a type is needed across multiple features, it belongs in the feature that *
 
 When migrating from old feature-scoped type files (e.g., `api-client/auth/types.ts`):
 
-1. Move types to appropriate FDD location
-2. Update all imports to use `$lib/types/feature-name`
+1. Move types to `src/lib/features/<feature>/types/` (api, domain, ui)
+2. Update all imports to use the feature alias (e.g. `$auth/types`, `$conversations/types`)
 3. Delete old types file
 4. Update feature barrel exports
 

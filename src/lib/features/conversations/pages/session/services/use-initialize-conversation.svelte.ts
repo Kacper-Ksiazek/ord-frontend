@@ -3,7 +3,7 @@ import type { Subscription } from 'rxjs';
 import { onDestroy, onMount } from 'svelte';
 import { page } from '$app/state';
 import { initializeConversationByAI } from '$conversations/api-client/ongoing-conversation/sse/initialize-conversation-by-ai';
-import { createRequestLearningTipsForAIMessageMutation } from '$conversations/api-client/ongoing-conversation/mutations/use-request-learning-tips-for-ai-message';
+import { createRequestLearningTipsForAIMessageMutation } from '$conversations/api-client';
 import type { CompactConversationAiMessage } from '$conversations/types';
 import { getConversationContext } from '../contexts/conversation-context.svelte';
 import { getMessagesContext } from '../contexts/messages-context.svelte';

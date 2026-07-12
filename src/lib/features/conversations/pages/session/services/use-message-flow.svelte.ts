@@ -1,16 +1,39 @@
 import type { Subscription } from 'rxjs';
 import { onDestroy } from 'svelte';
-import { createSaveUserMessageMutation } from '$conversations/api-client/ongoing-conversation/mutations/use-save-user-message';
-import { createRequestAnalysisForUserMessageMutation } from '$conversations/api-client/ongoing-conversation/mutations/use-request-analysis-for-user-message';
-import { createRequestLearningTipsForAIMessageMutation } from '$conversations/api-client/ongoing-conversation/mutations/use-request-learning-tips-for-ai-message';
+import {
+	createRequestAnalysisForUserMessageMutation,
+	createRequestLearningTipsForAIMessageMutation,
+	createSaveUserMessageMutation
+} from '$conversations/api-client';
 import { requestAIMessage } from '$conversations/api-client/ongoing-conversation/sse/request-ai-message';
 import type {
 	CompactConversationAiMessage,
+	CompactConversationMessage,
 	CompactConversationUserMessage,
 	ConversationUserMessageAnalysisDTO
 } from '$conversations/types';
 import { getConversationContext } from '../contexts/conversation-context.svelte';
 import { getMessagesContext } from '../contexts/messages-context.svelte';
+
+function findLatestAiMessageContent(
+	messages: CompactConversationMessage[],
+	beforeIndex = messages.length
+): string {
+	for (let i = beforeIndex - 1; i >= 0; i--) {
+		if (messages[i].sender === 'AI') {
+			return messages[i].content;
+		}
+	}
+
+	return '';
+}
+
+function removeEmptyAiMessageAt(messages: CompactConversationMessage[], index: number): void {
+	const message = messages[index];
+	if (message?.sender === 'AI' && !message.content) {
+		messages.splice(index, 1);
+	}
+}
 
 export function useMessageFlow() {
 	const conversation = getConversationContext();
@@ -44,19 +67,26 @@ export function useMessageFlow() {
 				createdAt: new Date().toISOString()
 			});
 
-			await saveUserMessageMutation({
-				conversationId: conversation.id,
-				content,
-				messageOrder,
-				messageId
-			});
+			try {
+				await saveUserMessageMutation({
+					conversationId: conversation.id,
+					content,
+					messageOrder,
+					messageId
+				});
+			} catch (error) {
+				messagesContext.messages.splice(messageOrder, 1);
+				console.error('Failed to save user message:', error);
+
+				return false;
+			}
 
 			messagesContext.isGeneratingUserMessageAnalysis = true;
 			requestAnalysisMutation({
 				conversationId: conversation.id,
 				messageId,
 				messageOrder,
-				latestAIMessage: messagesContext.messages[messageOrder - 1].content
+				latestAIMessage: findLatestAiMessageContent(messagesContext.messages, messageOrder)
 			})
 				.then((data) => {
 					(messagesContext.messages[messageOrder] as CompactConversationUserMessage).analysis =
@@ -107,6 +137,7 @@ export function useMessageFlow() {
 				},
 				error: () => {
 					messagesContext.isGeneratingAiMessage = false;
+					removeEmptyAiMessageAt(messagesContext.messages, aiMessageOrder);
 				}
 			});
 

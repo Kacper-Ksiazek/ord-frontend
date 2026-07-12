@@ -24,7 +24,9 @@
 	function handleKeyDown(e: KeyboardEvent) {
 		if (e.key === 'Enter' && !e.shiftKey) {
 			e.preventDefault();
-			sendUserMessage();
+			void sendUserMessage().catch((error) => {
+				console.error('Failed to send user message:', error);
+			});
 		}
 	}
 </script>

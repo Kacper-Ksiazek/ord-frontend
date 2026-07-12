@@ -2,6 +2,7 @@
 	import type { Snippet } from 'svelte';
 	import { page } from '$app/state';
 	import { createConversationQuery } from '$conversations/api-client/queries';
+	import { Loader } from '$lib/components/utils/loader';
 	import { StatusScreen } from '$lib/components/utils/status-screen';
 	import { createConversationContext } from './contexts/conversation-context.svelte';
 	import { createMessagesContext } from './contexts/messages-context.svelte';
@@ -49,7 +50,7 @@
 		primaryButton={{ label: 'Try again', onClick: () => conversationQuery.refetch() }}
 	/>
 {:else if !isLoaded}
-	<span>Loading conversation...</span>
+	<Loader wrapperClass="flex-1 items-center justify-center" />
 {:else}
 	{@render children()}
 {/if}
