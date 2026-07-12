@@ -7,9 +7,9 @@
 		getCreateConversationPayload,
 		setCreateConversationPayload
 	} from '../stores/create-conversation-payload.svelte';
-	import { topicPickerStore } from '$lib/features/conversations/pages/create/components/steps/step-3-conversation-topic/components/topic-picker/topic-picker.store.svelte';
-	import { readDefaultConversationTypeFromStorage } from '$lib/features/conversations/pages/create/utils/default-conversation-type-storage';
-	import { readDefaultConversationToneFromStorage } from '$lib/features/conversations/pages/create/utils/default-conversation-tone-storage';
+	import { topicPickerStore } from '$conversations/pages/create/stores/topic-picker.store.svelte';
+	import { readDefaultConversationTypeFromStorage } from '$conversations/pages/create/utils/default-conversation-type-storage';
+	import { readDefaultConversationToneFromStorage } from '$conversations/pages/create/utils/default-conversation-tone-storage';
 	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';
 	import * as m from '$lib/paraglide/messages.js';
 	import { createCreateConversationMutation } from '$conversations/api-client';

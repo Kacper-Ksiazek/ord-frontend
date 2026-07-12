@@ -1,7 +1,7 @@
 import { authStore } from '$auth/stores';
 import type { CreateConversationRequest } from '$conversations/types';
 import type { ConversationAIInterlocutorAvatarId } from '$conversations/types';
-import type { LanguageName } from '$lib/types/core/domain/languages';
+import type { LanguageName } from '$auth/types';
 
 type CreateConversationPayload = Partial<
 	Omit<CreateConversationRequest, 'language' | 'aiInterlocutorAvatarId'>

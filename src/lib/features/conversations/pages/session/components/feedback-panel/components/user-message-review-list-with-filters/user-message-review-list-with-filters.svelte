@@ -23,7 +23,7 @@
 		MistakeCard,
 		StrengthCard,
 		SuggestionCard
-	} from '$lib/features/conversations/pages/session/components/shared/user-message-analysis/cards';
+	} from '$conversations/pages/session/components/shared/user-message-analysis/cards';
 	import type {
 		ConversationMessageMistake,
 		ConversationMessageStrength,

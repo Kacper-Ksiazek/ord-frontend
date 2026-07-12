@@ -2,13 +2,13 @@ import axios from 'axios';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { requestTtsAudio } from './request-tts-audio';
 
-vi.mock('../../axios', () => ({
+vi.mock('$lib/api-client/axios', () => ({
 	api: {
 		post: vi.fn()
 	}
 }));
 
-import { api } from '../../axios';
+import { api } from '$lib/api-client/axios';
 
 describe('requestTtsAudio', () => {
 	beforeEach(() => {

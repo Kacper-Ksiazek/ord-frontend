@@ -1,5 +1,5 @@
 import type { ConversationType } from '$conversations/types';
-import type { LanguageName } from '$lib/types/core/domain/languages';
+import type { LanguageName } from '$auth/types';
 
 export interface TopicPickerProps {
 	selectedType: ConversationType | undefined;

@@ -2,18 +2,18 @@
 	import { browser } from '$app/environment';
 	import type { ConversationAITone } from '$conversations/types';
 	import { ToneCard } from './components';
-	import { CONVERSATION_TONES } from '$lib/features/conversations/shared/constants/enum_values';
+	import { CONVERSATION_TONES } from '$conversations/shared/constants/enum_values';
 	import {
 		getCreateConversationPayload,
 		setCreateConversationPayload
-	} from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
+	} from '$conversations/pages/create/stores/create-conversation-payload.svelte';
 	import {
 		clearDefaultConversationToneFromStorage,
 		readDefaultConversationToneFromStorage,
 		writeDefaultConversationToneToStorage
-	} from '$lib/features/conversations/pages/create/utils/default-conversation-tone-storage';
+	} from '$conversations/pages/create/utils/default-conversation-tone-storage';
 	import * as m from '$lib/paraglide/messages.js';
-	import { getConversationToneMessages } from '$lib/features/conversations/shared/utils';
+	import { getConversationToneMessages } from '$conversations/shared/utils';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	const selectedPayload = $derived(getCreateConversationPayload());

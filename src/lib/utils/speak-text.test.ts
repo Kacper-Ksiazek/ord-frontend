@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { requestTtsAudio } from '$lib/api-client/tts/api/request-tts-audio';
+import { requestTtsAudio } from '$lib/utils/tts/request-tts-audio';
 import { speakTextPlayback } from './speak-text.svelte';
 import { SpeakTextCanceledError, speakText, stopSpeaking } from './speak-text';
 
-vi.mock('$lib/api-client/tts/api/request-tts-audio', () => ({
+vi.mock('$lib/utils/tts/request-tts-audio', () => ({
 	requestTtsAudio: vi.fn()
 }));
 

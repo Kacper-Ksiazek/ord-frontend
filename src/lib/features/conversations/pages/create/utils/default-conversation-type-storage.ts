@@ -3,7 +3,7 @@ import { getStorageItem, removeStorageItem, setStorageItem } from '$lib/utils/lo
 import {
 	CONVERSATION_TYPES,
 	DISABLED_CONVERSATION_TYPES
-} from '$lib/features/conversations/shared/constants/enum_values';
+} from '$conversations/shared/constants/enum_values';
 
 function isAllowedConversationType(value: string): value is ConversationType {
 	return (

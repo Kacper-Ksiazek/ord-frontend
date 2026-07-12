@@ -5,7 +5,7 @@
 	import SelectableCard from '$lib/components/utils/selectable-card.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 	import type { ConversationType } from '$conversations/types';
-	import ConversationTypeIcon from '$lib/features/conversations/shared/components/conversation-type-icon.svelte';
+	import ConversationTypeIcon from '$conversations/shared/components/conversation-type-icon.svelte';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	type ConversationTypeCardProps = {

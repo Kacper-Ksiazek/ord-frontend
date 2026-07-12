@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import type { UserDTO } from '$auth/types';
 	import { authStore } from '$auth/stores';
-	import { PrivateLayout, AppLoadingScreen } from '$lib/features/app-layouts';
+	import { PrivateLayout, AppLoadingScreen } from '$appLayouts';
 	import type { Snippet } from 'svelte';
 
 	interface PrivateAuthLayoutProps {

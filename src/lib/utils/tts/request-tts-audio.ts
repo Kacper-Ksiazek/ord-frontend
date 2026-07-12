@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { api } from '../../axios';
+import { api } from '$lib/api-client/axios';
 
 async function errorMessageFromBlob(blob: Blob): Promise<string | null> {
 	try {

@@ -1,6 +1,6 @@
 import type { ConversationAITone } from '$conversations/types';
 import { getStorageItem, removeStorageItem, setStorageItem } from '$lib/utils/local-storage';
-import { CONVERSATION_TONES } from '$lib/features/conversations/shared/constants/enum_values';
+import { CONVERSATION_TONES } from '$conversations/shared/constants/enum_values';
 
 const STORAGE_KEY = 'default_conversation_tone';
 

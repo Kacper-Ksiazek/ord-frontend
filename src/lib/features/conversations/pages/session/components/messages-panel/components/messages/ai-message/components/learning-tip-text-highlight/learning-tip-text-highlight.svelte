@@ -11,7 +11,7 @@
 		GrammarTipCard,
 		VocabularyTipCard,
 		PhraseTipCard
-	} from '$lib/features/conversations/pages/session/components/shared/ai-message-learning-tips/cards';
+	} from '$conversations/pages/session/components/shared/ai-message-learning-tips/cards';
 	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
 	import { getAiMessageLearningTipColors } from '$conversations/pages/session/constants/ai-message-learning-tips/colors';
 	import { highlightPopoverFloatingMiddlewares } from '../../../highlight-popover-floating-middleware';

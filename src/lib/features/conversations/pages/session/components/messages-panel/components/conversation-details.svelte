@@ -3,8 +3,8 @@
 	import type { ConversationDTO } from '$conversations/types';
 	import { Button } from 'flowbite-svelte';
 	import { goto } from '$app/navigation';
-	import ConversationTypeIcon from '$lib/features/conversations/shared/components/conversation-type-icon.svelte';
-	import { getConversationTypeLabel } from '$lib/features/conversations/shared/utils';
+	import ConversationTypeIcon from '$conversations/shared/components/conversation-type-icon.svelte';
+	import { getConversationTypeLabel } from '$conversations/shared/utils';
 
 	interface ConversationDetailsProps {
 		conversation: ConversationDTO;

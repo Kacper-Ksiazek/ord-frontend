@@ -3,12 +3,9 @@
 		ConversationAIInterlocutorAvatarId,
 		ConversationSummaryDTO
 	} from '$conversations/types';
-	import AiInterlocutorAvatar from '$lib/features/conversations/shared/components/ai-interlocutor-avatar.svelte';
-	import ConversationTypeIcon from '$lib/features/conversations/shared/components/conversation-type-icon.svelte';
-	import {
-		getConversationTypeLabel,
-		getConversationToneLabel
-	} from '$lib/features/conversations/shared/utils';
+	import AiInterlocutorAvatar from '$conversations/shared/components/ai-interlocutor-avatar.svelte';
+	import ConversationTypeIcon from '$conversations/shared/components/conversation-type-icon.svelte';
+	import { getConversationTypeLabel, getConversationToneLabel } from '$conversations/shared/utils';
 	import { cn } from 'flowbite-svelte';
 	import { formatRelativeOrMediumDate } from '$lib/utils/format-relative-or-medium-date';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';

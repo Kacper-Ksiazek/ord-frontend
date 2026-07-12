@@ -1,6 +1,6 @@
 <script lang="ts">
 	import AiInterlocutorAvatar from '$conversations/shared/components/ai-interlocutor-avatar.svelte';
-	import { getConversationContext } from '$lib/features/conversations/pages/session/contexts/conversation-context.svelte';
+	import { getConversationContext } from '$conversations/pages/session/contexts/conversation-context.svelte';
 
 	const conversation = getConversationContext();
 </script>

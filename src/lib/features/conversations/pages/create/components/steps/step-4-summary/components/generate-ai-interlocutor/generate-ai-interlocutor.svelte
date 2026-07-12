@@ -3,8 +3,8 @@
 	import {
 		getCreateConversationPayload,
 		setCreateConversationPayload
-	} from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
-	import AIInterlocutorAvatar from '$lib/features/conversations/shared/components/ai-interlocutor-avatar.svelte';
+	} from '$conversations/pages/create/stores/create-conversation-payload.svelte';
+	import AIInterlocutorAvatar from '$conversations/shared/components/ai-interlocutor-avatar.svelte';
 	import type { ConversationAIInterlocutorAvatarId } from '$conversations/types';
 	import Skeleton from '$lib/components/utils/skeleton.svelte';
 	import { IconButton } from '$lib/components/buttons/icon-button';

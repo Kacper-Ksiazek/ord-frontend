@@ -17,8 +17,8 @@
 	import { authStore } from '$auth/stores';
 	import { AuthUserAvatar } from '$auth/components';
 	import { themeStore } from '$lib/stores/theme.svelte';
-	import AppLogo from '$lib/components/app-logo/app-logo.svelte';
-	import Divider from '$lib/components/utils/divider.svelte';
+	import { AppLogo } from '$lib/components/app-logo';
+	import { Divider } from '$lib/components/utils/divider';
 	import SidebarLearningLanguage from './components/sidebar-learning-language.svelte';
 	import SidebarLink from './components/sidebar-link.svelte';
 	import { sidebarStore } from './sidebar.store.svelte';

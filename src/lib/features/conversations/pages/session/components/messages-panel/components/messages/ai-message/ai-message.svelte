@@ -1,11 +1,11 @@
 <script lang="ts">
-	import AiInterlocutorAvatar from '$lib/features/conversations/shared/components/ai-interlocutor-avatar.svelte';
+	import AiInterlocutorAvatar from '$conversations/shared/components/ai-interlocutor-avatar.svelte';
 	import type { ConversationAIInterlocutorAvatarId } from '$conversations/types';
 	import type { AIMessageLearningTips } from '$conversations/types';
 	import { cn } from 'flowbite-svelte';
 	import MessageBase from '../message-base.svelte';
 	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
-	import { getConversationContext } from '$lib/features/conversations/pages/session/contexts/conversation-context.svelte';
+	import { getConversationContext } from '$conversations/pages/session/contexts/conversation-context.svelte';
 	import { LearningTips } from './components/learning-tips';
 	import { highlightLearningTipsContent } from './utils/highlight-learning-tips';
 	import { LearningTipTextHighlight } from './components/learning-tip-text-highlight';

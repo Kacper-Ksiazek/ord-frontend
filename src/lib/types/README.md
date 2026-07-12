@@ -10,14 +10,10 @@ Each feature is **self-contained** and owns its complete type definition hierarc
 
 ```
 src/lib/types/
-├── core/                           # Cross-cutting domain types (e.g. languages)
-├── language-proficiency/           # Language proficiency feature (reserved)
-├── word/                           # Word feature (reserved)
-├── quickly-added-word/             # Quickly added word feature (reserved)
-└── index.ts                        # Root barrel export (global types)
+└── core/                           # Cross-cutting domain types (e.g. language proficiency)
 ```
 
-Feature-owned types live next to their feature module, mirroring `auth`:
+Feature-owned types live next to their feature module:
 
 ```
 src/lib/features/
@@ -75,15 +71,8 @@ Contains types specific to the user interface and component layer.
 
 ```typescript
 // Recommended: import from the owning feature barrel
-import type { UserDTO, OtpRequestBody } from '$auth/types';
+import type { UserDTO, LanguageName } from '$auth/types';
 import type { ConversationDTO, CompactConversationMessage } from '$conversations/types';
-```
-
-### Import from Root (All Features)
-
-```typescript
-// Alternative: Import from root barrel export
-import type { UserDTO, ConversationDTO } from '$lib/types';
 ```
 
 ## Type Source
@@ -230,6 +219,6 @@ This type organization is maintained to match the backend API structure. When th
 
 ---
 
-**Last Updated:** 2025-11-08
+**Last Updated:** 2026-07-12
 **Architecture:** Feature-Driven Development (FDD)
 **Type Source:** `@kacper-ksiazek/ord-api-types` (OpenAPI Auto-Generated)

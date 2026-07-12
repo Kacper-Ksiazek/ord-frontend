@@ -5,14 +5,14 @@
 	import { includesEitherWay } from '$lib/utils/functions/includes-either-way';
 	import type { MessageAnalysisCriteria } from '$conversations/types';
 	import { cn, Popover } from 'flowbite-svelte';
-	import AnalysisMetricIcon from '$lib/features/conversations/pages/session/components/shared/user-message-analysis/user-message-analysis-metric-icon.svelte';
+	import AnalysisMetricIcon from '$conversations/pages/session/components/shared/user-message-analysis/user-message-analysis-metric-icon.svelte';
 	import { Tabs } from '$lib/components/navigation/tabs';
 	import type { Tab } from '$lib/components/navigation/tabs';
 	import {
 		MistakeCard,
 		StrengthCard,
 		SuggestionCard
-	} from '$lib/features/conversations/pages/session/components/shared/user-message-analysis/cards';
+	} from '$conversations/pages/session/components/shared/user-message-analysis/cards';
 	import { getUserMessageAnalysisColors } from '$conversations/pages/session/constants/user-message-analysis/colors';
 	import { USER_MESSAGE_ANALYSIS_ICONS_MAP } from '$conversations/pages/session/constants/user-message-analysis/icons';
 	import { highlightPopoverFloatingMiddlewares } from '../../../highlight-popover-floating-middleware';
