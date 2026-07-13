@@ -32,6 +32,10 @@ export function readDefaultConversationToneFromStorage(): ConversationAITone | n
 }
 
 export function writeDefaultConversationToneToStorage(tone: ConversationAITone): void {
+	if (!isAllowedTone(tone)) {
+		return;
+	}
+
 	setStorageItem(STORAGE_KEY, tone);
 }
 

@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import type { ConversationAITone } from '$conversations/types';
 import {
 	clearDefaultConversationToneFromStorage,
 	readDefaultConversationToneFromStorage,
@@ -87,6 +88,14 @@ describe('writeDefaultConversationToneToStorage', () => {
 			writeDefaultConversationToneToStorage('FRIENDLY');
 
 			expect(setStorageItem).toHaveBeenCalledWith('default_conversation_tone', 'FRIENDLY');
+		});
+	});
+
+	describe('negative path', () => {
+		it('should not persist invalid conversation tones', () => {
+			writeDefaultConversationToneToStorage('INVALID' as ConversationAITone);
+
+			expect(setStorageItem).not.toHaveBeenCalled();
 		});
 	});
 });
