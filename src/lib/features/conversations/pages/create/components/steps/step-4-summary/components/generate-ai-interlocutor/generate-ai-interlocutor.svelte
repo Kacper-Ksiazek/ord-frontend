@@ -3,7 +3,7 @@
 	import {
 		getCreateConversationPayload,
 		setCreateConversationPayload
-	} from '$conversations/pages/create/stores/create-conversation-payload.svelte';
+	} from '$conversations/pages/create/stores';
 	import AIInterlocutorAvatar from '$conversations/shared/components/ai-interlocutor-avatar.svelte';
 	import type { ConversationAIInterlocutorAvatarId } from '$conversations/types';
 	import Skeleton from '$lib/components/utils/skeleton.svelte';

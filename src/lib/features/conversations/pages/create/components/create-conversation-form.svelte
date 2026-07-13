@@ -7,7 +7,7 @@
 		getCreateConversationPayload,
 		setCreateConversationPayload
 	} from '../stores/create-conversation-payload.svelte';
-	import { topicPickerStore } from '$conversations/pages/create/stores/topic-picker.store.svelte';
+	import { topicPickerStore } from '$conversations/pages/create/stores';
 	import { readDefaultConversationTypeFromStorage } from '$conversations/pages/create/utils/default-conversation-type-storage';
 	import { readDefaultConversationToneFromStorage } from '$conversations/pages/create/utils/default-conversation-tone-storage';
 	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';

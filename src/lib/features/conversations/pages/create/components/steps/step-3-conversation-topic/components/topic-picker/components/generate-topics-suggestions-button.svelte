@@ -3,8 +3,10 @@
 	import { AiActionButton } from '$lib/components/buttons/ai-action-button';
 	import type { AiActionButtonStatus } from '$lib/components/buttons/ai-action-button/ai-action-button.types';
 	import { Input } from '$lib/components/forms/input';
-	import { getCreateConversationPayload } from '$conversations/pages/create/stores/create-conversation-payload.svelte';
-	import { topicPickerStore } from '$conversations/pages/create/stores/topic-picker.store.svelte';
+	import {
+		getCreateConversationPayload,
+		topicPickerStore
+	} from '$conversations/pages/create/stores';
 	import { TextQuote } from 'lucide-svelte';
 	import * as m from '$lib/paraglide/messages.js';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';

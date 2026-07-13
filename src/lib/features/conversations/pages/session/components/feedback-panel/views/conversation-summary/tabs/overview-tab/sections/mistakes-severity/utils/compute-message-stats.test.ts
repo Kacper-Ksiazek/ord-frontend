@@ -40,7 +40,9 @@ describe('computeMessagesStats', () => {
 			expect(result.MINOR.count).toBe(0);
 			expect(result.MODERATE.count).toBe(0);
 			expect(result.CRITICAL.count).toBe(0);
-			expect(Number.isNaN(result.MINOR.fraction)).toBe(true);
+			expect(result.MINOR.fraction).toBe(0);
+			expect(result.MODERATE.fraction).toBe(0);
+			expect(result.CRITICAL.fraction).toBe(0);
 		});
 	});
 

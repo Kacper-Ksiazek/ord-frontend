@@ -1,7 +1,6 @@
 import { authStore } from '$auth/stores';
 import type { CreateConversationRequest } from '$conversations/types';
 import type { ConversationAIInterlocutorAvatarId } from '$conversations/types';
-import type { LanguageName } from '$auth/types';
 
 type CreateConversationPayload = Partial<
 	Omit<CreateConversationRequest, 'language' | 'aiInterlocutorAvatarId'>
@@ -11,7 +10,7 @@ type CreateConversationPayload = Partial<
 	};
 
 const createConversationPayload = $state<CreateConversationPayload>({
-	language: authStore.user?.selectedLearningLanguage as LanguageName,
+	language: authStore.user?.selectedLearningLanguage ?? 'ENGLISH',
 	tone: undefined,
 	topic: undefined,
 	additionalContext: undefined,

@@ -8,9 +8,9 @@
 	} from '$conversations/shared/constants/enum_values';
 	import {
 		getCreateConversationPayload,
-		setCreateConversationPayload
-	} from '$conversations/pages/create/stores/create-conversation-payload.svelte';
-	import { topicPickerStore } from '$conversations/pages/create/stores/topic-picker.store.svelte';
+		setCreateConversationPayload,
+		topicPickerStore
+	} from '$conversations/pages/create/stores';
 	import {
 		clearDefaultConversationTypeFromStorage,
 		readDefaultConversationTypeFromStorage,

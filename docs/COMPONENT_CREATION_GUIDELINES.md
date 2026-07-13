@@ -123,15 +123,19 @@ import { cn } from 'flowbite-svelte';
 ## Example: Topic Picker (Complex Component)
 
 ```
-topic-picker/
-├── topic-picker.svelte              # Main component
-├── topic-picker.store.svelte.ts     # Shared state
-├── topic-picker.types.ts            # Props/types
-├── index.ts                         # Barrel export
-└── components/
-    ├── topic-row.svelte
-    ├── generate-topics-suggestions-button.svelte
-    └── custom-topic-management.svelte
+pages/create/
+├── stores/
+│   ├── topic-picker.store.svelte.ts   # Shared create-flow state
+│   ├── create-conversation-payload.svelte.ts
+│   └── index.ts                       # Barrel export
+└── components/steps/step-3-conversation-topic/components/topic-picker/
+    ├── topic-picker.svelte            # Main component
+    ├── topic-picker.types.ts          # Props/types
+    ├── index.ts                       # Barrel export
+    └── components/
+        ├── topic-row.svelte
+        ├── generate-topics-suggestions-button.svelte
+        └── custom-topic-management.svelte
 ```
 
 **Main component imports:**
@@ -139,7 +143,7 @@ topic-picker/
 ```svelte
 <script lang="ts">
 	import TopicRow from './components/topic-row.svelte';
-	import { topics } from './topic-picker.store.svelte';
+	import { topicPickerStore } from '$conversations/pages/create/stores';
 	import type { TopicPickerProps } from './topic-picker.types';
 </script>
 ```

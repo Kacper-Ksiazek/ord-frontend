@@ -3,7 +3,7 @@
 	import ConversationToneIcon from '$conversations/shared/components/conversation-tone-icon.svelte';
 	import { Step1ConversationType } from '../../../step-1-conversation-type';
 	import { Step2ConversationTone } from '../../../step-2-conversation-tone';
-	import { getCreateConversationPayload } from '$conversations/pages/create/stores/create-conversation-payload.svelte';
+	import { getCreateConversationPayload } from '$conversations/pages/create/stores';
 	import { getConversationTypeLabel, getConversationToneLabel } from '$conversations/shared/utils';
 	import * as m from '$lib/paraglide/messages.js';
 	import { EditableSelectionSummaryCard } from './components';

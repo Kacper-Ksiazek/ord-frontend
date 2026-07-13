@@ -6,7 +6,7 @@
 	import {
 		getCreateConversationPayload,
 		setCreateConversationPayload
-	} from '$conversations/pages/create/stores/create-conversation-payload.svelte';
+	} from '$conversations/pages/create/stores';
 	import {
 		clearDefaultConversationToneFromStorage,
 		readDefaultConversationToneFromStorage,

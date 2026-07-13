@@ -70,9 +70,12 @@ Contains types specific to the user interface and component layer.
 ### Import from Specific Feature
 
 ```typescript
-// Recommended: import from the owning feature barrel
-import type { UserDTO, LanguageName } from '$auth/types';
+// Feature-owned types
+import type { UserDTO } from '$auth/types';
 import type { ConversationDTO, CompactConversationMessage } from '$conversations/types';
+
+// Cross-cutting shared types
+import type { LanguageName } from '$lib/types/core/domain/languages';
 ```
 
 ## Type Source
