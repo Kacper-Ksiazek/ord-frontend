@@ -1,9 +1,9 @@
 import { createMutation } from '@tanstack/svelte-query';
 import type { CreateConversationRequest } from '$conversations/types';
-import { httpCreateConversation } from '../api/http-create-conversation';
+import { httpPostCreateConversation } from '../api/http-post-create-conversation';
 
 export function createCreateConversationMutation() {
 	return createMutation(() => ({
-		mutationFn: (body: CreateConversationRequest) => httpCreateConversation(body)
+		mutationFn: (body: CreateConversationRequest) => httpPostCreateConversation(body)
 	}));
 }

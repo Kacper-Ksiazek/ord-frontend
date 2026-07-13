@@ -11,7 +11,7 @@ async function errorMessageFromBlob(blob: Blob): Promise<string | null> {
 	}
 }
 
-export async function httpRequestTtsAudio(text: string, signal?: AbortSignal): Promise<Blob> {
+export async function httpPostRequestTtsAudio(text: string, signal?: AbortSignal): Promise<Blob> {
 	try {
 		const response = await api.post<Blob>(
 			'/api/v1/tts/speak',

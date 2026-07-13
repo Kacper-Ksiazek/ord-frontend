@@ -9,7 +9,7 @@ src/lib/
 ├── api-client/                          # Shared kernel
 │   ├── axios.ts                         # Axios instance (credentials, interceptors)
 │   ├── api/                             # Cross-feature REST callers (no owning feature)
-│   │   └── http-request-tts-audio.ts
+│   │   └── http-post-request-tts-audio.ts
 │   └── utils/
 │       ├── sse.ts                       # SSE via fetch + RxJS Observable
 │       └── sse.types.ts
@@ -49,23 +49,27 @@ The `conversations` feature splits API clients into **`conversation`** (list, cr
 
 ## HTTP Prefix Naming
 
-Every function that calls the backend (REST or SSE) uses an **`http` prefix** in both the **file name** and the **exported function name**. This makes network I/O easy to spot in imports, stack traces, and code search.
+Every function that calls the backend (REST or SSE) uses an **`http` prefix** plus the **HTTP method** in both the **file name** and the **exported function name**. This makes network I/O and the verb used easy to spot in imports, stack traces, and code search.
 
 | Layer | File pattern | Export pattern | Example |
 |-------|--------------|----------------|---------|
-| REST | `http-{action-kebab}.ts` | `http{ActionPascal}` | `http-get-current-user.ts` → `httpGetCurrentUser` |
-| SSE | `http-{stream-kebab}.ts` | `http{StreamPascal}` | `http-request-ai-message.ts` → `httpRequestAIMessage` |
+| REST (GET) | `http-get-{resource-kebab}.ts` | `httpGet{ResourcePascal}` | `http-get-current-user.ts` → `httpGetCurrentUser` |
+| REST (POST) | `http-post-{action-kebab}.ts` | `httpPost{ActionPascal}` | `http-post-verify-otp.ts` → `httpPostVerifyOtp` |
+| REST (DELETE) | `http-delete-{action-kebab}.ts` | `httpDelete{ActionPascal}` | `http-delete-logout.ts` → `httpDeleteLogout` |
+| REST (PATCH) | `http-patch-{action-kebab}.ts` | `httpPatch{ActionPascal}` | `http-patch-user-profile.ts` → `httpPatchUserProfile` |
+| SSE (POST) | `http-post-{stream-kebab}.ts` | `httpPost{StreamPascal}` | `http-post-request-ai-message.ts` → `httpPostRequestAIMessage` |
 
 **Rules:**
 
-- Prefix the kebab-case file name with `http-` (e.g. `http-verify-otp.ts`, not `verify-otp.ts`).
-- Prefix the camelCase export with `http` (e.g. `httpVerifyOtp`, not `verifyOtp`).
+- File name: `http-{method}-{action-kebab}.ts` where `{method}` is the lowercase HTTP verb (`get`, `post`, `patch`, `delete`, …).
+- Export name: `http{Method}{ActionPascal}` where `{Method}` is PascalCase verb (`Get`, `Post`, `Patch`, `Delete`, …).
+- SSE streams use the same method prefix as the underlying request (currently all `http-post-*`).
 - Mutations and queries keep their existing `create*Mutation` / `create*Query` / `use-*` naming — only the low-level HTTP callers get the prefix.
 - Shared infrastructure (`axios.ts`, `sse.ts`) is not prefixed; it does not call a specific endpoint.
 
 ## REST API Calls
 
-**Location:** `src/lib/features/{feature}/api-client/{subdomain?}/api/http-{action}.ts`
+**Location:** `src/lib/features/{feature}/api-client/{subdomain?}/api/http-{method}-{action}.ts`
 
 **Pattern:**
 
@@ -73,7 +77,7 @@ Every function that calls the backend (REST or SSE) uses an **`http` prefix** in
 import type { OtpRequestBody } from '$auth/types';
 import { api } from '$lib/api-client/axios';
 
-export async function httpRequestOtp(body: OtpRequestBody): Promise<void> {
+export async function httpPostRequestOtp(body: OtpRequestBody): Promise<void> {
 	await api.post('/api/v1/auth/otp-request', body);
 }
 ```
@@ -87,7 +91,7 @@ export async function httpRequestOtp(body: OtpRequestBody): Promise<void> {
 
 ## SSE (Server-Sent Events) Calls
 
-**Location:** `src/lib/features/{feature}/api-client/{subdomain?}/sse/http-{stream}.ts`
+**Location:** `src/lib/features/{feature}/api-client/{subdomain?}/sse/http-post-{stream}.ts`
 
 **Pattern:**
 
@@ -96,7 +100,7 @@ import type { Observable } from 'rxjs';
 import type { CreateOngoingConversationMessageRequest } from '$conversations/types';
 import { createSSEStream } from '$lib/api-client/utils/sse';
 
-export function httpRequestAIMessage(
+export function httpPostRequestAIMessage(
 	body: CreateOngoingConversationMessageRequest
 ): Observable<string> {
 	return createSSEStream<string>('/api/v1/conversations/ongoing/ai/request-message', {
@@ -123,11 +127,11 @@ export function httpRequestAIMessage(
 ```typescript
 import { createMutation } from '@tanstack/svelte-query';
 import type { CreateConversationRequest } from '$conversations/types';
-import { httpCreateConversation } from '../api/http-create-conversation';
+import { httpPostCreateConversation } from '../api/http-post-create-conversation';
 
 export function createCreateConversationMutation() {
 	return createMutation(() => ({
-		mutationFn: (body: CreateConversationRequest) => httpCreateConversation(body)
+		mutationFn: (body: CreateConversationRequest) => httpPostCreateConversation(body)
 	}));
 }
 ```
