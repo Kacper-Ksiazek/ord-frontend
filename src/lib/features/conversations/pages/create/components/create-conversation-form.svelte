@@ -5,11 +5,13 @@
 	import { Loader } from '$lib/components/utils/loader';
 	import {
 		getCreateConversationPayload,
-		setCreateConversationPayload
-	} from '../stores/create-conversation-payload.svelte';
-	import { topicPickerStore } from '$lib/features/conversations/pages/create/components/steps/step-3-conversation-topic/components/topic-picker/topic-picker.store.svelte';
-	import { readDefaultConversationTypeFromStorage } from '$lib/features/conversations/pages/create/utils/default-conversation-type-storage';
-	import { readDefaultConversationToneFromStorage } from '$lib/features/conversations/pages/create/utils/default-conversation-tone-storage';
+		setCreateConversationPayload,
+		topicPickerStore
+	} from '$conversations/pages/create/stores';
+	import {
+		readDefaultConversationTypeFromStorage,
+		readDefaultConversationToneFromStorage
+	} from '$conversations/pages/create/utils';
 	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';
 	import * as m from '$lib/paraglide/messages.js';
 	import { createCreateConversationMutation } from '$conversations/api-client';

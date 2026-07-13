@@ -24,7 +24,7 @@
 		GrammarTipCard,
 		PhraseTipCard,
 		VocabularyTipCard
-	} from '$lib/features/conversations/pages/session/components/shared/ai-message-learning-tips/cards';
+	} from '$conversations/pages/session/components/shared/ai-message-learning-tips/cards';
 	import {
 		aggregateLearningTips,
 		type AggregatedLearningTip

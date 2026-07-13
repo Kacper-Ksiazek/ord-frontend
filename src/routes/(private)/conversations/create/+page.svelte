@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { CreateConversationForm } from '$lib/features/conversations/pages/create';
+	import { CreateConversationForm } from '$conversations/pages/create';
 	import ContentCard from '$lib/components/utils/content-card.svelte';
 	import { PageContentContainer } from '$lib/components/utils/page-content-container';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';

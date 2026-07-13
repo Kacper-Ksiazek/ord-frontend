@@ -4,7 +4,7 @@
 	import Pl from './flags/pl.svelte';
 	import type { SVGIconProps } from '$lib/assets/images/types';
 	import type { Component } from 'svelte';
-	import type { LanguageName } from '$auth/types';
+	import type { LanguageName } from '$lib/types/core/domain/languages';
 
 	interface CountryFlagProps extends SVGIconProps {
 		flag: LanguageName;

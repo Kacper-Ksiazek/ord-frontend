@@ -1,9 +1,6 @@
 <script lang="ts">
-	import { getConversationContext } from '$lib/features/conversations/pages/session/contexts/conversation-context.svelte';
-	import {
-		getConversationTypeLabel,
-		getConversationToneLabel
-	} from '$lib/features/conversations/shared/utils';
+	import { getConversationContext } from '$conversations/pages/session/contexts/conversation-context.svelte';
+	import { getConversationTypeLabel, getConversationToneLabel } from '$conversations/shared/utils';
 	import { formatDateDayMonthYearTime } from '$lib/utils/format-date-day-month-year-time';
 	import { cn } from 'flowbite-svelte';
 

@@ -109,14 +109,17 @@ The codebase follows a **feature-sliced architecture** — each feature is self-
 ```
 src/
 ├── lib/
-│   ├── api-client/      # Axios setup, REST/SSE calls, TanStack queries & mutations
+│   ├── api-client/      # Shared Axios setup + SSE utilities (feature API lives in features)
 │   ├── components/      # Shared, reusable UI primitives (+ Storybook stories)
-│   ├── features/        # Feature slices: auth, conversations, app-layouts …
+│   ├── features/        # Feature slices with co-located types, api-client, pages, stores
+│   │   ├── auth/        # → import via `$auth/*`
+│   │   ├── conversations/  # → import via `$conversations/*`
+│   │   └── app-layouts/ # → import via `$appLayouts/*`
 │   ├── paraglide/       # Generated i18n runtime
 │   ├── stores/          # App-wide reactive stores (Svelte 5 runes)
-│   ├── types/           # Shared & per-feature types
+│   ├── types/           # Cross-cutting shared types only (feature types live in features)
 │   └── utils/           # Pure helpers (tested with Vitest)
-└── routes/              # SvelteKit routes — (public) & (private) groups
+└── routes/              # SvelteKit routes — thin wrappers over feature pages
 ```
 
 ---

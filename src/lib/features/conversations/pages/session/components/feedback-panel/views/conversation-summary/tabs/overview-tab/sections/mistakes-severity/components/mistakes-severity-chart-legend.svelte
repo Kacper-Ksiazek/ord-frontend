@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { MistakeStats } from '../utils/compute-message-stats';
 	import type { ConversationMessageMistakeSeverity } from '$conversations/types';
-	import { MISTAKE_SEVERITY_ICONS_MAP } from '$lib/features/conversations/pages/session/constants/user-message-analysis/subcategory-icons';
+	import { MISTAKE_SEVERITY_ICONS_MAP } from '$conversations/pages/session/constants/user-message-analysis/subcategory-icons';
 	import { MistakeSeverityIndicator } from '$lib/components/scores';
 
 	interface Props {

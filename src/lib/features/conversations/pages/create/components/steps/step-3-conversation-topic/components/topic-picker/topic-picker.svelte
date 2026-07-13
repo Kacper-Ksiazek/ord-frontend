@@ -8,9 +8,9 @@
 	import CustomTopicManagement from './components/custom-topic-management.svelte';
 	import {
 		getCreateConversationPayload,
-		setCreateConversationPayload
-	} from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
-	import { topicPickerStore } from './topic-picker.store.svelte';
+		setCreateConversationPayload,
+		topicPickerStore
+	} from '$conversations/pages/create/stores';
 	import * as m from '$lib/paraglide/messages.js';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 

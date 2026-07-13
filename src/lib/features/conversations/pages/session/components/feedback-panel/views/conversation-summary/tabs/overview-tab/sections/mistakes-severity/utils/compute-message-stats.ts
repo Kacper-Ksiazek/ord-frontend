@@ -59,5 +59,9 @@ function computeMistakesBySeverity(
 }
 
 function computePercentageValue(a: number, b: number): number {
+	if (b === 0) {
+		return 0;
+	}
+
 	return round((a / b) * 100, 2);
 }

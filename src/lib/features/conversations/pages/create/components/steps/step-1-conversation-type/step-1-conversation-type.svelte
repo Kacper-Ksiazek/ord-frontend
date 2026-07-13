@@ -5,19 +5,19 @@
 	import {
 		CONVERSATION_TYPES,
 		DISABLED_CONVERSATION_TYPES
-	} from '$lib/features/conversations/shared/constants/enum_values';
+	} from '$conversations/shared/constants/enum_values';
 	import {
 		getCreateConversationPayload,
-		setCreateConversationPayload
-	} from '$lib/features/conversations/pages/create/stores/create-conversation-payload.svelte';
-	import { topicPickerStore } from '$lib/features/conversations/pages/create/components/steps/step-3-conversation-topic/components/topic-picker/topic-picker.store.svelte';
+		setCreateConversationPayload,
+		topicPickerStore
+	} from '$conversations/pages/create/stores';
 	import {
 		clearDefaultConversationTypeFromStorage,
 		readDefaultConversationTypeFromStorage,
 		writeDefaultConversationTypeToStorage
-	} from '$lib/features/conversations/pages/create/utils/default-conversation-type-storage';
+	} from '$conversations/pages/create/utils/default-conversation-type-storage';
 	import * as m from '$lib/paraglide/messages.js';
-	import { getConversationTypeMessages } from '$lib/features/conversations/shared/utils';
+	import { getConversationTypeMessages } from '$conversations/shared/utils';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 
 	const selectedType = $derived(getCreateConversationPayload());

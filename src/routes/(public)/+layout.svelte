@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PublicLayout } from '$lib/features/app-layouts';
+	import { PublicLayout } from '$appLayouts';
 
 	const { children } = $props();
 </script>

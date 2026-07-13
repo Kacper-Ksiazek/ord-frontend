@@ -2,8 +2,8 @@
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import AiPostProcessActionBase from './ai-post-process-action-base.svelte';
 	import CenterComponentDecorator from '$lib/storybook/decorators/center-component-decorator.svelte';
-	import ConversationContextDecorator from '$lib/features/conversations/pages/session/contexts/storybook-decorators/conversation-context-decorator.svelte';
-	import SidepanelContextDecorator from '$lib/features/conversations/pages/session/contexts/storybook-decorators/sidepanel-context-decorator.svelte';
+	import ConversationContextDecorator from '$conversations/pages/session/contexts/storybook-decorators/conversation-context-decorator.svelte';
+	import SidepanelContextDecorator from '$conversations/pages/session/contexts/storybook-decorators/sidepanel-context-decorator.svelte';
 	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
 
 	const { Story } = defineMeta({

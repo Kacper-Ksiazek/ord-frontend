@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { requestTtsAudio } from '$lib/api-client/tts/api/request-tts-audio';
+import { requestTtsAudio } from '$lib/utils/tts/request-tts-audio';
 import { speakTextPlayback } from './speak-text.svelte';
 import type { SpeakTextProgress, SpeakTextStatus } from './speak-text.types';
 
