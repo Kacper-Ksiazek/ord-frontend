@@ -1,5 +1,5 @@
 import { browser } from '$app/environment';
-import { getCurrentUser } from '$auth/api-client/api';
+import { httpGetCurrentUser } from '$auth/api-client/api';
 import type { UserDTO } from '$auth/types';
 
 export const ssr = false;
@@ -16,7 +16,7 @@ export async function loadCurrentUser(): Promise<{ user: UserDTO | null }> {
 	}
 
 	try {
-		const user = await getCurrentUser();
+		const user = await httpGetCurrentUser();
 
 		return { user };
 	} catch (error) {

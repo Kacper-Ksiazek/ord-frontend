@@ -2,7 +2,7 @@ import type { ConversationSummaryDTO } from '$conversations/types';
 import type { GetConversationsFilters } from '$conversations/types';
 import { api } from '$lib/api-client/axios';
 
-export async function getConversations(
+export async function httpGetConversations(
 	filters: GetConversationsFilters = {}
 ): Promise<ConversationSummaryDTO[]> {
 	const params: GetConversationsFilters = {};

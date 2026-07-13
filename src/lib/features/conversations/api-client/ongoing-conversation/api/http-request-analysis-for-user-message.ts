@@ -2,7 +2,7 @@ import type { GetAnalysisForUserConversationMessageRequest } from '$conversation
 import type { ReviewedUserConversationMessage } from '$conversations/types';
 import { api } from '$lib/api-client/axios';
 
-export async function requestAnalysisForUserMessage(
+export async function httpRequestAnalysisForUserMessage(
 	body: GetAnalysisForUserConversationMessageRequest
 ): Promise<ReviewedUserConversationMessage> {
 	const response = await api.post<ReviewedUserConversationMessage>(

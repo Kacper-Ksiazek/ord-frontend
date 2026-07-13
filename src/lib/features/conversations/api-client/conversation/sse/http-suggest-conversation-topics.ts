@@ -3,7 +3,7 @@ import type { StreamSimpleItem } from '$conversations/types';
 import type { SuggestTopicsRequest } from '$conversations/types';
 import { createSSEStream } from '$lib/api-client/utils/sse';
 
-export function suggestConversationTopics<T = StreamSimpleItem>(
+export function httpSuggestConversationTopics<T = StreamSimpleItem>(
 	payload: SuggestTopicsRequest
 ): Observable<T> {
 	return createSSEStream<T>('/api/v1/conversations/suggest-topics', {
