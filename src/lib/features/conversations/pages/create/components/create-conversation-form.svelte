@@ -8,8 +8,10 @@
 		setCreateConversationPayload,
 		topicPickerStore
 	} from '$conversations/pages/create/stores';
-	import { readDefaultConversationTypeFromStorage } from '$conversations/pages/create/utils/default-conversation-type-storage';
-	import { readDefaultConversationToneFromStorage } from '$conversations/pages/create/utils/default-conversation-tone-storage';
+	import {
+		readDefaultConversationTypeFromStorage,
+		readDefaultConversationToneFromStorage
+	} from '$conversations/pages/create/utils';
 	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';
 	import * as m from '$lib/paraglide/messages.js';
 	import { createCreateConversationMutation } from '$conversations/api-client';

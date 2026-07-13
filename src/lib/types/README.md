@@ -10,7 +10,7 @@ Each feature is **self-contained** and owns its complete type definition hierarc
 
 ```
 src/lib/types/
-└── core/                           # Cross-cutting domain types (e.g. language proficiency)
+└── core/                           # Cross-cutting domain types (e.g. LanguageName)
 ```
 
 Feature-owned types live next to their feature module:

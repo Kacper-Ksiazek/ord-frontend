@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
+import type { ConversationType } from '$conversations/types';
 import {
 	clearDefaultConversationTypeFromStorage,
 	readDefaultConversationTypeFromStorage,
@@ -102,6 +103,12 @@ describe('writeDefaultConversationTypeToStorage', () => {
 	describe('negative path', () => {
 		it('should not persist disabled conversation types', () => {
 			writeDefaultConversationTypeToStorage('SCENARIO_ROLEPLAY');
+
+			expect(setStorageItem).not.toHaveBeenCalled();
+		});
+
+		it('should not persist invalid conversation types', () => {
+			writeDefaultConversationTypeToStorage('INVALID' as ConversationType);
 
 			expect(setStorageItem).not.toHaveBeenCalled();
 		});

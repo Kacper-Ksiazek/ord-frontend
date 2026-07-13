@@ -38,7 +38,7 @@ export function readDefaultConversationTypeFromStorage(): ConversationType | nul
 }
 
 export function writeDefaultConversationTypeToStorage(type: ConversationType): void {
-	if (DISABLED_CONVERSATION_TYPES.has(type)) {
+	if (!isAllowedConversationType(type)) {
 		return;
 	}
 
