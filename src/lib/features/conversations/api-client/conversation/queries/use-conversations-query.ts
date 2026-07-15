@@ -1,7 +1,7 @@
 import { createQuery } from '@tanstack/svelte-query';
 import type { ConversationSummaryDTO } from '$conversations/types';
 import type { GetConversationsFilters } from '$conversations/types';
-import { getConversations } from '../api/get-conversations';
+import { httpGetConversations } from '../api/http-get-conversations';
 import { conversationKeys } from '../keys';
 
 export function createConversationsQuery(getFilters: () => GetConversationsFilters = () => ({})) {
@@ -10,7 +10,7 @@ export function createConversationsQuery(getFilters: () => GetConversationsFilte
 
 		return {
 			queryKey: conversationKeys.list(filters),
-			queryFn: () => getConversations(filters)
+			queryFn: () => httpGetConversations(filters)
 		};
 	});
 }

@@ -1,9 +1,9 @@
 import { createMutation } from '@tanstack/svelte-query';
 import type { OtpVerifyBody } from '$auth/types';
-import { verifyOtp } from '../api/verify-otp';
+import { httpPostVerifyOtp } from '../api/http-post-verify-otp';
 
 export function createVerifyOtpMutation() {
 	return createMutation(() => ({
-		mutationFn: (body: OtpVerifyBody) => verifyOtp(body)
+		mutationFn: (body: OtpVerifyBody) => httpPostVerifyOtp(body)
 	}));
 }

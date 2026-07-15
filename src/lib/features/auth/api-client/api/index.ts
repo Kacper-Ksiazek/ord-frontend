@@ -1,4 +1,4 @@
-export { getCurrentUser } from './get-current-user';
-export { logout } from './logout';
-export { requestOtp } from './request-otp';
-export { verifyOtp } from './verify-otp';
+export { httpGetCurrentUser } from './http-get-current-user';
+export { httpDeleteLogout } from './http-delete-logout';
+export { httpPostRequestOtp } from './http-post-request-otp';
+export { httpPostVerifyOtp } from './http-post-verify-otp';

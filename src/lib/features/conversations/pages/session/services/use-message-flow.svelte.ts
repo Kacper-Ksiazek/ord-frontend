@@ -5,7 +5,7 @@ import {
 	createRequestLearningTipsForAIMessageMutation,
 	createSaveUserMessageMutation
 } from '$conversations/api-client';
-import { requestAIMessage } from '$conversations/api-client/ongoing-conversation/sse/request-ai-message';
+import { httpPostRequestAIMessage } from '$conversations/api-client/ongoing-conversation/sse/http-post-request-ai-message';
 import type {
 	CompactConversationAiMessage,
 	CompactConversationMessage,
@@ -109,7 +109,7 @@ export function useMessageFlow() {
 			});
 
 			aiMessageSubscription?.unsubscribe();
-			aiMessageSubscription = requestAIMessage({
+			aiMessageSubscription = httpPostRequestAIMessage({
 				conversationId: conversation.id,
 				latestUserMessage: content,
 				messageOrder: aiMessageOrder

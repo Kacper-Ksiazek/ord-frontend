@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { suggestConversationTopics } from '$conversations/api-client/conversation/sse/suggest-conversation-topics';
+	import { httpPostSuggestConversationTopics } from '$conversations/api-client/conversation/sse/http-post-suggest-conversation-topics';
 	import { AiActionButton } from '$lib/components/buttons/ai-action-button';
 	import type { AiActionButtonStatus } from '$lib/components/buttons/ai-action-button/ai-action-button.types';
 	import { Input } from '$lib/components/forms/input';
@@ -37,7 +37,7 @@
 		generateButtonStatus = 'loading';
 
 		return new Promise((resolve, reject) => {
-			suggestConversationTopics({
+			httpPostSuggestConversationTopics({
 				conversationType,
 				language: payload.language,
 				clueFromUser: clueForGeneration || undefined,

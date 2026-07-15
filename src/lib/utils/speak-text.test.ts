@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { vi, describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { requestTtsAudio } from '$lib/utils/tts/request-tts-audio';
+import { httpPostRequestTtsAudio } from '$lib/api-client/api/http-post-request-tts-audio';
 import { speakTextPlayback } from './speak-text.svelte';
 import { SpeakTextCanceledError, speakText, stopSpeaking } from './speak-text';
 
-vi.mock('$lib/utils/tts/request-tts-audio', () => ({
-	requestTtsAudio: vi.fn()
+vi.mock('$lib/api-client/api/http-post-request-tts-audio', () => ({
+	httpPostRequestTtsAudio: vi.fn()
 }));
 
 type MockAudioListeners = Partial<Record<string, Set<() => void>>>;
@@ -53,7 +53,7 @@ let mockAudio: MockAudioElement;
 const HAVE_METADATA = 1;
 
 function mockResolvedTtsAudio() {
-	vi.mocked(requestTtsAudio).mockImplementation(async (_text, signal) => {
+	vi.mocked(httpPostRequestTtsAudio).mockImplementation(async (_text, signal) => {
 		if (signal?.aborted) {
 			throw new axios.CanceledError('canceled');
 		}
@@ -87,7 +87,7 @@ describe('speakText', () => {
 			revokeObjectURL: vi.fn()
 		});
 
-		vi.mocked(requestTtsAudio).mockReset();
+		vi.mocked(httpPostRequestTtsAudio).mockReset();
 		mockResolvedTtsAudio();
 	});
 
@@ -118,7 +118,7 @@ describe('speakText', () => {
 				unblockFetch = () => resolve(new Blob(['audio'], { type: 'audio/mpeg' }));
 			});
 
-			vi.mocked(requestTtsAudio).mockImplementationOnce(() => blockedFetch);
+			vi.mocked(httpPostRequestTtsAudio).mockImplementationOnce(() => blockedFetch);
 
 			const first = speakText('First message', { id: 1 });
 

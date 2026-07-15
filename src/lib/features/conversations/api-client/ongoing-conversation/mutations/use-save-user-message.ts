@@ -1,9 +1,9 @@
 import { createMutation } from '@tanstack/svelte-query';
 import type { SaveUserConversationMessageRequest } from '$conversations/types';
-import { saveUserMessage } from '../api/save-user-message';
+import { httpPostSaveUserMessage } from '../api/http-post-save-user-message';
 
 export function createSaveUserMessageMutation() {
 	return createMutation(() => ({
-		mutationFn: (body: SaveUserConversationMessageRequest) => saveUserMessage(body)
+		mutationFn: (body: SaveUserConversationMessageRequest) => httpPostSaveUserMessage(body)
 	}));
 }

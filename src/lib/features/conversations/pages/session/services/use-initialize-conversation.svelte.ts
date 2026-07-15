@@ -2,7 +2,7 @@ import isEmpty from 'lodash/isEmpty';
 import type { Subscription } from 'rxjs';
 import { onDestroy, onMount } from 'svelte';
 import { page } from '$app/state';
-import { initializeConversationByAI } from '$conversations/api-client/ongoing-conversation/sse/initialize-conversation-by-ai';
+import { httpPostInitializeConversationByAI } from '$conversations/api-client/ongoing-conversation/sse/http-post-initialize-conversation-by-ai';
 import { createRequestLearningTipsForAIMessageMutation } from '$conversations/api-client';
 import type { CompactConversationAiMessage } from '$conversations/types';
 import { getConversationContext } from '../contexts/conversation-context.svelte';
@@ -26,7 +26,7 @@ export function useInitializeConversation() {
 				createdAt: new Date().toISOString()
 			});
 
-			aiInitSubscription = initializeConversationByAI(page.params.id).subscribe({
+			aiInitSubscription = httpPostInitializeConversationByAI(page.params.id).subscribe({
 				next: (data) => {
 					messagesContext.messages[0].content += data;
 				},
