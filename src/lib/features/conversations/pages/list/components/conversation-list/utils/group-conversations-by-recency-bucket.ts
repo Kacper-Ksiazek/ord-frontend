@@ -1,12 +1,5 @@
 import type { ConversationSummaryDTO, RecencyBucket } from '$conversations/types';
-
-const RECENCY_BUCKET_ORDER: RecencyBucket[] = [
-	'TODAY',
-	'YESTERDAY',
-	'THIS_WEEK',
-	'THIS_MONTH',
-	'LATER'
-];
+import { RECENCY_BUCKETS } from '$conversations/shared/constants/enum_values';
 
 export type RecencyBucketSectionGroup = {
 	section: RecencyBucket;
@@ -28,7 +21,7 @@ export function groupConversationsByRecencyBucket(
 		buckets[item.recencyBucket].push(item);
 	}
 
-	return RECENCY_BUCKET_ORDER.filter((id) => buckets[id].length > 0).map((section) => ({
+	return RECENCY_BUCKETS.filter((id) => buckets[id].length > 0).map((section) => ({
 		section,
 		items: buckets[section]
 	}));

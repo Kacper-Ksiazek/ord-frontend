@@ -14,6 +14,19 @@ describe('ConversationListFiltersState', () => {
 		});
 	});
 
+	it('ignores unknown recencyBucket and type query values', () => {
+		const state = new ConversationListFiltersState(
+			new URLSearchParams('search=hello&recencyBucket=FOO&type=NOT_A_TYPE')
+		);
+
+		expect(state.filters).toEqual({
+			search: 'hello',
+			recencyBucket: null,
+			type: null
+		});
+		expect(state.queryPayload).toEqual({ search: 'hello' });
+	});
+
 	it('serializes active filters back to search params', () => {
 		const state = new ConversationListFiltersState(new URLSearchParams());
 		state.filters = {

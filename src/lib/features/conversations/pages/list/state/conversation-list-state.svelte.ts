@@ -1,5 +1,6 @@
 import isEqual from 'lodash/isEqual';
 import { SvelteURLSearchParams } from 'svelte/reactivity';
+import { CONVERSATION_TYPES, RECENCY_BUCKETS } from '$conversations/shared/constants/enum_values';
 import type { ConversationType, RecencyBucket } from '$conversations/types';
 import type { GetConversationsFilters } from '$conversations/types';
 
@@ -7,6 +8,18 @@ export interface ConversationListFilters {
 	search: string;
 	recencyBucket: RecencyBucket | null;
 	type: ConversationType | null;
+}
+
+function parseRecencyBucket(value: string | null): RecencyBucket | null {
+	if (!value) return null;
+
+	return RECENCY_BUCKETS.includes(value as RecencyBucket) ? (value as RecencyBucket) : null;
+}
+
+function parseConversationType(value: string | null): ConversationType | null {
+	if (!value) return null;
+
+	return CONVERSATION_TYPES.includes(value as ConversationType) ? (value as ConversationType) : null;
 }
 
 export class ConversationListFiltersState {
@@ -23,13 +36,10 @@ export class ConversationListFiltersState {
 	}
 
 	static parseSearchParams(urlSearchParams: URLSearchParams): ConversationListFilters {
-		const rawRecencyBucket = urlSearchParams.get('recencyBucket');
-		const rawType = urlSearchParams.get('type');
-
 		return {
 			search: urlSearchParams.get('search') ?? '',
-			recencyBucket: rawRecencyBucket ? (rawRecencyBucket as RecencyBucket) : null,
-			type: rawType ? (rawType as ConversationType) : null
+			recencyBucket: parseRecencyBucket(urlSearchParams.get('recencyBucket')),
+			type: parseConversationType(urlSearchParams.get('type'))
 		};
 	}
 
