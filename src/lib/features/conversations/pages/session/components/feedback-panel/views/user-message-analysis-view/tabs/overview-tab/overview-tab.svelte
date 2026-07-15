@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { ScrollableWrapper } from '$lib/components/utils/scrollable-wrapper';
-	import CircularProgressBar from '$lib/components/scores/circular-progress-bar/circular-progress-bar.svelte';
-	import { ScoreDiffIndicator } from '$lib/components/scores';
+	import { CircularProgressBar, ScoreDiffIndicator } from '$conversations/shared/components/scores';
 	import AiInterlocutorAvatar from '$conversations/shared/components/ai-interlocutor-avatar.svelte';
 	import type { ConversationUserMessageAnalysisDTO } from '$conversations/types';
 	import type { CompactConversationUserMessage } from '$conversations/types';

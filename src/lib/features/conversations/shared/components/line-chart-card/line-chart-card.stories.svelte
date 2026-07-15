@@ -3,7 +3,7 @@
 	import CenterComponentDecorator from '$lib/storybook/decorators/center-component-decorator.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Cards/LineChartCard',
+		title: 'Conversations/LineChartCard',
 		decorators: [() => CenterComponentDecorator as any]
 	});
 </script>

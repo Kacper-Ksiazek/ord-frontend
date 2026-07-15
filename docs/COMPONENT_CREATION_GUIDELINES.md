@@ -156,6 +156,12 @@ pages/create/
 </script>
 ```
 
+## Feature vs shared placement
+
+`$lib/components` is for **design-system / multi-feature** primitives only.
+
+Domain-specific UI used by a single feature lives under that feature (e.g. `$conversations/shared/components`: scores, cards, `AiActionButton`, `MultiStepForm`, playback UI). Do not put feature-only components in `$lib/components` even if they look reusable.
+
 ## Best Practices
 
 ### ✅ DO

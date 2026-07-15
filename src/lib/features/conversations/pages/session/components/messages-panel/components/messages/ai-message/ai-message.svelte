@@ -4,7 +4,7 @@
 	import type { AIMessageLearningTips } from '$conversations/types';
 	import { cn } from 'flowbite-svelte';
 	import MessageBase from '../message-base.svelte';
-	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
+	import TextWithThreeDotsAnimation from '$conversations/shared/components/text-with-three-dots-animation.svelte';
 	import { getConversationContext } from '$conversations/pages/session/contexts/conversation-context.svelte';
 	import { LearningTips } from './components/learning-tips';
 	import { highlightLearningTipsContent } from './utils/highlight-learning-tips';

@@ -2,7 +2,7 @@
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 
 	const { Story } = defineMeta({
-		title: 'Scores/CircularProgressBar',
+		title: 'Conversations/Scores/CircularProgressBar',
 		tags: ['autodocs']
 	});
 </script>

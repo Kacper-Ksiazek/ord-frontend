@@ -1,4 +1,4 @@
-import type { IconCardProps } from '$lib/components/cards/icon-card';
+import type { IconCardProps } from '$conversations/shared/components/icon-card';
 
 export interface FilterableItem<
 	TData,

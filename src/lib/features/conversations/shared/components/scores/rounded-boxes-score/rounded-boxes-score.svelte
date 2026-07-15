@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
-	import { getScoreBoxColor } from '$lib/components/scores/constants/score-colors';
+	import { getScoreBoxColor } from '$conversations/shared/components/scores/constants/score-colors';
 
 	interface ScoreProps {
 		field: string;

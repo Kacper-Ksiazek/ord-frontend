@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { httpPostSuggestConversationTopics } from '$conversations/api-client/conversation/sse/http-post-suggest-conversation-topics';
-	import { AiActionButton } from '$lib/components/buttons/ai-action-button';
-	import type { AiActionButtonStatus } from '$lib/components/buttons/ai-action-button/ai-action-button.types';
+	import { AiActionButton } from '$conversations/shared/components/ai-action-button';
+	import type { AiActionButtonStatus } from '$conversations/shared/components/ai-action-button/ai-action-button.types';
 	import { Input } from '$lib/components/forms/input';
 	import {
 		getCreateConversationPayload,

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { IconButton } from '$lib/components/buttons/icon-button';
-	import SelectableCard from '$lib/components/utils/selectable-card.svelte';
+	import SelectableCard from '$conversations/shared/components/selectable-card.svelte';
 	import { cn } from 'flowbite-svelte';
 	import { Pin, PinOff, X } from 'lucide-svelte';
 	import {

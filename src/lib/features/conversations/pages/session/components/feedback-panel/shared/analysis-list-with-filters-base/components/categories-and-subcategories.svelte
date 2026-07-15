@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { IconCard } from '$lib/components/cards/icon-card';
+	import { IconCard } from '$conversations/shared/components/icon-card';
 	import type { CategoryCard, FilterBase } from '../types/utility-types';
 
 	interface Props {

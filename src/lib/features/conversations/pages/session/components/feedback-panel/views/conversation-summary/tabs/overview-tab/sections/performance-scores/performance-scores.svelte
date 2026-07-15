@@ -4,7 +4,7 @@
 	import { ChevronDown, ChevronUp } from 'lucide-svelte';
 	import { CircularProgressBars, ProgressTableHeader } from './components';
 	import type { CompactConversationUserMessage } from '$conversations/types';
-	import { ScoreBox } from '$lib/components/scores';
+	import { ScoreBox } from '$conversations/shared/components/scores';
 
 	const COLLAPSED_ROW_LIMIT = 5;
 

@@ -2,7 +2,7 @@
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 
 	const { Story } = defineMeta({
-		title: 'Buttons/AiActionButton'
+		title: 'Conversations/AiActionButton'
 	});
 </script>
 

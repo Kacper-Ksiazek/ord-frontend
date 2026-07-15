@@ -1,4 +1,4 @@
-import type { IconCardVariant } from '$lib/components/cards/icon-card/icon-card.types';
+import type { IconCardVariant } from '$conversations/shared/components/icon-card/icon-card.types';
 import type { MessageAnalysisCriteria } from '$conversations/types';
 import {
 	getTailwindColorTheme,

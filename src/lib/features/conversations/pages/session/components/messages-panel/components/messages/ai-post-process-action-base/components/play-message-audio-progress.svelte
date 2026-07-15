@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
-	import PlaybackProgressBar from '$lib/components/playback-progress-bar/playback-progress-bar.svelte';
+	import { PlaybackProgressBar } from '$conversations/shared/components/playback-progress-bar';
 	import { speakTextPlayback } from '$lib/utils/speak-text.svelte';
 
 	interface PlayMessageAudioProgressProps {

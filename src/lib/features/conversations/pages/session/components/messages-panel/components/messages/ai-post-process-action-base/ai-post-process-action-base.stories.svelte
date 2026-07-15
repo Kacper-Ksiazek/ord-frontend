@@ -4,7 +4,7 @@
 	import CenterComponentDecorator from '$lib/storybook/decorators/center-component-decorator.svelte';
 	import ConversationContextDecorator from '$conversations/pages/session/contexts/storybook-decorators/conversation-context-decorator.svelte';
 	import SidepanelContextDecorator from '$conversations/pages/session/contexts/storybook-decorators/sidepanel-context-decorator.svelte';
-	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
+	import TextWithThreeDotsAnimation from '$conversations/shared/components/text-with-three-dots-animation.svelte';
 
 	const { Story } = defineMeta({
 		component: AiPostProcessActionBase,
