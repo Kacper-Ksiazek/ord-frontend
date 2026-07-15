@@ -8,32 +8,16 @@ import {
 import { httpPostRequestAIMessage } from '$conversations/api-client/ongoing-conversation/sse/http-post-request-ai-message';
 import type {
 	CompactConversationAiMessage,
-	CompactConversationMessage,
 	CompactConversationUserMessage,
 	ConversationUserMessageAnalysisDTO
 } from '$conversations/types';
 import { getConversationContext } from '../contexts/conversation-context.svelte';
 import { getMessagesContext } from '../contexts/messages-context.svelte';
-
-function findLatestAiMessageContent(
-	messages: CompactConversationMessage[],
-	beforeIndex = messages.length
-): string {
-	for (let i = beforeIndex - 1; i >= 0; i--) {
-		if (messages[i].sender === 'AI') {
-			return messages[i].content;
-		}
-	}
-
-	return '';
-}
-
-function removeEmptyAiMessageAt(messages: CompactConversationMessage[], index: number): void {
-	const message = messages[index];
-	if (message?.sender === 'AI' && !message.content) {
-		messages.splice(index, 1);
-	}
-}
+import {
+	findLatestAiMessageContent,
+	findLatestAiMessageIndex,
+	removeEmptyAiMessageAt
+} from './message-helpers';
 
 export function useMessageFlow() {
 	const conversation = getConversationContext();
@@ -44,17 +28,48 @@ export function useMessageFlow() {
 	const { mutateAsync: requestLearningTipsMutation } =
 		createRequestLearningTipsForAIMessageMutation();
 
-	let pending = $state(false);
+	/** True only while the user message is being persisted — not for the full AI SSE pipeline. */
+	let isSaving = $state(false);
 	let aiMessageSubscription: Subscription | undefined;
 
 	onDestroy(() => {
 		aiMessageSubscription?.unsubscribe();
 	});
 
-	async function sendUserMessage(content: string): Promise<boolean> {
-		if (!content.trim() || pending) return false;
+	async function requestAnalysisForMessage(
+		messageOrder: number,
+		messageId: string,
+		latestAIMessage: string
+	): Promise<void> {
+		const userMessage = messagesContext.messages[messageOrder] as CompactConversationUserMessage;
+		userMessage.analysisFailed = false;
+		messagesContext.isGeneratingUserMessageAnalysis = true;
 
-		pending = true;
+		try {
+			const data = await requestAnalysisMutation({
+				conversationId: conversation.id,
+				messageId,
+				messageOrder,
+				latestAIMessage
+			});
+			userMessage.analysis = data as ConversationUserMessageAnalysisDTO;
+			userMessage.analysisFailed = false;
+		} catch (error) {
+			console.error('Failed to fetch user message analysis:', error);
+			userMessage.analysisFailed = true;
+		} finally {
+			messagesContext.isGeneratingUserMessageAnalysis = false;
+		}
+	}
+
+	async function sendUserMessage(content: string): Promise<boolean> {
+		if (!content.trim() || isSaving || messagesContext.isGeneratingAiMessage) {
+			return false;
+		}
+
+		isSaving = true;
+		messagesContext.aiStreamError = null;
+
 		try {
 			const messageId = crypto.randomUUID();
 			const messageOrder = messagesContext.messages.length;
@@ -63,6 +78,8 @@ export function useMessageFlow() {
 				sender: 'USER',
 				content,
 				analysis: null,
+				analysisFailed: false,
+				messageId,
 				// eslint-disable-next-line svelte/prefer-svelte-reactivity -- one-shot timestamp when sending
 				createdAt: new Date().toISOString()
 			});
@@ -81,25 +98,12 @@ export function useMessageFlow() {
 				return false;
 			}
 
-			messagesContext.isGeneratingUserMessageAnalysis = true;
-			requestAnalysisMutation({
-				conversationId: conversation.id,
-				messageId,
+			void requestAnalysisForMessage(
 				messageOrder,
-				latestAIMessage: findLatestAiMessageContent(messagesContext.messages, messageOrder)
-			})
-				.then((data) => {
-					(messagesContext.messages[messageOrder] as CompactConversationUserMessage).analysis =
-						data as ConversationUserMessageAnalysisDTO;
-				})
-				.catch((error) => {
-					console.error('Failed to fetch user message analysis:', error);
-				})
-				.finally(() => {
-					messagesContext.isGeneratingUserMessageAnalysis = false;
-				});
+				messageId,
+				findLatestAiMessageContent(messagesContext.messages, messageOrder)
+			);
 
-			const aiMessageOrder = messageOrder + 1;
 			messagesContext.isGeneratingAiMessage = true;
 			messagesContext.messages.push({
 				sender: 'AI',
@@ -107,6 +111,7 @@ export function useMessageFlow() {
 				// eslint-disable-next-line svelte/prefer-svelte-reactivity -- one-shot timestamp when sending
 				createdAt: new Date().toISOString()
 			});
+			const aiMessageOrder = findLatestAiMessageIndex(messagesContext.messages);
 
 			aiMessageSubscription?.unsubscribe();
 			aiMessageSubscription = httpPostRequestAIMessage({
@@ -115,17 +120,27 @@ export function useMessageFlow() {
 				messageOrder: aiMessageOrder
 			}).subscribe({
 				next: (data) => {
-					messagesContext.messages[aiMessageOrder].content += data;
+					const aiIndex = findLatestAiMessageIndex(messagesContext.messages);
+					if (aiIndex >= 0) {
+						messagesContext.messages[aiIndex].content += data;
+					}
 				},
 				complete: () => {
 					messagesContext.isGeneratingAiMessage = false;
 					messagesContext.isGeneratingLearningTips = true;
 
+					const aiIndex = findLatestAiMessageIndex(messagesContext.messages);
+					if (aiIndex < 0) {
+						messagesContext.isGeneratingLearningTips = false;
+
+						return;
+					}
+
 					requestLearningTipsMutation({
 						conversationId: conversation.id
 					})
 						.then((learningTips) => {
-							(messagesContext.messages[aiMessageOrder] as CompactConversationAiMessage).learningTips =
+							(messagesContext.messages[aiIndex] as CompactConversationAiMessage).learningTips =
 								learningTips;
 						})
 						.catch((error) => {
@@ -137,19 +152,23 @@ export function useMessageFlow() {
 				},
 				error: () => {
 					messagesContext.isGeneratingAiMessage = false;
-					removeEmptyAiMessageAt(messagesContext.messages, aiMessageOrder);
+					const aiIndex = findLatestAiMessageIndex(messagesContext.messages);
+					if (aiIndex >= 0) {
+						removeEmptyAiMessageAt(messagesContext.messages, aiIndex);
+					}
+					messagesContext.aiStreamError = 'message';
 				}
 			});
 
 			return true;
 		} finally {
-			pending = false;
+			isSaving = false;
 		}
 	}
 
 	return {
-		get pending() {
-			return pending;
+		get isSaving() {
+			return isSaving;
 		},
 		sendUserMessage
 	};

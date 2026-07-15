@@ -22,6 +22,10 @@ export type CompactConversationUserMessage = {
 	sender: 'USER';
 	content: string;
 	analysis: ConversationUserMessageAnalysisDTO | null;
+	/** Set when analysis request fails so UI can show error instead of perpetual loading. */
+	analysisFailed?: boolean;
+	/** Client-generated id used to retry analysis after a failure. */
+	messageId?: string;
 	createdAt: string;
 };
 

@@ -1,0 +1,42 @@
+{
+	"page_title": "Conversations",
+	"heading": "Conversations",
+	"subtitle": "Continue a practice chat or start a new one.",
+	"new_conversation": "New conversation",
+	"load_error": {
+		"header": "Couldn't load conversations",
+		"description_fallback": "Something went wrong. Try again.",
+		"try_again": "Try again"
+	},
+	"activity": {
+		"loading_aria": "Loading activity overview",
+		"error_fallback": "Couldn't load activity overview.",
+		"try_again": "Try again"
+	},
+	"empty": {
+		"no_conversations": {
+			"header": "No conversations yet",
+			"description": "Start a guided session to practice speaking and get feedback on your messages."
+		},
+		"no_matches": {
+			"header": "No conversations match your filters",
+			"description": "Try adjusting or clearing your filters to see more results.",
+			"clear_filters": "Clear filters"
+		},
+		"list_aria": "Your conversations"
+	},
+	"filters": {
+		"search_placeholder": "Topic or AI name",
+		"all": "All",
+		"recency_aria": "Filter by recency",
+		"type_aria": "Filter by conversation type",
+		"clear": "Clear filters",
+		"recency": {
+			"TODAY": "Today",
+			"YESTERDAY": "Yesterday",
+			"THIS_WEEK": "This week",
+			"THIS_MONTH": "This month",
+			"LATER": "Later"
+		}
+	}
+}

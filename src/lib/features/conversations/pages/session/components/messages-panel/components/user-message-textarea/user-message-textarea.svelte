@@ -5,13 +5,18 @@
 	import { getMessagesMaxWidth } from '../../../constants.svelte';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 	import { useMessageFlow } from '../../../../services/use-message-flow.svelte';
+	import { getMessagesContext } from '../../../../contexts/messages-context.svelte';
+	import * as m from '$lib/paraglide/messages.js';
 
 	let isFocused = $state(false);
 	let message = $state('');
 	let textareaComponent: AutoHeightTextarea | undefined = $state();
 
 	const messageFlow = useMessageFlow();
+	const messagesContext = getMessagesContext();
 	const messagesMaxWidth = $derived(getMessagesMaxWidth());
+
+	const isSendBlocked = $derived(messageFlow.isSaving || messagesContext.isGeneratingAiMessage);
 
 	async function sendUserMessage() {
 		const sent = await messageFlow.sendUserMessage(message);
@@ -46,7 +51,7 @@
 		bind:this={textareaComponent}
 		dataTestId={E2E_TEST_IDS.session.messageInput}
 		bind:value={message}
-		placeholder="Type your message..."
+		placeholder={m['features.conversation.session.composer.placeholder']()}
 		className="content-long "
 		onkeydown={handleKeyDown}
 		onfocus={() => (isFocused = true)}
@@ -54,8 +59,8 @@
 	/>
 
 	<SendButton
-		disabled={!message.trim()}
-		pending={messageFlow.pending}
+		disabled={!message.trim() || isSendBlocked}
+		pending={isSendBlocked}
 		{isFocused}
 		onclick={sendUserMessage}
 	/>

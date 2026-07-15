@@ -12,6 +12,8 @@
 	import { getConversationContext } from '../../contexts/conversation-context.svelte';
 	import ConversationTypeIcon from '$conversations/shared/components/conversation-type-icon.svelte';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { Button } from '$lib/components/buttons/button';
+	import * as m from '$lib/paraglide/messages.js';
 
 	/** Hide the sticky topic strip while the main header topic is in view (top of scroll area). */
 	const TOPIC_BAR_SHOW_AFTER_SCROLL_PX = 260;
@@ -157,6 +159,28 @@
 				{/if}
 			{/each}
 		</ScrollableWrapper>
+
+		{#if messagesContext.aiStreamError}
+			<div
+				class="{messagesMaxWidth} mx-auto mb-3 flex flex-col items-start gap-2 rounded-lg border border-red-200 bg-red-50 p-3 dark:border-red-800 dark:bg-red-900/20"
+				role="alert"
+			>
+				<p class="text-sm text-red-800 dark:text-red-200">
+					{messagesContext.aiStreamError === 'init'
+						? m['features.conversation.session.stream_error.init']()
+						: m['features.conversation.session.stream_error.message']()}
+				</p>
+				<Button
+					type="OUTLINED"
+					variant="PRIMARY"
+					onClick={() => {
+						messagesContext.aiStreamError = null;
+					}}
+				>
+					{m['features.conversation.session.stream_error.dismiss']()}
+				</Button>
+			</div>
+		{/if}
 
 		<!-- Fixed textarea at bottom -->
 		<UserMessageTextarea />

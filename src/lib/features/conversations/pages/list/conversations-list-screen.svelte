@@ -22,18 +22,45 @@
 
 	const activityOverviewQuery = createConversationActivityOverviewQuery();
 	const conversationsQuery = createConversationsQuery(() => filtersState.queryPayload);
+
+	/** Push filter changes into the URL (replaceState so filter tweaks don't spam history). */
+	$effect(() => {
+		const filters = filtersState.filters;
+		void filters;
+
+		if (filtersState.matchesSearchParams(page.url.searchParams)) {
+			return;
+		}
+
+		const params = filtersState.toSearchParams();
+		const query = params.toString();
+		const href = query ? `${page.url.pathname}?${query}` : page.url.pathname;
+
+		void goto(href, { replaceState: true, keepFocus: true, noScroll: true });
+	});
+
+	/** Hydrate filters when the user navigates with back/forward. */
+	$effect(() => {
+		const search = page.url.search;
+		void search;
+		filtersState.applyFromSearchParams(page.url.searchParams);
+	});
 </script>
 
 <svelte:head>
-	<title>Conversations</title>
+	<title>{m['features.conversation.list.page_title']()}</title>
 </svelte:head>
 
 {#if conversationsQuery.isError}
 	<StatusScreen
 		variant="error"
-		header="Couldn't load conversations"
-		description={conversationsQuery.error?.message || 'Something went wrong. Try again.'}
-		primaryButton={{ label: 'Try again', onClick: () => conversationsQuery.refetch() }}
+		header={m['features.conversation.list.load_error.header']()}
+		description={conversationsQuery.error?.message ||
+			m['features.conversation.list.load_error.description_fallback']()}
+		primaryButton={{
+			label: m['features.conversation.list.load_error.try_again'](),
+			onClick: () => conversationsQuery.refetch()
+		}}
 	/>
 {:else}
 	<PageContentContainer>
@@ -52,10 +79,10 @@
 						class="text-2xl font-bold text-gray-900 dark:text-white"
 						data-testid={E2E_TEST_IDS.conversations.heading}
 					>
-						Conversations
+						{m['features.conversation.list.heading']()}
 					</h1>
 					<p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-						Continue a practice chat or start a new one.
+						{m['features.conversation.list.subtitle']()}
 					</p>
 				</div>
 
@@ -64,7 +91,7 @@
 					class="w-full shrink-0 sm:w-auto"
 					onClick={() => goto('/conversations/create')}
 				>
-					New conversation
+					{m['features.conversation.list.new_conversation']()}
 				</Button>
 			</div>
 
@@ -72,7 +99,7 @@
 				<div
 					class="mb-6 flex min-h-[120px] items-center justify-center rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-600 dark:bg-gray-700/50"
 					aria-busy="true"
-					aria-label="Loading activity overview"
+					aria-label={m['features.conversation.list.activity.loading_aria']()}
 				>
 					<Loader wrapperClass="py-8" />
 				</div>
@@ -82,10 +109,11 @@
 					role="alert"
 				>
 					<p class="text-sm text-red-800 dark:text-red-200">
-						{activityOverviewQuery.error?.message ?? "Couldn't load activity overview."}
+						{activityOverviewQuery.error?.message ??
+							m['features.conversation.list.activity.error_fallback']()}
 					</p>
 					<Button type="OUTLINED" variant="PRIMARY" onClick={() => activityOverviewQuery.refetch()}>
-						Try again
+						{m['features.conversation.list.activity.try_again']()}
 					</Button>
 				</div>
 			{:else if activityOverviewQuery.data}

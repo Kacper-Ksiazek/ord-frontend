@@ -1,0 +1,42 @@
+{
+	"page_title": "Rozmowy",
+	"heading": "Rozmowy",
+	"subtitle": "Kontynuuj ćwiczenie lub rozpocznij nową rozmowę.",
+	"new_conversation": "Nowa rozmowa",
+	"load_error": {
+		"header": "Nie udało się wczytać rozmów",
+		"description_fallback": "Coś poszło nie tak. Spróbuj ponownie.",
+		"try_again": "Spróbuj ponownie"
+	},
+	"activity": {
+		"loading_aria": "Wczytywanie podsumowania aktywności",
+		"error_fallback": "Nie udało się wczytać podsumowania aktywności.",
+		"try_again": "Spróbuj ponownie"
+	},
+	"empty": {
+		"no_conversations": {
+			"header": "Brak rozmów",
+			"description": "Rozpocznij sesję, aby ćwiczyć mówienie i otrzymywać feedback do swoich wiadomości."
+		},
+		"no_matches": {
+			"header": "Żadne rozmowy nie pasują do filtrów",
+			"description": "Spróbuj zmienić lub wyczyścić filtry, aby zobaczyć więcej wyników.",
+			"clear_filters": "Wyczyść filtry"
+		},
+		"list_aria": "Twoje rozmowy"
+	},
+	"filters": {
+		"search_placeholder": "Temat lub imię AI",
+		"all": "Wszystkie",
+		"recency_aria": "Filtruj według czasu",
+		"type_aria": "Filtruj według typu rozmowy",
+		"clear": "Wyczyść filtry",
+		"recency": {
+			"TODAY": "Dziś",
+			"YESTERDAY": "Wczoraj",
+			"THIS_WEEK": "W tym tygodniu",
+			"THIS_MONTH": "W tym miesiącu",
+			"LATER": "Później"
+		}
+	}
+}

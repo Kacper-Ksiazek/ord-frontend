@@ -8,14 +8,6 @@ const RECENCY_BUCKET_ORDER: RecencyBucket[] = [
 	'LATER'
 ];
 
-export const RECENCY_BUCKET_LABEL: Record<RecencyBucket, string> = {
-	TODAY: 'Today',
-	YESTERDAY: 'Yesterday',
-	THIS_WEEK: 'This week',
-	THIS_MONTH: 'This month',
-	LATER: 'Later'
-};
-
 export type RecencyBucketSectionGroup = {
 	section: RecencyBucket;
 	items: ConversationSummaryDTO[];

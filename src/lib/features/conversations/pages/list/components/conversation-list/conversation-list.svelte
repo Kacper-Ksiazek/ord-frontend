@@ -3,14 +3,12 @@
 	import { createConversationsQuery } from '$conversations/api-client/queries';
 	import { Loader } from '$lib/components/utils/loader';
 	import ConversationListRow from './components/conversation-list-row.svelte';
-	import {
-		groupConversationsByRecencyBucket,
-		RECENCY_BUCKET_LABEL
-	} from './utils/group-conversations-by-recency-bucket';
+	import { groupConversationsByRecencyBucket } from './utils/group-conversations-by-recency-bucket';
 	import type { ConversationListFiltersState } from '$conversations/pages/list/state/conversation-list-state.svelte';
 	import { StatusScreen } from '$lib/components/utils/status-screen';
 	import type { RecencyBucket } from '$conversations/types';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import * as m from '$lib/paraglide/messages.js';
 
 	interface Props {
 		conversationsQuery: ReturnType<typeof createConversationsQuery>;
@@ -22,6 +20,13 @@
 	const groupedConversations = $derived(
 		groupConversationsByRecencyBucket(conversationsQuery.data ?? [])
 	);
+
+	function recencyLabel(section: RecencyBucket): string {
+		const key = `features.conversation.list.filters.recency.${section}` as keyof typeof m;
+		const messageFn = m[key] as (() => string) | undefined;
+
+		return messageFn?.() ?? section;
+	}
 </script>
 
 {#snippet recencyBucketLabel(section: RecencyBucket)}
@@ -29,7 +34,7 @@
 		id="conversations-section-{section}"
 		class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400"
 	>
-		{RECENCY_BUCKET_LABEL[section]}
+		{recencyLabel(section)}
 	</h2>
 {/snippet}
 
@@ -41,24 +46,24 @@
 	{#if filtersState.hasActiveFilters}
 		<StatusScreen
 			variant="information"
-			header="No conversations match your filters"
-			description="Try adjusting or clearing your filters to see more results."
+			header={m['features.conversation.list.empty.no_matches.header']()}
+			description={m['features.conversation.list.empty.no_matches.description']()}
 			primaryButton={{
-				label: 'Clear filters',
+				label: m['features.conversation.list.empty.no_matches.clear_filters'](),
 				onClick: () => filtersState.clearFilters()
 			}}
 		/>
 	{:else}
 		<StatusScreen
 			variant="information"
-			header="No conversations yet"
-			description="Start a guided session to practice speaking and get feedback on your messages."
+			header={m['features.conversation.list.empty.no_conversations.header']()}
+			description={m['features.conversation.list.empty.no_conversations.description']()}
 		/>
 	{/if}
 {:else}
 	<div
 		class="flex flex-col gap-8"
-		aria-label="Your conversations"
+		aria-label={m['features.conversation.list.empty.list_aria']()}
 		data-testid={E2E_TEST_IDS.conversations.list}
 	>
 		{#each groupedConversations as { section, items } (section)}

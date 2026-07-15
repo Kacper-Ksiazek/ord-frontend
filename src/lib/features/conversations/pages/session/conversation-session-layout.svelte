@@ -4,6 +4,7 @@
 	import { createConversationQuery } from '$conversations/api-client/queries';
 	import { Loader } from '$lib/components/utils/loader';
 	import { StatusScreen } from '$lib/components/utils/status-screen';
+	import * as m from '$lib/paraglide/messages.js';
 	import { createConversationContext } from './contexts/conversation-context.svelte';
 	import { createMessagesContext } from './contexts/messages-context.svelte';
 	import { createSidepanelContext } from './contexts/sidepanel-context.svelte';
@@ -34,7 +35,9 @@
 	});
 
 	const pageTitle = $derived(
-		conversationQuery.data ? conversationQuery.data.topic : 'Loading conversation...'
+		conversationQuery.data
+			? conversationQuery.data.topic
+			: m['features.conversation.session.loading_title']()
 	);
 </script>
 
@@ -45,9 +48,13 @@
 {#if conversationQuery.isError}
 	<StatusScreen
 		variant="error"
-		header="Couldn't load conversation"
-		description={conversationQuery.error?.message || 'Something went wrong. Try again.'}
-		primaryButton={{ label: 'Try again', onClick: () => conversationQuery.refetch() }}
+		header={m['features.conversation.session.load_error.header']()}
+		description={conversationQuery.error?.message ||
+			m['features.conversation.session.load_error.description_fallback']()}
+		primaryButton={{
+			label: m['features.conversation.session.load_error.try_again'](),
+			onClick: () => conversationQuery.refetch()
+		}}
 	/>
 {:else if !isLoaded}
 	<Loader wrapperClass="flex-1 items-center justify-center" />

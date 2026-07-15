@@ -1,0 +1,20 @@
+{
+	"loading_title": "Gespräch wird geladen...",
+	"load_error": {
+		"header": "Gespräch konnte nicht geladen werden",
+		"description_fallback": "Etwas ist schiefgelaufen. Bitte erneut versuchen.",
+		"try_again": "Erneut versuchen"
+	},
+	"composer": {
+		"placeholder": "Nachricht eingeben..."
+	},
+	"stream_error": {
+		"init": "Das Gespräch konnte nicht gestartet werden. Bitte die Seite aktualisieren.",
+		"message": "Es konnte keine Antwort empfangen werden. Du kannst deine Nachricht erneut senden.",
+		"dismiss": "Schließen"
+	},
+	"analysis": {
+		"failed": "Analyse für diese Nachricht konnte nicht erstellt werden.",
+		"retry": "Erneut versuchen"
+	}
+}
