@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { Badge, cn } from 'flowbite-svelte';
-	import { MistakeSeverityIndicator } from '$lib/components/scores';
+	import { MistakeSeverityIndicator } from '$conversations/shared/components/mistake-severity-indicator';
+	import type { TailwindColorTheme } from '$conversations/shared/utils/get-tailwind-colors';
 	import type { BadgesBlock } from '../../ai-advice.types';
-	import type { TailwindColorTheme } from '$lib/utils/theme/get-tailwind-colors';
 
 	interface Props {
 		block: BadgesBlock;

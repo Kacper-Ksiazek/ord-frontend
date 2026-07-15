@@ -3,7 +3,7 @@ import type { MessageAnalysisCriteria } from '$conversations/types';
 import {
 	getTailwindColorTheme,
 	type TailwindColorTheme
-} from '$lib/utils/theme/get-tailwind-colors';
+} from '$conversations/shared/utils/get-tailwind-colors';
 
 const USER_MESSAGE_ANALYSIS_COLORS_MAP: Record<MessageAnalysisCriteria, IconCardVariant> = {
 	MISTAKES: 'red',

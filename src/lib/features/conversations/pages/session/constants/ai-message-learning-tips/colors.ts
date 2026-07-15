@@ -3,7 +3,7 @@ import type { LearningTipCategory } from '$conversations/types';
 import {
 	getTailwindColorTheme,
 	type TailwindColorTheme
-} from '$lib/utils/theme/get-tailwind-colors';
+} from '$conversations/shared/utils/get-tailwind-colors';
 
 const AI_MESSAGE_LEARNING_TIP_COLORS_MAP: Record<LearningTipCategory, IconCardVariant> = {
 	GRAMMAR: 'green',

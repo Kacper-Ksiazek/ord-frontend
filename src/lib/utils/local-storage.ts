@@ -22,14 +22,6 @@ export const STORAGE_KEYS = {
 } as const;
 
 /**
- * Logical keys for {@link getStorageItem} / {@link setStorageItem} / {@link removeStorageItem}
- * (prefix is applied automatically). Not cleared by {@link clearAppStorage}.
- */
-export const LOCAL_STORAGE_KEYS = {
-	CREATE_CONVERSATION_TOPIC_PICKER_PINNED_TOPICS: 'create_conversation_topic_picker_pinned_topics'
-} as const;
-
-/**
  * Set an item in localStorage with automatic JSON serialization
  */
 export function setStorageItem<T>(key: string, value: T): void {

@@ -3,7 +3,7 @@
 	import CenterComponentDecorator from '$lib/storybook/decorators/center-component-decorator.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Scores/MistakeSeverityIndicator',
+		title: 'Conversations/MistakeSeverityIndicator',
 		decorators: [() => CenterComponentDecorator as any],
 		tags: ['autodocs']
 	});

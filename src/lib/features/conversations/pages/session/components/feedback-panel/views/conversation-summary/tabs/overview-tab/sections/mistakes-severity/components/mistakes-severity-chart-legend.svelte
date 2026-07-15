@@ -2,7 +2,7 @@
 	import type { MistakeStats } from '../utils/compute-message-stats';
 	import type { ConversationMessageMistakeSeverity } from '$conversations/types';
 	import { MISTAKE_SEVERITY_ICONS_MAP } from '$conversations/pages/session/constants/user-message-analysis/subcategory-icons';
-	import { MistakeSeverityIndicator } from '$lib/components/scores';
+	import { MistakeSeverityIndicator } from '$conversations/shared/components/mistake-severity-indicator';
 
 	interface Props {
 		mistakeStats: MistakeStats;

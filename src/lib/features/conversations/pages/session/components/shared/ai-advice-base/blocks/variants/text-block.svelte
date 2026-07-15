@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
 	import type { TextBlock } from '../../ai-advice.types';
-	import type { TailwindColorTheme } from '$lib/utils/theme/get-tailwind-colors';
+	import type { TailwindColorTheme } from '$conversations/shared/utils/get-tailwind-colors';
 
 	interface Props {
 		block: TextBlock;
