@@ -1,4 +1,6 @@
 import isEqual from 'lodash/isEqual';
+import { SvelteURLSearchParams } from 'svelte/reactivity';
+import { CONVERSATION_TYPES, RECENCY_BUCKETS } from '$conversations/shared/constants/enum_values';
 import type { ConversationType, RecencyBucket } from '$conversations/types';
 import type { GetConversationsFilters } from '$conversations/types';
 
@@ -6,6 +8,18 @@ export interface ConversationListFilters {
 	search: string;
 	recencyBucket: RecencyBucket | null;
 	type: ConversationType | null;
+}
+
+function parseRecencyBucket(value: string | null): RecencyBucket | null {
+	if (!value) return null;
+
+	return RECENCY_BUCKETS.includes(value as RecencyBucket) ? (value as RecencyBucket) : null;
+}
+
+function parseConversationType(value: string | null): ConversationType | null {
+	if (!value) return null;
+
+	return CONVERSATION_TYPES.includes(value as ConversationType) ? (value as ConversationType) : null;
 }
 
 export class ConversationListFiltersState {
@@ -18,13 +32,14 @@ export class ConversationListFiltersState {
 	filters: ConversationListFilters = $state(ConversationListFiltersState.DEFAULT_FILTERS);
 
 	constructor(urlSearchParams: URLSearchParams) {
-		const rawRecencyBucket = urlSearchParams.get('recencyBucket');
-		const rawType = urlSearchParams.get('type');
+		this.applyFromSearchParams(urlSearchParams);
+	}
 
-		this.filters = {
+	static parseSearchParams(urlSearchParams: URLSearchParams): ConversationListFilters {
+		return {
 			search: urlSearchParams.get('search') ?? '',
-			recencyBucket: rawRecencyBucket ? (rawRecencyBucket as RecencyBucket) : null,
-			type: rawType ? (rawType as ConversationType) : null
+			recencyBucket: parseRecencyBucket(urlSearchParams.get('recencyBucket')),
+			type: parseConversationType(urlSearchParams.get('type'))
 		};
 	}
 
@@ -46,6 +61,33 @@ export class ConversationListFiltersState {
 		}
 
 		return payload;
+	}
+
+	applyFromSearchParams(urlSearchParams: URLSearchParams) {
+		const next = ConversationListFiltersState.parseSearchParams(urlSearchParams);
+		if (!isEqual(this.filters, next)) {
+			this.filters = next;
+		}
+	}
+
+	toSearchParams(): URLSearchParams {
+		const params = new SvelteURLSearchParams();
+
+		if (this.filters.search) {
+			params.set('search', this.filters.search);
+		}
+		if (this.filters.recencyBucket) {
+			params.set('recencyBucket', this.filters.recencyBucket);
+		}
+		if (this.filters.type) {
+			params.set('type', this.filters.type);
+		}
+
+		return params;
+	}
+
+	matchesSearchParams(urlSearchParams: URLSearchParams): boolean {
+		return isEqual(this.filters, ConversationListFiltersState.parseSearchParams(urlSearchParams));
 	}
 
 	clearFilters() {

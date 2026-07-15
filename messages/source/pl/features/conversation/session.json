@@ -1,0 +1,20 @@
+{
+	"loading_title": "Wczytywanie rozmowy...",
+	"load_error": {
+		"header": "Nie udało się wczytać rozmowy",
+		"description_fallback": "Coś poszło nie tak. Spróbuj ponownie.",
+		"try_again": "Spróbuj ponownie"
+	},
+	"composer": {
+		"placeholder": "Napisz wiadomość..."
+	},
+	"stream_error": {
+		"init": "Nie udało się rozpocząć rozmowy. Odśwież stronę i spróbuj ponownie.",
+		"message": "Nie udało się otrzymać odpowiedzi. Możesz spróbować wysłać wiadomość ponownie.",
+		"dismiss": "Zamknij"
+	},
+	"analysis": {
+		"failed": "Nie udało się wygenerować analizy tej wiadomości.",
+		"retry": "Spróbuj ponownie"
+	}
+}

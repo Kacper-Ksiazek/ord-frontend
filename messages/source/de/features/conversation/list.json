@@ -1,0 +1,42 @@
+{
+	"page_title": "Gespräche",
+	"heading": "Gespräche",
+	"subtitle": "Setze eine Übung fort oder starte ein neues Gespräch.",
+	"new_conversation": "Neues Gespräch",
+	"load_error": {
+		"header": "Gespräche konnten nicht geladen werden",
+		"description_fallback": "Etwas ist schiefgelaufen. Bitte erneut versuchen.",
+		"try_again": "Erneut versuchen"
+	},
+	"activity": {
+		"loading_aria": "Aktivitätsübersicht wird geladen",
+		"error_fallback": "Aktivitätsübersicht konnte nicht geladen werden.",
+		"try_again": "Erneut versuchen"
+	},
+	"empty": {
+		"no_conversations": {
+			"header": "Noch keine Gespräche",
+			"description": "Starte eine geführte Sitzung, um Sprechen zu üben und Feedback zu deinen Nachrichten zu erhalten."
+		},
+		"no_matches": {
+			"header": "Keine Gespräche passen zu deinen Filtern",
+			"description": "Passe die Filter an oder setze sie zurück, um mehr Ergebnisse zu sehen.",
+			"clear_filters": "Filter zurücksetzen"
+		},
+		"list_aria": "Deine Gespräche"
+	},
+	"filters": {
+		"search_placeholder": "Thema oder KI-Name",
+		"all": "Alle",
+		"recency_aria": "Nach Zeitraum filtern",
+		"type_aria": "Nach Gesprächstyp filtern",
+		"clear": "Filter zurücksetzen",
+		"recency": {
+			"TODAY": "Heute",
+			"YESTERDAY": "Gestern",
+			"THIS_WEEK": "Diese Woche",
+			"THIS_MONTH": "Diesen Monat",
+			"LATER": "Später"
+		}
+	}
+}

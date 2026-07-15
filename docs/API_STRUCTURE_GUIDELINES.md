@@ -202,3 +202,18 @@ Prefer feature aliases over deep `$lib/features/...` paths. Routes should be thi
 - Feature `api-client/index.ts` exports **mutations and queries** — not raw `http*` callers.
 - Import `http*` functions directly from their file path when needed outside mutations/queries (e.g. SSE in services, guards calling REST).
 - Auth REST callers are re-exported from `$auth/api-client/api/index.ts` for guard and loader use.
+
+## Svelte composables (`use*`)
+
+Session and other UI lifecycle helpers that read Svelte context, register `onMount` / `onDestroy`, or own reactive local state live as **`use-*.svelte.ts`** modules and export a **`use*`** function (e.g. `useMessageFlow`, `useInitializeConversation`).
+
+| Layer | File pattern | Export pattern | Example |
+|-------|--------------|----------------|---------|
+| TanStack Query wrappers | `use-*-query.ts` / `use-*-mutation.ts` | `create*Query` / `create*Mutation` | `use-conversations-query.ts` → `createConversationsQuery` |
+| UI / session composables | `use-*.svelte.ts` | `use*` | `use-message-flow.svelte.ts` → `useMessageFlow` |
+
+**Rules:**
+
+- Prefer the `use*` prefix for composables that must run in a component lifecycle (context, mount/destroy, subscriptions).
+- Keep TanStack wrappers as `create*` even when the file name starts with `use-` — that matches `@tanstack/svelte-query` factory style already used in the api-client.
+- Pure helpers (no context/lifecycle) stay plain functions in `*-helpers.ts` / `utils/` without a `use*` prefix.

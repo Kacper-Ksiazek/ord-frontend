@@ -1,4 +1,4 @@
-import type { ConversationAITone, ConversationType } from '$conversations/types';
+import type { ConversationAITone, ConversationType, RecencyBucket } from '$conversations/types';
 
 export const CONVERSATION_TYPES: ConversationType[] = [
 	'SMALL_TALK',
@@ -6,6 +6,14 @@ export const CONVERSATION_TYPES: ConversationType[] = [
 	'EXAM_PRACTICE',
 	'TOPIC_EXPLORATION',
 	'OXFORD_DEBATE'
+] as const;
+
+export const RECENCY_BUCKETS: RecencyBucket[] = [
+	'TODAY',
+	'YESTERDAY',
+	'THIS_WEEK',
+	'THIS_MONTH',
+	'LATER'
 ] as const;
 
 /** Conversation types that cannot be chosen in the create flow (UI-only). */

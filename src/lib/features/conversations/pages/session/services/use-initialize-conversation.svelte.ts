@@ -7,6 +7,7 @@ import { createRequestLearningTipsForAIMessageMutation } from '$conversations/ap
 import type { CompactConversationAiMessage } from '$conversations/types';
 import { getConversationContext } from '../contexts/conversation-context.svelte';
 import { getMessagesContext } from '../contexts/messages-context.svelte';
+import { findLatestAiMessageIndex, removeEmptyAiMessageAt } from './message-helpers';
 
 export function useInitializeConversation() {
 	const messagesContext = getMessagesContext();
@@ -19,6 +20,7 @@ export function useInitializeConversation() {
 	onMount(() => {
 		if (isEmpty(messagesContext.messages)) {
 			messagesContext.isGeneratingAiMessage = true;
+			messagesContext.aiStreamError = null;
 			messagesContext.messages.push({
 				sender: 'AI',
 				content: '',
@@ -28,11 +30,19 @@ export function useInitializeConversation() {
 
 			aiInitSubscription = httpPostInitializeConversationByAI(page.params.id).subscribe({
 				next: (data) => {
-					messagesContext.messages[0].content += data;
+					const aiIndex = findLatestAiMessageIndex(messagesContext.messages);
+					if (aiIndex >= 0) {
+						messagesContext.messages[aiIndex].content += data;
+					}
 				},
 				complete: () => {
 					messagesContext.isGeneratingAiMessage = false;
-					const aiMessage = messagesContext.messages[0] as CompactConversationAiMessage;
+					const aiIndex = findLatestAiMessageIndex(messagesContext.messages);
+					if (aiIndex < 0) {
+						return;
+					}
+
+					const aiMessage = messagesContext.messages[aiIndex] as CompactConversationAiMessage;
 					if (!aiMessage.learningTips) {
 						messagesContext.isGeneratingLearningTips = true;
 						requestLearningTipsMutation({
@@ -51,6 +61,11 @@ export function useInitializeConversation() {
 				},
 				error: () => {
 					messagesContext.isGeneratingAiMessage = false;
+					const aiIndex = findLatestAiMessageIndex(messagesContext.messages);
+					if (aiIndex >= 0) {
+						removeEmptyAiMessageAt(messagesContext.messages, aiIndex);
+					}
+					messagesContext.aiStreamError = 'init';
 				}
 			});
 		}

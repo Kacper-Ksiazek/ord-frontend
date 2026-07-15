@@ -6,6 +6,9 @@
 	import { ClockIcon, MessageSquare, SearchIcon, TrashIcon } from 'lucide-svelte';
 	import type { ConversationListFilters } from '../../state/conversation-list-state.svelte';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import * as m from '$lib/paraglide/messages.js';
+	import { getConversationTypeLabel } from '$conversations/shared/utils';
+	import type { ConversationType } from '$conversations/types';
 
 	interface Props {
 		filtersState: ConversationListFiltersState;
@@ -13,22 +16,29 @@
 
 	let { filtersState }: Props = $props();
 
+	const CONVERSATION_TYPE_VALUES: ConversationType[] = [
+		'SMALL_TALK',
+		'SCENARIO_ROLEPLAY',
+		'EXAM_PRACTICE',
+		'TOPIC_EXPLORATION',
+		'OXFORD_DEBATE'
+	];
+
 	const RECENCY_BUCKETS: DropdownSelectOption<ConversationListFilters['recencyBucket']>[] = [
-		{ label: 'All', value: null },
-		{ label: 'Today', value: 'TODAY' },
-		{ label: 'Yesterday', value: 'YESTERDAY' },
-		{ label: 'This week', value: 'THIS_WEEK' },
-		{ label: 'This month', value: 'THIS_MONTH' },
-		{ label: 'Later', value: 'LATER' }
+		{ label: m['features.conversation.list.filters.all'](), value: null },
+		{ label: m['features.conversation.list.filters.recency.TODAY'](), value: 'TODAY' },
+		{ label: m['features.conversation.list.filters.recency.YESTERDAY'](), value: 'YESTERDAY' },
+		{ label: m['features.conversation.list.filters.recency.THIS_WEEK'](), value: 'THIS_WEEK' },
+		{ label: m['features.conversation.list.filters.recency.THIS_MONTH'](), value: 'THIS_MONTH' },
+		{ label: m['features.conversation.list.filters.recency.LATER'](), value: 'LATER' }
 	];
 
 	const CONVERSATION_TYPES: DropdownSelectOption<ConversationListFilters['type']>[] = [
-		{ label: 'All', value: null },
-		{ label: 'Small talk', value: 'SMALL_TALK' },
-		{ label: 'Scenario roleplay', value: 'SCENARIO_ROLEPLAY' },
-		{ label: 'Exam practice', value: 'EXAM_PRACTICE' },
-		{ label: 'Topic exploration', value: 'TOPIC_EXPLORATION' },
-		{ label: 'Oxford debate', value: 'OXFORD_DEBATE' }
+		{ label: m['features.conversation.list.filters.all'](), value: null },
+		...CONVERSATION_TYPE_VALUES.map((type) => ({
+			label: getConversationTypeLabel(type),
+			value: type
+		}))
 	];
 </script>
 
@@ -38,7 +48,7 @@
 		debounced
 		bind:value={filtersState.filters.search}
 		type="search"
-		placeholder="Topic or AI name"
+		placeholder={m['features.conversation.list.filters.search_placeholder']()}
 		class="flex-1"
 		leftAdornment={SearchIcon}
 	/>
@@ -47,7 +57,7 @@
 		dataTestId={E2E_TEST_IDS.conversations.filterRecency}
 		bind:value={filtersState.filters.recencyBucket}
 		options={RECENCY_BUCKETS}
-		ariaLabel="Filter by recency"
+		ariaLabel={m['features.conversation.list.filters.recency_aria']()}
 		buttonClass="w-[220px]"
 	>
 		{#snippet icon()}
@@ -59,7 +69,7 @@
 		dataTestId={E2E_TEST_IDS.conversations.filterType}
 		bind:value={filtersState.filters.type}
 		options={CONVERSATION_TYPES}
-		ariaLabel="Filter by conversation type"
+		ariaLabel={m['features.conversation.list.filters.type_aria']()}
 		buttonClass="w-[320px]"
 	>
 		{#snippet icon()}
@@ -71,8 +81,8 @@
 		dataTestId={E2E_TEST_IDS.conversations.filterClear}
 		onClick={() => filtersState.clearFilters()}
 		icon={TrashIcon}
-		ariaLabel="Clear filters"
-		tooltip="Clear filters"
+		ariaLabel={m['features.conversation.list.filters.clear']()}
+		tooltip={m['features.conversation.list.filters.clear']()}
 		variant="DELETE"
 		type="OUTLINED"
 	/>

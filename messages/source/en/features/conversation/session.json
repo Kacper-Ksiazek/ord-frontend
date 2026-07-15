@@ -1,0 +1,20 @@
+{
+	"loading_title": "Loading conversation...",
+	"load_error": {
+		"header": "Couldn't load conversation",
+		"description_fallback": "Something went wrong. Try again.",
+		"try_again": "Try again"
+	},
+	"composer": {
+		"placeholder": "Type your message..."
+	},
+	"stream_error": {
+		"init": "Couldn't start the conversation. Try refreshing the page.",
+		"message": "Couldn't get a reply. You can try sending your message again.",
+		"dismiss": "Dismiss"
+	},
+	"analysis": {
+		"failed": "Couldn't generate analysis for this message.",
+		"retry": "Try again"
+	}
+}

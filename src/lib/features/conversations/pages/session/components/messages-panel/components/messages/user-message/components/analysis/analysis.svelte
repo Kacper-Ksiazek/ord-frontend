@@ -11,20 +11,26 @@
 	import HighlightsCountBadge from '$conversations/pages/session/components/shared/highlights-count-badge.svelte';
 	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { Button } from '$lib/components/buttons/button';
+	import * as m from '$lib/paraglide/messages.js';
 
 	interface AnalysisProps {
 		analysis: ConversationUserMessageAnalysisDTO | null;
+		analysisFailed?: boolean;
 		messageIndex: number;
 		showIconsInHighlightedParts: boolean;
+		onRetryAnalysis?: () => void;
 	}
 
 	let {
-		analysis, //
+		analysis,
+		analysisFailed = false,
 		messageIndex,
-		showIconsInHighlightedParts = $bindable()
+		showIconsInHighlightedParts = $bindable(),
+		onRetryAnalysis
 	}: AnalysisProps = $props();
 
-	const showAnalysisLoading = $derived(!analysis);
+	const showAnalysisLoading = $derived(!analysis && !analysisFailed);
 
 	const sidepanelContext = getSidepanelContext();
 
@@ -109,6 +115,17 @@
 			<RoundedBoxesScore field="Gramatyka" score={analysis.grammar} />
 			<RoundedBoxesScore field="Słownictwo" score={analysis.vocabulary} />
 			<RoundedBoxesScore field="Naturalność" score={analysis.naturalness} />
+		</div>
+	{:else if analysisFailed}
+		<div class="mt-2 flex flex-col items-start gap-2" role="alert">
+			<p class="text-sm text-red-700 dark:text-red-300">
+				{m['features.conversation.session.analysis.failed']()}
+			</p>
+			{#if onRetryAnalysis}
+				<Button type="OUTLINED" variant="PRIMARY" onClick={onRetryAnalysis}>
+					{m['features.conversation.session.analysis.retry']()}
+				</Button>
+			{/if}
 		</div>
 	{:else if showAnalysisLoading}
 		<TextWithThreeDotsAnimation

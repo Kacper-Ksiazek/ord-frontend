@@ -5,11 +5,15 @@ import type {
 } from '$conversations/types';
 import { createContext } from 'svelte';
 
+export type AiStreamErrorKind = 'init' | 'message';
+
 export type MessagesContext = {
 	messages: CompactConversationMessage[];
 	isGeneratingAiMessage: boolean;
 	isGeneratingLearningTips: boolean;
 	isGeneratingUserMessageAnalysis: boolean;
+	/** User-facing SSE failure after init or send; cleared on dismiss or successful stream. */
+	aiStreamError: AiStreamErrorKind | null;
 };
 
 export const [getMessagesContext, setMessagesContext] = createContext<MessagesContext>();
@@ -48,7 +52,8 @@ export function createMessagesContext(conversation: ConversationDTO) {
 		messages,
 		isGeneratingAiMessage: false,
 		isGeneratingLearningTips: false,
-		isGeneratingUserMessageAnalysis: false
+		isGeneratingUserMessageAnalysis: false,
+		aiStreamError: null
 	});
 
 	setMessagesContext(messagesContext);
