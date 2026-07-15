@@ -3,7 +3,7 @@
 	import { slide } from 'svelte/transition';
 	import { cn } from 'flowbite-svelte';
 	import type { AiAdviceBaseProps } from './ai-advice.types';
-	import { getTailwindColorTheme } from '$lib/utils/theme/get-tailwind-colors';
+	import { getTailwindColorTheme } from '$conversations/shared/utils/get-tailwind-colors';
 	import BlockRenderer from './blocks/block-renderer.svelte';
 
 	let {

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { AiAdviceBaseBlock } from '../ai-advice.types';
-	import type { TailwindColorTheme } from '$lib/utils/theme/get-tailwind-colors';
+	import type { TailwindColorTheme } from '$conversations/shared/utils/get-tailwind-colors';
 	import { TextBlock, ExamplesBlock, BadgesBlock, TranslationBlock } from './variants';
 
 	interface Props {

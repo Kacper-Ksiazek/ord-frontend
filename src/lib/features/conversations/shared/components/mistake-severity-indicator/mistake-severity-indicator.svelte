@@ -25,9 +25,9 @@
 		layout = 'stack'
 	}: Props = $props();
 
-	const severityLevel = CONVERSATION_MESSAGE_MISTAKE_SEVERITY_LEVEL_MAP[severity];
-	const severityLabel = severity.charAt(0) + severity.slice(1).toLowerCase();
-	const isInline = layout === 'inline';
+	const severityLevel = $derived(CONVERSATION_MESSAGE_MISTAKE_SEVERITY_LEVEL_MAP[severity]);
+	const severityLabel = $derived(severity.charAt(0) + severity.slice(1).toLowerCase());
+	const isInline = $derived(layout === 'inline');
 </script>
 
 <div

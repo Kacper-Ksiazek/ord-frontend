@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { cn } from 'flowbite-svelte';
 	import type { ExamplesBlock } from '../../ai-advice.types';
-	import type { TailwindColorTheme } from '$lib/utils/theme/get-tailwind-colors';
+	import type { TailwindColorTheme } from '$conversations/shared/utils/get-tailwind-colors';
 	import { ArrowRight } from 'lucide-svelte';
 	import { getAiMessageLearningTipColors } from '$conversations/pages/session/constants/ai-message-learning-tips/colors';
 	import { parseBoldText } from '$lib/utils/text/parse-bold-text';

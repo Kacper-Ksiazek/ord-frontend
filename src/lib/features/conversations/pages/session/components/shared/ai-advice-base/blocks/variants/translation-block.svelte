@@ -8,7 +8,7 @@
 	//   4. Use a factory/registry pattern for badge components
 	import { Badge, cn } from 'flowbite-svelte';
 	import type { TranslationBlock } from '../../ai-advice.types';
-	import type { TailwindColorTheme } from '$lib/utils/theme/get-tailwind-colors';
+	import type { TailwindColorTheme } from '$conversations/shared/utils/get-tailwind-colors';
 	import TipRegisterBadge from '$conversations/pages/session/components/shared/ai-message-learning-tips/cards/shared/tip-register-badge.svelte';
 	import { AuthUserNativeLanguageFlag } from '$auth/components';
 

@@ -1,7 +1,9 @@
 import { browser } from '$app/environment';
 import { SvelteMap } from 'svelte/reactivity';
 import type { ConversationType } from '$conversations/types';
-import { getStorageItem, LOCAL_STORAGE_KEYS, setStorageItem } from '$lib/utils/local-storage';
+import { getStorageItem, setStorageItem } from '$lib/utils/local-storage';
+
+const TOPIC_PICKER_PINNED_TOPICS_STORAGE_KEY = 'create_conversation_topic_picker_pinned_topics';
 
 type TopicBuckets = {
 	pinned: string[];
@@ -28,9 +30,7 @@ class TopicPickerStore {
 	constructor() {
 		if (!browser) return;
 
-		const raw = getStorageItem<unknown>(
-			LOCAL_STORAGE_KEYS.CREATE_CONVERSATION_TOPIC_PICKER_PINNED_TOPICS
-		);
+		const raw = getStorageItem<unknown>(TOPIC_PICKER_PINNED_TOPICS_STORAGE_KEY);
 		const saved: Partial<Record<ConversationType, string[]>> = {};
 
 		if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
@@ -80,7 +80,7 @@ class TopicPickerStore {
 			data[conversationType] = [...topicBuckets.pinned];
 		}
 
-		setStorageItem(LOCAL_STORAGE_KEYS.CREATE_CONVERSATION_TOPIC_PICKER_PINNED_TOPICS, data);
+		setStorageItem(TOPIC_PICKER_PINNED_TOPICS_STORAGE_KEY, data);
 	}
 
 	resetCustomState(): void {
