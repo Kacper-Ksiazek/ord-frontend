@@ -1,5 +1,5 @@
 import type { ConversationSummaryDTO, RecencyBucket } from '$conversations/types';
-import { RECENCY_BUCKETS } from '$conversations/shared/constants/enum_values';
+import { RECENCY_BUCKETS } from '$conversations/shared/constants/enum-values';
 
 export type RecencyBucketSectionGroup = {
 	section: RecencyBucket;

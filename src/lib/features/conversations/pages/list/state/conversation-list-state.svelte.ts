@@ -1,6 +1,6 @@
 import isEqual from 'lodash/isEqual';
 import { SvelteURLSearchParams } from 'svelte/reactivity';
-import { CONVERSATION_TYPES, RECENCY_BUCKETS } from '$conversations/shared/constants/enum_values';
+import { CONVERSATION_TYPES, RECENCY_BUCKETS } from '$conversations/shared/constants/enum-values';
 import type { ConversationType, RecencyBucket } from '$conversations/types';
 import type { GetConversationsFilters } from '$conversations/types';
 

@@ -5,7 +5,7 @@
 	import {
 		CONVERSATION_TYPES,
 		DISABLED_CONVERSATION_TYPES
-	} from '$conversations/shared/constants/enum_values';
+	} from '$conversations/shared/constants/enum-values';
 	import {
 		getCreateConversationPayload,
 		setCreateConversationPayload,

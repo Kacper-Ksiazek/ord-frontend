@@ -1,5 +1,5 @@
 <script lang="ts">
-	import clsx from 'clsx';
+	import { cn } from 'flowbite-svelte';
 	import { Moon, Sun } from 'lucide-svelte';
 	import { browser } from '$app/environment';
 	import { themeStore } from '$lib/stores/theme.svelte';
@@ -34,7 +34,7 @@
 
 <button
 	onclick={handleClick}
-	class={clsx(
+	class={cn(
 		`p-2.5 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50
 		focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-600
 		dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-600`,
