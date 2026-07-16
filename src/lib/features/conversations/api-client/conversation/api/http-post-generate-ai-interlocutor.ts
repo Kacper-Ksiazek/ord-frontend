@@ -2,7 +2,7 @@ import type { GenerateAiInterlocutorRequest } from '$conversations/types';
 import type { GeneratedAIInterlocutorData } from '$conversations/types';
 import { api } from '$lib/api-client/axios';
 
-export async function httpPostGenerateAiInterlocutor(
+export async function httpPostGenerateAIInterlocutor(
 	body: GenerateAiInterlocutorRequest
 ): Promise<GeneratedAIInterlocutorData> {
 	const response = await api.post<GeneratedAIInterlocutorData>(

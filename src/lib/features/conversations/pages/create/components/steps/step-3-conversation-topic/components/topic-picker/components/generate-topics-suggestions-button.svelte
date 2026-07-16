@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { httpPostSuggestConversationTopics } from '$conversations/api-client/conversation/sse/http-post-suggest-conversation-topics';
 	import { AiActionButton } from '$lib/components/buttons/ai-action-button';
 	import type { AiActionButtonStatus } from '$lib/components/buttons/ai-action-button/ai-action-button.types';
 	import { Input } from '$lib/components/forms/input';
@@ -7,6 +6,7 @@
 		getCreateConversationPayload,
 		topicPickerStore
 	} from '$conversations/pages/create/stores';
+	import { suggestConversationTopics } from '$conversations/pages/create/services/suggest-conversation-topics';
 	import { TextQuote } from 'lucide-svelte';
 	import * as m from '$lib/paraglide/messages.js';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
@@ -29,41 +29,29 @@
 		const payload = getCreateConversationPayload();
 		const conversationType = payload.type;
 
-		if (!conversationType) {
+		if (!conversationType || !payload.language) {
 			return;
 		}
 
 		amountOfSkeletons = 3;
 		generateButtonStatus = 'loading';
 
-		return new Promise((resolve, reject) => {
-			httpPostSuggestConversationTopics({
+		try {
+			await suggestConversationTopics({
 				conversationType,
 				language: payload.language,
 				clueFromUser: clueForGeneration || undefined,
-				excludeTopics: topicPickerStore.getAllTopics(conversationType)
-			}).subscribe({
-				next: (topic) => {
-					if (topic?.value) {
-						amountOfSkeletons = Math.max(0, amountOfSkeletons - 1);
-
-						topicPickerStore.appendUnpinnedTopic(conversationType, topic.value);
-						onStreamChunkReceive?.();
-					} else {
-						console.error('Topic is not a string');
-						console.error(topic, typeof topic);
-					}
-				},
-				error: () => {
-					generateButtonStatus = 'failed';
-					reject(new Error('Failed to generate topics'));
-				},
-				complete: () => {
-					generateButtonStatus = 'success';
-					resolve(true);
+				excludeTopics: topicPickerStore.getAllTopics(conversationType),
+				onTopic: (topic) => {
+					amountOfSkeletons = Math.max(0, amountOfSkeletons - 1);
+					topicPickerStore.appendUnpinnedTopic(conversationType, topic);
+					onStreamChunkReceive?.();
 				}
 			});
-		});
+			generateButtonStatus = 'success';
+		} catch {
+			generateButtonStatus = 'failed';
+		}
 	}
 </script>
 
