@@ -44,6 +44,7 @@ Covers: `src/lib/components`, `src/lib/features/**/components`.
 - [x] Component folder layout (folder + index.ts barrel + stories)
 - [x] Props typing and defaults (+ types files, sub-components, component stores)
 - [x] Snippets, file naming, colocated stories
+- [x] Local snippets for complex conditional/looped markup
 
 ### styling/ — Tailwind & theming
 Covers: `src/app.css`, `src/lib/styles`, `src/lib/stores/theme.svelte.ts`, component classes.
