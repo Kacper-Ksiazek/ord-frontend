@@ -64,6 +64,7 @@ Every function that calls the backend (REST or SSE) uses an **`http` prefix** pl
 - File name: `http-{method}-{action-kebab}.ts` where `{method}` is the lowercase HTTP verb (`get`, `post`, `patch`, `delete`, …).
 - Export name: `http{Method}{ActionPascal}` where `{Method}` is PascalCase verb (`Get`, `Post`, `Patch`, `Delete`, …).
 - SSE streams use the same method prefix as the underlying request (currently all `http-post-*`).
+- Acronyms in export names use uppercase (`AI`, `OTP`, `SSE`): `httpPostGenerateAIInterlocutor`, `httpPostRequestAIMessage`.
 - Mutations and queries keep their existing `create*Mutation` / `create*Query` / `use-*` naming — only the low-level HTTP callers get the prefix.
 - Shared infrastructure (`axios.ts`, `sse.ts`) is not prefixed; it does not call a specific endpoint.
 
@@ -196,6 +197,23 @@ Configured in `svelte.config.js`:
 | `$appLayouts` | `src/lib/features/app-layouts` |
 
 Prefer feature aliases over deep `$lib/features/...` paths. Routes should be thin wrappers that import pages from feature barrels.
+
+## Feature root barrels
+
+Each feature may expose a root `index.ts` re-exporting its public sub-barrels (e.g. `$auth` → `api-client`, `components`, `guards`, …). Prefer **sub-barrel** imports (`$auth/stores`, `$conversations/pages/create`) for clarity; the root barrel is for discoverability, not a replacement for sub-paths.
+
+`$lib/components` remains the shared design-system layer. Single-feature usage today does **not** by itself mean code belongs inside a feature — only hard domain coupling (e.g. importing feature types from shared code) requires a move.
+
+## Page-internal layout
+
+| Folder | When to use | Examples |
+|--------|-------------|----------|
+| `stores/` | Module-level reactive state shared across page subcomponents | `topic-picker.store.svelte.ts`, `create-conversation-payload.svelte.ts` |
+| `state/` | Page-specific state classes (filters, list UI) | `conversation-list-state.svelte.ts` |
+| `contexts/` + `services/` | Complex flows with Svelte context and composables | session `messages-context`, `use-message-flow` |
+| `services/` (without context) | One-off orchestration calling `http*` / SSE outside components | `suggest-conversation-topics.ts` |
+
+**Store file naming:** prefer `*.store.svelte.ts` for dedicated store modules; `*-state.svelte.ts` for state classes under `state/`; session composables as `use-*.svelte.ts` under `services/`.
 
 ## Barrel Exports
 
