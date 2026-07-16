@@ -1,5 +1,5 @@
 <script lang="ts">
-	import clsx from 'clsx';
+	import { cn } from 'flowbite-svelte';
 	import Logo from '$lib/assets/images/logo.svg.svelte';
 	import { type Theme, themeStore } from '$lib/stores/theme.svelte';
 
@@ -22,4 +22,4 @@
 	};
 </script>
 
-<Logo class={clsx(sizeClasses[size], colorClasses[themeStore.theme], className)} />
+<Logo class={cn(sizeClasses[size], colorClasses[themeStore.theme], className)} />

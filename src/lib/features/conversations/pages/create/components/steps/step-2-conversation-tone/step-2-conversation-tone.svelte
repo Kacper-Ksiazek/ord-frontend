@@ -2,7 +2,7 @@
 	import { browser } from '$app/environment';
 	import type { ConversationAITone } from '$conversations/types';
 	import { ToneCard } from './components';
-	import { CONVERSATION_TONES } from '$conversations/shared/constants/enum_values';
+	import { CONVERSATION_TONES } from '$conversations/shared/constants/enum-values';
 	import {
 		getCreateConversationPayload,
 		setCreateConversationPayload

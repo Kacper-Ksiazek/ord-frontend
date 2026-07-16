@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { authStore } from '$auth/stores';
-	import CountryFlag from '$lib/assets/images/country_flags/country_flag.svelte';
+	import CountryFlag from '$lib/assets/images/country-flags/country-flag.svelte';
 
 	interface AuthUserNativeLanguageFlagProps {
 		class?: string;
