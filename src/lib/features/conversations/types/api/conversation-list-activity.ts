@@ -1,31 +1,14 @@
-// TODO: ConversationOverview - refactor once npm package is published
-export enum HeatmapPercentile {
-	P0 = 'p0',
-	P20 = 'p20',
-	P40 = 'p40',
-	P60 = 'p60',
-	P80 = 'p80'
-}
+import type { components } from '@kacper-ksiazek/ord-api-types';
 
-// TODO: ConversationOverview - refactor once npm package is published
-export interface HeatmapDay {
-	count: number;
-	date: string;
-	percentile: HeatmapPercentile;
-}
+export type ConversationActivityOverview = components['schemas']['ConversationActivityOverviewDTO'];
+export type HeatmapDay = components['schemas']['HeatmapDayDTO'];
+export type ActivityWeekPoint = components['schemas']['ActivityWeekPointDTO'];
+export type HeatmapPercentile = HeatmapDay['percentile'];
 
-// TODO: ConversationOverview - refactor once npm package is published
-export interface ActivityWeekPoint {
-	weekRange: string;
-	count: number;
-}
-
-// TODO: ConversationOverview - refactor once npm package is published
-export interface ConversationActivityOverview {
-	periodLabel: string;
-	messagesTotal: number;
-	conversationsTotal: number;
-	heatmap: HeatmapDay[];
-	messagesByWeek: ActivityWeekPoint[];
-	conversationsByWeek: ActivityWeekPoint[];
-}
+export const HeatmapPercentile = {
+	P0: 'p0',
+	P20: 'p20',
+	P40: 'p40',
+	P60: 'p60',
+	P80: 'p80'
+} as const satisfies Record<string, HeatmapPercentile>;
