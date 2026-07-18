@@ -1,4 +1,4 @@
-export type StatusScreenVariant = 'error' | 'information' | 'success';
+export type StatusPanelVariant = 'error' | 'information' | 'success';
 
 export interface StatusButtonProps {
 	label: string;

@@ -1,1 +1,1 @@
-export { default as AppErrorScreen } from './app-error-screen.svelte';
+export { default as AppErrorScreen } from './app-error.screen.svelte';

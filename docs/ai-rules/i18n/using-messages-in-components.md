@@ -5,7 +5,7 @@ Import all messages as `m` from `$lib/paraglide/messages.js` and call them as fu
 ## Good
 
 ```ts
-// login-screen.svelte
+// login.screen.svelte
 import * as m from '$lib/paraglide/messages.js';
 
 const title = m['auth.login.title']();

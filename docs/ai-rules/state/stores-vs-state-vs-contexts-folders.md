@@ -15,7 +15,7 @@ export class ConversationListFiltersState {
 	constructor(urlSearchParams: URLSearchParams) { /* ... */ }
 }
 
-// conversations-list-screen.svelte
+// conversations-list.screen.svelte
 const filtersState = new ConversationListFiltersState(page.url.searchParams);
 ```
 

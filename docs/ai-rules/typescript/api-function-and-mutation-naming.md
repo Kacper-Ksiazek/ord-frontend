@@ -1,6 +1,12 @@
 # API call and mutation naming patterns
 
-HTTP client functions are named `http<Method><Resource>` and live in `http-<method>-<resource>.ts` files. TanStack Query mutation factories live in `use-<action>-mutation.ts` files and export a `create<Action>Mutation` function. The acronym "AI" is uppercased in identifiers (`httpPostGenerateAIInterlocutor`, `ConversationAIInterlocutorAvatarId`), even though filenames stay kebab-case (`http-post-generate-ai-interlocutor.ts`).
+HTTP client functions are named `http<Method><Resource>` and live in `http-<method>-<resource>.ts` files. TanStack Query mutation factories live in `use-<action>-mutation.ts` files and export a `create<Action>Mutation` function. Acronym casing varies by layer — follow the existing file you are extending:
+
+- **`http*` functions:** `AI` is uppercased (`httpPostGenerateAIInterlocutor`, `httpPostRequestLearningTipsForAIMessage`); `Otp` uses title-case (`httpPostVerifyOtp`).
+- **Mutation factories:** `Ai` in camelCase (`createGenerateAiInterlocutorMutation`, `createRequestLearningTipsForAIMessageMutation`).
+- **Types from ord-api-types:** follow the generated name (`GenerateAiInterlocutorRequest`, `AIMessageLearningTips`).
+
+Filenames always stay kebab-case (`http-post-generate-ai-interlocutor.ts`).
 
 ## Good
 
@@ -28,7 +34,7 @@ export function createGenerateAiInterlocutorMutation() {
 ## Bad
 
 ```ts
-// wrong verb-less name, "Ai" casing, and file location
+// wrong verb-less name, inconsistent casing, and file location
 // src/lib/features/conversations/api-client/generateInterlocutor.ts
 export async function generateAiInterlocutor(body: GenerateAiInterlocutorRequest) {
 	return (await api.post('/api/v1/conversations/suggest-ai-interlocutor', body)).data;

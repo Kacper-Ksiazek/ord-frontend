@@ -1,6 +1,6 @@
 # One `http*` function per endpoint, named after the HTTP verb
 
-Every function that calls the backend lives in its own file named `http-{method}-{action-kebab}.ts` and exports a single `http{Method}{ActionPascal}` function. It uses the shared `api` axios instance from `$lib/api-client/axios`, hits a `/api/v1/...` path, and returns `response.data` explicitly (or `Promise<void>` for empty responses). Acronyms stay uppercase in export names (`AI`, `OTP`, `Tts` is the current exception — follow the existing file).
+Every function that calls the backend lives in its own file named `http-{method}-{action-kebab}.ts` and exports a single `http{Method}{ActionPascal}` function. It uses the shared `api` axios instance from `$lib/api-client/axios`, hits a `/api/v1/...` path, and returns `response.data` explicitly (or `Promise<void>` for empty responses). Acronym casing in export names follows existing repo conventions: `AI` is uppercased (`httpPostGenerateAIInterlocutor`), `Otp` uses title-case (`httpPostVerifyOtp`, `httpPostRequestOtp`), and `Tts` is the current exception in filenames (`http-post-request-tts-audio.ts`).
 
 ## Good
 

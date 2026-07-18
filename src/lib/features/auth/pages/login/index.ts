@@ -1,1 +1,1 @@
-export { default as LoginScreen } from './login-screen.svelte';
+export { default as LoginScreen } from './login.screen.svelte';

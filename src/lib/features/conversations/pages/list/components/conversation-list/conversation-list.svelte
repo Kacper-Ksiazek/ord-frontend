@@ -5,7 +5,7 @@
 	import ConversationListRow from './components/conversation-list-row.svelte';
 	import { groupConversationsByRecencyBucket } from './utils/group-conversations-by-recency-bucket';
 	import type { ConversationListFiltersState } from '$conversations/pages/list/state/conversation-list-state.svelte';
-	import { StatusScreen } from '$lib/components/utils/status-screen';
+	import { StatusPanel } from '$lib/components/utils/status-panel';
 	import type { RecencyBucket } from '$conversations/types';
 	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 	import * as m from '$lib/paraglide/messages.js';
@@ -44,7 +44,7 @@
 	</div>
 {:else if conversationsQuery.data?.length === 0}
 	{#if filtersState.hasActiveFilters}
-		<StatusScreen
+		<StatusPanel
 			variant="information"
 			header={m['features.conversation.list.empty.no_matches.header']()}
 			description={m['features.conversation.list.empty.no_matches.description']()}
@@ -54,7 +54,7 @@
 			}}
 		/>
 	{:else}
-		<StatusScreen
+		<StatusPanel
 			variant="information"
 			header={m['features.conversation.list.empty.no_conversations.header']()}
 			description={m['features.conversation.list.empty.no_conversations.description']()}

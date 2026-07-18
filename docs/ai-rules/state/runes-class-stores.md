@@ -1,6 +1,11 @@
 # Write shared state as class-based runes stores in `.svelte.ts` modules
 
-Shared reactive state lives in `.svelte.ts` modules as a class using `$state` fields, with getters for derived values and methods for mutations. For app-wide singletons, export a single instance (e.g. `export const authStore = new AuthStore()`) — never the class. For per-page state that needs constructor arguments or testing, export the class itself (e.g. `ConversationListFiltersState`) and instantiate it in the page component. Re-export store instances through the folder's `index.ts`.
+Shared reactive state lives in `.svelte.ts` modules. Two patterns are accepted:
+
+1. **Class-based store** — a class using `$state` fields, with getters for derived values and methods for mutations. For app-wide singletons, export a single instance (e.g. `export const authStore = new AuthStore()`). For per-page state that needs constructor arguments or testing, export the class itself.
+2. **Module-level `$state`** — for simple singleton payload state with getter/setter functions, use module-level `$state` without a class (see `create-conversation-payload.svelte.ts`).
+
+Re-export store instances through the folder's `index.ts`.
 
 ## Good
 
@@ -23,6 +28,20 @@ export const authStore = new AuthStore();
 
 // src/lib/features/auth/stores/index.ts
 export { authStore } from './auth.svelte';
+```
+
+```ts
+// src/lib/features/conversations/pages/create/stores/create-conversation-payload.svelte.ts
+// Module-level $state — accepted for simple page payload singletons
+const createConversationPayload = $state<CreateConversationPayload>({ /* ... */ });
+
+export function getCreateConversationPayload() {
+	return createConversationPayload;
+}
+
+export function setCreateConversationPayload(payload: Partial<CreateConversationPayload>) {
+	Object.assign(createConversationPayload, payload);
+}
 ```
 
 ## Bad

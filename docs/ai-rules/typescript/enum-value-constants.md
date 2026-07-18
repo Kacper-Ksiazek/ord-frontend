@@ -1,6 +1,6 @@
 # Enum values: const arrays typed by API union types
 
-Do not use TypeScript `enum`. Enum-like value lists are plain `as const` arrays in `enum-values.ts`-style constant files, explicitly typed with the union type from the API contract (`Type[]`), with SCREAMING_SNAKE_CASE names. Use a typed `Set` for membership-style subsets.
+Do not use TypeScript `enum` for new code. Enum-like value lists are plain `as const` arrays in `enum-values.ts`-style constant files, explicitly typed with the union type from the API contract (`Type[]`), with SCREAMING_SNAKE_CASE names. Use a typed `Set` for membership-style subsets. Existing `export enum` blocks marked with a `TODO` pending contract migration are interim debt — do not add new ones.
 
 ## Good
 
