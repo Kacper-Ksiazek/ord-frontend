@@ -3,7 +3,7 @@
 	import { page } from '$app/state';
 	import { createConversationQuery } from '$conversations/api-client/queries';
 	import { Loader } from '$lib/components/utils/loader';
-	import { StatusScreen } from '$lib/components/utils/status-screen';
+	import { StatusPanel } from '$lib/components/utils/status-panel';
 	import * as m from '$lib/paraglide/messages.js';
 	import { createConversationContext } from './contexts/conversation-context.svelte';
 	import { createMessagesContext } from './contexts/messages-context.svelte';
@@ -46,7 +46,7 @@
 </svelte:head>
 
 {#if conversationQuery.isError}
-	<StatusScreen
+	<StatusPanel
 		variant="error"
 		header={m['features.conversation.session.load_error.header']()}
 		description={conversationQuery.error?.message ||

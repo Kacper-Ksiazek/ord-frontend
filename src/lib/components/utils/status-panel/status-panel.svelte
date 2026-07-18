@@ -2,10 +2,10 @@
 	import { cn } from 'flowbite-svelte';
 	import { ServerCrash, Info, CheckCircle2 } from 'lucide-svelte';
 	import { Button } from '$lib/components/buttons/button';
-	import type { StatusButtonProps, StatusScreenVariant } from './status-screen.types';
+	import type { StatusButtonProps, StatusPanelVariant } from './status-panel.types';
 
 	interface Props {
-		variant?: StatusScreenVariant;
+		variant?: StatusPanelVariant;
 		header?: string;
 		code?: string | number;
 		description?: string;

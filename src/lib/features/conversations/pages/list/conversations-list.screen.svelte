@@ -6,7 +6,7 @@
 		createConversationsQuery
 	} from '$conversations/api-client/queries';
 	import { ConversationListFiltersState } from '$conversations/pages/list/state/conversation-list-state.svelte';
-	import { StatusScreen } from '$lib/components/utils/status-screen';
+	import { StatusPanel } from '$lib/components/utils/status-panel';
 	import { PageContentContainer } from '$lib/components/utils/page-content-container';
 	import ContentCard from '$lib/components/utils/content-card.svelte';
 	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';
@@ -52,7 +52,7 @@
 </svelte:head>
 
 {#if conversationsQuery.isError}
-	<StatusScreen
+	<StatusPanel
 		variant="error"
 		header={m['features.conversation.list.load_error.header']()}
 		description={conversationsQuery.error?.message ||

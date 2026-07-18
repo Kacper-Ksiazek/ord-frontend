@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { tick } from 'svelte';
 	import { ScrollableWrapper } from '$lib/components/utils/scrollable-wrapper';
-	import { StatusScreen } from '$lib/components/utils/status-screen';
+	import { StatusPanel } from '$lib/components/utils/status-panel';
 	import Skeleton from '$lib/components/utils/skeleton.svelte';
 	import TopicRow from './components/topic-row.svelte';
 	import GenerateTopicsSuggestionsButton from './components/generate-topics-suggestions-button.svelte';
@@ -49,7 +49,7 @@
 	/>
 
 	{#if !hasAnyTopicsOrSkeletons}
-		<StatusScreen
+		<StatusPanel
 			variant="information"
 			class="w-full shrink-0 rounded-lg border-2 border-dashed border-gray-200 bg-gray-50 py-8 dark:border-gray-700 dark:bg-gray-800/50 h-full"
 			header={m['features.conversation.create.step-3.topic_picker.no_topic_selected']()}

@@ -1,0 +1,25 @@
+---
+alwaysApply: true
+---
+
+# Repository AI rules
+
+This repository's coding rules live in `docs/ai-rules/` — one directory per category, one
+rule per `.md` file. The project concept (what the app is, who it's for, what to optimize
+for) is in `docs/ai-rules/concept/project-brief.md`.
+
+Categories:
+
+- `general/` — FDD architecture, feature boundaries, path aliases, thin routes
+- `typescript/` — file naming, API/mutation naming, contract types, enum-value constants
+- `svelte/` — Svelte 5 runes, component folder layout, props typing, stories
+- `styling/` — `cn` class merging, dark mode, Tailwind 4 conventions, flowbite-svelte
+- `api-design/` — `http*` endpoint functions, TanStack Query, services/SSE layer
+- `state/` — runes class stores, stores/state/contexts folders, localStorage keys
+- `i18n/` — Paraglide messages, adding translations, generated code hygiene
+- `testing/` — Vitest unit tests, Playwright e2e, Storybook stories
+- `git/` — commit messages, branch/PR workflow, pre-commit hooks
+
+Before writing or modifying code, consult the rule files of the relevant categories and
+follow them. `docs/ai-rules/ROADMAP.md` is the living knowledge snapshot of the stack and
+rule coverage.

@@ -99,12 +99,10 @@ This repository contains the **frontend** — a SvelteKit 2 + Svelte 5 single-pa
 
 ## 🏗️ Architecture
 
-The codebase follows a **feature-sliced architecture** — each feature is self-contained, with co-located components, API calls, query hooks, types, and stores. Conventions are documented so the project stays consistent as it grows:
+The codebase follows a **feature-sliced architecture** — each feature is self-contained, with co-located components, API calls, query hooks, types, and stores. Conventions are documented as AI-friendly rules so the project stays consistent as it grows:
 
-- [`docs/API_STRUCTURE_GUIDELINES.md`](./docs/API_STRUCTURE_GUIDELINES.md) — how REST calls, SSE streams, mutations, and queries are organized.
-- [`docs/COMPONENT_CREATION_GUIDELINES.md`](./docs/COMPONENT_CREATION_GUIDELINES.md) — when to use single-file vs. folder components, naming, and class-merging conventions.
-
-> 🚧 **Architecture docs are a work in progress.** They'll be expanded to fully document how the frontend is structured and built. For the intended approach and a more complete reference, see the backend repo: [**Kacper-Ksiazek/ord-api**](https://github.com/Kacper-Ksiazek/ord-api).
+- [`docs/ai-rules/`](./docs/ai-rules/) — one directory per category (architecture, TypeScript, Svelte, styling, API design, state, i18n, testing, git), one rule per file, each with good/bad examples from this repo.
+- [`docs/ai-rules/concept/project-brief.md`](./docs/ai-rules/concept/project-brief.md) — what the project is and what to optimize for.
 
 ```
 src/

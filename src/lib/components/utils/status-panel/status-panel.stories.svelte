@@ -3,13 +3,13 @@
 	import CenterComponentDecorator from '$lib/storybook/decorators/center-component-decorator.svelte';
 
 	const { Story } = defineMeta({
-		title: 'Utils/StatusScreen',
+		title: 'Utils/StatusPanel',
 		decorators: [() => CenterComponentDecorator as any]
 	});
 </script>
 
 <script lang="ts">
-	import StatusScreen from './status-screen.svelte';
+	import StatusPanel from './status-panel.svelte';
 </script>
 
 <Story name="All Variants">
@@ -17,7 +17,7 @@
 		class="grid grid-cols-3 gap-px bg-gray-200 dark:bg-gray-700 rounded-2xl overflow-hidden w-full"
 	>
 		<div class="bg-gray-50 dark:bg-gray-900">
-			<StatusScreen
+			<StatusPanel
 				variant="error"
 				code="Error 503"
 				header="Something went wrong"
@@ -28,7 +28,7 @@
 		</div>
 
 		<div class="bg-gray-50 dark:bg-gray-900">
-			<StatusScreen
+			<StatusPanel
 				variant="information"
 				header="No results found"
 				description="Try adjusting your filters or search terms to find what you're looking for."
@@ -37,7 +37,7 @@
 		</div>
 
 		<div class="bg-gray-50 dark:bg-gray-900">
-			<StatusScreen
+			<StatusPanel
 				variant="success"
 				header="All done!"
 				description="Your changes have been saved successfully."
