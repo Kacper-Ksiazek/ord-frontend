@@ -18,6 +18,8 @@ env:
   # @kacper-ksiazek/ord-api-types (published from ord-api). Map a PAT with
   # read:packages from secret PACKAGES_READ_TOKEN into GITHUB_TOKEN for .npmrc.
   GITHUB_TOKEN: ${{ secrets.PACKAGES_READ_TOKEN }}
+  # Required by $env/static/public — dummy URL is fine for CI type-check/build.
+  PUBLIC_API_URL: http://localhost:8080
 
 jobs:
   lint:
