@@ -12,7 +12,7 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"prepare": "husky || echo ''",
-		"precheck": "npm run generate:paraglide",
+		"precheck": "npm run aggregate && npm run generate:paraglide",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:unit": "vitest",
