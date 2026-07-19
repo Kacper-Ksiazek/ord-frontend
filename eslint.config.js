@@ -133,6 +133,28 @@ export default [
 	},
 	{
 		files: ['**/*.svelte', '**/*.ts', '**/*.js'],
+		rules: {
+			'@typescript-eslint/no-restricted-imports': [
+				'error',
+				{
+					patterns: [
+						{
+							group: ['$lib/features/**'],
+							message:
+								'Use feature aliases ($auth, $conversations, $appLayouts) instead of $lib/features/* paths.'
+						},
+						{
+							group: ['./**/features/**', '../**/features/**'],
+							message:
+								'Do not use relative paths into src/lib/features; use $auth, $conversations, or $appLayouts.'
+						}
+					]
+				}
+			]
+		}
+	},
+	{
+		files: ['**/*.svelte', '**/*.ts', '**/*.js'],
 		plugins: {
 			'unused-imports': unusedImports
 		},
