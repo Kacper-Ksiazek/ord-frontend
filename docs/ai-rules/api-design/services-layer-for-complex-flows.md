@@ -8,7 +8,10 @@ Components never call `http*` functions directly for streaming or multi-step flo
 // src/lib/features/conversations/pages/create/services/suggest-conversation-topics.ts
 import { httpPostSuggestConversationTopics } from '$conversations/api-client/conversation/sse/http-post-suggest-conversation-topics';
 
-export function suggestConversationTopics({ onTopic, ...payload }: SuggestConversationTopicsParams): Promise<void> {
+export function suggestConversationTopics({
+	onTopic,
+	...payload
+}: SuggestConversationTopicsParams): Promise<void> {
 	return new Promise((resolve, reject) => {
 		httpPostSuggestConversationTopics(payload).subscribe({
 			next: (topic) => onTopic(topic.value),

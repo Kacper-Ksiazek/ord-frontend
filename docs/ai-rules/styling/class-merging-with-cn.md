@@ -33,7 +33,5 @@ Always use `cn` imported from `flowbite-svelte` for combining, conditioning, and
 </script>
 
 <!-- manual concatenation, custom class not merged last -->
-<div class={`flex items-center gap-2 ${className} ${isSelected ? 'bg-primary-500' : ''}`}>
-	...
-</div>
+<div class={`flex items-center gap-2 ${className} ${isSelected ? 'bg-primary-500' : ''}`}>...</div>
 ```

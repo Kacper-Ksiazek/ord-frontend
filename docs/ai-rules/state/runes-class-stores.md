@@ -33,7 +33,9 @@ export { authStore } from './auth.svelte';
 ```ts
 // src/lib/features/conversations/pages/create/stores/create-conversation-payload.svelte.ts
 // Module-level $state — accepted for simple page payload singletons
-const createConversationPayload = $state<CreateConversationPayload>({ /* ... */ });
+const createConversationPayload = $state<CreateConversationPayload>({
+	/* ... */
+});
 
 export function getCreateConversationPayload() {
 	return createConversationPayload;
@@ -54,5 +56,7 @@ export const user = writable<UserDTO | null>(null);
 export const isAuthenticated = derived(user, ($user) => $user !== null);
 
 // Don't export the class of an app-wide singleton and instantiate it in components
-export class AuthStore { /* ... */ }
+export class AuthStore {
+	/* ... */
+}
 ```

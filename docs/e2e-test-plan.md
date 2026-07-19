@@ -26,14 +26,14 @@
 
 ## 1. Podsumowanie stanu
 
-| Obszar | Status |
-|--------|--------|
-| Infrastruktura Playwright (`e2e/`, POM, fixtures) | ✅ Zrobione |
-| Faza 1 — auth (4 specy) | ✅ Zaimplementowane |
-| Faza 2 — `data-testid` w aplikacji | ✅ Zaimplementowane |
-| CI workflow (`bun run test:e2e`) | ⬜ E2E-010 |
-| Fazy 3–8 | ⬜ Roadmap (poniżej) |
-| Testy jednostkowe (Vitest) | ✅ 8 plików (utils, TTS API, lista) |
+| Obszar                                            | Status                              |
+| ------------------------------------------------- | ----------------------------------- |
+| Infrastruktura Playwright (`e2e/`, POM, fixtures) | ✅ Zrobione                         |
+| Faza 1 — auth (4 specy)                           | ✅ Zaimplementowane                 |
+| Faza 2 — `data-testid` w aplikacji                | ✅ Zaimplementowane                 |
+| CI workflow (`bun run test:e2e`)                  | ⬜ E2E-010                          |
+| Fazy 3–8                                          | ⬜ Roadmap (poniżej)                |
+| Testy jednostkowe (Vitest)                        | ✅ 8 plików (utils, TTS API, lista) |
 
 ### Uruchomienie
 
@@ -53,13 +53,13 @@ Rdzeń produktu: **logowanie → lista rozmów → tworzenie → sesja na żywo 
 
 ### P0 — Krytyczne
 
-| Obszar | Zależności |
-|--------|------------|
-| Autentykacja OTP | `/auth/otp-request`, `/auth/otp-verify`, `/users/me` |
-| Lista rozmów | Auth, `/conversations/`, `/conversations/overview` |
-| Tworzenie rozmowy (4 kroki) | Auth, SSE topics, AI interlocutor |
-| Sesja na żywo — chat | SSE init + stream, save message |
-| Wylogowanie | `/auth/logout`, czyszczenie storage |
+| Obszar                      | Zależności                                           |
+| --------------------------- | ---------------------------------------------------- |
+| Autentykacja OTP            | `/auth/otp-request`, `/auth/otp-verify`, `/users/me` |
+| Lista rozmów                | Auth, `/conversations/`, `/conversations/overview`   |
+| Tworzenie rozmowy (4 kroki) | Auth, SSE topics, AI interlocutor                    |
+| Sesja na żywo — chat        | SSE init + stream, save message                      |
+| Wylogowanie                 | `/auth/logout`, czyszczenie storage                  |
 
 ### P1 — Ważne
 
@@ -88,15 +88,15 @@ Pliki `*.spec.ts` opisują **wyłącznie user flow** — bez selektorów DOM.
 
 ### Zasady
 
-| Zasada | Opis |
-|--------|------|
-| Page Object = strona/widok | `LoginPage`, `ConversationsListPage` |
-| Component Object = fragment UI | `SidebarComponent` |
-| Selektory tylko w Page/Component Objects | Nigdy w `*.spec.ts` |
-| Fixtures dla domyślnego kontekstu | `pages.fixture`, `auth.fixture` |
-| Fabryki dla dodatkowych kontekstów | `createConversationsListPage(page)` w `e2e/helpers/page-objects.ts` |
-| Brak stubów na przyszłe fazy | Page Object powstaje **w tej samej fazie** co spec |
-| Helpers = logika spoza UI | OTP, env, storage — nie selektory |
+| Zasada                                   | Opis                                                                |
+| ---------------------------------------- | ------------------------------------------------------------------- |
+| Page Object = strona/widok               | `LoginPage`, `ConversationsListPage`                                |
+| Component Object = fragment UI           | `SidebarComponent`                                                  |
+| Selektory tylko w Page/Component Objects | Nigdy w `*.spec.ts`                                                 |
+| Fixtures dla domyślnego kontekstu        | `pages.fixture`, `auth.fixture`                                     |
+| Fabryki dla dodatkowych kontekstów       | `createConversationsListPage(page)` w `e2e/helpers/page-objects.ts` |
+| Brak stubów na przyszłe fazy             | Page Object powstaje **w tej samej fazie** co spec                  |
+| Helpers = logika spoza UI                | OTP, env, storage — nie selektory                                   |
 
 ### Hierarchia (stan aktualny)
 
@@ -112,28 +112,28 @@ SidebarComponent
 
 ### Wzorce selektorów
 
-| Element UI | Selektor | Uwaga |
-|------------|----------|-------|
-| Wszystkie kluczowe elementy E2E | `getByTestId(E2E_TEST_IDS.…)` | Stałe w `src/lib/testing/e2e-test-ids.ts`, re-export w `e2e/helpers/test-ids.ts` |
-| Sidebar expand | `E2E_TEST_IDS.sidebar.toggle` + sprawdzenie `title` | Rozwijanie tylko gdy zwinięty |
-| OTP input | `E2E_TEST_IDS.login.otpDigit(n)` | Po `fill()` wymagany `submitOtp()` — `oncomplete` nie odpala się programowo |
-| Wiersze listy / wiadomości | `E2E_TEST_IDS.conversations.row(id)`, `session.aiMessage(i)` | Dynamiczne ID przez helpery |
+| Element UI                      | Selektor                                                     | Uwaga                                                                            |
+| ------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------- |
+| Wszystkie kluczowe elementy E2E | `getByTestId(E2E_TEST_IDS.…)`                                | Stałe w `src/lib/testing/e2e-test-ids.ts`, re-export w `e2e/helpers/test-ids.ts` |
+| Sidebar expand                  | `E2E_TEST_IDS.sidebar.toggle` + sprawdzenie `title`          | Rozwijanie tylko gdy zwinięty                                                    |
+| OTP input                       | `E2E_TEST_IDS.login.otpDigit(n)`                             | Po `fill()` wymagany `submitOtp()` — `oncomplete` nie odpala się programowo      |
+| Wiersze listy / wiadomości      | `E2E_TEST_IDS.conversations.row(id)`, `session.aiMessage(i)` | Dynamiczne ID przez helpery                                                      |
 
 ### Skip guard — kiedy i gdzie
 
-| Miejsce | Kiedy |
-|---------|-------|
-| `test.beforeEach` na `describe` | Gdy **jakikolwiek** test w grupie woła `loginWithOtp` bez `authenticatedPage` fixture |
-| `auth.fixture` → `testInfo.skip` | Gdy test używa wyłącznie `authenticatedPage` |
-| Nie duplikować obu | `describe`-level skip wystarczy dla całej grupy auth |
+| Miejsce                          | Kiedy                                                                                 |
+| -------------------------------- | ------------------------------------------------------------------------------------- |
+| `test.beforeEach` na `describe`  | Gdy **jakikolwiek** test w grupie woła `loginWithOtp` bez `authenticatedPage` fixture |
+| `auth.fixture` → `testInfo.skip` | Gdy test używa wyłącznie `authenticatedPage`                                          |
+| Nie duplikować obu               | `describe`-level skip wystarczy dla całej grupy auth                                  |
 
 ### Konfiguracja Playwright
 
-| Ustawienie | Wartość | Powód |
-|------------|---------|-------|
-| `outputDir` / report | `e2e/test-results`, `e2e/playwright-report` | Absolutne ścieżki w config |
-| `webServer` | `bun run dev` | Spójność z resztą repo |
-| `.env.e2e` | Ładowany w `test-env.ts` (lazy getters) | ESM import order — nie w `playwright.config.ts` |
+| Ustawienie           | Wartość                                     | Powód                                           |
+| -------------------- | ------------------------------------------- | ----------------------------------------------- |
+| `outputDir` / report | `e2e/test-results`, `e2e/playwright-report` | Absolutne ścieżki w config                      |
+| `webServer`          | `bun run dev`                               | Spójność z resztą repo                          |
+| `.env.e2e`           | Ładowany w `test-env.ts` (lazy getters)     | ESM import order — nie w `playwright.config.ts` |
 
 | `workers` | `1` | Wszystkie testy dzielą jednego usera; backend trzyma **jedną aktywną sesję na usera** — równoległe loginy się unieważniają |
 
@@ -207,20 +207,20 @@ e2e/
 
 ## 6. Harmonogram
 
-| Etap | Zakres | ID | Status |
-|------|--------|-----|--------|
-| **0** | Infrastruktura Playwright | E2E-000–009 | ✅ |
-| **0b** | CI workflow | E2E-010 | ⬜ |
-| **1** | Auth smoke | E2E-101–104, 102 | ✅ |
-| **2** | `data-testid` w aplikacji | E2E-110 | ✅ |
-| **2b** | CI workflow | E2E-010 | ⬜ |
-| **3** | Lista + nawigacja | E2E-201 | ⬜ **następna** |
-| **4** | Tworzenie rozmowy | E2E-301, E2E-303 | ⬜ |
-| **5** | Sesja na żywo | E2E-401–404, E2E-006 | ⬜ |
-| **6** | Feedback | E2E-501–504 | ⬜ |
-| **7** | Filtry + AI topics | E2E-202, E2E-302 | ⬜ |
-| **8** | TTS | E2E-601 | ⬜ |
-| **9** | Activity + chrome | E2E-203, E2E-701–702 | ⬜ |
+| Etap   | Zakres                    | ID                   | Status          |
+| ------ | ------------------------- | -------------------- | --------------- |
+| **0**  | Infrastruktura Playwright | E2E-000–009          | ✅              |
+| **0b** | CI workflow               | E2E-010              | ⬜              |
+| **1**  | Auth smoke                | E2E-101–104, 102     | ✅              |
+| **2**  | `data-testid` w aplikacji | E2E-110              | ✅              |
+| **2b** | CI workflow               | E2E-010              | ⬜              |
+| **3**  | Lista + nawigacja         | E2E-201              | ⬜ **następna** |
+| **4**  | Tworzenie rozmowy         | E2E-301, E2E-303     | ⬜              |
+| **5**  | Sesja na żywo             | E2E-401–404, E2E-006 | ⬜              |
+| **6**  | Feedback                  | E2E-501–504          | ⬜              |
+| **7**  | Filtry + AI topics        | E2E-202, E2E-302     | ⬜              |
+| **8**  | TTS                       | E2E-601              | ⬜              |
+| **9**  | Activity + chrome         | E2E-203, E2E-701–702 | ⬜              |
 
 ---
 
@@ -254,33 +254,34 @@ e2e/
 
 ### Zachowanie aplikacji (ważne dla testów)
 
-| Obszar | Rzeczywiste zachowanie |
-|--------|------------------------|
-| Po OTP verify | Redirect na `/` (placeholder home), nie `/conversations` |
-| Walidacja email | Przycisk disabled gdy brak `@` lub pusty email — **bez alertu** |
-| Login page default | Pusty email — testy walidacji same czyszczą pole |
-| Sidebar email | Widoczny tylko gdy sidebar expanded (`ensureExpanded()`) |
+| Obszar             | Rzeczywiste zachowanie                                          |
+| ------------------ | --------------------------------------------------------------- |
+| Po OTP verify      | Redirect na `/` (placeholder home), nie `/conversations`        |
+| Walidacja email    | Przycisk disabled gdy brak `@` lub pusty email — **bez alertu** |
+| Login page default | Pusty email — testy walidacji same czyszczą pole                |
+| Sidebar email      | Widoczny tylko gdy sidebar expanded (`ensureExpanded()`)        |
+
 ### Smoke scope (auth)
 
 Każdy test z auth sam się loguje (`loginWithOtp` lub fixture `authenticatedPage`). **Kolejność plików nie ma znaczenia**, ale run jest serialny (`workers: 1`) — brak `e2e/.auth/`.
 
-| Plik | Scenariusze |
-|------|-------------|
-| `00-login-happy-path.spec.ts` | Redirect → login → lista → sidebar email |
-| `01-login-validation-errors.spec.ts` | Disabled submit przy złym/pustym email |
-| `02-session-persistence.spec.ts` | Reload + nowy kontekst ze `storageState` |
-| `03-logout.spec.ts` | Wylogowanie + brak dostępu |
+| Plik                                 | Scenariusze                              |
+| ------------------------------------ | ---------------------------------------- |
+| `00-login-happy-path.spec.ts`        | Redirect → login → lista → sidebar email |
+| `01-login-validation-errors.spec.ts` | Disabled submit przy złym/pustym email   |
+| `02-session-persistence.spec.ts`     | Reload + nowy kontekst ze `storageState` |
+| `03-logout.spec.ts`                  | Wylogowanie + brak dostępu               |
 
 **7 testów** — szybki smoke, nie pełne pokrycie edge case OTP.
 
 ### Scenariusze
 
-| Plik | Flow | ID | Kroki kluczowe |
-|------|------|-----|----------------|
-| `00-login-happy-path.spec.ts` | Redirect → login → conversations → sidebar email | E2E-101 | `loginWithOtp` |
-| `01-login-validation-errors.spec.ts` | Walidacja email (disabled button) | E2E-102 | `toBeDisabled()` na submit |
-| `02-session-persistence.spec.ts` | Reload + storageState w nowym kontekście | E2E-103 | login → `storageState()` → nowy context |
-| `03-logout.spec.ts` | Logout → brak dostępu | E2E-104 | `getStoredUser` |
+| Plik                                 | Flow                                             | ID      | Kroki kluczowe                          |
+| ------------------------------------ | ------------------------------------------------ | ------- | --------------------------------------- |
+| `00-login-happy-path.spec.ts`        | Redirect → login → conversations → sidebar email | E2E-101 | `loginWithOtp`                          |
+| `01-login-validation-errors.spec.ts` | Walidacja email (disabled button)                | E2E-102 | `toBeDisabled()` na submit              |
+| `02-session-persistence.spec.ts`     | Reload + storageState w nowym kontekście         | E2E-103 | login → `storageState()` → nowy context |
+| `03-logout.spec.ts`                  | Logout → brak dostępu                            | E2E-104 | `getStoredUser`                         |
 
 - [x] **E2E-101** `00-login-happy-path.spec.ts`
 - [x] **E2E-102** `01-login-validation-errors.spec.ts`
@@ -295,13 +296,13 @@ Centralne stałe: `src/lib/testing/e2e-test-ids.ts` (re-export: `e2e/helpers/tes
 
 ### Zakres
 
-| Obszar | Kluczowe testid | Pliki |
-|--------|-----------------|-------|
-| Auth | `login-page`, `login-email-input`, `login-otp-digit-N`, `login-error` | `login/+page.svelte`, `otp-input.svelte` |
-| Sidebar | `sidebar-toggle`, `sidebar-user-email`, `sidebar-logout` | `sidebar.svelte` |
-| Lista | `conversations-heading`, `conversations-list`, `conversation-row-{id}`, filtry | `conversations/+page.svelte`, list components |
-| Create | `create-conversation-stepper`, `conversation-type-card-{type}`, `topic-row-{i}`, `create-conversation-start` | multi-step-form, create steps |
-| Sesja | `session-message-input`, `session-send-button`, `ai-message-{i}`, `feedback-panel` | session components |
+| Obszar  | Kluczowe testid                                                                                              | Pliki                                         |
+| ------- | ------------------------------------------------------------------------------------------------------------ | --------------------------------------------- |
+| Auth    | `login-page`, `login-email-input`, `login-otp-digit-N`, `login-error`                                        | `login/+page.svelte`, `otp-input.svelte`      |
+| Sidebar | `sidebar-toggle`, `sidebar-user-email`, `sidebar-logout`                                                     | `sidebar.svelte`                              |
+| Lista   | `conversations-heading`, `conversations-list`, `conversation-row-{id}`, filtry                               | `conversations/+page.svelte`, list components |
+| Create  | `create-conversation-stepper`, `conversation-type-card-{type}`, `topic-row-{i}`, `create-conversation-start` | multi-step-form, create steps                 |
+| Sesja   | `session-message-input`, `session-send-button`, `ai-message-{i}`, `feedback-panel`                           | session components                            |
 
 ### Shared components z `dataTestId` prop
 
@@ -320,15 +321,15 @@ Centralne stałe: `src/lib/testing/e2e-test-ids.ts` (re-export: `e2e/helpers/tes
 > Poniżej **backlog** — bez tabel kroków. Szczegóły user flow ustalamy przy implementacji danej fazy.
 > Każda faza = nowy Page Object + spec(y) w tej samej PR.
 
-| Faza | Priorytet | Zadania | User flow (skrót) | Nowe Page Objects |
-|------|-----------|---------|-------------------|-------------------|
-| **3** | P0 | E2E-201 | Lista → klik rozmowy → New conversation | Rozszerzyć `ConversationsListPage` |
-| **4** | P0 | E2E-301, E2E-303 | 4-krokowy builder → start sesji; walidacja/back | `CreateConversationPage` |
-| **5** | P0 | E2E-401–404, E2E-006 | Init SSE → chat → resume → back | `ConversationSessionPage` |
-| **6** | P1 | E2E-501–504 | Inline highlights, panel feedbacku | `FeedbackPanelComponent` |
-| **7** | P1 | E2E-202, E2E-302 | Filtry listy; AI topic suggestions | Rozszerzenia PO z Faz 3–4 |
-| **8** | P1 | E2E-601 | TTS play/stop na wiadomości AI | Metody w `ConversationSessionPage` |
-| **9** | P2 | E2E-203, E2E-701–702 | Activity heatmap; theme; locale switching | `PublicLayoutComponent` |
+| Faza  | Priorytet | Zadania              | User flow (skrót)                               | Nowe Page Objects                  |
+| ----- | --------- | -------------------- | ----------------------------------------------- | ---------------------------------- |
+| **3** | P0        | E2E-201              | Lista → klik rozmowy → New conversation         | Rozszerzyć `ConversationsListPage` |
+| **4** | P0        | E2E-301, E2E-303     | 4-krokowy builder → start sesji; walidacja/back | `CreateConversationPage`           |
+| **5** | P0        | E2E-401–404, E2E-006 | Init SSE → chat → resume → back                 | `ConversationSessionPage`          |
+| **6** | P1        | E2E-501–504          | Inline highlights, panel feedbacku              | `FeedbackPanelComponent`           |
+| **7** | P1        | E2E-202, E2E-302     | Filtry listy; AI topic suggestions              | Rozszerzenia PO z Faz 3–4          |
+| **8** | P1        | E2E-601              | TTS play/stop na wiadomości AI                  | Metody w `ConversationSessionPage` |
+| **9** | P2        | E2E-203, E2E-701–702 | Activity heatmap; theme; locale switching       | `PublicLayoutComponent`            |
 
 ### Kolejność realizacji
 
@@ -349,23 +350,23 @@ Faza 1–2 merge ┘         │                      │                    │
 
 Akceptowalne na Fazę 1; adresować przy implementacji kolejnych faz.
 
-| Ograniczenie | Wpływ | Planowana poprawa |
-|--------------|-------|-------------------|
+| Ograniczenie                                            | Wpływ                                              | Planowana poprawa                  |
+| ------------------------------------------------------- | -------------------------------------------------- | ---------------------------------- |
 | `waitForLoginSuccess()` czeka na `/` (placeholder home) | Zmiana gdy produkt zdefiniuje inny post-auth route | Zaostrzyć w `LoginPage` (E2E-101+) |
-| Brak CI (E2E-010) | Brak automatycznej weryfikacji | Następny krok infra |
+| Brak CI (E2E-010)                                       | Brak automatycznej weryfikacji                     | Następny krok infra                |
 
 ---
 
 ## Podsumowanie pokrycia
 
-| Priorytet | Scenariusze | Zadania | Status |
-|-----------|-------------|---------|--------|
-| **Infra** | Setup Playwright | E2E-000–009 | ✅ |
-| **Infra** | CI | E2E-010 | ⬜ |
-| **P0** | Auth | E2E-101–104 | ✅ |
-| **P0** | data-testid | E2E-110 | ✅ |
-| **P0** | Lista, create, sesja | E2E-201, 301, 303, 401–404 | ⬜ |
-| **P1** | Feedback, filtry, topics, TTS | E2E-202, 302, 501–504, 601 | ⬜ |
-| **P2** | Activity, theme, locale | E2E-203, 701–702 | ⬜ |
+| Priorytet | Scenariusze                   | Zadania                    | Status |
+| --------- | ----------------------------- | -------------------------- | ------ |
+| **Infra** | Setup Playwright              | E2E-000–009                | ✅     |
+| **Infra** | CI                            | E2E-010                    | ⬜     |
+| **P0**    | Auth                          | E2E-101–104                | ✅     |
+| **P0**    | data-testid                   | E2E-110                    | ✅     |
+| **P0**    | Lista, create, sesja          | E2E-201, 301, 303, 401–404 | ⬜     |
+| **P1**    | Feedback, filtry, topics, TTS | E2E-202, 302, 501–504, 601 | ⬜     |
+| **P2**    | Activity, theme, locale       | E2E-203, 701–702           | ⬜     |
 
 **Łącznie:** ~31 zadań — **15 zrobionych**, **16 w roadmap**.

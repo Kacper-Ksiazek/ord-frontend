@@ -5,10 +5,10 @@
 **Target (skrót):** `ORD - UI` (`ORDUI`)  
 **Link:** https://kksiazek.atlassian.net/jira/software/projects/ORDUI/boards/1
 
-| Level | Name | ID / Key |
-|-------|------|----------|
-| Site | kksiazek.atlassian.net | `1a678711-0c91-477f-95d6-f54b7c3df444` |
-| Project | ORD - UI | `ORDUI` |
+| Level   | Name                   | ID / Key                               |
+| ------- | ---------------------- | -------------------------------------- |
+| Site    | kksiazek.atlassian.net | `1a678711-0c91-477f-95d6-f54b7c3df444` |
+| Project | ORD - UI               | `ORDUI`                                |
 
 ## MCP
 
@@ -20,9 +20,9 @@ Issue keys (`ORDUI-*`) change when epics are recreated. Resolve the current key 
 
 `project = ORDUI AND issuetype = Epic AND summary = "FDD Refactor"`
 
-| Epic (summary) | Zakres |
-|----------------|--------|
-| FDD Refactor | Fazy 1–4 refaktoryzacji FDD |
+| Epic (summary) | Zakres                      |
+| -------------- | --------------------------- |
+| FDD Refactor   | Fazy 1–4 refaktoryzacji FDD |
 
 ## jql_scope (optional)
 
