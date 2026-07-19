@@ -14,10 +14,10 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  # Cross-repo GitHub Packages: GITHUB_TOKEN from this repo cannot read
-  # @kacper-ksiazek/ord-api-types (published from ord-api). Use a PAT with
-  # read:packages — same as local dev — stored as GH_PACKAGES_READ_TOKEN.
-  GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_READ_TOKEN }}
+  # Cross-repo GitHub Packages: the workflow GITHUB_TOKEN cannot read
+  # @kacper-ksiazek/ord-api-types (published from ord-api). Map a PAT with
+  # read:packages from secret PACKAGES_READ_TOKEN into GITHUB_TOKEN for .npmrc.
+  GITHUB_TOKEN: ${{ secrets.PACKAGES_READ_TOKEN }}
 
 jobs:
   lint:
