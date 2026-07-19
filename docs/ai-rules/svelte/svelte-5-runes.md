@@ -32,8 +32,7 @@ All components use Svelte 5 runes: `$props()` for props, `$state()` for local st
 	export let disabled = false;
 	export let hotkey;
 
-	$: ariaKeyShortcuts = hotkey !== undefined
-		? normalizeRegisterableHotkey(hotkey, detectPlatform())
-		: undefined;
+	$: ariaKeyShortcuts =
+		hotkey !== undefined ? normalizeRegisterableHotkey(hotkey, detectPlatform()) : undefined;
 </script>
 ```

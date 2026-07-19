@@ -12,7 +12,9 @@ Place state modules in the folder that matches how they are shared:
 // pages/list/state/conversation-list-state.svelte.ts — class, instantiated per page
 export class ConversationListFiltersState {
 	filters: ConversationListFilters = $state(ConversationListFiltersState.DEFAULT_FILTERS);
-	constructor(urlSearchParams: URLSearchParams) { /* ... */ }
+	constructor(urlSearchParams: URLSearchParams) {
+		/* ... */
+	}
 }
 
 // conversations-list.screen.svelte
@@ -24,7 +26,7 @@ const filtersState = new ConversationListFiltersState(page.url.searchParams);
 export const [getSidepanelContext, setSidepanelContext] = createContext<SidepanelContext>();
 
 export function createSidepanelContext() {
-	const context: SidepanelContext = $state({ isOpened: false, /* ... */ });
+	const context: SidepanelContext = $state({ isOpened: false /* ... */ });
 	setSidepanelContext(context);
 }
 ```

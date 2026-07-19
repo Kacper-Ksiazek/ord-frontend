@@ -19,7 +19,7 @@ This repository contains the **frontend** — a SvelteKit 2 + Svelte 5 single-pa
 
 <br />
 
-<!-- Update the href once your demo is live (and remove this comment). 
+<!-- Update the href once your demo is live (and remove this comment).
 [![Live Demo](https://img.shields.io/badge/▶_Live_Demo-FF3E00?style=for-the-badge)](#)
 [![Storybook](https://img.shields.io/badge/📚_Storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white)](#)
 -->
@@ -82,18 +82,18 @@ This repository contains the **frontend** — a SvelteKit 2 + Svelte 5 single-pa
 
 ## 🛠️ Tech stack
 
-| Area               | Choice                                                                 |
-| ------------------ | ---------------------------------------------------------------------- |
-| Framework          | **SvelteKit 2** + **Svelte 5** (runes)                                 |
-| Language           | **TypeScript** (strict)                                                |
-| Styling            | **Tailwind CSS v4** + **Flowbite** components, `lucide-svelte` icons   |
-| Server state       | **TanStack Query** (Svelte) + **Axios**                                |
-| Streaming          | **Server-Sent Events** + **RxJS**                                      |
-| i18n               | **Paraglide JS** / **inlang** (en · pl · de)                           |
-| Component workshop | **Storybook 10** (with a11y & Vitest addons)                           |
-| Testing            | **Vitest** in browser mode (`vitest-browser-svelte`, Playwright)       |
-| Tooling            | **ESLint**, **Prettier**, **Husky** + **lint-staged**                  |
-| Deployment         | **Vercel** adapter                                                     |
+| Area               | Choice                                                               |
+| ------------------ | -------------------------------------------------------------------- |
+| Framework          | **SvelteKit 2** + **Svelte 5** (runes)                               |
+| Language           | **TypeScript** (strict)                                              |
+| Styling            | **Tailwind CSS v4** + **Flowbite** components, `lucide-svelte` icons |
+| Server state       | **TanStack Query** (Svelte) + **Axios**                              |
+| Streaming          | **Server-Sent Events** + **RxJS**                                    |
+| i18n               | **Paraglide JS** / **inlang** (en · pl · de)                         |
+| Component workshop | **Storybook 10** (with a11y & Vitest addons)                         |
+| Testing            | **Vitest** in browser mode (`vitest-browser-svelte`, Playwright)     |
+| Tooling            | **ESLint**, **Prettier**, **Husky** + **lint-staged**                |
+| Deployment         | **Vercel** adapter                                                   |
 
 ---
 
@@ -149,17 +149,17 @@ The app runs at `http://localhost:5173`.
 
 ### Useful scripts
 
-| Script                    | Description                                  |
-| ------------------------- | -------------------------------------------- |
-| `bun run dev`             | Start the dev server (Vite)                  |
-| `bun run build`           | Production build                             |
-| `bun run preview`         | Preview the production build                 |
-| `bun run storybook`       | Launch Storybook on port `6006`              |
-| `bun run test`            | Run the unit/component test suite once       |
-| `bun run test:unit`       | Run tests in watch mode                      |
-| `bun run check`           | Type-check with `svelte-check`               |
-| `bun run lint`            | Lint with ESLint                             |
-| `bun run format`          | Format with Prettier                         |
+| Script              | Description                            |
+| ------------------- | -------------------------------------- |
+| `bun run dev`       | Start the dev server (Vite)            |
+| `bun run build`     | Production build                       |
+| `bun run preview`   | Preview the production build           |
+| `bun run storybook` | Launch Storybook on port `6006`        |
+| `bun run test`      | Run the unit/component test suite once |
+| `bun run test:unit` | Run tests in watch mode                |
+| `bun run check`     | Type-check with `svelte-check`         |
+| `bun run lint`      | Lint with ESLint                       |
+| `bun run format`    | Format with Prettier                   |
 
 ---
 
@@ -194,8 +194,8 @@ bun run test:e2e:ui            # interactive UI mode
 **Kacper Książek**
 
 - GitHub: [@Kacper-Ksiazek](https://github.com/Kacper-Ksiazek)
-<!-- - Portfolio: <your-portfolio-url> -->
-<!-- - LinkedIn: <your-linkedin-url> -->
-<!-- - Live demo: <your-demo-url> -->
+  <!-- - Portfolio: <your-portfolio-url> -->
+  <!-- - LinkedIn: <your-linkedin-url> -->
+  <!-- - Live demo: <your-demo-url> -->
 
 > This is a personal project built to explore modern Svelte 5, AI-driven UX, and a scalable frontend architecture. Feedback is always welcome.

@@ -12,7 +12,9 @@ Generic design-system primitives stay in shared `$lib` (`$lib/components`, `$lib
 // — imports ConversationTone from $conversations/types → domain-coupled, lives in the feature.
 import type { ConversationTone } from '$conversations/types';
 
-export function getConversationToneLabel(tone: ConversationTone): string { /* ... */ }
+export function getConversationToneLabel(tone: ConversationTone): string {
+	/* ... */
+}
 ```
 
 ## Bad

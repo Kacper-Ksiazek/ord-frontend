@@ -33,7 +33,9 @@ export interface ButtonProps {
 <script lang="ts">
 	// large multi-variant props interface crammed inline instead of button.types.ts,
 	// and legacy slot instead of a Snippet prop
-	interface ButtonProps { /* 15 fields ... */ }
+	interface ButtonProps {
+		/* 15 fields ... */
+	}
 	let { ...props }: ButtonProps = $props();
 </script>
 
