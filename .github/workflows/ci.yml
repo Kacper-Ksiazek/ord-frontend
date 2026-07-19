@@ -14,7 +14,10 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # Cross-repo GitHub Packages: GITHUB_TOKEN from this repo cannot read
+  # @kacper-ksiazek/ord-api-types (published from ord-api). Use a PAT with
+  # read:packages — same as local dev — stored as GH_PACKAGES_READ_TOKEN.
+  GITHUB_TOKEN: ${{ secrets.GH_PACKAGES_READ_TOKEN }}
 
 jobs:
   lint:
