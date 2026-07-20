@@ -2,7 +2,7 @@
 
 > Pełne user flow end-to-end dla **ord-frontend** — nie testy izolowanych komponentów.
 >
-> **Status:** Faza 0 + Faza 1 gotowe do merge; **Faza 2 (data-testid) zaimplementowana** — pending weryfikacja `bun run test:e2e` z backendem + E2E-010 CI.
+> **Status:** Faza 0 + Faza 1 gotowe; **Faza 2 (data-testid) zaimplementowana**; **E2E-010 CI** — workflow `.github/workflows/e2e.yml` (GHCR backend, Faza 1: nieblokujący).
 > **Ostatnia aktualizacja:** 2026-07-01 (Faza 2: data-testid w aplikacji)
 
 ---
@@ -31,7 +31,7 @@
 | Infrastruktura Playwright (`e2e/`, POM, fixtures) | ✅ Zrobione                         |
 | Faza 1 — auth (4 specy)                           | ✅ Zaimplementowane                 |
 | Faza 2 — `data-testid` w aplikacji                | ✅ Zaimplementowane                 |
-| CI workflow (`bun run test:e2e`)                  | ⬜ E2E-010                          |
+| CI workflow (`bun run test:e2e`)                  | ✅ E2E-010                          |
 | Fazy 3–8                                          | ⬜ Roadmap (poniżej)                |
 | Testy jednostkowe (Vitest)                        | ✅ 8 plików (utils, TTS API, lista) |
 
@@ -210,10 +210,10 @@ e2e/
 | Etap   | Zakres                    | ID                   | Status          |
 | ------ | ------------------------- | -------------------- | --------------- |
 | **0**  | Infrastruktura Playwright | E2E-000–009          | ✅              |
-| **0b** | CI workflow               | E2E-010              | ⬜              |
+| **0b** | CI workflow               | E2E-010              | ✅              |
 | **1**  | Auth smoke                | E2E-101–104, 102     | ✅              |
 | **2**  | `data-testid` w aplikacji | E2E-110              | ✅              |
-| **2b** | CI workflow               | E2E-010              | ⬜              |
+| **2b** | CI workflow               | E2E-010              | ✅              |
 | **3**  | Lista + nawigacja         | E2E-201              | ⬜ **następna** |
 | **4**  | Tworzenie rozmowy         | E2E-301, E2E-303     | ⬜              |
 | **5**  | Sesja na żywo             | E2E-401–404, E2E-006 | ⬜              |
@@ -246,7 +246,7 @@ e2e/
 - [x] **E2E-007** `.env.e2e.example`
 - [x] **E2E-008** README — sekcja E2E
 - [x] **E2E-009** POM (`pages/`, `pages.fixture.ts`, `page-objects.ts`)
-- [ ] **E2E-010** GitHub Actions workflow
+- [x] **E2E-010** GitHub Actions workflow (`.github/workflows/e2e.yml`, GHCR backend)
 
 ---
 
@@ -353,7 +353,7 @@ Akceptowalne na Fazę 1; adresować przy implementacji kolejnych faz.
 | Ograniczenie                                            | Wpływ                                              | Planowana poprawa                  |
 | ------------------------------------------------------- | -------------------------------------------------- | ---------------------------------- |
 | `waitForLoginSuccess()` czeka na `/` (placeholder home) | Zmiana gdy produkt zdefiniuje inny post-auth route | Zaostrzyć w `LoginPage` (E2E-101+) |
-| Brak CI (E2E-010)                                       | Brak automatycznej weryfikacji                     | Następny krok infra                |
+| Brak CI (E2E-010)                                       | ~~Brak automatycznej weryfikacji~~                 | ✅ Workflow `e2e` (Faza 1: nieblokujący) |
 
 ---
 
@@ -362,7 +362,7 @@ Akceptowalne na Fazę 1; adresować przy implementacji kolejnych faz.
 | Priorytet | Scenariusze                   | Zadania                    | Status |
 | --------- | ----------------------------- | -------------------------- | ------ |
 | **Infra** | Setup Playwright              | E2E-000–009                | ✅     |
-| **Infra** | CI                            | E2E-010                    | ⬜     |
+| **Infra** | CI                            | E2E-010                    | ✅     |
 | **P0**    | Auth                          | E2E-101–104                | ✅     |
 | **P0**    | data-testid                   | E2E-110                    | ✅     |
 | **P0**    | Lista, create, sesja          | E2E-201, 301, 303, 401–404 | ⬜     |

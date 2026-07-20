@@ -16,7 +16,7 @@ export const testEnv = {
 		return requireEnv('E2E_API_URL') ?? requireEnv('PUBLIC_API_URL') ?? 'http://localhost:8080';
 	},
 	get testEmail() {
-		return requireEnv('E2E_TEST_EMAIL') ?? 'e2e-test@example.com';
+		return requireEnv('E2E_TEST_EMAIL') ?? 'e2e-ci@ord.test';
 	},
 	get otpCode() {
 		return requireEnv('E2E_OTP_CODE');
