@@ -2,8 +2,8 @@
 
 > Pełne user flow end-to-end dla **ord-frontend** — nie testy izolowanych komponentów.
 >
-> **Status:** Faza 0 + Faza 1 gotowe; **Faza 2 (data-testid) zaimplementowana**; **E2E-010 CI** — workflow `.github/workflows/e2e.yml` (GHCR backend, Faza 1: nieblokujący).
-> **Ostatnia aktualizacja:** 2026-07-01 (Faza 2: data-testid w aplikacji)
+> **Status:** Faza 0 + Faza 1 gotowe; **Faza 2 (data-testid) zaimplementowana**; **E2E-010/011 CI** — workflow `.github/workflows/e2e.yml` (GHCR backend, **blokujący**, pin `sha-<commit>`).
+> **Ostatnia aktualizacja:** 2026-07-21 (CI Faza 2: blocking + pin)
 
 ---
 
@@ -31,7 +31,7 @@
 | Infrastruktura Playwright (`e2e/`, POM, fixtures) | ✅ Zrobione                         |
 | Faza 1 — auth (4 specy)                           | ✅ Zaimplementowane                 |
 | Faza 2 — `data-testid` w aplikacji                | ✅ Zaimplementowane                 |
-| CI workflow (`bun run test:e2e`)                  | ✅ E2E-010                          |
+| CI workflow (`bun run test:e2e`)                  | ✅ E2E-010/011 (blocking, pinned image) |
 | Fazy 3–8                                          | ⬜ Roadmap (poniżej)                |
 | Testy jednostkowe (Vitest)                        | ✅ 8 plików (utils, TTS API, lista) |
 
@@ -213,7 +213,8 @@ e2e/
 | **0b** | CI workflow               | E2E-010              | ✅              |
 | **1**  | Auth smoke                | E2E-101–104, 102     | ✅              |
 | **2**  | `data-testid` w aplikacji | E2E-110              | ✅              |
-| **2b** | CI workflow               | E2E-010              | ✅              |
+| **2b** | CI workflow (informacyjny) | E2E-010              | ✅              |
+| **2c** | CI utwardzenie             | E2E-011              | ✅              |
 | **3**  | Lista + nawigacja         | E2E-201              | ⬜ **następna** |
 | **4**  | Tworzenie rozmowy         | E2E-301, E2E-303     | ⬜              |
 | **5**  | Sesja na żywo             | E2E-401–404, E2E-006 | ⬜              |
@@ -229,7 +230,7 @@ e2e/
 1. **Backend testowy** — `PUBLIC_API_URL`, deterministyczny OTP (`E2E_OTP_CODE` lub `E2E_OTP_FETCH_URL`), seed data.
 2. **`data-testid` w aplikacji** — ✅ Faza 2 (`src/lib/testing/e2e-test-ids.ts`). Shared components: `Button`, `Input`, `IconButton`, `AutoHeightTextarea`, `DropdownSelect`, `Tabs` — prop `dataTestId`.
 3. **SSE waits** — metody w `ConversationSessionPage` (Faza 5, E2E-006).
-4. **CI** — `.github/workflows/e2e.yml` uruchamiający `bun run test:e2e` z backendem (E2E-010).
+4. **CI** — `.github/workflows/e2e.yml` uruchamiający `bun run test:e2e` z backendem (E2E-010). **Faza 2 CI (E2E-011):** check `e2e` jest blokujący; obraz API pinowany przez `.github/ord-api-e2e-image.sha` → `ghcr.io/kacper-ksiazek/ord-api:sha-<commit>`. Konfiguracja required checks: [`.github/REQUIRED_CHECKS.md`](../.github/REQUIRED_CHECKS.md).
 5. **`.env.e2e`** — format `KEY=value`, bez cudzysłowów/exportu/expansion (patrz `.env.e2e.example`).
 
 ---
@@ -247,6 +248,7 @@ e2e/
 - [x] **E2E-008** README — sekcja E2E
 - [x] **E2E-009** POM (`pages/`, `pages.fixture.ts`, `page-objects.ts`)
 - [x] **E2E-010** GitHub Actions workflow (`.github/workflows/e2e.yml`, GHCR backend)
+- [x] **E2E-011** CI utwardzenie — blocking check, pin `ord-api` image (`ord-api-e2e-image.sha`), required-check docs
 
 ---
 
@@ -256,7 +258,7 @@ e2e/
 
 | Obszar             | Rzeczywiste zachowanie                                          |
 | ------------------ | --------------------------------------------------------------- |
-| Po OTP verify      | Redirect na `/` (placeholder home), nie `/conversations`        |
+| Po OTP verify      | Redirect na `/conversations` (przez `/` → 307 w `(private)/+page.ts`) |
 | Walidacja email    | Przycisk disabled gdy brak `@` lub pusty email — **bez alertu** |
 | Login page default | Pusty email — testy walidacji same czyszczą pole                |
 | Sidebar email      | Widoczny tylko gdy sidebar expanded (`ensureExpanded()`)        |
@@ -348,12 +350,12 @@ Faza 1–2 merge ┘         │                      │                    │
 
 ## Znane ograniczenia i tech debt
 
-Akceptowalne na Fazę 1; adresować przy implementacji kolejnych faz.
+Akceptowalne na obecną fazę; adresować przy implementacji kolejnych faz.
 
-| Ograniczenie                                            | Wpływ                                              | Planowana poprawa                        |
-| ------------------------------------------------------- | -------------------------------------------------- | ---------------------------------------- |
-| `waitForLoginSuccess()` czeka na `/` (placeholder home) | Zmiana gdy produkt zdefiniuje inny post-auth route | Zaostrzyć w `LoginPage` (E2E-101+)       |
-| Brak CI (E2E-010)                                       | ~~Brak automatycznej weryfikacji~~                 | ✅ Workflow `e2e` (Faza 1: nieblokujący) |
+| Ograniczenie | Wpływ | Planowana poprawa |
+| ------------ | ----- | ----------------- |
+| Pin `ord-api` wymaga ręcznej aktualizacji `.github/ord-api-e2e-image.sha` | Frontend CI może testować starszy backend do czasu bumpu | Bump po merge zmian w profilu `e2e` / OTP / health check |
+| Required check `e2e` w branch protection | Konfiguracja poza repo (GitHub Settings) | [`.github/REQUIRED_CHECKS.md`](../.github/REQUIRED_CHECKS.md) |
 
 ---
 
@@ -362,11 +364,11 @@ Akceptowalne na Fazę 1; adresować przy implementacji kolejnych faz.
 | Priorytet | Scenariusze                   | Zadania                    | Status |
 | --------- | ----------------------------- | -------------------------- | ------ |
 | **Infra** | Setup Playwright              | E2E-000–009                | ✅     |
-| **Infra** | CI                            | E2E-010                    | ✅     |
+| **Infra** | CI                            | E2E-010, E2E-011           | ✅     |
 | **P0**    | Auth                          | E2E-101–104                | ✅     |
 | **P0**    | data-testid                   | E2E-110                    | ✅     |
 | **P0**    | Lista, create, sesja          | E2E-201, 301, 303, 401–404 | ⬜     |
 | **P1**    | Feedback, filtry, topics, TTS | E2E-202, 302, 501–504, 601 | ⬜     |
 | **P2**    | Activity, theme, locale       | E2E-203, 701–702           | ⬜     |
 
-**Łącznie:** ~31 zadań — **15 zrobionych**, **16 w roadmap**.
+**Łącznie:** ~32 zadań — **16 zrobionych**, **16 w roadmap**.
