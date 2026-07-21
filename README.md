@@ -187,6 +187,8 @@ bun run test:e2e               # run all E2E flows (auto-loads .env.e2e)
 bun run test:e2e:ui            # interactive UI mode
 ```
 
+**CI:** `.github/workflows/e2e.yml` runs on pull requests and `workflow_dispatch`. It pulls a pre-built `ord-api` image from GHCR (`docker-compose.e2e.yml` from `ord-api`), starts Postgres + backend, then runs Playwright (4 auth specs). Phase 1: the check is **non-blocking** (`continue-on-error: true`). Requires the `ord-api` GHCR publish workflow to be merged first.
+
 ---
 
 ## 👤 Author
