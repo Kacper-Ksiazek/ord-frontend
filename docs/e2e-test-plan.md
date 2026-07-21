@@ -350,9 +350,9 @@ Faza 1–2 merge ┘         │                      │                    │
 
 Akceptowalne na Fazę 1; adresować przy implementacji kolejnych faz.
 
-| Ograniczenie                                            | Wpływ                                              | Planowana poprawa                  |
-| ------------------------------------------------------- | -------------------------------------------------- | ---------------------------------- |
-| `waitForLoginSuccess()` czeka na `/` (placeholder home) | Zmiana gdy produkt zdefiniuje inny post-auth route | Zaostrzyć w `LoginPage` (E2E-101+) |
+| Ograniczenie                                            | Wpływ                                              | Planowana poprawa                        |
+| ------------------------------------------------------- | -------------------------------------------------- | ---------------------------------------- |
+| `waitForLoginSuccess()` czeka na `/` (placeholder home) | Zmiana gdy produkt zdefiniuje inny post-auth route | Zaostrzyć w `LoginPage` (E2E-101+)       |
 | Brak CI (E2E-010)                                       | ~~Brak automatycznej weryfikacji~~                 | ✅ Workflow `e2e` (Faza 1: nieblokujący) |
 
 ---
