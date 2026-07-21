@@ -187,7 +187,7 @@ bun run test:e2e               # run all E2E flows (auto-loads .env.e2e)
 bun run test:e2e:ui            # interactive UI mode
 ```
 
-**CI:** `.github/workflows/e2e.yml` runs on pull requests and `workflow_dispatch`. It pulls a pre-built `ord-api` image from GHCR (`docker-compose.e2e.yml` from `ord-api`), starts Postgres + backend, then runs Playwright (4 auth specs). Phase 1: the check is **non-blocking** (`continue-on-error: true`). Requires the `ord-api` GHCR publish workflow to be merged first.
+**CI:** `.github/workflows/e2e.yml` runs on pull requests and `workflow_dispatch`. It checks out a **pinned** `ord-api` commit (`.github/ord-api-e2e-image.sha`), pulls the matching `ghcr.io/kacper-ksiazek/ord-api:sha-<commit>` image, starts Postgres + backend, then runs Playwright (auth smoke). The **`e2e` check is blocking** — failed E2E fails the PR. See [`.github/REQUIRED_CHECKS.md`](./.github/REQUIRED_CHECKS.md) to enable it on `main`.
 
 ---
 

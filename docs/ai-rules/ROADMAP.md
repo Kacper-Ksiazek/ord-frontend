@@ -11,7 +11,7 @@ structure changes materially, and use the checkboxes to track rule coverage.
 - **Data:** TanStack Svelte Query 6, axios-based `src/lib/api-client` (`http*` naming), rxjs (SSE)
 - **API contract:** `@kacper-ksiazek/ord-api-types` package
 - **i18n:** Paraglide JS 2 (pl/en/de), `messages/` + `scripts/aggregate-translations.ts`
-- **Testing:** Vitest (unit, colocated `.test.ts`), Playwright (`e2e/` with fixtures/flows/pages), Storybook 10 (`.stories.svelte`)
+- **Testing:** Vitest (unit, colocated `.test.ts`), Playwright (`e2e/` with fixtures/flows/pages, CI job `e2e` + pinned `ord-api` image), Storybook 10 (`.stories.svelte`)
 - **Tooling:** ESLint 9 flat config, Prettier, husky + lint-staged, bun
 - **Architecture:** FDD — `src/lib/features/{auth,conversations,app-layouts}` with public
   barrels, aliases `$auth`/`$conversations`/`$appLayouts`, thin routes, shared design system
@@ -92,6 +92,7 @@ Covers: `src/**/*.test.ts`, `e2e/`, `src/**/*.stories.svelte`, `vite.config.ts`,
 
 - [x] Vitest unit test conventions (colocated, utils-focused)
 - [x] Playwright e2e structure (fixtures/flows/pages)
+- [x] E2E CI workflow (blocking `e2e` job, `.github/ord-api-e2e-image.sha` pin)
 - [x] Storybook stories conventions
 
 ### git/ — workflow

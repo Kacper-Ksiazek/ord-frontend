@@ -2,6 +2,8 @@
 
 Name branches `ordui-N-short-slug` (lowercase Jira key plus a short kebab-case slug). Do one PR per Jira subtask, merged into `main` via a GitHub PR using a merge commit (never push directly to `main`). The PR body has two sections: `## Summary` and `## Test plan`.
 
+PRs to `main` must pass CI checks including **`e2e`** (Playwright against pinned `ord-api` GHCR image). Enable required checks per [`.github/REQUIRED_CHECKS.md`](../../../.github/REQUIRED_CHECKS.md). When changing user flows or auth/conversations UI, mention E2E impact in the test plan (`bun run test:e2e` locally or rely on the `e2e` job).
+
 ## Good
 
 ```
@@ -13,6 +15,7 @@ gh pr create --base main --title "refactor(ORDUI-47): unify feature structure an
 
 ## Test plan
 - bun run check, bun run lint, bun run test all pass
+- bun run test:e2e (auth smoke) with ord-api docker-compose.e2e stack
 - Manually verified conversations and auth flows"
 ```
 

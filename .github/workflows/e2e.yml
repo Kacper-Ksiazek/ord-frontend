@@ -19,7 +19,6 @@ jobs:
   e2e:
     name: e2e
     runs-on: ubuntu-latest
-    continue-on-error: true
     if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
     timeout-minutes: 30
 
@@ -27,10 +26,18 @@ jobs:
       - name: Checkout ord-frontend
         uses: actions/checkout@v4
 
+      - name: Resolve pinned ord-api image
+        id: ord-api
+        run: |
+          SHA=$(tr -d '[:space:]' < .github/ord-api-e2e-image.sha)
+          echo "sha=${SHA}" >> "$GITHUB_OUTPUT"
+          echo "image=ghcr.io/kacper-ksiazek/ord-api:sha-${SHA}" >> "$GITHUB_OUTPUT"
+
       - name: Checkout ord-api
         uses: actions/checkout@v4
         with:
           repository: Kacper-Ksiazek/ord-api
+          ref: ${{ steps.ord-api.outputs.sha }}
           path: ord-api
 
       - name: Log in to GHCR
@@ -41,6 +48,8 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Start E2E backend stack
+        env:
+          ORD_API_IMAGE: ${{ steps.ord-api.outputs.image }}
         run: docker compose -f ord-api/docker-compose.e2e.yml up -d --wait
 
       - name: Create .env.e2e
@@ -74,4 +83,6 @@ jobs:
 
       - name: Tear down E2E backend stack
         if: always()
+        env:
+          ORD_API_IMAGE: ${{ steps.ord-api.outputs.image }}
         run: docker compose -f ord-api/docker-compose.e2e.yml down -v
