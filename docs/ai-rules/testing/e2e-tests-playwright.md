@@ -53,10 +53,9 @@ export class LoginPage {
 
 	async waitForLoginSuccess(): Promise<void> {
 		// After OTP, app lands on /conversations (via / redirect).
-		await this.page.waitForURL(
-			(url) => url.pathname === '/conversations' || url.pathname === '/',
-			{ timeout: 15_000 }
-		);
+		await this.page.waitForURL((url) => url.pathname === '/conversations' || url.pathname === '/', {
+			timeout: 15_000
+		});
 	}
 }
 ```

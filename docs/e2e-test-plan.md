@@ -26,14 +26,14 @@
 
 ## 1. Podsumowanie stanu
 
-| Obszar                                            | Status                              |
-| ------------------------------------------------- | ----------------------------------- |
-| Infrastruktura Playwright (`e2e/`, POM, fixtures) | ✅ Zrobione                         |
-| Faza 1 — auth (4 specy)                           | ✅ Zaimplementowane                 |
-| Faza 2 — `data-testid` w aplikacji                | ✅ Zaimplementowane                 |
+| Obszar                                            | Status                                  |
+| ------------------------------------------------- | --------------------------------------- |
+| Infrastruktura Playwright (`e2e/`, POM, fixtures) | ✅ Zrobione                             |
+| Faza 1 — auth (4 specy)                           | ✅ Zaimplementowane                     |
+| Faza 2 — `data-testid` w aplikacji                | ✅ Zaimplementowane                     |
 | CI workflow (`bun run test:e2e`)                  | ✅ E2E-010/011 (blocking, pinned image) |
-| Fazy 3–8                                          | ⬜ Roadmap (poniżej)                |
-| Testy jednostkowe (Vitest)                        | ✅ 8 plików (utils, TTS API, lista) |
+| Fazy 3–8                                          | ⬜ Roadmap (poniżej)                    |
+| Testy jednostkowe (Vitest)                        | ✅ 8 plików (utils, TTS API, lista)     |
 
 ### Uruchomienie
 
@@ -207,21 +207,21 @@ e2e/
 
 ## 6. Harmonogram
 
-| Etap   | Zakres                    | ID                   | Status          |
-| ------ | ------------------------- | -------------------- | --------------- |
-| **0**  | Infrastruktura Playwright | E2E-000–009          | ✅              |
-| **0b** | CI workflow               | E2E-010              | ✅              |
-| **1**  | Auth smoke                | E2E-101–104, 102     | ✅              |
-| **2**  | `data-testid` w aplikacji | E2E-110              | ✅              |
+| Etap   | Zakres                     | ID                   | Status          |
+| ------ | -------------------------- | -------------------- | --------------- |
+| **0**  | Infrastruktura Playwright  | E2E-000–009          | ✅              |
+| **0b** | CI workflow                | E2E-010              | ✅              |
+| **1**  | Auth smoke                 | E2E-101–104, 102     | ✅              |
+| **2**  | `data-testid` w aplikacji  | E2E-110              | ✅              |
 | **2b** | CI workflow (informacyjny) | E2E-010              | ✅              |
 | **2c** | CI utwardzenie             | E2E-011              | ✅              |
-| **3**  | Lista + nawigacja         | E2E-201              | ⬜ **następna** |
-| **4**  | Tworzenie rozmowy         | E2E-301, E2E-303     | ⬜              |
-| **5**  | Sesja na żywo             | E2E-401–404, E2E-006 | ⬜              |
-| **6**  | Feedback                  | E2E-501–504          | ⬜              |
-| **7**  | Filtry + AI topics        | E2E-202, E2E-302     | ⬜              |
-| **8**  | TTS                       | E2E-601              | ⬜              |
-| **9**  | Activity + chrome         | E2E-203, E2E-701–702 | ⬜              |
+| **3**  | Lista + nawigacja          | E2E-201              | ⬜ **następna** |
+| **4**  | Tworzenie rozmowy          | E2E-301, E2E-303     | ⬜              |
+| **5**  | Sesja na żywo              | E2E-401–404, E2E-006 | ⬜              |
+| **6**  | Feedback                   | E2E-501–504          | ⬜              |
+| **7**  | Filtry + AI topics         | E2E-202, E2E-302     | ⬜              |
+| **8**  | TTS                        | E2E-601              | ⬜              |
+| **9**  | Activity + chrome          | E2E-203, E2E-701–702 | ⬜              |
 
 ---
 
@@ -256,12 +256,12 @@ e2e/
 
 ### Zachowanie aplikacji (ważne dla testów)
 
-| Obszar             | Rzeczywiste zachowanie                                          |
-| ------------------ | --------------------------------------------------------------- |
+| Obszar             | Rzeczywiste zachowanie                                                |
+| ------------------ | --------------------------------------------------------------------- |
 | Po OTP verify      | Redirect na `/conversations` (przez `/` → 307 w `(private)/+page.ts`) |
-| Walidacja email    | Przycisk disabled gdy brak `@` lub pusty email — **bez alertu** |
-| Login page default | Pusty email — testy walidacji same czyszczą pole                |
-| Sidebar email      | Widoczny tylko gdy sidebar expanded (`ensureExpanded()`)        |
+| Walidacja email    | Przycisk disabled gdy brak `@` lub pusty email — **bez alertu**       |
+| Login page default | Pusty email — testy walidacji same czyszczą pole                      |
+| Sidebar email      | Widoczny tylko gdy sidebar expanded (`ensureExpanded()`)              |
 
 ### Smoke scope (auth)
 
@@ -352,10 +352,10 @@ Faza 1–2 merge ┘         │                      │                    │
 
 Akceptowalne na obecną fazę; adresować przy implementacji kolejnych faz.
 
-| Ograniczenie | Wpływ | Planowana poprawa |
-| ------------ | ----- | ----------------- |
-| Pin `ord-api` wymaga ręcznej aktualizacji `.github/ord-api-e2e-image.sha` | Frontend CI może testować starszy backend do czasu bumpu | Bump po merge zmian w profilu `e2e` / OTP / health check |
-| Required check `e2e` w branch protection | Konfiguracja poza repo (GitHub Settings) | [`.github/REQUIRED_CHECKS.md`](../.github/REQUIRED_CHECKS.md) |
+| Ograniczenie                                                              | Wpływ                                                    | Planowana poprawa                                             |
+| ------------------------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------- |
+| Pin `ord-api` wymaga ręcznej aktualizacji `.github/ord-api-e2e-image.sha` | Frontend CI może testować starszy backend do czasu bumpu | Bump po merge zmian w profilu `e2e` / OTP / health check      |
+| Required check `e2e` w branch protection                                  | Konfiguracja poza repo (GitHub Settings)                 | [`.github/REQUIRED_CHECKS.md`](../.github/REQUIRED_CHECKS.md) |
 
 ---
 

@@ -2,7 +2,7 @@
 
 Name branches `ordui-N-short-slug` (lowercase Jira key plus a short kebab-case slug). Do one PR per Jira subtask, merged into `main` via a GitHub PR using a merge commit (never push directly to `main`). The PR body has two sections: `## Summary` and `## Test plan`.
 
-PRs to `main` must pass CI checks including **`e2e`** (Playwright against pinned `ord-api` GHCR image). Enable required checks per [`.github/REQUIRED_CHECKS.md`](../../.github/REQUIRED_CHECKS.md). When changing user flows or auth/conversations UI, mention E2E impact in the test plan (`bun run test:e2e` locally or rely on the `e2e` job).
+PRs to `main` must pass CI checks including **`e2e`** (Playwright against pinned `ord-api` GHCR image). Enable required checks per [`.github/REQUIRED_CHECKS.md`](../../../.github/REQUIRED_CHECKS.md). When changing user flows or auth/conversations UI, mention E2E impact in the test plan (`bun run test:e2e` locally or rely on the `e2e` job).
 
 ## Good
 
