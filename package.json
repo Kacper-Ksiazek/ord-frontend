@@ -3,6 +3,7 @@
 	"private": true,
 	"version": "0.0.1",
 	"type": "module",
+	"packageManager": "bun@1.3.1",
 	"scripts": {
 		"aggregate": "tsx scripts/aggregate-translations.ts",
 		"generate:paraglide": "paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide",

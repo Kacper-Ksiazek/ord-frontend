@@ -163,6 +163,16 @@ The app runs at `http://localhost:5173`.
 
 ---
 
+## 🚢 Deployment
+
+Production deploys to **Vercel** automatically when changes are merged into `main`. Pull
+requests get preview deployments.
+
+See [`docs/deployment.md`](./docs/deployment.md) for one-time Vercel project setup
+(GitHub import, `GITHUB_TOKEN`, `PUBLIC_API_URL`, branch protection).
+
+---
+
 ## ✅ Quality & testing
 
 - **Component & unit tests** run in a real browser via Vitest's browser mode + Playwright.
