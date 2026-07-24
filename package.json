@@ -18,6 +18,7 @@
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run",
 		"test:e2e": "playwright test --config e2e/playwright.config.ts",
+		"test:e2e:parallel-demo": "playwright test --config e2e/playwright.config.ts e2e/flows/demo/parallel-workers.spec.ts --workers=3",
 		"test:e2e:ui": "playwright test --config e2e/playwright.config.ts --ui",
 		"test:e2e:headed": "playwright test --config e2e/playwright.config.ts --headed",
 		"test:e2e:install": "playwright install chromium",
