@@ -9,9 +9,10 @@ test.describe('Login — happy path', () => {
 
 	test('unauthenticated user is redirected to login, then can access conversations', async ({
 		page,
-		loginPage,
-		conversationsListPage
+		loginPage
 	}) => {
+		const conversationsListPage = createConversationsListPage(page);
+
 		await conversationsListPage.goto();
 		await expect(page).toHaveURL(/\/login/);
 

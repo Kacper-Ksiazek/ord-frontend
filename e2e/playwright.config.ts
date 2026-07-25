@@ -9,8 +9,7 @@ export default defineConfig({
 	testDir: './flows',
 	forbidOnly: !!process.env.CI,
 	retries: 0,
-	// Serial by default (workers: 1). Parallel runs use per-worker accounts
-	// (e2e-ci-w{n}@ord.test) — see `bun run test:e2e:parallel-demo`.
+	// Serial by default (workers: 1). Parallel runs map workerIndex → e2e-ci-w{n}@ord.test.
 	workers: 1,
 	reporter: [
 		['list'],
