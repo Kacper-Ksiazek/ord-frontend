@@ -147,6 +147,29 @@ bun run dev
 
 The app runs at `http://localhost:5173`.
 
+### Development (Makefile)
+
+Common workflows are exposed via `make` — run `make help` for the full list.
+
+| Target                  | Description                                                               |
+| ----------------------- | ------------------------------------------------------------------------- |
+| `make ci`               | **Run all CI checks** (lint → format → types → build → unit-tests)        |
+| `make ci-e2e`           | CI checks + Playwright E2E (requires `docker-e2e-up`)                     |
+| `make api-up`           | Start ord-api dev stack (`ORD_API_DIR` defaults to `~/workspace/ord-api`) |
+| `make api-down`         | Stop ord-api dev stack                                                    |
+| `make api-logs`         | Follow ord-api dev stack logs                                             |
+| `make docker-e2e-up`    | Start ephemeral E2E backend (OTP `123456`, 4 worker accounts)             |
+| `make docker-e2e-down`  | Stop E2E backend stack                                                    |
+| `make test`             | Run unit tests (alias for `test-unit`)                                    |
+| `make test-unit`        | Vitest unit/component tests                                               |
+| `make test-e2e`         | All Playwright E2E flows (requires `docker-e2e-up` or `api-up` first)   |
+| `make test-e2e-install` | Install Playwright Chromium                                               |
+
+`make ci` uses `./scripts/run-ci.sh` (sequential, fail-fast, matches `.github/workflows/ci.yml`).
+Test targets use `./scripts/run-tests.sh` (live progress + summary).
+Override backend path: `make docker-e2e-up ORD_API_DIR=/path/to/ord-api`.
+Extra test args: `make test-e2e ARGS='-- --headed'`.
+
 ### Useful scripts
 
 | Script              | Description                            |
@@ -171,8 +194,8 @@ The app runs at `http://localhost:5173`.
 - **Husky + lint-staged** run Prettier and ESLint on every commit, keeping the tree clean.
 
 ```bash
-bun run test       # run all unit tests
-bun run storybook  # explore components in isolation
+make test          # unit tests (Vitest) — included in make ci
+bun run storybook  # explore components in isolation (no make target yet)
 ```
 
 ### E2E tests (Playwright + POM)
@@ -181,10 +204,11 @@ Requires a running backend API and test credentials. Copy [`.env.e2e.example`](.
 Test specs live in `e2e/flows/` and use **Page Objects** from `e2e/pages/` — never put selectors directly in spec files.
 
 ```bash
-cp .env.e2e.example .env.e2e   # configure E2E_TEST_EMAIL, E2E_OTP_CODE, E2E_API_URL
-bun run test:e2e:install       # install Chromium for Playwright
-bun run test:e2e               # run all E2E flows (auto-loads .env.e2e)
-bun run test:e2e:ui            # interactive UI mode
+make docker-e2e-up          # start pinned ord-api E2E stack
+cp .env.e2e.example .env.e2e
+make test-e2e-install       # install Chromium (once)
+make test-e2e               # all E2E flows
+make ci-e2e                 # full CI + E2E
 ```
 
 **CI:** `.github/workflows/e2e.yml` runs on pull requests and `workflow_dispatch`. It checks out a **pinned** `ord-api` commit (`.github/ord-api-e2e-image.sha`), pulls the matching `ghcr.io/kacper-ksiazek/ord-api:sha-<commit>` image, starts Postgres + backend, then runs Playwright (auth smoke). The **`e2e` check is blocking** — failed E2E fails the PR. See [`.github/REQUIRED_CHECKS.md`](./.github/REQUIRED_CHECKS.md) to enable it on `main`.
