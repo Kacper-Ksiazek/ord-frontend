@@ -166,7 +166,7 @@ Common workflows are exposed via `make` — run `make help` for the full list.
 | `make test-e2e-install` | Install Playwright Chromium                                               |
 
 `make ci` uses `./scripts/run-ci.sh` (sequential, fail-fast, matches `.github/workflows/ci.yml`).
-Test targets use `./scripts/run-tests.sh` (live progress + summary).
+Test targets call `bun run test` / `bun run test:e2e` with custom summary reporters in `scripts/reporters/`.
 Override backend path: `make docker-e2e-up ORD_API_DIR=/path/to/ord-api`.
 Extra test args: `make test-e2e ARGS='-- --headed'`.
 

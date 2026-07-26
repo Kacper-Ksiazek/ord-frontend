@@ -61,7 +61,7 @@ run_step "lint" bun run lint
 run_step "format" bun run format:check
 run_step "types" bun run check
 run_step "build" bun run build
-run_step "unit-tests" ./scripts/run-tests.sh unit
+run_step "unit-tests" bun run test
 
 if [[ "$INCLUDE_E2E" -eq 1 ]]; then
   run_step "e2e" ./scripts/run-tests.sh e2e
