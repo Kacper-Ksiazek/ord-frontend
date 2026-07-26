@@ -10,7 +10,7 @@ Living register of **implemented** Playwright E2E user flows. Specs live in `e2e
 | [`docs/ai-rules/testing/e2e-scenario-registry.md`](../../../docs/ai-rules/testing/e2e-scenario-registry.md)       | Scenario docs lifecycle and status rules      |
 | [`docs/ai-rules/testing/e2e-app-bugs-block-tests.md`](../../../docs/ai-rules/testing/e2e-app-bugs-block-tests.md) | App bugs block specs — notify developer first |
 
-## Implemented scenarios (10 tests)
+## Implemented scenarios (13 tests)
 
 | ID      | Module                               | Scenario                                | Spec                                  | Doc                                           |
 | ------- | ------------------------------------ | --------------------------------------- | ------------------------------------- | --------------------------------------------- |
@@ -24,6 +24,9 @@ Living register of **implemented** Playwright E2E user flows. Specs live in `e2e
 | E2E-201 | [conversations](./02-conversations/) | List loads with filters and rows        | `02-conversations/00-list-navigation` | [→](./02-conversations/00-list-navigation.md) |
 | E2E-201 | [conversations](./02-conversations/) | New conversation button → create flow   | `02-conversations/00-list-navigation` | [→](./02-conversations/00-list-navigation.md) |
 | E2E-201 | [conversations](./02-conversations/) | Row click → session page                | `02-conversations/00-list-navigation` | [→](./02-conversations/00-list-navigation.md) |
+| E2E-301 | [create](./03-create/)               | Full happy path → new session           | `03-create/00-create-conversation`    | [→](./03-create/00-create-conversation.md)    |
+| E2E-303 | [create](./03-create/)               | Step validation blocks advance          | `03-create/00-create-conversation`    | [→](./03-create/00-create-conversation.md)    |
+| E2E-303 | [create](./03-create/)               | Back navigation preserves selections    | `03-create/00-create-conversation`    | [→](./03-create/00-create-conversation.md)    |
 
 ## Roadmap
 
@@ -35,7 +38,7 @@ Phases align with [`docs/e2e-test-plan.md`](../../../docs/e2e-test-plan.md). New
 | 1     | `01-auth/`          | OTP login, session, logout      | E2E-101–104          | ✅ [4 specs](./01-auth/)         |
 | 2     | —                   | `data-testid` in app            | E2E-110              | ✅ done                          |
 | 3     | `02-conversations/` | List load and navigation        | E2E-201              | ✅ [1 spec](./02-conversations/) |
-| 4     | `03-create/`        | Create flow (4 steps)           | E2E-301, E2E-303     | ⬜ planned                       |
+| 4     | `03-create/`        | Create flow (4 steps)           | E2E-301, E2E-303     | ✅ [1 spec](./03-create/)        |
 | 5     | `04-session/`       | Live chat, SSE, messaging       | E2E-401–404, E2E-006 | ⬜ planned                       |
 | 6     | `05-feedback/`      | Feedback panel flows            | E2E-501–504          | ⬜ **next**                      |
 | 7     | `06-filters/`       | List filters, AI topics         | E2E-202, E2E-302     | ⬜ planned                       |
