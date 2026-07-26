@@ -23,6 +23,10 @@
 		const id = conversationId;
 		isLoaded = false;
 
+		if (!id || conversationQuery.isPending || conversationQuery.isFetching) {
+			return;
+		}
+
 		const data = conversationQuery.data;
 
 		if (data && data.id === id) {

@@ -7,6 +7,8 @@ export function createConversationQuery(id?: string) {
 	return createQuery<ConversationDTO>(() => ({
 		queryKey: conversationKeys.detail(id ?? ''),
 		queryFn: () => httpGetConversation(id ?? ''),
-		enabled: !!id
+		enabled: !!id,
+		staleTime: 0,
+		refetchOnMount: 'always'
 	}));
 }
