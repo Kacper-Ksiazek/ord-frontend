@@ -92,6 +92,8 @@ Covers: `src/**/*.test.ts`, `e2e/`, `src/**/*.stories.svelte`, `vite.config.ts`,
 
 - [x] Vitest unit test conventions (colocated, utils-focused)
 - [x] Playwright e2e structure (fixtures/flows/pages)
+- [x] E2E app bugs block tests (no workarounds in specs; notify developer)
+- [x] E2E scenario registry (`e2e/docs/scenarios/`, lifecycle, status rules)
 - [x] E2E CI workflow (blocking `e2e` job, `.github/ord-api-e2e-image.sha` pin)
 - [x] Storybook stories conventions
 
