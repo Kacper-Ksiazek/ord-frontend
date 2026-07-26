@@ -81,8 +81,6 @@ test.describe('Live session — resume conversation from list', () => {
 
 		await conversationsListPage.openConversation(id);
 		await expect(authenticatedPage).toHaveURL(new RegExp(`/conversations/${id}$`));
-		// Bust TanStack Query cache from the first visit so persisted messages load from API.
-		await authenticatedPage.reload();
 		await conversationSessionPage.expectLoaded();
 		await conversationSessionPage.waitForAiGreeting();
 		await conversationSessionPage.waitForUserMessage(1);

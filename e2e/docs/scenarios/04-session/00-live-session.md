@@ -56,5 +56,5 @@
 
 - `waitForAiMessageContent` polls until text is non-empty and not the "Myśli…" loading placeholder.
 - Message `data-testid` indices follow the **full** `messages[]` array (`ai-message-0`, `user-message-1`, `ai-message-2`, …).
-- Resume test reloads the page after list navigation to avoid stale TanStack Query cache on reopen.
+- Resume test uses list → row navigation (no full page reload); conversation detail refetches on session mount.
 - Describe-level timeout 90–120s for SSE streams (STUB AI).
