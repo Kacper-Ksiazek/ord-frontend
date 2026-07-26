@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test';
 import { test as pagesTest } from './pages.fixture';
-import { isE2eAuthConfigured, testEnv } from './test-env';
+import { isE2eAuthConfigured, workerEmail } from './test-env';
 import { LoginPage } from '../pages/login.page';
 
 type AuthFixtures = {
@@ -19,8 +19,9 @@ export const test = pagesTest.extend<AuthFixtures>({
 		const context = await browser.newContext();
 		const page = await context.newPage();
 		const loginPage = new LoginPage(page);
+		const email = workerEmail(testInfo.workerIndex);
 
-		await loginPage.loginWithOtp(testEnv.testEmail);
+		await loginPage.loginWithOtp(email);
 
 		await use(page);
 		await context.close();

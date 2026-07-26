@@ -9,8 +9,7 @@ export default defineConfig({
 	testDir: './flows',
 	forbidOnly: !!process.env.CI,
 	retries: 0,
-	// All auth tests share one test user and the backend keeps a single active
-	// session per user — parallel logins invalidate each other. Run serially.
+	// Serial by default (workers: 1). Parallel runs map workerIndex → e2e-ci-w{n}@ord.test.
 	workers: 1,
 	reporter: [
 		['list'],

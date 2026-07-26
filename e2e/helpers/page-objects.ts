@@ -1,5 +1,10 @@
 import type { Page } from '@playwright/test';
-import { ConversationsListPage, SidebarComponent } from '../pages';
+import {
+	ConversationSessionPage,
+	ConversationsListPage,
+	CreateConversationPage,
+	SidebarComponent
+} from '../pages';
 
 /**
  * Factory helpers for Page Objects bound to a specific Playwright page.
@@ -7,6 +12,14 @@ import { ConversationsListPage, SidebarComponent } from '../pages';
  */
 export function createConversationsListPage(page: Page): ConversationsListPage {
 	return new ConversationsListPage(page);
+}
+
+export function createCreateConversationPage(page: Page): CreateConversationPage {
+	return new CreateConversationPage(page);
+}
+
+export function createConversationSessionPage(page: Page): ConversationSessionPage {
+	return new ConversationSessionPage(page);
 }
 
 export function createSidebarComponent(page: Page): SidebarComponent {
