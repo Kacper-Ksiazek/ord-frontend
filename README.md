@@ -162,7 +162,7 @@ Common workflows are exposed via `make` — run `make help` for the full list.
 | `make docker-e2e-down`  | Stop E2E backend stack                                                    |
 | `make test`             | Run unit tests (alias for `test-unit`)                                    |
 | `make test-unit`        | Vitest unit/component tests                                               |
-| `make test-e2e`         | All Playwright E2E flows (requires `docker-e2e-up` or `api-up` first)   |
+| `make test-e2e`         | All Playwright E2E flows (requires `docker-e2e-up` or `api-up` first)     |
 | `make test-e2e-install` | Install Playwright Chromium                                               |
 
 `make ci` uses `./scripts/run-ci.sh` (sequential, fail-fast, matches `.github/workflows/ci.yml`).
