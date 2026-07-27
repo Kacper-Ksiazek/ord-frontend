@@ -139,13 +139,16 @@ export class CreateConversationPage {
 	async waitForSummaryReady(): Promise<void> {
 		await this.expectStepVisible('summary');
 		await this.page
-			.getByRole('button', { name: /regenerate ai interlocutor/i })
+			.getByTestId(E2E_TEST_IDS.createConversation.regenerateInterlocutor)
 			.waitFor({ state: 'visible', timeout: 15_000 });
 	}
 
 	async startConversationAndWaitForSession(): Promise<void> {
 		await this.waitForSummaryReady();
 		await this.clickStart();
-		await this.page.waitForURL(/\/conversations\/[^/]+$/, { timeout: 30_000 });
+		await this.page.waitForURL(
+			(url) => url.pathname.startsWith('/conversations/') && url.pathname !== '/conversations/create',
+			{ timeout: 30_000 }
+		);
 	}
 }

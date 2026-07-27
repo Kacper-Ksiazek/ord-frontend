@@ -12,7 +12,7 @@ export default defineConfig({
 	// Serial by default (workers: 1). Parallel runs map workerIndex → e2e-ci-w{n}@ord.test.
 	workers: 1,
 	reporter: [
-		['list'],
+		['../scripts/reporters/playwright-reporter.ts'],
 		['html', { open: 'never', outputFolder: path.join(e2eDir, 'playwright-report') }]
 	],
 	outputDir: path.join(e2eDir, 'test-results'),
