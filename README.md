@@ -189,7 +189,7 @@ Extra test args: `make test-e2e ARGS='-- --headed'`.
 ## ✅ Quality & testing
 
 - **Component & unit tests** run in a real browser via Vitest's browser mode + Playwright.
-- **E2E integration tests** exercise full user flows via `@playwright/test` with the **Page Object Model** pattern (see [`docs/e2e-test-plan.md`](./docs/e2e-test-plan.md)).
+- **E2E integration tests** exercise full user flows via `@playwright/test` with the **Page Object Model** pattern. See the [E2E scenario registry](./e2e/docs/scenarios/README.md) for implemented flows and roadmap; [`docs/e2e-test-plan.md`](./docs/e2e-test-plan.md) covers infra and backlog.
 - **Storybook** documents shared components with built-in **accessibility** checks.
 - **Husky + lint-staged** run Prettier and ESLint on every commit, keeping the tree clean.
 
@@ -202,6 +202,11 @@ bun run storybook  # explore components in isolation (no make target yet)
 
 Requires a running backend API and test credentials. Copy [`.env.e2e.example`](./.env.e2e.example) to `.env.e2e` — it is loaded automatically by Playwright.
 Test specs live in `e2e/flows/` and use **Page Objects** from `e2e/pages/` — never put selectors directly in spec files.
+
+| Resource                                                | Description                                                      |
+| ------------------------------------------------------- | ---------------------------------------------------------------- |
+| [`e2e/docs/scenarios/`](./e2e/docs/scenarios/README.md) | **Scenario registry** — implemented flows, module index, roadmap |
+| [`docs/e2e-test-plan.md`](./docs/e2e-test-plan.md)      | Strategic plan, infra, CI, tech debt                             |
 
 ```bash
 make docker-e2e-up          # start pinned ord-api E2E stack

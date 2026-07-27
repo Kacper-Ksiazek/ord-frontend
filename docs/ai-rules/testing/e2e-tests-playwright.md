@@ -1,6 +1,10 @@
 # E2E tests: Playwright with page objects
 
-E2E tests live in `e2e/` with their own config (`e2e/playwright.config.ts`) and a strict page-object structure: specs in `e2e/flows/<nn-area>/<nn-name>.spec.ts`, page objects in `e2e/pages/` (shared UI parts in `e2e/pages/components/`), fixtures in `e2e/fixtures/`, and utilities in `e2e/helpers/`. Specs import `test`/`expect` from a fixture (not directly from `@playwright/test`). **`pages.fixture`** injects only `loginPage`; module page objects use factories from `e2e/helpers/page-objects.ts`. Page objects locate elements via `getByTestId` with ids from `e2e/helpers/test-ids.ts`. Run with `bun run test:e2e`.
+E2E tests live in `e2e/` with their own config (`e2e/playwright.config.ts`) and a strict page-object structure: specs in `e2e/flows/<nn-area>/<nn-name>.spec.ts`, page objects in `e2e/pages/` (shared UI parts in `e2e/pages/components/`), fixtures in `e2e/fixtures/`, and utilities in `e2e/helpers/`. Specs import `test`/`expect` from a fixture (not directly from `@playwright/test`). **`pages.fixture`** injects only `loginPage`; module page objects use factories from `e2e/helpers/page-objects.ts`. Page objects locate elements via `getByTestId` with ids from `e2e/helpers/test-ids.ts`. Run with `make test-e2e`.
+
+**Scenario registry:** when adding or changing a spec, follow `testing/e2e-scenario-registry.md` — update `e2e/docs/scenarios/<nn-module>/<nn-name>.md` and the index in the **same PR** as the spec. Strategic backlog stays in `docs/e2e-test-plan.md`.
+
+**App bugs:** if a flow fails unless you work around product behavior, stop and notify the developer — see `testing/e2e-app-bugs-block-tests.md`. Do not ship specs that pass only via reload, cache bust, or other bypasses.
 
 ## Local setup
 

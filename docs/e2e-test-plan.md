@@ -3,7 +3,9 @@
 > Pełne user flow end-to-end dla **ord-frontend** — nie testy izolowanych komponentów.
 >
 > **Status:** Faza 0 + Faza 1 gotowe; **Faza 2 (data-testid) zaimplementowana**; **E2E-010/011 CI** — workflow `.github/workflows/e2e.yml` (GHCR backend, **blokujący**, pin `sha-<commit>`).
-> **Ostatnia aktualizacja:** 2026-07-21 (CI Faza 2: blocking + pin)
+> **Ostatnia aktualizacja:** 2026-07-26
+>
+> **Rejestr zaimplementowanych scenariuszy:** [`e2e/docs/scenarios/README.md`](../e2e/docs/scenarios/README.md) (opisy user flow, roadmap modułów). Ten dokument = plan strategiczny i backlog.
 
 ---
 
@@ -215,8 +217,8 @@ e2e/
 | **2**  | `data-testid` w aplikacji  | E2E-110              | ✅              |
 | **2b** | CI workflow (informacyjny) | E2E-010              | ✅              |
 | **2c** | CI utwardzenie             | E2E-011              | ✅              |
-| **3**  | Lista + nawigacja          | E2E-201              | ⬜ **następna** |
-| **4**  | Tworzenie rozmowy          | E2E-301, E2E-303     | ⬜              |
+| **3**  | Lista + nawigacja          | E2E-201              | ✅              |
+| **4**  | Tworzenie rozmowy          | E2E-301, E2E-303     | ⬜ **następna** |
 | **5**  | Sesja na żywo              | E2E-401–404, E2E-006 | ⬜              |
 | **6**  | Feedback                   | E2E-501–504          | ⬜              |
 | **7**  | Filtry + AI topics         | E2E-202, E2E-302     | ⬜              |
