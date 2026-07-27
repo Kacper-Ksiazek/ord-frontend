@@ -1,4 +1,5 @@
 import type { Page } from '@playwright/test';
+import { expect } from '@playwright/test';
 import type { LanguageName } from '$lib/types/core/domain/languages';
 import { STORAGE_KEYS } from '../../../src/lib/utils/local-storage';
 import { apiFetch } from '../api-client';
@@ -67,4 +68,29 @@ export async function seedConversationViaApi(
 		method: 'POST',
 		body
 	});
+}
+
+/**
+ * Polls GET /conversations/:id until the API returns at least `minMessages` entries.
+ * Use before navigating away from a session so resume tests see persisted history.
+ */
+export async function waitForConversationMessageCount(
+	page: Page,
+	conversationId: string,
+	minMessages: number,
+	timeout = 60_000
+): Promise<void> {
+	await expect
+		.poll(
+			async () => {
+				const conversation = await apiFetch<ConversationDTO>(
+					page,
+					`/api/v1/conversations/${conversationId}`
+				);
+
+				return conversation.messages?.length ?? 0;
+			},
+			{ timeout }
+		)
+		.toBeGreaterThanOrEqual(minMessages);
 }
