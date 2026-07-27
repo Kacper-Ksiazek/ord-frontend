@@ -19,6 +19,7 @@ Categories:
 - `i18n/` — Paraglide messages, adding translations, generated code hygiene
 - `testing/` — Vitest unit tests, Playwright e2e, Storybook stories
 - `git/` — commit messages, branch/PR workflow, pre-commit hooks
+- `dev/` — Makefile, CI verification before finishing tasks
 
 Before writing or modifying code, consult the rule files of the relevant categories and
 follow them. `docs/ai-rules/ROADMAP.md` is the living knowledge snapshot of the stack and
