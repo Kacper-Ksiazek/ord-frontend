@@ -51,7 +51,8 @@ export const E2E_TEST_IDS = {
 		topicGenerateButton: 'topic-generate-button',
 		topicGenerateClueInput: 'topic-generate-clue-input',
 		topicCustomToggle: 'topic-custom-toggle',
-		topicCustomInput: 'topic-custom-input'
+		topicCustomInput: 'topic-custom-input',
+		regenerateInterlocutor: 'create-conversation-regenerate-interlocutor'
 	},
 	session: {
 		page: 'conversation-session-page',

@@ -14,6 +14,7 @@
 	} from './utils';
 	import { RefreshCw } from 'lucide-svelte';
 	import * as m from '$lib/paraglide/messages.js';
+	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
 	import { cn } from 'flowbite-svelte';
 
 	let isGenerating = $state(false);
@@ -82,6 +83,7 @@
 			onClick={generateInterlocutor}
 			variant="TEXT"
 			type="OUTLINED"
+			dataTestId={E2E_TEST_IDS.createConversation.regenerateInterlocutor}
 			class="absolute right-0 top-0 z-10 shrink-0"
 		/>
 
