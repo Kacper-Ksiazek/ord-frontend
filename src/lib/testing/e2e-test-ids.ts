@@ -1,6 +1,6 @@
 /**
  * Central E2E test IDs — single source of truth for app markup and Playwright selectors.
- * Import in Svelte components and in `e2e/helpers/test-ids.ts`.
+ * Import in Svelte components and in `e2e/shared/helpers/test-ids.ts`.
  */
 export const E2E_TEST_IDS = {
 	login: {

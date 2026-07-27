@@ -12,17 +12,17 @@ Living documentation for **implemented** Playwright flows. Backlog and phases st
 
 Do not copy full scenario tables into `e2e-test-plan.md` for implemented phases — link to the registry instead.
 
-## Layout (mirrors `e2e/flows/`)
+## Layout (mirrors `e2e/features/`)
 
 ```
 e2e/docs/scenarios/
 ├── README.md                    # index + roadmap status per phase
-└── <nn-module>/                 # e.g. 01-auth, 04-session
+└── <feature>/                   # e.g. auth, conversations/list, conversations/session
     ├── README.md                # module overview + spec table
     └── <nn-name>.md             # 1 file per <nn-name>.spec.ts
 ```
 
-- Folder prefix (`01-auth`, `04-session`) = module / roadmap phase — **not** test execution order.
+- Folder names follow **FDD features** (`auth`, `conversations/list`, …) — not numeric prefixes.
 - File prefix (`00-login-happy-path.md`) = sort order within the module — **not** a dependency chain.
 - One `###` section per `test()` in the spec (English titles matching the spec).
 
@@ -38,13 +38,13 @@ Get human approval on which scenarios to implement. **Do not** add registry file
 
 ### 2. Implement (same PR as spec)
 
-- Spec in `e2e/flows/<nn-module>/<nn-name>.spec.ts` — POM only, no selectors in specs.
-- Page Objects in the same PR (no stubs for later phases).
+- Spec in `e2e/features/<feature>/…/flows/<nn-name>.spec.ts` — POM only, no selectors in specs.
+- Page Objects in the same feature module (no stubs for later phases).
 - If the flow fails on the real user journey, stop — see `testing/e2e-app-bugs-block-tests.md`.
 
 ### 3. Register (same PR, after spec is green)
 
-- Add or update `e2e/docs/scenarios/<nn-module>/<nn-name>.md`.
+- Add or update `e2e/docs/scenarios/<feature>/…/<nn-name>.md`.
 - Update module `README.md` if new spec file.
 - Update root `README.md` index table and roadmap row.
 
@@ -58,56 +58,33 @@ Mark a phase ✅ in the roadmap **only** when every claimed scenario passes with
 | ⬜ planned         | Backlog — no `.md` scenario file yet                               |
 | Partial / deferred | Spec exists but known gap — describe in Notes; **do not** use ✅   |
 
-## Scenario file template
+## Scenario doc template
 
 ```md
-# [Describe block name]
+### [Test title from spec]
 
-- **Spec:** `e2e/flows/<nn-module>/<nn-name>.spec.ts`
-- **Feature:** `auth` | `conversations` | …
-- **Module:** `<nn-module>`
-- **Plan IDs:** E2E-xxx
-- **Status:** implemented
-
----
-
-### [Test title — same as spec]
-
-- **Feature:** …
+- **Spec:** `e2e/features/<feature>/…/flows/<nn-name>.spec.ts`
+- **Feature:** `auth` | `conversations/list` | …
 - **Priority:** P0 | P1 | P2
 - **Type:** happy path | edge case | regression
-- **Overview:** User flow and key assertions (real UI path)
-- **Prerequisites:** Auth, seed data, env
-- **Page objects:** …
+- **Overview:** User flow and key assertions
+- **Prerequisites:** Auth, seed data, env vars
+- **Page objects:** Existing or new POs (feature module paths)
 - **Duplicate check:** ✅ No overlap | ⚠️ Partial overlap with …
 ```
 
-## Good
+## Good PR file set
 
 ```
-# Same PR: spec + PO + scenario doc
-e2e/flows/04-session/00-live-session.spec.ts
-e2e/pages/conversation-session.page.ts
-e2e/docs/scenarios/04-session/00-live-session.md
+e2e/features/conversations/session/flows/00-live-session.spec.ts
+e2e/features/conversations/session/pages/conversation-session.page.ts
+e2e/docs/scenarios/conversations/session/00-live-session.md
 e2e/docs/scenarios/README.md   # index row added after tests pass
-
-# Resume scenario documents list → row reopen — no reload in Overview or spec
 ```
 
 ## Bad
 
 ```
-# Scenario doc before spec exists
 e2e/docs/scenarios/05-feedback/00-panel.md   # no *.spec.ts yet
-
-# Roadmap ✅ while spec uses reload workaround
-| 5 | 04-session/ | … | ✅ |
-
-# Duplicate backlog in two places
-docs/e2e-test-plan.md — full step tables for already-implemented auth flows
-# instead of: "see e2e/docs/scenarios/01-auth/"
-
-# Registry describes implementation detail instead of user flow
-Overview: calls waitForAiMessageContent with 60s timeout
-# should describe: user sees AI greeting after opening conversation
+docs/e2e-test-plan.md                          # duplicating full scenario tables for shipped phases
 ```

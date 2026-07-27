@@ -60,6 +60,7 @@ echo ""
 run_step "lint" bun run lint
 run_step "format" bun run format:check
 run_step "types" bun run check
+run_step "e2e-types" bun run check:e2e
 run_step "build" bun run build
 run_step "unit-tests" bun run test
 

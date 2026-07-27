@@ -1,12 +1,12 @@
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig, devices } from '@playwright/test';
-import { testEnv } from './fixtures/test-env';
+import { testEnv } from './shared/fixtures/test-env';
 
 const e2eDir = path.dirname(fileURLToPath(import.meta.url));
 
 export default defineConfig({
-	testDir: './flows',
+	testDir: './features',
 	forbidOnly: !!process.env.CI,
 	retries: 0,
 	// Serial by default (workers: 1). Parallel runs map workerIndex → e2e-ci-w{n}@ord.test.

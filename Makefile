@@ -16,7 +16,7 @@ help:
 	@echo "  api-logs            Follow ord-api dev stack logs"
 	@echo "  docker-e2e-up       Start ephemeral E2E backend (OTP 123456, 4 worker accounts)"
 	@echo "  docker-e2e-down     Stop E2E backend stack"
-	@echo "  ci                  Run all CI checks (lint, format, types, build, unit-tests)"
+	@echo "  ci                  Run all CI checks (lint, format, types, e2e-types, build, unit-tests)"
 	@echo "  ci-e2e              Run CI checks + Playwright E2E (requires docker-e2e-up)"
 	@echo "  test                Run unit tests (alias for test-unit)"
 	@echo "  test-unit           Vitest unit/component tests"

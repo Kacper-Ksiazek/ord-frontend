@@ -1,0 +1,18 @@
+import { test as base } from '@playwright/test';
+import { LoginPage } from '@e2e/auth';
+
+type PageObjectFixtures = {
+	loginPage: LoginPage;
+};
+
+/**
+ * Shared Playwright fixture — login page only (unauthenticated flows).
+ * Module-specific page objects: import factories from `@e2e/<feature>` barrels.
+ */
+export const test = base.extend<PageObjectFixtures>({
+	loginPage: async ({ page }, use) => {
+		await use(new LoginPage(page));
+	}
+});
+
+export { expect } from '@playwright/test';
