@@ -10,7 +10,6 @@
 		"skipLibCheck": true,
 		"noEmit": true,
 		"types": ["@playwright/test"],
-		"baseUrl": ".",
 		"paths": {
 			"@e2e/shared/*": ["./shared/*"],
 			"@e2e/auth": ["./features/auth/index.ts"],

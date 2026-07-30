@@ -38,13 +38,11 @@ export const testEnv = {
 	}
 };
 
-function workerEmail(workerIndex: number): string {
+export function workerEmail(workerIndex: number): string {
 	const bounded = workerIndex % testEnv.workerCount;
 
 	return `${testEnv.emailPrefix}${bounded}@${testEnv.emailDomain}`;
 }
-
-export { workerEmail };
 
 export function isE2eAuthConfigured(): boolean {
 	return Boolean(testEnv.otpCode || testEnv.otpFetchUrl);

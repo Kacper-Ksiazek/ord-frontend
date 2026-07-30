@@ -153,7 +153,7 @@ Common workflows are exposed via `make` — run `make help` for the full list.
 
 | Target                  | Description                                                               |
 | ----------------------- | ------------------------------------------------------------------------- |
-| `make ci`               | **Run all CI checks** (lint → format → types → build → unit-tests)        |
+| `make ci`               | **Run all CI checks** (lint → format → types → e2e-types → build → unit-tests) |
 | `make ci-e2e`           | CI checks + Playwright E2E (requires `docker-e2e-up`)                     |
 | `make api-up`           | Start ord-api dev stack (`ORD_API_DIR` defaults to `~/workspace/ord-api`) |
 | `make api-down`         | Stop ord-api dev stack                                                    |
