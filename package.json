@@ -14,6 +14,7 @@
 		"prepare": "husky || echo ''",
 		"precheck": "npm run aggregate && npm run generate:paraglide",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:e2e": "tsc -p e2e/tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run",

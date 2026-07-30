@@ -90,15 +90,15 @@ Pliki `*.spec.ts` opisują **wyłącznie user flow** — bez selektorów DOM.
 
 ### Zasady
 
-| Zasada                                   | Opis                                                                |
-| ---------------------------------------- | ------------------------------------------------------------------- |
-| Page Object = strona/widok               | `LoginPage`, `ConversationsListPage`                                |
-| Component Object = fragment UI           | `SidebarComponent`                                                  |
-| Selektory tylko w Page/Component Objects | Nigdy w `*.spec.ts`                                                 |
-| Fixtures dla domyślnego kontekstu        | `pages.fixture`, `auth.fixture`                                     |
-| Fabryki dla dodatkowych kontekstów       | `createConversationsListPage(page)` w `e2e/helpers/page-objects.ts` |
-| Brak stubów na przyszłe fazy             | Page Object powstaje **w tej samej fazie** co spec                  |
-| Helpers = logika spoza UI                | OTP, env, storage — nie selektory                                   |
+| Zasada                                   | Opis                                                                    |
+| ---------------------------------------- | ----------------------------------------------------------------------- |
+| Page Object = strona/widok               | `LoginPage`, `ConversationsListPage`                                    |
+| Component Object = fragment UI           | `SidebarComponent`                                                      |
+| Selektory tylko w Page/Component Objects | Nigdy w `*.spec.ts`                                                     |
+| Fixtures dla domyślnego kontekstu        | `pages.fixture`, `auth.fixture`                                         |
+| Fabryki dla dodatkowych kontekstów       | `createConversationsListPage(page)` z barrelu `@e2e/conversations/list` |
+| Brak stubów na przyszłe fazy             | Page Object powstaje **w tej samej fazie** co spec                      |
+| Helpers = logika spoza UI                | OTP, env, storage — nie selektory                                       |
 
 ### Hierarchia (stan aktualny)
 
@@ -114,12 +114,12 @@ SidebarComponent
 
 ### Wzorce selektorów
 
-| Element UI                      | Selektor                                                     | Uwaga                                                                            |
-| ------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------------- |
-| Wszystkie kluczowe elementy E2E | `getByTestId(E2E_TEST_IDS.…)`                                | Stałe w `src/lib/testing/e2e-test-ids.ts`, re-export w `e2e/helpers/test-ids.ts` |
-| Sidebar expand                  | `E2E_TEST_IDS.sidebar.toggle` + sprawdzenie `title`          | Rozwijanie tylko gdy zwinięty                                                    |
-| OTP input                       | `E2E_TEST_IDS.login.otpDigit(n)`                             | Po `fill()` wymagany `submitOtp()` — `oncomplete` nie odpala się programowo      |
-| Wiersze listy / wiadomości      | `E2E_TEST_IDS.conversations.row(id)`, `session.aiMessage(i)` | Dynamiczne ID przez helpery                                                      |
+| Element UI                      | Selektor                                                     | Uwaga                                                                                   |
+| ------------------------------- | ------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
+| Wszystkie kluczowe elementy E2E | `getByTestId(E2E_TEST_IDS.…)`                                | Stałe w `src/lib/testing/e2e-test-ids.ts`, re-export w `e2e/shared/helpers/test-ids.ts` |
+| Sidebar expand                  | `E2E_TEST_IDS.sidebar.toggle` + sprawdzenie `title`          | Rozwijanie tylko gdy zwinięty                                                           |
+| OTP input                       | `E2E_TEST_IDS.login.otpDigit(n)`                             | Po `fill()` wymagany `submitOtp()` — `oncomplete` nie odpala się programowo             |
+| Wiersze listy / wiadomości      | `E2E_TEST_IDS.conversations.row(id)`, `session.aiMessage(i)` | Dynamiczne ID przez helpery                                                             |
 
 ### Skip guard — kiedy i gdzie
 
@@ -183,26 +183,21 @@ Zebrane z 5 rund automatycznego CR na PR #16. **Obowiązują przy kolejnych faza
 ```
 e2e/
 ├── playwright.config.ts
-├── pages/
-│   ├── login.page.ts
-│   ├── conversations-list.page.ts
-│   ├── components/sidebar.component.ts
-│   └── index.ts
-├── fixtures/
-│   ├── pages.fixture.ts
-│   ├── auth.fixture.ts
-│   └── test-env.ts              # loadEnvE2e() + lazy getters
-├── helpers/
-│   ├── load-env.ts              # dotenv → .env.e2e
-│   ├── page-objects.ts          # fabryki dla dodatkowych kontekstów
-│   ├── otp.ts                     # resolveOtpCode
-│   └── storage.ts                 # getStoredUser (STORAGE_KEYS z app)
-└── flows/
-    └── 01-auth/                   # ✅
-        ├── 00-login-happy-path.spec.ts
-        ├── 01-login-validation-errors.spec.ts
-        ├── 02-session-persistence.spec.ts
-        └── 03-logout.spec.ts
+├── tsconfig.json                 # check:e2e — @e2e/* + $lib/* aliases
+├── shared/
+│   ├── fixtures/                 # pages.fixture, auth.fixture, test-env
+│   └── helpers/                  # api-client, otp, storage, test-ids
+└── features/
+    ├── auth/
+    │   ├── flows/                # ✅ 4 specs
+    │   └── pages/
+    ├── app-layouts/
+    │   └── components/           # SidebarComponent
+    └── conversations/
+        ├── list/flows/           # ✅
+        ├── create/flows/         # ✅
+        ├── session/flows/        # ✅
+        └── helpers/              # seedConversationViaApi
 ```
 
 ---
@@ -296,7 +291,7 @@ Każdy test z auth sam się loguje (`loginWithOtp` lub fixture `authenticatedPag
 
 ## Faza 2: data-testid w aplikacji — zaimplementowane
 
-Centralne stałe: `src/lib/testing/e2e-test-ids.ts` (re-export: `e2e/helpers/test-ids.ts`).
+Centralne stałe: `src/lib/testing/e2e-test-ids.ts` (re-export: `e2e/shared/helpers/test-ids.ts`).
 
 ### Zakres
 

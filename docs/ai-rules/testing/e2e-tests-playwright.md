@@ -1,10 +1,42 @@
-# E2E tests: Playwright with page objects
+# E2E tests: Playwright with page objects (FDD layout)
 
-E2E tests live in `e2e/` with their own config (`e2e/playwright.config.ts`) and a strict page-object structure: specs in `e2e/flows/<nn-area>/<nn-name>.spec.ts`, page objects in `e2e/pages/` (shared UI parts in `e2e/pages/components/`), fixtures in `e2e/fixtures/`, and utilities in `e2e/helpers/`. Specs import `test`/`expect` from a fixture (not directly from `@playwright/test`). **`pages.fixture`** injects only `loginPage`; module page objects use factories from `e2e/helpers/page-objects.ts`. Page objects locate elements via `getByTestId` with ids from `e2e/helpers/test-ids.ts`. Run with `make test-e2e`.
+E2E tests live in `e2e/` with their own config (`e2e/playwright.config.ts`) and **feature-aligned** layout mirroring `src/lib/features/`:
 
-**Scenario registry:** when adding or changing a spec, follow `testing/e2e-scenario-registry.md` — update `e2e/docs/scenarios/<nn-module>/<nn-name>.md` and the index in the **same PR** as the spec. Strategic backlog stays in `docs/e2e-test-plan.md`.
+- **Specs:** `e2e/features/<feature>/…/flows/*.spec.ts` (and sub-pages for conversations: `list/`, `create/`, `session/`)
+- **Page objects:** co-located under each feature module (`pages/`, `components/`)
+- **Shared kernel:** `e2e/shared/` — fixtures, env, API client, test-id re-export (cross-feature only)
+- **Types:** `e2e/tsconfig.json` — Playwright globals, `@e2e/*` and `$lib/*` path aliases; run `bun run check:e2e`
+
+Specs import `test`/`expect` from `@e2e/shared/fixtures/*` (not directly from `@playwright/test`). **`pages.fixture`** injects only `loginPage`; other page objects use **factory functions** exported from each feature barrel (`@e2e/auth`, `@e2e/conversations/list`, …). Page objects locate elements via `getByTestId` with ids from `@e2e/shared/helpers/test-ids`. Run with `make test-e2e`.
+
+**Scenario registry:** when adding or changing a spec, follow `testing/e2e-scenario-registry.md` — update `e2e/docs/scenarios/<feature>/…` and the index in the **same PR** as the spec. Strategic backlog stays in `docs/e2e-test-plan.md`.
 
 **App bugs:** if a flow fails unless you work around product behavior, stop and notify the developer — see `testing/e2e-app-bugs-block-tests.md`. Do not ship specs that pass only via reload, cache bust, or other bypasses.
+
+## Directory layout
+
+```
+e2e/
+├── playwright.config.ts
+├── tsconfig.json
+├── shared/
+│   ├── fixtures/          # auth.fixture, pages.fixture, test-env
+│   └── helpers/           # api-client, otp, storage, test-ids
+├── features/
+│   ├── auth/
+│   │   ├── flows/
+│   │   └── pages/
+│   ├── app-layouts/
+│   │   └── components/    # SidebarComponent
+│   └── conversations/
+│       ├── list/          # flows + pages
+│       ├── create/
+│       ├── session/
+│       └── helpers/       # seedConversationViaApi (feature-shared)
+└── docs/scenarios/        # mirrors features/ (not flows/)
+```
+
+**Import rules:** feature E2E code imports from its own module or `@e2e/shared/*`. Cross-feature specs (e.g. session → list) import **public barrels** only (`@e2e/conversations/list`), never deep paths into another feature's internals.
 
 ## Local setup
 
@@ -16,6 +48,7 @@ E2E tests live in `e2e/` with their own config (`e2e/playwright.config.ts`) and 
 ## CI
 
 - Workflow: `.github/workflows/e2e.yml` — job name **`e2e`**, **blocking** on PRs.
+- Typecheck: `bun run check:e2e` (`e2e-types` job in `ci.yml`).
 - Backend image is pinned: `.github/ord-api-e2e-image.sha` → `ghcr.io/kacper-ksiazek/ord-api:sha-<commit>` (not `latest`).
 - When changing the `ord-api` E2E profile, OTP whitelist, or health-check contract, bump the pin file after the image is published.
 - Required-check setup: `.github/REQUIRED_CHECKS.md`.
@@ -23,10 +56,10 @@ E2E tests live in `e2e/` with their own config (`e2e/playwright.config.ts`) and 
 ## Good
 
 ```ts
-// e2e/flows/01-auth/00-login-happy-path.spec.ts
-import { test, expect } from '../../fixtures/auth.fixture';
-import { isE2eAuthConfigured, testEnv } from '../../fixtures/test-env';
-import { createConversationsListPage } from '../../helpers/page-objects';
+// e2e/features/auth/flows/00-login-happy-path.spec.ts
+import { test, expect } from '@e2e/shared/fixtures/auth.fixture';
+import { isE2eAuthConfigured, testEnv } from '@e2e/shared/fixtures/test-env';
+import { createConversationsListPage } from '@e2e/conversations/list';
 
 test.describe('Login — happy path', () => {
 	test.beforeEach(() => {
@@ -46,7 +79,7 @@ test.describe('Login — happy path', () => {
 ```
 
 ```ts
-// e2e/pages/login.page.ts — page object with testid-based locators
+// e2e/features/auth/pages/login.page.ts — page object with testid-based locators
 export class LoginPage {
 	readonly emailInput: Locator;
 
@@ -55,18 +88,21 @@ export class LoginPage {
 	}
 
 	async waitForLoginSuccess(): Promise<void> {
-		// After OTP, app lands on /conversations (via / redirect).
 		await this.page.waitForURL((url) => url.pathname === '/conversations' || url.pathname === '/', {
 			timeout: 15_000
 		});
 	}
+}
+
+export function createLoginPage(page: Page): LoginPage {
+	return new LoginPage(page);
 }
 ```
 
 ## Bad
 
 ```ts
-// e2e/login.spec.ts — spec outside flows/, raw @playwright/test, inline CSS selectors
+// e2e/login.spec.ts — spec outside features/, raw @playwright/test, inline CSS selectors
 import { test, expect } from '@playwright/test';
 
 test('login', async ({ page }) => {

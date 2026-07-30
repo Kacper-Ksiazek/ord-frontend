@@ -1,0 +1,29 @@
+{
+	"compilerOptions": {
+		"target": "ES2022",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"strict": true,
+		"esModuleInterop": true,
+		"forceConsistentCasingInFileNames": true,
+		"resolveJsonModule": true,
+		"skipLibCheck": true,
+		"noEmit": true,
+		"types": ["@playwright/test"],
+		"paths": {
+			"@e2e/shared/*": ["./shared/*"],
+			"@e2e/auth": ["./features/auth/index.ts"],
+			"@e2e/auth/*": ["./features/auth/*"],
+			"@e2e/app-layouts": ["./features/app-layouts/index.ts"],
+			"@e2e/app-layouts/*": ["./features/app-layouts/*"],
+			"@e2e/conversations": ["./features/conversations/index.ts"],
+			"@e2e/conversations/*": ["./features/conversations/*"],
+			"$lib/*": ["../src/lib/*"],
+			"$auth/*": ["../src/lib/features/auth/*"],
+			"$conversations/*": ["../src/lib/features/conversations/*"],
+			"$appLayouts/*": ["../src/lib/features/app-layouts/*"]
+		}
+	},
+	"include": ["**/*.ts"],
+	"exclude": ["test-results", "playwright-report", "target"]
+}
