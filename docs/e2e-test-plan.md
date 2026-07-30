@@ -116,7 +116,7 @@ SidebarComponent
 
 | Element UI                      | Selektor                                                     | Uwaga                                                                                   |
 | ------------------------------- | ------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
-| Wszystkie kluczowe elementy E2E | `getByTestId(E2E_TEST_IDS.…)`                                | Stałe w `src/lib/testing/e2e-test-ids.ts`, re-export w `e2e/shared/helpers/test-ids.ts` |
+| Wszystkie kluczowe elementy E2E | `getByTestId(E2E_TEST_IDS.…)`                                | Stałe per feature: `$auth/testing/test-ids.ts`, `$conversations/testing/test-ids.ts`, `$appLayouts/testing/test-ids.ts`; E2E: `@e2e/<feature>/test-ids` |
 | Sidebar expand                  | `E2E_TEST_IDS.sidebar.toggle` + sprawdzenie `title`          | Rozwijanie tylko gdy zwinięty                                                           |
 | OTP input                       | `E2E_TEST_IDS.login.otpDigit(n)`                             | Po `fill()` wymagany `submitOtp()` — `oncomplete` nie odpala się programowo             |
 | Wiersze listy / wiadomości      | `E2E_TEST_IDS.conversations.row(id)`, `session.aiMessage(i)` | Dynamiczne ID przez helpery                                                             |
@@ -186,7 +186,7 @@ e2e/
 ├── tsconfig.json                 # check:e2e — @e2e/* + $lib/* aliases
 ├── shared/
 │   ├── fixtures/                 # pages.fixture, auth.fixture, test-env
-│   └── helpers/                  # api-client, otp, storage, test-ids
+│   └── helpers/                  # api-client, otp, storage
 └── features/
     ├── auth/
     │   ├── flows/                # ✅ 4 specs
@@ -225,7 +225,7 @@ e2e/
 ## 7. Wymagania infrastrukturalne
 
 1. **Backend testowy** — `PUBLIC_API_URL`, deterministyczny OTP (`E2E_OTP_CODE` lub `E2E_OTP_FETCH_URL`), seed data.
-2. **`data-testid` w aplikacji** — ✅ Faza 2 (`src/lib/testing/e2e-test-ids.ts`). Shared components: `Button`, `Input`, `IconButton`, `AutoHeightTextarea`, `DropdownSelect`, `Tabs` — prop `dataTestId`.
+2. **`data-testid` w aplikacji** — ✅ Faza 2 (per-feature `testing/test-ids.ts` w `$auth`, `$conversations`, `$appLayouts`). Shared components: `Button`, `Input`, `IconButton`, `AutoHeightTextarea`, `DropdownSelect`, `Tabs` — prop `dataTestId`.
 3. **SSE waits** — metody w `ConversationSessionPage` (Faza 5, E2E-006).
 4. **CI** — `.github/workflows/e2e.yml` uruchamiający `bun run test:e2e` z backendem (E2E-010). **Faza 2 CI (E2E-011):** check `e2e` jest blokujący; obraz API pinowany przez `.github/ord-api-e2e-image.sha` → `ghcr.io/kacper-ksiazek/ord-api:sha-<commit>`. Konfiguracja required checks: [`.github/REQUIRED_CHECKS.md`](../.github/REQUIRED_CHECKS.md).
 5. **`.env.e2e`** — format `KEY=value`, bez cudzysłowów/exportu/expansion (patrz `.env.e2e.example`).
@@ -291,7 +291,7 @@ Każdy test z auth sam się loguje (`loginWithOtp` lub fixture `authenticatedPag
 
 ## Faza 2: data-testid w aplikacji — zaimplementowane
 
-Centralne stałe: `src/lib/testing/e2e-test-ids.ts` (re-export: `e2e/shared/helpers/test-ids.ts`).
+Per-feature stałe: `src/lib/features/<feature>/testing/test-ids.ts` (E2E re-export: `e2e/features/<feature>/test-ids.ts`).
 
 ### Zakres
 

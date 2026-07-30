@@ -18,7 +18,7 @@
 	} from '$conversations/pages/create/utils/default-conversation-type-storage';
 	import * as m from '$lib/paraglide/messages.js';
 	import { getConversationTypeMessages } from '$conversations/shared/utils';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 
 	const selectedType = $derived(getCreateConversationPayload());
 

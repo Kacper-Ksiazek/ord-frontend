@@ -10,7 +10,7 @@
 	import { highlightLearningTipsContent } from './utils/highlight-learning-tips';
 	import { LearningTipTextHighlight } from './components/learning-tip-text-highlight';
 	import isNil from 'lodash/isNil';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 
 	interface AiMessageProps {
 		message: string;

@@ -1,5 +1,6 @@
 import type { Locator, Page } from '@playwright/test';
-import { E2E_TEST_IDS } from '@e2e/shared/helpers/test-ids';
+import { E2E_TEST_IDS } from '@e2e/conversations/test-ids';
+import { E2E_TEST_IDS as APP_LAYOUTS_E2E_TEST_IDS } from '@e2e/app-layouts/test-ids';
 
 export class ConversationsListPage {
 	readonly path = '/conversations';
@@ -25,7 +26,7 @@ export class ConversationsListPage {
 	}
 
 	async expectLoaded(): Promise<void> {
-		await this.page.getByTestId(E2E_TEST_IDS.sidebar.root).waitFor({ state: 'visible' });
+		await this.page.getByTestId(APP_LAYOUTS_E2E_TEST_IDS.sidebar.root).waitFor({ state: 'visible' });
 		await this.heading.waitFor({ state: 'visible' });
 	}
 

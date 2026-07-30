@@ -9,7 +9,7 @@
 	import { suggestConversationTopics } from '$conversations/pages/create/services/suggest-conversation-topics';
 	import { TextQuote } from 'lucide-svelte';
 	import * as m from '$lib/paraglide/messages.js';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 
 	interface GenerateTopicsSuggestionsButtonProps {
 		amountOfSkeletons: number;

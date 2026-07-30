@@ -10,7 +10,7 @@
 		AiMessageLearningTipsView,
 		ConversationSummaryView
 	} from './views';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 
 	const sidepanelContext = getSidepanelContext();
 	const sidepanelWidth = $derived(getSidepanelWidth());

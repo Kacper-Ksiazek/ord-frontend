@@ -7,7 +7,7 @@ E2E tests live in `e2e/` with their own config (`e2e/playwright.config.ts`) and 
 - **Shared kernel:** `e2e/shared/` — fixtures, env, API client, test-id re-export (cross-feature only)
 - **Types:** `e2e/tsconfig.json` — Playwright globals, `@e2e/*` and `$lib/*` path aliases; run `bun run check:e2e`
 
-Specs import `test`/`expect` from `@e2e/shared/fixtures/*` (not directly from `@playwright/test`). **`pages.fixture`** injects only `loginPage`; other page objects use **factory functions** exported from each feature barrel (`@e2e/auth`, `@e2e/conversations/list`, …). Page objects locate elements via `getByTestId` with ids from `@e2e/shared/helpers/test-ids`. Run with `make test-e2e`.
+Specs import `test`/`expect` from `@e2e/shared/fixtures/*` (not directly from `@playwright/test`). **`pages.fixture`** injects only `loginPage`; other page objects use **factory functions** exported from each feature barrel (`@e2e/auth`, `@e2e/conversations/list`, …). Page objects locate elements via `getByTestId` with ids from `@e2e/<feature>/test-ids` (re-exporting per-feature constants from `$auth/testing/test-ids`, `$conversations/testing/test-ids`, etc.). Run with `make test-e2e`.
 
 **Scenario registry:** when adding or changing a spec, follow `testing/e2e-scenario-registry.md` — update `e2e/docs/scenarios/<feature>/…` and the index in the **same PR** as the spec. Strategic backlog stays in `docs/e2e-test-plan.md`.
 
@@ -21,7 +21,7 @@ e2e/
 ├── tsconfig.json
 ├── shared/
 │   ├── fixtures/          # auth.fixture, pages.fixture, test-env
-│   └── helpers/           # api-client, otp, storage, test-ids
+│   └── helpers/           # api-client, otp, storage
 ├── features/
 │   ├── auth/
 │   │   ├── flows/
@@ -80,6 +80,8 @@ test.describe('Login — happy path', () => {
 
 ```ts
 // e2e/features/auth/pages/login.page.ts — page object with testid-based locators
+import { E2E_TEST_IDS } from '@e2e/auth/test-ids';
+
 export class LoginPage {
 	readonly emailInput: Locator;
 

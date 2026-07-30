@@ -9,7 +9,7 @@ ESLint enforces this via `@typescript-eslint/no-restricted-imports` in `eslint.c
 ```svelte
 <script lang="ts">
 	import { AuthUserAvatar } from '$auth/components';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$auth/testing/test-ids';
 	import { CreateConversationForm } from './components'; // same page — relative is fine
 </script>
 ```

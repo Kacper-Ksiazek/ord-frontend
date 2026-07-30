@@ -1,5 +1,5 @@
 import type { Locator, Page } from '@playwright/test';
-import { E2E_TEST_IDS } from '@e2e/shared/helpers/test-ids';
+import { E2E_TEST_IDS } from '@e2e/auth/test-ids';
 import { resolveOtpCode } from '@e2e/shared/helpers/otp';
 
 export class LoginPage {

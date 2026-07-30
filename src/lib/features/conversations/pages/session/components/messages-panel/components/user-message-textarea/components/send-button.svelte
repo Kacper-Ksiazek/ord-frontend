@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Button, Spinner, cn } from 'flowbite-svelte';
 	import { Send } from 'lucide-svelte';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 
 	interface Props {
 		disabled?: boolean;

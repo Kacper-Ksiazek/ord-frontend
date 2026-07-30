@@ -3,7 +3,7 @@
 	import type { CompactConversationUserMessage } from '$conversations/types';
 	import { Analysis } from './components';
 	import UserMessageTextContent from './lib/user-message-text-content.svelte';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 	import { createRequestAnalysisForUserMessageMutation } from '$conversations/api-client';
 	import { getConversationContext } from '$conversations/pages/session/contexts/conversation-context.svelte';
 	import { getMessagesContext } from '$conversations/pages/session/contexts/messages-context.svelte';

@@ -6,7 +6,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import type { ConversationAITone } from '$conversations/types';
 	import ConversationToneIcon from '$conversations/shared/components/conversation-tone-icon.svelte';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 
 	type ToneCardProps = {
 		isSelected: boolean;

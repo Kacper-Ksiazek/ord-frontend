@@ -24,7 +24,7 @@
 		Step3ConversationTopic,
 		Step4Summary
 	} from './steps';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 
 	function hydrateStoredDefaultsAndGetInitialStep(): number {
 		if (!browser) {

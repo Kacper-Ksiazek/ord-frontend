@@ -1,25 +1,5 @@
-/**
- * Central E2E test IDs — single source of truth for app markup and Playwright selectors.
- * Import in Svelte components and in `e2e/shared/helpers/test-ids.ts`.
- */
+/** E2E test IDs for conversations — used in Svelte markup and Playwright page objects. */
 export const E2E_TEST_IDS = {
-	login: {
-		page: 'login-page',
-		emailForm: 'login-email-form',
-		emailInput: 'login-email-input',
-		emailSubmit: 'login-email-submit',
-		otpForm: 'login-otp-form',
-		otpInput: 'login-otp-input',
-		otpSubmit: 'login-otp-submit',
-		error: 'login-error',
-		otpDigit: (index: number) => `login-otp-digit-${index}`
-	},
-	sidebar: {
-		root: 'sidebar',
-		toggle: 'sidebar-toggle',
-		userEmail: 'sidebar-user-email',
-		logout: 'sidebar-logout'
-	},
 	conversations: {
 		page: 'conversations-page',
 		heading: 'conversations-heading',
