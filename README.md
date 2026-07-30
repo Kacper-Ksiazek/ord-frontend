@@ -151,19 +151,19 @@ The app runs at `http://localhost:5173`.
 
 Common workflows are exposed via `make` — run `make help` for the full list.
 
-| Target                  | Description                                                               |
-| ----------------------- | ------------------------------------------------------------------------- |
+| Target                  | Description                                                                    |
+| ----------------------- | ------------------------------------------------------------------------------ |
 | `make ci`               | **Run all CI checks** (lint → format → types → e2e-types → build → unit-tests) |
-| `make ci-e2e`           | CI checks + Playwright E2E (requires `docker-e2e-up`)                     |
-| `make api-up`           | Start ord-api dev stack (`ORD_API_DIR` defaults to `~/workspace/ord-api`) |
-| `make api-down`         | Stop ord-api dev stack                                                    |
-| `make api-logs`         | Follow ord-api dev stack logs                                             |
-| `make docker-e2e-up`    | Start ephemeral E2E backend (OTP `123456`, 4 worker accounts)             |
-| `make docker-e2e-down`  | Stop E2E backend stack                                                    |
-| `make test`             | Run unit tests (alias for `test-unit`)                                    |
-| `make test-unit`        | Vitest unit/component tests                                               |
-| `make test-e2e`         | All Playwright E2E flows (requires `docker-e2e-up` or `api-up` first)     |
-| `make test-e2e-install` | Install Playwright Chromium                                               |
+| `make ci-e2e`           | CI checks + Playwright E2E (requires `docker-e2e-up`)                          |
+| `make api-up`           | Start ord-api dev stack (`ORD_API_DIR` defaults to `~/workspace/ord-api`)      |
+| `make api-down`         | Stop ord-api dev stack                                                         |
+| `make api-logs`         | Follow ord-api dev stack logs                                                  |
+| `make docker-e2e-up`    | Start ephemeral E2E backend (OTP `123456`, 4 worker accounts)                  |
+| `make docker-e2e-down`  | Stop E2E backend stack                                                         |
+| `make test`             | Run unit tests (alias for `test-unit`)                                         |
+| `make test-unit`        | Vitest unit/component tests                                                    |
+| `make test-e2e`         | All Playwright E2E flows (requires `docker-e2e-up` or `api-up` first)          |
+| `make test-e2e-install` | Install Playwright Chromium                                                    |
 
 `make ci` uses `./scripts/run-ci.sh` (sequential, fail-fast, matches `.github/workflows/ci.yml`).
 Test targets call `bun run test` / `bun run test:e2e` with custom summary reporters in `scripts/reporters/`.
