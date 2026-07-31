@@ -70,6 +70,20 @@ export async function seedConversationViaApi(
 	});
 }
 
+/** Seeds multiple conversations sequentially (same authenticated session). */
+export async function seedConversationsViaApi(
+	page: Page,
+	conversations: SeedConversationOptions[]
+): Promise<ConversationDTO[]> {
+	const seeded: ConversationDTO[] = [];
+
+	for (const options of conversations) {
+		seeded.push(await seedConversationViaApi(page, options));
+	}
+
+	return seeded;
+}
+
 /**
  * Polls GET /conversations/:id until the API returns at least `minMessages` entries.
  * Use before navigating away from a session so resume tests see persisted history.

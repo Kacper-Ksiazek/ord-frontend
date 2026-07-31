@@ -1,1 +1,5 @@
-export { seedConversationViaApi, waitForConversationMessageCount } from './conversations';
+export {
+	seedConversationViaApi,
+	seedConversationsViaApi,
+	waitForConversationMessageCount
+} from './conversations';

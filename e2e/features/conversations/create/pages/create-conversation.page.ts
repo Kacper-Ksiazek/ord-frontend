@@ -115,6 +115,20 @@ export class CreateConversationPage {
 		await this.page.getByTestId(E2E_TEST_IDS.createConversation.topicCustomInput).fill(topic);
 	}
 
+	async clickGenerateTopics(): Promise<void> {
+		const generateButton = this.page
+			.getByTestId(E2E_TEST_IDS.createConversation.topicGenerateButton)
+			.getByRole('button');
+		await generateButton.scrollIntoViewIfNeeded();
+		await generateButton.click();
+	}
+
+	async waitForTopicRow(index: number, timeout = 30_000): Promise<void> {
+		await this.page
+			.getByTestId(E2E_TEST_IDS.createConversation.topicRow(index))
+			.waitFor({ state: 'visible', timeout });
+	}
+
 	async completeTypeToneTopicSteps(
 		type: EnabledConversationType = 'SMALL_TALK',
 		tone: ConversationTone = 'FRIENDLY',
