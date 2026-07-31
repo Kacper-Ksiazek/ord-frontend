@@ -27,18 +27,16 @@
 		"prelint": "svelte-kit sync",
 		"lint": "eslint . --report-unused-disable-directives",
 		"format": "prettier --write .",
-		"format:check": "prettier --check ."
+		"format:check": "prettier --check .",
+		"lint-staged": "lint-staged",
+		"precommit": "lint-staged"
 	},
 	"lint-staged": {
-		"*.svelte": [
+		"*.{svelte,js,ts,mjs,cjs}": [
 			"prettier --write",
 			"eslint --fix"
 		],
-		"*.{js,ts}": [
-			"prettier --write",
-			"eslint --fix"
-		],
-		"*.json": "prettier --write"
+		"*.{json,md,mdx,css,html,yml,yaml}": "prettier --write"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "^4.1.2",
