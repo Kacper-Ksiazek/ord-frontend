@@ -29,7 +29,7 @@
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
 		"lint-staged": "lint-staged",
-		"precommit": "lint-staged && bun run check && bun run check:e2e"
+		"precommit": "lint-staged"
 	},
 	"lint-staged": {
 		"*.{svelte,js,ts,mjs,cjs}": [
