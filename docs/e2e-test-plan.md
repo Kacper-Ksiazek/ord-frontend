@@ -114,12 +114,12 @@ SidebarComponent
 
 ### Wzorce selektorów
 
-| Element UI                      | Selektor                                                     | Uwaga                                                                                   |
-| ------------------------------- | ------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
+| Element UI                      | Selektor                                                     | Uwaga                                                                                                                                                   |
+| ------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Wszystkie kluczowe elementy E2E | `getByTestId(E2E_TEST_IDS.…)`                                | Stałe per feature: `$auth/testing/test-ids.ts`, `$conversations/testing/test-ids.ts`, `$appLayouts/testing/test-ids.ts`; E2E: `@e2e/<feature>/test-ids` |
-| Sidebar expand                  | `E2E_TEST_IDS.sidebar.toggle` + sprawdzenie `title`          | Rozwijanie tylko gdy zwinięty                                                           |
-| OTP input                       | `E2E_TEST_IDS.login.otpDigit(n)`                             | Po `fill()` wymagany `submitOtp()` — `oncomplete` nie odpala się programowo             |
-| Wiersze listy / wiadomości      | `E2E_TEST_IDS.conversations.row(id)`, `session.aiMessage(i)` | Dynamiczne ID przez helpery                                                             |
+| Sidebar expand                  | `E2E_TEST_IDS.sidebar.toggle` + sprawdzenie `title`          | Rozwijanie tylko gdy zwinięty                                                                                                                           |
+| OTP input                       | `E2E_TEST_IDS.login.otpDigit(n)`                             | Po `fill()` wymagany `submitOtp()` — `oncomplete` nie odpala się programowo                                                                             |
+| Wiersze listy / wiadomości      | `E2E_TEST_IDS.conversations.row(id)`, `session.aiMessage(i)` | Dynamiczne ID przez helpery                                                                                                                             |
 
 ### Skip guard — kiedy i gdzie
 
