@@ -103,7 +103,7 @@ Covers: git history, `.husky/`, `lint-staged` config, `docs/jira/`.
 
 - [x] Commit message format (`type(ORDUI-N): summary`)
 - [x] PR-per-subtask workflow, branch naming (`ordui-N-slug`)
-- [x] Pre-commit hooks (husky + lint-staged, prettier on staged files; eslint in CI)
+- [x] Pre-commit hooks (husky + lint-staged, prettier + eslint --fix)
 
 ## Progress
 

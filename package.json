@@ -31,7 +31,11 @@
 		"lint-staged": "lint-staged"
 	},
 	"lint-staged": {
-		"*.{svelte,js,ts,mjs,cjs,json,md,mdx,css,html,yml,yaml}": "prettier --write"
+		"*.{svelte,js,ts,mjs,cjs}": [
+			"prettier --write",
+			"eslint --fix"
+		],
+		"*.{json,md,mdx,css,html,yml,yaml}": "prettier --write"
 	},
 	"devDependencies": {
 		"@chromatic-com/storybook": "^4.1.2",
