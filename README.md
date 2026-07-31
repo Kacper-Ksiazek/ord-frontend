@@ -191,7 +191,7 @@ Extra test args: `make test-e2e ARGS='-- --headed'`.
 - **Component & unit tests** run in a real browser via Vitest's browser mode + Playwright.
 - **E2E integration tests** exercise full user flows via `@playwright/test` with the **Page Object Model** pattern. See the [E2E scenario registry](./e2e/docs/scenarios/README.md) for implemented flows and roadmap; [`docs/e2e-test-plan.md`](./docs/e2e-test-plan.md) covers infra and backlog.
 - **Storybook** documents shared components with built-in **accessibility** checks.
-- **Husky + lint-staged** run Prettier and ESLint on staged files before every commit.
+- **Husky** runs `bun run precommit` before every commit: Prettier + ESLint on staged files, then `check` and `check:e2e`.
 
 ```bash
 make test          # unit tests (Vitest) — included in make ci
