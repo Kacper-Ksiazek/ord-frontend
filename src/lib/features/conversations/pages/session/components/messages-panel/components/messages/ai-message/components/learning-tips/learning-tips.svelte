@@ -11,7 +11,7 @@
 	import AiMessageLearningTipIcon from '$conversations/pages/session/components/shared/ai-message-learning-tips/ai-message-learning-tip-icon.svelte';
 	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
 	import { getSidepanelContext } from '$conversations/pages/session/contexts/sidepanel-context.svelte';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 
 	interface LearningTipsProps {
 		message: string;

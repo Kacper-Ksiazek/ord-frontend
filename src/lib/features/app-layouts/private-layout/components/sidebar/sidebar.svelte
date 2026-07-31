@@ -24,7 +24,7 @@
 	import { sidebarStore } from './sidebar.store.svelte';
 	import { createLogoutMutation } from '$auth/api-client';
 	import { goto } from '$app/navigation';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$appLayouts/testing/test-ids';
 
 	const { mutateAsync: handleLogout } = createLogoutMutation();
 

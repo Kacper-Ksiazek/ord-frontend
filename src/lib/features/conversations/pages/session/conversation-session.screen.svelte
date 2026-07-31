@@ -2,7 +2,7 @@
 	import { onDestroy } from 'svelte';
 	import { FeedbackPanel, MessagesPanel } from './components';
 	import { stopSpeaking } from '$lib/utils/speak-text';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 	import { useInitializeConversation } from './services/use-initialize-conversation.svelte';
 
 	useInitializeConversation();

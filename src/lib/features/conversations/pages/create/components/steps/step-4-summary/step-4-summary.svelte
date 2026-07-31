@@ -5,7 +5,7 @@
 	import { SelectedConversationTypeCard } from '../step-3-conversation-topic/components';
 	import { getCreateConversationPayload } from '$conversations/pages/create/stores';
 	import * as m from '$lib/paraglide/messages.js';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 
 	interface Props {
 		onEditTopic: () => void;

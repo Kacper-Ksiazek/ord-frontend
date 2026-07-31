@@ -3,7 +3,7 @@
 	import { AutoHeightTextarea } from '$lib/components/forms/auto-height-textarea';
 	import SendButton from './components/send-button.svelte';
 	import { getMessagesMaxWidth } from '../../../constants.svelte';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 	import { useMessageFlow } from '../../../../services/use-message-flow.svelte';
 	import { getMessagesContext } from '../../../../contexts/messages-context.svelte';
 	import * as m from '$lib/paraglide/messages.js';

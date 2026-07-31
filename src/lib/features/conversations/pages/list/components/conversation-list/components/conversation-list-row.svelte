@@ -8,7 +8,7 @@
 	import { getConversationTypeLabel, getConversationToneLabel } from '$conversations/shared/utils';
 	import { cn } from 'flowbite-svelte';
 	import { formatRelativeOrMediumDate } from '$lib/utils/format-relative-or-medium-date';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 
 	interface Props {
 		conversation: ConversationSummaryDTO;

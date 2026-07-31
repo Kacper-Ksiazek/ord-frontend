@@ -7,7 +7,7 @@
 	import type { ConversationListFiltersState } from '$conversations/pages/list/state/conversation-list-state.svelte';
 	import { StatusPanel } from '$lib/components/utils/status-panel';
 	import type { RecencyBucket } from '$conversations/types';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 	import * as m from '$lib/paraglide/messages.js';
 
 	interface Props {

@@ -5,7 +5,7 @@
 	import { ConversationListFiltersState } from '../../state/conversation-list-state.svelte';
 	import { ClockIcon, MessageSquare, SearchIcon, TrashIcon } from 'lucide-svelte';
 	import type { ConversationListFilters } from '../../state/conversation-list-state.svelte';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 	import * as m from '$lib/paraglide/messages.js';
 	import { getConversationTypeLabel } from '$conversations/shared/utils';
 	import type { ConversationType } from '$conversations/types';

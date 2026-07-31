@@ -13,7 +13,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import { Button } from '$lib/components/buttons/button';
 	import { Loader } from '$lib/components/utils/loader';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 	import ConversationList from './components/conversation-list/conversation-list.svelte';
 	import ConversationListFiltersBar from './components/conversation-filters/conversation-list-filters-bar.svelte';
 	import ConversationActivitySection from './components/conversation-activity/conversation-activity-section.svelte';

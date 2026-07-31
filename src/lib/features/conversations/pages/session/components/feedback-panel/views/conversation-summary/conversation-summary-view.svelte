@@ -12,7 +12,7 @@
 		CompactConversationAiMessage,
 		CompactConversationUserMessage
 	} from '$conversations/types';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 
 	type ConversationSummaryTab = 'overview' | 'learning-tips' | 'analysis';
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import type { OtpInputProps } from './otp-input.interface';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$auth/testing/test-ids';
 
 	let {
 		value = $bindable(''),

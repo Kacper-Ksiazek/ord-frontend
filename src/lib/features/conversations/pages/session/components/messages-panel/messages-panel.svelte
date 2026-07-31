@@ -11,7 +11,7 @@
 	import { onMount } from 'svelte';
 	import { getConversationContext } from '../../contexts/conversation-context.svelte';
 	import ConversationTypeIcon from '$conversations/shared/components/conversation-type-icon.svelte';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 	import { Button } from '$lib/components/buttons/button';
 	import * as m from '$lib/paraglide/messages.js';
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { SelectedConversationTypeCard, TopicPicker } from './components';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 </script>
 
 <div

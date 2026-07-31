@@ -7,7 +7,7 @@
 	import { authStore } from '$auth/stores';
 	import AppLogo from '$lib/components/app-logo/app-logo.svelte';
 	import { m } from '$lib/paraglide/messages.js';
-	import { E2E_TEST_IDS } from '$lib/testing/e2e-test-ids';
+	import { E2E_TEST_IDS } from '$auth/testing/test-ids';
 
 	let step = $state<'email' | 'otp'>('email');
 	let email = $state('');

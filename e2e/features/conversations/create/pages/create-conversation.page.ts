@@ -1,6 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import { clearCreateConversationStorage } from '../helpers/create-conversation-storage';
-import { E2E_TEST_IDS } from '@e2e/shared/helpers/test-ids';
+import { E2E_TEST_IDS } from '@e2e/conversations/test-ids';
 
 export type CreateFlowStep = 'type' | 'tone' | 'topic' | 'summary';
 
