@@ -87,12 +87,24 @@ export class ConversationsListPage {
 		await this.filterClear.click();
 	}
 
+	noMatchesHeading(): Locator {
+		return this.page.getByRole('heading', { name: 'No conversations match your filters' });
+	}
+
+	/** Empty-state CTA (visible label), not the icon-only toolbar button with the same aria-label. */
+	noMatchesClearFiltersButton(): Locator {
+		return this.page
+			.getByRole('button', { name: 'Clear filters' })
+			.filter({ hasText: 'Clear filters' });
+	}
+
 	async clickNoMatchesClearFilters(): Promise<void> {
-		await this.page.getByRole('button', { name: 'Clear filters' }).click();
+		await this.noMatchesClearFiltersButton().click();
 	}
 
 	async expectNoMatchesState(): Promise<void> {
-		await expect(this.page.getByRole('button', { name: 'Clear filters' })).toBeVisible();
+		await expect(this.noMatchesHeading()).toBeVisible();
+		await expect(this.noMatchesClearFiltersButton()).toBeVisible();
 		await expect(this.list).toHaveCount(0);
 	}
 
@@ -130,7 +142,10 @@ export class ConversationsListPage {
 
 	private async selectDropdownOption(testId: string, optionLabel: string): Promise<void> {
 		await this.page.getByTestId(testId).click();
-		await this.page.getByText(optionLabel, { exact: true }).click();
+		await this.page
+			.locator('[data-popper-placement], [role="menu"], [role="listbox"]')
+			.getByText(optionLabel, { exact: true })
+			.click();
 	}
 }
 

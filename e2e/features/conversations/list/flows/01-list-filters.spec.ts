@@ -9,24 +9,25 @@ test.describe('Conversations list — filter by search and type', () => {
 	});
 
 	test('applies search and type filters and updates the URL', async ({ authenticatedPage }) => {
+		const searchToken = `E2Eflt${Date.now()}`;
 		const [smallTalk, topicExploration] = await seedConversationsViaApi(authenticatedPage, [
-			{ type: 'SMALL_TALK', topic: 'E2E Alpha small talk filter' },
-			{ type: 'TOPIC_EXPLORATION', topic: 'E2E Beta topic exploration filter' }
+			{ type: 'SMALL_TALK', topic: `${searchToken} Alpha small talk` },
+			{ type: 'TOPIC_EXPLORATION', topic: `${searchToken} Beta topic exploration` }
 		]);
 		const conversationsListPage = createConversationsListPage(authenticatedPage);
 
 		await conversationsListPage.goto();
 		await conversationsListPage.expectLoaded();
-		await conversationsListPage.expectConversationRowCount(2);
+		await conversationsListPage.expectHasConversationRow(smallTalk.id);
+		await conversationsListPage.expectHasConversationRow(topicExploration.id);
 
-		await conversationsListPage.fillSearchFilter('Alpha');
+		await conversationsListPage.fillSearchFilter(searchToken);
 		await conversationsListPage.selectTypeFilter('SMALL_TALK');
 
 		await conversationsListPage.expectUrlFilters({
-			search: 'Alpha',
+			search: searchToken,
 			type: 'SMALL_TALK'
 		});
-		await conversationsListPage.expectConversationRowCount(1);
 		await conversationsListPage.expectHasConversationRow(smallTalk.id);
 		await expect(conversationsListPage.conversationRow(topicExploration.id)).toHaveCount(0);
 	});
@@ -39,7 +40,7 @@ test.describe('Conversations list — no matches shows clear-filters CTA', () =>
 
 	test('empty filter results can be cleared to restore the list', async ({ authenticatedPage }) => {
 		const [{ id }] = await seedConversationsViaApi(authenticatedPage, [
-			{ type: 'SMALL_TALK', topic: 'E2E clear filters seed' }
+			{ type: 'SMALL_TALK', topic: `E2E clear filters seed ${Date.now()}` }
 		]);
 		const conversationsListPage = createConversationsListPage(authenticatedPage);
 
