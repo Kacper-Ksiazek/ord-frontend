@@ -1,4 +1,4 @@
-.PHONY: help api-up api-down api-logs docker-e2e-up docker-e2e-down \
+.PHONY: help status api-up api-down api-logs docker-e2e-up docker-e2e-down \
 	ci ci-e2e \
 	test test-unit test-e2e test-e2e-install
 
@@ -11,6 +11,7 @@ COMPOSE_E2E := docker compose -f $(ORD_API_DIR)/docker-compose.e2e.yml
 
 help:
 	@echo "Available targets:"
+	@echo "  status              Show docker / api / front / storybook status"
 	@echo "  api-up              Start ord-api dev stack (default: $(ORD_API_DIR))"
 	@echo "  api-down            Stop ord-api dev stack"
 	@echo "  api-logs            Follow ord-api dev stack logs"
@@ -25,6 +26,9 @@ help:
 	@echo ""
 	@echo "Override backend path: make docker-e2e-up ORD_API_DIR=/path/to/ord-api"
 	@echo "Extra test args:       make test-e2e ARGS='-- --headed'"
+
+status:
+	ORD_API_DIR=$(ORD_API_DIR) ORD_FRONTEND_DIR=$(CURDIR) ./scripts/dev-status.sh
 
 api-up:
 	$(COMPOSE_DEV) up -d
