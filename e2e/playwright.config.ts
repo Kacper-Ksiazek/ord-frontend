@@ -16,12 +16,14 @@ export default defineConfig({
 		['html', { open: 'never', outputFolder: path.join(e2eDir, 'playwright-report') }]
 	],
 	outputDir: path.join(e2eDir, 'test-results'),
-	timeout: 60_000,
+	timeout: 30_000,
 	expect: {
-		timeout: 15_000
+		timeout: 8_000
 	},
 	use: {
 		baseURL: testEnv.baseUrl,
+		actionTimeout: 8_000,
+		navigationTimeout: 8_000,
 		trace: 'retain-on-failure',
 		screenshot: 'only-on-failure',
 		video: 'retain-on-failure'

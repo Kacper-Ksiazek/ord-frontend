@@ -43,20 +43,17 @@ export class ConversationSessionPage {
 		await this.messagesPanel.waitFor({ state: 'visible' });
 	}
 
-	async waitForAiMessageContent(index: number, timeout = 60_000): Promise<void> {
+	async waitForAiMessageContent(index: number): Promise<void> {
 		const message = this.aiMessage(index);
 
-		await message.waitFor({ state: 'visible', timeout });
+		await message.waitFor({ state: 'visible' });
 
 		await expect
-			.poll(
-				async () => {
-					const text = (await message.innerText()).trim();
+			.poll(async () => {
+				const text = (await message.innerText()).trim();
 
-					return text.length > 0 && !text.startsWith(AI_THINKING_PREFIX);
-				},
-				{ timeout }
-			)
+				return text.length > 0 && !text.startsWith(AI_THINKING_PREFIX);
+			})
 			.toBe(true);
 	}
 
@@ -66,7 +63,7 @@ export class ConversationSessionPage {
 
 	async expectComposerReady(): Promise<void> {
 		await this.messageComposer.waitFor({ state: 'visible' });
-		await expect(this.messageInput).toBeEnabled({ timeout: 15_000 });
+		await expect(this.messageInput).toBeEnabled();
 	}
 
 	async sendMessage(text: string): Promise<void> {

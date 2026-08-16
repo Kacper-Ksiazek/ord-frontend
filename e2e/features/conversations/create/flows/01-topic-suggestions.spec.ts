@@ -3,8 +3,6 @@ import { isE2eAuthConfigured } from '@e2e/shared/fixtures/test-env';
 import { createCreateConversationPage } from '@e2e/conversations/create';
 
 test.describe('Create conversation — AI topic suggestions', () => {
-	test.describe.configure({ timeout: 90_000 });
-
 	test.beforeEach(() => {
 		test.skip(!isE2eAuthConfigured(), 'E2E_OTP_CODE or E2E_OTP_FETCH_URL required');
 	});

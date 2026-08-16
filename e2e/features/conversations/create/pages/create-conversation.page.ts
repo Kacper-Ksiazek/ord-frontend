@@ -123,10 +123,10 @@ export class CreateConversationPage {
 		await generateButton.click();
 	}
 
-	async waitForTopicRow(index: number, timeout = 30_000): Promise<void> {
-		await this.page
-			.getByTestId(E2E_TEST_IDS.createConversation.topicRow(index))
-			.waitFor({ state: 'visible', timeout });
+	async waitForTopicRow(index: number): Promise<void> {
+		await this.page.getByTestId(E2E_TEST_IDS.createConversation.topicRow(index)).waitFor({
+			state: 'visible'
+		});
 	}
 
 	async completeTypeToneTopicSteps(
@@ -154,15 +154,14 @@ export class CreateConversationPage {
 		await this.expectStepVisible('summary');
 		await this.page
 			.getByTestId(E2E_TEST_IDS.createConversation.regenerateInterlocutor)
-			.waitFor({ state: 'visible', timeout: 15_000 });
+			.waitFor({ state: 'visible' });
 	}
 
 	async startConversationAndWaitForSession(): Promise<void> {
 		await this.waitForSummaryReady();
 		await this.clickStart();
 		await this.page.waitForURL(
-			(url) => url.pathname.startsWith('/conversations/') && url.pathname !== '/conversations/create',
-			{ timeout: 30_000 }
+			(url) => url.pathname.startsWith('/conversations/') && url.pathname !== '/conversations/create'
 		);
 	}
 }

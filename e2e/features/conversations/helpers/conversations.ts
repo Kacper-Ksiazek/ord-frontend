@@ -92,7 +92,7 @@ export async function waitForConversationMessageCount(
 	page: Page,
 	conversationId: string,
 	minMessages: number,
-	timeout = 60_000
+	timeout = 8_000
 ): Promise<void> {
 	await expect
 		.poll(
