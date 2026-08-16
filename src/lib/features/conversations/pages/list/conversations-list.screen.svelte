@@ -37,11 +37,12 @@
 		const query = filtersState.toQueryString();
 		const desiredSearch = query ? `?${query}` : '';
 
-		if (page.url.search === desiredSearch) {
+		// `replaceState` updates history but not `$app/state` `page.url` — compare the real location.
+		if (window.location.search === desiredSearch) {
 			return;
 		}
 
-		replaceState(desiredSearch || page.url.pathname, {});
+		replaceState(desiredSearch === '' ? '?' : desiredSearch, {});
 	});
 </script>
 
