@@ -9,7 +9,9 @@ export const E2E_TEST_IDS = {
 		filterSearch: 'conversations-filter-search',
 		filterRecency: 'conversations-filter-recency',
 		filterType: 'conversations-filter-type',
+		filterTypeOption: (type: string) => `conversations-filter-type-option-${type}`,
 		filterClear: 'conversations-filter-clear',
+		noMatches: 'conversations-no-matches',
 		row: (id: string) => `conversation-row-${id}`
 	},
 	createConversation: {
