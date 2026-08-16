@@ -14,7 +14,9 @@ export default [
 			'coverage/',
 			'.vercel/',
 			'src/lib/paraglide/',
-			'storybook-static/'
+			'storybook-static/',
+			'e2e/playwright-report/',
+			'e2e/test-results/'
 		]
 	},
 	js.configs.recommended,
