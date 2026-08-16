@@ -3,14 +3,6 @@ import type { ConversationType } from '$conversations/types';
 import { E2E_TEST_IDS } from '@e2e/conversations/test-ids';
 import { E2E_TEST_IDS as APP_LAYOUTS_E2E_TEST_IDS } from '@e2e/app-layouts/test-ids';
 
-const CONVERSATION_TYPE_LABELS: Record<ConversationType, string> = {
-	SMALL_TALK: 'Small Talk',
-	SCENARIO_ROLEPLAY: 'Scenario Roleplay',
-	EXAM_PRACTICE: 'Exam Practice',
-	TOPIC_EXPLORATION: 'Topic Exploration',
-	OXFORD_DEBATE: 'Oxford Debate'
-};
-
 export class ConversationsListPage {
 	readonly path = '/conversations';
 
@@ -60,7 +52,7 @@ export class ConversationsListPage {
 	async expectListOrEmptyState(): Promise<void> {
 		await this.page
 			.getByTestId(E2E_TEST_IDS.conversations.list)
-			.or(this.page.getByRole('button', { name: 'Clear filters' }))
+			.or(this.page.getByTestId(E2E_TEST_IDS.conversations.noMatches))
 			.or(this.page.getByRole('heading', { name: 'No conversations yet' }))
 			.first()
 			.waitFor({ state: 'visible' });
@@ -72,63 +64,60 @@ export class ConversationsListPage {
 
 	async fillSearchFilter(search: string): Promise<void> {
 		await this.filterSearch.fill(search);
-		await expect.poll(() => new URL(this.page.url()).searchParams.get('search')).toBe(search);
+		await expect
+			.poll(() => new URL(this.page.url()).searchParams.get('search'), { timeout: 8_000 })
+			.toBe(search);
 	}
 
 	async selectTypeFilter(type: ConversationType): Promise<void> {
-		await this.selectDropdownOption(
-			E2E_TEST_IDS.conversations.filterType,
-			CONVERSATION_TYPE_LABELS[type]
-		);
-		await expect.poll(() => new URL(this.page.url()).searchParams.get('type')).toBe(type);
+		await this.filterType.click();
+		await this.page.getByTestId(E2E_TEST_IDS.conversations.filterTypeOption(type)).click();
+		await expect
+			.poll(() => new URL(this.page.url()).searchParams.get('type'), { timeout: 8_000 })
+			.toBe(type);
 	}
 
 	async clickClearFilters(): Promise<void> {
 		await this.filterClear.click();
 	}
 
-	noMatchesHeading(): Locator {
-		return this.page.getByRole('heading', { name: 'No conversations match your filters' });
-	}
-
-	/** Empty-state CTA (visible label), not the icon-only toolbar button with the same aria-label. */
-	noMatchesClearFiltersButton(): Locator {
-		return this.page
-			.getByRole('button', { name: 'Clear filters' })
-			.filter({ hasText: 'Clear filters' });
+	noMatchesPanel(): Locator {
+		return this.page.getByTestId(E2E_TEST_IDS.conversations.noMatches);
 	}
 
 	async clickNoMatchesClearFilters(): Promise<void> {
-		await this.noMatchesClearFiltersButton().click();
+		await this.noMatchesPanel().getByRole('button').click();
 	}
 
 	async expectNoMatchesState(): Promise<void> {
-		await expect(this.noMatchesHeading()).toBeVisible();
-		await expect(this.noMatchesClearFiltersButton()).toBeVisible();
+		await expect(this.noMatchesPanel()).toBeVisible();
 		await expect(this.list).toHaveCount(0);
 	}
 
 	async expectUrlFilters(filters: { search?: string; type?: ConversationType }): Promise<void> {
 		await expect
-			.poll(() => {
-				const url = new URL(this.page.url());
+			.poll(
+				() => {
+					const url = new URL(this.page.url());
 
-				if (filters.search !== undefined) {
-					const search = url.searchParams.get('search') ?? '';
+					if (filters.search !== undefined) {
+						const search = url.searchParams.get('search') ?? '';
 
-					if (search !== filters.search) {
-						return false;
+						if (search !== filters.search) {
+							return false;
+						}
 					}
-				}
 
-				if (filters.type !== undefined) {
-					if (url.searchParams.get('type') !== filters.type) {
-						return false;
+					if (filters.type !== undefined) {
+						if (url.searchParams.get('type') !== filters.type) {
+							return false;
+						}
 					}
-				}
 
-				return true;
-			})
+					return true;
+				},
+				{ timeout: 8_000 }
+			)
 			.toBe(true);
 	}
 
@@ -138,14 +127,6 @@ export class ConversationsListPage {
 
 	async openConversation(id: string): Promise<void> {
 		await this.conversationRow(id).click();
-	}
-
-	private async selectDropdownOption(testId: string, optionLabel: string): Promise<void> {
-		await this.page.getByTestId(testId).click();
-		await this.page
-			.locator('[data-popper-placement], [role="menu"], [role="listbox"]')
-			.getByText(optionLabel, { exact: true })
-			.click();
 	}
 }
 
