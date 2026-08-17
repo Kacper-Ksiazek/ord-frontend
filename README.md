@@ -190,7 +190,7 @@ Extra test args: `make test-e2e ARGS='-- --headed'`.
 ## ✅ Quality & testing
 
 - **Component & unit tests** run in a real browser via Vitest's browser mode + Playwright.
-- **E2E regression tests** — two parallel user journeys via `@playwright/test` with the **Page Object Model** pattern. See [`docs/e2e-test-plan.md`](./docs/e2e-test-plan.md).
+- **E2E regression tests** — three parallel user journeys via `@playwright/test` with the **Page Object Model** pattern. See [`docs/e2e-test-plan.md`](./docs/e2e-test-plan.md).
 - **Storybook** documents shared components with built-in **accessibility** checks.
 - **Husky** runs `bun run precommit` before every commit (Prettier + ESLint on staged files via lint-staged). Run `make ci` before push for types and full checks.
 

@@ -9,7 +9,7 @@ E2E tests live in `e2e/` with their own config (`e2e/playwright.config.ts`):
 
 Specs import `test`/`expect` from `@e2e/shared/fixtures/*` (not directly from `@playwright/test`). Page objects use `getByTestId` with ids from `@e2e/<feature>/test-ids`. Run with `make test-e2e`.
 
-**Parallel workers:** `workers: 2` — each worker maps to `e2e-ci-w{n}@ord.test` via `emailForWorker(testInfo.workerIndex)` or the `authenticatedPage` fixture.
+**Parallel workers:** `workers: 3` — each worker maps to `e2e-ci-w{n}@ord.test` via `emailForWorker(testInfo.workerIndex)` or the `authenticatedPage` fixture.
 
 **App bugs:** if a journey fails unless you work around product behavior, stop and notify the developer — see `testing/e2e-app-bugs-block-tests.md`. Do not ship specs that pass only via reload, cache bust, or API-only shortcuts.
 

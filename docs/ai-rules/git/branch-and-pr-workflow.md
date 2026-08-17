@@ -15,7 +15,7 @@ gh pr create --base main --title "refactor(ORDUI-47): unify feature structure an
 
 ## Test plan
 - bun run check, bun run lint, bun run test all pass
-- bun run test:e2e (2 journey tests) with ord-api docker-compose.e2e stack
+- bun run test:e2e (3 journey tests) with ord-api docker-compose.e2e stack
 - Manually verified conversations and auth flows"
 ```
 

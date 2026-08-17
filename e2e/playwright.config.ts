@@ -12,7 +12,7 @@ export default defineConfig({
 	forbidOnly: isCi,
 	retries: 0,
 	// One worker per journey test; workerIndex maps to e2e-ci-w{n}@ord.test.
-	workers: 2,
+	workers: 3,
 	reporter: [
 		['../scripts/reporters/playwright-reporter.ts'],
 		['html', { open: 'never', outputFolder: path.join(e2eDir, 'playwright-report') }]
