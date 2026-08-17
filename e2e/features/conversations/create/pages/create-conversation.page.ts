@@ -115,6 +115,20 @@ export class CreateConversationPage {
 		await this.page.getByTestId(E2E_TEST_IDS.createConversation.topicCustomInput).fill(topic);
 	}
 
+	async clickGenerateTopics(): Promise<void> {
+		const generateButton = this.page
+			.getByTestId(E2E_TEST_IDS.createConversation.topicGenerateButton)
+			.getByRole('button');
+		await generateButton.scrollIntoViewIfNeeded();
+		await generateButton.click();
+	}
+
+	async waitForTopicRow(index: number): Promise<void> {
+		await this.page.getByTestId(E2E_TEST_IDS.createConversation.topicRow(index)).waitFor({
+			state: 'visible'
+		});
+	}
+
 	async completeTypeToneTopicSteps(
 		type: EnabledConversationType = 'SMALL_TALK',
 		tone: ConversationTone = 'FRIENDLY',
@@ -140,15 +154,14 @@ export class CreateConversationPage {
 		await this.expectStepVisible('summary');
 		await this.page
 			.getByTestId(E2E_TEST_IDS.createConversation.regenerateInterlocutor)
-			.waitFor({ state: 'visible', timeout: 15_000 });
+			.waitFor({ state: 'visible' });
 	}
 
 	async startConversationAndWaitForSession(): Promise<void> {
 		await this.waitForSummaryReady();
 		await this.clickStart();
 		await this.page.waitForURL(
-			(url) => url.pathname.startsWith('/conversations/') && url.pathname !== '/conversations/create',
-			{ timeout: 30_000 }
+			(url) => url.pathname.startsWith('/conversations/') && url.pathname !== '/conversations/create'
 		);
 	}
 }

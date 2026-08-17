@@ -7,8 +7,6 @@ import { createConversationSessionPage } from '@e2e/conversations/session';
 const USER_MESSAGE = 'Hello from E2E test';
 
 test.describe('Live session — AI greeting on open', () => {
-	test.describe.configure({ timeout: 90_000 });
-
 	test.beforeEach(() => {
 		test.skip(!isE2eAuthConfigured(), 'E2E_OTP_CODE or E2E_OTP_FETCH_URL required');
 	});
@@ -27,8 +25,6 @@ test.describe('Live session — AI greeting on open', () => {
 });
 
 test.describe('Live session — send message and receive AI reply', () => {
-	test.describe.configure({ timeout: 90_000 });
-
 	test.beforeEach(() => {
 		test.skip(!isE2eAuthConfigured(), 'E2E_OTP_CODE or E2E_OTP_FETCH_URL required');
 	});
@@ -49,8 +45,6 @@ test.describe('Live session — send message and receive AI reply', () => {
 });
 
 test.describe('Live session — resume conversation from list', () => {
-	test.describe.configure({ timeout: 120_000 });
-
 	test.beforeEach(() => {
 		test.skip(!isE2eAuthConfigured(), 'E2E_OTP_CODE or E2E_OTP_FETCH_URL required');
 	});
@@ -84,8 +78,6 @@ test.describe('Live session — resume conversation from list', () => {
 });
 
 test.describe('Live session — back button returns to list', () => {
-	test.describe.configure({ timeout: 90_000 });
-
 	test.beforeEach(() => {
 		test.skip(!isE2eAuthConfigured(), 'E2E_OTP_CODE or E2E_OTP_FETCH_URL required');
 	});

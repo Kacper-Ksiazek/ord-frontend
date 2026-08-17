@@ -35,7 +35,19 @@ describe('ConversationListFiltersState', () => {
 			type: null
 		};
 
-		expect(state.toSearchParams().toString()).toBe('search=topic&recencyBucket=THIS_WEEK');
+		expect(state.toQueryString()).toBe('search=topic&recencyBucket=THIS_WEEK');
+	});
+
+	it('serializes in-place search mutations without replacing the filters object', () => {
+		const state = new ConversationListFiltersState(new URLSearchParams());
+		const other = new ConversationListFiltersState(new URLSearchParams());
+
+		state.filters.search = 'alpha';
+
+		expect(state.toQueryString()).toBe('search=alpha');
+		expect(state.hasActiveFilters).toBe(true);
+		expect(other.filters.search).toBe('');
+		expect(other.hasActiveFilters).toBe(false);
 	});
 
 	it('matches URL search params after apply', () => {
@@ -45,6 +57,15 @@ describe('ConversationListFiltersState', () => {
 		state.applyFromSearchParams(params);
 
 		expect(state.matchesSearchParams(params)).toBe(true);
+		expect(state.matchesSearchParams(new URLSearchParams())).toBe(false);
+	});
+
+	it('matches URL search params after in-place search mutation', () => {
+		const state = new ConversationListFiltersState(new URLSearchParams());
+
+		state.filters.search = 'alpha';
+
+		expect(state.matchesSearchParams(new URLSearchParams('search=alpha'))).toBe(true);
 		expect(state.matchesSearchParams(new URLSearchParams())).toBe(false);
 	});
 });

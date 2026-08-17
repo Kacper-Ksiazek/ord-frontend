@@ -44,15 +44,17 @@
 	</div>
 {:else if conversationsQuery.data?.length === 0}
 	{#if filtersState.hasActiveFilters}
-		<StatusPanel
-			variant="information"
-			header={m['features.conversation.list.empty.no_matches.header']()}
-			description={m['features.conversation.list.empty.no_matches.description']()}
-			primaryButton={{
-				label: m['features.conversation.list.empty.no_matches.clear_filters'](),
-				onClick: () => filtersState.clearFilters()
-			}}
-		/>
+		<div data-testid={E2E_TEST_IDS.conversations.noMatches}>
+			<StatusPanel
+				variant="information"
+				header={m['features.conversation.list.empty.no_matches.header']()}
+				description={m['features.conversation.list.empty.no_matches.description']()}
+				primaryButton={{
+					label: m['features.conversation.list.empty.no_matches.clear_filters'](),
+					onClick: () => filtersState.clearFilters()
+				}}
+			/>
+		</div>
 	{:else}
 		<StatusPanel
 			variant="information"

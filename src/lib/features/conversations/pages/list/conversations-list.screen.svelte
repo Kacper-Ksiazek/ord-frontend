@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { goto } from '$app/navigation';
+	import { afterNavigate, goto, replaceState } from '$app/navigation';
 	import {
 		createConversationActivityOverviewQuery,
 		createConversationsQuery
@@ -23,27 +23,26 @@
 	const activityOverviewQuery = createConversationActivityOverviewQuery();
 	const conversationsQuery = createConversationsQuery(() => filtersState.queryPayload);
 
-	/** Push filter changes into the URL (replaceState so filter tweaks don't spam history). */
-	$effect(() => {
-		const filters = filtersState.filters;
-		void filters;
-
-		if (filtersState.matchesSearchParams(page.url.searchParams)) {
+	/** Filters are the source of truth. Hydrating from `page.url` on every change races
+	 *  `replaceState` and wipes in-progress search/type. Only apply URL on back/forward. */
+	afterNavigate((navigation) => {
+		if (navigation.type !== 'popstate') {
 			return;
 		}
 
-		const params = filtersState.toSearchParams();
-		const query = params.toString();
-		const href = query ? `${page.url.pathname}?${query}` : page.url.pathname;
-
-		void goto(href, { replaceState: true, keepFocus: true, noScroll: true });
+		filtersState.applyFromSearchParams(page.url.searchParams);
 	});
 
-	/** Hydrate filters when the user navigates with back/forward. */
 	$effect(() => {
-		const search = page.url.search;
-		void search;
-		filtersState.applyFromSearchParams(page.url.searchParams);
+		const query = filtersState.toQueryString();
+		const desiredSearch = query ? `?${query}` : '';
+
+		// `replaceState` updates history but not `$app/state` `page.url` — compare the real location.
+		if (window.location.search === desiredSearch) {
+			return;
+		}
+
+		replaceState(desiredSearch === '' ? '?' : desiredSearch, {});
 	});
 </script>
 

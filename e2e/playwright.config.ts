@@ -4,10 +4,12 @@ import { defineConfig, devices } from '@playwright/test';
 import { testEnv } from './shared/fixtures/test-env';
 
 const e2eDir = path.dirname(fileURLToPath(import.meta.url));
+const isCi = !!process.env.CI;
 
 export default defineConfig({
 	testDir: './features',
-	forbidOnly: !!process.env.CI,
+	globalSetup: path.join(e2eDir, 'global-setup.ts'),
+	forbidOnly: isCi,
 	retries: 0,
 	// Serial by default (workers: 1). Parallel runs map workerIndex → e2e-ci-w{n}@ord.test.
 	workers: 1,
@@ -16,12 +18,14 @@ export default defineConfig({
 		['html', { open: 'never', outputFolder: path.join(e2eDir, 'playwright-report') }]
 	],
 	outputDir: path.join(e2eDir, 'test-results'),
-	timeout: 60_000,
+	timeout: isCi ? 45_000 : 30_000,
 	expect: {
-		timeout: 15_000
+		timeout: 8_000
 	},
 	use: {
 		baseURL: testEnv.baseUrl,
+		actionTimeout: isCi ? 15_000 : 8_000,
+		navigationTimeout: isCi ? 30_000 : 8_000,
 		trace: 'retain-on-failure',
 		screenshot: 'only-on-failure',
 		video: 'retain-on-failure'

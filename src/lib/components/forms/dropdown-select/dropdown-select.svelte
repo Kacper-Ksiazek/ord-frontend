@@ -30,6 +30,14 @@
 
 		hideButtonElement?.click();
 	}
+
+	function optionTestId(optionValue: T): string | undefined {
+		if (!dataTestId) {
+			return undefined;
+		}
+
+		return `${dataTestId}-option-${optionValue == null ? 'all' : String(optionValue)}`;
+	}
 </script>
 
 <button bind:this={hideButtonElement} class="hidden" aria-label="Close dropdown"></button>
@@ -75,10 +83,12 @@
 				'form-input-text'
 			)}
 		>
-			{#if Icon}
-				<Icon class="w-4 h-4" />
-			{/if}
-			{option.label}
+			<span class="flex w-full items-center gap-2" data-testid={optionTestId(option.value)}>
+				{#if Icon}
+					<Icon class="w-4 h-4" />
+				{/if}
+				{option.label}
+			</span>
 		</DropdownItem>
 	{/each}
 </Dropdown>

@@ -1,4 +1,8 @@
-export { seedConversationViaApi, waitForConversationMessageCount } from './helpers/conversations';
+export {
+	seedConversationViaApi,
+	seedConversationsViaApi,
+	waitForConversationMessageCount
+} from './helpers/conversations';
 export type {
 	ConversationDTO,
 	CreateConversationRequest,

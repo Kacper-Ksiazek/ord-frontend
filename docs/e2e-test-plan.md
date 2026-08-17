@@ -216,7 +216,7 @@ e2e/
 | **4**  | Tworzenie rozmowy          | E2E-301, E2E-303     | ✅              |
 | **5**  | Sesja na żywo              | E2E-401–404, E2E-006 | ✅              |
 | **6**  | Feedback                   | E2E-501–504          | ⬜ **następna** |
-| **7**  | Filtry + AI topics         | E2E-202, E2E-302     | ⬜              |
+| **7**  | Filtry + AI topics         | E2E-202, E2E-302     | ✅              |
 | **8**  | TTS                        | E2E-601              | ⬜              |
 | **9**  | Activity + chrome          | E2E-203, E2E-701–702 | ⬜              |
 
@@ -358,14 +358,15 @@ Akceptowalne na obecną fazę; adresować przy implementacji kolejnych faz.
 
 ## Podsumowanie pokrycia
 
-| Priorytet | Scenariusze                   | Zadania                    | Status |
-| --------- | ----------------------------- | -------------------------- | ------ |
-| **Infra** | Setup Playwright              | E2E-000–009                | ✅     |
-| **Infra** | CI                            | E2E-010, E2E-011           | ✅     |
-| **P0**    | Auth                          | E2E-101–104                | ✅     |
-| **P0**    | data-testid                   | E2E-110                    | ✅     |
-| **P0**    | Lista, create, sesja          | E2E-201, 301, 303, 401–404 | ✅     |
-| **P1**    | Feedback, filtry, topics, TTS | E2E-202, 302, 501–504, 601 | ⬜     |
-| **P2**    | Activity, theme, locale       | E2E-203, 701–702           | ⬜     |
+| Priorytet | Scenariusze             | Zadania                    | Status |
+| --------- | ----------------------- | -------------------------- | ------ |
+| **Infra** | Setup Playwright        | E2E-000–009                | ✅     |
+| **Infra** | CI                      | E2E-010, E2E-011           | ✅     |
+| **P0**    | Auth                    | E2E-101–104                | ✅     |
+| **P0**    | data-testid             | E2E-110                    | ✅     |
+| **P0**    | Lista, create, sesja    | E2E-201, 301, 303, 401–404 | ✅     |
+| **P1**    | Filtry, AI topics       | E2E-202, 302               | ✅     |
+| **P1**    | Feedback, TTS           | E2E-501–504, 601           | ⬜     |
+| **P2**    | Activity, theme, locale | E2E-203, 701–702           | ⬜     |
 
-**Łącznie:** ~32 zadań — **16 zrobionych**, **16 w roadmap**.
+**Łącznie:** ~32 zadań — **18 zrobionych**, **14 w roadmap** (3 specy Fazy 7: E2E-202 ×2, E2E-302).
