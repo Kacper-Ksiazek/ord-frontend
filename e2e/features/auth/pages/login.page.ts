@@ -85,8 +85,8 @@ export class LoginPage {
 
 	async waitForLoginSuccess(): Promise<void> {
 		// Login screen calls goto('/'); `(private)/+page.ts` redirects to `/conversations`.
-		// Predicate form is reliable for SvelteKit client-side (pushState) navigation.
-		await this.page.waitForURL((url) => url.pathname === '/conversations' || url.pathname === '/');
+		// Wait for the final route — `/` matches too early and races the private layout.
+		await this.page.waitForURL((url) => url.pathname === '/conversations');
 	}
 }
 
