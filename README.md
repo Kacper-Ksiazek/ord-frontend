@@ -190,7 +190,7 @@ Extra test args: `make test-e2e ARGS='-- --headed'`.
 ## ✅ Quality & testing
 
 - **Component & unit tests** run in a real browser via Vitest's browser mode + Playwright.
-- **E2E integration tests** exercise full user flows via `@playwright/test` with the **Page Object Model** pattern. See the [E2E scenario registry](./e2e/docs/scenarios/README.md) for implemented flows and roadmap; [`docs/e2e-test-plan.md`](./docs/e2e-test-plan.md) covers infra and backlog.
+- **E2E regression tests** — two parallel user journeys via `@playwright/test` with the **Page Object Model** pattern. See [`docs/e2e-test-plan.md`](./docs/e2e-test-plan.md).
 - **Storybook** documents shared components with built-in **accessibility** checks.
 - **Husky** runs `bun run precommit` before every commit (Prettier + ESLint on staged files via lint-staged). Run `make ci` before push for types and full checks.
 
@@ -202,22 +202,21 @@ bun run storybook  # explore components in isolation (no make target yet)
 ### E2E tests (Playwright + POM)
 
 Requires a running backend API and test credentials. Copy [`.env.e2e.example`](./.env.e2e.example) to `.env.e2e` — it is loaded automatically by Playwright.
-Test specs live in `e2e/features/` and use **Page Objects** co-located per feature — never put selectors directly in spec files.
+Journey specs live in `e2e/journeys/`; page objects under `e2e/features/` — never put selectors directly in spec files.
 
-| Resource                                                | Description                                                      |
-| ------------------------------------------------------- | ---------------------------------------------------------------- |
-| [`e2e/docs/scenarios/`](./e2e/docs/scenarios/README.md) | **Scenario registry** — implemented flows, module index, roadmap |
-| [`docs/e2e-test-plan.md`](./docs/e2e-test-plan.md)      | Strategic plan, infra, CI, tech debt                             |
+| Resource                                           | Description                                     |
+| -------------------------------------------------- | ----------------------------------------------- |
+| [`docs/e2e-test-plan.md`](./docs/e2e-test-plan.md) | Journey overview, structure, how to run locally |
 
 ```bash
 make docker-e2e-up          # start pinned ord-api E2E stack
 cp .env.e2e.example .env.e2e
 make test-e2e-install       # install Chromium (once)
-make test-e2e               # all E2E flows
+make test-e2e               # 2 parallel journey tests
 make ci-e2e                 # full CI + E2E
 ```
 
-**CI:** `.github/workflows/e2e.yml` runs on pull requests and `workflow_dispatch`. It checks out a **pinned** `ord-api` commit (`.github/ord-api-e2e-image.sha`), pulls the matching `ghcr.io/kacper-ksiazek/ord-api:sha-<commit>` image, starts Postgres + backend, then runs Playwright (auth smoke). The **`e2e` check is blocking** — failed E2E fails the PR. See [`.github/REQUIRED_CHECKS.md`](./.github/REQUIRED_CHECKS.md) to enable it on `main`.
+**CI:** `.github/workflows/e2e.yml` runs on pull requests and `workflow_dispatch`. It checks out a **pinned** `ord-api` commit (`.github/ord-api-e2e-image.sha`), pulls the matching `ghcr.io/kacper-ksiazek/ord-api:sha-<commit>` image, starts Postgres + backend, then runs Playwright. The **`e2e` check is blocking** — failed E2E fails the PR. See [`.github/REQUIRED_CHECKS.md`](./.github/REQUIRED_CHECKS.md) to enable it on `main`.
 
 ---
 

@@ -7,18 +7,18 @@ const e2eDir = path.dirname(fileURLToPath(import.meta.url));
 const isCi = !!process.env.CI;
 
 export default defineConfig({
-	testDir: './features',
+	testDir: './journeys',
 	globalSetup: path.join(e2eDir, 'global-setup.ts'),
 	forbidOnly: isCi,
 	retries: 0,
-	// Serial by default (workers: 1). Parallel runs map workerIndex → e2e-ci-w{n}@ord.test.
-	workers: 1,
+	// One worker per journey test; workerIndex maps to e2e-ci-w{n}@ord.test.
+	workers: 2,
 	reporter: [
 		['../scripts/reporters/playwright-reporter.ts'],
 		['html', { open: 'never', outputFolder: path.join(e2eDir, 'playwright-report') }]
 	],
 	outputDir: path.join(e2eDir, 'test-results'),
-	timeout: isCi ? 45_000 : 30_000,
+	timeout: isCi ? 90_000 : 60_000,
 	expect: {
 		timeout: 8_000
 	},
