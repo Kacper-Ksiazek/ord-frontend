@@ -17,14 +17,20 @@ export function isColorEnabled(): boolean {
 	return Boolean(process.stdout.isTTY && !process.env.NO_COLOR);
 }
 
+// Palette tuned for light terminals: avoid \x1b[2m (faint) and pale cyan/yellow on white.
+// Bold + standard/dark ANSI colors stay readable on dark terminals too.
 const ANSI: Record<string, string> = {
 	reset: '\x1b[0m',
 	bold: '\x1b[1m',
-	dim: '\x1b[2m',
-	red: '\x1b[31m',
-	green: '\x1b[32m',
-	yellow: '\x1b[33m',
-	cyan: '\x1b[36m'
+	/** Secondary text — dark gray on light bg (not faint/light gray). */
+	muted: '\x1b[90m',
+	dim: '\x1b[90m',
+	red: '\x1b[1;31m',
+	green: '\x1b[1;32m',
+	yellow: '\x1b[1;33m',
+	blue: '\x1b[1;34m',
+	magenta: '\x1b[1;35m',
+	cyan: '\x1b[1;34m'
 };
 
 export function color(name: keyof typeof ANSI, text: string): string {
@@ -76,7 +82,7 @@ export function printSummary(
 ): void {
 	console.log();
 	console.log(`${color('dim', '='.repeat(60))}`);
-	console.log(`  ${color('bold', String(totals.tests))} tests in ${color('cyan', elapsed)}`);
+	console.log(`  ${color('bold', String(totals.tests))} tests in ${color('blue', elapsed)}`);
 	console.log(`${color('dim', '='.repeat(60))}`);
 	console.log(`  Passed:  ${color('green', String(totals.passed))}`);
 	console.log(
@@ -91,19 +97,19 @@ export function printSummary(
 	console.log();
 
 	if (failedCases.length > 0) {
-		console.log(`${color('red', color('bold', `Failed tests (${failedCases.length}):`))}`);
-		console.log(color('dim', '-'.repeat(60)));
+		console.log(paint(`Failed tests (${failedCases.length}):`, 'red'));
+		console.log(color('muted', '-'.repeat(60)));
 
 		for (const failedCase of failedCases) {
 			const kindColor =
 				failedCase.kind === 'TIMEOUT'
 					? color('yellow', `[${failedCase.kind}]`)
 					: color('red', `[${failedCase.kind}]`);
-			console.log(`  ${kindColor} ${color('bold', failedCase.class)}`);
+			console.log(`  ${kindColor} ${paint(failedCase.class, 'bold')}`);
 			console.log(`         ${failedCase.name}`);
 
 			if (failedCase.message) {
-				console.log(`         ${color('dim', failedCase.message)}`);
+				console.log(`         ${color('muted', failedCase.message)}`);
 			}
 
 			console.log();
@@ -111,9 +117,9 @@ export function printSummary(
 	}
 
 	if (success) {
-		console.log(`${color('green', color('bold', 'All tests passed.'))}`);
+		console.log(paint('All tests passed.', 'green'));
 	} else {
-		console.log(`${color('red', color('bold', 'Result: FAILED'))}`);
+		console.log(paint('Result: FAILED', 'red'));
 	}
 
 	console.log();

@@ -44,6 +44,10 @@ export function workerEmail(workerIndex: number): string {
 	return `${testEnv.emailPrefix}${bounded}@${testEnv.emailDomain}`;
 }
 
+export function emailForWorker(workerIndex: number): string {
+	return workerEmail(workerIndex);
+}
+
 export function isE2eAuthConfigured(): boolean {
 	return Boolean(testEnv.otpCode || testEnv.otpFetchUrl);
 }

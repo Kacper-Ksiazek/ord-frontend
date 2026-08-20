@@ -65,7 +65,7 @@ run_step "build" bun run build
 run_step "unit-tests" bun run test
 
 if [[ "$INCLUDE_E2E" -eq 1 ]]; then
-  run_step "e2e" ./scripts/run-tests.sh e2e
+  run_step "e2e" bash -c './scripts/check-e2e-backend.sh && bun run test:e2e'
 fi
 
 printf '%b\n' "${C_GREEN}${C_BOLD}All CI checks passed.${C_RESET}"

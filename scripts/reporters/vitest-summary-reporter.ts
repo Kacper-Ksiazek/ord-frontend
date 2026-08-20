@@ -15,7 +15,7 @@ class VitestSummaryReporter implements Reporter {
 
 	onTestRunStart(): void {
 		this.start = Date.now();
-		console.log(`${color('cyan', 'Unit tests')} — starting...`);
+		console.log(`${color('blue', 'Unit tests')} — starting...`);
 	}
 
 	onTestRunEnd(testModules: ReadonlyArray<TestModule>): void {

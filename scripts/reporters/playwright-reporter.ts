@@ -20,7 +20,7 @@ import {
 	type TestTotals
 } from './terminal';
 
-const FLOWS_MARKER = `${path.sep}e2e${path.sep}flows${path.sep}`;
+const JOURNEYS_MARKER = `${path.sep}e2e${path.sep}journeys${path.sep}`;
 const INDENT = {
 	file: '',
 	describe: '    ',
@@ -42,7 +42,7 @@ class PlaywrightReporter implements Reporter {
 
 	onBegin(_config: FullConfig, suite: Suite): void {
 		this.totalTests = suite.allTests().length;
-		console.log(`${color('cyan', 'E2E tests')} — ${this.totalTests} tests`);
+		console.log(`${color('blue', 'E2E tests')} — ${this.totalTests} tests`);
 		console.log();
 	}
 
@@ -86,7 +86,7 @@ class PlaywrightReporter implements Reporter {
 
 			if (describe) {
 				this.describeCountInFile += 1;
-				console.log(`${INDENT.describe}${paint(describe, 'yellow', 'bold')}`);
+				console.log(`${INDENT.describe}${paint(describe, 'magenta')}`);
 			}
 		}
 
@@ -114,7 +114,7 @@ class PlaywrightReporter implements Reporter {
 		}
 
 		this.isFirstFile = false;
-		console.log(`${INDENT.file}${paint(`▌ ${file}`, 'cyan', 'bold')}`);
+		console.log(`${INDENT.file}${paint(`▌ ${file}`, 'blue')}`);
 	}
 
 	private flushDescribeTotal(): void {
@@ -180,10 +180,10 @@ class PlaywrightReporter implements Reporter {
 }
 
 function relativeSpecFile(filePath: string): string {
-	const markerIndex = filePath.indexOf(FLOWS_MARKER);
+	const markerIndex = filePath.indexOf(JOURNEYS_MARKER);
 
 	if (markerIndex >= 0) {
-		return filePath.slice(markerIndex + FLOWS_MARKER.length);
+		return filePath.slice(markerIndex + JOURNEYS_MARKER.length);
 	}
 
 	return path.basename(filePath);
