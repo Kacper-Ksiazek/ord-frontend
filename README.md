@@ -163,7 +163,7 @@ Common workflows are exposed via `make` — run `make help` for the full list.
 | `make docker-e2e-down`  | Stop E2E backend stack                                                         |
 | `make test`             | Run unit tests (alias for `test-unit`)                                         |
 | `make test-unit`        | Vitest unit/component tests                                                    |
-| `make test-e2e`         | All Playwright E2E flows (requires `docker-e2e-up` or `api-up` first)          |
+| `make test-e2e`         | 3 parallel E2E journeys (requires `docker-e2e-up` or `api-up` first)           |
 | `make test-e2e-install` | Install Playwright Chromium                                                    |
 
 `make ci` uses `./scripts/run-ci.sh` (sequential, fail-fast, matches `.github/workflows/ci.yml`).
@@ -212,7 +212,7 @@ Journey specs live in `e2e/journeys/`; page objects under `e2e/features/` — ne
 make docker-e2e-up          # start pinned ord-api E2E stack
 cp .env.e2e.example .env.e2e
 make test-e2e-install       # install Chromium (once)
-make test-e2e               # 2 parallel journey tests
+make test-e2e               # 3 parallel journey tests
 make ci-e2e                 # full CI + E2E
 ```
 

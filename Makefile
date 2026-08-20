@@ -21,7 +21,7 @@ help:
 	@echo "  ci-e2e              Run CI checks + Playwright E2E (requires docker-e2e-up)"
 	@echo "  test                Run unit tests (alias for test-unit)"
 	@echo "  test-unit           Vitest unit/component tests"
-	@echo "  test-e2e            All Playwright E2E flows (requires backend — docker-e2e-up or api-up)"
+	@echo "  test-e2e            3 parallel E2E journeys (requires backend — docker-e2e-up or api-up)"
 	@echo "  test-e2e-install    Install Playwright Chromium browser"
 	@echo ""
 	@echo "Override backend path: make docker-e2e-up ORD_API_DIR=/path/to/ord-api"
