@@ -149,6 +149,10 @@ export default [
 							group: ['./**/features/**', '../**/features/**'],
 							message:
 								'Do not use relative paths into src/lib/features; use $auth, $conversations, or $appLayouts.'
+						},
+						{
+							regex: '^(\\.\\./)+(auth|conversations|app-layouts)(/|$)',
+							message: 'Do not relative-import another feature; use $auth, $conversations, or $appLayouts.'
 						}
 					]
 				}
