@@ -2,6 +2,7 @@
 	import MessageBase from '../message-base.svelte';
 	import type { CompactConversationUserMessage } from '$conversations/types';
 	import { Analysis } from './components';
+	import TutorCommentThreadReply from './components/analysis/tutor-comment-thread-reply.svelte';
 	import UserMessageTextContent from './lib/user-message-text-content.svelte';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 	import { createRequestAnalysisForUserMessageMutation } from '$conversations/api-client';
@@ -16,8 +17,6 @@
 	}
 
 	const { messageIndex, message }: UserMessageProps = $props();
-
-	let showIconsInHighlightedParts = $state(false);
 
 	const conversation = getConversationContext();
 	const messagesContext = getMessagesContext();
@@ -53,7 +52,6 @@
 	{#snippet content()}
 		<UserMessageTextContent
 			{messageIndex}
-			{showIconsInHighlightedParts}
 			messageContent={message.content}
 			analysis={message.analysis}
 		/>
@@ -64,12 +62,17 @@
 			analysis={message.analysis}
 			analysisFailed={message.analysisFailed ?? false}
 			{messageIndex}
-			bind:showIconsInHighlightedParts
 			onRetryAnalysis={message.messageId
 				? () => {
 						void retryAnalysis();
 					}
 				: undefined}
 		/>
+	{/snippet}
+
+	{#snippet afterCard()}
+		{#if message.analysis}
+			<TutorCommentThreadReply analysis={message.analysis} {messageIndex} />
+		{/if}
 	{/snippet}
 </MessageBase>

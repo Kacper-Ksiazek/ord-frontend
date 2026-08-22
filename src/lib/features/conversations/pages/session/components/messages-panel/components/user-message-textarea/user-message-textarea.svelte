@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import { AutoHeightTextarea } from '$lib/components/forms/auto-height-textarea';
 	import SendButton from './components/send-button.svelte';
 	import { getMessagesMaxWidth } from '../../../constants.svelte';
@@ -39,12 +39,11 @@
 <div
 	data-testid={E2E_TEST_IDS.session.messageComposer}
 	class={cn(
-		'flex items-end gap-1 rounded-2xl w-full mb-2 px-2 py-1',
+		'flex items-end gap-1 rounded-[10px] w-full mb-2 px-4 py-2.5',
 		messagesMaxWidth,
 		'mx-auto',
-		'border-2 border-gray-200 dark:border-gray-700',
-		'bg-white dark:bg-slate-800',
-		isFocused && 'border-primary-300 dark:border-primary-600'
+		'border border-line bg-surface',
+		isFocused && 'border-ink'
 	)}
 >
 	<AutoHeightTextarea
@@ -52,7 +51,10 @@
 		dataTestId={E2E_TEST_IDS.session.messageInput}
 		bind:value={message}
 		placeholder={m['features.conversation.session.composer.placeholder']()}
-		className="content-long "
+		className="w-full"
+		textareaClass="message-body text-ink px-0 py-0 placeholder:text-ink-muted"
+		LINE_HEIGHT={25}
+		VERTICAL_PADDING={0}
 		onkeydown={handleKeyDown}
 		onfocus={() => (isFocused = true)}
 		onblur={() => (isFocused = false)}
@@ -61,7 +63,6 @@
 	<SendButton
 		disabled={!message.trim() || isSendBlocked}
 		pending={isSendBlocked}
-		{isFocused}
 		onclick={sendUserMessage}
 	/>
 </div>

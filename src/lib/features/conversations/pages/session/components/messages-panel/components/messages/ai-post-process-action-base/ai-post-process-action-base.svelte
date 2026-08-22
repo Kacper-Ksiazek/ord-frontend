@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import { Sparkles } from 'lucide-svelte';
 	import type { Snippet } from 'svelte';
 	import { fade } from 'svelte/transition';
-	import ToggleIconsInHighlight from './components/toggle-icons-in-highlight.svelte';
-	import ToggleExpandCollapse from './components/toggle-expand-collapse.svelte';
 	import PreviewContent from './components/preview-content.svelte';
 
 	interface AiPostProcessActionBaseProps {
@@ -12,26 +10,20 @@
 		class?: string;
 		isSelected?: boolean;
 		isGenerating?: boolean;
-		enableExpandCollapse?: boolean;
-		showIconsInHighlightedParts: boolean;
 		onPreviewContentClick?: (e: MouseEvent) => void;
 		headerActions?: Snippet;
 		playbackProgress?: Snippet;
-		children: Snippet;
+		children?: Snippet;
 		badges?: Snippet;
 		/** Stable selector for E2E tests (`data-testid`) */
 		dataTestId?: string;
 	}
 
 	let {
-		showIconsInHighlightedParts = $bindable(),
-
 		label,
 		class: customClass = '',
 		isSelected = false,
 		isGenerating = false,
-		enableExpandCollapse = false,
-
 		onPreviewContentClick,
 		headerActions,
 		playbackProgress,
@@ -39,48 +31,43 @@
 		children,
 		dataTestId
 	}: AiPostProcessActionBaseProps = $props();
-
-	let isCollapsed = $state(true);
-
-	const id = `ai-post-process-action-base-${crypto.randomUUID()}`;
 </script>
 
 <div
-	{id}
 	data-testid={dataTestId}
 	transition:fade
 	class={cn(
-		'flex flex-col gap-3 px-4 py-3 mt-2 rounded-lg w-full relative', //
-		'bg-gray-50 dark:bg-gray-800 dark:text-gray-200',
+		'flex w-full flex-col gap-1',
 		customClass,
-		isGenerating && 'generation-in-progress'
+		isGenerating && 'generation-in-progress rounded-[10px] px-2 py-0.5'
 	)}
 >
-	<div class="absolute top-2 right-4 flex items-center gap-0.5">
-		{#if headerActions}
-			{@render headerActions()}
-		{/if}
-
-		{#if onPreviewContentClick}
-			<PreviewContent {isSelected} onClick={onPreviewContentClick} />
-		{/if}
-
-		<ToggleIconsInHighlight bind:showIconsInHighlightedParts />
-
-		{#if enableExpandCollapse}
-			<ToggleExpandCollapse bind:isCollapsed />
-		{/if}
-	</div>
-
-	<div class="w-full flex gap-2 text-gray-600">
+	<div class="flex min-h-8 items-center gap-2">
 		<div
 			class={cn(
-				'flex text-gray-500 dark:text-gray-400 items-center gap-1.5 flex-1',
-				isGenerating && 'text-gray-400 dark:text-gray-400'
+				'flex shrink-0 items-center gap-1.5 text-xs font-medium',
+				isSelected ? 'text-ink' : 'text-ink-muted',
+				isGenerating && 'text-ink-subtle'
 			)}
 		>
-			<Sparkles class="size-4" />
-			<span class="font-medium text-sm">{label}</span>
+			<Sparkles class="size-3.5" />
+			<span>{label}</span>
+		</div>
+
+		{#if badges}
+			<div class="flex min-w-0 items-center gap-3 overflow-x-auto">
+				{@render badges()}
+			</div>
+		{/if}
+
+		<div class="ml-auto flex shrink-0 items-center">
+			{#if headerActions}
+				{@render headerActions()}
+			{/if}
+
+			{#if onPreviewContentClick}
+				<PreviewContent {isSelected} onClick={onPreviewContentClick} />
+			{/if}
 		</div>
 	</div>
 
@@ -88,17 +75,7 @@
 		{@render playbackProgress()}
 	{/if}
 
-	<div class="flex flex-col">
-		<div class="flex flex-row gap-2 items-center justify-between">
-			<div class="flex flex-row gap-2 overflow-x-auto min-w-0">
-				{#if badges}
-					{@render badges()}
-				{/if}
-			</div>
-		</div>
-
-		{#if !isCollapsed || !enableExpandCollapse}
-			{@render children()}
-		{/if}
-	</div>
+	{#if children}
+		{@render children()}
+	{/if}
 </div>

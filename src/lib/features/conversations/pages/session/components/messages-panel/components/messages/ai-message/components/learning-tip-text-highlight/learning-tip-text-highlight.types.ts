@@ -6,5 +6,4 @@ export interface LearningTipTextHighlightProps {
 	highlightType: LearningTipCategory;
 	highlightedText: string;
 	learningTips: AIMessageLearningTips;
-	showIconsInHighlightedParts: boolean;
 }

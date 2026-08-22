@@ -1,51 +1,26 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
-	import { AiMessage, ConversationHeader, TopActionButton, UserMessage } from './components';
+	import { cn } from '$lib/utils/cn';
+	import { AiMessage, SessionHud, UserMessage } from './components';
 	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
 	import { getMessagesContext } from '../../contexts/messages-context.svelte';
 	import { UserMessageTextarea } from './components/user-message-textarea';
 	import { getSidepanelWidth, getMessagesMaxWidth } from '../constants.svelte';
-	import { Columns2, ChevronLeft, PanelLeftClose } from 'lucide-svelte';
-	import { goto } from '$app/navigation';
 	import { ScrollableWrapper } from '$lib/components/utils/scrollable-wrapper';
 	import { onMount } from 'svelte';
-	import { getConversationContext } from '../../contexts/conversation-context.svelte';
-	import ConversationTypeIcon from '$conversations/shared/components/conversation-type-icon.svelte';
-	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 	import { Button } from '$lib/components/buttons/button';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 	import * as m from '$lib/paraglide/messages.js';
-
-	/** Hide the sticky topic strip while the main header topic is in view (top of scroll area). */
-	const TOPIC_BAR_SHOW_AFTER_SCROLL_PX = 260;
 
 	/** Poll scroll position while the assistant streams so layout growth is always followed. */
 	const SCROLL_FOLLOW_INTERVAL_MS = 100;
 
 	const sidepanelContext = getSidepanelContext();
 	const messagesContext = getMessagesContext();
-	const conversation = getConversationContext();
 
 	const sidepanelWidth = $derived(getSidepanelWidth());
 	const messagesMaxWidth = $derived(getMessagesMaxWidth());
 
 	let scrollContainer: HTMLDivElement | undefined = $state(undefined);
-	let messagesScrollTop = $state(0);
-
-	$effect(() => {
-		const el = scrollContainer;
-		if (!el) return;
-
-		const syncScrollTop = () => {
-			messagesScrollTop = el.scrollTop;
-		};
-
-		syncScrollTop();
-		el.addEventListener('scroll', syncScrollTop, { passive: true });
-
-		return () => el.removeEventListener('scroll', syncScrollTop);
-	});
-
-	const showStickyTopicBar = $derived(messagesScrollTop >= TOPIC_BAR_SHOW_AFTER_SCROLL_PX);
 
 	function scrollMessagesToBottom() {
 		const el = scrollContainer;
@@ -82,8 +57,6 @@
 				top: scrollContainer.scrollHeight,
 				behavior: 'instant'
 			});
-
-			messagesScrollTop = scrollContainer.scrollTop;
 		}
 	});
 </script>
@@ -102,48 +75,14 @@
 			!sidepanelContext.isOpened && 'w-full'
 		)}
 	>
-		<!-- Back Button -->
-		<TopActionButton
-			dataTestId={E2E_TEST_IDS.session.backButton}
-			icon={ChevronLeft}
-			onClick={() => goto('/conversations')}
-			ariaLabel="Go back"
-			title="Go back"
-			position="left"
-			showAdditionalContent={showStickyTopicBar}
-		>
-			<span>Go back</span>
-
-			{#snippet additionalContent()}
-				<ConversationTypeIcon conversationType={conversation.type} class="size-5 shrink-0" />
-
-				<span class="min-w-0 truncate leading-none">{conversation.topic}</span>
-			{/snippet}
-		</TopActionButton>
-
-		<!-- Layout Toggle Button -->
-		<TopActionButton
-			dataTestId={E2E_TEST_IDS.session.summaryToggle}
-			icon={sidepanelContext.isOpened ? PanelLeftClose : Columns2}
-			onClick={() => (sidepanelContext.isOpened = !sidepanelContext.isOpened)}
-			ariaLabel={sidepanelContext.isOpened ? 'Switch to full width layout' : 'Switch to split layout'}
-			title={sidepanelContext.isOpened ? 'Switch to full width layout' : 'Switch to split layout'}
-			position="right"
-			disabled={messagesContext.messages.length < 2}
-		>
-			{#if !sidepanelContext.isOpened}
-				<span> View summary </span>
-			{/if}
-		</TopActionButton>
+		<SessionHud />
 
 		<!-- Scrollable messages area -->
 		<ScrollableWrapper
 			bind:scrollContainer
-			contentClass="{messagesMaxWidth} mx-auto gap-12"
+			contentClass="{messagesMaxWidth} mx-auto gap-14"
 			wrapperClass="mb-4"
 		>
-			<ConversationHeader />
-
 			{#each messagesContext.messages as message, index (index)}
 				{#if message.sender === 'AI'}
 					<AiMessage
@@ -162,10 +101,10 @@
 
 		{#if messagesContext.aiStreamError}
 			<div
-				class="{messagesMaxWidth} mx-auto mb-3 flex flex-col items-start gap-2 rounded-lg border border-red-200 bg-red-50 p-3 dark:border-red-800 dark:bg-red-900/20"
+				class="{messagesMaxWidth} mx-auto mb-3 flex flex-col items-start gap-2 rounded-[10px] border border-danger/30 bg-danger/10 p-3"
 				role="alert"
 			>
-				<p class="text-sm text-red-800 dark:text-red-200">
+				<p class="text-sm text-danger">
 					{messagesContext.aiStreamError === 'init'
 						? m['features.conversation.session.stream_error.init']()
 						: m['features.conversation.session.stream_error.message']()}

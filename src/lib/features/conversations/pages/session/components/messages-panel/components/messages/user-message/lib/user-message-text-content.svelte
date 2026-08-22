@@ -9,15 +9,13 @@
 		messageContent: string;
 		analysis: ConversationUserMessageAnalysisDTO | null;
 		disableHoverHighlight?: boolean;
-		showIconsInHighlightedParts?: boolean;
 	}
 
 	let {
 		messageIndex,
 		messageContent,
 		analysis,
-		disableHoverHighlight = false,
-		showIconsInHighlightedParts = false
+		disableHoverHighlight = false
 	}: UserMessageProps = $props();
 
 	const highlightedParts = $derived.by(() => {
@@ -41,7 +39,6 @@
 					highlightedText={part.text}
 					{disableHoverHighlight}
 					{analysis}
-					{showIconsInHighlightedParts}
 				/>
 			{:else}
 				{part.text}

@@ -15,7 +15,7 @@
 			() => CenterComponentDecorator as any
 		],
 		args: {
-			label: 'Wskazówki do nauki'
+			label: 'Wskazówki'
 		},
 		argTypes: {
 			label: {
@@ -34,23 +34,19 @@
 		"The trail sounds magnificent! I'd love to hear more about the wildlife you encountered.";
 
 	const messageIndex = 0;
-	let showIconsInHighlightedParts = $state(false);
 </script>
 
 <Story
 	name="Default"
 	args={{
-		label: 'Wskazówki do nauki'
+		label: 'Wskazówki'
 	}}
 >
-	<TextWithThreeDotsAnimation
-		text="Trwa przygotowywanie materiałów edukacyjnych"
-		dotsWrapperClass="mb-1"
-	/>
+	<TextWithThreeDotsAnimation text="Przygotowywanie wskazówek" dotsWrapperClass="mb-0" />
 </Story>
 
 <Story name="With Play Audio">
-	<AiPostProcessActionBase label="Wskazówki do nauki" bind:showIconsInHighlightedParts>
+	<AiPostProcessActionBase label="Wskazówki">
 		{#snippet headerActions()}
 			<PlayMessageAudio message={sampleMessage} {messageIndex} />
 		{/snippet}
@@ -59,9 +55,6 @@
 			<PlayMessageAudioProgress {messageIndex} />
 		{/snippet}
 
-		<TextWithThreeDotsAnimation
-			text="Trwa przygotowywanie materiałów edukacyjnych"
-			dotsWrapperClass="mb-1"
-		/>
+		<TextWithThreeDotsAnimation text="Przygotowywanie wskazówek" dotsWrapperClass="mb-0" />
 	</AiPostProcessActionBase>
 </Story>

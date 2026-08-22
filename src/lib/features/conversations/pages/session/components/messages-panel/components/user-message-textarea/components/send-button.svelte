@@ -1,37 +1,33 @@
 <script lang="ts">
-	import { Button, Spinner, cn } from 'flowbite-svelte';
 	import { Send } from 'lucide-svelte';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
+	import { Spinner } from '$lib/components/utils/spinner';
+	import { cn } from '$lib/utils/cn';
 
 	interface Props {
 		disabled?: boolean;
 		pending?: boolean;
-		isFocused?: boolean;
 		onclick?: (e: MouseEvent) => void;
 	}
 
-	let { disabled = false, pending = false, isFocused = false, onclick }: Props = $props();
+	let { disabled = false, pending = false, onclick }: Props = $props();
 </script>
 
-<Button
+<button
+	type="button"
 	data-testid={E2E_TEST_IDS.session.sendButton}
 	class={cn(
-		'p-3 rounded-xl bg-transparent dark:bg-transparent transition-all duration-200',
-		disabled && 'cursor-not-allowed opacity-30 hover:bg-transparent hover:dark:bg-transparent',
-		pending && 'bg-gray-400 cursor-wait',
-		!disabled && 'hover:bg-gray-100 dark:hover:bg-gray-700'
+		'flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-transparent p-0 transition-colors',
+		disabled && 'cursor-not-allowed opacity-30',
+		pending && 'cursor-wait',
+		!disabled && 'hover:bg-accent-soft'
 	)}
 	{disabled}
 	{onclick}
 >
 	{#if pending}
-		<Spinner size="4" class="fill-gray-700 dark:fill-gray-300" />
+		<Spinner class="text-ink" />
 	{:else}
-		<Send
-			class={cn(
-				'w-5 h-5 text-gray-700 dark:text-gray-300', //
-				isFocused && 'text-primary-600 dark:text-primary-400'
-			)}
-		/>
+		<Send class="size-4 text-ink" />
 	{/if}
-</Button>
+</button>
