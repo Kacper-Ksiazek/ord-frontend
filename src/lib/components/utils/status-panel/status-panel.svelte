@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import { ServerCrash, Info, CheckCircle2 } from 'lucide-svelte';
 	import { Button } from '$lib/components/buttons/button';
 	import type { StatusButtonProps, StatusPanelVariant } from './status-panel.types';

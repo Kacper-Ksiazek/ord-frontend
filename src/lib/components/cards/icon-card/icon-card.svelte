@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import type { IconCardProps } from './icon-card.types';
 	import { getVariantColors } from './icon-card.constants';
 
@@ -18,26 +18,7 @@
 
 	const colors = $derived(getVariantColors(variant, isActive));
 	const isClickable = typeof onclick === 'function';
-
-	const focusRingColor = $derived.by(() => {
-		if (disabled) return '';
-		switch (variant) {
-			case 'primary':
-				return 'focus:ring-primary-500';
-			case 'blue':
-				return 'focus:ring-blue-500';
-			case 'green':
-				return 'focus:ring-green-500';
-			case 'purple':
-				return 'focus:ring-purple-500';
-			case 'red':
-				return 'focus:ring-red-500';
-			case 'inactive':
-				return 'focus:ring-gray-400';
-			default:
-				return '';
-		}
-	});
+	const focusRingColor = $derived(disabled ? '' : 'focus:ring-ink');
 
 	function handleKeydown(e: KeyboardEvent & { currentTarget: EventTarget & HTMLDivElement }) {
 		if (disabled) return;
@@ -64,12 +45,12 @@
 
 <div
 	class={cn(
-		'p-4 rounded-lg flex-1 relative border transition-colors',
+		'p-3 rounded-[10px] flex-1 relative border transition-colors',
 		'focus:outline-none focus:ring-2 focus:ring-offset-2',
 		focusRingColor,
 		colors.bg,
 		colors.border,
-		!isActive && !disabled && 'hover:bg-gray-100 dark:hover:bg-gray-800/50',
+		!isActive && !disabled && 'hover:bg-accent-soft',
 		isClickable && 'cursor-pointer',
 		disabled && 'opacity-50 cursor-not-allowed focus:ring-0',
 		customClass
@@ -85,10 +66,10 @@
 		: {}}
 	{...restProps}
 >
-	<div class={cn('text-sm', colors.text)}>{title}</div>
-	<div class={cn('text-2xl font-bold', colors.valueText)}>{value}</div>
+	<div class={cn('text-xs', colors.text)}>{title}</div>
+	<div class={cn('text-lg font-semibold', colors.valueText)}>{value}</div>
 
-	<div class="absolute bottom-1 right-1 size-14">
+	<div class="absolute right-1 bottom-1 size-10">
 		{@render icon({
 			className: cn(
 				'w-full h-full transition-colors', //

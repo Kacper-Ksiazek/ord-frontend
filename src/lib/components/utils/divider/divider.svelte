@@ -5,11 +5,7 @@
 		color?: string;
 	}
 
-	let {
-		class: customClass = '',
-		orientation = 'horizontal',
-		color = 'bg-gray-800'
-	}: Props = $props();
+	let { class: customClass = '', orientation = 'horizontal', color = 'bg-line' }: Props = $props();
 
 	const baseClass = orientation === 'horizontal' ? 'h-px w-full my-2' : 'w-px h-full mx-2';
 	const classes = `${baseClass} ${color} ${customClass}`;

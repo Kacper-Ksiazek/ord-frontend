@@ -6,6 +6,7 @@ export interface AutoHeightTextareaProps {
 	value?: string;
 	placeholder?: string;
 	className?: string;
+	textareaClass?: string;
 	formField?: boolean;
 	disabled?: boolean;
 	/** Outlined semantic variant when `formField` is true; invalid length forces error chrome. */

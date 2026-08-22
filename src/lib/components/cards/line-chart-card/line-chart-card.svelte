@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Chart } from '@flowbite-svelte-plugins/chart';
-	import { cn } from 'flowbite-svelte';
+	import { ApexChart } from '$lib/components/charts/apex-chart';
+	import { cn } from '$lib/utils/cn';
 	import type { ApexOptions } from 'apexcharts';
 	import type { LineChartCardProps } from './line-chart-card.types';
 	import { getVariantColors } from '../icon-card/icon-card.constants';
@@ -150,7 +150,7 @@
 			aria-label={chartAriaLabel}
 			aria-hidden={chartAriaLabel ? undefined : true}
 		>
-			<Chart options={chartOptions} />
+			<ApexChart options={chartOptions} />
 		</div>
 	{:else}
 		<div

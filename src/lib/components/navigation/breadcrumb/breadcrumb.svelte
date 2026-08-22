@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import { ChevronRight } from 'lucide-svelte';
 	import type { BreadcrumbProps } from './breadcrumb.types';
 
