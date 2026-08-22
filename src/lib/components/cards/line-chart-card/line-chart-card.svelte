@@ -1,11 +1,12 @@
 <script lang="ts">
-	import { ApexChart } from '$lib/components/charts/apex-chart';
+	import { defineChart, areaY } from '@tanstack/charts';
+	import { scaleLinear } from '@tanstack/charts/scales/linear';
+	import { scalePoint } from '@tanstack/charts/scales/point';
+	import { TanStackChart, CHART_MARGINS_COMPACT } from '$lib/components/charts';
 	import { cn } from '$lib/utils/cn';
-	import type { ApexOptions } from 'apexcharts';
 	import type { LineChartCardProps } from './line-chart-card.types';
 	import { getVariantColors } from '../icon-card/icon-card.constants';
 	import { getLineColorForVariant } from './line-chart-card.constants';
-	import { themeStore } from '$lib/stores/theme.svelte';
 
 	let {
 		title,
@@ -23,57 +24,42 @@
 
 	const colors = $derived(getVariantColors(variant, isActive));
 	const isClickable = $derived(typeof onclick === 'function');
-	const isDark = $derived(themeStore.isDark);
-
 	const lineColor = $derived(getLineColorForVariant(variant, isActive));
 
-	const chartOptions: ApexOptions = $derived.by(() => {
-		const values = data.map((d) => d.value);
-		const opacityFrom = isDark ? 0.42 : 0.38;
+	const sparkRows = $derived(
+		data.map((point, index) => ({
+			id: String(index),
+			index,
+			value: point.value
+		}))
+	);
 
-		return {
-			chart: {
-				type: 'area',
-				height: 64,
-				width: '100%',
-				sparkline: { enabled: true },
-				toolbar: { show: false },
-				zoom: { enabled: false },
-				animations: { enabled: true }
-			},
-			series: [
-				{
-					name: title,
-					data: values
-				}
+	const definition = $derived(
+		defineChart({
+			marks: [
+				areaY(sparkRows, {
+					id: 'sparkline',
+					x: 'index',
+					y: 'value',
+					fill: lineColor,
+					fillOpacity: 0.25,
+					stroke: lineColor,
+					strokeWidth: 2
+				})
 			],
-			colors: [lineColor],
-			stroke: {
-				curve: 'smooth',
-				width: 2
+			x: {
+				scale: () => scalePoint<number>().padding(0.1),
+				axis: false
 			},
-			fill: {
-				type: 'gradient',
-				gradient: {
-					shadeIntensity: 1,
-					opacityFrom,
-					opacityTo: 0.04,
-					stops: [0, 90, 100]
-				}
+			y: {
+				scale: scaleLinear,
+				nice: true,
+				axis: false,
+				grid: false
 			},
-			dataLabels: { enabled: false },
-			tooltip: { enabled: false },
-			markers: { size: 0, hover: { size: 0 } },
-			xaxis: { labels: { show: false }, axisBorder: { show: false }, axisTicks: { show: false } },
-			yaxis: { show: false },
-			grid: { show: false },
-			legend: { show: false },
-			states: {
-				hover: { filter: { type: 'none' } },
-				active: { filter: { type: 'none' } }
-			}
-		};
-	});
+			margin: CHART_MARGINS_COMPACT
+		})
+	);
 
 	const focusRingColor = $derived.by(() => {
 		if (disabled) return '';
@@ -145,16 +131,16 @@
 
 	{#if data.length > 0}
 		<div
-			class="h-full w-full min-w-[4.5rem]"
+			class="h-16 w-full min-w-[4.5rem]"
 			role={chartAriaLabel ? 'img' : undefined}
 			aria-label={chartAriaLabel}
 			aria-hidden={chartAriaLabel ? undefined : true}
 		>
-			<ApexChart options={chartOptions} />
+			<TanStackChart {definition} ariaLabel={chartAriaLabel ?? title} height={64} initialWidth={120} />
 		</div>
 	{:else}
 		<div
-			class="h-full w-full min-w-[4.5rem] rounded bg-gray-100/60 dark:bg-gray-700/40"
+			class="h-16 w-full min-w-[4.5rem] rounded bg-gray-100/60 dark:bg-gray-700/40"
 			aria-hidden="true"
 		></div>
 	{/if}

@@ -77,9 +77,9 @@
 	},
 	"dependencies": {
 		"@kacper-ksiazek/ord-api-types": "^1.0.37",
+		"@tanstack/charts": "^0.14.0",
 		"@tanstack/svelte-hotkeys": "^0.9.1",
 		"@tanstack/svelte-query": "^6.0.5",
-		"apexcharts": "^6.10.0",
 		"axios": "^1.13.2",
 		"bits-ui": "^2.19.0",
 		"gravatar-url": "^4.0.1",
