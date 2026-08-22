@@ -18,7 +18,6 @@
 
 	const colors = $derived(getVariantColors(variant, isActive));
 	const isClickable = typeof onclick === 'function';
-	const focusRingColor = $derived(disabled ? '' : 'focus:ring-ink');
 
 	function handleKeydown(e: KeyboardEvent & { currentTarget: EventTarget & HTMLDivElement }) {
 		if (disabled) return;
@@ -46,13 +45,17 @@
 <div
 	class={cn(
 		'p-3 rounded-[10px] flex-1 relative border transition-colors',
-		'focus:outline-none focus:ring-2 focus:ring-offset-2',
-		focusRingColor,
+		'focus:outline-none',
 		colors.bg,
 		colors.border,
 		!isActive && !disabled && 'hover:bg-accent-soft',
+		isActive && 'ring-0 focus:ring-0 focus-visible:ring-0',
+		!isActive &&
+			isClickable &&
+			!disabled &&
+			'focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ink/15',
 		isClickable && 'cursor-pointer',
-		disabled && 'opacity-50 cursor-not-allowed focus:ring-0',
+		disabled && 'opacity-50 cursor-not-allowed',
 		customClass
 	)}
 	{...isClickable

@@ -5,12 +5,14 @@
 		DerivedAiAdviceCardProps
 	} from '../../ai-advice-base/ai-advice.types';
 	import AiAdviceBase from '../../ai-advice-base/ai-advice-base.svelte';
+	import { USER_MESSAGE_ANALYSIS_ICONS_MAP } from '$conversations/pages/session/constants/user-message-analysis/icons';
+	import { Check, X } from 'lucide-svelte';
 
 	interface Props extends DerivedAiAdviceCardProps {
 		mistake: ConversationMessageMistake;
 	}
 
-	let { mistake, isExpandable, defaultExpandState }: Props = $props();
+	let { mistake, isExpandable, defaultExpandState, showCategoryLabel = false }: Props = $props();
 
 	function toBlocks(mistake: ConversationMessageMistake): {
 		headerBlocks: AiAdviceBaseBlock[];
@@ -33,12 +35,17 @@
 					type: 'text',
 					label: 'Phrase',
 					text: mistake.phrase,
-					variant: 'red'
+					Icon: X,
+					iconClass: 'text-red-600 dark:text-red-400',
+					iconBgClass: 'bg-red-100/80 dark:bg-red-950/35'
 				},
 				{
 					type: 'text',
 					label: 'Correct form',
-					text: mistake.correctForm
+					text: mistake.correctForm,
+					Icon: Check,
+					iconClass: 'text-emerald-600 dark:text-emerald-400',
+					iconBgClass: 'bg-emerald-100/80 dark:bg-emerald-950/35'
 				}
 			],
 			bodyBlocks: [
@@ -55,4 +62,13 @@
 	const { headerBlocks, bodyBlocks } = $derived(toBlocks(mistake));
 </script>
 
-<AiAdviceBase {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />
+<AiAdviceBase
+	{color}
+	{headerBlocks}
+	{bodyBlocks}
+	{isExpandable}
+	{defaultExpandState}
+	{showCategoryLabel}
+	categoryLabel="Mistake"
+	categoryIcon={USER_MESSAGE_ANALYSIS_ICONS_MAP.MISTAKES}
+/>

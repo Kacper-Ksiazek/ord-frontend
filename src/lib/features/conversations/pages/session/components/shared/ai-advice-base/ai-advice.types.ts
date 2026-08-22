@@ -40,9 +40,13 @@ export interface TextBlock extends BaseBlock {
 	type: 'text';
 	label: string;
 	text: string;
-	/** Optional icon (e.g., EXPLANATION_ICON) */
+	/** Optional leading icon (e.g. X for incorrect phrase, check for correction) */
 	Icon?: LucideIcon;
-	/** Variant for styling */
+	/** Tailwind classes for {@link Icon} */
+	iconClass?: string;
+	/** Subtle rounded background behind {@link Icon} */
+	iconBgClass?: string;
+	/** Variant for legacy dot swatch when no Icon is set */
 	variant?: TailwindColor;
 }
 
@@ -68,6 +72,12 @@ export interface DerivedAiAdviceCardProps {
 	isExpandable?: boolean;
 	/** Whether the card starts expanded or collapsed. Defaults to false (collapsed). */
 	defaultExpandState?: boolean;
+	/** Show a subtle category label (e.g. when browsing all item types). */
+	showCategoryLabel?: boolean;
+	/** Category label text paired with {@link categoryIcon}. */
+	categoryLabel?: string;
+	/** Category icon paired with {@link categoryLabel}. */
+	categoryIcon?: LucideIcon;
 }
 
 export interface AiAdviceBaseProps extends DerivedAiAdviceCardProps {

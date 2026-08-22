@@ -21,7 +21,7 @@ export const VARIANT_STYLES: IconCardStyles = {
 
 	neutral: {
 		bg: 'bg-accent-soft',
-		border: 'border-ink',
+		border: 'border-transparent',
 		text: 'text-ink-muted',
 		valueText: 'text-ink',
 		icon: 'opacity-[0.18] text-ink-muted'
@@ -29,7 +29,7 @@ export const VARIANT_STYLES: IconCardStyles = {
 
 	primary: {
 		bg: 'bg-accent-soft',
-		border: 'border-ink',
+		border: 'border-transparent',
 		text: 'text-ink-muted',
 		valueText: 'text-ink',
 		icon: 'opacity-[0.18] text-ink-muted'
@@ -37,7 +37,7 @@ export const VARIANT_STYLES: IconCardStyles = {
 
 	blue: {
 		bg: 'bg-accent-soft',
-		border: 'border-ink',
+		border: 'border-transparent',
 		text: 'text-ink-muted',
 		valueText: 'text-ink',
 		icon: 'opacity-[0.2] text-blue-600 dark:text-blue-400'
@@ -45,7 +45,7 @@ export const VARIANT_STYLES: IconCardStyles = {
 
 	green: {
 		bg: 'bg-accent-soft',
-		border: 'border-ink',
+		border: 'border-transparent',
 		text: 'text-ink-muted',
 		valueText: 'text-ink',
 		icon: 'opacity-[0.2] text-emerald-600 dark:text-emerald-400'
@@ -53,7 +53,7 @@ export const VARIANT_STYLES: IconCardStyles = {
 
 	red: {
 		bg: 'bg-accent-soft',
-		border: 'border-ink',
+		border: 'border-transparent',
 		text: 'text-ink-muted',
 		valueText: 'text-ink',
 		icon: 'opacity-[0.2] text-red-600 dark:text-red-400'
@@ -61,7 +61,7 @@ export const VARIANT_STYLES: IconCardStyles = {
 
 	purple: {
 		bg: 'bg-accent-soft',
-		border: 'border-ink',
+		border: 'border-transparent',
 		text: 'text-ink-muted',
 		valueText: 'text-ink',
 		icon: 'opacity-[0.2] text-violet-600 dark:text-violet-400'

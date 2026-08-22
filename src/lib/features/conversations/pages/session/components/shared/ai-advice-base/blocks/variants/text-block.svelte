@@ -20,15 +20,16 @@
 
 <div class="flex flex-col gap-0.5">
 	<p class="analysis-card-label">{block.label}</p>
-	<p class="analysis-card-text">
-		{#if highlightSwatch}
+	<p class="analysis-card-text flex items-center gap-1.5">
+		{#if block.Icon}
 			<span
-				class={cn(
-					'mr-1.5 mb-px inline-block h-2 w-2 shrink-0 rounded-full align-middle',
-					highlightSwatch
-				)}
-				aria-hidden="true"
-			></span>
-		{/if}{block.text}
+				class={cn('flex size-5 shrink-0 items-center justify-center rounded-md', block.iconBgClass)}
+			>
+				<block.Icon class={cn('size-3.5', block.iconClass)} aria-hidden="true" />
+			</span>
+		{:else if highlightSwatch}
+			<span class={cn('size-2 shrink-0 rounded-full', highlightSwatch)} aria-hidden="true" />
+		{/if}
+		<span class="min-w-0">{block.text}</span>
 	</p>
 </div>

@@ -5,12 +5,13 @@
 		DerivedAiAdviceCardProps
 	} from '../../ai-advice-base/ai-advice.types';
 	import AiAdviceBase from '../../ai-advice-base/ai-advice-base.svelte';
+	import { USER_MESSAGE_ANALYSIS_ICONS_MAP } from '$conversations/pages/session/constants/user-message-analysis/icons';
 
 	interface Props extends DerivedAiAdviceCardProps {
 		strength: ConversationMessageStrength;
 	}
 
-	let { strength, isExpandable, defaultExpandState }: Props = $props();
+	let { strength, isExpandable, defaultExpandState, showCategoryLabel = false }: Props = $props();
 
 	function toBlocks(strength: ConversationMessageStrength): {
 		headerBlocks: AiAdviceBaseBlock[];
@@ -45,4 +46,13 @@
 	const { headerBlocks, bodyBlocks } = $derived(toBlocks(strength));
 </script>
 
-<AiAdviceBase {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />
+<AiAdviceBase
+	{color}
+	{headerBlocks}
+	{bodyBlocks}
+	{isExpandable}
+	{defaultExpandState}
+	{showCategoryLabel}
+	categoryLabel="Strength"
+	categoryIcon={USER_MESSAGE_ANALYSIS_ICONS_MAP.STRENGTHS}
+/>

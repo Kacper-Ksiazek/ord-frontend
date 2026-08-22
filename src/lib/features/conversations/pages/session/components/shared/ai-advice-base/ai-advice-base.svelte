@@ -11,7 +11,10 @@
 		bodyBlocks,
 		color,
 		isExpandable = true,
-		defaultExpandState = false
+		defaultExpandState = false,
+		showCategoryLabel = false,
+		categoryLabel,
+		categoryIcon: CategoryIcon
 	}: AiAdviceBaseProps = $props();
 
 	const baseTheme = $derived(getTailwindColorTheme(color));
@@ -19,12 +22,21 @@
 		...baseTheme,
 		iconColor: baseTheme.adviceIconColor
 	});
-	let isCollapsed = $state(!defaultExpandState);
+	let userCollapsedOverride = $state<boolean | undefined>(undefined);
 	let scrollRef: HTMLElement | undefined = $state(undefined);
+
+	$effect(() => {
+		void defaultExpandState;
+		userCollapsedOverride = undefined;
+	});
+
+	const isCollapsed = $derived(
+		userCollapsedOverride !== undefined ? userCollapsedOverride : !defaultExpandState
+	);
 
 	function toggleExpandCollapse() {
 		const wasCollapsed = isCollapsed;
-		isCollapsed = !isCollapsed;
+		userCollapsedOverride = !isCollapsed;
 
 		if (wasCollapsed && isExpandable) {
 			setTimeout(() => {
@@ -59,6 +71,24 @@
 	}}
 >
 	<div class="flex flex-col gap-4">
+		{#if showCategoryLabel && categoryLabel}
+			<div
+				class="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wide text-ink-muted"
+			>
+				{#if CategoryIcon}
+					<span
+						class={cn(
+							'flex size-5 shrink-0 items-center justify-center rounded-md',
+							baseTheme.iconChipBg
+						)}
+					>
+						<CategoryIcon class={cn('size-3.5 shrink-0', baseTheme.iconColor)} aria-hidden="true" />
+					</span>
+				{/if}
+				<span>{categoryLabel}</span>
+			</div>
+		{/if}
+
 		{#each headerBlocks as block (block)}
 			<BlockRenderer {block} {theme} />
 		{/each}

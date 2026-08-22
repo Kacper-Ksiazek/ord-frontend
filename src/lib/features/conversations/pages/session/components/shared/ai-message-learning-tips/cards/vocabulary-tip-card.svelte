@@ -5,12 +5,13 @@
 		DerivedAiAdviceCardProps
 	} from '../../ai-advice-base/ai-advice.types';
 	import AiAdviceBase from '../../ai-advice-base/ai-advice-base.svelte';
+	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
 
 	interface Props extends DerivedAiAdviceCardProps {
 		tip: AIMessageVocabularyTip;
 	}
 
-	let { tip, isExpandable, defaultExpandState }: Props = $props();
+	let { tip, isExpandable, defaultExpandState, showCategoryLabel = false }: Props = $props();
 
 	function toBlocks(tip: AIMessageVocabularyTip): {
 		headerBlocks: AiAdviceBaseBlock[];
@@ -61,4 +62,13 @@
 	const { headerBlocks, bodyBlocks } = $derived(toBlocks(tip));
 </script>
 
-<AiAdviceBase {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />
+<AiAdviceBase
+	{color}
+	{headerBlocks}
+	{bodyBlocks}
+	{isExpandable}
+	{defaultExpandState}
+	{showCategoryLabel}
+	categoryLabel="Vocabulary"
+	categoryIcon={AI_MESSAGE_LEARNING_TIP_ICONS_MAP.VOCABULARY}
+/>

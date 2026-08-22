@@ -12,7 +12,7 @@
 		/** When false, all segments are gray (e.g. no mistakes in this category on the chart). */
 		hasMistakes?: boolean;
 		/**
-		 * `stack` — dots above label (chart legend). `inline` — label then dots on one row (e.g. mistake card).
+		 * `stack` — dots above label (chart legend). `inline` — dots then label on one row (e.g. mistake card).
 		 */
 		layout?: 'stack' | 'inline';
 	}
@@ -36,9 +36,6 @@
 		className
 	)}
 >
-	{#if isInline && showLabel}
-		<span class="whitespace-nowrap text-xs text-ink-muted">{severityLabel}</span>
-	{/if}
 	<div class={cn('flex items-center gap-0.5', isInline && 'shrink-0')}>
 		{#each [0, 1, 2] as i (i)}
 			<div
@@ -46,6 +43,9 @@
 			></div>
 		{/each}
 	</div>
+	{#if isInline && showLabel}
+		<span class="whitespace-nowrap text-xs text-ink-muted">{severityLabel}</span>
+	{/if}
 	{#if !isInline && showLabel}
 		<span class="text-xs text-ink-muted">{severityLabel}</span>
 	{/if}

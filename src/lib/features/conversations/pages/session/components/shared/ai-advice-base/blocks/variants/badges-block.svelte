@@ -13,7 +13,11 @@
 </script>
 
 <div class="flex items-center justify-between gap-3">
-	<div class="flex flex-wrap gap-1">
+	{#if block.severity}
+		<MistakeSeverityIndicator severity={block.severity.value} layout="inline" class="shrink-0" />
+	{/if}
+
+	<div class="flex flex-1 flex-wrap justify-end gap-1">
 		{#each block.badges as badge (badge.text)}
 			<Badge color="gray" class="flex items-center gap-1">
 				{#if badge.Icon}
@@ -23,8 +27,4 @@
 			</Badge>
 		{/each}
 	</div>
-
-	{#if block.severity}
-		<MistakeSeverityIndicator severity={block.severity.value} layout="inline" class="shrink-0" />
-	{/if}
 </div>

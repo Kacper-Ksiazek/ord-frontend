@@ -10,6 +10,8 @@ export interface TailwindColorTheme {
 	adviceCardHover: string;
 	/** Icons inside AiAdviceBase */
 	adviceIconColor: string;
+	/** Subtle tinted chip behind category-type icons (browse-all mode) */
+	iconChipBg: string;
 	/** Border color classes for larger chrome (e.g. highlight popovers) */
 	cardBorder: string;
 	/** Text color classes for standard text content */
@@ -35,6 +37,7 @@ const TailwindColorThemeMap: Partial<Record<TailwindColor, TailwindColorTheme>> 
 		adviceCardBorder: 'border-line',
 		adviceCardHover: 'hover:bg-accent-soft',
 		adviceIconColor: 'text-ink-muted',
+		iconChipBg: 'bg-red-100/80 dark:bg-red-950/35',
 		cardBorder: 'border-line',
 		text: 'text-red-700 dark:text-red-400',
 		iconColor: 'text-red-600 dark:text-red-400',
@@ -50,6 +53,7 @@ const TailwindColorThemeMap: Partial<Record<TailwindColor, TailwindColorTheme>> 
 		adviceCardBorder: 'border-line',
 		adviceCardHover: 'hover:bg-accent-soft',
 		adviceIconColor: 'text-ink-muted',
+		iconChipBg: 'bg-emerald-100/80 dark:bg-emerald-950/35',
 		cardBorder: 'border-line',
 		text: 'text-emerald-700 dark:text-emerald-400',
 		iconColor: 'text-emerald-600 dark:text-emerald-400',
@@ -65,6 +69,7 @@ const TailwindColorThemeMap: Partial<Record<TailwindColor, TailwindColorTheme>> 
 		adviceCardBorder: 'border-line',
 		adviceCardHover: 'hover:bg-accent-soft',
 		adviceIconColor: 'text-ink-muted',
+		iconChipBg: 'bg-blue-100/80 dark:bg-blue-950/35',
 		cardBorder: 'border-line',
 		text: 'text-blue-700 dark:text-blue-400',
 		iconColor: 'text-blue-600 dark:text-blue-400',
@@ -80,6 +85,7 @@ const TailwindColorThemeMap: Partial<Record<TailwindColor, TailwindColorTheme>> 
 		adviceCardBorder: 'border-line',
 		adviceCardHover: 'hover:bg-accent-soft',
 		adviceIconColor: 'text-ink-muted',
+		iconChipBg: 'bg-violet-100/80 dark:bg-violet-950/35',
 		cardBorder: 'border-line',
 		text: 'text-violet-700 dark:text-violet-400',
 		iconColor: 'text-violet-600 dark:text-violet-400',
