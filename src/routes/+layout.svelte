@@ -1,7 +1,8 @@
 <script lang="ts">
-	import '../app.css';
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
+	import { Tooltip } from 'bits-ui';
 	import favicon from '$lib/assets/favicon.ico';
+	import '../app.css';
 
 	const { children } = $props();
 
@@ -21,7 +22,9 @@
 </svelte:head>
 
 <QueryClientProvider client={queryClient}>
-	<div class="app-bg-col h-screen w-screen overflow-hidden">
-		{@render children()}
-	</div>
+	<Tooltip.Provider delayDuration={200}>
+		<div class="app-bg-col h-screen w-screen overflow-hidden">
+			{@render children()}
+		</div>
+	</Tooltip.Provider>
 </QueryClientProvider>

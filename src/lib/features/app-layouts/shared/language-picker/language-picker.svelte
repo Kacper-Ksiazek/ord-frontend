@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { Dropdown, DropdownItem, cn } from 'flowbite-svelte';
+	import { DropdownMenu } from 'bits-ui';
 	import { ChevronDown } from 'lucide-svelte';
 	import { getLocale, setLocale } from '$lib/paraglide/runtime';
 	import CountryFlag from '$lib/assets/images/country-flags/country-flag.svelte';
 	import type { LanguageName } from '$lib/types/core/domain/languages';
+	import { cn } from '$lib/utils/cn';
 
 	type Locale = 'en' | 'pl' | 'de';
 
@@ -26,30 +27,32 @@
 	);
 </script>
 
-<button
-	class="p-2.5 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50
-		focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-600
-		dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-600
-		flex items-center gap-1.5"
-	aria-label="Change language"
-	type="button"
->
-	<CountryFlag flag={currentLanguage.languageName} class="w-5 h-5" />
-	<span class="text-sm font-medium">{currentLanguage.label}</span>
-	<ChevronDown class="w-3 h-3" />
-</button>
+<DropdownMenu.Root>
+	<DropdownMenu.Trigger
+		class="flex items-center gap-1.5 rounded-[10px] border border-line bg-surface p-2.5 text-ink
+			hover:bg-accent-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-ink/20"
+		aria-label="Change language"
+	>
+		<CountryFlag flag={currentLanguage.languageName} class="w-5 h-5" />
+		<span class="text-sm font-medium">{currentLanguage.label}</span>
+		<ChevronDown class="w-3 h-3" />
+	</DropdownMenu.Trigger>
 
-<Dropdown class="w-40 bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600">
-	{#each languages as language (language.code)}
-		<DropdownItem
-			onclick={() => handleLanguageSelect(language.code)}
-			class={cn(
-				'w-full list-none text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center gap-2',
-				currentLocale === language.code && 'font-semibold'
-			)}
-		>
-			<CountryFlag flag={language.languageName} class="w-4 h-4" />
-			{language.name}
-		</DropdownItem>
-	{/each}
-</Dropdown>
+	<DropdownMenu.Portal>
+		<DropdownMenu.Content class="overlay-surface z-50 mt-1 w-40 p-1" align="end" sideOffset={4}>
+			{#each languages as language (language.code)}
+				<DropdownMenu.Item
+					onSelect={() => handleLanguageSelect(language.code)}
+					class={cn(
+						'flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm text-ink',
+						'outline-none hover:bg-accent-soft',
+						currentLocale === language.code && 'font-medium'
+					)}
+				>
+					<CountryFlag flag={language.languageName} class="w-4 h-4" />
+					{language.name}
+				</DropdownMenu.Item>
+			{/each}
+		</DropdownMenu.Content>
+	</DropdownMenu.Portal>
+</DropdownMenu.Root>
