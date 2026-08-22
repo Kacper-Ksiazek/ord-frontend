@@ -51,6 +51,7 @@ Covers: `src/lib/components`, `src/lib/features/**/components`.
 - [x] Props typing and defaults (+ types files, sub-components, component stores)
 - [x] Snippets, file naming, colocated stories
 - [x] Local snippets for complex conditional/looped markup
+- [x] Session summary panel vs thread responsibilities
 
 ### styling/ — Tailwind & theming
 
@@ -60,6 +61,7 @@ Covers: `src/app.css`, `src/lib/styles`, `src/lib/stores/theme.svelte.ts`, compo
 - [x] Theme (dark/light) handling patterns
 - [x] Tailwind 4 conventions used in the repo
 - [x] bits-ui headless primitives + Quiet studio tokens
+- [x] TanStack Charts (`$lib/components/charts`, no Apex)
 
 ### api-design/ — API client & data fetching
 
