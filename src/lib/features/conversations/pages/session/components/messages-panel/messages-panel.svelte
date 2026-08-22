@@ -59,6 +59,29 @@
 			});
 		}
 	});
+
+	/** Jump to a message when the summary panel requests it (e.g. score table row click). */
+	$effect(() => {
+		const targetIndex = sidepanelContext.scrollToMessageIndex;
+
+		if (targetIndex == null || !scrollContainer) {
+			return;
+		}
+
+		const message = messagesContext.messages[targetIndex];
+		const testId =
+			message?.sender === 'USER'
+				? E2E_TEST_IDS.session.userMessage(targetIndex)
+				: E2E_TEST_IDS.session.aiMessage(targetIndex);
+
+		const el = scrollContainer.querySelector(`[data-testid="${testId}"]`);
+
+		if (el) {
+			el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+		}
+
+		sidepanelContext.scrollToMessageIndex = null;
+	});
 </script>
 
 <div
@@ -71,7 +94,7 @@
 >
 	<div
 		class={cn(
-			'flex flex-col mx-auto h-full shrink-0 relative', //
+			'flex flex-col mx-auto h-full min-h-0 shrink-0 relative',
 			!sidepanelContext.isOpened && 'w-full'
 		)}
 	>

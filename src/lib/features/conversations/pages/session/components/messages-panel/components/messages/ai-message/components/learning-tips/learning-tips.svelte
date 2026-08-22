@@ -10,7 +10,10 @@
 	import HighlightsCountBadge from '$conversations/pages/session/components/shared/highlights-count-badge.svelte';
 	import AiMessageLearningTipIcon from '$conversations/pages/session/components/shared/ai-message-learning-tips/ai-message-learning-tip-icon.svelte';
 	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
-	import { getSidepanelContext } from '$conversations/pages/session/contexts/sidepanel-context.svelte';
+	import {
+		getSidepanelContext,
+		openSummaryForMessage
+	} from '$conversations/pages/session/contexts/sidepanel-context.svelte';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 
 	interface LearningTipsProps {
@@ -26,7 +29,9 @@
 	const sidepanelContext = getSidepanelContext();
 
 	const isSelected = $derived(
-		sidepanelContext.isOpened && sidepanelContext.learningTipsPreviewMessageOrder === messageIndex
+		sidepanelContext.isOpened &&
+			sidepanelContext.summaryTab === 'learning-tips' &&
+			sidepanelContext.filterMessageOrder === messageIndex
 	);
 
 	const grammarTipsCount = $derived(size(learningTips?.grammarTips));
@@ -64,19 +69,15 @@
 	isGenerating={isGeneratingTips}
 	{isSelected}
 	onPreviewContentClick={(e) => {
-		const isSameMessageClickedAgain =
-			sidepanelContext.learningTipsPreviewMessageOrder === messageIndex;
+		const isSameMessageFilter =
+			sidepanelContext.summaryTab === 'learning-tips' &&
+			sidepanelContext.filterMessageOrder === messageIndex;
 
-		if (isSameMessageClickedAgain) {
+		if (sidepanelContext.isOpened && isSameMessageFilter) {
 			sidepanelContext.isOpened = false;
-
-			setTimeout(() => {
-				sidepanelContext.learningTipsPreviewMessageOrder = null;
-			}, 300);
+			sidepanelContext.filterMessageOrder = null;
 		} else {
-			sidepanelContext.isOpened = true;
-			sidepanelContext.learningTipsPreviewMessageOrder = messageIndex;
-			sidepanelContext.analysisPreview = null;
+			openSummaryForMessage(sidepanelContext, 'learning-tips', messageIndex);
 		}
 
 		(e.target as HTMLElement).blur();

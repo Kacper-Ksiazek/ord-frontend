@@ -1,7 +1,10 @@
 <script lang="ts">
 	import type { ConversationUserMessageAnalysisDTO } from '$conversations/types';
 	import type { MessageAnalysisCriteria } from '$conversations/types';
-	import { getSidepanelContext } from '$conversations/pages/session/contexts/sidepanel-context.svelte';
+	import {
+		getSidepanelContext,
+		openSummaryForMessage
+	} from '$conversations/pages/session/contexts/sidepanel-context.svelte';
 	import AiPostProcessActionBase from '../../../ai-post-process-action-base/ai-post-process-action-base.svelte';
 	import HighlightsCountBadge from '$conversations/pages/session/components/shared/highlights-count-badge.svelte';
 	import AnalysisMetricIcon from '$conversations/pages/session/components/shared/user-message-analysis/user-message-analysis-metric-icon.svelte';
@@ -27,7 +30,9 @@
 	const sidepanelContext = getSidepanelContext();
 
 	const isSelected = $derived(
-		sidepanelContext.isOpened && sidepanelContext.analysisPreview?.id === analysis?.id
+		sidepanelContext.isOpened &&
+			sidepanelContext.summaryTab === 'analysis' &&
+			sidepanelContext.filterMessageOrder === messageIndex
 	);
 
 	const findings = $derived(
@@ -57,18 +62,15 @@
 	isGenerating={showAnalysisLoading}
 	{isSelected}
 	onPreviewContentClick={(e) => {
-		const isTheSameAnalysisClickedAgain = sidepanelContext.analysisPreview?.id === analysis?.id;
+		const isSameMessageFilter =
+			sidepanelContext.summaryTab === 'analysis' &&
+			sidepanelContext.filterMessageOrder === messageIndex;
 
-		if (isTheSameAnalysisClickedAgain) {
+		if (sidepanelContext.isOpened && isSameMessageFilter) {
 			sidepanelContext.isOpened = false;
-
-			setTimeout(() => {
-				sidepanelContext.analysisPreview = null;
-			}, 300);
+			sidepanelContext.filterMessageOrder = null;
 		} else {
-			sidepanelContext.isOpened = true;
-			sidepanelContext.analysisPreview = analysis;
-			sidepanelContext.learningTipsPreviewMessageOrder = null;
+			openSummaryForMessage(sidepanelContext, 'analysis', messageIndex);
 		}
 
 		(e.target as HTMLElement).blur();

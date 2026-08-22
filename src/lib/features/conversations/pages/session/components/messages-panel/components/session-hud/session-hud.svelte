@@ -2,7 +2,10 @@
 	import { Button } from '$lib/components/buttons/button';
 	import { Badge } from '$lib/components/utils/badge';
 	import { getConversationContext } from '$conversations/pages/session/contexts/conversation-context.svelte';
-	import { getSidepanelContext } from '$conversations/pages/session/contexts/sidepanel-context.svelte';
+	import {
+		getSidepanelContext,
+		openSummary
+	} from '$conversations/pages/session/contexts/sidepanel-context.svelte';
 	import { getMessagesContext } from '$conversations/pages/session/contexts/messages-context.svelte';
 	import { getConversationTypeLabel, getConversationToneLabel } from '$conversations/shared/utils';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
@@ -16,6 +19,14 @@
 	const summaryLabel = $derived(
 		sidepanelContext.isOpened ? 'Switch to full width layout' : 'Switch to split layout'
 	);
+
+	const hudIconButtonClass =
+		'size-9! min-h-9 min-w-9 shrink-0 border-none p-0 hover:bg-accent-soft [&>span]:justify-center';
+	const hudTextButtonClass =
+		'h-9! min-h-9 shrink-0 border-none pl-2 pr-0 hover:bg-accent-soft [&>span]:justify-start';
+	const hudButtonClass = $derived(
+		sidepanelContext.isOpened ? hudIconButtonClass : hudTextButtonClass
+	);
 </script>
 
 <div class="relative z-10 mb-3 shrink-0 w-full">
@@ -28,7 +39,7 @@
 				ariaLabel="Go back"
 				title="Go back"
 				onClick={() => goto('/conversations')}
-				class="h-9! min-h-9 shrink-0 border-none pl-2 pr-0 hover:bg-accent-soft [&>span]:justify-start"
+				class={hudButtonClass}
 			>
 				<span class="inline-flex items-center gap-1.5 text-sm leading-none">
 					<ChevronLeft class="size-4 shrink-0" />
@@ -62,8 +73,15 @@
 			ariaLabel={summaryLabel}
 			title={summaryLabel}
 			disabled={messagesContext.messages.length < 2}
-			onClick={() => (sidepanelContext.isOpened = !sidepanelContext.isOpened)}
-			class="h-9! min-h-9 shrink-0 border-none pl-2 pr-0 hover:bg-accent-soft [&>span]:justify-start"
+			onClick={() => {
+				if (sidepanelContext.isOpened) {
+					sidepanelContext.isOpened = false;
+					sidepanelContext.filterMessageOrder = null;
+				} else {
+					openSummary(sidepanelContext, 'verdict');
+				}
+			}}
+			class={hudButtonClass}
 		>
 			<span class="inline-flex items-center gap-1.5 text-sm leading-none">
 				{#if sidepanelContext.isOpened}
