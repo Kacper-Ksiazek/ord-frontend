@@ -6,12 +6,13 @@ export function aggregateAnalysis(
 ): AggregatedAnalysisItem[] {
 	const result: AggregatedAnalysisItem[] = [];
 
-	for (const message of messages) {
+	for (let messageOrder = 0; messageOrder < messages.length; messageOrder++) {
+		const message = messages[messageOrder];
+
 		if (message.sender !== 'USER' || !message.analysis) continue;
 
 		const createdAt = new Date(message.createdAt);
 
-		// Aggregate mistakes
 		for (const mistake of message.analysis.mistakes ?? []) {
 			result.push({
 				type: 'MISTAKES',
@@ -19,11 +20,11 @@ export function aggregateAnalysis(
 				phrase: mistake.phrase,
 				explanation: mistake.explanation,
 				createdAt,
+				messageOrder,
 				searchableText: `${mistake.phrase} ${mistake.correctForm} ${mistake.explanation}`.toLowerCase()
 			});
 		}
 
-		// Aggregate strengths
 		for (const strength of message.analysis.strengths ?? []) {
 			result.push({
 				type: 'STRENGTHS',
@@ -31,11 +32,11 @@ export function aggregateAnalysis(
 				phrase: strength.phrase,
 				explanation: strength.explanation,
 				createdAt,
+				messageOrder,
 				searchableText: `${strength.phrase} ${strength.explanation}`.toLowerCase()
 			});
 		}
 
-		// Aggregate suggestions
 		for (const suggestion of message.analysis.suggestions ?? []) {
 			const alternativesText = suggestion.alternatives.join(' ');
 			result.push({
@@ -44,6 +45,7 @@ export function aggregateAnalysis(
 				phrase: suggestion.original,
 				explanation: suggestion.explanation,
 				createdAt,
+				messageOrder,
 				searchableText:
 					`${suggestion.original} ${alternativesText} ${suggestion.explanation}`.toLowerCase()
 			});

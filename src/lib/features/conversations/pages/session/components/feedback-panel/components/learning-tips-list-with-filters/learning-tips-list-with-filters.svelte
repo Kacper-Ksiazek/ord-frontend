@@ -20,6 +20,7 @@
 	import { getAiMessageLearningTipColorName } from '$conversations/pages/session/constants/ai-message-learning-tips/colors';
 	import { PHRASE_TYPE_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/subcategory-icons';
 	import AnalysisListWithFiltersBase from '../../shared/analysis-list-with-filters-base/analysis-list-with-filters-base.svelte';
+	import { getSidepanelContext } from '$conversations/pages/session/contexts/sidepanel-context.svelte';
 	import {
 		GrammarTipCard,
 		PhraseTipCard,
@@ -42,6 +43,8 @@
 	}
 
 	const { data }: Props = $props();
+
+	const sidepanelContext = getSidepanelContext();
 
 	const defaultLearningTipsFilters: LearningTipsFilters = {
 		category: 'ALL',
@@ -70,7 +73,11 @@
 	}
 
 	const aggregatedTips = $derived.by<FilterableItem<Data, Category, Subcategory>[]>(() => {
-		return aggregateLearningTips(Array.isArray(data) ? data : [data]) //
+		const messageOrderFilter =
+			sidepanelContext.summaryTab === 'learning-tips' ? sidepanelContext.filterMessageOrder : null;
+
+		return aggregateLearningTips(Array.isArray(data) ? data : [data])
+			.filter((tip) => messageOrderFilter == null || tip.messageOrder === messageOrderFilter)
 			.map((tip) => {
 				const subcategory: Subcategory = tip.type === 'PHRASES' ? tip.data.phraseType : null;
 
@@ -156,6 +163,8 @@
 			}
 		];
 	});
+
+	const showCategoryLabels = $derived(filters.category === 'ALL');
 </script>
 
 <AnalysisListWithFiltersBase
@@ -164,6 +173,8 @@
 	bind:filters
 	defaultFilters={defaultLearningTipsFilters}
 	{evaluateCustomFilters}
+	itemKey={(item) =>
+		`${item.data.messageOrder}-${item.data.type}-${item.data.phrase}-${item.data.searchableText.slice(0, 24)}`}
 >
 	{#snippet emptyNoData()}
 		<Inbox
@@ -197,11 +208,23 @@
 
 	{#snippet listItem({ item, defaultExpandState })}
 		{#if item.data.type === 'GRAMMAR'}
-			<GrammarTipCard tip={item.data.data as AIMessageGrammarTip} {defaultExpandState} />
+			<GrammarTipCard
+				tip={item.data.data as AIMessageGrammarTip}
+				{defaultExpandState}
+				showCategoryLabel={showCategoryLabels}
+			/>
 		{:else if item.data.type === 'VOCABULARY'}
-			<VocabularyTipCard tip={item.data.data as AIMessageVocabularyTip} {defaultExpandState} />
+			<VocabularyTipCard
+				tip={item.data.data as AIMessageVocabularyTip}
+				{defaultExpandState}
+				showCategoryLabel={showCategoryLabels}
+			/>
 		{:else if item.data.type === 'PHRASES'}
-			<PhraseTipCard tip={item.data.data as AIMessagePhraseTip} {defaultExpandState} />
+			<PhraseTipCard
+				tip={item.data.data as AIMessagePhraseTip}
+				{defaultExpandState}
+				showCategoryLabel={showCategoryLabels}
+			/>
 		{/if}
 	{/snippet}
 </AnalysisListWithFiltersBase>

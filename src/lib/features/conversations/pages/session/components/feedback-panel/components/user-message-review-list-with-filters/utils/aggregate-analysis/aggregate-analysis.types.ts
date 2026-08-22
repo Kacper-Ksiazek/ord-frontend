@@ -9,6 +9,8 @@ interface AggregatedAnalysisItemBase {
 	searchableText: string;
 	explanation: string;
 	createdAt: Date;
+	/** Global index in `messagesContext.messages`. */
+	messageOrder: number;
 }
 
 export interface AggregatedMistake extends AggregatedAnalysisItemBase {

@@ -14,6 +14,7 @@
 	import isEmpty from 'lodash/isEmpty';
 	import { Inbox, RotateCcwIcon } from 'lucide-svelte';
 	import type { AnalysisListWithFiltersBaseProps } from './types/props';
+	import type { FilterableItem } from './types/utility-types';
 	import CategoriesAndSubcategories from './components/categories-and-subcategories.svelte';
 	import Filters from './components/filters.svelte';
 	import { applyFilters } from './utils/apply-filters';
@@ -21,6 +22,9 @@
 	import { Button } from '$lib/components/buttons/button';
 	import { cubicOut } from 'svelte/easing';
 	import { slide } from 'svelte/transition';
+	import { cn } from '$lib/utils/cn';
+
+	const PAGE_SIZE = 20;
 
 	let {
 		items,
@@ -28,6 +32,8 @@
 		filters = $bindable(),
 		customFilters,
 		listItem,
+		itemKey = (item: FilterableItem<TData, TCategory, TSubcategory>) =>
+			`${item.category}-${item.subcategory ?? 'none'}-${item.searchableText}`,
 		evaluateCustomFilters,
 		areFiltersClearable,
 		defaultFilters,
@@ -36,6 +42,8 @@
 	}: AnalysisListWithFiltersBaseProps<TData, TCategory, TSubcategory, TFilters> = $props();
 
 	let showCategoryCards = $state(true);
+	let visibleLimit = $state(PAGE_SIZE);
+	let scrollContainer: HTMLDivElement | undefined = $state(undefined);
 
 	const computedAreFiltersClearable = $derived(
 		areFiltersClearable ??
@@ -49,11 +57,38 @@
 
 	const filteredItems = $derived(
 		applyFilters({
-			evaluateCustomFilters, //
+			evaluateCustomFilters,
 			items,
 			filters
 		})
 	);
+
+	const visibleItems = $derived(filteredItems.slice(0, visibleLimit));
+	const hiddenItemCount = $derived(Math.max(0, filteredItems.length - visibleLimit));
+	const filterResetKey = $derived(
+		`${filters.category}-${filters.subcategory}-${filters.searchQuery}-${filters.defaultExpandState ?? false}`
+	);
+
+	const listScrollKey = $derived(`${filters.category}-${filters.subcategory ?? 'none'}`);
+
+	let lastFilterResetKey = $state('');
+
+	$effect(() => {
+		if (filterResetKey !== lastFilterResetKey) {
+			lastFilterResetKey = filterResetKey;
+			visibleLimit = PAGE_SIZE;
+		}
+	});
+
+	$effect(() => {
+		void listScrollKey;
+
+		if (!scrollContainer) {
+			return;
+		}
+
+		scrollContainer.scrollTo({ top: 0, behavior: 'instant' });
+	});
 
 	function clearFilters() {
 		if (defaultFilters) {
@@ -67,30 +102,50 @@
 			});
 		}
 	}
+
+	function showMoreItems() {
+		visibleLimit += PAGE_SIZE;
+	}
 </script>
 
-{#if showCategoryCards}
-	<div class="overflow-hidden -m-1.5 p-1.5" transition:slide={{ duration: 220, easing: cubicOut }}>
-		<CategoriesAndSubcategories {categories} bind:filters />
-	</div>
-{/if}
+<div class="flex h-full min-h-0 flex-col gap-4">
+	{#if showCategoryCards}
+		<div class="overflow-hidden -m-1.5 p-1.5" transition:slide={{ duration: 220, easing: cubicOut }}>
+			<CategoriesAndSubcategories {categories} bind:filters />
+		</div>
+	{/if}
 
-<Filters
-	bind:filters
-	bind:showCategoryCards
-	areFiltersClearable={computedAreFiltersClearable}
-	{customFilters}
-	{clearFilters}
-/>
+	<Filters
+		bind:filters
+		bind:showCategoryCards
+		areFiltersClearable={computedAreFiltersClearable}
+		{customFilters}
+		{clearFilters}
+	/>
 
-{#key Object.values(filters).join('-')}
-	<ScrollableWrapper wrapperClass="min-h-0" contentClass="px-0">
+	<ScrollableWrapper bind:scrollContainer wrapperClass="min-h-0 flex-1" contentClass="px-0">
 		{#if !isEmpty(filteredItems)}
 			<div class="space-y-4">
-				{#each filteredItems as item, i (i)}
+				{#each visibleItems as item (itemKey(item))}
 					{@render listItem({ item, defaultExpandState: filters.defaultExpandState ?? false })}
 				{/each}
 			</div>
+
+			{#if hiddenItemCount > 0}
+				<div class="flex justify-center border-t border-line-subtle pt-3">
+					<button
+						type="button"
+						class={cn(
+							'rounded-md px-3 py-1.5 text-xs text-ink-muted transition-colors',
+							'hover:bg-accent-soft hover:text-ink',
+							'focus:outline-none focus-visible:ring-2 focus-visible:ring-accent'
+						)}
+						onclick={showMoreItems}
+					>
+						Pokaż kolejne {Math.min(hiddenItemCount, PAGE_SIZE)}
+					</button>
+				</div>
+			{/if}
 		{:else if computedAreFiltersClearable}
 			<div
 				class="flex flex-col items-center justify-center gap-6 py-12 px-4 text-center flex-1"
@@ -131,4 +186,4 @@
 			</div>
 		{/if}
 	</ScrollableWrapper>
-{/key}
+</div>

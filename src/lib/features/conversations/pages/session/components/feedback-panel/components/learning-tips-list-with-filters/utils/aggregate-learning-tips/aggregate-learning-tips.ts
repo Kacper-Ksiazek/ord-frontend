@@ -6,7 +6,9 @@ export function aggregateLearningTips(
 ): AggregatedLearningTip[] {
 	const result: AggregatedLearningTip[] = [];
 
-	for (const message of messages) {
+	for (let messageOrder = 0; messageOrder < messages.length; messageOrder++) {
+		const message = messages[messageOrder];
+
 		if (message.sender === 'USER' || !message.learningTips) continue;
 
 		const createdAt = new Date(message.createdAt);
@@ -19,6 +21,7 @@ export function aggregateLearningTips(
 					phrase: el.phrase,
 					register: el.register,
 					createdAt,
+					messageOrder,
 					searchableText: `${el.phrase} ${el.grammarPoint} ${el.explanation}`.toLowerCase()
 				})),
 
@@ -28,6 +31,7 @@ export function aggregateLearningTips(
 					phrase: el.phrase,
 					register: el.register,
 					createdAt,
+					messageOrder,
 					searchableText: `${el.phrase} ${el.meaning}`.toLowerCase()
 				})),
 
@@ -37,6 +41,7 @@ export function aggregateLearningTips(
 					phrase: el.word,
 					register: el.register,
 					createdAt,
+					messageOrder,
 					searchableText: `${el.word} ${el.definition} ${el.usageNote}`.toLowerCase()
 				}))
 			]
