@@ -4,9 +4,9 @@
 	import type { AnalysisTextHighlightProps } from './analysis-text-highlight.types';
 	import { includesEitherWay } from '$lib/utils/functions/includes-either-way';
 	import type { MessageAnalysisCriteria } from '$conversations/types';
-	import { cn, Popover } from 'flowbite-svelte';
+	import { Popover } from 'bits-ui';
+	import { cn } from '$lib/utils/cn';
 	import AnalysisMetricIcon from '$conversations/pages/session/components/shared/user-message-analysis/user-message-analysis-metric-icon.svelte';
-	import { Tabs } from '$lib/components/navigation/tabs';
 	import type { Tab } from '$lib/components/navigation/tabs';
 	import {
 		MistakeCard,
@@ -15,15 +15,13 @@
 	} from '$conversations/pages/session/components/shared/user-message-analysis/cards';
 	import { getUserMessageAnalysisColors } from '$conversations/pages/session/constants/user-message-analysis/colors';
 	import { USER_MESSAGE_ANALYSIS_ICONS_MAP } from '$conversations/pages/session/constants/user-message-analysis/icons';
-	import { highlightPopoverFloatingMiddlewares } from '../../../highlight-popover-floating-middleware';
 
 	const {
 		id,
 		highlightType,
 		highlightedText,
 		analysis,
-		disableHoverHighlight = false,
-		showIconsInHighlightedParts
+		disableHoverHighlight = false
 	}: AnalysisTextHighlightProps = $props();
 
 	const cards = {
@@ -45,6 +43,7 @@
 
 	let activeCard = $state<MessageAnalysisCriteria>(highlightType);
 	const activeCardColors = $derived(getUserMessageAnalysisColors(activeCard));
+	const highlightIconColor = $derived(activeCardColors.iconColor);
 
 	const availableTabs = compact([
 		isMistakeCardAvailable && {
@@ -62,7 +61,7 @@
 			label: 'Strength', // TODO: i18n
 			icon: USER_MESSAGE_ANALYSIS_ICONS_MAP['STRENGTHS']
 		}
-	]) satisfies Tab[];
+	]) satisfies Tab<MessageAnalysisCriteria>[];
 
 	function handleMouseLeave() {
 		activeCard = highlightType;
@@ -133,100 +132,103 @@
 	}
 </script>
 
-<span
-	{id}
-	class={cn(
-		'inline rounded transition-colors box-decoration-clone',
-		activeCardColors.highlightedText,
-		moreThanOneCardAvailable && !disableHoverHighlight ? 'cursor-pointer' : 'cursor-default'
-	)}
-	onclick={handleHighlightClick}
-	onkeydown={handleHighlightKeydown}
-	onmouseleave={handleMouseLeave}
-	onblur={handleMouseLeave}
-	onmousedown={(e) => e.preventDefault()}
-	role="button"
-	tabindex="0"
->
-	{#if showIconsInHighlightedParts}
-		{@const iconColor = activeCardColors.text}
-		{@const iconSize = 'w-3 h-3'}
+<Popover.Root>
+	<Popover.Trigger openOnHover={!disableHoverHighlight} openDelay={150} closeDelay={120}>
+		{#snippet child({ props })}
+			<span
+				{...props}
+				{id}
+				class={cn(
+					String(props.class ?? ''),
+					'inline rounded transition-colors box-decoration-clone',
+					activeCardColors.highlightedText,
+					moreThanOneCardAvailable && !disableHoverHighlight ? 'cursor-pointer' : 'cursor-default'
+				)}
+				onclick={handleHighlightClick}
+				onkeydown={handleHighlightKeydown}
+				onmouseleave={handleMouseLeave}
+				onblur={handleMouseLeave}
+				onmousedown={(e) => e.preventDefault()}
+				role="button"
+				tabindex="0"
+			>
+				<span class="mx-0.5 inline-flex items-center gap-1">
+					{#if isMistakeCardAvailable}
+						<AnalysisMetricIcon
+							criteria="MISTAKES"
+							class={cn('h-3 w-3', activeCard !== 'MISTAKES' ? 'opacity-60' : '', highlightIconColor)}
+						/>
+					{/if}
 
-		<span class="inline-flex items-center gap-1 mx-0.5">
-			{#if isMistakeCardAvailable}
-				<AnalysisMetricIcon
-					criteria="MISTAKES"
-					class={cn(
-						iconSize, //
-						activeCard !== 'MISTAKES' ? 'opacity-60' : '',
-						iconColor
-					)}
-				/>
-			{/if}
+					{#if isSuggestionCardAvailable}
+						<AnalysisMetricIcon
+							criteria="SUGGESTIONS"
+							class={cn('h-3 w-3', activeCard !== 'SUGGESTIONS' ? 'opacity-60' : '', highlightIconColor)}
+						/>
+					{/if}
 
-			{#if isSuggestionCardAvailable}
-				<AnalysisMetricIcon
-					criteria="SUGGESTIONS"
-					class={cn(
-						iconSize, //
-						activeCard !== 'SUGGESTIONS' ? 'opacity-60' : '',
-						iconColor
-					)}
-				/>
-			{/if}
-
-			{#if isStrengthCardAvailable}
-				<AnalysisMetricIcon
-					criteria="STRENGTHS"
-					class={cn(
-						iconSize, //
-						activeCard !== 'STRENGTHS' ? 'opacity-60' : '',
-						iconColor
-					)}
-				/>
-			{/if}
-		</span>
-	{/if}
-	{highlightedText}
-</span>
-
-{#if !disableHoverHighlight}
-	<Popover
-		triggeredBy={`#${id}`}
-		trigger="hover"
-		middlewares={highlightPopoverFloatingMiddlewares}
-		class={cn(
-			'w-[800px] bg-white dark:bg-gray-800 shadow-lg border-2 rounded-lg',
-			activeCardColors.cardBorder
-		)}
-		classes={{ content: 'p-2' }}
-	>
-		{#if moreThanOneCardAvailable}
-			<Tabs
-				tabs={availableTabs}
-				bind:activeTab={activeCard}
-				activeColor={activeCardColors.twColor}
-				class="mb-3"
-			/>
-		{:else}
-			<h3 class={cn('flex items-center gap-2 label-bold mb-2', activeCardColors.text)}>
-				<AnalysisMetricIcon criteria={activeCard} class="w-4 h-4" />
-				<span>
-					{activeCard === 'MISTAKES'
-						? 'Mistake'
-						: activeCard === 'STRENGTHS'
-							? 'Strength'
-							: 'Suggestion'}
+					{#if isStrengthCardAvailable}
+						<AnalysisMetricIcon
+							criteria="STRENGTHS"
+							class={cn('h-3 w-3', activeCard !== 'STRENGTHS' ? 'opacity-60' : '', highlightIconColor)}
+						/>
+					{/if}
 				</span>
-			</h3>
-		{/if}
+				{highlightedText}
+			</span>
+		{/snippet}
+	</Popover.Trigger>
 
-		{#if activeCard === 'MISTAKES' && cards.MISTAKES}
-			<MistakeCard mistake={cards.MISTAKES} isExpandable={false} />
-		{:else if activeCard === 'SUGGESTIONS' && cards.SUGGESTIONS}
-			<SuggestionCard suggestion={cards.SUGGESTIONS} isExpandable={false} />
-		{:else if activeCard === 'STRENGTHS' && cards.STRENGTHS}
-			<StrengthCard strength={cards.STRENGTHS} isExpandable={false} />
-		{/if}
-	</Popover>
-{/if}
+	{#if !disableHoverHighlight}
+		<Popover.Portal>
+			<Popover.Content
+				class="overlay-surface z-50 w-[min(28rem,calc(100vw-2rem))] p-3"
+				collisionPadding={12}
+				sideOffset={8}
+			>
+				{#if moreThanOneCardAvailable}
+					<div class="-mx-3 mb-3 flex items-center gap-4 border-b border-line px-3">
+						{#each availableTabs as tab (tab.id)}
+							<button
+								type="button"
+								onclick={() => (activeCard = tab.id)}
+								class={cn(
+									'-mb-px flex items-center gap-1.5 border-b-2 pb-2 text-xs font-medium',
+									activeCard === tab.id
+										? 'border-ink text-ink'
+										: 'border-transparent text-ink-muted hover:text-ink'
+								)}
+							>
+								{#if tab.icon}
+									<tab.icon class="h-3.5 w-3.5" />
+								{/if}
+								{tab.label}
+							</button>
+						{/each}
+					</div>
+				{:else}
+					<h3
+						class="-mx-3 mb-3 flex items-center gap-1.5 border-b border-line px-3 pb-2 text-xs font-medium text-ink"
+					>
+						<AnalysisMetricIcon criteria={activeCard} class="h-3.5 w-3.5 text-ink-muted" />
+						<span>
+							{activeCard === 'MISTAKES'
+								? 'Mistake'
+								: activeCard === 'STRENGTHS'
+									? 'Strength'
+									: 'Suggestion'}
+						</span>
+					</h3>
+				{/if}
+
+				{#if activeCard === 'MISTAKES' && cards.MISTAKES}
+					<MistakeCard mistake={cards.MISTAKES} isExpandable={false} />
+				{:else if activeCard === 'SUGGESTIONS' && cards.SUGGESTIONS}
+					<SuggestionCard suggestion={cards.SUGGESTIONS} isExpandable={false} />
+				{:else if activeCard === 'STRENGTHS' && cards.STRENGTHS}
+					<StrengthCard strength={cards.STRENGTHS} isExpandable={false} />
+				{/if}
+			</Popover.Content>
+		</Popover.Portal>
+	{/if}
+</Popover.Root>

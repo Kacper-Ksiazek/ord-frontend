@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { Modal } from 'flowbite-svelte';
+	import { Dialog } from 'bits-ui';
 	import { Pencil } from 'lucide-svelte';
 	import { Button } from '$lib/components/buttons/button';
 	import { IconButton } from '$lib/components/buttons/icon-button';
@@ -52,21 +52,29 @@
 		</div>
 	</div>
 
-	<Modal bind:open={modalOpen} title={modalTitle} size="xl">
-		{#snippet footer()}
-			<div class="flex w-full justify-end">
-				<Button
-					type="FILLED"
-					variant="PRIMARY"
-					class="min-w-48"
-					onClick={() => {
-						modalOpen = false;
-					}}
-				>
-					{m['features.conversation.create.step-3.summary_cards.done_button']()}
-				</Button>
-			</div>
-		{/snippet}
-		{@render modalBody()}
-	</Modal>
+	<Dialog.Root bind:open={modalOpen}>
+		<Dialog.Portal>
+			<Dialog.Overlay class="fixed inset-0 z-50 bg-ink/40" />
+			<Dialog.Content
+				class="overlay-surface fixed top-1/2 left-1/2 z-50 w-[min(720px,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 p-6"
+			>
+				<Dialog.Title class="text-lg font-medium text-ink">{modalTitle}</Dialog.Title>
+				<div class="mt-4">
+					{@render modalBody()}
+				</div>
+				<div class="mt-6 flex w-full justify-end">
+					<Button
+						type="FILLED"
+						variant="PRIMARY"
+						class="min-w-48"
+						onClick={() => {
+							modalOpen = false;
+						}}
+					>
+						{m['features.conversation.create.step-3.summary_cards.done_button']()}
+					</Button>
+				</div>
+			</Dialog.Content>
+		</Dialog.Portal>
+	</Dialog.Root>
 </div>

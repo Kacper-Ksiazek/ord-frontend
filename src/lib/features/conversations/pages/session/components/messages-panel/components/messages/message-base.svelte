@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import type { Snippet } from 'svelte';
 	import { fade } from 'svelte/transition';
 
@@ -10,6 +10,7 @@
 
 		content?: Snippet;
 		footer?: Snippet;
+		afterCard?: Snippet;
 		avatar?: Snippet;
 		/** Stable selector for E2E tests (`data-testid`) */
 		dataTestId?: string;
@@ -22,6 +23,7 @@
 		avatar,
 		content,
 		footer,
+		afterCard,
 		dataTestId
 	}: MessageBaseProps = $props();
 </script>
@@ -46,20 +48,33 @@
 		)}
 		transition:fade={{ duration: 150 }}
 	>
-		{#if content}
+		{#if content || footer}
 			<div
 				class={cn(
-					'px-4 py-2 rounded-lg min-w-[68px]', //
-					'bg-white dark:bg-slate-800',
+					'min-w-[68px] overflow-hidden rounded-[10px] border border-line bg-surface text-ink',
 					messageClass
 				)}
 			>
-				<p class="content-long">
-					{@render content()}
-				</p>
-			</div>
-		{/if}
+				{#if content}
+					<div class="px-4 py-2.5">
+						<div class="message-body">
+							{@render content()}
+						</div>
+					</div>
+				{/if}
 
-		{@render footer?.()}
+				{#if footer}
+					<div class="border-t border-line-subtle px-4 py-1 [&:not(:has(*))]:hidden">
+						{@render footer()}
+					</div>
+				{/if}
+			</div>
+
+			{#if afterCard}
+				<div class="mt-3 w-full">
+					{@render afterCard()}
+				</div>
+			{/if}
+		{/if}
 	</div>
 </div>

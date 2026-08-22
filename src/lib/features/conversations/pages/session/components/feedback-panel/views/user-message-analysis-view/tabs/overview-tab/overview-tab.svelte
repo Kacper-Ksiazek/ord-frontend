@@ -74,7 +74,6 @@
 				messageContent={messageContent ?? ''}
 				analysis={feedback}
 				disableHoverHighlight={true}
-				showIconsInHighlightedParts={false}
 			/>
 		</div>
 	</div>

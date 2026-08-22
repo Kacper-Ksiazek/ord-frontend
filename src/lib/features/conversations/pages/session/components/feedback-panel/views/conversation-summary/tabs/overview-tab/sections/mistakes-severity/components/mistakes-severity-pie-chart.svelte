@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Chart } from '@flowbite-svelte-plugins/chart';
+	import { ApexChart } from '$lib/components/charts/apex-chart';
 	import type { ApexOptions } from 'apexcharts';
 	import { type MistakeStats } from '../utils/compute-message-stats';
 
@@ -42,4 +42,4 @@
 	});
 </script>
 
-<Chart {options} />
+<ApexChart {options} />

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Toggle } from 'flowbite-svelte';
+	import { Switch } from 'bits-ui';
 	import { AutoHeightTextarea } from '$lib/components/forms/auto-height-textarea';
 	import {
 		getCreateConversationPayload,
@@ -63,16 +63,21 @@
 
 <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
 	<div class="flex flex-col min-w-0 flex-1 gap-3">
-		<Toggle
-			data-testid={E2E_TEST_IDS.createConversation.topicCustomToggle}
-			checked={topicPickerStore.useOwnTopic}
-			onchange={(e) => handleUseOwnTopicChange(e.currentTarget.checked)}
-			class="shrink-0 sm:pt-1.5"
-		>
-			<span class="text-sm font-medium text-gray-800 dark:text-gray-200">
+		<label class="flex shrink-0 items-center gap-2 sm:pt-1.5">
+			<Switch.Root
+				data-testid={E2E_TEST_IDS.createConversation.topicCustomToggle}
+				checked={topicPickerStore.useOwnTopic}
+				onCheckedChange={handleUseOwnTopicChange}
+				class="inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border border-line bg-accent-soft p-0.5 transition-colors data-[state=checked]:bg-ink"
+			>
+				<Switch.Thumb
+					class="block size-4 rounded-full bg-white shadow-sm transition-transform data-[state=checked]:translate-x-4"
+				/>
+			</Switch.Root>
+			<span class="text-sm font-medium text-ink">
 				{m['features.conversation.create.step-3.topic_picker.custom_topic.use_own_topic']()}
 			</span>
-		</Toggle>
+		</label>
 
 		<div class="relative min-w-0 flex-1">
 			<AutoHeightTextarea

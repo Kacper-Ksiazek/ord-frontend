@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { LanguagePicker, ThemeSwitcher } from '$appLayouts/shared';
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import type { Snippet } from 'svelte';
 
 	interface Props {
@@ -10,12 +10,7 @@
 	const { children }: Props = $props();
 </script>
 
-<div
-	class={cn(
-		'flex justify-center items-center w-full h-[calc(100vh-40px)] bg-gray-50 dark:bg-gray-900 position-relative',
-		''
-	)}
->
+<div class={cn('relative flex h-[calc(100vh-40px)] w-full items-center justify-center bg-canvas')}>
 	<header class="absolute top-10 left-10 z-10 flex items-center gap-2">
 		<ThemeSwitcher />
 		<LanguagePicker />

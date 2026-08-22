@@ -8,7 +8,7 @@ export interface TailwindColorTheme {
 	adviceCardBorder: string;
 	/** Stronger surface when hovering an expandable AiAdviceBase card */
 	adviceCardHover: string;
-	/** Icons inside AiAdviceBase — muted until the card is hovered (`group/advice-card`) */
+	/** Icons inside AiAdviceBase */
 	adviceIconColor: string;
 	/** Border color classes for larger chrome (e.g. highlight popovers) */
 	cardBorder: string;
@@ -18,6 +18,8 @@ export interface TailwindColorTheme {
 	iconColor: string;
 	/** Background and text color classes for highlighted/selected text elements */
 	highlightedText: string;
+	/** Small swatch matching the highlight color (e.g. a dot after a phrase) */
+	highlightSwatch: string;
 	/** Border color classes for chip/badge components */
 	chipBorder: string;
 	/** Optional hover state color classes */
@@ -29,66 +31,62 @@ export interface TailwindColorTheme {
 const TailwindColorThemeMap: Partial<Record<TailwindColor, TailwindColorTheme>> = {
 	red: {
 		twColor: 'red',
-		adviceCardBg: 'bg-red-50/35 dark:bg-red-900/10',
-		adviceCardBorder: 'border-red-100 dark:border-red-800',
-		adviceCardHover:
-			'hover:bg-red-50/90 dark:hover:bg-red-900/25 hover:border-red-300 dark:hover:border-red-700',
-		adviceIconColor:
-			'text-red-600/50 dark:text-red-400/50 group-hover/advice-card:text-red-600 dark:group-hover/advice-card:text-red-400',
-		cardBorder: 'border-red-200 dark:border-red-800',
-		text: 'text-red-500 dark:text-red-400',
-		iconColor: 'text-red-500 dark:text-red-400',
+		adviceCardBg: 'bg-surface',
+		adviceCardBorder: 'border-line',
+		adviceCardHover: 'hover:bg-accent-soft',
+		adviceIconColor: 'text-ink-muted',
+		cardBorder: 'border-line',
+		text: 'text-red-700 dark:text-red-400',
+		iconColor: 'text-red-600 dark:text-red-400',
 		highlightedText:
-			'bg-red-100/70 text-red-800 hover:bg-red-300/70 dark:bg-red-900/70 dark:text-red-100 dark:hover:bg-red-600',
-		chipBorder: 'border-red-300 dark:border-red-700'
+			'bg-red-50 text-ink hover:bg-red-100/80 dark:bg-red-950/35 dark:hover:bg-red-900/45',
+		highlightSwatch: 'bg-red-200 dark:bg-red-800',
+		chipBorder: 'border-red-200/70 dark:border-red-800/50'
 	},
 
 	green: {
 		twColor: 'green',
-		adviceCardBg: 'bg-green-50/35 dark:bg-green-900/10',
-		adviceCardBorder: 'border-green-100 dark:border-green-800',
-		adviceCardHover:
-			'hover:bg-green-50/90 dark:hover:bg-green-900/25 hover:border-green-300 dark:hover:border-green-700',
-		adviceIconColor:
-			'text-green-600/50 dark:text-green-400/50 group-hover/advice-card:text-green-600 dark:group-hover/advice-card:text-green-400',
-		cardBorder: 'border-green-200 dark:border-green-800',
-		text: 'text-green-500 dark:text-green-400',
-		iconColor: 'text-green-500 dark:text-green-400',
+		adviceCardBg: 'bg-surface',
+		adviceCardBorder: 'border-line',
+		adviceCardHover: 'hover:bg-accent-soft',
+		adviceIconColor: 'text-ink-muted',
+		cardBorder: 'border-line',
+		text: 'text-emerald-700 dark:text-emerald-400',
+		iconColor: 'text-emerald-600 dark:text-emerald-400',
 		highlightedText:
-			'bg-green-100/70 text-green-800 hover:bg-green-300/70 dark:bg-green-900/70 dark:text-green-100 dark:hover:bg-green-600',
-		chipBorder: 'border-green-300 dark:border-green-700'
+			'bg-emerald-50 text-ink hover:bg-emerald-100/80 dark:bg-emerald-950/35 dark:hover:bg-emerald-900/45',
+		highlightSwatch: 'bg-emerald-200 dark:bg-emerald-800',
+		chipBorder: 'border-emerald-200/70 dark:border-emerald-800/50'
 	},
 
 	blue: {
 		twColor: 'blue',
-		adviceCardBg: 'bg-blue-50/35 dark:bg-blue-900/10',
-		adviceCardBorder: 'border-blue-100 dark:border-blue-800',
-		adviceCardHover:
-			'hover:bg-blue-50/90 dark:hover:bg-blue-900/25 hover:border-blue-300 dark:hover:border-blue-700',
-		adviceIconColor:
-			'text-blue-600/50 dark:text-blue-400/50 group-hover/advice-card:text-blue-600 dark:group-hover/advice-card:text-blue-400',
-		cardBorder: 'border-blue-200 dark:border-blue-800',
-		text: 'text-blue-500 dark:text-blue-400',
-		iconColor: 'text-blue-500 dark:text-blue-400',
+		adviceCardBg: 'bg-surface',
+		adviceCardBorder: 'border-line',
+		adviceCardHover: 'hover:bg-accent-soft',
+		adviceIconColor: 'text-ink-muted',
+		cardBorder: 'border-line',
+		text: 'text-blue-700 dark:text-blue-400',
+		iconColor: 'text-blue-600 dark:text-blue-400',
 		highlightedText:
-			'bg-blue-100/70 text-blue-800 hover:bg-blue-300/70 dark:bg-blue-900/70 dark:text-blue-100 dark:hover:bg-blue-600',
-		chipBorder: 'border-blue-300 dark:border-blue-700'
+			'bg-blue-50 text-ink hover:bg-blue-100/80 dark:bg-blue-950/35 dark:hover:bg-blue-900/45',
+		highlightSwatch: 'bg-blue-200 dark:bg-blue-800',
+		chipBorder: 'border-blue-200/70 dark:border-blue-800/50'
 	},
 
 	purple: {
 		twColor: 'purple',
-		adviceCardBg: 'bg-purple-50/35 dark:bg-purple-900/10',
-		adviceCardBorder: 'border-purple-100 dark:border-purple-800',
-		adviceCardHover:
-			'hover:bg-purple-50/90 dark:hover:bg-purple-900/25 hover:border-purple-300 dark:hover:border-purple-700',
-		adviceIconColor:
-			'text-purple-600/50 dark:text-purple-400/50 group-hover/advice-card:text-purple-600 dark:group-hover/advice-card:text-purple-400',
-		cardBorder: 'border-purple-200 dark:border-purple-800',
-		text: 'text-purple-500 dark:text-purple-400',
-		iconColor: 'text-purple-500 dark:text-purple-400',
+		adviceCardBg: 'bg-surface',
+		adviceCardBorder: 'border-line',
+		adviceCardHover: 'hover:bg-accent-soft',
+		adviceIconColor: 'text-ink-muted',
+		cardBorder: 'border-line',
+		text: 'text-violet-700 dark:text-violet-400',
+		iconColor: 'text-violet-600 dark:text-violet-400',
 		highlightedText:
-			'bg-purple-100/70 text-purple-800 hover:bg-purple-300/70 dark:bg-purple-900/70 dark:text-purple-100 dark:hover:bg-purple-600',
-		chipBorder: 'border-purple-300 dark:border-purple-700'
+			'bg-violet-50 text-ink hover:bg-violet-100/80 dark:bg-violet-950/35 dark:hover:bg-violet-900/45',
+		highlightSwatch: 'bg-violet-200 dark:bg-violet-800',
+		chipBorder: 'border-violet-200/70 dark:border-violet-800/50'
 	}
 };
 

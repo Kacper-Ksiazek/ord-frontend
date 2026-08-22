@@ -1,23 +1,18 @@
-# Merge classes with `cn` from flowbite-svelte
+# Merge classes with `cn` from `$lib/utils/cn`
 
-Always use `cn` imported from `flowbite-svelte` for combining, conditioning, and merging Tailwind classes. Never use `clsx` (it is no longer a dependency), template-string concatenation, or manual joins. When a component accepts a `class` prop, alias it to `className` and merge it last so consumers can override defaults. Use the `!` suffix for important overrides (e.g. `bg-primary-500!`).
+Always use `cn` imported from `$lib/utils/cn` for combining, conditioning, and merging Tailwind classes. Never use `clsx`, template-string concatenation, or manual joins. When a component accepts a `class` prop, alias it to `className` and merge it last so consumers can override defaults. Use the `!` suffix for important overrides (e.g. `bg-primary-500!`).
 
 ## Good
 
 ```svelte
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 
 	let { isSelected = false, class: className = '' }: Props = $props();
 </script>
 
 <div
-	class={cn(
-		'flex items-center gap-2',
-		'text-gray-500 dark:text-gray-200',
-		isSelected && 'bg-primary-500!',
-		className
-	)}
+	class={cn('flex items-center gap-2', 'text-ink-muted', isSelected && 'bg-accent-soft!', className)}
 >
 	...
 </div>
@@ -27,7 +22,7 @@ Always use `cn` imported from `flowbite-svelte` for combining, conditioning, and
 
 ```svelte
 <script lang="ts">
-	import clsx from 'clsx'; // clsx is not a dependency anymore
+	import clsx from 'clsx';
 
 	let { isSelected = false, class: className = '' }: Props = $props();
 </script>

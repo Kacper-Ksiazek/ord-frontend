@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Badge, cn } from 'flowbite-svelte';
+	import { Badge } from '$lib/components/utils/badge';
 	import { MistakeSeverityIndicator } from '$conversations/shared/components/mistake-severity-indicator';
 	import type { TailwindColorTheme } from '$conversations/shared/utils/get-tailwind-colors';
 	import type { BadgesBlock } from '../../ai-advice.types';
@@ -9,15 +9,15 @@
 		theme: TailwindColorTheme;
 	}
 
-	let { block, theme }: Props = $props();
+	let { block }: Props = $props();
 </script>
 
-<div class="flex items-start justify-between mb-2">
-	<div class="flex gap-2">
+<div class="flex items-center justify-between gap-3">
+	<div class="flex flex-wrap gap-1">
 		{#each block.badges as badge (badge.text)}
-			<Badge color={theme.twColor} class="flex items-center gap-1">
+			<Badge color="gray" class="flex items-center gap-1">
 				{#if badge.Icon}
-					<badge.Icon class="w-4 h-4" />
+					<badge.Icon class="h-3 w-3" />
 				{/if}
 				{badge.text}
 			</Badge>
@@ -25,11 +25,6 @@
 	</div>
 
 	{#if block.severity}
-		<div class="flex items-center gap-2 shrink-0">
-			{#if block.severity.Icon}
-				<block.severity.Icon class={cn('w-5 h-5 shrink-0', theme.iconColor)} />
-			{/if}
-			<MistakeSeverityIndicator severity={block.severity.value} layout="inline" class="shrink-0" />
-		</div>
+		<MistakeSeverityIndicator severity={block.severity.value} layout="inline" class="shrink-0" />
 	{/if}
 </div>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import {
 		LogIn,
 		Bookmark,
@@ -53,18 +53,18 @@
 <aside
 	data-testid={E2E_TEST_IDS.sidebar.root}
 	class={cn(
-		'h-screen bg-black text-white flex flex-col',
+		'h-screen bg-canvas text-ink flex flex-col',
 		sidebarWidth,
 		transitionClass,
-		'z-40 border-r border-gray-800 pb-4 overflow-hidden'
+		'z-40 overflow-hidden border-r border-line pb-4'
 	)}
 >
 	<!-- Header Section with Logo -->
 	<div class="flex items-center justify-between px-3 row-reverse min-h-[74px]">
 		{#if sidebarStore.isExpanded}
 			<div class="flex items-center justify-center h-12 shrink-0 gap-2" in:fade={{ delay: 150 }}>
-				<AppLogo size="sm" class="text-white" />
-				<span class="text-lg font-semibold text-white">ORD</span>
+				<AppLogo size="sm" class="text-ink" />
+				<span class="text-lg font-medium text-ink">ORD</span>
 			</div>
 		{/if}
 
@@ -72,7 +72,7 @@
 			data-testid={E2E_TEST_IDS.sidebar.toggle}
 			aria-expanded={sidebarStore.isExpanded}
 			onclick={toggleSidebar}
-			class="p-2.5 hover:bg-gray-900 rounded-lg transition-colors cursor-pointer"
+			class="cursor-pointer rounded-[10px] p-2.5 transition-colors hover:bg-accent-soft"
 			title={sidebarStore.isExpanded ? 'Collapse sidebar' : 'Expand sidebar'}
 		>
 			{#if sidebarStore.isExpanded}
@@ -91,10 +91,10 @@
 			<AuthUserAvatar size={40} />
 			{#if sidebarStore.isExpanded && authStore.user}
 				<div class="flex-1 min-w-0" data-testid={E2E_TEST_IDS.sidebar.userEmail}>
-					<p class="text-sm font-semibold text-white truncate">
+					<p class="truncate text-sm font-medium text-ink">
 						{authStore.user.name || authStore.user.email}
 					</p>
-					<p class="text-xs text-gray-400">
+					<p class="text-xs text-ink-muted">
 						{authStore.user.email}
 					</p>
 				</div>
@@ -145,8 +145,8 @@
 			onclick={onLogoutClick}
 			title="Logout"
 			class={cn(
-				'flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-red-900 transition-colors w-full cursor-pointer',
-				'text-red-400 hover:text-red-300',
+				'flex items-center gap-3 px-3 py-2 rounded-[10px] hover:bg-red-50 transition-colors w-full cursor-pointer',
+				'text-danger hover:text-danger',
 				sidebarStore.isExpanded && 'justify-start'
 			)}
 		>

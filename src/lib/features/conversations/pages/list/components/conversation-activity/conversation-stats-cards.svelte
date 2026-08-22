@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import type { ConversationActivityOverview } from '$conversations/types';
 	import { LineChartCard } from '$lib/components/cards/line-chart-card';
 

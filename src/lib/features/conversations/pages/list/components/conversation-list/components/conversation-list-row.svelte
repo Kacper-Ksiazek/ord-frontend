@@ -6,7 +6,7 @@
 	import AiInterlocutorAvatar from '$conversations/shared/components/ai-interlocutor-avatar.svelte';
 	import ConversationTypeIcon from '$conversations/shared/components/conversation-type-icon.svelte';
 	import { getConversationTypeLabel, getConversationToneLabel } from '$conversations/shared/utils';
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import { formatRelativeOrMediumDate } from '$lib/utils/format-relative-or-medium-date';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 
@@ -31,7 +31,7 @@
 	});
 
 	const chipClass = cn(
-		'label-small shrink-0 whitespace-nowrap rounded-md bg-gray-100 px-2 py-1 dark:bg-gray-700'
+		'label-small shrink-0 whitespace-nowrap rounded-md bg-accent-soft px-2 py-1 text-ink-muted'
 	);
 </script>
 
@@ -40,11 +40,9 @@
 		type="button"
 		data-testid={E2E_TEST_IDS.conversations.row(conversation.id)}
 		class={cn(
-			'group w-full rounded-xl border border-gray-200 bg-white px-6 py-4 text-left transition-colors',
-			'dark:border-gray-700 dark:bg-gray-800',
-			'hover:border-primary-500 dark:hover:border-primary-500 hover:[&_svg]:opacity-100',
-			'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2',
-			'dark:focus-visible:ring-offset-gray-900'
+			'group w-full border-b border-line bg-transparent px-2 py-4 text-left transition-colors',
+			'hover:bg-accent-soft/70 hover:[&_svg]:opacity-100',
+			'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/20 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas'
 		)}
 		aria-label={ariaLabel}
 		{onclick}

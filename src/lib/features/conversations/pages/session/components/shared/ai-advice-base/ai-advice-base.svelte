@@ -1,7 +1,7 @@
 <script lang="ts">
 	import './ai-advice-base.css';
 	import { slide } from 'svelte/transition';
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import type { AiAdviceBaseProps } from './ai-advice.types';
 	import { getTailwindColorTheme } from '$conversations/shared/utils/get-tailwind-colors';
 	import BlockRenderer from './blocks/block-renderer.svelte';
@@ -42,10 +42,14 @@
 	bind:this={scrollRef}
 	class={cn(
 		'analysis-card-container relative group/advice-card',
-		isExpandable && 'cursor-pointer expandable',
-		baseTheme.adviceCardBg,
-		baseTheme.adviceCardBorder,
-		isExpandable && baseTheme.adviceCardHover
+		isExpandable
+			? cn(
+					'expandable cursor-pointer rounded-[10px] border p-3 transition-all',
+					baseTheme.adviceCardBg,
+					baseTheme.adviceCardBorder,
+					baseTheme.adviceCardHover
+				)
+			: 'gap-4'
 	)}
 	{...isExpandable && {
 		onclick: toggleExpandCollapse,
@@ -54,14 +58,14 @@
 		onkeydown: (e) => e.key === 'Enter' && toggleExpandCollapse()
 	}}
 >
-	<div class="flex flex-col gap-2">
+	<div class="flex flex-col gap-4">
 		{#each headerBlocks as block (block)}
 			<BlockRenderer {block} {theme} />
 		{/each}
 	</div>
 
 	{#if !isCollapsed || !isExpandable}
-		<div transition:slide={{ duration: 150 }} class="flex flex-col gap-2">
+		<div transition:slide={{ duration: 150 }} class="flex flex-col gap-4">
 			{#each bodyBlocks as block (block)}
 				<BlockRenderer {block} {theme} />
 			{/each}

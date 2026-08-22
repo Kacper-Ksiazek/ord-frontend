@@ -14,8 +14,8 @@
 	let { title, Icon, disabled = false, href, onclick, fadeDelay = 150 }: Props = $props();
 
 	const classList = disabled
-		? 'text-gray-500 cursor-not-allowed opacity-50'
-		: 'hover:bg-gray-900 text-gray-300 hover:text-white cursor-pointer';
+		? 'text-ink-subtle cursor-not-allowed opacity-50'
+		: 'cursor-pointer text-ink hover:bg-accent-soft hover:text-ink';
 
 	function handleClick() {
 		if (disabled) return;

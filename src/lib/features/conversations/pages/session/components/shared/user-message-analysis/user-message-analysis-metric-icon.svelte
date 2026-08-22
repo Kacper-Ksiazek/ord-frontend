@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import type { MessageAnalysisCriteria } from '$conversations/types';
 	import { USER_MESSAGE_ANALYSIS_ICONS_MAP } from '$conversations/pages/session/constants/user-message-analysis/icons';
 	import { getUserMessageAnalysisColors } from '$conversations/pages/session/constants/user-message-analysis/colors';

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { IconButton } from '$lib/components/buttons/icon-button';
-	import { PanelLeftClose, PanelLeftOpen } from 'lucide-svelte';
+	import { PanelRightClose, PanelRightOpen } from 'lucide-svelte';
 
 	interface PreviewContentProps {
 		isSelected?: boolean;
@@ -12,12 +12,12 @@
 	const { Icon, tooltip } = $derived.by(() => {
 		if (isSelected) {
 			return {
-				Icon: PanelLeftClose,
+				Icon: PanelRightClose,
 				tooltip: 'Close panel'
 			};
 		} else {
 			return {
-				Icon: PanelLeftOpen,
+				Icon: PanelRightOpen,
 				tooltip: 'Open panel'
 			};
 		}

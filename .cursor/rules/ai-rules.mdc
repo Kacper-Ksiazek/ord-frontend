@@ -13,7 +13,7 @@ Categories:
 - `general/` — FDD architecture, feature boundaries, path aliases, thin routes
 - `typescript/` — file naming, API/mutation naming, contract types, enum-value constants
 - `svelte/` — Svelte 5 runes, component folder layout, props typing, stories
-- `styling/` — `cn` class merging, dark mode, Tailwind 4 conventions, flowbite-svelte
+- `styling/` — `cn` class merging, dark mode, Tailwind 4 conventions, bits-ui
 - `api-design/` — `http*` endpoint functions, TanStack Query, services/SSE layer
 - `state/` — runes class stores, stores/state/contexts folders, localStorage keys
 - `i18n/` — Paraglide messages, adding translations, generated code hygiene

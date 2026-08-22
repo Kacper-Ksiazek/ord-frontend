@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Chart } from '@flowbite-svelte-plugins/chart';
+	import { ApexChart } from '$lib/components/charts/apex-chart';
 	import { themeStore } from '$lib/stores/theme.svelte';
 	import type { ApexOptions } from 'apexcharts';
 
@@ -138,4 +138,4 @@
 	});
 </script>
 
-<Chart {options} />
+<ApexChart {options} />

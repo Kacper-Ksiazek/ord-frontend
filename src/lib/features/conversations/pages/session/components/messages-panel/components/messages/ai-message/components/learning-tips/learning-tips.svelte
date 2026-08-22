@@ -16,16 +16,10 @@
 	interface LearningTipsProps {
 		message: string;
 		learningTips: AIMessageLearningTips | null;
-		showIconsInHighlightedParts: boolean;
 		messageIndex: number;
 	}
 
-	let {
-		message,
-		learningTips,
-		showIconsInHighlightedParts = $bindable(),
-		messageIndex
-	}: LearningTipsProps = $props();
+	let { message, learningTips, messageIndex }: LearningTipsProps = $props();
 
 	const isGeneratingTips = $derived(!learningTips);
 
@@ -66,9 +60,8 @@
 
 <AiPostProcessActionBase
 	dataTestId={E2E_TEST_IDS.session.messageLearningTips(messageIndex)}
-	label="Wskazówki do nauki"
+	label="Wskazówki"
 	isGenerating={isGeneratingTips}
-	bind:showIconsInHighlightedParts
 	{isSelected}
 	onPreviewContentClick={(e) => {
 		const isSameMessageClickedAgain =
@@ -101,7 +94,7 @@
 		{#each indicators as { category, count, label } (category)}
 			{@const { iconColor } = getAiMessageLearningTipColors(category)}
 
-			<HighlightsCountBadge {count} {label} {iconColor} class="">
+			<HighlightsCountBadge {count} {label} {iconColor}>
 				{#snippet icon()}
 					<AiMessageLearningTipIcon tipCategory={category} />
 				{/snippet}
@@ -110,9 +103,8 @@
 	{/snippet}
 
 	{#if isGeneratingTips}
-		<TextWithThreeDotsAnimation
-			text="Trwa przygotowywanie materiałów edukacyjnych"
-			dotsWrapperClass="mb-1"
-		/>
+		<div class="text-xs text-ink-muted">
+			<TextWithThreeDotsAnimation text="Przygotowywanie wskazówek" dotsWrapperClass="mb-0.5" />
+		</div>
 	{/if}
 </AiPostProcessActionBase>

@@ -1,14 +1,13 @@
 # Tailwind 4 utility-first styling
 
-The project uses Tailwind CSS 4 via `@tailwindcss/vite` — configuration lives in CSS (`@theme`, `@custom-variant`, `@plugin`, `@source` in `src/app.css`), there is no `tailwind.config.js`. Style components with utility classes directly in markup; reserve custom CSS for global concerns in `src/app.css` and shared `@layer components` classes in `src/lib/styles/` (e.g. typography classes like `heading-1`, `body-small`). Use the `primary-*` palette from `@theme` for brand colors, and reuse existing shared classes (`app-bg-col`, typography) instead of redefining them.
+The project uses Tailwind CSS 4 via `@tailwindcss/vite` — configuration lives in CSS (`@theme`, `@custom-variant`, `@plugin`, `@source` in `src/app.css`), there is no `tailwind.config.js`. Style components with utility classes directly in markup; reserve custom CSS for global concerns in `src/app.css` and shared `@layer components` classes in `src/lib/styles/` (e.g. typography classes like `heading-1`, `body-small`). Use Quiet studio tokens (`canvas`, `surface`, `ink`, `line`, `accent-soft`, `on-ink`) for chrome — they swap in `.dark`. Keep `primary-*` only for leftover brand ramps; prefer `ink` for filled actions.
 
 ## Good
 
 ```svelte
-<!-- utilities in markup, theme palette, shared typography class -->
-<div class="app-bg-col flex items-center gap-2 rounded-lg border border-gray-300 p-2.5">
+<div class="app-bg-col flex items-center gap-2 rounded-[10px] border border-line p-2.5">
 	<h2 class="heading-3">Session summary</h2>
-	<span class="text-primary-600 dark:text-primary-400">Active</span>
+	<span class="text-ink-muted">Active</span>
 </div>
 ```
 

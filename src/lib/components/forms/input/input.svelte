@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { detectPlatform, normalizeRegisterableHotkey } from '@tanstack/svelte-hotkeys';
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import {
 		getButtonHotkeyChipClasses,
 		getButtonTextColorClasses,
@@ -78,9 +78,7 @@
 		getOutlinedInputFieldClasses(appearanceVariant, disabled, readonly)
 	);
 	const adornmentColorClasses = $derived(
-		disabled
-			? 'text-gray-400 dark:text-gray-500'
-			: getButtonTextColorClasses('OUTLINED', appearanceVariant)
+		disabled ? 'text-ink-subtle' : getButtonTextColorClasses('OUTLINED', appearanceVariant)
 	);
 
 	// eslint-disable-next-line svelte/prefer-writable-derived
@@ -137,12 +135,7 @@
 				inputClass
 			)}
 		>
-			<span
-				class={cn(
-					'min-w-0 truncate',
-					!internalValue && 'text-gray-400/55 font-normal dark:text-gray-500/45'
-				)}
-			>
+			<span class={cn('min-w-0 truncate', !internalValue && 'text-ink-subtle font-normal')}>
 				{internalValue || placeholder || '\u00a0'}
 			</span>
 		</span>

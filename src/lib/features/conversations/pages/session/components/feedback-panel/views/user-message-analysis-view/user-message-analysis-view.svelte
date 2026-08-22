@@ -49,7 +49,7 @@
 {#if currentMessage}
 	<div class="flex flex-col h-full min-h-0">
 		<div class="shrink-0 space-y-6">
-			<h2 class="heading-4 mb-4">Analysis Details</h2>
+			<h2 class="heading-5 mb-4 text-ink">Analysis Details</h2>
 
 			<Tabs
 				tabs={mainTabs}

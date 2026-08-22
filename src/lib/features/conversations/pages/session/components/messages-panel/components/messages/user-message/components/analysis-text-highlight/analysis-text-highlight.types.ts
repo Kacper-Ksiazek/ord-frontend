@@ -7,5 +7,4 @@ export interface AnalysisTextHighlightProps {
 	highlightType: MessageAnalysisCriteria;
 	highlightedText: string;
 	analysis: ConversationUserMessageAnalysisDTO;
-	showIconsInHighlightedParts: boolean;
 }

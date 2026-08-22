@@ -84,7 +84,7 @@
 			]}
 		/>
 
-		<h2 class="heading-4 mb-4">Conversation Summary</h2>
+		<h2 class="heading-5 mb-4 text-ink">Conversation Summary</h2>
 
 		<Tabs
 			dataTestId={E2E_TEST_IDS.session.feedbackSummaryTabs}

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
-	import { getScoreBoxColor } from '$lib/components/scores/constants/score-colors';
+	import { cn } from '$lib/utils/cn';
+	import { getScoreChipClasses } from '$lib/components/scores/constants/score-colors';
 
 	interface ScoreProps {
 		field: string;
@@ -9,17 +9,17 @@
 
 	const { field, score }: ScoreProps = $props();
 
-	const boxColor = $derived(getScoreBoxColor(score));
+	const chip = $derived(getScoreChipClasses(score));
 </script>
 
-<div class={cn('flex items-center gap-3 p-1 rounded-md')}>
-	<div class={cn('w-8 h-8 rounded-full flex items-center justify-center shrink-0', boxColor)}>
-		<span class="font-bold text-white dark:text-white">
+<div class={cn('flex items-center gap-3 rounded-md p-1')}>
+	<div class={cn('flex size-8 shrink-0 items-center justify-center rounded-full', chip.bg)}>
+		<span class={cn('font-semibold', chip.text)}>
 			{score}
 		</span>
 	</div>
 
-	<span class="whitespace-nowrap min-w-[96px]">
+	<span class="min-w-[96px] whitespace-nowrap text-sm text-ink-muted">
 		{field}
 	</span>
 </div>

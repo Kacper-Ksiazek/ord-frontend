@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { formatForDisplay, getHotkeyManager } from '@tanstack/svelte-hotkeys';
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import type { HotkeyKbdProps } from './hotkey-kbd.types';
 
 	let {

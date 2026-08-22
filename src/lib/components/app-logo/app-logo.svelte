@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import Logo from '$lib/assets/images/logo.svg.svelte';
 	import { type Theme, themeStore } from '$lib/stores/theme.svelte';
 

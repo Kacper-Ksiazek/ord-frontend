@@ -1,34 +1,26 @@
 <script lang="ts">
-	import size from 'lodash/size';
-	import compact from 'lodash/compact';
 	import type { ConversationUserMessageAnalysisDTO } from '$conversations/types';
-	import { RoundedBoxesScore } from '$lib/components/scores';
+	import type { MessageAnalysisCriteria } from '$conversations/types';
 	import { getSidepanelContext } from '$conversations/pages/session/contexts/sidepanel-context.svelte';
 	import AiPostProcessActionBase from '../../../ai-post-process-action-base/ai-post-process-action-base.svelte';
-	import AnalysisMetricIcon from '$conversations/pages/session/components/shared/user-message-analysis/user-message-analysis-metric-icon.svelte';
-	import type { MessageAnalysisCriteria } from '$conversations/types';
-	import { getUserMessageAnalysisColors } from '$conversations/pages/session/constants/user-message-analysis/colors';
 	import HighlightsCountBadge from '$conversations/pages/session/components/shared/highlights-count-badge.svelte';
+	import AnalysisMetricIcon from '$conversations/pages/session/components/shared/user-message-analysis/user-message-analysis-metric-icon.svelte';
+	import { getUserMessageAnalysisColors } from '$conversations/pages/session/constants/user-message-analysis/colors';
 	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 	import { Button } from '$lib/components/buttons/button';
+	import compact from 'lodash/compact';
+	import size from 'lodash/size';
 	import * as m from '$lib/paraglide/messages.js';
 
 	interface AnalysisProps {
 		analysis: ConversationUserMessageAnalysisDTO | null;
 		analysisFailed?: boolean;
 		messageIndex: number;
-		showIconsInHighlightedParts: boolean;
 		onRetryAnalysis?: () => void;
 	}
 
-	let {
-		analysis,
-		analysisFailed = false,
-		messageIndex,
-		showIconsInHighlightedParts = $bindable(),
-		onRetryAnalysis
-	}: AnalysisProps = $props();
+	let { analysis, analysisFailed = false, messageIndex, onRetryAnalysis }: AnalysisProps = $props();
 
 	const showAnalysisLoading = $derived(!analysis && !analysisFailed);
 
@@ -38,42 +30,32 @@
 		sidepanelContext.isOpened && sidepanelContext.analysisPreview?.id === analysis?.id
 	);
 
-	const mistakesCount = $derived(size(analysis?.mistakes));
-	const strengthsCount = $derived(size(analysis?.strengths));
-	const suggestionsCount = $derived(size(analysis?.suggestions));
-
-	const indicators = $derived(
+	const findings = $derived(
 		compact([
-			mistakesCount && {
-				criteria: 'MISTAKES',
-				count: mistakesCount,
-				label: 'Mistakes'
+			size(analysis?.mistakes) > 0 && {
+				criteria: 'MISTAKES' as MessageAnalysisCriteria,
+				count: size(analysis?.mistakes),
+				label: 'Błędy'
 			},
-			strengthsCount && {
-				criteria: 'STRENGTHS',
-				count: strengthsCount,
-				label: 'Strengths'
+			size(analysis?.suggestions) > 0 && {
+				criteria: 'SUGGESTIONS' as MessageAnalysisCriteria,
+				count: size(analysis?.suggestions),
+				label: 'Sugestie'
 			},
-			suggestionsCount && {
-				criteria: 'SUGGESTIONS',
-				count: suggestionsCount,
-				label: 'Suggestions'
+			size(analysis?.strengths) > 0 && {
+				criteria: 'STRENGTHS' as MessageAnalysisCriteria,
+				count: size(analysis?.strengths),
+				label: 'Mocne strony'
 			}
-		]) satisfies {
-			criteria: MessageAnalysisCriteria;
-			count: number;
-			label: string;
-		}[]
+		])
 	);
 </script>
 
 <AiPostProcessActionBase
 	dataTestId={E2E_TEST_IDS.session.messageAnalysis(messageIndex)}
-	label="Analiza wiadomości"
+	label="Analiza"
 	isGenerating={showAnalysisLoading}
-	bind:showIconsInHighlightedParts
 	{isSelected}
-	enableExpandCollapse
 	onPreviewContentClick={(e) => {
 		const isTheSameAnalysisClickedAgain = sidepanelContext.analysisPreview?.id === analysis?.id;
 
@@ -93,10 +75,10 @@
 	}}
 >
 	{#snippet badges()}
-		{#each indicators as { criteria, count, label } (criteria)}
+		{#each findings as { criteria, count, label } (criteria)}
 			{@const { iconColor } = getUserMessageAnalysisColors(criteria)}
 
-			<HighlightsCountBadge {count} {label} {iconColor} class="">
+			<HighlightsCountBadge {count} {label} {iconColor}>
 				{#snippet icon()}
 					<AnalysisMetricIcon {criteria} />
 				{/snippet}
@@ -104,21 +86,9 @@
 		{/each}
 	{/snippet}
 
-	{#if analysis}
-		<div class="rounded-md mt-2 p-2">
-			<p class="content-long">
-				{analysis.tutorComment}
-			</p>
-		</div>
-
-		<div class="flex gap-1 items-start">
-			<RoundedBoxesScore field="Gramatyka" score={analysis.grammar} />
-			<RoundedBoxesScore field="Słownictwo" score={analysis.vocabulary} />
-			<RoundedBoxesScore field="Naturalność" score={analysis.naturalness} />
-		</div>
-	{:else if analysisFailed}
-		<div class="mt-2 flex flex-col items-start gap-2" role="alert">
-			<p class="text-sm text-red-700 dark:text-red-300">
+	{#if analysisFailed}
+		<div class="flex flex-col items-start gap-1.5" role="alert">
+			<p class="text-xs text-danger">
 				{m['features.conversation.session.analysis.failed']()}
 			</p>
 			{#if onRetryAnalysis}
@@ -128,9 +98,8 @@
 			{/if}
 		</div>
 	{:else if showAnalysisLoading}
-		<TextWithThreeDotsAnimation
-			text="Trwa przygotowywanie materiałów edukacyjnych"
-			dotsWrapperClass="mb-1"
-		/>
+		<div class="text-xs text-ink-muted">
+			<TextWithThreeDotsAnimation text="Przygotowywanie analizy" dotsWrapperClass="mb-0.5" />
+		</div>
 	{/if}
 </AiPostProcessActionBase>

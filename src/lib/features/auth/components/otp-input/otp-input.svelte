@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import type { OtpInputProps } from './otp-input.interface';
 	import { E2E_TEST_IDS } from '$auth/testing/test-ids';
+	import { cn } from '$lib/utils/cn';
 
 	let {
 		value = $bindable(''),
@@ -132,18 +133,16 @@
 			onpaste={index === 0 ? handlePaste : undefined}
 			onfocus={handleFocus}
 			{disabled}
-			class="w-12 h-14 text-center text-2xl font-semibold border-2 rounded-lg transition-all
-				text-gray-900 dark:text-white
-				{error
-				? 'border-red-500 focus:border-red-600 focus:ring-2 focus:ring-red-200 dark:border-red-400 dark:focus:border-red-500'
-				: 'border-gray-300 dark:border-gray-600 focus:border-primary-600 focus:ring-2 focus:ring-primary-300'}
-				{disabled
-				? 'bg-gray-100 dark:bg-gray-800 cursor-not-allowed'
-				: digit
-					? 'bg-white dark:bg-gray-700'
-					: 'bg-gray-50 dark:bg-gray-800'}
-				{digit ? 'border-gray-400 dark:border-gray-500' : ''}
-				outline-none"
+			class={cn(
+				'h-14 w-12 rounded-[10px] border text-center text-2xl font-medium outline-none transition-colors',
+				'text-ink',
+				error
+					? 'border-danger focus:border-danger focus:ring-2 focus:ring-danger/25'
+					: 'border-line focus:border-ink focus:ring-2 focus:ring-ink/20',
+				disabled && 'cursor-not-allowed bg-accent-soft opacity-60',
+				!disabled && (digit ? 'bg-surface' : 'bg-accent-soft'),
+				digit && !error && 'border-ink/40'
+			)}
 			aria-label="Digit {index + 1}"
 		/>
 	{/each}
