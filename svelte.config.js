@@ -7,7 +7,9 @@ const config = {
 	// for more information about preprocessors
 	preprocess: vitePreprocess(),
 	kit: {
-		adapter: adapter(),
+		adapter: adapter({
+			runtime: 'nodejs22.x'
+		}),
 		alias: {
 			// Feature-Driven Development (FDD) aliases
 			$auth: 'src/lib/features/auth',
