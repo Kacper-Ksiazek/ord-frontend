@@ -1,7 +1,7 @@
 <script lang="ts">
 	import Skeleton from '$lib/components/utils/skeleton.svelte';
 	import type { ConversationAIInterlocutorAvatarId } from '$conversations/types';
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 
 	const avatarsModules = import.meta.glob('$lib/assets/images/conversation/avatars/*/*.jpg', {
 		eager: false,
@@ -48,6 +48,6 @@
 		src={avatarPath as string}
 		alt={`AI Interlocutor Avatar ${avatarId}`}
 		loading="lazy"
-		class={cn(sizeClass, customClass)}
+		class={cn(sizeClass, 'object-cover', customClass)}
 	/>
 {/await}

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import { HeatmapPercentile } from '$conversations/types';
 	import type { HeatmapDay } from '$conversations/types';
 	import {

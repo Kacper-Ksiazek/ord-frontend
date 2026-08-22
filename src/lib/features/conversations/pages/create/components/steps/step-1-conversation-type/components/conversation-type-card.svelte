@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import { Heart } from 'lucide-svelte';
 	import { IconButton } from '$lib/components/buttons/icon-button';
 	import SelectableCard from '$lib/components/utils/selectable-card.svelte';
@@ -34,9 +34,7 @@
 
 	const comingSoonChipClass = cn(
 		'pointer-events-none absolute right-3 top-3 label-small shrink-0 whitespace-nowrap rounded-md px-2.5 py-1',
-		'border',
-		'bg-white text-gray-900 border-gray-300',
-		'dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600'
+		'border border-line bg-surface text-ink-muted'
 	);
 </script>
 
@@ -80,27 +78,22 @@
 	<ConversationTypeIcon
 		conversationType={type}
 		class={cn(
-			'w-20 h-20 text-gray-300 mb-2 dark:text-gray-600',
-			disabled && 'text-gray-400 dark:text-gray-500',
-			isSelected && !disabled && 'text-primary-500 dark:text-white'
+			'mb-2 h-20 w-20 text-ink-subtle',
+			disabled && 'text-ink-subtle',
+			isSelected && !disabled && 'text-ink'
 		)}
 	/>
 
-	<h3
-		class={cn(
-			'text-lg font-bold text-gray-900 dark:text-gray-50',
-			disabled && 'text-gray-600 dark:text-gray-400'
-		)}
-	>
+	<h3 class={cn('text-lg font-medium text-ink', disabled && 'text-ink-muted')}>
 		{label}
 	</h3>
 
 	{#if enableHints}
 		<p
 			class={cn(
-				'text-sm text-center dark:text-gray-400',
-				disabled && 'text-gray-500 dark:text-gray-500',
-				isSelected && !disabled && 'text-gray-600 dark:text-gray-100'
+				'text-center text-sm text-ink-muted',
+				disabled && 'text-ink-subtle',
+				isSelected && !disabled && 'text-ink-muted'
 			)}
 		>
 			{description}

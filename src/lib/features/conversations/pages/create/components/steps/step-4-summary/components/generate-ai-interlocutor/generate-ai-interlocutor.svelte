@@ -15,7 +15,7 @@
 	import { RefreshCw } from 'lucide-svelte';
 	import * as m from '$lib/paraglide/messages.js';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 
 	let isGenerating = $state(false);
 	let hasAutoFetched = $state(false);
