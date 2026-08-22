@@ -4,8 +4,6 @@
 		AiAdviceBaseBlock,
 		DerivedAiAdviceCardProps
 	} from '../../ai-advice-base/ai-advice.types';
-	import { EXPLANATION_ICON } from '$conversations/pages/session/constants/icons';
-	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
 	import AiAdviceBase from '../../ai-advice-base/ai-advice-base.svelte';
 
 	interface Props extends DerivedAiAdviceCardProps {
@@ -25,7 +23,6 @@
 					label: 'Phrase',
 					translation: {
 						text: tip.phrase,
-						Icon: AI_MESSAGE_LEARNING_TIP_ICONS_MAP['GRAMMAR'],
 						badges: [
 							{
 								text: tip.register,
@@ -47,8 +44,7 @@
 				{
 					type: 'text',
 					label: 'Explanation',
-					text: tip.explanation,
-					Icon: EXPLANATION_ICON
+					text: tip.explanation
 				},
 				{
 					type: 'examples',
@@ -62,7 +58,7 @@
 	}
 
 	const color = 'green' as const;
-	const { headerBlocks, bodyBlocks } = toBlocks(tip);
+	const { headerBlocks, bodyBlocks } = $derived(toBlocks(tip));
 </script>
 
 <AiAdviceBase {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />

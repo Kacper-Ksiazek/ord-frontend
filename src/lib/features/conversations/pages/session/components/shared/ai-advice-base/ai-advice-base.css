@@ -3,38 +3,21 @@
 
 @layer components {
 	.analysis-card-container {
-		@apply p-4 rounded-lg border transition-all flex flex-col gap-2;
+		@apply flex flex-col gap-4;
 	}
 
-	.analysis-card-text-box {
-		@apply flex items-center gap-2 text-sm py-1.5 px-3 rounded-lg border text-gray-900 dark:text-gray-100;
+	.analysis-card-label {
+		@apply text-xs font-medium;
+		color: var(--color-ink-subtle);
 	}
 
-	.analysis-card-text-box svg {
-		@apply w-4 h-4 shrink-0;
+	.analysis-card-text {
+		@apply text-sm leading-relaxed;
+		color: var(--color-ink);
 	}
 
-	.analysis-card-text-box.variant-neutral {
-		@apply bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-600;
-	}
-
-	.analysis-card-text-box.variant-green {
-		@apply bg-white dark:bg-green-900/20 border-green-300 dark:border-green-700;
-	}
-
-	.analysis-card-text-box.variant-red {
-		@apply bg-white dark:bg-red-900/20 border-red-300 dark:border-red-700;
-	}
-
-	.analysis-card-text-box.variant-blue {
-		@apply bg-white dark:bg-blue-900/20 border-blue-300 dark:border-blue-700;
-	}
-
-	.analysis-card-text-box.variant-purple {
-		@apply bg-white dark:bg-purple-900/20 border-purple-300 dark:border-purple-700;
-	}
-
-	.analysis-card-explanation {
-		@apply text-sm text-gray-700 dark:text-gray-300 leading-relaxed;
+	.analysis-card-text-muted {
+		@apply text-sm leading-relaxed;
+		color: var(--color-ink-muted);
 	}
 }

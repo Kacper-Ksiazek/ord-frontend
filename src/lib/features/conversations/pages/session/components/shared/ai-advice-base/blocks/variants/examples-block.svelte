@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
 	import type { ExamplesBlock } from '../../ai-advice.types';
 	import type { TailwindColorTheme } from '$conversations/shared/utils/get-tailwind-colors';
 	import { ArrowRight } from 'lucide-svelte';
@@ -13,8 +12,7 @@
 
 	let { block, theme }: Props = $props();
 
-	const defaultIcon = ArrowRight;
-	const icon = $derived.by(() => block.Icon || defaultIcon);
+	const icon = $derived(block.Icon ?? ArrowRight);
 
 	const highlightStyle = $derived.by(() => {
 		if (block.category && block.parseBold) {
@@ -26,15 +24,15 @@
 </script>
 
 {#if block.examples && block.examples.length > 0}
-	<div>
-		<p class="label mb-1">{block.label}:</p>
-		<div class="space-y-2">
+	<div class="flex flex-col gap-1">
+		<p class="analysis-card-label">{block.label}</p>
+		<div class="flex flex-col gap-1">
 			{#each block.examples as example (example)}
 				{@const Icon = icon}
-				<div class="analysis-card-text-box variant-neutral">
-					<Icon class={cn('w-4 h-4', theme.iconColor)} />
+				<div class="flex items-center gap-1.5">
+					<Icon class="h-3.5 w-3.5 shrink-0 text-ink-muted" />
 
-					<span class="content-long">
+					<p class="analysis-card-text">
 						{#if block.parseBold}
 							{#each parseBoldText(example) as part (part.text)}
 								{#if part.bold}
@@ -46,7 +44,7 @@
 						{:else}
 							{example}
 						{/if}
-					</span>
+					</p>
 				</div>
 			{/each}
 		</div>

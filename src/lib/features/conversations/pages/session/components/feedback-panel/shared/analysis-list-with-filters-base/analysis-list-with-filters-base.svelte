@@ -101,10 +101,8 @@
 					{#if emptyFiltered}
 						{@render emptyFiltered()}
 					{:else}
-						<h3 class="heading-5 text-gray-900 dark:text-gray-100">No results match your filters</h3>
-						<p class="text-sm text-gray-600 dark:text-gray-400">
-							Try changing or clearing your filters to see more items.
-						</p>
+						<h3 class="heading-5 text-ink">No results match your filters</h3>
+						<p class="text-sm text-ink-muted">Try changing or clearing your filters to see more items.</p>
 					{/if}
 				</div>
 				<Button type="OUTLINED" variant="DELETE" onClick={clearFilters}>
@@ -122,14 +120,10 @@
 				{#if emptyNoData}
 					{@render emptyNoData()}
 				{:else}
-					<Inbox
-						class="size-12 text-gray-400 dark:text-gray-500 shrink-0"
-						strokeWidth={1.25}
-						aria-hidden="true"
-					/>
-					<div class="flex flex-col gap-2 max-w-sm">
-						<h3 class="heading-5 text-gray-900 dark:text-gray-100">Nothing here yet</h3>
-						<p class="text-sm text-gray-600 dark:text-gray-400">
+					<Inbox class="size-10 shrink-0 text-ink-subtle" strokeWidth={1.25} aria-hidden="true" />
+					<div class="flex max-w-sm flex-col gap-2">
+						<h3 class="heading-5 text-ink">Nothing here yet</h3>
+						<p class="text-sm text-ink-muted">
 							There’s nothing to show right now. Check back after more activity in this conversation.
 						</p>
 					</div>

@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
 	import { getAiMessageLearningTipColors } from '$conversations/pages/session/constants/ai-message-learning-tips/colors';
 	import { LEARNING_TIP_EXAMPLE_SENTENCE_ICON } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
 	import type { LearningTipCategory } from '$conversations/types';
@@ -12,18 +11,17 @@
 
 	let { exampleSentence, category }: Props = $props();
 
-	const highlightStyle = getAiMessageLearningTipColors(category).highlightedText;
-	const iconColor = getAiMessageLearningTipColors(category).iconColor;
+	const highlightStyle = $derived(getAiMessageLearningTipColors(category).highlightedText);
 </script>
 
 {#if exampleSentence && exampleSentence.length > 0}
-	<div>
-		<p class="label mb-1">Example Sentences:</p>
-		<div class="space-y-2">
+	<div class="flex flex-col gap-1">
+		<p class="analysis-card-label">Example Sentences</p>
+		<div class="flex flex-col gap-1">
 			{#each exampleSentence as sentence (sentence)}
-				<div class="analysis-card-text-box variant-neutral">
-					<LEARNING_TIP_EXAMPLE_SENTENCE_ICON class={cn('w-4 h-4', iconColor)} />
-					<span class="content-long">
+				<div class="flex items-center gap-1.5">
+					<LEARNING_TIP_EXAMPLE_SENTENCE_ICON class="h-3.5 w-3.5 shrink-0 text-ink-muted" />
+					<p class="analysis-card-text">
 						{#each parseBoldText(sentence) as part (part.text)}
 							{#if part.bold}
 								<span class={highlightStyle}>{part.text}</span>
@@ -31,7 +29,7 @@
 								{part.text}
 							{/if}
 						{/each}
-					</span>
+					</p>
 				</div>
 			{/each}
 		</div>

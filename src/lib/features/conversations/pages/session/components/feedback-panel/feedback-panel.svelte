@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ContentCard from '$lib/components/utils/content-card.svelte';
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
 	import { getSidepanelWidth } from '../constants.svelte';
 	import { fade } from 'svelte/transition';
@@ -29,7 +29,7 @@
 	data-testid={E2E_TEST_IDS.session.feedbackPanel}
 	class={cn(
 		'flex flex-col transition-transform duration-300 origin-right h-full relative rounded-none',
-		'bg-white dark:bg-gray-800 transition-[width] overflow-hidden p-0!'
+		'bg-surface transition-[width] overflow-hidden p-0!'
 	)}
 	style={sidepanelContext.isOpened ? `width: ${sidepanelWidth}px` : 'width: 0px'}
 >
@@ -40,12 +40,7 @@
 		></div>
 	{/if}
 
-	<div
-		class={cn(
-			'flex-1 overflow-y-auto min-h-0 px-6 py-8', // min-h-0 allows flex child to shrink below content size
-			'text-gray-900 dark:text-gray-100'
-		)}
-	>
+	<div class={cn('flex-1 overflow-y-auto min-h-0 px-6 py-8', 'text-ink')}>
 		{#if showBreadcrumb}
 			<Breadcrumb
 				class="mb-3"

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '../../../constants/ai-message-learning-tips/icons';
 	import type { LearningTipCategory } from '$conversations/types';
 	import { getAiMessageLearningTipColors } from '../../../constants/ai-message-learning-tips/colors';
@@ -16,7 +16,7 @@
 
 <Icon
 	class={cn(
-		getAiMessageLearningTipColors(tipCategory).twColor, //
+		getAiMessageLearningTipColors(tipCategory).iconColor, //
 		className
 	)}
 />

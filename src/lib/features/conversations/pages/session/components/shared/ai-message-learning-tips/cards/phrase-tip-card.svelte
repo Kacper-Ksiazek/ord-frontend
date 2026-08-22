@@ -4,8 +4,6 @@
 		AiAdviceBaseBlock,
 		DerivedAiAdviceCardProps
 	} from '../../ai-advice-base/ai-advice.types';
-	import { EXPLANATION_ICON } from '$conversations/pages/session/constants/icons';
-	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
 	import { PHRASE_TYPE_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/subcategory-icons';
 	import AiAdviceBase from '../../ai-advice-base/ai-advice-base.svelte';
 
@@ -30,7 +28,6 @@
 					label: 'Phrase',
 					translation: {
 						text: tip.phrase,
-						Icon: AI_MESSAGE_LEARNING_TIP_ICONS_MAP['PHRASES'],
 						badges: [
 							{
 								text: getPhraseTypeLabel(tip.phraseType),
@@ -51,8 +48,7 @@
 				{
 					type: 'text',
 					label: 'Meaning',
-					text: tip.meaning,
-					Icon: EXPLANATION_ICON
+					text: tip.meaning
 				},
 				{
 					type: 'examples',
@@ -66,7 +62,7 @@
 	}
 
 	const color = 'purple' as const;
-	const { headerBlocks, bodyBlocks } = toBlocks(tip);
+	const { headerBlocks, bodyBlocks } = $derived(toBlocks(tip));
 </script>
 
 <AiAdviceBase {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />

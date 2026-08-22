@@ -6,59 +6,49 @@
 	//   2. Create a generic badge component that can handle both register badges and regular badges
 	//   3. Evaluate if TipRegisterBadge should be moved to a truly shared location
 	//   4. Use a factory/registry pattern for badge components
-	import { Badge, cn } from 'flowbite-svelte';
+	import { Badge } from '$lib/components/utils/badge';
 	import type { TranslationBlock } from '../../ai-advice.types';
 	import type { TailwindColorTheme } from '$conversations/shared/utils/get-tailwind-colors';
 	import TipRegisterBadge from '$conversations/pages/session/components/shared/ai-message-learning-tips/cards/shared/tip-register-badge.svelte';
 	import { AuthUserNativeLanguageFlag } from '$auth/components';
+	import { Languages } from 'lucide-svelte';
 
 	interface Props {
 		block: TranslationBlock;
 		theme: TailwindColorTheme;
 	}
 
-	let { block, theme }: Props = $props();
-
-	const variantClass = $derived.by(() => {
-		switch (theme.twColor) {
-			case 'green':
-				return 'variant-green';
-			case 'blue':
-				return 'variant-blue';
-			case 'purple':
-				return 'variant-purple';
-			case 'red':
-				return 'variant-red';
-			default:
-				return 'variant-neutral';
-		}
-	});
+	let { block }: Props = $props();
 </script>
 
-<div>
-	<p class="label mb-1">{block.label || 'Translation'}:</p>
-	<div class={cn('analysis-card-text-box', variantClass, 'flex gap-2')}>
-		<block.translation.Icon class={cn('w-4 h-4', theme.iconColor)} />
-		<span class="flex-1 content-long">{block.translation.text}</span>
+<div class="flex flex-col gap-0.5">
+	<p class="analysis-card-label">{block.label || 'Translation'}</p>
+	<div class="flex items-start gap-2">
+		<p class="analysis-card-text min-w-0 flex-1">{block.translation.text}</p>
 
-		{#each block.translation.badges as badge (badge.text)}
-			{#if badge.register}
-				<TipRegisterBadge register={badge.register} color={theme.twColor} />
-			{:else}
-				<Badge color={theme.twColor} class="flex items-center gap-1">
-					{#if badge.Icon}
-						<badge.Icon class="w-4 h-4" />
+		{#if block.translation.badges.length > 0}
+			<div class="flex flex-wrap justify-end gap-1">
+				{#each block.translation.badges as badge (badge.text)}
+					{#if badge.register}
+						<TipRegisterBadge register={badge.register} color="gray" />
+					{:else}
+						<Badge color="gray" class="flex items-center gap-1">
+							{#if badge.Icon}
+								<badge.Icon class="h-3 w-3" />
+							{/if}
+							{badge.text}
+						</Badge>
 					{/if}
-					{badge.text}
-				</Badge>
-			{/if}
-		{/each}
+				{/each}
+			</div>
+		{/if}
 	</div>
 
 	{#if block.nativeLanguage?.text?.trim()}
-		<div class="analysis-card-text-box variant-neutral flex gap-2 mt-1">
-			<AuthUserNativeLanguageFlag class="w-4 h-4" />
-			<span class="flex-1 content-long">{block.nativeLanguage.text}</span>
+		<div class="mt-0.5 flex items-center gap-1.5">
+			<Languages class="h-3.5 w-3.5 shrink-0 text-ink-muted" aria-hidden="true" />
+			<AuthUserNativeLanguageFlag class="h-3 w-3 shrink-0" />
+			<p class="analysis-card-text min-w-0">{block.nativeLanguage.text}</p>
 		</div>
 	{/if}
 </div>

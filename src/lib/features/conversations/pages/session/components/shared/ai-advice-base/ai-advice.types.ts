@@ -12,7 +12,7 @@ export interface TranslationBlock extends BaseBlock {
 	label?: string;
 	translation: {
 		text: string;
-		Icon: LucideIcon;
+		Icon?: LucideIcon;
 		badges: {
 			text: string;
 			Icon?: LucideIcon;

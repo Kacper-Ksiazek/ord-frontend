@@ -23,7 +23,7 @@
 {#if currentMessage}
 	<div class="flex flex-col h-full min-h-0">
 		<div class="shrink-0 space-y-6">
-			<h2 class="heading-4 mb-4">Wskazówki do nauki</h2>
+			<h2 class="heading-5 mb-4 text-ink">Wskazówki do nauki</h2>
 		</div>
 
 		<div class="flex-1 min-h-0 flex flex-col">
@@ -38,7 +38,5 @@
 		</div>
 	</div>
 {:else if order !== null}
-	<p class="content-long text-gray-500 dark:text-gray-400">
-		Nie można załadować wskazówek dla tej wiadomości.
-	</p>
+	<p class="content-long text-ink-muted">Nie można załadować wskazówek dla tej wiadomości.</p>
 {/if}
