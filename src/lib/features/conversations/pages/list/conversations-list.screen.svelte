@@ -72,15 +72,17 @@
 				]}
 			/>
 
-			<div class="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+			<div
+				class="mb-6 flex flex-col gap-3 border-b border-line-subtle pb-6 sm:flex-row sm:items-end sm:justify-between"
+			>
 				<div>
 					<h1
-						class="text-2xl font-bold text-gray-900 dark:text-white"
+						class="text-2xl font-bold tracking-tight text-ink"
 						data-testid={E2E_TEST_IDS.conversations.heading}
 					>
 						{m['features.conversation.list.heading']()}
 					</h1>
-					<p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+					<p class="mt-1 text-sm text-ink-muted">
 						{m['features.conversation.list.subtitle']()}
 					</p>
 				</div>
@@ -96,7 +98,7 @@
 
 			{#if activityOverviewQuery.isPending}
 				<div
-					class="mb-6 flex min-h-[120px] items-center justify-center rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-600 dark:bg-gray-700/50"
+					class="mb-6 flex min-h-[120px] items-center justify-center rounded-[10px] border border-line bg-surface"
 					aria-busy="true"
 					aria-label={m['features.conversation.list.activity.loading_aria']()}
 				>
@@ -104,10 +106,10 @@
 				</div>
 			{:else if activityOverviewQuery.isError}
 				<div
-					class="mb-6 flex flex-col items-start gap-3 rounded-lg border border-red-200 bg-red-50 p-4 dark:border-red-800 dark:bg-red-900/20"
+					class="mb-6 flex flex-col items-start gap-3 rounded-[10px] border border-danger/25 bg-danger/5 p-4"
 					role="alert"
 				>
-					<p class="text-sm text-red-800 dark:text-red-200">
+					<p class="text-sm text-danger">
 						{activityOverviewQuery.error?.message ??
 							m['features.conversation.list.activity.error_fallback']()}
 					</p>

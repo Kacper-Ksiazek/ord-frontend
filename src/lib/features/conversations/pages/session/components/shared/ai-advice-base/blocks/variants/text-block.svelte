@@ -28,7 +28,7 @@
 				<block.Icon class={cn('size-3.5', block.iconClass)} aria-hidden="true" />
 			</span>
 		{:else if highlightSwatch}
-			<span class={cn('size-2 shrink-0 rounded-full', highlightSwatch)} aria-hidden="true" />
+			<span class={cn('size-2 shrink-0 rounded-full', highlightSwatch)} aria-hidden="true"></span>
 		{/if}
 		<span class="min-w-0">{block.text}</span>
 	</p>

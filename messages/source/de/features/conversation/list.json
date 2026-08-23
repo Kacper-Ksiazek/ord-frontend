@@ -11,7 +11,17 @@
 	"activity": {
 		"loading_aria": "Aktivitätsübersicht wird geladen",
 		"error_fallback": "Aktivitätsübersicht konnte nicht geladen werden.",
-		"try_again": "Erneut versuchen"
+		"try_again": "Erneut versuchen",
+		"messages": "Nachrichten",
+		"conversations": "Gespräche",
+		"messages_chart_aria": "Nachrichten pro Woche in den letzten Wochen",
+		"conversations_chart_aria": "Gespräche pro Woche in den letzten Wochen",
+		"heatmap_aria": "Nachrichtenaktivität nach Monat; jede Zeile ist ein Wochentag von Montag bis Sonntag",
+		"heatmap_future": "{date}: Zukunft",
+		"heatmap_no_data": "{date}: Keine Daten",
+		"heatmap_no_messages": "{date}: Keine Nachrichten",
+		"heatmap_one_message": "{date}: 1 Nachricht",
+		"heatmap_n_messages": "{date}: {count} Nachrichten"
 	},
 	"empty": {
 		"no_conversations": {

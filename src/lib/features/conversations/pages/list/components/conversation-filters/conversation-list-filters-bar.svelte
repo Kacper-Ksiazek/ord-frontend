@@ -42,7 +42,7 @@
 	];
 </script>
 
-<div class="flex gap-2 mb-6" data-testid={E2E_TEST_IDS.conversations.filters}>
+<div class="mb-6 flex items-center gap-2" data-testid={E2E_TEST_IDS.conversations.filters}>
 	<Input
 		dataTestId={E2E_TEST_IDS.conversations.filterSearch}
 		debounced
@@ -61,7 +61,7 @@
 		buttonClass="w-[220px]"
 	>
 		{#snippet icon()}
-			<ClockIcon class="w-4 h-4" />
+			<ClockIcon class="size-4 text-ink-muted" />
 		{/snippet}
 	</DropdownSelect>
 
@@ -73,7 +73,7 @@
 		buttonClass="w-[320px]"
 	>
 		{#snippet icon()}
-			<MessageSquare class="w-4 h-4" />
+			<MessageSquare class="size-4 text-ink-muted" />
 		{/snippet}
 	</DropdownSelect>
 

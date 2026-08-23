@@ -11,7 +11,17 @@
 	"activity": {
 		"loading_aria": "Wczytywanie podsumowania aktywności",
 		"error_fallback": "Nie udało się wczytać podsumowania aktywności.",
-		"try_again": "Spróbuj ponownie"
+		"try_again": "Spróbuj ponownie",
+		"messages": "Wiadomości",
+		"conversations": "Rozmowy",
+		"messages_chart_aria": "Wiadomości w kolejnych tygodniach",
+		"conversations_chart_aria": "Rozmowy w kolejnych tygodniach",
+		"heatmap_aria": "Aktywność wiadomości według miesiąca; każdy wiersz to dzień tygodnia od poniedziałku do niedzieli",
+		"heatmap_future": "{date}: Przyszłość",
+		"heatmap_no_data": "{date}: Brak danych",
+		"heatmap_no_messages": "{date}: Brak wiadomości",
+		"heatmap_one_message": "{date}: 1 wiadomość",
+		"heatmap_n_messages": "{date}: {count} wiadomości"
 	},
 	"empty": {
 		"no_conversations": {

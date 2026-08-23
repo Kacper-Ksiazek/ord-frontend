@@ -4,6 +4,7 @@
 	import { scaleLinear } from '@tanstack/charts/scales/linear';
 	import { scalePoint } from '@tanstack/charts/scales/point';
 	import { tooltip } from '@tanstack/charts/tooltip';
+	import type { ChartPoint, ChartValue } from '@tanstack/charts';
 	import {
 		TanStackChart,
 		CHART_MARGINS_AXIS,
@@ -147,7 +148,8 @@
 				? false
 				: {
 						use: tooltip,
-						format: (point) => point.datum.displayValue,
+						format: (point: ChartPoint<unknown, ChartValue, ChartValue>) =>
+							(point.datum as MetricRow).displayValue,
 						placement: 'top',
 						offset: 8,
 						className:

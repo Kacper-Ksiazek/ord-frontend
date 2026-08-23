@@ -11,7 +11,17 @@
 	"activity": {
 		"loading_aria": "Loading activity overview",
 		"error_fallback": "Couldn't load activity overview.",
-		"try_again": "Try again"
+		"try_again": "Try again",
+		"messages": "Messages",
+		"conversations": "Conversations",
+		"messages_chart_aria": "Messages per week over recent weeks",
+		"conversations_chart_aria": "Conversations per week over recent weeks",
+		"heatmap_aria": "Message activity by month; each row is a weekday from Monday through Sunday",
+		"heatmap_future": "{date}: Future",
+		"heatmap_no_data": "{date}: No data",
+		"heatmap_no_messages": "{date}: No messages",
+		"heatmap_one_message": "{date}: 1 message",
+		"heatmap_n_messages": "{date}: {count} messages"
 	},
 	"empty": {
 		"no_conversations": {

@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { DomChartDefinition } from '@tanstack/charts';
+	import type { ComponentProps } from 'svelte';
 	import { Chart } from '@tanstack/charts/svelte';
 	import { cn } from '$lib/utils/cn';
 
 	interface TanStackChartProps {
-		definition: DomChartDefinition;
+		definition: ComponentProps<typeof Chart>['definition'];
 		ariaLabel: string;
 		height?: number;
 		aspectRatio?: number;

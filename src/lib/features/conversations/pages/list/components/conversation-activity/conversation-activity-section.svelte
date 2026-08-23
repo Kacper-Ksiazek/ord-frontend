@@ -10,7 +10,7 @@
 	const { activity }: Props = $props();
 </script>
 
-<div class="flex w-full gap-4 mb-6">
+<div class="mb-6 flex w-full gap-3">
 	<ConversationActivityHeatmap heatmap={activity.heatmap} />
 	<ConversationStatsCards {activity} />
 </div>

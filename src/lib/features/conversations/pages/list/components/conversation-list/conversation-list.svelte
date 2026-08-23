@@ -32,7 +32,7 @@
 {#snippet recencyBucketLabel(section: RecencyBucket)}
 	<h2
 		id="conversations-section-{section}"
-		class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400"
+		class="mb-2 text-[11px] font-semibold uppercase tracking-wide text-ink-muted"
 	>
 		{recencyLabel(section)}
 	</h2>
@@ -64,7 +64,7 @@
 	{/if}
 {:else}
 	<div
-		class="flex flex-col gap-8"
+		class="flex flex-col gap-6"
 		aria-label={m['features.conversation.list.empty.list_aria']()}
 		data-testid={E2E_TEST_IDS.conversations.list}
 	>
@@ -72,7 +72,7 @@
 			<section class="min-w-0" aria-labelledby="conversations-section-{section}">
 				{@render recencyBucketLabel(section)}
 
-				<ul class="flex flex-col gap-3 p-0">
+				<ul class="flex flex-col gap-2 p-0">
 					{#each items as conversation (conversation.id)}
 						<ConversationListRow
 							{conversation}
