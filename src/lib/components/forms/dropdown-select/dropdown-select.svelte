@@ -13,6 +13,7 @@
 		buttonClass = '',
 		dropdownClass = '',
 		icon,
+		optionLeading,
 		dataTestId
 	}: DropdownSelectProps<T> = $props();
 
@@ -44,6 +45,8 @@
 		<div class="form-input-container">
 			{#if icon}
 				{@render icon({ selectedOption })}
+			{:else if optionLeading && selectedOption}
+				{@render optionLeading(selectedOption)}
 			{:else if selectedOption?.icon}
 				{@const Icon = selectedOption.icon}
 				<Icon class="w-4 h-4" />
@@ -74,7 +77,9 @@
 					)}
 				>
 					<span class="flex w-full items-center gap-2" data-testid={optionTestId(option.value)}>
-						{#if Icon}
+						{#if optionLeading}
+							{@render optionLeading(option)}
+						{:else if Icon}
 							<Icon class="w-4 h-4" />
 						{/if}
 						{option.label}

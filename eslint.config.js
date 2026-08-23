@@ -143,16 +143,17 @@ export default [
 						{
 							group: ['$lib/features/**'],
 							message:
-								'Use feature aliases ($auth, $conversations, $appLayouts) instead of $lib/features/* paths.'
+								'Use feature aliases ($auth, $conversations, $appLayouts, $quicklyAddedWords) instead of $lib/features/* paths.'
 						},
 						{
 							group: ['./**/features/**', '../**/features/**'],
 							message:
-								'Do not use relative paths into src/lib/features; use $auth, $conversations, or $appLayouts.'
+								'Do not use relative paths into src/lib/features; use $auth, $conversations, $appLayouts, or $quicklyAddedWords.'
 						},
 						{
-							regex: '^(\\.\\./)+(auth|conversations|app-layouts)(/|$)',
-							message: 'Do not relative-import another feature; use $auth, $conversations, or $appLayouts.'
+							regex: '^(\\.\\./)+(auth|conversations|app-layouts|quickly-added-words)(/|$)',
+							message:
+								'Do not relative-import another feature; use $auth, $conversations, $appLayouts, or $quicklyAddedWords.'
 						}
 					]
 				}

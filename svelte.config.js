@@ -14,7 +14,8 @@ const config = {
 			// Feature-Driven Development (FDD) aliases
 			$auth: 'src/lib/features/auth',
 			$conversations: 'src/lib/features/conversations',
-			$appLayouts: 'src/lib/features/app-layouts'
+			$appLayouts: 'src/lib/features/app-layouts',
+			$quicklyAddedWords: 'src/lib/features/quickly-added-words'
 		}
 	}
 };

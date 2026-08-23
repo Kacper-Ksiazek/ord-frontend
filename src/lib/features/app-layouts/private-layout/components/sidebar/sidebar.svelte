@@ -25,6 +25,7 @@
 	import { createLogoutMutation } from '$auth/api-client';
 	import { goto } from '$app/navigation';
 	import { E2E_TEST_IDS } from '$appLayouts/testing/test-ids';
+	import { AddQawPopover } from '$quicklyAddedWords';
 
 	const { mutateAsync: handleLogout } = createLogoutMutation();
 
@@ -117,9 +118,15 @@
 
 			<SidebarLink title="Conversations" Icon={MessageSquare} href="/conversations" />
 
-			<SidebarLink title="QAW" Icon={Lightbulb} disabled />
+			<SidebarLink title="QAW" Icon={Lightbulb} href="/quickly-added-words" />
 		</div>
 	</nav>
+
+	<Divider />
+
+	<div class="flex flex-col gap-2 px-3">
+		<AddQawPopover isSidebarExpanded={sidebarStore.isExpanded} />
+	</div>
 
 	<Divider />
 

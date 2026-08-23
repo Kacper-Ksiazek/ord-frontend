@@ -6,7 +6,21 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import { cn } from '$lib/utils/cn';
 
-	let { status = $bindable('default'), disabled = false, ...rest }: AiActionButtonProps = $props();
+	let {
+		status = $bindable('default'),
+		disabled = false,
+		labels,
+		...rest
+	}: AiActionButtonProps = $props();
+
+	const defaultLabel = $derived(
+		labels?.default ?? m['components.utils.generate-with-ai.button_label']()
+	);
+	const loadingLabel = $derived(
+		labels?.loading ?? m['components.utils.generate-with-ai.generating']()
+	);
+	const successLabel = $derived(labels?.success ?? m['components.utils.generate-with-ai.success']());
+	const failedLabel = $derived(labels?.failed ?? m['components.utils.generate-with-ai.failed']());
 
 	$effect(() => {
 		if (status === 'success' || status === 'failed') {
@@ -30,7 +44,7 @@
 			onclick={disabled || opts?.['aria-hidden'] ? undefined : rest.onclick}
 		>
 			<Sparkles class="size-4 shrink-0" aria-hidden="true" />
-			<span>{m['components.utils.generate-with-ai.button_label']()}</span>
+			<span>{defaultLabel}</span>
 		</button>
 	{/snippet}
 
@@ -47,17 +61,17 @@
 	{:else if status === 'loading'}
 		<Stage class="bg-accent-soft text-ink">
 			<Spinner class="text-ink" />
-			<span>{m['components.utils.generate-with-ai.generating']()}</span>
+			<span>{loadingLabel}</span>
 		</Stage>
 	{:else if status === 'success'}
 		<Stage class="bg-emerald-50">
 			<CircleCheck class="h-5 w-5 text-emerald-600" aria-hidden="true" />
-			<span>{m['components.utils.generate-with-ai.success']()}</span>
+			<span>{successLabel}</span>
 		</Stage>
 	{:else if status === 'failed'}
 		<Stage class="bg-red-50">
 			<CircleX class="h-5 w-5 text-danger" aria-hidden="true" />
-			<span>{m['components.utils.generate-with-ai.failed']()}</span>
+			<span>{failedLabel}</span>
 		</Stage>
 	{/if}
 </div>
