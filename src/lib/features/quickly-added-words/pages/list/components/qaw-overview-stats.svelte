@@ -4,7 +4,7 @@
 	import { Button } from '$lib/components/buttons/button';
 	import { Loader } from '$lib/components/utils/loader';
 	import type { QAWOverviewResponse, QawListApprovalFilter } from '$quicklyAddedWords/types';
-	import { BookOpen, CheckCircle2, Clock3 } from 'lucide-svelte';
+	import { BookOpen, CircleCheck, Clock3 } from 'lucide-svelte';
 	import * as m from '$lib/paraglide/messages.js';
 
 	interface Props {
@@ -52,7 +52,7 @@
 			onclick={() => toggleFilter('approved')}
 		>
 			{#snippet icon({ className })}
-				<CheckCircle2 class={className} />
+				<CircleCheck class={className} />
 			{/snippet}
 		</IconCard>
 
