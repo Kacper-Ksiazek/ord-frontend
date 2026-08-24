@@ -7,4 +7,5 @@ export interface AiActionButtonProps {
 	disabled?: boolean;
 	onclick: () => void;
 	labels?: AiActionButtonLabels;
+	class?: string;
 }

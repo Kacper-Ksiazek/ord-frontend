@@ -3,7 +3,7 @@
 	import { fade } from 'svelte/transition';
 	import { tick } from 'svelte';
 	import { isAxiosError } from 'axios';
-	import { ArrowLeftRight, BinaryIcon, CirclePlus, EyeIcon, Minus, Plus, X } from 'lucide-svelte';
+	import { ArrowLeftRight, CirclePlus, EyeIcon, Minus, Plus, RotateCcw, X } from 'lucide-svelte';
 	import { Button } from '$lib/components/buttons/button';
 	import { AiActionButton } from '$lib/components/buttons/ai-action-button';
 	import type { AiActionButtonStatus } from '$lib/components/buttons/ai-action-button/ai-action-button.types';
@@ -19,7 +19,11 @@
 		createBulkCreateQawMutation,
 		createQawFillGapsMutation
 	} from '$quicklyAddedWords/api-client';
-	import { WORD_TYPE_OPTIONS, getWordTypeSwatchClasses } from '$quicklyAddedWords/shared/constants';
+	import {
+		WORD_TYPE_OPTIONS,
+		getWordTypeSwatchClasses,
+		getWordTypeSwatchDotClasses
+	} from '$quicklyAddedWords/shared/constants';
 	import type { QAWFillGapsRowErrorCode, WordType } from '$quicklyAddedWords/types';
 	import * as m from '$lib/paraglide/messages.js';
 	import { E2E_TEST_IDS } from '$quicklyAddedWords/testing/test-ids';
@@ -198,7 +202,9 @@
 
 {#snippet wordTypeOptionLeading(option: WordTypeSelectOption)}
 	{#if option.value}
-		<span class={getWordTypeSwatchClasses(option.value)} aria-hidden="true"></span>
+		<span class={getWordTypeSwatchClasses(option.value)} aria-hidden="true">
+			<span class={getWordTypeSwatchDotClasses(option.value)}></span>
+		</span>
 	{/if}
 {/snippet}
 
@@ -220,12 +226,21 @@
 	</Popover.Trigger>
 
 	<Popover.Portal>
+		{#if isOpen}
+			<div
+				class="fixed inset-0 z-50 bg-ink/30"
+				aria-hidden="true"
+				onclick={() => {
+					isOpen = false;
+				}}
+			></div>
+		{/if}
 		<Popover.Content
 			data-testid={E2E_TEST_IDS.popover.root}
 			side="right"
 			sideOffset={12}
 			collisionPadding={24}
-			class="overlay-surface z-50 w-[min(54rem,calc(100vw-6rem))] p-3"
+			class={cn('overlay-surface z-50 w-[min(54rem,calc(100vw-6rem))] p-3', 'border-ink/25 shadow-lg')}
 		>
 			<div class="flex items-start justify-between gap-2">
 				<h2 class="text-base font-semibold text-ink">
@@ -349,14 +364,14 @@
 				{/each}
 			</div>
 
-			<div class="flex w-full justify-between">
+			<div class="mt-3 flex flex-wrap items-center gap-2 border-t border-line pt-3">
 				<Button
 					onClick={handleAddMore}
 					type="OUTLINED"
 					variant="TEXT"
 					disabled={addQAWPopoverStore.values.length >= ADD_QAW_POPOVER_MAX_COUNT || isBusy}
 				>
-					<Plus />
+					<Plus class="size-4" />
 					<span>{m['features.quickly-added-words.add-popover.add_more']()}</span>
 				</Button>
 
@@ -366,32 +381,25 @@
 					variant="DELETE"
 					disabled={addQAWPopoverStore.values.length === 1 || isBusy}
 				>
-					<BinaryIcon />
+					<RotateCcw class="size-4" />
 					<span>{m['features.quickly-added-words.add-popover.reset']()}</span>
 				</Button>
-			</div>
 
-			<div class="mt-2 flex flex-col gap-2">
-				{#if fillGapsMutation.isPending}
-					<p class="text-sm text-ink-muted">{fillProgressLabel}</p>
-				{/if}
+				<div class="ml-auto flex min-w-0 items-stretch gap-2">
+					<AiActionButton
+						class="h-10 min-w-40"
+						status={fillButtonStatus}
+						disabled={!hasWordToFill || isBusy}
+						onclick={handleFillWithAi}
+						labels={{
+							default: m['features.quickly-added-words.add-popover.fill_with_ai'](),
+							loading: fillProgressLabel,
+							success: m['components.utils.generate-with-ai.success'](),
+							failed: m['components.utils.generate-with-ai.failed']()
+						}}
+					/>
 
-				<div class="flex flex-wrap items-stretch gap-2">
-					<div class="w-[256px] shrink-0">
-						<AiActionButton
-							status={fillButtonStatus}
-							disabled={!hasWordToFill || isBusy}
-							onclick={handleFillWithAi}
-							labels={{
-								default: m['features.quickly-added-words.add-popover.fill_with_ai'](),
-								loading: fillProgressLabel,
-								success: m['components.utils.generate-with-ai.success'](),
-								failed: m['components.utils.generate-with-ai.failed']()
-							}}
-						/>
-					</div>
-
-					<Button class="min-w-[256px] flex-1" disabled={isBusy} onClick={handleSave}>
+					<Button class="min-w-32" disabled={isBusy} onClick={handleSave}>
 						{bulkCreateMutation.isPending
 							? m['features.quickly-added-words.add-popover.saving']()
 							: m['features.quickly-added-words.add-popover.save']()}

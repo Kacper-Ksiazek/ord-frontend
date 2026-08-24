@@ -10,6 +10,7 @@
 		status = $bindable('default'),
 		disabled = false,
 		labels,
+		class: className = '',
 		...rest
 	}: AiActionButtonProps = $props();
 
@@ -31,12 +32,12 @@
 	});
 </script>
 
-<div class="relative overflow-hidden rounded-[10px]">
+<div class={cn('relative overflow-hidden rounded-[10px]', className)}>
 	{#snippet aiButton(opts?: { 'aria-hidden'?: boolean })}
 		<button
 			type="button"
 			class={cn(
-				'flex h-full w-full cursor-pointer items-center gap-1 rounded-[10px] border border-primary-600 px-3 py-2',
+				'flex h-full w-full cursor-pointer items-center justify-center gap-1 rounded-[10px] border border-primary-600 px-3 py-2 whitespace-nowrap',
 				!disabled && 'hover:bg-accent-soft hover:text-primary-600',
 				disabled && 'cursor-not-allowed border-line bg-accent-soft text-ink-subtle'
 			)}
