@@ -1,5 +1,7 @@
 <script lang="ts">
+	import { page } from '$app/state';
 	import { fade } from 'svelte/transition';
+	import { cn } from '$lib/utils/cn';
 	import { sidebarStore } from '../sidebar.store.svelte';
 
 	interface Props {
@@ -13,9 +15,25 @@
 
 	let { title, Icon, disabled = false, href, onclick, fadeDelay = 150 }: Props = $props();
 
-	const classList = disabled
-		? 'text-ink-subtle cursor-not-allowed opacity-50'
-		: 'cursor-pointer text-ink hover:bg-accent-soft hover:text-ink';
+	const isActive = $derived(
+		href != null && (page.url.pathname === href || page.url.pathname.startsWith(`${href}/`))
+	);
+
+	const classList = $derived(
+		disabled
+			? 'text-ink-subtle cursor-not-allowed opacity-50'
+			: isActive
+				? 'cursor-pointer bg-accent-soft text-ink font-medium opacity-100'
+				: 'cursor-pointer text-ink opacity-90 hover:bg-accent-soft hover:text-ink hover:opacity-100'
+	);
+
+	const layoutClasses = $derived(
+		cn(
+			'flex items-center py-2 rounded-lg transition-colors transition-opacity w-full',
+			sidebarStore.isExpanded ? 'gap-3 px-3 justify-start' : 'justify-center px-0',
+			classList
+		)
+	);
 
 	function handleClick() {
 		if (disabled) return;
@@ -24,27 +42,14 @@
 </script>
 
 {#if href}
-	<a
-		{href}
-		{title}
-		class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors w-full {classList} {disabled
-			? ''
-			: 'justify-start'}"
-	>
+	<a {href} {title} class={layoutClasses} aria-current={isActive ? 'page' : undefined}>
 		<Icon class="w-5 h-5 shrink-0" />
 		{#if sidebarStore.isExpanded}
 			<span class="text-sm font-medium" in:fade={{ delay: fadeDelay }}>{title}</span>
 		{/if}
 	</a>
 {:else}
-	<button
-		{disabled}
-		{title}
-		class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors w-full {classList} {disabled
-			? ''
-			: 'justify-start'}"
-		onclick={handleClick}
-	>
+	<button {disabled} {title} class={layoutClasses} onclick={handleClick}>
 		<Icon class="w-5 h-5 shrink-0" />
 		{#if sidebarStore.isExpanded}
 			<span class="text-sm font-medium" in:fade={{ delay: fadeDelay }}>{title}</span>

@@ -47,6 +47,10 @@
 
 	let { isSidebarExpanded }: Props = $props();
 
+	const popoverWidthClass = $derived(
+		isSidebarExpanded ? 'w-[min(42rem,calc(100dvw-18rem))]' : 'w-[min(42rem,calc(100dvw-8rem))]'
+	);
+
 	const recordsScrollMaxHeightPx =
 		(ADD_QAW_POPOVER_SCROLL_FROM_COUNT - 1) * ADD_QAW_POPOVER_ROW_HEIGHT_PX;
 
@@ -213,8 +217,9 @@
 		data-testid={E2E_TEST_IDS.popover.trigger}
 		title={m['features.quickly-added-words.add-popover.title']()}
 		class={cn(
-			'flex w-full items-center gap-3 rounded-lg px-3 py-2 transition-colors',
-			'cursor-pointer justify-start text-ink hover:bg-accent-soft hover:text-ink'
+			'flex w-full items-center py-2 transition-colors rounded-lg',
+			'cursor-pointer text-ink hover:bg-accent-soft hover:text-ink',
+			isSidebarExpanded ? 'gap-3 px-3 justify-start' : 'justify-center px-0'
 		)}
 	>
 		<CirclePlus class="h-5 w-5 shrink-0" />
@@ -240,7 +245,7 @@
 			side="right"
 			sideOffset={12}
 			collisionPadding={24}
-			class={cn('overlay-surface z-50 w-[min(54rem,calc(100vw-6rem))] p-3', 'border-ink/25 shadow-lg')}
+			class={cn('overlay-surface z-50 p-3', popoverWidthClass, 'border-ink/25 shadow-lg')}
 		>
 			<div class="flex items-start justify-between gap-2">
 				<h2 class="text-base font-semibold text-ink">
@@ -289,10 +294,10 @@
 					{/if}
 
 					<div class="flex w-full flex-col gap-1">
-						<div class="flex w-full gap-1">
+						<div class="flex w-full flex-wrap gap-1">
 							<Input
 								placeholder={m['features.quickly-added-words.add-popover.word_placeholder']()}
-								class="flex-1"
+								class="min-w-[9rem] flex-1 basis-[12rem]"
 								leftAdornment={EyeIcon}
 								bind:value={wordRecord.word}
 								disabled={isBusy}
@@ -305,7 +310,7 @@
 
 							<Input
 								placeholder={m['features.quickly-added-words.add-popover.translation_placeholder']()}
-								class="flex-1"
+								class="min-w-[9rem] flex-1 basis-[12rem]"
 								leftAdornment={ArrowLeftRight}
 								bind:value={wordRecord.translation}
 								disabled={isBusy}
@@ -317,7 +322,7 @@
 									wordRecord.type = type;
 								}}
 								options={typeOptions}
-								buttonClass="w-[160px]"
+								buttonClass="w-full min-w-[9rem] basis-[10rem] sm:w-[160px] sm:flex-none"
 								optionLeading={wordTypeOptionLeading}
 							/>
 
@@ -385,9 +390,9 @@
 					<span>{m['features.quickly-added-words.add-popover.reset']()}</span>
 				</Button>
 
-				<div class="ml-auto flex min-w-0 items-stretch gap-2">
+				<div class="ml-auto flex w-full min-w-0 flex-wrap items-stretch justify-end gap-2 sm:w-auto">
 					<AiActionButton
-						class="h-10 min-w-40"
+						class="h-10 w-full min-w-0 sm:min-w-40 sm:w-auto"
 						status={fillButtonStatus}
 						disabled={!hasWordToFill || isBusy}
 						onclick={handleFillWithAi}
@@ -399,7 +404,7 @@
 						}}
 					/>
 
-					<Button class="min-w-32" disabled={isBusy} onClick={handleSave}>
+					<Button class="w-full min-w-0 sm:min-w-32 sm:w-auto" disabled={isBusy} onClick={handleSave}>
 						{bulkCreateMutation.isPending
 							? m['features.quickly-added-words.add-popover.saving']()
 							: m['features.quickly-added-words.add-popover.save']()}
