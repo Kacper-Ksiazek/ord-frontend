@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/utils/cn';
-	import { ServerCrash, Info, CheckCircle2 } from 'lucide-svelte';
+	import { ServerCrash, Info, CircleCheck } from 'lucide-svelte';
 	import { Button } from '$lib/components/buttons/button';
 	import type { StatusButtonProps, StatusPanelVariant } from './status-panel.types';
 
@@ -71,7 +71,7 @@
 		{:else if variant === 'information'}
 			<Info class={iconClass} />
 		{:else}
-			<CheckCircle2 class={iconClass} />
+			<CircleCheck class={iconClass} />
 		{/if}
 	</div>
 

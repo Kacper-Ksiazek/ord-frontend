@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { IconButton } from '$lib/components/buttons/icon-button';
 	import * as m from '$lib/paraglide/messages.js';
-	import { Check, CheckSquare, Square, Trash2 } from 'lucide-svelte';
+	import { Check, Square, SquareCheckBig, Trash2 } from 'lucide-svelte';
 
 	interface Props {
 		pageItemIds: string[];
@@ -51,7 +51,7 @@
 	aria-label={m['features.quickly-added-words.list.bulk.toolbar_aria_label']()}
 >
 	<IconButton
-		icon={allPageSelected ? Square : CheckSquare}
+		icon={allPageSelected ? Square : SquareCheckBig}
 		ariaLabel={allPageSelected
 			? m['features.quickly-added-words.list.bulk.unselect_all']()
 			: m['features.quickly-added-words.list.bulk.select_all']()}

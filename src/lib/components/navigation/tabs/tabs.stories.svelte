@@ -10,7 +10,7 @@
 
 <script lang="ts">
 	import { Tabs } from './index';
-	import { Home, Settings, User } from 'lucide-svelte';
+	import { House, Settings, User } from 'lucide-svelte';
 
 	let activeTabUnderline = $state('home');
 	let activeTabOutlined = $state('home');
@@ -22,7 +22,7 @@
 			<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Underline Variant</h3>
 			<Tabs
 				tabs={[
-					{ id: 'home', label: 'Home', icon: Home },
+					{ id: 'home', label: 'Home', icon: House },
 					{ id: 'profile', label: 'Profile', icon: User },
 					{ id: 'settings', label: 'Settings', icon: Settings }
 				]}
@@ -37,7 +37,7 @@
 			<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Outlined Variant</h3>
 			<Tabs
 				tabs={[
-					{ id: 'home', label: 'Home', icon: Home },
+					{ id: 'home', label: 'Home', icon: House },
 					{ id: 'profile', label: 'Profile', icon: User },
 					{ id: 'settings', label: 'Settings', icon: Settings }
 				]}

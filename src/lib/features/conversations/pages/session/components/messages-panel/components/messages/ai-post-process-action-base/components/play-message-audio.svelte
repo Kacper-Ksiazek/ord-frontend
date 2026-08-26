@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onDestroy } from 'svelte';
 	import { IconButton } from '$lib/components/buttons/icon-button';
-	import { Loader2, Square, Volume2 } from 'lucide-svelte';
+	import { LoaderCircle, Square, Volume2 } from 'lucide-svelte';
 	import { speakText, stopSpeaking } from '$lib/utils/speak-text';
 	import { speakTextPlayback } from '$lib/utils/speak-text.svelte';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
@@ -33,7 +33,7 @@
 
 		if (isLoading) {
 			return {
-				Icon: Loader2,
+				Icon: LoaderCircle,
 				tooltip: 'Loading audio',
 				ariaLabel: 'Loading audio'
 			};
