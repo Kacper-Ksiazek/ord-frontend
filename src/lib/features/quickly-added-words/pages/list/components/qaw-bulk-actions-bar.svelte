@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { IconButton } from '$lib/components/buttons/icon-button';
+	import { Button } from '$lib/components/buttons/button';
 	import * as m from '$lib/paraglide/messages.js';
 	import { Check, Square, SquareCheckBig, Trash2 } from 'lucide-svelte';
 
@@ -25,6 +25,11 @@
 		hasPageItems && pageItemIds.every((id) => selectedIds.includes(id))
 	);
 	const isActionsDisabled = $derived(isBusy);
+	const selectAllLabel = $derived(
+		allPageSelected
+			? m['features.quickly-added-words.list.bulk.unselect_all']()
+			: m['features.quickly-added-words.list.bulk.select_all']()
+	);
 
 	function selectAllOnPage() {
 		const merged = new Set([...selectedIds, ...pageItemIds]);
@@ -50,37 +55,38 @@
 	role="toolbar"
 	aria-label={m['features.quickly-added-words.list.bulk.toolbar_aria_label']()}
 >
-	<IconButton
-		icon={allPageSelected ? Square : SquareCheckBig}
-		ariaLabel={allPageSelected
-			? m['features.quickly-added-words.list.bulk.unselect_all']()
-			: m['features.quickly-added-words.list.bulk.select_all']()}
-		tooltip={allPageSelected
-			? m['features.quickly-added-words.list.bulk.unselect_all']()
-			: m['features.quickly-added-words.list.bulk.select_all']()}
-		type="OUTLINED"
-		variant="PRIMARY"
+	<Button
+		type="FILLED"
+		variant="TEXT"
 		disabled={isActionsDisabled || !hasPageItems}
 		onClick={toggleSelectAllOnPage}
-	/>
+	>
+		{#if allPageSelected}
+			<Square class="size-4 shrink-0" />
+		{:else}
+			<SquareCheckBig class="size-4 shrink-0" />
+		{/if}
+		<span>{selectAllLabel}</span>
+	</Button>
 
-	<IconButton
-		icon={Check}
-		ariaLabel={m['features.quickly-added-words.list.bulk.approve_selected']()}
-		tooltip={m['features.quickly-added-words.list.bulk.approve_selected']()}
-		type="OUTLINED"
-		variant="PRIMARY"
+	<Button
+		type="FILLED"
+		variant="TEXT"
 		disabled={isActionsDisabled || !hasSelection}
 		onClick={onApproveSelected}
-	/>
+	>
+		<Check class="size-4 shrink-0" />
+		<span>{m['features.quickly-added-words.list.bulk.approve_selected']()}</span>
+	</Button>
 
-	<IconButton
-		icon={Trash2}
-		ariaLabel={m['features.quickly-added-words.list.bulk.remove_selected']()}
-		tooltip={m['features.quickly-added-words.list.bulk.remove_selected']()}
+	<Button
 		type="OUTLINED"
 		variant="DELETE"
+		class="!bg-danger/10"
 		disabled={isActionsDisabled || !hasSelection}
 		onClick={onRemoveSelected}
-	/>
+	>
+		<Trash2 class="size-4 shrink-0" />
+		<span>{m['features.quickly-added-words.list.bulk.remove_selected']()}</span>
+	</Button>
 </div>
