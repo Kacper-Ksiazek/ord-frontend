@@ -58,7 +58,7 @@
 	class={cn(baseClasses, typeVariantClasses, textColorClasses, className)}
 	onclick={onClick}
 >
-	<span class="flex min-h-0 grow items-center justify-center self-stretch text-center">
+	<span class="flex min-h-0 grow items-center justify-center gap-2 self-stretch text-center">
 		{@render children()}
 	</span>
 

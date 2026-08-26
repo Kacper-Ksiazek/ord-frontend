@@ -7,7 +7,7 @@
 <div class="flex h-screen bg-canvas">
 	<Sidebar />
 
-	<div class="flex-1 overflow-auto flex flex-col">
+	<div class="flex min-w-0 flex-1 flex-col overflow-auto">
 		<main class="h-full w-full overflow-hidden">
 			{@render children()}
 		</main>

@@ -11,12 +11,6 @@
 	const { class: customClass = '', children, ...restProps }: Props = $props();
 </script>
 
-<div
-	{...restProps}
-	class={cn(
-		' rounded-2xl px-4 py-8 flex flex-col w-full', //
-		customClass
-	)}
->
+<div {...restProps} class={cn('rounded-2xl flex min-w-0 w-full flex-col', customClass)}>
 	{@render children()}
 </div>
