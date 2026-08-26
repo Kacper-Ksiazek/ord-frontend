@@ -19,7 +19,7 @@
 	);
 </script>
 
-<div class={cn('flex min-w-[400px] flex-1 gap-3', className)}>
+<div class={cn('flex min-w-0 flex-1 flex-col gap-3 sm:flex-row', className)}>
 	<LineChartCard
 		title={m['features.conversation.list.activity.messages']()}
 		value={activity.messagesTotal}
