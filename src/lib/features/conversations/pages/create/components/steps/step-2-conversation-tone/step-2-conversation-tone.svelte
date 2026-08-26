@@ -40,28 +40,30 @@
 	}
 </script>
 
-<p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
-	{m['features.conversation.create.step-2.description']()}
-</p>
+<div class="flex h-full min-h-0 flex-col overflow-y-auto">
+	<p class="mb-4 shrink-0 text-sm text-gray-500 dark:text-gray-400">
+		{m['features.conversation.create.step-2.description']()}
+	</p>
 
-<section
-	class="flex flex-wrap gap-4 justify-center"
-	data-testid={E2E_TEST_IDS.createConversation.stepTone}
->
-	{#each CONVERSATION_TONES as tone (tone)}
-		{@const isSelected = selectedPayload.tone === tone}
-		{@const { label, description } = getConversationToneMessages(tone)}
+	<section
+		class="grid w-full grid-cols-2 gap-2 content-start sm:grid-cols-3 sm:gap-3"
+		data-testid={E2E_TEST_IDS.createConversation.stepTone}
+	>
+		{#each CONVERSATION_TONES as tone (tone)}
+			{@const isSelected = selectedPayload.tone === tone}
+			{@const { label, description } = getConversationToneMessages(tone)}
 
-		<ToneCard
-			{tone}
-			{label}
-			{description}
-			{isSelected}
-			isPreferredDefault={preferredTone === tone}
-			onToggleDefault={() => handleToggleDefault(tone)}
-			onclick={() => {
-				setCreateConversationPayload({ tone });
-			}}
-		/>
-	{/each}
-</section>
+			<ToneCard
+				{tone}
+				{label}
+				{description}
+				{isSelected}
+				isPreferredDefault={preferredTone === tone}
+				onToggleDefault={() => handleToggleDefault(tone)}
+				onclick={() => {
+					setCreateConversationPayload({ tone });
+				}}
+			/>
+		{/each}
+	</section>
+</div>

@@ -21,7 +21,11 @@
 </script>
 
 {#if selectedConversationType || selectedConversationTone}
-	<div class="flex gap-4 {stackVertically ? 'mb-0 w-full flex-col' : 'mb-6'}">
+	<div
+		class={stackVertically
+			? 'mb-0 grid w-full grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3'
+			: 'mb-6 flex gap-4'}
+	>
 		{#if selectedConversationType}
 			<EditableSelectionSummaryCard
 				label={m['features.conversation.create.step-3.selected_type.label']()}

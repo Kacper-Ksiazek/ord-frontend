@@ -74,7 +74,7 @@
 </script>
 
 {#snippet generated_avatar()}
-	<div class="relative mx-auto flex w-full flex-col items-center gap-3">
+	<div class="relative mx-auto flex w-full flex-col items-center gap-2">
 		<IconButton
 			icon={RefreshCw}
 			ariaLabel={m['features.conversation.create.step-4.ai_interlocutor.regenerate_aria_label']()}
@@ -89,7 +89,7 @@
 
 		<div
 			class={cn(
-				'avatar-regen-shell relative size-[320px] shrink-0 overflow-hidden rounded-full pt-4',
+				'avatar-regen-shell relative size-[clamp(8rem,min(22vw,22vh),16rem)] shrink-0 overflow-hidden rounded-full pt-2',
 				isGenerating && 'avatar-regen-shell--busy'
 			)}
 			aria-busy={isGenerating}
@@ -101,16 +101,16 @@
 			/>
 		</div>
 
-		<h3 class="heading-5 w-full text-center">
+		<h3 class="heading-5 w-full truncate text-center">
 			{payload.aiInterlocutorName}
 		</h3>
 	</div>
 {/snippet}
 
 {#snippet generating_in_progress()}
-	<div class="mx-auto flex w-full max-w-96 flex-col items-center gap-3">
-		<Skeleton class="size-[320px] rounded-full" />
-		<div class="flex min-h-10 w-full items-center justify-center px-2 text-center">
+	<div class="mx-auto flex w-full flex-col items-center gap-2">
+		<Skeleton class="size-[clamp(8rem,min(22vw,22vh),16rem)] rounded-full" />
+		<div class="flex min-h-8 w-full items-center justify-center px-2 text-center">
 			<p class="caption">
 				{m['features.conversation.create.step-4.ai_interlocutor.generating']()}
 			</p>
@@ -119,8 +119,8 @@
 {/snippet}
 
 {#snippet generation_error_screen()}
-	<div class="mx-auto flex w-full max-w-96 flex-col items-center gap-3">
-		<div class="flex min-h-10 w-full flex-col items-center justify-center gap-2 px-2 text-center">
+	<div class="mx-auto flex w-full flex-col items-center gap-2">
+		<div class="flex min-h-8 w-full flex-col items-center justify-center gap-2 px-2 text-center">
 			<p class="body-small text-error">
 				{m['features.conversation.create.step-4.ai_interlocutor.failed']()}
 			</p>
@@ -138,7 +138,7 @@
 	</div>
 {/snippet}
 
-<section class="flex w-[360px] flex-col items-center gap-4">
+<section class="flex w-full flex-col items-center gap-2">
 	{#if hasGeneratedInterlocutor}
 		{@render generated_avatar()}
 	{:else if isGenerating}

@@ -44,7 +44,10 @@
 	{disabled}
 	locked={disabled}
 	data-testid={E2E_TEST_IDS.createConversation.typeCard(type)}
-	class={cn('relative w-[378px] py-10 px-4')}
+	class={cn(
+		'relative w-full min-w-0',
+		'px-[clamp(0.75rem,2vw,1rem)] py-[clamp(0.75rem,2.5vh,1.75rem)]'
+	)}
 >
 	{#if onToggleDefault}
 		<IconButton
@@ -78,20 +81,20 @@
 	<ConversationTypeIcon
 		conversationType={type}
 		class={cn(
-			'mb-2 h-20 w-20 text-ink-subtle',
+			'mb-1 size-[clamp(2.5rem,6vh,3.5rem)] text-ink-subtle',
 			disabled && 'text-ink-subtle',
 			isSelected && !disabled && 'text-ink'
 		)}
 	/>
 
-	<h3 class={cn('text-lg font-medium text-ink', disabled && 'text-ink-muted')}>
+	<h3 class={cn('text-base font-medium text-ink sm:text-lg', disabled && 'text-ink-muted')}>
 		{label}
 	</h3>
 
 	{#if enableHints}
 		<p
 			class={cn(
-				'text-center text-sm text-ink-muted',
+				'text-center text-xs leading-snug sm:text-sm text-ink-muted',
 				disabled && 'text-ink-subtle',
 				isSelected && !disabled && 'text-ink-muted'
 			)}
