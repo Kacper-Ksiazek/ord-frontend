@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { AxiosError } from 'axios';
+	import { ArrowRight, Loader2 } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 	import { createRequestOtpMutation, createVerifyOtpMutation } from '$auth/api-client/mutations';
 	import { OtpInput } from '$auth/components';
@@ -125,9 +126,16 @@
 						disabled={requestOtpMutation.isPending || !email || !email.includes('@')}
 						onClick={() => void handleEmailSubmit()}
 					>
-						{requestOtpMutation.isPending
-							? m['auth.login.sending_code']()
-							: m['auth.login.continue_button']()}
+						<span class="inline-flex items-center gap-1.5">
+							{requestOtpMutation.isPending
+								? m['auth.login.sending_code']()
+								: m['auth.login.continue_button']()}
+							{#if requestOtpMutation.isPending}
+								<Loader2 class="size-4 shrink-0 animate-spin" aria-hidden="true" />
+							{:else}
+								<ArrowRight class="size-4 shrink-0" aria-hidden="true" />
+							{/if}
+						</span>
 					</Button>
 				</form>
 			{:else}
