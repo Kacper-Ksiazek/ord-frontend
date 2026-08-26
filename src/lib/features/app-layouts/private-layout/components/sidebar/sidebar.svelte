@@ -105,7 +105,7 @@
 
 	<Divider />
 
-	<SidebarLearningLanguage language={authStore.user?.selectedLearningLanguage || 'English'} />
+	<SidebarLearningLanguage language={authStore.user?.selectedLearningLanguage ?? 'ENGLISH'} />
 
 	<Divider />
 
@@ -140,7 +140,7 @@
 		/>
 
 		<!-- Settings -->
-		<SidebarLink title="Settings" Icon={Settings} href="/settings" />
+		<SidebarLink title="Settings" Icon={Settings} disabled />
 	</div>
 
 	<Divider />
@@ -152,9 +152,9 @@
 			onclick={onLogoutClick}
 			title="Logout"
 			class={cn(
-				'flex items-center gap-3 px-3 py-2 rounded-[10px] hover:bg-red-50 transition-colors w-full cursor-pointer',
+				'flex items-center py-2 rounded-[10px] hover:bg-red-50 transition-colors w-full cursor-pointer',
 				'text-danger hover:text-danger',
-				sidebarStore.isExpanded && 'justify-start'
+				sidebarStore.isExpanded ? 'gap-3 px-3 justify-start' : 'justify-center px-0'
 			)}
 		>
 			<LogIn class="w-5 h-5 shrink-0" />
