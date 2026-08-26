@@ -10,6 +10,7 @@
 	import { cn } from '$lib/utils/cn';
 	import { formatRelativeOrMediumDate } from '$lib/utils/format-relative-or-medium-date';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
+	import ConversationListRowActions from './conversation-list-row-actions.svelte';
 
 	interface Props {
 		conversation: ConversationSummaryDTO;
@@ -33,18 +34,23 @@
 </script>
 
 <li class="list-none">
-	<button
-		type="button"
-		data-testid={E2E_TEST_IDS.conversations.row(conversation.id)}
+	<div
 		class={cn(
-			'group w-full rounded-[10px] border border-line bg-surface px-3 py-3 text-left transition-colors',
-			'hover:bg-accent-soft',
-			'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ink/15'
+			'group flex w-full items-stretch rounded-[10px] border border-line bg-surface transition-colors',
+			'hover:bg-accent-soft'
 		)}
-		aria-label={ariaLabel}
-		{onclick}
 	>
-		<div class="flex items-center gap-3 sm:gap-4">
+		<button
+			type="button"
+			data-testid={E2E_TEST_IDS.conversations.row(conversation.id)}
+			class={cn(
+				'flex min-w-0 flex-1 items-center gap-3 px-3 py-3 text-left sm:gap-4',
+				'bg-transparent',
+				'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ink/15'
+			)}
+			aria-label={ariaLabel}
+			{onclick}
+		>
 			<span
 				class="flex size-10 shrink-0 items-center justify-center rounded-[10px] bg-accent-soft text-ink-muted"
 			>
@@ -80,6 +86,10 @@
 			<div class="shrink-0 text-right">
 				<p class="text-xs text-ink-subtle">{activityLabel}</p>
 			</div>
+		</button>
+
+		<div class="flex shrink-0 items-center pr-2">
+			<ConversationListRowActions conversationId={conversation.id} />
 		</div>
-	</button>
+	</div>
 </li>

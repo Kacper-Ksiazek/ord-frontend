@@ -48,5 +48,10 @@
 			"THIS_MONTH": "W tym miesiącu",
 			"LATER": "Później"
 		}
+	},
+	"row_actions": {
+		"menu_aria": "Akcje rozmowy",
+		"edit": "Edytuj",
+		"delete": "Usuń"
 	}
 }

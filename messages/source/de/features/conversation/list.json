@@ -48,5 +48,10 @@
 			"THIS_MONTH": "Diesen Monat",
 			"LATER": "Später"
 		}
+	},
+	"row_actions": {
+		"menu_aria": "Gesprächsaktionen",
+		"edit": "Bearbeiten",
+		"delete": "Löschen"
 	}
 }
