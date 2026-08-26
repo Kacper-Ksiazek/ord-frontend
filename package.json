@@ -85,6 +85,7 @@
 		"gravatar-url": "^4.0.1",
 		"lodash": "^4.17.21",
 		"lucide-svelte": "^0.562.0",
+		"motion": "^13.1.1",
 		"rxjs": "^7.8.2",
 		"tailwind-merge": "^3.4.0",
 		"typescript-eslint": "^8.48.0"

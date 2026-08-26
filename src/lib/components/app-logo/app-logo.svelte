@@ -1,25 +1,12 @@
 <script lang="ts">
-	import { cn } from '$lib/utils/cn';
-	import Logo from '$lib/assets/images/logo.svg.svelte';
-	import { type Theme, themeStore } from '$lib/stores/theme.svelte';
+	import { OrdLogo, type OrdLogoSize } from '$lib/components/ord-logo';
 
 	interface Props {
-		size?: 'sm' | 'md' | 'lg';
+		size?: OrdLogoSize;
 		class?: string;
 	}
 
 	let { size = 'md', class: className = '' }: Props = $props();
-
-	const sizeClasses = {
-		sm: 'h-6 w-auto',
-		md: 'h-12 w-auto',
-		lg: 'h-32 w-32'
-	};
-
-	const colorClasses: Record<Theme, string> = {
-		light: 'text-gray-900',
-		dark: 'text-gray-50'
-	};
 </script>
 
-<Logo class={cn(sizeClasses[size], colorClasses[themeStore.theme], className)} />
+<OrdLogo {size} class={className} />

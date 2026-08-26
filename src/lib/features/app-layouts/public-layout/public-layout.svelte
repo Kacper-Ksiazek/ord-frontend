@@ -11,7 +11,7 @@
 			<!-- Left Section: Logo -->
 			<div class="flex items-center gap-2">
 				<AppLogo size="md" />
-				<span class="text-lg font-semibold text-gray-900 dark:text-gray-50">ORD</span>
+				<span class="text-lg font-semibold text-ink">ORD</span>
 			</div>
 
 			<!-- Right Section: Controls -->
