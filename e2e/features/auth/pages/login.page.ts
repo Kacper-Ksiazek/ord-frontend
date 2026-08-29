@@ -1,4 +1,4 @@
-import type { Locator, Page } from '@playwright/test';
+import { expect, type Locator, type Page } from '@playwright/test';
 import { E2E_TEST_IDS } from '@e2e/auth/test-ids';
 import { resolveOtpCode } from '@e2e/shared/helpers/otp';
 
@@ -27,8 +27,10 @@ export class LoginPage {
 	}
 
 	async fillEmail(email: string): Promise<void> {
-		await this.emailInput.clear();
-		await this.emailInput.fill(email);
+		await this.emailInput.click();
+		await this.emailInput.pressSequentially(email, { delay: 20 });
+		await expect(this.emailInput).toHaveValue(email);
+		await expect(this.emailSubmitButton).toBeEnabled();
 	}
 
 	async submitEmail(): Promise<void> {

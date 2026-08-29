@@ -81,10 +81,12 @@
 		disabled ? 'text-ink-subtle' : getButtonTextColorClasses('OUTLINED', appearanceVariant)
 	);
 
-	// eslint-disable-next-line svelte/prefer-writable-derived
 	let internalValue = $state(value ?? '');
 
 	$effect(() => {
+		// Avoid clobbering in-progress edits when the parent bindable hasn't flushed yet.
+		if (document.activeElement === inputEl) return;
+
 		internalValue = value ?? '';
 	});
 
@@ -97,13 +99,11 @@
 
 	let debounceTimer: ReturnType<typeof setTimeout> | undefined;
 
-	function handleInput(event: Event) {
-		const target = event.target as HTMLInputElement;
-		internalValue = target.value;
-
+	function propagateValue(event: Event, notify: 'input' | 'change') {
 		if (!debounced) {
 			value = internalValue;
-			onInput?.(event);
+			if (notify === 'input') onInput?.(event);
+			else onChange?.(event);
 
 			return;
 		}
@@ -112,8 +112,17 @@
 
 		debounceTimer = setTimeout(() => {
 			value = internalValue;
-			onInput?.(event);
+			if (notify === 'input') onInput?.(event);
+			else onChange?.(event);
 		}, debounceDelay);
+	}
+
+	function handleInput(event: Event) {
+		propagateValue(event, 'input');
+	}
+
+	function handleChange(event: Event) {
+		propagateValue(event, 'change');
 	}
 </script>
 
@@ -144,7 +153,7 @@
 			bind:this={inputEl}
 			data-testid={dataTestId}
 			{type}
-			value={internalValue}
+			bind:value={internalValue}
 			{placeholder}
 			{disabled}
 			aria-label={ariaLabel}
@@ -161,7 +170,7 @@
 				inputClass
 			)}
 			oninput={handleInput}
-			onchange={onChange}
+			onchange={handleChange}
 			onfocus={onFocus}
 			onblur={onBlur}
 		/>
