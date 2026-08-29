@@ -24,6 +24,17 @@
 	},
 	"save_no_words": "Wpisz co najmniej jedno słowo, aby zapisać.",
 	"save_no_language": "Ustaw język nauki w profilu przed zapisem.",
+	"save_success": {
+		"header": "Słowa zapisane",
+		"description": "Twoje słowa zostały dodane do Szybko dodanych słów.",
+		"done": "Gotowe"
+	},
+	"save_error": {
+		"header": "Nie udało się zapisać słów",
+		"description": "Coś poszło nie tak podczas zapisu. Spróbuj ponownie lub wróć do edycji wpisów.",
+		"try_again": "Spróbuj ponownie",
+		"back_to_form": "Wróć do formularza"
+	},
 	"close": "Zamknij",
 	"remove_record": "Usuń wiersz słowa"
 }

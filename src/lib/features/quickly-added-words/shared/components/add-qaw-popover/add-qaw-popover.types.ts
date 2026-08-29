@@ -10,6 +10,8 @@ export type AddQAWFormRow = {
 	aiError: string | null;
 };
 
+export type AddQawSaveStatus = 'idle' | 'loading' | 'success' | 'error';
+
 export type CollectFillGapsItemsResult =
 	| {
 			ok: true;

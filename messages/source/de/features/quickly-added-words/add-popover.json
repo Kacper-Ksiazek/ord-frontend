@@ -24,6 +24,17 @@
 	},
 	"save_no_words": "Gib mindestens ein Wort ein, um zu speichern.",
 	"save_no_language": "Lege zuerst eine Lernsprache in deinem Profil fest.",
+	"save_success": {
+		"header": "Wörter gespeichert",
+		"description": "Deine Wörter wurden zu Schnell hinzugefügten Wörtern hinzugefügt.",
+		"done": "Fertig"
+	},
+	"save_error": {
+		"header": "Wörter konnten nicht gespeichert werden",
+		"description": "Beim Speichern ist etwas schiefgelaufen. Versuche es erneut oder gehe zurück zur Bearbeitung.",
+		"try_again": "Erneut versuchen",
+		"back_to_form": "Zurück zum Formular"
+	},
 	"close": "Schließen",
 	"remove_record": "Wortzeile entfernen"
 }

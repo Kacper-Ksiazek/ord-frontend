@@ -24,6 +24,17 @@
 	},
 	"save_no_words": "Enter at least one word to save.",
 	"save_no_language": "Select a learning language in your profile before saving.",
+	"save_success": {
+		"header": "Words saved",
+		"description": "Your words were added to Quickly Added Words.",
+		"done": "Done"
+	},
+	"save_error": {
+		"header": "Could not save words",
+		"description": "Something went wrong while saving. Try again or go back to edit your entries.",
+		"try_again": "Try again",
+		"back_to_form": "Back to form"
+	},
 	"close": "Close",
 	"remove_record": "Remove word row"
 }

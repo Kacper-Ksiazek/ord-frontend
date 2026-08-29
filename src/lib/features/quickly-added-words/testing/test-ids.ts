@@ -8,6 +8,9 @@ export const E2E_TEST_IDS = {
 	},
 	popover: {
 		trigger: 'sidebar-add-qaw',
-		root: 'add-qaw-popover'
+		root: 'add-qaw-popover',
+		saveStatusLoading: 'add-qaw-popover-save-loading',
+		saveStatusSuccess: 'add-qaw-popover-save-success',
+		saveStatusError: 'add-qaw-popover-save-error'
 	}
 } as const;
