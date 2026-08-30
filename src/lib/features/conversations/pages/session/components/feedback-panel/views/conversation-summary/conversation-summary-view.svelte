@@ -11,6 +11,7 @@
 	import MessageFilterBanner from '../../components/message-filter-banner/message-filter-banner.svelte';
 	import { ChevronLeft, ClipboardCheck, Lightbulb, MessageSquare } from 'lucide-svelte';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
+	import * as m from '$lib/paraglide/messages.js';
 
 	const messagesContext = getMessagesContext();
 	const sidepanelContext = getSidepanelContext();
@@ -42,17 +43,21 @@
 	);
 
 	const mainTabs = $derived<Tab<SummaryTab>[]>([
-		{ id: 'verdict', label: 'Werdykt', icon: ClipboardCheck },
+		{
+			id: 'verdict',
+			label: m['features.conversation.session.summary.tabs.verdict'](),
+			icon: ClipboardCheck
+		},
 		{
 			id: 'analysis',
-			label: 'Przegląd',
+			label: m['features.conversation.session.summary.tabs.analysis'](),
 			count: analysisCount,
 			icon: MessageSquare,
 			disabled: analysisCount === 0
 		},
 		{
 			id: 'learning-tips',
-			label: 'Wskazówki',
+			label: m['features.conversation.session.summary.tabs.learning_tips'](),
 			count: learningTipsCount,
 			icon: Lightbulb,
 			disabled: learningTipsCount === 0
@@ -66,7 +71,7 @@
 			class="mb-3"
 			crumbs={[
 				{
-					label: 'Zamknij',
+					label: m['features.conversation.session.summary.close'](),
 					icon: ChevronLeft,
 					onClick: () => {
 						sidepanelContext.isOpened = false;
@@ -76,7 +81,7 @@
 			]}
 		/>
 
-		<h2 class="heading-5 mb-4 text-ink">Podsumowanie sesji</h2>
+		<h2 class="heading-5 mb-4 text-ink">{m['features.conversation.session.summary.title']()}</h2>
 
 		<Tabs
 			dataTestId={E2E_TEST_IDS.session.feedbackSummaryTabs}

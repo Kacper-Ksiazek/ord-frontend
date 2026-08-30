@@ -16,5 +16,24 @@
 	"analysis": {
 		"failed": "Analyse für diese Nachricht konnte nicht erstellt werden.",
 		"retry": "Erneut versuchen"
+	},
+	"summary": {
+		"title": "Sitzungszusammenfassung",
+		"close": "Schließen",
+		"tabs": {
+			"verdict": "Urteil",
+			"analysis": "Überblick",
+			"learning_tips": "Tipps"
+		},
+		"verdict": {
+			"placeholder": {
+				"aria_label": "Gesprächszusammenfassung — demnächst",
+				"heading": "Gesprächszusammenfassung",
+				"description": "Hier erscheint bald eine kurze KI-Zusammenfassung der Sitzung — die wichtigsten Erkenntnisse und was du als Nächstes üben solltest.",
+				"suggested_action_1": "Vorgeschlagene Aktion 1",
+				"suggested_action_2": "Vorgeschlagene Aktion 2",
+				"coming_soon": "Funktion in Vorbereitung."
+			}
+		}
 	}
 }

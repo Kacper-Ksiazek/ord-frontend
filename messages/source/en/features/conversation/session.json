@@ -16,5 +16,24 @@
 	"analysis": {
 		"failed": "Couldn't generate analysis for this message.",
 		"retry": "Try again"
+	},
+	"summary": {
+		"title": "Session summary",
+		"close": "Close",
+		"tabs": {
+			"verdict": "Verdict",
+			"analysis": "Review",
+			"learning_tips": "Tips"
+		},
+		"verdict": {
+			"placeholder": {
+				"aria_label": "Conversation summary — coming soon",
+				"heading": "Conversation summary",
+				"description": "A short AI-generated session summary will appear here — key takeaways and what to practice next.",
+				"suggested_action_1": "Suggested action 1",
+				"suggested_action_2": "Suggested action 2",
+				"coming_soon": "Feature in development."
+			}
+		}
 	}
 }

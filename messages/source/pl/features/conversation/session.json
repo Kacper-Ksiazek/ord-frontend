@@ -16,5 +16,24 @@
 	"analysis": {
 		"failed": "Nie udało się wygenerować analizy tej wiadomości.",
 		"retry": "Spróbuj ponownie"
+	},
+	"summary": {
+		"title": "Podsumowanie sesji",
+		"close": "Zamknij",
+		"tabs": {
+			"verdict": "Werdykt",
+			"analysis": "Przegląd",
+			"learning_tips": "Wskazówki"
+		},
+		"verdict": {
+			"placeholder": {
+				"aria_label": "Podsumowanie rozmowy — wkrótce",
+				"heading": "Podsumowanie rozmowy",
+				"description": "Tutaj pojawi się krótkie podsumowanie sesji wygenerowane przez AI — główne wnioski i co warto ćwiczyć dalej.",
+				"suggested_action_1": "Sugerowana akcja 1",
+				"suggested_action_2": "Sugerowana akcja 2",
+				"coming_soon": "Funkcja w przygotowaniu."
+			}
+		}
 	}
 }
