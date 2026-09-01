@@ -1,30 +1,21 @@
 <script lang="ts">
 	import { IconButton } from '$lib/components/buttons/icon-button';
-	import { Button } from '$lib/components/buttons/button';
-	import { ChevronDown, ChevronUp } from 'lucide-svelte';
+	import { MessageSquareText } from 'lucide-svelte';
+	import { cn } from '$lib/utils/cn';
 
 	interface ToggleExpandCollapseProps {
 		isCollapsed: boolean;
-		showLabel?: boolean;
+		expandLabel?: string;
+		collapseLabel?: string;
 	}
 
-	let { isCollapsed = $bindable(), showLabel = false }: ToggleExpandCollapseProps = $props();
+	let {
+		isCollapsed = $bindable(),
+		expandLabel = 'Komentarz',
+		collapseLabel = 'Komentarz'
+	}: ToggleExpandCollapseProps = $props();
 
-	const { Icon, tooltip, label } = $derived.by(() => {
-		if (isCollapsed) {
-			return {
-				Icon: ChevronUp,
-				tooltip: 'Expand',
-				label: 'Expand'
-			};
-		} else {
-			return {
-				Icon: ChevronDown,
-				tooltip: 'Collapse',
-				label: 'Collapse'
-			};
-		}
-	});
+	const ariaLabel = $derived(isCollapsed ? expandLabel : collapseLabel);
 
 	function onClick(e: MouseEvent) {
 		e.preventDefault();
@@ -34,19 +25,12 @@
 	}
 </script>
 
-{#if showLabel}
-	<Button type="OUTLINED" variant="TEXT" {onClick} class="gap-2">
-		<Icon class="w-4 h-4" />
-		{label}
-	</Button>
-{:else}
-	<IconButton
-		icon={Icon}
-		ariaLabel={tooltip}
-		{tooltip}
-		{onClick}
-		type="OUTLINED"
-		variant="TEXT"
-		class="h-[32px] w-[32px] border-none"
-	/>
-{/if}
+<IconButton
+	icon={MessageSquareText}
+	{ariaLabel}
+	tooltip={ariaLabel}
+	{onClick}
+	type="OUTLINED"
+	variant="TEXT"
+	class={cn('h-[32px] w-[32px] border-none', !isCollapsed && 'bg-accent-soft text-ink')}
+/>

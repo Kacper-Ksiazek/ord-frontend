@@ -28,10 +28,10 @@ The project deliberately balances two priorities:
    speculative abstractions, or process overhead that does not pay off at this scale.
 
 Practical guidance: follow the existing conventions rigorously (they are cheap to follow and
-expensive to erode), but prefer the simplest implementation that fits them. A single product
-feature (`conversations`) exists today — shared code in `$lib` is treated as a design system
-even when it currently has one consumer, and code is only moved into a feature when there is
-hard domain coupling.
+expensive to erode), but prefer the simplest implementation that fits them. Product features
+today are `conversations` and `quickly-added-words` — shared code in `$lib` is treated as a
+design system even when it currently has one consumer, and code is only moved into a feature
+when there is hard domain coupling.
 
 ## Work tracking
 

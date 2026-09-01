@@ -2,7 +2,7 @@
 	import AiInterlocutorAvatar from '$conversations/shared/components/ai-interlocutor-avatar.svelte';
 	import type { ConversationAIInterlocutorAvatarId } from '$conversations/types';
 	import type { AIMessageLearningTips } from '$conversations/types';
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import MessageBase from '../message-base.svelte';
 	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
 	import { getConversationContext } from '$conversations/pages/session/contexts/conversation-context.svelte';
@@ -30,13 +30,12 @@
 
 		return highlightLearningTipsContent(message, learningTips);
 	});
-
-	let showIconsInHighlightedParts = $state(false);
 </script>
 
 <MessageBase
 	dataTestId={E2E_TEST_IDS.session.aiMessage(messageIndex)}
 	messageClass={cn(
+		'bg-message-ai',
 		isStillGenerating && 'generation-in-progress' //
 	)}
 >
@@ -44,33 +43,30 @@
 		<AiInterlocutorAvatar
 			avatarId={interlocutor.avatarId as ConversationAIInterlocutorAvatarId}
 			size="fullsize"
-			class="rounded-full shadow-md w-12 h-12"
+			class="h-12 w-12 rounded-full"
 		/>
 	{/snippet}
 
 	{#snippet content()}
 		{#if message}
-			<p>
-				{#if highlightedParts && learningTips}
-					{#each highlightedParts as part, index (index)}
-						{#if part.highlight}
-							{@const id = `learning-tip-${part.highlight}-${messageIndex}-${index}`}
+			{#if highlightedParts && learningTips}
+				{#each highlightedParts as part, index (index)}
+					{#if part.highlight}
+						{@const id = `learning-tip-${part.highlight}-${messageIndex}-${index}`}
 
-							<LearningTipTextHighlight
-								{id}
-								highlightType={part.highlight}
-								highlightedText={part.text}
-								{learningTips}
-								{showIconsInHighlightedParts}
-							/>
-						{:else}
-							{part.text}
-						{/if}
-					{/each}
-				{:else}
-					{message}
-				{/if}
-			</p>
+						<LearningTipTextHighlight
+							{id}
+							highlightType={part.highlight}
+							highlightedText={part.text}
+							{learningTips}
+						/>
+					{:else}
+						{part.text}
+					{/if}
+				{/each}
+			{:else}
+				{message}
+			{/if}
 		{:else}
 			<TextWithThreeDotsAnimation text="Myśli" />
 		{/if}
@@ -78,7 +74,7 @@
 
 	{#snippet footer()}
 		{#if !isStillGenerating}
-			<LearningTips {message} {learningTips} {messageIndex} bind:showIconsInHighlightedParts />
+			<LearningTips {message} {learningTips} {messageIndex} />
 		{/if}
 	{/snippet}
 </MessageBase>

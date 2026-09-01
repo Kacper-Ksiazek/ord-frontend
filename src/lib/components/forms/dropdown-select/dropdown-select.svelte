@@ -1,12 +1,9 @@
 <script lang="ts" generics="T">
-	import { Dropdown, DropdownItem, cn } from 'flowbite-svelte';
+	import { DropdownMenu } from 'bits-ui';
 	import { ChevronDown } from 'lucide-svelte';
 	import type { DropdownSelectProps } from './dropdown-select.types';
+	import { cn } from '$lib/utils/cn';
 	import '../forms.css';
-
-	let dropdownOpen = $state(false);
-	let hideButtonElement: HTMLButtonElement | undefined = $state();
-	let openButtonElement: HTMLButtonElement | undefined = $state();
 
 	let {
 		value = $bindable(),
@@ -16,6 +13,7 @@
 		buttonClass = '',
 		dropdownClass = '',
 		icon,
+		optionLeading,
 		dataTestId
 	}: DropdownSelectProps<T> = $props();
 
@@ -27,8 +25,6 @@
 		} else {
 			value = selectedValue;
 		}
-
-		hideButtonElement?.click();
 	}
 
 	function optionTestId(optionValue: T): string | undefined {
@@ -40,55 +36,56 @@
 	}
 </script>
 
-<button bind:this={hideButtonElement} class="hidden" aria-label="Close dropdown"></button>
+<DropdownMenu.Root>
+	<DropdownMenu.Trigger
+		data-testid={dataTestId}
+		class={cn('form-input-base form-input-container w-full justify-between', buttonClass)}
+		aria-label={ariaLabel}
+	>
+		<div class="form-input-container">
+			{#if icon}
+				{@render icon({ selectedOption })}
+			{:else if optionLeading && selectedOption}
+				{@render optionLeading(selectedOption)}
+			{:else if selectedOption?.icon}
+				{@const Icon = selectedOption.icon}
+				<Icon class="w-4 h-4" />
+			{/if}
 
-<button
-	bind:this={openButtonElement}
-	data-testid={dataTestId}
-	class={cn('form-input-base form-input-container justify-between', buttonClass)}
-	aria-label={ariaLabel}
-	type="button"
-	onclick={() => (dropdownOpen = !dropdownOpen)}
->
-	<div class="form-input-container">
-		<!-- Use snippet when available -->
-		{#if icon}
-			{@render icon({ selectedOption })}
-			<!-- Use default icon when available -->
-		{:else if selectedOption?.icon}
-			{@const Icon = selectedOption.icon}
-			<Icon class="w-4 h-4" />
-		{/if}
+			<span class="text-sm font-medium">{selectedOption?.label ?? ''}</span>
+		</div>
+		<ChevronDown class="w-3 h-3" />
+	</DropdownMenu.Trigger>
 
-		<span class="text-sm font-medium">{selectedOption?.label ?? ''}</span>
-	</div>
-	<ChevronDown class="w-3 h-3" />
-</button>
-
-<Dropdown
-	isOpen={dropdownOpen}
-	class={cn('bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 ', dropdownClass)}
-	style={`width: ${openButtonElement?.clientWidth}px`}
->
-	{#each options as option (option.value)}
-		{@const Icon = option.icon}
-		{@const isSelected = value === option.value}
-
-		<DropdownItem
-			onclick={() => handleSelect(option.value)}
-			class={cn(
-				'w-full list-none text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center gap-2',
-				isSelected &&
-					'font-semibold bg-primary-50 dark:bg-primary-900 text-gray-900 dark:text-gray-100',
-				'form-input-text'
-			)}
+	<DropdownMenu.Portal>
+		<DropdownMenu.Content
+			class={cn('overlay-surface z-50 mt-1 min-w-(--bits-floating-anchor-width) p-1', dropdownClass)}
+			align="start"
+			sideOffset={4}
 		>
-			<span class="flex w-full items-center gap-2" data-testid={optionTestId(option.value)}>
-				{#if Icon}
-					<Icon class="w-4 h-4" />
-				{/if}
-				{option.label}
-			</span>
-		</DropdownItem>
-	{/each}
-</Dropdown>
+			{#each options as option (option.value)}
+				{@const Icon = option.icon}
+				{@const isSelected = value === option.value}
+
+				<DropdownMenu.Item
+					onSelect={() => handleSelect(option.value)}
+					class={cn(
+						'flex w-full cursor-pointer items-center gap-2 rounded-md px-2 py-1.5 text-sm',
+						'text-ink outline-none hover:bg-accent-soft',
+						isSelected && 'bg-accent-soft font-medium',
+						'form-input-text'
+					)}
+				>
+					<span class="flex w-full items-center gap-2" data-testid={optionTestId(option.value)}>
+						{#if optionLeading}
+							{@render optionLeading(option)}
+						{:else if Icon}
+							<Icon class="w-4 h-4" />
+						{/if}
+						{option.label}
+					</span>
+				</DropdownMenu.Item>
+			{/each}
+		</DropdownMenu.Content>
+	</DropdownMenu.Portal>
+</DropdownMenu.Root>

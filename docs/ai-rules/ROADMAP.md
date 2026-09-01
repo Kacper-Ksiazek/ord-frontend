@@ -7,7 +7,7 @@ structure changes materially, and use the checkboxes to track rule coverage.
 
 - **Framework:** SvelteKit 2 + Svelte 5 (runes), Vite 7, adapter-vercel
 - **Language:** TypeScript (strict, `typescript-eslint` strict config)
-- **Styling:** Tailwind CSS 4, flowbite-svelte (+ `cn` helper), lucide-svelte icons
+- **Styling:** Tailwind CSS 4, Quiet studio tokens that swap under `.dark`, bits-ui (headless) + `$lib/utils/cn`, lucide-svelte icons
 - **Data:** TanStack Svelte Query 6, axios-based `src/lib/api-client` (`http*` naming), rxjs (SSE)
 - **API contract:** `@kacper-ksiazek/ord-api-types` package
 - **i18n:** Paraglide JS 2 (pl/en/de), `messages/` + `scripts/aggregate-translations.ts`
@@ -51,15 +51,17 @@ Covers: `src/lib/components`, `src/lib/features/**/components`.
 - [x] Props typing and defaults (+ types files, sub-components, component stores)
 - [x] Snippets, file naming, colocated stories
 - [x] Local snippets for complex conditional/looped markup
+- [x] Session summary panel vs thread responsibilities
 
 ### styling/ — Tailwind & theming
 
 Covers: `src/app.css`, `src/lib/styles`, `src/lib/stores/theme.svelte.ts`, component classes.
 
-- [x] `cn` from flowbite-svelte (never clsx), class merging
+- [x] `cn` from `$lib/utils/cn` (never clsx), class merging
 - [x] Theme (dark/light) handling patterns
 - [x] Tailwind 4 conventions used in the repo
-- [x] flowbite-svelte component usage
+- [x] bits-ui headless primitives + Quiet studio tokens
+- [x] TanStack Charts (`$lib/components/charts`, no Apex)
 
 ### api-design/ — API client & data fetching
 

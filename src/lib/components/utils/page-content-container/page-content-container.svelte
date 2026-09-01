@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import type { Snippet } from 'svelte';
 
 	interface Props {
@@ -29,7 +29,7 @@
 
 <section
 	class={cn(
-		'w-full flex-1 mx-auto flex flex-col gap-6 h-full', //
+		'w-full min-w-0 flex-1 mx-auto flex flex-col gap-6 h-full px-12 py-8',
 		maxWidth,
 		customClass
 	)}
@@ -40,7 +40,7 @@
 
 	<div
 		class={cn(
-			'flex-1 flex gap-6 h-full', //
+			'flex-1 flex min-w-0 gap-6 h-full', //
 			contentClass
 		)}
 	>

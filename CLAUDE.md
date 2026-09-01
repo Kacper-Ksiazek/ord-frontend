@@ -8,7 +8,7 @@ rule per `.md` file, each with Good/Bad examples taken from this repo. The proje
 `docs/ai-rules/concept/project-brief.md`.
 
 Categories: `general` (FDD architecture, boundaries, aliases, thin routes), `typescript`,
-`svelte`, `styling`, `api-design`, `state`, `i18n`, `testing`, `git`, `dev` (Makefile, CI verify).
+`svelte`, `styling` (bits-ui + Quiet studio tokens), `api-design`, `state`, `i18n`, `testing`, `git`, `dev` (Makefile, CI verify).
 
 Before writing or modifying code, consult the rule files of the relevant categories and
 follow them. `docs/ai-rules/ROADMAP.md` is the living knowledge snapshot of the stack and

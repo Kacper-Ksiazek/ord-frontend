@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { Badge } from 'flowbite-svelte';
+	import { Badge } from '$lib/components/utils/badge';
 	import { Briefcase, Users, Zap } from 'lucide-svelte';
 	import type { TipRegister } from '$conversations/types';
 	import type { TabsSupportedTailwindColor } from '$lib/components/navigation/tabs/tabs.types';
@@ -35,7 +35,7 @@
 </script>
 
 <Badge {color} class="flex items-center gap-1">
-	<Icon class="w-4 h-4" />
+	<Icon class="h-3 w-3" />
 
 	{label}
 </Badge>

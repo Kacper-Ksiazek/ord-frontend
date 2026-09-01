@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ConversationUserMessageAnalysisDTO } from '$conversations/types';
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import { ChevronDown, ChevronUp } from 'lucide-svelte';
 	import { CircularProgressBars, ProgressTableHeader } from './components';
 	import type { CompactConversationUserMessage } from '$conversations/types';

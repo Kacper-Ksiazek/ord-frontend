@@ -12,7 +12,8 @@ export const E2E_TEST_IDS = {
 		filterTypeOption: (type: string) => `conversations-filter-type-option-${type}`,
 		filterClear: 'conversations-filter-clear',
 		noMatches: 'conversations-no-matches',
-		row: (id: string) => `conversation-row-${id}`
+		row: (id: string) => `conversation-row-${id}`,
+		rowMenu: (id: string) => `conversation-row-menu-${id}`
 	},
 	createConversation: {
 		page: 'create-conversation-page',

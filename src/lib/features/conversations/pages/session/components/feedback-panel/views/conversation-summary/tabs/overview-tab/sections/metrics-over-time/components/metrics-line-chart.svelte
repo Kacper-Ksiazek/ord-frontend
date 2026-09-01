@@ -1,7 +1,25 @@
 <script lang="ts">
-	import { Chart } from '@flowbite-svelte-plugins/chart';
+	import { defineChart, lineY, ruleY, text } from '@tanstack/charts';
+	import { decorative } from '@tanstack/charts/mark/decorative';
+	import { scaleLinear } from '@tanstack/charts/scales/linear';
+	import { scalePoint } from '@tanstack/charts/scales/point';
+	import { tooltip } from '@tanstack/charts/tooltip';
+	import type { ChartPoint, ChartValue } from '@tanstack/charts';
+	import {
+		TanStackChart,
+		CHART_MARGINS_AXIS,
+		getChartInkMuted,
+		getChartPrimaryLine
+	} from '$lib/components/charts';
 	import { themeStore } from '$lib/stores/theme.svelte';
-	import type { ApexOptions } from 'apexcharts';
+	import { cn } from '$lib/utils/cn';
+
+	interface MetricRow {
+		id: string;
+		label: string;
+		value: number;
+		displayValue: string;
+	}
 
 	interface Props {
 		data: (number | null)[];
@@ -9,133 +27,145 @@
 		metricLabel: string;
 		isScoreMetric?: boolean;
 		average?: number | null;
+		height?: number;
+		xAxisLabel?: string;
+		showValueLabels?: boolean;
 	}
 
-	const { data, categories, metricLabel, isScoreMetric = false, average = null }: Props = $props();
+	const {
+		data,
+		categories,
+		metricLabel,
+		isScoreMetric = false,
+		average = null,
+		height = 220,
+		xAxisLabel = 'Message',
+		showValueLabels = true
+	}: Props = $props();
 
-	const isDark = $derived(themeStore.isDark);
+	function formatValue(value: number): string {
+		return isScoreMetric ? value.toFixed(1) : String(value);
+	}
 
-	const avgLabelColor = $derived(isDark ? '#d1d5db' : '#4b5563');
-	const avgLineColor = $derived(isDark ? '#9ca3af' : '#4b5563');
+	const rows = $derived(
+		data
+			.map((value, index) =>
+				value != null
+					? {
+							id: categories[index] ?? String(index),
+							label: categories[index] ?? String(index + 1),
+							value,
+							displayValue: formatValue(value)
+						}
+					: null
+			)
+			.filter((row): row is MetricRow => row != null)
+	);
 
-	const options: ApexOptions = $derived({
-		series: [
-			{
-				name: metricLabel,
-				data: data
-			}
-		],
-		colors: ['#0ea5e9'], // primary-500
-		chart: {
-			type: 'line',
-			height: 300,
-			dropShadow: { enabled: false },
-			toolbar: { show: false },
-			zoom: { enabled: false }
-		},
-		stroke: {
-			curve: 'smooth',
-			width: 4
-		},
-		xaxis: {
-			categories: categories,
-			title: {
-				text: 'Message',
-				style: {
-					color: '#6b7280',
-					fontSize: '12px',
-					fontWeight: 500
-				}
-			},
-			labels: {
-				style: {
-					colors: '#6b7280'
-				}
-			}
-		},
-		yaxis: {
-			min: isScoreMetric ? 0 : undefined,
-			max: isScoreMetric ? 10 : undefined,
-			tickAmount: isScoreMetric ? 10 : undefined, // 0–10 (10 intervals, 11 ticks)
-			title: {
-				text: metricLabel,
-				style: {
-					color: '#6b7280',
-					fontSize: '12px',
-					fontWeight: 500
-				}
-			},
-			labels: {
-				style: {
-					colors: '#6b7280'
-				}
-			}
-		},
-		grid: {
-			borderColor: '#e5e7eb',
-			strokeDashArray: 4
-		},
-		markers: {
-			size: 6,
-			colors: ['#0284c7'], // primary-600
-			strokeColors: '#0284c7', // primary-600
-			hover: {
-				size: 8
-			}
-		},
-		tooltip: {
-			enabled: false
-		},
-		dataLabels: {
-			enabled: true,
-			offsetY: -10,
-			background: {
-				enabled: true,
-				borderColor: '#e5e7eb',
-				borderRadius: 4
-			},
-			formatter: (val: string | number | number[]) => {
-				if (val == null) return '';
-				if (Array.isArray(val)) return val.length ? String(val[0]) : '';
-
-				return String(val);
-			},
-			style: {
-				fontSize: '14px',
-				fontWeight: 500,
-				colors: ['#6b7280']
-			}
-		},
-		states: {
-			hover: { filter: { type: 'none' } },
-			active: { filter: { type: 'none' } }
-		},
-		annotations:
-			average != null
-				? {
-						yaxis: [
-							{
-								y: average,
-								strokeDashArray: 4,
-								strokeWidth: 2,
-								borderColor: avgLineColor,
-								opacity: 1,
-								label: {
-									text: `Avg: ${average.toFixed(1)}`,
-									position: 'right',
-									offsetY: -10,
-									style: {
-										background: 'transparent',
-										color: avgLabelColor,
-										fontSize: '12px',
-										fontWeight: 600
-									}
-								}
-							}
-						]
+	const averageRow = $derived(
+		average != null
+			? ([
+					{
+						id: 'avg',
+						label: 'avg',
+						value: average,
+						displayValue: formatValue(average)
 					}
-				: undefined
+				] satisfies MetricRow[])
+			: []
+	);
+
+	const minHeightClass = $derived(
+		height >= 200 ? 'min-h-[220px]' : height >= 160 ? 'min-h-[180px]' : 'min-h-[120px]'
+	);
+
+	const definition = $derived.by(() => {
+		// Rebuild chart colors when the theme toggles.
+		void themeStore.isDark;
+
+		const marks = [
+			lineY(rows, {
+				id: 'metrics-line',
+				x: 'label',
+				y: 'value',
+				points: false,
+				stroke: getChartPrimaryLine(),
+				strokeWidth: 2
+			})
+		];
+
+		if (showValueLabels && rows.length > 0) {
+			marks.push(
+				// Decorative — labels sit above points; without this TanStack draws two focus rings.
+				decorative(
+					text(rows, {
+						id: 'metrics-line-labels',
+						x: 'label',
+						y: 'value',
+						text: 'displayValue',
+						dy: -10,
+						fontSize: 11,
+						fontWeight: 600,
+						fill: getChartPrimaryLine()
+					})
+				)
+			);
+		}
+
+		if (average != null) {
+			marks.push(
+				ruleY(averageRow, {
+					id: 'metrics-average',
+					y: 'value',
+					stroke: getChartInkMuted(),
+					strokeWidth: 2,
+					strokeDasharray: '4 4'
+				})
+			);
+		}
+
+		const yAxis = isScoreMetric
+			? {
+					// Configured instance — TanStack preserves [0, 10]; factories infer from data.
+					scale: scaleLinear().domain([0, 10]),
+					grid: true,
+					axis: { label: metricLabel }
+				}
+			: {
+					scale: scaleLinear,
+					nice: true,
+					grid: true,
+					axis: { label: metricLabel }
+				};
+
+		return defineChart({
+			marks,
+			x: {
+				scale: () => scalePoint<string>().padding(0.35),
+				axis: { label: xAxisLabel }
+			},
+			y: yAxis,
+			margin: showValueLabels ? { ...CHART_MARGINS_AXIS, top: 22 } : CHART_MARGINS_AXIS,
+			// Permanent value labels replace hover chrome; tooltip only when labels are hidden.
+			focusRing: !showValueLabels,
+			tooltip: showValueLabels
+				? false
+				: {
+						use: tooltip,
+						format: (point: ChartPoint<unknown, ChartValue, ChartValue>) =>
+							(point.datum as MetricRow).displayValue,
+						placement: 'top',
+						offset: 8,
+						className:
+							'rounded border border-line bg-surface px-2 py-1 text-xs font-semibold text-ink shadow-sm'
+					}
+		});
 	});
 </script>
 
-<Chart {options} />
+<TanStackChart
+	{definition}
+	ariaLabel={metricLabel}
+	{height}
+	class={cn('min-h-0 w-full', minHeightClass)}
+/>

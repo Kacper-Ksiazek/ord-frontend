@@ -1,6 +1,7 @@
 <script lang="ts">
-	import { cn, Tooltip } from 'flowbite-svelte';
+	import { Tooltip } from 'bits-ui';
 	import type { IconButtonProps } from './icon-button.types';
+	import { cn } from '$lib/utils/cn';
 	import {
 		getButtonTypeVariantClasses,
 		getButtonTextColorClasses
@@ -19,11 +20,9 @@
 		dataTestId
 	}: IconButtonProps = $props();
 
-	const buttonId = `icon-button-${crypto.randomUUID()}`;
-
 	const baseClasses = $derived.by(() =>
 		cn(
-			'px-2.5 h-[40px] rounded-lg border flex items-center justify-center w-[40px] p-0',
+			'px-2.5 h-[40px] rounded-[10px] border flex items-center justify-center w-[40px] p-0',
 			disabled && 'cursor-not-allowed opacity-50',
 			!disabled && 'cursor-pointer'
 		)
@@ -33,20 +32,47 @@
 	const iconColorClasses = $derived(getButtonTextColorClasses(type, variant));
 </script>
 
-{#if tooltip}
-	<Tooltip triggeredBy={`#${buttonId}`}>
-		{tooltip}
-	</Tooltip>
-{/if}
+{#snippet button()}
+	<button
+		data-testid={dataTestId}
+		{disabled}
+		aria-label={ariaLabel}
+		type="button"
+		class={cn(baseClasses, typeVariantClasses, className)}
+		onclick={onClick}
+	>
+		<Icon class={cn(iconColorClasses, iconClass)} />
+	</button>
+{/snippet}
 
-<button
-	id={buttonId}
-	data-testid={dataTestId}
-	{disabled}
-	aria-label={ariaLabel}
-	type="button"
-	class={cn(baseClasses, typeVariantClasses, className)}
-	onclick={onClick}
->
-	<Icon class={cn(iconColorClasses, iconClass)} />
-</button>
+{#if tooltip}
+	<Tooltip.Root>
+		<Tooltip.Trigger>
+			{#snippet child({ props })}
+				<button
+					{...props}
+					data-testid={dataTestId}
+					{disabled}
+					aria-label={ariaLabel}
+					type="button"
+					class={cn(
+						typeof props.class === 'string' ? props.class : '',
+						baseClasses,
+						typeVariantClasses,
+						className
+					)}
+					onclick={onClick}
+				>
+					<Icon class={cn(iconColorClasses, iconClass)} />
+				</button>
+			{/snippet}
+		</Tooltip.Trigger>
+		<Tooltip.Portal>
+			<Tooltip.Content class="overlay-surface z-50 px-2 py-1 text-xs" sideOffset={6}>
+				{tooltip}
+			</Tooltip.Content>
+		</Tooltip.Portal>
+	</Tooltip.Root>
+{:else}
+	{@render button()}
+{/if}

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { detectPlatform, normalizeRegisterableHotkey } from '@tanstack/svelte-hotkeys';
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import { HotkeyKbd } from '$lib/components/keyboard/hotkey-kbd';
 	import type { ButtonProps } from './button.types';
 	import '$lib/components/forms/forms.css';
@@ -35,7 +35,7 @@
 
 	const baseClasses = $derived.by(() =>
 		cn(
-			'px-4 h-[40px] rounded-lg transition-colors flex items-center gap-1 border',
+			'px-4 h-[40px] rounded-[10px] transition-colors flex items-center gap-1 border',
 			'form-input-text',
 			disabled && 'cursor-not-allowed opacity-50',
 			!disabled && 'cursor-pointer'
@@ -58,7 +58,7 @@
 	class={cn(baseClasses, typeVariantClasses, textColorClasses, className)}
 	onclick={onClick}
 >
-	<span class="flex min-h-0 grow items-center justify-center self-stretch text-center">
+	<span class="flex min-h-0 grow items-center justify-center gap-2 self-stretch text-center">
 		{@render children()}
 	</span>
 

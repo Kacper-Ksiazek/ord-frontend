@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import type { Snippet } from 'svelte';
 	import type { HTMLAttributes } from 'svelte/elements';
 
@@ -34,17 +34,16 @@
 
 <div
 	class={cn(
-		'flex flex-col items-center justify-center p-2 bg-white dark:bg-slate-900 rounded-xl',
-		'text-gray-500 dark:text-gray-200',
-		'border border-gray-200 dark:border-slate-600',
-		!disabled && 'hover:bg-primary-50 cursor-pointer hover:dark:bg-primary-900',
-		isSelected && 'bg-primary-200! dark:bg-primary-500! border-primary-300 dark:border-primary-400',
+		'flex flex-col items-center justify-center rounded-[10px] border border-line bg-surface p-2',
+		'text-ink-muted',
+		!disabled && 'cursor-pointer hover:bg-accent-soft',
+		isSelected && 'border-ink bg-accent-soft! text-ink',
 		isSelected && 'cursor-default',
 		disabled &&
 			!isSelected &&
 			cn(
 				'cursor-not-allowed',
-				locked && 'bg-gray-100! dark:bg-slate-800! border-gray-300 dark:border-slate-500 opacity-65',
+				locked && 'bg-accent-soft! text-ink-subtle opacity-70',
 				!locked && 'opacity-60'
 			),
 		customClass

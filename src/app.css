@@ -1,8 +1,6 @@
 @import 'tailwindcss';
 @custom-variant dark (&:where(.dark, .dark *));
 
-@plugin 'flowbite/plugin';
-
 /* Noto Sans Variable Font */
 @font-face {
 	font-family: 'Noto Sans';
@@ -22,43 +20,150 @@
 	font-display: swap;
 }
 
+:root {
+	--studio-canvas: #f6f4ef;
+	--studio-surface: #ffffff;
+	--studio-ink: #1c1b18;
+	--studio-ink-muted: #6b6860;
+	--studio-ink-subtle: #9a968c;
+	--studio-line: #e7e4dc;
+	--studio-line-subtle: color-mix(in srgb, var(--studio-line) 42%, var(--studio-surface));
+	--studio-message-ai: color-mix(in srgb, var(--studio-surface) 42%, var(--studio-canvas));
+	--studio-accent-soft: #efece4;
+	--studio-highlight: #f2e6c2;
+	--studio-danger: #a33a2c;
+	--studio-on-ink: #f6f4ef;
+	--studio-chart-series: var(--studio-primary-500);
+
+	/* Score tones: livelier traffic light, still warm to the studio paper */
+	--studio-score-low: #d14b3a;
+	--studio-score-low-medium: #e87a2e;
+	--studio-score-medium: #c08c12;
+	--studio-score-high: #3fa64a;
+	--studio-score-perfect: #2a8f3e;
+	--studio-score-low-soft: color-mix(in srgb, var(--studio-score-low) 48%, var(--studio-canvas));
+	--studio-score-low-medium-soft: color-mix(
+		in srgb,
+		var(--studio-score-low-medium) 48%,
+		var(--studio-canvas)
+	);
+	--studio-score-medium-soft: color-mix(
+		in srgb,
+		var(--studio-score-medium) 48%,
+		var(--studio-canvas)
+	);
+	--studio-score-high-soft: color-mix(in srgb, var(--studio-score-high) 48%, var(--studio-canvas));
+	--studio-score-perfect-soft: color-mix(
+		in srgb,
+		var(--studio-score-perfect) 48%,
+		var(--studio-canvas)
+	);
+
+	--studio-primary-50: #efece4;
+	--studio-primary-100: #e7e4dc;
+	--studio-primary-200: #d4cfc4;
+	--studio-primary-300: #b7b1a4;
+	--studio-primary-400: #6b6860;
+	--studio-primary-500: #3a3832;
+	--studio-primary-600: #1c1b18;
+	--studio-primary-700: #141311;
+	--studio-primary-800: #11100e;
+	--studio-primary-900: #0c0b0a;
+}
+
+.dark {
+	--studio-canvas: #161513;
+	--studio-surface: #1e1c18;
+	--studio-ink: #f4f1ea;
+	--studio-ink-muted: #a8a49a;
+	--studio-ink-subtle: #7c786f;
+	--studio-line: #2f2c27;
+	--studio-line-subtle: color-mix(in srgb, var(--studio-line) 55%, var(--studio-surface));
+	--studio-message-ai: color-mix(in srgb, var(--studio-surface) 58%, var(--studio-canvas));
+	--studio-accent-soft: #241f1a;
+	--studio-highlight: #3d3420;
+	--studio-danger: #e07064;
+	--studio-on-ink: #161513;
+	--studio-chart-series: var(--studio-primary-400);
+
+	--studio-score-low: var(--studio-danger);
+	--studio-score-low-medium: #f08a45;
+	--studio-score-medium: #ebc34a;
+	--studio-score-high: #6fd46a;
+	--studio-score-perfect: #5ecf72;
+
+	--studio-primary-50: #241f1a;
+	--studio-primary-100: #2f2c27;
+	--studio-primary-200: #3a3630;
+	--studio-primary-300: #5c574e;
+	--studio-primary-400: #a8a49a;
+	--studio-primary-500: #d4cfc4;
+	--studio-primary-600: #f4f1ea;
+	--studio-primary-700: #ffffff;
+	--studio-primary-800: #ffffff;
+	--studio-primary-900: #ffffff;
+}
+
 @theme {
-	/* Fonts */
 	--font-family-sans:
 		'Noto Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
 		'Segoe UI Symbol', 'Noto Color Emoji';
-
-	/* Colors */
-	--color-primary-50: #f0f9ff;
-	--color-primary-100: #e0f2fe;
-	--color-primary-200: #b4e4f8;
-	--color-primary-300: #7dd3fc;
-	--color-primary-400: #38bdf8;
-	--color-primary-500: #0ea5e9;
-	--color-primary-600: #0284c7;
-	--color-primary-700: #0369a1;
-	--color-primary-800: #075985;
-	--color-primary-900: #0c4a6e;
-
-	--color-secondary-50: #f0f9ff;
-	--color-secondary-100: #e0f2fe;
-	--color-secondary-200: #bae6fd;
-	--color-secondary-300: #7dd3fc;
-	--color-secondary-400: #38bdf8;
-	--color-secondary-500: #0ea5e9;
-	--color-secondary-600: #0284c7;
-	--color-secondary-700: #0369a1;
-	--color-secondary-800: #075985;
-	--color-secondary-900: #0c4a6e;
 }
 
-@source "../node_modules/flowbite-svelte/dist";
-@source "../node_modules/@flowbite-svelte-plugins/chart/dist";
+@theme inline {
+	--color-canvas: var(--studio-canvas);
+	--color-surface: var(--studio-surface);
+	--color-ink: var(--studio-ink);
+	--color-ink-muted: var(--studio-ink-muted);
+	--color-ink-subtle: var(--studio-ink-subtle);
+	--color-line: var(--studio-line);
+	--color-line-subtle: var(--studio-line-subtle);
+	--color-message-ai: var(--studio-message-ai);
+	--color-accent-soft: var(--studio-accent-soft);
+	--color-highlight: var(--studio-highlight);
+	--color-danger: var(--studio-danger);
+	--color-on-ink: var(--studio-on-ink);
+	--color-chart-series: var(--studio-chart-series);
+
+	--color-score-low: var(--studio-score-low);
+	--color-score-low-medium: var(--studio-score-low-medium);
+	--color-score-medium: var(--studio-score-medium);
+	--color-score-high: var(--studio-score-high);
+	--color-score-perfect: var(--studio-score-perfect);
+	--color-score-low-soft: var(--studio-score-low-soft);
+	--color-score-low-medium-soft: var(--studio-score-low-medium-soft);
+	--color-score-medium-soft: var(--studio-score-medium-soft);
+	--color-score-high-soft: var(--studio-score-high-soft);
+	--color-score-perfect-soft: var(--studio-score-perfect-soft);
+
+	--color-primary-50: var(--studio-primary-50);
+	--color-primary-100: var(--studio-primary-100);
+	--color-primary-200: var(--studio-primary-200);
+	--color-primary-300: var(--studio-primary-300);
+	--color-primary-400: var(--studio-primary-400);
+	--color-primary-500: var(--studio-primary-500);
+	--color-primary-600: var(--studio-primary-600);
+	--color-primary-700: var(--studio-primary-700);
+	--color-primary-800: var(--studio-primary-800);
+	--color-primary-900: var(--studio-primary-900);
+
+	--color-secondary-50: var(--studio-primary-50);
+	--color-secondary-100: var(--studio-primary-100);
+	--color-secondary-200: var(--studio-primary-200);
+	--color-secondary-300: var(--studio-primary-300);
+	--color-secondary-400: var(--studio-primary-400);
+	--color-secondary-500: var(--studio-primary-500);
+	--color-secondary-600: var(--studio-primary-600);
+	--color-secondary-700: var(--studio-primary-700);
+	--color-secondary-800: var(--studio-primary-800);
+	--color-secondary-900: var(--studio-primary-900);
+}
 
 @layer base {
-	/* Apply Noto Sans to all text elements */
 	body {
 		font-family: var(--font-family-sans);
+		color: var(--color-ink);
+		background-color: var(--color-canvas);
 	}
 
 	li {
@@ -70,7 +175,6 @@
 		display: none;
 	}
 
-	/* Smooth transitions for theme switching */
 	html {
 		transition: background-color 200ms ease-in-out;
 	}
@@ -81,48 +185,27 @@
 		transition-duration: 200ms;
 	}
 
-	/* Global focus styles using primary color (skip design-system inputs — they use variant focus in control-appearance). */
 	input:not(.form-input-base):focus,
 	textarea:focus,
 	select:focus,
 	button:focus-visible {
 		outline: none;
-		border-color: var(--color-primary-600);
-		--tw-ring-color: var(--color-primary-300);
+		border-color: var(--color-ink);
+		--tw-ring-color: color-mix(in srgb, var(--color-ink) 20%, transparent);
 	}
 
-	/* Override Flowbite default focus styles */
-	input[type='text']:focus:not(.form-input-base),
-	input[type='email']:focus:not(.form-input-base),
-	input[type='password']:focus:not(.form-input-base),
-	input[type='number']:focus:not(.form-input-base),
-	input[type='tel']:focus:not(.form-input-base),
-	input[type='url']:focus:not(.form-input-base),
-	input[type='search']:focus:not(.form-input-base),
-	textarea:focus,
-	select:focus {
-		border-color: var(--color-primary-600) !important;
-		--tw-ring-color: var(--color-primary-300) !important;
-	}
-
-	/* Add pointer cursor to buttons unless disabled */
 	button:not(:disabled) {
 		cursor: pointer;
 	}
 }
 
 .app-bg-col {
-	@apply bg-slate-100 dark:bg-slate-900;
+	@apply bg-canvas;
 }
 
-/* @keyframes generation-in-progress {
-	from {
-		background-color: var(--color-primary-100);
-	}
-	to {
-		background-color: var(--color-slate-100);
-	}
-} */
+.overlay-surface {
+	@apply rounded-[10px] border border-line bg-surface text-ink shadow-sm;
+}
 
 @keyframes generation-in-progress {
 	from {
@@ -137,14 +220,9 @@
 
 .generation-in-progress {
 	--generation-color-from: var(--color-primary-200);
-	--generation-color-to: var(--color-slate-50);
+	--generation-color-to: var(--color-surface);
 	animation: generation-in-progress 0.6s infinite alternate linear;
-	color: var(--color-gray-400);
-}
-
-.dark .generation-in-progress {
-	--generation-color-from: var(--color-primary-700);
-	--generation-color-to: var(--color-slate-600);
+	color: var(--color-ink-subtle);
 }
 
 /* Import typography classes */

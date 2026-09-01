@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import { Button } from '$lib/components/buttons/button';
 	import type { Snippet } from 'svelte';
 	import { getSidepanelContext } from '$conversations/pages/session/contexts/sidepanel-context.svelte';
@@ -39,13 +39,11 @@
 	}: Props = $props();
 
 	/** Shared shell with OUTLINED + TEXT border tokens */
-	const surfaceClass = cn(
-		'rounded-xl border-2 border-gray-400/60 dark:border-gray-500/60 bg-white dark:bg-slate-800'
-	);
+	const surfaceClass = cn('rounded-[10px] border border-line bg-surface');
 
 	const additionalContentClass = cn(
 		surfaceClass,
-		'text-gray-700 dark:text-gray-300 font-medium text-sm',
+		'text-ink-muted font-medium text-sm',
 		'h-10 min-h-10 max-h-10 min-w-0 max-w-md shrink-0 px-3 flex items-center ml-2 gap-2'
 	);
 </script>
@@ -66,7 +64,7 @@
 		{disabled}
 		class={cn(
 			surfaceClass,
-			'h-10! min-h-10 max-h-10 shrink-0 px-3 py-0 hover:bg-gray-100 dark:hover:bg-slate-700 [&>span]:justify-start',
+			'h-10! min-h-10 max-h-10 shrink-0 px-3 py-0 hover:bg-accent-soft [&>span]:justify-start',
 			customClass
 		)}
 	>

@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { Chart } from '@flowbite-svelte-plugins/chart';
-	import type { ApexOptions } from 'apexcharts';
+	import { defineChart } from '@tanstack/charts';
+	import { pie, polar, radialArc } from '@tanstack/charts/polar';
+	import { scaleOrdinal } from '@tanstack/charts/scales/ordinal';
+	import { TanStackChart } from '$lib/components/charts';
 	import { type MistakeStats } from '../utils/compute-message-stats';
 
 	interface Props {
@@ -9,37 +11,49 @@
 
 	const { mistakeStats }: Props = $props();
 
-	const series = $derived(Object.values(mistakeStats).map((s) => s.fraction));
-	const labels = $derived(Object.values(mistakeStats).map((s) => s.label));
-	const colors = $derived(Object.values(mistakeStats).map((s) => s.color));
+	const sliceRows = $derived(
+		Object.entries(mistakeStats).map(([id, stat]) => ({
+			id,
+			label: stat.label,
+			value: stat.count,
+			color: stat.color
+		}))
+	);
 
-	const options: ApexOptions = $derived({
-		series,
-		labels,
-		colors,
-		chart: {
-			type: 'donut',
-			height: 300,
-			dropShadow: { enabled: false }
-		},
-		states: {
-			hover: { filter: { type: 'none' } },
-			active: { filter: { type: 'none' } }
-		},
-		plotOptions: {
-			pie: {
-				donut: { size: '60%' }
+	const totalCount = $derived(sliceRows.reduce((sum, row) => sum + row.value, 0));
+
+	const slices = $derived(totalCount > 0 ? pie(sliceRows, { value: 'value' }) : []);
+
+	const definition = $derived(
+		defineChart({
+			marks: [
+				polar({
+					inset: 4,
+					radiusRatio: 0.9,
+					marks: [
+						radialArc(slices, {
+							innerRadius: ({ radius }) => radius * 0.58,
+							cornerRadius: 3,
+							color: 'id',
+							key: 'id'
+						})
+					]
+				})
+			],
+			color: {
+				domain: sliceRows.map((row) => row.id),
+				scale: () =>
+					scaleOrdinal<string, string>()
+						.domain(sliceRows.map((row) => row.id))
+						.range(sliceRows.map((row) => row.color))
 			}
-		},
-		stroke: { show: false },
-		dataLabels: {
-			enabled: true,
-			formatter: (val: number) => `${val.toFixed(1)}%`
-		},
-		legend: {
-			show: false
-		}
-	});
+		})
+	);
 </script>
 
-<Chart {options} />
+<TanStackChart
+	{definition}
+	ariaLabel="Mistake severity distribution"
+	height={220}
+	class="min-h-[220px]"
+/>

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
-	import { ServerCrash, Info, CheckCircle2 } from 'lucide-svelte';
+	import { cn } from '$lib/utils/cn';
+	import { ServerCrash, Info, CircleCheck } from 'lucide-svelte';
 	import { Button } from '$lib/components/buttons/button';
 	import type { StatusButtonProps, StatusPanelVariant } from './status-panel.types';
 
@@ -29,18 +29,18 @@
 
 	const iconContainerClass = $derived(
 		variant === 'error'
-			? 'bg-red-50 dark:bg-red-950/30'
+			? 'bg-danger/10'
 			: variant === 'information'
-				? 'bg-blue-50 dark:bg-blue-950/30'
-				: 'bg-green-50 dark:bg-green-950/30'
+				? 'bg-accent-soft'
+				: 'bg-score-high-soft'
 	);
 
 	const iconClass = $derived(
 		variant === 'error'
-			? 'w-8 h-8 text-red-400 dark:text-red-500'
+			? 'w-8 h-8 text-danger'
 			: variant === 'information'
-				? 'w-8 h-8 text-blue-400 dark:text-blue-500'
-				: 'w-8 h-8 text-green-400 dark:text-green-500'
+				? 'w-8 h-8 text-ink-muted'
+				: 'w-8 h-8 text-score-high'
 	);
 
 	// Primary button uses FILLED with a variant-matched color.
@@ -50,9 +50,8 @@
 	const primaryButtonClass = $derived(
 		variant === 'success'
 			? cn(
-					'bg-green-600 border-green-600 hover:bg-green-700',
-					'dark:bg-green-500 dark:border-green-500 dark:hover:bg-green-600',
-					'focus:ring-green-300 dark:focus:ring-green-800',
+					'border-score-high bg-score-high hover:opacity-90',
+					'focus:ring-score-high/30',
 					primaryButton?.class
 				)
 			: (primaryButton?.class ?? '')
@@ -71,27 +70,25 @@
 		{:else if variant === 'information'}
 			<Info class={iconClass} />
 		{:else}
-			<CheckCircle2 class={iconClass} />
+			<CircleCheck class={iconClass} />
 		{/if}
 	</div>
 
 	<div class="flex flex-col items-center gap-2 max-w-md">
 		{#if code}
-			<span
-				class="text-xs font-mono font-medium text-gray-400 dark:text-gray-500 tracking-wider uppercase"
-			>
+			<span class="text-xs font-mono font-medium tracking-wider text-ink-subtle uppercase">
 				{code}
 			</span>
 		{/if}
 
 		{#if header}
-			<h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200">
+			<h2 class="text-xl font-semibold text-ink">
 				{header}
 			</h2>
 		{/if}
 
 		{#if description}
-			<p class={cn('text-sm text-gray-500 dark:text-gray-400 leading-relaxed', descriptionClass)}>
+			<p class={cn('text-sm leading-relaxed text-ink-muted', descriptionClass)}>
 				{description}
 			</p>
 		{/if}

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import { getOutlinedInputFieldClasses } from '$lib/styles/control-appearance';
 	import type { AutoHeightTextareaProps } from './auto-height-textarea.types';
 	import '../forms.css';
@@ -8,6 +8,7 @@
 		value = $bindable(''),
 		placeholder = '',
 		className = '',
+		textareaClass = '',
 		formField = false,
 		disabled = false,
 		variant = 'TEXT',
@@ -137,6 +138,7 @@
 					],
 			formField &&
 				'text-sm font-medium text-gray-800 dark:text-gray-200 placeholder:font-normal placeholder:text-gray-500/90 dark:placeholder:text-gray-400/80',
+			textareaClass,
 			!formField &&
 				lengthConstraintActive &&
 				!isValid &&

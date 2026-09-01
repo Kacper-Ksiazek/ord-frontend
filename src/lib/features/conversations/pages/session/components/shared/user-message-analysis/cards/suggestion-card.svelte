@@ -4,17 +4,16 @@
 		AiAdviceBaseBlock,
 		DerivedAiAdviceCardProps
 	} from '../../ai-advice-base/ai-advice.types';
-	import { EXPLANATION_ICON } from '$conversations/pages/session/constants/icons';
-	import { USER_MESSAGE_ANALYSIS_ICONS_MAP } from '$conversations/pages/session/constants/user-message-analysis/icons';
 	import { SUGGESTION_TYPE_ICONS_MAP } from '$conversations/pages/session/constants/user-message-analysis/subcategory-icons';
 	import { ArrowRight } from 'lucide-svelte';
 	import AiAdviceBase from '../../ai-advice-base/ai-advice-base.svelte';
+	import { USER_MESSAGE_ANALYSIS_ICONS_MAP } from '$conversations/pages/session/constants/user-message-analysis/icons';
 
 	interface Props extends DerivedAiAdviceCardProps {
 		suggestion: ConversationMessageSuggestion;
 	}
 
-	let { suggestion, isExpandable, defaultExpandState }: Props = $props();
+	let { suggestion, isExpandable, defaultExpandState, showCategoryLabel = false }: Props = $props();
 
 	function toBlocks(suggestion: ConversationMessageSuggestion): {
 		headerBlocks: AiAdviceBaseBlock[];
@@ -27,7 +26,6 @@
 					label: 'Original',
 					translation: {
 						text: suggestion.original,
-						Icon: USER_MESSAGE_ANALYSIS_ICONS_MAP['SUGGESTIONS'],
 						badges: [
 							{
 								text: suggestion.suggestionType,
@@ -47,15 +45,23 @@
 				{
 					type: 'text',
 					label: 'Explanation',
-					text: suggestion.explanation,
-					Icon: EXPLANATION_ICON
+					text: suggestion.explanation
 				}
 			]
 		};
 	}
 
 	const color = 'blue' as const;
-	const { headerBlocks, bodyBlocks } = toBlocks(suggestion);
+	const { headerBlocks, bodyBlocks } = $derived(toBlocks(suggestion));
 </script>
 
-<AiAdviceBase {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />
+<AiAdviceBase
+	{color}
+	{headerBlocks}
+	{bodyBlocks}
+	{isExpandable}
+	{defaultExpandState}
+	{showCategoryLabel}
+	categoryLabel="Suggestion"
+	categoryIcon={USER_MESSAGE_ANALYSIS_ICONS_MAP.SUGGESTIONS}
+/>

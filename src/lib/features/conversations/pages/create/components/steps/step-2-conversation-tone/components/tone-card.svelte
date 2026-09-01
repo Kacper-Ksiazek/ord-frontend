@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import { Heart } from 'lucide-svelte';
 	import { IconButton } from '$lib/components/buttons/icon-button';
 	import SelectableCard from '$lib/components/utils/selectable-card.svelte';
@@ -35,7 +35,10 @@
 	{onclick}
 	{isSelected}
 	data-testid={E2E_TEST_IDS.createConversation.toneCard(tone)}
-	class={cn('relative w-[378px] py-10 px-4')}
+	class={cn(
+		'relative w-full min-w-0',
+		'px-[clamp(0.75rem,2vw,1rem)] py-[clamp(0.75rem,2.5vh,1.75rem)]'
+	)}
 >
 	{#if onToggleDefault}
 		<IconButton
@@ -63,19 +66,19 @@
 	<ConversationToneIcon
 		{tone}
 		class={cn(
-			'w-20 h-20 text-gray-300 mb-2 dark:text-gray-600',
+			'mb-1 size-[clamp(2.5rem,6vh,3.5rem)] text-gray-300 dark:text-gray-600',
 			isSelected && 'text-primary-500 dark:text-white'
 		)}
 	/>
 
-	<h3 class="text-lg font-bold text-gray-900 dark:text-gray-50">
+	<h3 class="text-base font-bold text-gray-900 dark:text-gray-50 sm:text-lg">
 		{label}
 	</h3>
 
 	{#if enableHints}
 		<p
 			class={cn(
-				'text-sm text-center dark:text-gray-400',
+				'text-center text-xs leading-snug sm:text-sm dark:text-gray-400',
 				isSelected && 'text-gray-600 dark:text-gray-100'
 			)}
 		>

@@ -5,6 +5,4 @@
 	const messagesContext = getMessagesContext();
 </script>
 
-<UserMessageReviewListWithFilters
-	data={messagesContext.messages.filter((msg) => msg.sender === 'USER')}
-/>
+<UserMessageReviewListWithFilters data={messagesContext.messages} />

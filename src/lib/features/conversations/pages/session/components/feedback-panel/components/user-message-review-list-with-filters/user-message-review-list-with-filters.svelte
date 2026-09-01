@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CompactConversationUserMessage } from '$conversations/types';
+	import type { CompactConversationMessage } from '$conversations/types';
 	import type {
 		ConversationMessageMistakeSeverity,
 		ConversationMessageSuggestionType
@@ -19,6 +19,7 @@
 		SUGGESTION_TYPE_ICONS_MAP
 	} from '$conversations/pages/session/constants/user-message-analysis/subcategory-icons';
 	import AnalysisListWithFiltersBase from '../../shared/analysis-list-with-filters-base/analysis-list-with-filters-base.svelte';
+	import { getSidepanelContext } from '$conversations/pages/session/contexts/sidepanel-context.svelte';
 	import {
 		MistakeCard,
 		StrengthCard,
@@ -35,10 +36,12 @@
 	type Subcategory = ConversationMessageMistakeSeverity | ConversationMessageSuggestionType | null;
 
 	interface Props {
-		data: CompactConversationUserMessage | CompactConversationUserMessage[];
+		data: CompactConversationMessage | CompactConversationMessage[];
 	}
 
 	const { data }: Props = $props();
+
+	const sidepanelContext = getSidepanelContext();
 
 	let filters = $state<FilterBase<Category, Subcategory>>({
 		category: 'ALL',
@@ -48,7 +51,11 @@
 	});
 
 	const aggregatedAnalyses = $derived.by<FilterableItem<Data, Category, Subcategory>[]>(() => {
-		return aggregateAnalysis(Array.isArray(data) ? data : [data]) //
+		const messageOrderFilter =
+			sidepanelContext.summaryTab === 'analysis' ? sidepanelContext.filterMessageOrder : null;
+
+		return aggregateAnalysis(Array.isArray(data) ? data : [data])
+			.filter((item) => messageOrderFilter == null || item.messageOrder === messageOrderFilter)
 			.map((item: AggregatedAnalysisItem) => {
 				const subcategory: Subcategory = (() => {
 					if (item.type === 'MISTAKES') {
@@ -168,9 +175,17 @@
 			}
 		];
 	});
+
+	const showCategoryLabels = $derived(filters.category === 'ALL');
 </script>
 
-<AnalysisListWithFiltersBase items={aggregatedAnalyses} {categories} bind:filters>
+<AnalysisListWithFiltersBase
+	items={aggregatedAnalyses}
+	{categories}
+	bind:filters
+	itemKey={(item) =>
+		`${item.data.messageOrder}-${item.data.type}-${item.data.phrase}-${item.searchableText.slice(0, 24)}`}
+>
 	{#snippet emptyNoData()}
 		<Inbox
 			class="size-12 text-gray-400 dark:text-gray-500 shrink-0"
@@ -192,13 +207,22 @@
 	{/snippet}
 	{#snippet listItem({ item, defaultExpandState })}
 		{#if item.data.type === 'MISTAKES'}
-			<MistakeCard mistake={item.data.data as ConversationMessageMistake} {defaultExpandState} />
+			<MistakeCard
+				mistake={item.data.data as ConversationMessageMistake}
+				{defaultExpandState}
+				showCategoryLabel={showCategoryLabels}
+			/>
 		{:else if item.data.type === 'STRENGTHS'}
-			<StrengthCard strength={item.data.data as ConversationMessageStrength} {defaultExpandState} />
+			<StrengthCard
+				strength={item.data.data as ConversationMessageStrength}
+				{defaultExpandState}
+				showCategoryLabel={showCategoryLabels}
+			/>
 		{:else if item.data.type === 'SUGGESTIONS'}
 			<SuggestionCard
 				suggestion={item.data.data as ConversationMessageSuggestion}
 				{defaultExpandState}
+				showCategoryLabel={showCategoryLabels}
 			/>
 		{/if}
 	{/snippet}

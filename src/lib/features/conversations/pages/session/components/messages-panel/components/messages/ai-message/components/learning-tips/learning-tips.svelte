@@ -10,29 +10,28 @@
 	import HighlightsCountBadge from '$conversations/pages/session/components/shared/highlights-count-badge.svelte';
 	import AiMessageLearningTipIcon from '$conversations/pages/session/components/shared/ai-message-learning-tips/ai-message-learning-tip-icon.svelte';
 	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
-	import { getSidepanelContext } from '$conversations/pages/session/contexts/sidepanel-context.svelte';
+	import {
+		getSidepanelContext,
+		openSummaryForMessage
+	} from '$conversations/pages/session/contexts/sidepanel-context.svelte';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 
 	interface LearningTipsProps {
 		message: string;
 		learningTips: AIMessageLearningTips | null;
-		showIconsInHighlightedParts: boolean;
 		messageIndex: number;
 	}
 
-	let {
-		message,
-		learningTips,
-		showIconsInHighlightedParts = $bindable(),
-		messageIndex
-	}: LearningTipsProps = $props();
+	let { message, learningTips, messageIndex }: LearningTipsProps = $props();
 
 	const isGeneratingTips = $derived(!learningTips);
 
 	const sidepanelContext = getSidepanelContext();
 
 	const isSelected = $derived(
-		sidepanelContext.isOpened && sidepanelContext.learningTipsPreviewMessageOrder === messageIndex
+		sidepanelContext.isOpened &&
+			sidepanelContext.summaryTab === 'learning-tips' &&
+			sidepanelContext.filterMessageOrder === messageIndex
 	);
 
 	const grammarTipsCount = $derived(size(learningTips?.grammarTips));
@@ -66,24 +65,19 @@
 
 <AiPostProcessActionBase
 	dataTestId={E2E_TEST_IDS.session.messageLearningTips(messageIndex)}
-	label="Wskazówki do nauki"
+	label="Wskazówki"
 	isGenerating={isGeneratingTips}
-	bind:showIconsInHighlightedParts
 	{isSelected}
 	onPreviewContentClick={(e) => {
-		const isSameMessageClickedAgain =
-			sidepanelContext.learningTipsPreviewMessageOrder === messageIndex;
+		const isSameMessageFilter =
+			sidepanelContext.summaryTab === 'learning-tips' &&
+			sidepanelContext.filterMessageOrder === messageIndex;
 
-		if (isSameMessageClickedAgain) {
+		if (sidepanelContext.isOpened && isSameMessageFilter) {
 			sidepanelContext.isOpened = false;
-
-			setTimeout(() => {
-				sidepanelContext.learningTipsPreviewMessageOrder = null;
-			}, 300);
+			sidepanelContext.filterMessageOrder = null;
 		} else {
-			sidepanelContext.isOpened = true;
-			sidepanelContext.learningTipsPreviewMessageOrder = messageIndex;
-			sidepanelContext.analysisPreview = null;
+			openSummaryForMessage(sidepanelContext, 'learning-tips', messageIndex);
 		}
 
 		(e.target as HTMLElement).blur();
@@ -101,7 +95,7 @@
 		{#each indicators as { category, count, label } (category)}
 			{@const { iconColor } = getAiMessageLearningTipColors(category)}
 
-			<HighlightsCountBadge {count} {label} {iconColor} class="">
+			<HighlightsCountBadge {count} {label} {iconColor}>
 				{#snippet icon()}
 					<AiMessageLearningTipIcon tipCategory={category} />
 				{/snippet}
@@ -110,9 +104,8 @@
 	{/snippet}
 
 	{#if isGeneratingTips}
-		<TextWithThreeDotsAnimation
-			text="Trwa przygotowywanie materiałów edukacyjnych"
-			dotsWrapperClass="mb-1"
-		/>
+		<div class="text-xs text-ink-muted">
+			<TextWithThreeDotsAnimation text="Przygotowywanie wskazówek" dotsWrapperClass="mb-0.5" />
+		</div>
 	{/if}
 </AiPostProcessActionBase>

@@ -4,15 +4,14 @@
 		AiAdviceBaseBlock,
 		DerivedAiAdviceCardProps
 	} from '../../ai-advice-base/ai-advice.types';
-	import { EXPLANATION_ICON } from '$conversations/pages/session/constants/icons';
-	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
 	import AiAdviceBase from '../../ai-advice-base/ai-advice-base.svelte';
+	import { AI_MESSAGE_LEARNING_TIP_ICONS_MAP } from '$conversations/pages/session/constants/ai-message-learning-tips/icons';
 
 	interface Props extends DerivedAiAdviceCardProps {
 		tip: AIMessageVocabularyTip;
 	}
 
-	let { tip, isExpandable, defaultExpandState }: Props = $props();
+	let { tip, isExpandable, defaultExpandState, showCategoryLabel = false }: Props = $props();
 
 	function toBlocks(tip: AIMessageVocabularyTip): {
 		headerBlocks: AiAdviceBaseBlock[];
@@ -25,7 +24,6 @@
 					label: 'Word',
 					translation: {
 						text: tip.word,
-						Icon: AI_MESSAGE_LEARNING_TIP_ICONS_MAP['VOCABULARY'],
 						badges: [
 							{
 								text: tip.register,
@@ -42,8 +40,7 @@
 				{
 					type: 'text',
 					label: 'Definition',
-					text: tip.definition,
-					Icon: EXPLANATION_ICON
+					text: tip.definition
 				},
 				{
 					type: 'text',
@@ -62,7 +59,16 @@
 	}
 
 	const color = 'blue' as const;
-	const { headerBlocks, bodyBlocks } = toBlocks(tip);
+	const { headerBlocks, bodyBlocks } = $derived(toBlocks(tip));
 </script>
 
-<AiAdviceBase {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />
+<AiAdviceBase
+	{color}
+	{headerBlocks}
+	{bodyBlocks}
+	{isExpandable}
+	{defaultExpandState}
+	{showCategoryLabel}
+	categoryLabel="Vocabulary"
+	categoryIcon={AI_MESSAGE_LEARNING_TIP_ICONS_MAP.VOCABULARY}
+/>

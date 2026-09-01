@@ -53,37 +53,39 @@
 	}
 </script>
 
-<p class="text-sm text-gray-500 dark:text-gray-400 mb-6">
-	{m['features.conversation.create.step-1.description']()}
-</p>
+<div class="flex h-full min-h-0 flex-col overflow-y-auto">
+	<p class="mb-4 shrink-0 text-sm text-gray-500 dark:text-gray-400">
+		{m['features.conversation.create.step-1.description']()}
+	</p>
 
-<section
-	class="flex flex-wrap gap-4 justify-center"
-	data-testid={E2E_TEST_IDS.createConversation.stepType}
->
-	{#each CONVERSATION_TYPES as type (type)}
-		{@const isSelected = selectedType.type === type}
-		{@const disabled = DISABLED_CONVERSATION_TYPES.has(type)}
-		{@const { label, description } = getConversationTypeMessages(type)}
+	<section
+		class="grid w-full grid-cols-2 gap-2 content-start sm:grid-cols-3 sm:gap-3"
+		data-testid={E2E_TEST_IDS.createConversation.stepType}
+	>
+		{#each CONVERSATION_TYPES as type (type)}
+			{@const isSelected = selectedType.type === type}
+			{@const disabled = DISABLED_CONVERSATION_TYPES.has(type)}
+			{@const { label, description } = getConversationTypeMessages(type)}
 
-		<ConversationTypeCard
-			{type}
-			{label}
-			{description}
-			{disabled}
-			{isSelected}
-			isPreferredDefault={preferredType === type}
-			onToggleDefault={disabled ? undefined : () => handleToggleDefault(type)}
-			onclick={() => {
-				const currentPayload = getCreateConversationPayload();
-				// Reset topic only if the type is actually changing
-				if (currentPayload.type !== type) {
-					setCreateConversationPayload({ type, topic: undefined });
-					topicPickerStore.resetCustomState();
-				} else {
-					setCreateConversationPayload({ type });
-				}
-			}}
-		/>
-	{/each}
-</section>
+			<ConversationTypeCard
+				{type}
+				{label}
+				{description}
+				{disabled}
+				{isSelected}
+				isPreferredDefault={preferredType === type}
+				onToggleDefault={disabled ? undefined : () => handleToggleDefault(type)}
+				onclick={() => {
+					const currentPayload = getCreateConversationPayload();
+					// Reset topic only if the type is actually changing
+					if (currentPayload.type !== type) {
+						setCreateConversationPayload({ type, topic: undefined });
+						topicPickerStore.resetCustomState();
+					} else {
+						setCreateConversationPayload({ type });
+					}
+				}}
+			/>
+		{/each}
+	</section>
+</div>

@@ -42,14 +42,17 @@
 	];
 </script>
 
-<div class="flex gap-2 mb-6" data-testid={E2E_TEST_IDS.conversations.filters}>
+<div
+	class="mb-6 flex min-w-0 flex-wrap items-center gap-2"
+	data-testid={E2E_TEST_IDS.conversations.filters}
+>
 	<Input
 		dataTestId={E2E_TEST_IDS.conversations.filterSearch}
 		debounced
 		bind:value={filtersState.filters.search}
 		type="search"
 		placeholder={m['features.conversation.list.filters.search_placeholder']()}
-		class="flex-1"
+		class="min-w-[12rem] flex-1 basis-[16rem]"
 		leftAdornment={SearchIcon}
 	/>
 
@@ -58,10 +61,10 @@
 		bind:value={filtersState.filters.recencyBucket}
 		options={RECENCY_BUCKETS}
 		ariaLabel={m['features.conversation.list.filters.recency_aria']()}
-		buttonClass="w-[220px]"
+		buttonClass="w-full min-w-[10rem] basis-[12rem] sm:w-[220px] sm:flex-none"
 	>
 		{#snippet icon()}
-			<ClockIcon class="w-4 h-4" />
+			<ClockIcon class="size-4 text-ink-muted" />
 		{/snippet}
 	</DropdownSelect>
 
@@ -70,10 +73,10 @@
 		bind:value={filtersState.filters.type}
 		options={CONVERSATION_TYPES}
 		ariaLabel={m['features.conversation.list.filters.type_aria']()}
-		buttonClass="w-[320px]"
+		buttonClass="w-full min-w-[12rem] basis-[14rem] sm:w-[320px] sm:flex-none"
 	>
 		{#snippet icon()}
-			<MessageSquare class="w-4 h-4" />
+			<MessageSquare class="size-4 text-ink-muted" />
 		{/snippet}
 	</DropdownSelect>
 

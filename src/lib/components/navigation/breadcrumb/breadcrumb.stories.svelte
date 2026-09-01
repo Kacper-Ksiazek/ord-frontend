@@ -10,7 +10,7 @@
 
 <script lang="ts">
 	import { Breadcrumb } from './index';
-	import { BarChart2, Home, Share2 } from 'lucide-svelte';
+	import { ChartNoAxesColumn, House, Share2 } from 'lucide-svelte';
 </script>
 
 <Story name="Two Crumbs">
@@ -41,8 +41,8 @@
 <Story name="With Icons">
 	<Breadcrumb
 		crumbs={[
-			{ label: 'Dashboard', icon: Home, href: '/' },
-			{ label: 'Reports', icon: BarChart2, href: '/reports' },
+			{ label: 'Dashboard', icon: House, href: '/' },
+			{ label: 'Reports', icon: ChartNoAxesColumn, href: '/reports' },
 			{ label: 'Social', icon: Share2 }
 		]}
 	/>

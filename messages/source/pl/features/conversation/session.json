@@ -16,5 +16,39 @@
 	"analysis": {
 		"failed": "Nie udało się wygenerować analizy tej wiadomości.",
 		"retry": "Spróbuj ponownie"
+	},
+	"hud": {
+		"go_back": "Wróć",
+		"view_summary": "Podsumowanie",
+		"switch_to_split_layout": "Przełącz na układ podzielony",
+		"switch_to_full_width_layout": "Przełącz na pełną szerokość",
+		"settings_aria": "Ustawienia rozmowy"
+	},
+	"scores": {
+		"grammar": "Gramatyka",
+		"vocabulary": "Słownictwo",
+		"naturalness": "Naturalność",
+		"rating_heading": "Ocena",
+		"show_more": "Pokaż więcej",
+		"show_less": "Pokaż mniej"
+	},
+	"summary": {
+		"title": "Podsumowanie sesji",
+		"close": "Zamknij",
+		"tabs": {
+			"verdict": "Werdykt",
+			"analysis": "Przegląd",
+			"learning_tips": "Wskazówki"
+		},
+		"verdict": {
+			"placeholder": {
+				"aria_label": "Podsumowanie rozmowy — wkrótce",
+				"heading": "Podsumowanie rozmowy",
+				"description": "Tutaj pojawi się krótkie podsumowanie sesji wygenerowane przez AI — główne wnioski i co warto ćwiczyć dalej.",
+				"suggested_action_1": "Sugerowana akcja 1",
+				"suggested_action_2": "Sugerowana akcja 2",
+				"coming_soon": "Funkcja w przygotowaniu."
+			}
+		}
 	}
 }

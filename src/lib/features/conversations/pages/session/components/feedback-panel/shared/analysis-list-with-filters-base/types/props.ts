@@ -28,6 +28,8 @@ export interface AnalysisListWithFiltersBaseProps<
 		]
 	>;
 
+	itemKey?: (item: FilterableItem<TData, TCategory, TSubcategory>) => string;
+
 	/** Full replacement for the “no data / default filters” empty state */
 	emptyNoData?: Snippet;
 	/** Message area above “Reset filters”; defaults to generic no-results copy */

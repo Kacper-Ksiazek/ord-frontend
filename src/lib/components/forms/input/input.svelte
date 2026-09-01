@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { detectPlatform, normalizeRegisterableHotkey } from '@tanstack/svelte-hotkeys';
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import {
 		getButtonHotkeyChipClasses,
 		getButtonTextColorClasses,
@@ -78,15 +78,15 @@
 		getOutlinedInputFieldClasses(appearanceVariant, disabled, readonly)
 	);
 	const adornmentColorClasses = $derived(
-		disabled
-			? 'text-gray-400 dark:text-gray-500'
-			: getButtonTextColorClasses('OUTLINED', appearanceVariant)
+		disabled ? 'text-ink-subtle' : getButtonTextColorClasses('OUTLINED', appearanceVariant)
 	);
 
-	// eslint-disable-next-line svelte/prefer-writable-derived
 	let internalValue = $state(value ?? '');
 
 	$effect(() => {
+		// Avoid clobbering in-progress edits when the parent bindable hasn't flushed yet.
+		if (document.activeElement === inputEl) return;
+
 		internalValue = value ?? '';
 	});
 
@@ -99,13 +99,11 @@
 
 	let debounceTimer: ReturnType<typeof setTimeout> | undefined;
 
-	function handleInput(event: Event) {
-		const target = event.target as HTMLInputElement;
-		internalValue = target.value;
-
+	function propagateValue(event: Event, notify: 'input' | 'change') {
 		if (!debounced) {
 			value = internalValue;
-			onInput?.(event);
+			if (notify === 'input') onInput?.(event);
+			else onChange?.(event);
 
 			return;
 		}
@@ -114,8 +112,17 @@
 
 		debounceTimer = setTimeout(() => {
 			value = internalValue;
-			onInput?.(event);
+			if (notify === 'input') onInput?.(event);
+			else onChange?.(event);
 		}, debounceDelay);
+	}
+
+	function handleInput(event: Event) {
+		propagateValue(event, 'input');
+	}
+
+	function handleChange(event: Event) {
+		propagateValue(event, 'change');
 	}
 </script>
 
@@ -137,12 +144,7 @@
 				inputClass
 			)}
 		>
-			<span
-				class={cn(
-					'min-w-0 truncate',
-					!internalValue && 'text-gray-400/55 font-normal dark:text-gray-500/45'
-				)}
-			>
+			<span class={cn('min-w-0 truncate', !internalValue && 'text-ink-subtle font-normal')}>
 				{internalValue || placeholder || '\u00a0'}
 			</span>
 		</span>
@@ -151,7 +153,7 @@
 			bind:this={inputEl}
 			data-testid={dataTestId}
 			{type}
-			value={internalValue}
+			bind:value={internalValue}
 			{placeholder}
 			{disabled}
 			aria-label={ariaLabel}
@@ -168,7 +170,7 @@
 				inputClass
 			)}
 			oninput={handleInput}
-			onchange={onChange}
+			onchange={handleChange}
 			onfocus={onFocus}
 			onblur={onBlur}
 		/>

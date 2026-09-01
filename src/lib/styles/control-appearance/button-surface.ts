@@ -1,16 +1,19 @@
-import { cn } from 'flowbite-svelte';
+import { cn } from '$lib/utils/cn';
 
 export type ButtonType = 'FILLED' | 'OUTLINED';
 export type ButtonVariant = 'PRIMARY' | 'TEXT' | 'DELETE';
 
-/** Focus ring width + offset bundled with variant color so merge/cascade keeps the correct hue. */
-function buttonFocusRing(colorLight: string, colorDark: string): string {
-	return cn('focus:outline-none focus:ring-2 focus:ring-offset-2', colorLight, colorDark);
+function buttonFocusRing(): string {
+	return cn(
+		'focus:outline-none focus:ring-2 focus:ring-offset-2',
+		'focus:ring-ink/20 focus:ring-offset-canvas'
+	);
 }
 
 /**
  * Get the CSS classes for button type and variant combinations.
- * Shared between Button and IconButton components to ensure consistency.
+ * Shared between Button and IconButton. Quiet studio: Primary = ink fill,
+ * Ghost = outlined line, Subtle = accent-soft fill (FILLED + TEXT).
  */
 export function getButtonTypeVariantClasses(
 	type: ButtonType,
@@ -21,51 +24,32 @@ export function getButtonTypeVariantClasses(
 		case 'FILLED':
 			switch (variant) {
 				case 'PRIMARY':
-					return cn(
-						'bg-primary-600 border-primary-600',
-						'dark:bg-primary-800 dark:border-primary-800',
-						!disabled && 'hover:bg-primary-700 dark:hover:bg-primary-700',
-						buttonFocusRing('focus:ring-primary-300', 'dark:focus:ring-primary-800')
-					);
+					return cn('bg-ink border-ink', !disabled && 'hover:opacity-90', buttonFocusRing());
 				case 'TEXT':
 					return cn(
-						'bg-gray-700 border-gray-700',
-						'dark:bg-gray-800 dark:border-gray-800',
-						!disabled && 'hover:bg-gray-800 dark:hover:bg-gray-700',
-						buttonFocusRing('focus:ring-gray-300', 'dark:focus:ring-gray-800')
+						'bg-accent-soft border-accent-soft',
+						!disabled && 'hover:bg-line hover:border-line',
+						buttonFocusRing()
 					);
 				case 'DELETE':
-					return cn(
-						'bg-red-600 border-red-600',
-						'dark:bg-red-800 dark:border-red-800',
-						!disabled && 'hover:bg-red-700 dark:hover:bg-red-700',
-						buttonFocusRing('focus:ring-red-300', 'dark:focus:ring-red-800')
-					);
+					return cn('bg-danger border-danger', !disabled && 'hover:opacity-90', buttonFocusRing());
 			}
 			break;
 		case 'OUTLINED':
 			switch (variant) {
 				case 'PRIMARY':
-					return cn(
-						'bg-transparent border-primary-600',
-						'dark:border-primary-400',
-						disabled ? 'dark:bg-primary-950/15' : 'dark:bg-transparent',
-						!disabled && 'hover:bg-primary-50 dark:hover:bg-primary-900/20',
-						buttonFocusRing('focus:ring-primary-300', 'dark:focus:ring-primary-800')
-					);
+					return cn('bg-transparent border-ink', !disabled && 'hover:bg-accent-soft', buttonFocusRing());
 				case 'TEXT':
 					return cn(
-						'bg-transparent border-gray-400/60',
-						'dark:bg-transparent dark:border-gray-500/60',
-						!disabled && 'hover:bg-black/5 dark:hover:bg-white/5',
-						buttonFocusRing('focus:ring-gray-300', 'dark:focus:ring-gray-800')
+						'bg-transparent border-line',
+						!disabled && 'hover:bg-accent-soft',
+						buttonFocusRing()
 					);
 				case 'DELETE':
 					return cn(
-						'bg-transparent border-red-600',
-						'dark:bg-transparent dark:border-red-400',
-						!disabled && 'hover:bg-red-50 dark:hover:bg-red-900/20',
-						buttonFocusRing('focus:ring-red-300', 'dark:focus:ring-red-800')
+						'bg-transparent border-danger',
+						!disabled && 'hover:bg-danger/10',
+						buttonFocusRing()
 					);
 			}
 			break;
@@ -75,28 +59,34 @@ export function getButtonTypeVariantClasses(
 }
 
 /**
- * Get text color classes for outlined buttons based on variant.
- * Used by IconButton to style the icon color.
+ * Get text color classes for buttons based on type and variant.
+ * Used by Button and IconButton.
  */
 export function getButtonTextColorClasses(type: ButtonType, variant: ButtonVariant): string {
 	if (type === 'FILLED') {
-		return 'text-white';
+		switch (variant) {
+			case 'PRIMARY':
+			case 'DELETE':
+				return 'text-on-ink';
+			case 'TEXT':
+				return 'text-ink';
+		}
 	}
+
 	switch (variant) {
 		case 'PRIMARY':
-			return 'text-primary-600 dark:text-primary-400';
+			return 'text-ink';
 		case 'TEXT':
-			return 'text-gray-700 dark:text-gray-300';
+			return 'text-ink';
 		case 'DELETE':
-			return 'text-red-600 dark:text-red-400';
+			return 'text-danger';
 	}
 
 	return '';
 }
 
 /**
- * Per-key chip styles for HotkeyKbd inside Button: filled uses translucent white chips in light
- * mode (mirroring dark’s integrated /45–/50 overlays); outlined uses transparent fill + accent border/text.
+ * Per-key chip styles for HotkeyKbd inside Button.
  */
 export function getButtonHotkeyChipClasses(
 	type: ButtonType,
@@ -105,86 +95,16 @@ export function getButtonHotkeyChipClasses(
 ): string {
 	const shell = 'size-5 rounded-md flex items-center justify-center font-light leading-none border';
 
-	if (!disabled) {
-		if (type === 'FILLED') {
-			switch (variant) {
-				case 'PRIMARY':
-					return cn(
-						shell,
-						'bg-white/25 text-white/95 border-white/30',
-						'dark:bg-primary-900/45 dark:text-white dark:border-primary-950/40'
-					);
-				case 'TEXT':
-					return cn(
-						shell,
-						'bg-white/25 text-white/95 border-white/30',
-						'dark:bg-gray-900/50 dark:text-white dark:border-gray-950/35'
-					);
-				case 'DELETE':
-					return cn(
-						shell,
-						'bg-white/25 text-white/95 border-white/30',
-						'dark:bg-red-950/50 dark:text-white dark:border-red-950/45'
-					);
-			}
-		}
-		switch (variant) {
-			case 'PRIMARY':
-				return cn(
-					shell,
-					'bg-transparent text-primary-600 border-primary-600 dark:text-primary-400 dark:border-primary-400'
-				);
-			case 'TEXT':
-				return cn(
-					shell,
-					'bg-transparent text-gray-700 border-gray-500/70 dark:text-gray-300 dark:border-gray-500/60'
-				);
-			case 'DELETE':
-				return cn(
-					shell,
-					'bg-transparent text-red-600 border-red-600 dark:text-red-400 dark:border-red-400'
-				);
-		}
+	if (type === 'FILLED' && (variant === 'PRIMARY' || variant === 'DELETE')) {
+		return cn(
+			shell,
+			disabled
+				? 'bg-on-ink/15 text-on-ink/70 border-on-ink/20'
+				: 'bg-on-ink/20 text-on-ink border-on-ink/25'
+		);
 	}
 
-	if (type === 'FILLED') {
-		switch (variant) {
-			case 'PRIMARY':
-				return cn(
-					shell,
-					'bg-primary-800/50 text-white border-white/30',
-					'dark:bg-primary-950/55 dark:text-white/90 dark:border-primary-950/50'
-				);
-			case 'TEXT':
-				return cn(
-					shell,
-					'bg-black/25 text-white/95 border-white/25',
-					'dark:bg-gray-950/50 dark:text-white/90 dark:border-gray-950/40'
-				);
-			case 'DELETE':
-				return cn(
-					shell,
-					'bg-red-900/45 text-white border-white/30',
-					'dark:bg-red-950/55 dark:text-white/90 dark:border-red-950/50'
-				);
-		}
-	}
+	const tone = variant === 'DELETE' ? 'text-danger border-danger/70' : 'text-ink border-line';
 
-	switch (variant) {
-		case 'PRIMARY':
-			return cn(
-				shell,
-				'bg-transparent text-primary-400 border-primary-300/80 dark:bg-transparent dark:text-primary-500 dark:border-primary-700/55'
-			);
-		case 'TEXT':
-			return cn(
-				shell,
-				'bg-transparent text-gray-400 border-gray-300/80 dark:bg-transparent dark:text-gray-500 dark:border-gray-600/55'
-			);
-		case 'DELETE':
-			return cn(
-				shell,
-				'bg-transparent text-red-400 border-red-300/80 dark:bg-transparent dark:text-red-500 dark:border-red-800/55'
-			);
-	}
+	return cn(shell, 'bg-transparent', disabled ? 'opacity-60' : '', tone);
 }

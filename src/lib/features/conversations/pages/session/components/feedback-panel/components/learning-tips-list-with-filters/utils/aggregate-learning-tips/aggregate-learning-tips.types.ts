@@ -10,6 +10,8 @@ interface AggregatedLearningTipBase {
 	searchableText: string;
 	register: TipRegister;
 	createdAt: Date;
+	/** Global index in `messagesContext.messages`. */
+	messageOrder: number;
 }
 
 export interface AggregatedGrammarTip extends AggregatedLearningTipBase {

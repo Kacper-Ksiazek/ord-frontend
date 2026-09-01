@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 	import { Moon, Sun } from 'lucide-svelte';
-	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
 	import { themeStore } from '$lib/stores/theme.svelte';
 
 	interface Props {
@@ -16,28 +16,19 @@
 	}
 
 	let mounted = $state(false);
-	let isDarkMode = $state(false);
 
-	$effect(() => {
-		if (browser) {
-			mounted = true;
-			isDarkMode = document.documentElement.classList.contains('dark');
-		}
+	onMount(() => {
+		mounted = true;
 	});
 
-	$effect(() => {
-		if (mounted) {
-			isDarkMode = themeStore.isDark;
-		}
-	});
+	const isDarkMode = $derived(themeStore.isDark);
 </script>
 
 <button
 	onclick={handleClick}
 	class={cn(
-		`p-2.5 rounded-lg border border-gray-300 bg-white text-gray-700 hover:bg-gray-50
-		focus:outline-none focus:ring-2 focus:ring-primary-300 focus:border-primary-600
-		dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-600`,
+		'rounded-[10px] border border-line bg-surface p-2.5 text-ink hover:bg-accent-soft',
+		'focus:outline-none focus-visible:ring-2 focus-visible:ring-ink/20',
 		className
 	)}
 	aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
@@ -45,12 +36,11 @@
 >
 	{#if mounted}
 		{#if isDarkMode}
-			<Sun class="w-5 h-5" />
+			<Sun class="h-5 w-5" />
 		{:else}
-			<Moon class="w-5 h-5" />
+			<Moon class="h-5 w-5" />
 		{/if}
 	{:else}
-		<!-- Placeholder to prevent layout shift during SSR -->
-		<div class="w-5 h-5"></div>
+		<div class="h-5 w-5"></div>
 	{/if}
 </button>

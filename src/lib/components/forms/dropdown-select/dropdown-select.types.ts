@@ -14,6 +14,8 @@ export interface DropdownSelectProps<T> {
 	dropdownClass?: string;
 	/** This snippet overrides the default icon for the selected option. */
 	icon?: Snippet<[{ selectedOption: DropdownSelectOption<T> }]>;
+	/** Leading content for each option (and the selected trigger when `icon` is unset). */
+	optionLeading?: Snippet<[DropdownSelectOption<T>]>;
 
 	/** Use when binding to nested state (e.g. `obj.field`) is invalid; parent updates `value` in this callback. */
 	onValueChange?: (value: T) => void;

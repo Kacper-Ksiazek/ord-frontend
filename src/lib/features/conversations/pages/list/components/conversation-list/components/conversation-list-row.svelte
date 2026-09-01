@@ -6,9 +6,11 @@
 	import AiInterlocutorAvatar from '$conversations/shared/components/ai-interlocutor-avatar.svelte';
 	import ConversationTypeIcon from '$conversations/shared/components/conversation-type-icon.svelte';
 	import { getConversationTypeLabel, getConversationToneLabel } from '$conversations/shared/utils';
-	import { cn } from 'flowbite-svelte';
+	import { Badge } from '$lib/components/utils/badge';
+	import { cn } from '$lib/utils/cn';
 	import { formatRelativeOrMediumDate } from '$lib/utils/format-relative-or-medium-date';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
+	import ConversationListRowActions from './conversation-list-row-actions.svelte';
 
 	interface Props {
 		conversation: ConversationSummaryDTO;
@@ -29,43 +31,41 @@
 
 		return parts.join(' ');
 	});
-
-	const chipClass = cn(
-		'label-small shrink-0 whitespace-nowrap rounded-md bg-gray-100 px-2 py-1 dark:bg-gray-700'
-	);
 </script>
 
 <li class="list-none">
-	<button
-		type="button"
-		data-testid={E2E_TEST_IDS.conversations.row(conversation.id)}
+	<div
 		class={cn(
-			'group w-full rounded-xl border border-gray-200 bg-white px-6 py-4 text-left transition-colors',
-			'dark:border-gray-700 dark:bg-gray-800',
-			'hover:border-primary-500 dark:hover:border-primary-500 hover:[&_svg]:opacity-100',
-			'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2',
-			'dark:focus-visible:ring-offset-gray-900'
+			'group flex w-full items-stretch rounded-[10px] border border-line bg-surface transition-colors',
+			'hover:bg-accent-soft'
 		)}
-		aria-label={ariaLabel}
-		{onclick}
 	>
-		<div class="flex items-center gap-3 sm:gap-4">
-			<ConversationTypeIcon
-				conversationType={conversation.type}
-				class="size-12 shrink-0 text-primary-600 dark:text-primary-400 opacity-70 transition-opacity"
-			/>
+		<button
+			type="button"
+			data-testid={E2E_TEST_IDS.conversations.row(conversation.id)}
+			class={cn(
+				'flex min-w-0 flex-1 items-center gap-3 px-3 py-3 text-left sm:gap-4',
+				'bg-transparent',
+				'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ink/15'
+			)}
+			aria-label={ariaLabel}
+			{onclick}
+		>
+			<span
+				class="flex size-10 shrink-0 items-center justify-center rounded-[10px] bg-accent-soft text-ink-muted"
+			>
+				<ConversationTypeIcon conversationType={conversation.type} class="size-6" />
+			</span>
 
-			<div class="min-w-0 flex-1 space-y-1">
-				<p class="heading-6 text-truncate">
+			<div class="min-w-0 flex-1 space-y-1.5">
+				<p class="truncate text-base font-semibold text-ink">
 					{conversation.topic}
 				</p>
 
 				<div
-					class="mt-1.5 flex min-w-0 flex-nowrap items-center gap-2 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+					class="flex min-w-0 flex-nowrap items-center gap-2 overflow-x-auto pb-0.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
 				>
-					<div
-						class="relative size-5 shrink-0 overflow-hidden rounded-full ring-1 ring-gray-200 dark:ring-gray-600"
-					>
+					<div class="relative size-5 shrink-0 overflow-hidden rounded-full ring-1 ring-line">
 						<AiInterlocutorAvatar
 							avatarId={conversation.aiInterlocutorAvatarId as ConversationAIInterlocutorAvatarId}
 							size="fullsize"
@@ -73,19 +73,23 @@
 						/>
 					</div>
 					{#if conversation.aiInterlocutorName?.trim()}
-						<span class="text-muted-small max-w-[10rem] shrink-0 truncate">
+						<span class="max-w-[10rem] shrink-0 truncate text-sm text-ink-muted">
 							{conversation.aiInterlocutorName.trim()}
 						</span>
 					{/if}
-					<span class={chipClass}>{conversation.proficiencyLevel}</span>
-					<span class={chipClass}>{getConversationTypeLabel(conversation.type)}</span>
-					<span class={chipClass}>{getConversationToneLabel(conversation.aiTone)}</span>
+					<Badge>{conversation.proficiencyLevel}</Badge>
+					<Badge>{getConversationTypeLabel(conversation.type)}</Badge>
+					<Badge>{getConversationToneLabel(conversation.aiTone)}</Badge>
 				</div>
 			</div>
 
 			<div class="shrink-0 text-right">
-				<p class="caption">{activityLabel}</p>
+				<p class="text-xs text-ink-subtle">{activityLabel}</p>
 			</div>
+		</button>
+
+		<div class="flex shrink-0 items-center pr-2">
+			<ConversationListRowActions conversationId={conversation.id} />
 		</div>
-	</button>
+	</div>
 </li>

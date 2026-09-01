@@ -1,11 +1,12 @@
 <script lang="ts">
-	import { Chart } from '@flowbite-svelte-plugins/chart';
-	import { cn } from 'flowbite-svelte';
-	import type { ApexOptions } from 'apexcharts';
+	import { defineChart, areaY } from '@tanstack/charts';
+	import { scaleLinear } from '@tanstack/charts/scales/linear';
+	import { scalePoint } from '@tanstack/charts/scales/point';
+	import { TanStackChart, CHART_MARGINS_COMPACT } from '$lib/components/charts';
+	import { cn } from '$lib/utils/cn';
 	import type { LineChartCardProps } from './line-chart-card.types';
 	import { getVariantColors } from '../icon-card/icon-card.constants';
 	import { getLineColorForVariant } from './line-chart-card.constants';
-	import { themeStore } from '$lib/stores/theme.svelte';
 
 	let {
 		title,
@@ -23,77 +24,46 @@
 
 	const colors = $derived(getVariantColors(variant, isActive));
 	const isClickable = $derived(typeof onclick === 'function');
-	const isDark = $derived(themeStore.isDark);
-
 	const lineColor = $derived(getLineColorForVariant(variant, isActive));
 
-	const chartOptions: ApexOptions = $derived.by(() => {
-		const values = data.map((d) => d.value);
-		const opacityFrom = isDark ? 0.42 : 0.38;
+	const sparkRows = $derived(
+		data.map((point, index) => ({
+			id: String(index),
+			index,
+			value: point.value
+		}))
+	);
 
-		return {
-			chart: {
-				type: 'area',
-				height: 64,
-				width: '100%',
-				sparkline: { enabled: true },
-				toolbar: { show: false },
-				zoom: { enabled: false },
-				animations: { enabled: true }
-			},
-			series: [
-				{
-					name: title,
-					data: values
-				}
+	const definition = $derived(
+		defineChart({
+			marks: [
+				areaY(sparkRows, {
+					id: 'sparkline',
+					x: 'index',
+					y: 'value',
+					fill: lineColor,
+					fillOpacity: 0.25,
+					stroke: lineColor,
+					strokeWidth: 2
+				})
 			],
-			colors: [lineColor],
-			stroke: {
-				curve: 'smooth',
-				width: 2
+			x: {
+				scale: () => scalePoint<number>().padding(0.1),
+				axis: false
 			},
-			fill: {
-				type: 'gradient',
-				gradient: {
-					shadeIntensity: 1,
-					opacityFrom,
-					opacityTo: 0.04,
-					stops: [0, 90, 100]
-				}
+			y: {
+				scale: scaleLinear,
+				nice: true,
+				axis: false,
+				grid: false
 			},
-			dataLabels: { enabled: false },
-			tooltip: { enabled: false },
-			markers: { size: 0, hover: { size: 0 } },
-			xaxis: { labels: { show: false }, axisBorder: { show: false }, axisTicks: { show: false } },
-			yaxis: { show: false },
-			grid: { show: false },
-			legend: { show: false },
-			states: {
-				hover: { filter: { type: 'none' } },
-				active: { filter: { type: 'none' } }
-			}
-		};
-	});
+			margin: CHART_MARGINS_COMPACT
+		})
+	);
 
-	const focusRingColor = $derived.by(() => {
-		if (disabled) return '';
-		switch (variant) {
-			case 'primary':
-				return 'focus:ring-primary-500';
-			case 'blue':
-				return 'focus:ring-blue-500';
-			case 'green':
-				return 'focus:ring-green-500';
-			case 'purple':
-				return 'focus:ring-purple-500';
-			case 'red':
-				return 'focus:ring-red-500';
-			case 'inactive':
-				return 'focus:ring-gray-400';
-			default:
-				return '';
-		}
-	});
+	const focusRingColor = $derived(
+		disabled ? '' : 'focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ink/15'
+	);
 
 	function handleKeydown(e: KeyboardEvent & { currentTarget: EventTarget & HTMLDivElement }) {
 		if (disabled) return;
@@ -119,14 +89,14 @@
 
 <div
 	class={cn(
-		'p-4 rounded-lg flex-1 relative border transition-colors',
-		'focus:outline-none focus:ring-2 focus:ring-offset-2',
+		'relative flex-1 rounded-[10px] border p-4 transition-colors',
+		'focus:outline-none',
 		focusRingColor,
 		colors.bg,
 		colors.border,
-		!isActive && !disabled && 'hover:bg-gray-100 dark:hover:bg-gray-800/50',
+		!isActive && !disabled && 'hover:bg-accent-soft',
 		isClickable && 'cursor-pointer',
-		disabled && 'opacity-50 cursor-not-allowed focus:ring-0',
+		disabled && 'cursor-not-allowed opacity-50 focus:ring-0',
 		customClass
 	)}
 	{...isClickable
@@ -145,17 +115,14 @@
 
 	{#if data.length > 0}
 		<div
-			class="h-full w-full min-w-[4.5rem]"
+			class="h-16 w-full min-w-[4.5rem]"
 			role={chartAriaLabel ? 'img' : undefined}
 			aria-label={chartAriaLabel}
 			aria-hidden={chartAriaLabel ? undefined : true}
 		>
-			<Chart options={chartOptions} />
+			<TanStackChart {definition} ariaLabel={chartAriaLabel ?? title} height={64} initialWidth={120} />
 		</div>
 	{:else}
-		<div
-			class="h-full w-full min-w-[4.5rem] rounded bg-gray-100/60 dark:bg-gray-700/40"
-			aria-hidden="true"
-		></div>
+		<div class="h-16 w-full min-w-[4.5rem] rounded-md bg-accent-soft" aria-hidden="true"></div>
 	{/if}
 </div>

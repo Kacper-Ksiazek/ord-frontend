@@ -1,11 +1,27 @@
 <script lang="ts">
-	import { Button, type ButtonProps, cn, Spinner } from 'flowbite-svelte';
 	import { CircleCheck, CircleX, Sparkles } from 'lucide-svelte';
-	import * as m from '$lib/paraglide/messages.js';
 	import type { AiActionButtonProps } from './ai-action-button.types';
 	import Stage from './components/stage.svelte';
+	import { Spinner } from '$lib/components/utils/spinner';
+	import * as m from '$lib/paraglide/messages.js';
+	import { cn } from '$lib/utils/cn';
 
-	let { status = $bindable('default'), disabled = false, ...rest }: AiActionButtonProps = $props();
+	let {
+		status = $bindable('default'),
+		disabled = false,
+		labels,
+		class: className = '',
+		...rest
+	}: AiActionButtonProps = $props();
+
+	const defaultLabel = $derived(
+		labels?.default ?? m['components.utils.generate-with-ai.button_label']()
+	);
+	const loadingLabel = $derived(
+		labels?.loading ?? m['components.utils.generate-with-ai.generating']()
+	);
+	const successLabel = $derived(labels?.success ?? m['components.utils.generate-with-ai.success']());
+	const failedLabel = $derived(labels?.failed ?? m['components.utils.generate-with-ai.failed']());
 
 	$effect(() => {
 		if (status === 'success' || status === 'failed') {
@@ -16,23 +32,23 @@
 	});
 </script>
 
-<div class="relative overflow-hidden rounded-xl">
-	{#snippet aiButton(props?: ButtonProps)}
-		<Button
+<div class={cn('relative overflow-hidden rounded-[10px]', className)}>
+	{#snippet aiButton(opts?: { 'aria-hidden'?: boolean })}
+		<button
+			type="button"
 			class={cn(
-				'cursor-pointer', //
-				'w-full h-full flex items-center gap-1 border-primary-600 border rounded-xl',
-				!disabled && 'hover:bg-primary-50! hover:text-primary-600',
-				disabled && 'cursor-not-allowed bg-gray-200! text-gray-500! border-gray-300!'
+				'flex h-full w-full cursor-pointer items-center justify-center gap-1 rounded-[10px] border border-primary-600 px-3 py-2 whitespace-nowrap',
+				!disabled && 'hover:bg-accent-soft hover:text-primary-600',
+				disabled && 'cursor-not-allowed border-line bg-accent-soft text-ink-subtle'
 			)}
-			{...props}
+			aria-hidden={opts?.['aria-hidden']}
+			onclick={disabled || opts?.['aria-hidden'] ? undefined : rest.onclick}
 		>
 			<Sparkles class="size-4 shrink-0" aria-hidden="true" />
-			<span>{m['components.utils.generate-with-ai.button_label']()}</span>
-		</Button>
+			<span>{defaultLabel}</span>
+		</button>
 	{/snippet}
 
-	<!-- Keep it like this in order to reserve space for all the stages -->
 	<Stage class="relative opacity-0!">
 		{@render aiButton({
 			'aria-hidden': true
@@ -41,28 +57,22 @@
 
 	{#if status === 'default'}
 		<Stage>
-			{@render aiButton({
-				...rest,
-				onclick: disabled ? undefined : rest.onclick
-			})}
+			{@render aiButton()}
 		</Stage>
-		<!--  -->
 	{:else if status === 'loading'}
-		<Stage class="bg-gray-200 text-gray-700">
-			<Spinner size="4" class="fill-gray-700" />
-			<span>{m['components.utils.generate-with-ai.generating']()}</span>
+		<Stage class="bg-accent-soft text-ink">
+			<Spinner class="text-ink" />
+			<span>{loadingLabel}</span>
 		</Stage>
-		<!--  -->
 	{:else if status === 'success'}
-		<Stage class="bg-green-100">
-			<CircleCheck class="w-5 h-5 text-green-500" aria-hidden="true" />
-			<span>{m['components.utils.generate-with-ai.success']()}</span>
+		<Stage class="bg-emerald-50">
+			<CircleCheck class="h-5 w-5 text-emerald-600" aria-hidden="true" />
+			<span>{successLabel}</span>
 		</Stage>
-		<!--  -->
 	{:else if status === 'failed'}
-		<Stage class="bg-red-200">
-			<CircleX class="w-5 h-5 text-red-500" aria-hidden="true" />
-			<span>{m['components.utils.generate-with-ai.failed']()}</span>
+		<Stage class="bg-red-50">
+			<CircleX class="h-5 w-5 text-danger" aria-hidden="true" />
+			<span>{failedLabel}</span>
 		</Stage>
 	{/if}
 </div>

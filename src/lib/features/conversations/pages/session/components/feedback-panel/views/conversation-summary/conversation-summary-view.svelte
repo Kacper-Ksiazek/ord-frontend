@@ -5,34 +5,30 @@
 	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';
 	import { Tabs } from '$lib/components/navigation/tabs';
 	import type { Tab } from '$lib/components/navigation/tabs';
-	import { OverviewTab, LearningTipsTab, UserMessageReviewsTab } from './tabs';
-	import { ChartBar, ChevronLeft, Lightbulb, MessageSquare } from 'lucide-svelte';
-	import type { ConversationUserMessageAnalysisDTO } from '$conversations/types';
-	import type {
-		CompactConversationAiMessage,
-		CompactConversationUserMessage
-	} from '$conversations/types';
+	import type { SummaryTab } from '../../../../contexts/sidepanel-context.svelte';
+	import { VerdictTab } from './tabs/verdict-tab';
+	import { LearningTipsTab, UserMessageReviewsTab } from './tabs';
+	import MessageFilterBanner from '../../components/message-filter-banner/message-filter-banner.svelte';
+	import { ChevronLeft, ClipboardCheck, Lightbulb, MessageSquare } from 'lucide-svelte';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
-
-	type ConversationSummaryTab = 'overview' | 'learning-tips' | 'analysis';
+	import * as m from '$lib/paraglide/messages.js';
 
 	const messagesContext = getMessagesContext();
 	const sidepanelContext = getSidepanelContext();
 	const messages = $derived(messagesContext.messages);
 
-	const userMessages: CompactConversationUserMessage[] = $derived(
-		messages.filter((msg) => msg.sender === 'USER')
-	);
-	const aiMessages: CompactConversationAiMessage[] = $derived(
-		messages.filter((msg) => msg.sender === 'AI')
-	);
-
-	const analyses: ConversationUserMessageAnalysisDTO[] = $derived(
-		userMessages.map((msg) => msg.analysis).filter((f) => f !== null)
-	);
+	const userMessages = $derived(messages.filter((msg) => msg.sender === 'USER'));
+	const aiMessages = $derived(messages.filter((msg) => msg.sender === 'AI'));
 
 	const analysisCount = $derived(
-		analyses.reduce((acc, f) => acc + size(f.mistakes) + size(f.strengths) + size(f.suggestions), 0)
+		userMessages
+			.map((msg) => msg.analysis)
+			.filter((analysis) => analysis != null)
+			.reduce(
+				(acc, analysis) =>
+					acc + size(analysis.mistakes) + size(analysis.strengths) + size(analysis.suggestions),
+				0
+			)
 	);
 
 	const learningTipsCount = $derived(
@@ -46,25 +42,25 @@
 		)
 	);
 
-	let activeMainTab = $state<ConversationSummaryTab>('overview');
-
-	const mainTabs = $derived<Tab<ConversationSummaryTab>[]>([
-		{ id: 'overview', label: 'Overview', icon: ChartBar },
-
+	const mainTabs = $derived<Tab<SummaryTab>[]>([
 		{
-			id: 'learning-tips',
-			label: 'Learning Tips',
-			count: learningTipsCount,
-			icon: Lightbulb,
-			disabled: learningTipsCount === 0
+			id: 'verdict',
+			label: m['features.conversation.session.summary.tabs.verdict'](),
+			icon: ClipboardCheck
 		},
-
 		{
 			id: 'analysis',
-			label: 'Analysis',
+			label: m['features.conversation.session.summary.tabs.analysis'](),
 			count: analysisCount,
 			icon: MessageSquare,
 			disabled: analysisCount === 0
+		},
+		{
+			id: 'learning-tips',
+			label: m['features.conversation.session.summary.tabs.learning_tips'](),
+			count: learningTipsCount,
+			icon: Lightbulb,
+			disabled: learningTipsCount === 0
 		}
 	]);
 </script>
@@ -75,38 +71,49 @@
 			class="mb-3"
 			crumbs={[
 				{
-					label: 'Close',
+					label: m['features.conversation.session.summary.close'](),
 					icon: ChevronLeft,
 					onClick: () => {
 						sidepanelContext.isOpened = false;
+						sidepanelContext.filterMessageOrder = null;
 					}
 				}
 			]}
 		/>
 
-		<h2 class="heading-4 mb-4">Conversation Summary</h2>
+		<h2 class="heading-5 mb-4 text-ink">{m['features.conversation.session.summary.title']()}</h2>
 
 		<Tabs
 			dataTestId={E2E_TEST_IDS.session.feedbackSummaryTabs}
 			tabs={mainTabs}
-			bind:activeTab={activeMainTab}
+			bind:activeTab={sidepanelContext.summaryTab}
 			activeColor="primary"
 			variant="outlined"
 			class="mb-6"
 		/>
 	</div>
 
-	<div class="flex-1 min-h-0 flex flex-col">
-		{#if activeMainTab === 'overview'}
-			<OverviewTab />
+	<div class="flex-1 min-h-0 flex flex-col overflow-hidden">
+		{#if sidepanelContext.summaryTab !== 'verdict'}
+			<MessageFilterBanner />
 		{/if}
 
-		{#if activeMainTab === 'learning-tips'}
-			<LearningTipsTab />
+		{#if sidepanelContext.summaryTab === 'verdict'}
+			<div class="flex h-full min-h-0 flex-col overflow-hidden">
+				<VerdictTab />
+			</div>
 		{/if}
 
-		{#if activeMainTab === 'analysis'}
-			<UserMessageReviewsTab />
+		{#if sidepanelContext.summaryTab === 'learning-tips'}
+			<div class="flex h-full min-h-0 flex-col overflow-hidden">
+				<LearningTipsTab />
+			</div>
+		{/if}
+
+		{#if sidepanelContext.summaryTab === 'analysis'}
+			<div class="flex h-full min-h-0 flex-col overflow-hidden">
+				<UserMessageReviewsTab />
+			</div>
 		{/if}
 	</div>
 </div>

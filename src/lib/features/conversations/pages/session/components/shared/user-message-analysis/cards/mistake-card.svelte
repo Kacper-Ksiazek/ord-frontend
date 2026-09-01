@@ -4,16 +4,15 @@
 		AiAdviceBaseBlock,
 		DerivedAiAdviceCardProps
 	} from '../../ai-advice-base/ai-advice.types';
-	import { EXPLANATION_ICON } from '$conversations/pages/session/constants/icons';
-	import { MISTAKE_SEVERITY_ICONS_MAP } from '$conversations/pages/session/constants/user-message-analysis/subcategory-icons';
-	import { X, Check } from 'lucide-svelte';
 	import AiAdviceBase from '../../ai-advice-base/ai-advice-base.svelte';
+	import { USER_MESSAGE_ANALYSIS_ICONS_MAP } from '$conversations/pages/session/constants/user-message-analysis/icons';
+	import { Check, X } from 'lucide-svelte';
 
 	interface Props extends DerivedAiAdviceCardProps {
 		mistake: ConversationMessageMistake;
 	}
 
-	let { mistake, isExpandable, defaultExpandState }: Props = $props();
+	let { mistake, isExpandable, defaultExpandState, showCategoryLabel = false }: Props = $props();
 
 	function toBlocks(mistake: ConversationMessageMistake): {
 		headerBlocks: AiAdviceBaseBlock[];
@@ -29,7 +28,6 @@
 						}
 					],
 					severity: {
-						Icon: MISTAKE_SEVERITY_ICONS_MAP[mistake.severity],
 						value: mistake.severity
 					}
 				},
@@ -37,30 +35,40 @@
 					type: 'text',
 					label: 'Phrase',
 					text: mistake.phrase,
-					variant: 'red',
-					Icon: X
+					Icon: X,
+					iconClass: 'text-red-600 dark:text-red-400',
+					iconBgClass: 'bg-red-100/80 dark:bg-red-950/35'
 				},
 				{
 					type: 'text',
 					label: 'Correct form',
 					text: mistake.correctForm,
-					variant: 'green',
-					Icon: Check
+					Icon: Check,
+					iconClass: 'text-emerald-600 dark:text-emerald-400',
+					iconBgClass: 'bg-emerald-100/80 dark:bg-emerald-950/35'
 				}
 			],
 			bodyBlocks: [
 				{
 					type: 'text',
 					label: 'Explanation',
-					text: mistake.explanation,
-					Icon: EXPLANATION_ICON
+					text: mistake.explanation
 				}
 			]
 		};
 	}
 
 	const color = 'red' as const;
-	const { headerBlocks, bodyBlocks } = toBlocks(mistake);
+	const { headerBlocks, bodyBlocks } = $derived(toBlocks(mistake));
 </script>
 
-<AiAdviceBase {color} {headerBlocks} {bodyBlocks} {isExpandable} {defaultExpandState} />
+<AiAdviceBase
+	{color}
+	{headerBlocks}
+	{bodyBlocks}
+	{isExpandable}
+	{defaultExpandState}
+	{showCategoryLabel}
+	categoryLabel="Mistake"
+	categoryIcon={USER_MESSAGE_ANALYSIS_ICONS_MAP.MISTAKES}
+/>

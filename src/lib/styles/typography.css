@@ -59,6 +59,11 @@
 		@apply text-base tracking-wide leading-[1.6];
 	}
 
+	/* Conversation session message bubbles — smaller type, looser lines */
+	.message-body {
+		@apply text-sm text-ink tracking-wide leading-[1.8];
+	}
+
 	/* Labels */
 	.label {
 		@apply text-sm font-medium text-gray-700 dark:text-gray-300;

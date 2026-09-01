@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ArrowUp, ArrowDown } from 'lucide-svelte';
-	import { cn } from 'flowbite-svelte';
+	import { cn } from '$lib/utils/cn';
 
 	interface ScoreDiffIndicatorProps {
 		currentScore: number | null;
