@@ -12,7 +12,6 @@
 	import { ScrollableWrapper } from '$lib/components/utils/scrollable-wrapper';
 	import { Badge } from '$lib/components/utils/badge';
 	import { getWordTypeBadgeColor, getWordTypeLabel } from '$quicklyAddedWords/shared/constants';
-	import { groupQawByWeek } from '../utils/group-qaw-by-week';
 	import type { QawListApprovalFilter } from '$quicklyAddedWords/types';
 	import * as m from '$lib/paraglide/messages.js';
 	import QawBulkActionsBar from './qaw-bulk-actions-bar.svelte';
@@ -25,6 +24,7 @@
 		qawQuery: ReturnType<typeof createQuicklyAddedWordsQuery>;
 		page: number;
 		approvalFilter: QawListApprovalFilter;
+		hasLearningLanguage: boolean;
 		selectedIds?: string[];
 		scrollContainer?: HTMLDivElement;
 		onPageChange: (page: number) => void;
@@ -34,6 +34,7 @@
 		qawQuery,
 		page,
 		approvalFilter,
+		hasLearningLanguage,
 		selectedIds = $bindable([]),
 		scrollContainer = $bindable(),
 		onPageChange
@@ -47,17 +48,16 @@
 	const bulkDeleteMutation = createBulkDeleteQawMutation();
 
 	const items = $derived(qawQuery.data?.data ?? []);
-	const pageItemIds = $derived(items.map((item) => item.id));
-	const weekSectionLabels = $derived({
-		thisWeek: m['features.quickly-added-words.list.week_sections.this_week'](),
-		lastWeek: m['features.quickly-added-words.list.week_sections.last_week']()
-	});
-	const groupedItems = $derived(groupQawByWeek(items, { labels: weekSectionLabels }));
-	const totalPages = $derived(qawQuery.data?.pagination.totalPages ?? 1);
+	const pageItemIds = $derived(items.flatMap((item) => (item.id ? [item.id] : [])));
+	const totalPages = $derived(qawQuery.data?.pagination?.totalPages ?? 1);
 	const showPagination = $derived(totalPages > 1);
 	const canGoPrevious = $derived(page > 0);
 	const canGoNext = $derived(page < totalPages - 1);
 	const isBulkBusy = $derived(bulkApproveMutation.isPending || bulkDeleteMutation.isPending);
+
+	function isCaptured(status: string | undefined) {
+		return status === 'CAPTURED';
+	}
 
 	function isApproving(itemId: string) {
 		return approveMutation.isPending && approveMutation.variables === itemId;
@@ -110,16 +110,13 @@
 	}
 </script>
 
-{#snippet weekSectionLabel(label: string, sectionKey: string)}
-	<h2
-		id="qaw-section-{sectionKey}"
-		class="mb-2 text-[11px] font-semibold uppercase tracking-wide text-ink-muted"
-	>
-		{label}
-	</h2>
-{/snippet}
-
-{#if qawQuery.isLoading}
+{#if !hasLearningLanguage}
+	<StatusPanel
+		variant="information"
+		header={m['features.quickly-added-words.list.empty.header']()}
+		description={m['features.quickly-added-words.add-popover.save_no_language']()}
+	/>
+{:else if qawQuery.isLoading}
 	<div class="flex items-center justify-center py-16">
 		<Loader />
 	</div>
@@ -152,73 +149,63 @@
 			/>
 		{/if}
 
-		<ScrollableWrapper bind:scrollContainer wrapperClass="min-h-0" contentClass="gap-6">
-			<div
-				class="flex flex-col gap-6"
+		<ScrollableWrapper bind:scrollContainer wrapperClass="min-h-0" contentClass="gap-2">
+			<ul
+				class="flex flex-col gap-2 p-0"
 				aria-label={m['features.quickly-added-words.list.list_aria_label']()}
 				data-testid={E2E_TEST_IDS.list.root}
 			>
-				{#each groupedItems as { sectionKey, label, items: sectionItems } (sectionKey)}
-					<section class="min-w-0" aria-labelledby="qaw-section-{sectionKey}">
-						{@render weekSectionLabel(label, sectionKey)}
+				{#each items as item (item.id)}
+					{@const itemId = item.id ?? ''}
+					{@const sourceWord = item.sourceWord ?? ''}
+					<li
+						class="flex items-center justify-between gap-4 rounded-[10px] border border-line bg-surface px-4 py-3"
+						data-testid={E2E_TEST_IDS.list.row(itemId)}
+					>
+						{#if showBulkSelection && itemId}
+							<QawListRowCheckbox
+								checked={isRowSelected(itemId)}
+								disabled={isBulkBusy || isApproving(itemId) || isDeleting(itemId)}
+								ariaLabel={rowCheckboxLabel(sourceWord)}
+								onCheckedChange={(checked) => setRowSelected(itemId, checked)}
+							/>
+						{/if}
 
-						<ul class="flex flex-col gap-2 p-0">
-							{#each sectionItems as item (item.id)}
-								<li
-									class="flex items-center justify-between gap-4 rounded-[10px] border border-line bg-surface px-4 py-3"
-									data-testid={E2E_TEST_IDS.list.row(item.id)}
-								>
-									{#if showBulkSelection}
-										<QawListRowCheckbox
-											checked={isRowSelected(item.id)}
-											disabled={isBulkBusy || isApproving(item.id) || isDeleting(item.id)}
-											ariaLabel={rowCheckboxLabel(item.word)}
-											onCheckedChange={(checked) => setRowSelected(item.id, checked)}
-										/>
+						<div class="min-w-0 flex-1">
+							<p class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+								<span class="inline-flex items-center gap-1.5">
+									{#if isCaptured(item.status)}
+										<QawUnconfirmedBadge {itemId} />
 									{/if}
 
-									<div class="min-w-0 flex-1">
-										<p class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
-											<span class="inline-flex items-center gap-1.5">
-												{#if !item.isApproved}
-													<QawUnconfirmedBadge itemId={item.id} />
-												{/if}
+									<span class="font-medium text-ink">{sourceWord}</span>
 
-												<span class="font-medium text-ink">{item.word}</span>
-
-												{#if item.type}
-													<Badge color={getWordTypeBadgeColor(item.type)}>
-														{getWordTypeLabel(item.type)}
-													</Badge>
-												{/if}
-											</span>
-
-											{#if item.translation}
-												<span class="text-sm text-ink-subtle" aria-hidden="true">-</span>
-												<span class="text-sm text-ink-muted">{item.translation}</span>
-											{/if}
-										</p>
-
-										{#if item.definition}
-											<p class="mt-2.5 text-sm text-ink-muted">{item.definition}</p>
-										{/if}
-									</div>
-
-									{#if !item.isApproved}
-										<QawPendingRowActions
-											itemId={item.id}
-											isApproving={isApproving(item.id) || isBulkBusy}
-											isDeleting={isDeleting(item.id) || isBulkBusy}
-											onApprove={(id) => approveMutation.mutate(id)}
-											onDelete={(id) => deleteMutation.mutate(id)}
-										/>
+									{#if item.type}
+										<Badge color={getWordTypeBadgeColor(item.type)}>
+											{getWordTypeLabel(item.type)}
+										</Badge>
 									{/if}
-								</li>
-							{/each}
-						</ul>
-					</section>
+								</span>
+
+								{#if item.translation}
+									<span class="text-sm text-ink-subtle" aria-hidden="true">-</span>
+									<span class="text-sm text-ink-muted">{item.translation}</span>
+								{/if}
+							</p>
+						</div>
+
+						{#if isCaptured(item.status) && itemId}
+							<QawPendingRowActions
+								{itemId}
+								isApproving={isApproving(itemId) || isBulkBusy}
+								isDeleting={isDeleting(itemId) || isBulkBusy}
+								onApprove={(id) => approveMutation.mutate(id)}
+								onDelete={(id) => deleteMutation.mutate(id)}
+							/>
+						{/if}
+					</li>
 				{/each}
-			</div>
+			</ul>
 		</ScrollableWrapper>
 
 		{#if showPagination}

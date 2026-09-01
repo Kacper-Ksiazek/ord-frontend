@@ -1,11 +1,11 @@
 import { createQuery } from '@tanstack/svelte-query';
-import type { QAWOverviewResponse } from '$quicklyAddedWords/types';
-import { httpGetQAWOverview } from '../api/http-get-qaw-overview';
+import type { WordOverviewResponse } from '$quicklyAddedWords/types';
+import { httpGetWordOverview } from '../api/http-get-qaw-overview';
 import { qawKeys } from '../keys';
 
 export function createQawOverviewQuery() {
-	return createQuery<QAWOverviewResponse>(() => ({
+	return createQuery<WordOverviewResponse>(() => ({
 		queryKey: qawKeys.overview(),
-		queryFn: httpGetQAWOverview
+		queryFn: httpGetWordOverview
 	}));
 }

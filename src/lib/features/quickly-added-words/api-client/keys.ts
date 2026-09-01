@@ -1,10 +1,11 @@
-import type { GetQuicklyAddedWordsParams } from '$quicklyAddedWords/types';
+import type { GetCapturedWordsParams } from '$quicklyAddedWords/types';
 
-const listParamsKey = (params: GetQuicklyAddedWordsParams) =>
+const listParamsKey = (params: GetCapturedWordsParams) =>
 	({
+		language: params.language,
 		page: params.page ?? 0,
 		perPage: params.perPage ?? 50,
-		...(params.isApproved !== undefined ? { isApproved: params.isApproved } : {})
+		...(params.status !== undefined ? { status: params.status } : {})
 	}) as const;
 
 export const qawKeys = {
@@ -14,6 +15,5 @@ export const qawKeys = {
 
 	lists: () => [...qawKeys.all, 'list'] as const,
 
-	list: (params: GetQuicklyAddedWordsParams = {}) =>
-		[...qawKeys.lists(), listParamsKey(params)] as const
+	list: (params: GetCapturedWordsParams) => [...qawKeys.lists(), listParamsKey(params)] as const
 };

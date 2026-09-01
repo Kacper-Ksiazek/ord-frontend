@@ -3,6 +3,7 @@
 		createQawOverviewQuery,
 		createQuicklyAddedWordsQuery
 	} from '$quicklyAddedWords/api-client';
+	import { authStore } from '$auth/stores';
 	import { PageContentContainer } from '$lib/components/utils/page-content-container';
 	import ContentCard from '$lib/components/utils/content-card.svelte';
 	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';
@@ -19,16 +20,25 @@
 	let selectedQawIds = $state<string[]>([]);
 	let listScrollContainer = $state<HTMLDivElement | undefined>();
 
+	const learningLanguage = $derived(authStore.user?.selectedLearningLanguage);
+
 	const overviewQuery = createQawOverviewQuery();
-	const qawQuery = createQuicklyAddedWordsQuery(() => ({
-		page,
-		perPage: PER_PAGE,
-		...(approvalFilter === 'approved'
-			? { isApproved: true }
-			: approvalFilter === 'pending'
-				? { isApproved: false }
-				: {})
-	}));
+	const qawQuery = createQuicklyAddedWordsQuery(() => {
+		if (!learningLanguage) {
+			return null;
+		}
+
+		return {
+			language: learningLanguage,
+			page,
+			perPage: PER_PAGE,
+			...(approvalFilter === 'approved'
+				? { status: 'ACTIVE' as const }
+				: approvalFilter === 'pending'
+					? { status: 'CAPTURED' as const }
+					: {})
+		};
+	});
 
 	function clearSelection() {
 		selectedQawIds = [];
@@ -83,6 +93,7 @@
 				{qawQuery}
 				{page}
 				{approvalFilter}
+				hasLearningLanguage={learningLanguage !== undefined}
 				bind:selectedIds={selectedQawIds}
 				bind:scrollContainer={listScrollContainer}
 				onPageChange={handlePageChange}

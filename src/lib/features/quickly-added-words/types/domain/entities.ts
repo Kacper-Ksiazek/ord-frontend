@@ -1,8 +1,8 @@
 import type { components } from '@kacper-ksiazek/ord-api-types';
 
-export type QuicklyAddedWordDTO = components['schemas']['QuicklyAddedWordDTO'];
+export type CapturedWordListItem = components['schemas']['WordListItem'];
 
-export type CompactQAW = Pick<
-	QuicklyAddedWordDTO,
-	'word' | 'definition' | 'extraMark' | 'translation' | 'type'
+export type CompactCapturedWord = Pick<
+	CapturedWordListItem,
+	'sourceWord' | 'translation' | 'extraMark' | 'type'
 >;

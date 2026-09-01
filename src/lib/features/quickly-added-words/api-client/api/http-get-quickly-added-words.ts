@@ -1,24 +1,22 @@
-import type {
-	GetQuicklyAddedWordsParams,
-	QAWPaginatedDataResponse
-} from '$quicklyAddedWords/types';
+import type { GetCapturedWordsParams, WordsPaginatedDataResponse } from '$quicklyAddedWords/types';
 import { api } from '$lib/api-client/axios';
 
 const DEFAULT_PAGE = 0;
 const DEFAULT_PER_PAGE = 50;
 
-export async function httpGetQuicklyAddedWords(
-	params: GetQuicklyAddedWordsParams = {}
-): Promise<QAWPaginatedDataResponse> {
+export async function httpGetCapturedWords(
+	params: GetCapturedWordsParams
+): Promise<WordsPaginatedDataResponse> {
 	const page = params.page ?? DEFAULT_PAGE;
 	const perPage = params.perPage ?? DEFAULT_PER_PAGE;
-	const { isApproved } = params;
+	const { language, status } = params;
 
-	const response = await api.get<QAWPaginatedDataResponse>('/api/v1/quickly-added-words/', {
+	const response = await api.get<WordsPaginatedDataResponse>('/api/v1/words/captured', {
 		params: {
+			language,
 			page,
 			perPage,
-			...(isApproved !== undefined ? { isApproved } : {})
+			...(status !== undefined ? { status } : {})
 		}
 	});
 

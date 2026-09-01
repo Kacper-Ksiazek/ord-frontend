@@ -1,6 +1,5 @@
-import type { BulkDeleteQAWRequest } from '$quicklyAddedWords/types';
-import { api } from '$lib/api-client/axios';
+import { httpDeleteWord } from './http-delete-qaw';
 
-export async function httpPostBulkDeleteQAW(ids: BulkDeleteQAWRequest): Promise<void> {
-	await api.post('/api/v1/quickly-added-words/bulk-delete', ids);
+export async function httpBulkDeleteWords(ids: string[]): Promise<void> {
+	await Promise.all(ids.map((id) => httpDeleteWord(id)));
 }

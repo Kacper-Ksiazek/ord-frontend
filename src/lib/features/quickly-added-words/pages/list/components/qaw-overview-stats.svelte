@@ -3,7 +3,7 @@
 	import { IconCard } from '$lib/components/cards/icon-card';
 	import { Button } from '$lib/components/buttons/button';
 	import { Loader } from '$lib/components/utils/loader';
-	import type { QAWOverviewResponse, QawListApprovalFilter } from '$quicklyAddedWords/types';
+	import type { WordOverviewResponse, QawListApprovalFilter } from '$quicklyAddedWords/types';
 	import { BookOpen, CircleCheck, Clock3 } from 'lucide-svelte';
 	import * as m from '$lib/paraglide/messages.js';
 
@@ -22,7 +22,7 @@
 	}
 </script>
 
-{#snippet statCards(data: QAWOverviewResponse)}
+{#snippet statCards(data: WordOverviewResponse)}
 	<div
 		class="flex flex-wrap gap-4"
 		role="group"
@@ -30,7 +30,7 @@
 	>
 		<IconCard
 			title={m['features.quickly-added-words.list.overview.total']()}
-			value={data.total}
+			value={data.total ?? 0}
 			variant="primary"
 			isActive={approvalFilter === 'all'}
 			class="min-w-[140px] flex-1"
@@ -44,7 +44,7 @@
 
 		<IconCard
 			title={m['features.quickly-added-words.list.overview.approved']()}
-			value={data.approvedCount}
+			value={data.activeCount ?? 0}
 			variant="primary"
 			isActive={approvalFilter === 'approved'}
 			class="min-w-[140px] flex-1"
@@ -58,7 +58,7 @@
 
 		<IconCard
 			title={m['features.quickly-added-words.list.overview.pending']()}
-			value={data.unapprovedCount}
+			value={data.capturedCount ?? 0}
 			variant="primary"
 			isActive={approvalFilter === 'pending'}
 			class="min-w-[140px] flex-1"

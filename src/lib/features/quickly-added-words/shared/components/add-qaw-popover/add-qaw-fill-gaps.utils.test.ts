@@ -28,7 +28,7 @@ describe('collectFillGapsItems', () => {
 
 			expect(result).toEqual({
 				ok: true,
-				items: [{ word: 'hello' }, { word: 'world' }],
+				items: [{ sourceWord: 'hello' }, { sourceWord: 'world' }],
 				rowIndices: [0, 2]
 			});
 		});
@@ -59,8 +59,8 @@ describe('applyFillResultToRow', () => {
 			const row = createRow({ word: 'verbos', translation: 'my gloss' });
 
 			applyFillResultToRow(row, {
-				inputWord: 'verbos',
-				word: 'verbose',
+				inputSourceWord: 'verbos',
+				sourceWord: 'verbose',
 				translation: 'rozwlekły',
 				definition: 'Long-winded.',
 				type: 'ADJECTIVE',
@@ -82,8 +82,8 @@ describe('applyFillResultToRow', () => {
 			const row = createRow({ word: 'xqzpw' });
 
 			applyFillResultToRow(row, {
-				inputWord: 'xqzpw',
-				word: null,
+				inputSourceWord: 'xqzpw',
+				sourceWord: null,
 				translation: null,
 				definition: null,
 				type: null,
@@ -101,8 +101,8 @@ describe('applyFillResultToRow', () => {
 			const row = createRow({ word: 'run', type: 'NOUN' });
 
 			applyFillResultToRow(row, {
-				inputWord: 'run',
-				word: 'run',
+				inputSourceWord: 'run',
+				sourceWord: 'run',
 				translation: 'biegać',
 				definition: null,
 				type: 'VERB',
@@ -134,7 +134,7 @@ describe('buildBulkCreatePayload', () => {
 
 			expect(payload).toEqual([
 				{
-					word: 'verbose',
+					sourceWord: 'verbose',
 					language: 'ENGLISH',
 					translation: 'rozwlekły',
 					definition: 'Long-winded.',

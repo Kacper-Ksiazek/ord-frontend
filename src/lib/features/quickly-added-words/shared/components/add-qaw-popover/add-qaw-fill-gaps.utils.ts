@@ -1,7 +1,7 @@
 import type {
-	CreateQAWRequest,
+	CaptureWordRequest,
 	LanguageName,
-	QAWFillGapsResultItem
+	WordFillGapsResultItem
 } from '$quicklyAddedWords/types';
 import { ADD_QAW_POPOVER_MAX_COUNT } from './add-qaw-popover.constants';
 import type { AddQAWFormRow, CollectFillGapsItemsResult } from './add-qaw-popover.types';
@@ -10,7 +10,7 @@ const MAX_WORD_LENGTH = 255;
 
 export function collectFillGapsItems(rows: AddQAWFormRow[]): CollectFillGapsItemsResult {
 	const rowIndices: number[] = [];
-	const items: { word: string }[] = [];
+	const items: { sourceWord: string }[] = [];
 
 	for (let index = 0; index < rows.length; index++) {
 		const trimmed = rows[index].word.trim();
@@ -21,7 +21,7 @@ export function collectFillGapsItems(rows: AddQAWFormRow[]): CollectFillGapsItem
 		}
 
 		rowIndices.push(index);
-		items.push({ word: trimmed });
+		items.push({ sourceWord: trimmed });
 	}
 
 	if (items.length === 0) {
@@ -35,7 +35,7 @@ export function collectFillGapsItems(rows: AddQAWFormRow[]): CollectFillGapsItem
 	return { ok: true, items, rowIndices };
 }
 
-export function applyFillResultToRow(row: AddQAWFormRow, result: QAWFillGapsResultItem): void {
+export function applyFillResultToRow(row: AddQAWFormRow, result: WordFillGapsResultItem): void {
 	if (result.error) {
 		row.aiError = result.error;
 
@@ -43,7 +43,7 @@ export function applyFillResultToRow(row: AddQAWFormRow, result: QAWFillGapsResu
 	}
 
 	row.aiError = null;
-	row.word = result.word ?? result.inputWord;
+	row.word = result.sourceWord ?? result.inputSourceWord ?? row.word;
 
 	if (result.translation && !(row.translation?.trim() ?? '')) {
 		row.translation = result.translation;
@@ -66,11 +66,11 @@ export function applyFillResultToRow(row: AddQAWFormRow, result: QAWFillGapsResu
 export function buildBulkCreatePayload(
 	rows: AddQAWFormRow[],
 	language: LanguageName
-): CreateQAWRequest[] {
+): CaptureWordRequest[] {
 	return rows
 		.filter((row) => row.word.trim())
 		.map((row) => ({
-			word: row.word.trim(),
+			sourceWord: row.word.trim(),
 			language,
 			translation: row.translation?.trim() || null,
 			definition: row.definition?.trim() || null,

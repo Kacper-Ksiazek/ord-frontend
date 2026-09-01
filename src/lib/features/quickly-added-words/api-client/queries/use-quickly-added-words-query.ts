@@ -1,20 +1,24 @@
 import { createQuery } from '@tanstack/svelte-query';
-import type {
-	GetQuicklyAddedWordsParams,
-	QAWPaginatedDataResponse
-} from '$quicklyAddedWords/types';
-import { httpGetQuicklyAddedWords } from '../api/http-get-quickly-added-words';
+import type { GetCapturedWordsParams, WordsPaginatedDataResponse } from '$quicklyAddedWords/types';
+import { httpGetCapturedWords } from '../api/http-get-quickly-added-words';
 import { qawKeys } from '../keys';
 
 export function createQuicklyAddedWordsQuery(
-	getParams: () => GetQuicklyAddedWordsParams = () => ({})
+	getParams: () => GetCapturedWordsParams | null = () => null
 ) {
-	return createQuery<QAWPaginatedDataResponse>(() => {
+	return createQuery<WordsPaginatedDataResponse>(() => {
 		const params = getParams();
 
 		return {
-			queryKey: qawKeys.list(params),
-			queryFn: () => httpGetQuicklyAddedWords(params)
+			queryKey: params ? qawKeys.list(params) : ([...qawKeys.lists(), 'disabled'] as const),
+			queryFn: () => {
+				if (!params) {
+					throw new Error('Captured words query requires language params');
+				}
+
+				return httpGetCapturedWords(params);
+			},
+			enabled: params !== null
 		};
 	});
 }

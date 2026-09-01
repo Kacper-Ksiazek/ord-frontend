@@ -25,7 +25,7 @@
 		getWordTypeSwatchClasses,
 		getWordTypeSwatchDotClasses
 	} from '$quicklyAddedWords/shared/constants';
-	import type { QAWFillGapsRowErrorCode, WordType } from '$quicklyAddedWords/types';
+	import type { WordFillGapsRowErrorCode, WordType } from '$quicklyAddedWords/types';
 	import * as m from '$lib/paraglide/messages.js';
 	import { E2E_TEST_IDS } from '$quicklyAddedWords/testing/test-ids';
 	import {
@@ -154,9 +154,10 @@
 			{ language: learningLanguage, items: collected.items },
 			{
 				onSuccess: (response) => {
-					for (let i = 0; i < response.items.length; i++) {
+					const items = response.items ?? [];
+					for (let i = 0; i < items.length; i++) {
 						const rowIndex = collected.rowIndices[i];
-						applyFillResultToRow(addQAWPopoverStore.values[rowIndex], response.items[i]);
+						applyFillResultToRow(addQAWPopoverStore.values[rowIndex], items[i]);
 					}
 					fillButtonStatus = 'success';
 				},
@@ -438,7 +439,7 @@
 
 								{#if wordRecord.aiError}
 									<p class="text-xs text-danger" role="alert">
-										{getRowFillErrorMessage(wordRecord.aiError as QAWFillGapsRowErrorCode)}
+										{getRowFillErrorMessage(wordRecord.aiError as WordFillGapsRowErrorCode)}
 									</p>
 								{/if}
 
