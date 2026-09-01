@@ -17,6 +17,21 @@
 		"failed": "Couldn't generate analysis for this message.",
 		"retry": "Try again"
 	},
+	"hud": {
+		"go_back": "Go back",
+		"view_summary": "View summary",
+		"switch_to_split_layout": "Switch to split layout",
+		"switch_to_full_width_layout": "Switch to full width layout",
+		"settings_aria": "Conversation settings"
+	},
+	"scores": {
+		"grammar": "Grammar",
+		"vocabulary": "Vocabulary",
+		"naturalness": "Naturalness",
+		"rating_heading": "Rating",
+		"show_more": "Show more",
+		"show_less": "Show less"
+	},
 	"summary": {
 		"title": "Session summary",
 		"close": "Close",

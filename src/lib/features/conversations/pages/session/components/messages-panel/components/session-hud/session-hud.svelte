@@ -9,6 +9,7 @@
 	import { getMessagesContext } from '$conversations/pages/session/contexts/messages-context.svelte';
 	import { getConversationTypeLabel, getConversationToneLabel } from '$conversations/shared/utils';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
+	import * as m from '$lib/paraglide/messages.js';
 	import { ChevronLeft, Columns2, PanelLeftClose } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 
@@ -17,7 +18,9 @@
 	const messagesContext = getMessagesContext();
 
 	const summaryLabel = $derived(
-		sidepanelContext.isOpened ? 'Switch to full width layout' : 'Switch to split layout'
+		sidepanelContext.isOpened
+			? m['features.conversation.session.hud.switch_to_full_width_layout']()
+			: m['features.conversation.session.hud.switch_to_split_layout']()
 	);
 
 	const hudIconButtonClass =
@@ -36,15 +39,15 @@
 				dataTestId={E2E_TEST_IDS.session.backButton}
 				type="OUTLINED"
 				variant="TEXT"
-				ariaLabel="Go back"
-				title="Go back"
+				ariaLabel={m['features.conversation.session.hud.go_back']()}
+				title={m['features.conversation.session.hud.go_back']()}
 				onClick={() => goto('/conversations')}
 				class={hudButtonClass}
 			>
 				<span class="inline-flex items-center gap-1.5 text-sm leading-none">
 					<ChevronLeft class="size-4 shrink-0" />
 					{#if !sidepanelContext.isOpened}
-						<span>Go back</span>
+						<span>{m['features.conversation.session.hud.go_back']()}</span>
 					{/if}
 				</span>
 			</Button>
@@ -56,7 +59,10 @@
 			<div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1.5">
 				<span class="text-sm font-medium text-ink">{conversation.topic}</span>
 
-				<div class="flex flex-wrap items-center gap-1.5" aria-label="Conversation settings">
+				<div
+					class="flex flex-wrap items-center gap-1.5"
+					aria-label={m['features.conversation.session.hud.settings_aria']()}
+				>
 					<Badge color="gray">{conversation.proficiencyLevel}</Badge>
 					<Badge color="gray">{getConversationTypeLabel(conversation.type)}</Badge>
 					<Badge color="gray">{getConversationToneLabel(conversation.aiTone)}</Badge>
@@ -90,7 +96,7 @@
 					<Columns2 class="size-4 shrink-0" />
 				{/if}
 				{#if !sidepanelContext.isOpened}
-					<span>View summary</span>
+					<span>{m['features.conversation.session.hud.view_summary']()}</span>
 				{/if}
 			</span>
 		</Button>

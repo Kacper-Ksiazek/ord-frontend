@@ -52,6 +52,13 @@
 	"row_actions": {
 		"menu_aria": "Akcje rozmowy",
 		"edit": "Edytuj",
-		"delete": "Usuń"
+		"delete": "Usuń",
+		"delete_confirm": {
+			"title": "Usunąć rozmowę?",
+			"description": "To trwale usunie rozmowę i jej wiadomości. Tej operacji nie można cofnąć.",
+			"confirm": "Usuń",
+			"cancel": "Anuluj"
+		},
+		"delete_error": "Nie udało się usunąć rozmowy. Spróbuj ponownie."
 	}
 }

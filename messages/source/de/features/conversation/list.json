@@ -52,6 +52,13 @@
 	"row_actions": {
 		"menu_aria": "Gesprächsaktionen",
 		"edit": "Bearbeiten",
-		"delete": "Löschen"
+		"delete": "Löschen",
+		"delete_confirm": {
+			"title": "Gespräch löschen?",
+			"description": "Dadurch werden das Gespräch und alle Nachrichten dauerhaft entfernt. Das kann nicht rückgängig gemacht werden.",
+			"confirm": "Löschen",
+			"cancel": "Abbrechen"
+		},
+		"delete_error": "Gespräch konnte nicht gelöscht werden. Bitte erneut versuchen."
 	}
 }

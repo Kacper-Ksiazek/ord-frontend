@@ -3,16 +3,18 @@ import type {
 	CompactConversationUserMessage
 } from '$conversations/types';
 
+import * as m from '$lib/paraglide/messages';
+
 export type PerformanceAverages = {
 	grammar: number;
 	vocabulary: number;
 	naturalness: number;
 };
 
-const METRIC_LABELS = {
-	grammar: 'Gramatyka',
-	vocabulary: 'Słownictwo',
-	naturalness: 'Naturalność'
+const METRIC_MESSAGE_KEYS = {
+	grammar: 'features.conversation.session.scores.grammar',
+	vocabulary: 'features.conversation.session.scores.vocabulary',
+	naturalness: 'features.conversation.session.scores.naturalness'
 } as const;
 
 export function computePerformanceAverages(
@@ -51,10 +53,13 @@ export function computePerformanceAverages(
 	};
 }
 
-export function getMetricLabel(metric: keyof typeof METRIC_LABELS): string {
-	return METRIC_LABELS[metric];
+export function getMetricLabel(metric: keyof typeof METRIC_MESSAGE_KEYS): string {
+	const messageKey = METRIC_MESSAGE_KEYS[metric] as keyof typeof m;
+	const messageFn = m[messageKey] as (() => string) | undefined;
+
+	return messageFn?.() || metric;
 }
 
 export const SCORE_METRICS = ['grammar', 'vocabulary', 'naturalness'] as const;
 
-export type ScoreMetric = keyof typeof METRIC_LABELS;
+export type ScoreMetric = keyof typeof METRIC_MESSAGE_KEYS;

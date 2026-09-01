@@ -17,6 +17,21 @@
 		"failed": "Nie udało się wygenerować analizy tej wiadomości.",
 		"retry": "Spróbuj ponownie"
 	},
+	"hud": {
+		"go_back": "Wróć",
+		"view_summary": "Podsumowanie",
+		"switch_to_split_layout": "Przełącz na układ podzielony",
+		"switch_to_full_width_layout": "Przełącz na pełną szerokość",
+		"settings_aria": "Ustawienia rozmowy"
+	},
+	"scores": {
+		"grammar": "Gramatyka",
+		"vocabulary": "Słownictwo",
+		"naturalness": "Naturalność",
+		"rating_heading": "Ocena",
+		"show_more": "Pokaż więcej",
+		"show_less": "Pokaż mniej"
+	},
 	"summary": {
 		"title": "Podsumowanie sesji",
 		"close": "Zamknij",

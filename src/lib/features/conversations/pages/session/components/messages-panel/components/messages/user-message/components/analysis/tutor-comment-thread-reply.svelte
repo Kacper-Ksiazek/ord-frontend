@@ -5,6 +5,7 @@
 	import { getConversationContext } from '$conversations/pages/session/contexts/conversation-context.svelte';
 	import { getScoreChipClasses } from '$lib/components/scores/constants/score-colors';
 	import { cn } from '$lib/utils/cn';
+	import * as m from '$lib/paraglide/messages.js';
 	import { ChevronDown, CornerDownRight, Sparkles } from 'lucide-svelte';
 	import { slide } from 'svelte/transition';
 	import PlayMessageAudio from '../../../ai-post-process-action-base/components/play-message-audio.svelte';
@@ -23,12 +24,16 @@
 	const tutorComment = $derived(analysis.tutorComment?.trim() ?? '');
 
 	const scores = $derived([
-		{ label: 'Gramatyka', score: analysis.grammar },
-		{ label: 'Słownictwo', score: analysis.vocabulary },
-		{ label: 'Naturalność', score: analysis.naturalness }
+		{ label: m['features.conversation.session.scores.grammar'](), score: analysis.grammar },
+		{ label: m['features.conversation.session.scores.vocabulary'](), score: analysis.vocabulary },
+		{ label: m['features.conversation.session.scores.naturalness'](), score: analysis.naturalness }
 	]);
 
-	const toggleAriaLabel = $derived(isExpanded ? 'Pokaż mniej' : 'Pokaż więcej');
+	const toggleAriaLabel = $derived(
+		isExpanded
+			? m['features.conversation.session.scores.show_less']()
+			: m['features.conversation.session.scores.show_more']()
+	);
 </script>
 
 {#snippet scoreChip(props: { label: string; score: number })}
@@ -51,7 +56,7 @@
 	<div class="flex min-w-0 flex-1 items-center gap-3 overflow-x-auto">
 		<div class="flex shrink-0 items-center gap-1.5 text-xs font-medium text-ink-muted">
 			<Sparkles class="size-3.5" />
-			<span>Ocena</span>
+			<span>{m['features.conversation.session.scores.rating_heading']()}</span>
 		</div>
 
 		{#each scores as item (item.label)}

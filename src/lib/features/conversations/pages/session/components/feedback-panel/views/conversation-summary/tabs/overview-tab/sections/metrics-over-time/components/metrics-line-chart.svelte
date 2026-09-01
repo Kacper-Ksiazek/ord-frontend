@@ -11,6 +11,7 @@
 		getChartInkMuted,
 		getChartPrimaryLine
 	} from '$lib/components/charts';
+	import { themeStore } from '$lib/stores/theme.svelte';
 	import { cn } from '$lib/utils/cn';
 
 	interface MetricRow {
@@ -79,6 +80,9 @@
 	);
 
 	const definition = $derived.by(() => {
+		// Rebuild chart colors when the theme toggles.
+		void themeStore.isDark;
+
 		const marks = [
 			lineY(rows, {
 				id: 'metrics-line',

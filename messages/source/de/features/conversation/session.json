@@ -17,6 +17,21 @@
 		"failed": "Analyse für diese Nachricht konnte nicht erstellt werden.",
 		"retry": "Erneut versuchen"
 	},
+	"hud": {
+		"go_back": "Zurück",
+		"view_summary": "Zusammenfassung",
+		"switch_to_split_layout": "Geteiltes Layout",
+		"switch_to_full_width_layout": "Volle Breite",
+		"settings_aria": "Gesprächseinstellungen"
+	},
+	"scores": {
+		"grammar": "Grammatik",
+		"vocabulary": "Wortschatz",
+		"naturalness": "Natürlichkeit",
+		"rating_heading": "Bewertung",
+		"show_more": "Mehr anzeigen",
+		"show_less": "Weniger anzeigen"
+	},
 	"summary": {
 		"title": "Sitzungszusammenfassung",
 		"close": "Schließen",
