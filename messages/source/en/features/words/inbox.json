@@ -1,0 +1,49 @@
+{
+	"breadcrumb": {
+		"captured_words": "Captured words"
+	},
+	"header": {
+		"title": "Captured words",
+		"description": "Your captured vocabulary, newest first."
+	},
+	"overview": {
+		"aria_label": "Captured words statistics",
+		"loading_aria_label": "Loading captured words statistics",
+		"total": "All",
+		"active": "Active",
+		"captured": "Captured",
+		"error": "Couldn't load captured words statistics.",
+		"try_again": "Try again"
+	},
+	"actions": {
+		"activate": "Activate",
+		"delete": "Delete"
+	},
+	"selection": {
+		"select_row": "Select \"{word}\" for bulk actions"
+	},
+	"bulk": {
+		"toolbar_aria_label": "Bulk actions for captured words",
+		"select_all": "Select all on this page",
+		"unselect_all": "Unselect all on this page",
+		"activate_selected": "Activate selected",
+		"remove_selected": "Remove selected"
+	},
+	"unconfirmed_badge": "Unconfirmed",
+	"unconfirmed_tooltip": "This word comes from an unverified source.",
+	"load_error": {
+		"header": "Couldn't load captured words",
+		"description": "Something went wrong. Try again.",
+		"try_again": "Try again"
+	},
+	"empty": {
+		"header": "No captured words yet",
+		"description": "Words you capture will appear here."
+	},
+	"list_aria_label": "Your captured words",
+	"pagination": {
+		"previous": "Previous",
+		"next": "Next",
+		"page_of": "Page {page} of {totalPages}"
+	}
+}
