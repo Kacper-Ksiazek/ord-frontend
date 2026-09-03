@@ -4,7 +4,7 @@
     "": {
       "name": "ord-frontend",
       "dependencies": {
-        "@kacper-ksiazek/ord-api-types": "^1.0.37",
+        "@kacper-ksiazek/ord-api-types": "^1.0.46",
         "@tanstack/charts": "^0.14.0",
         "@tanstack/svelte-hotkeys": "^0.9.1",
         "@tanstack/svelte-query": "^6.0.5",
@@ -174,7 +174,7 @@
 
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
-    "@kacper-ksiazek/ord-api-types": ["@kacper-ksiazek/ord-api-types@1.0.41", "https://npm.pkg.github.com/download/@kacper-ksiazek/ord-api-types/1.0.41/cefb289693109ce3c3d6172581cc0ed283552302", {}, "sha512-5r4jhqDYaEqaLPEf3lL3uGsSmRMVHqHXZqi6mTxakHvF78/M1+MR2B2VIrU4EVQiAu0MPfhSKWeb03Aau4d/JQ=="],
+    "@kacper-ksiazek/ord-api-types": ["@kacper-ksiazek/ord-api-types@1.0.46", "https://npm.pkg.github.com/download/@kacper-ksiazek/ord-api-types/1.0.46/468ce6591259c82c7d3aa6c2479e7feae4a8c26a", {}, "sha512-/A0GnYbDTdzrAGMDT98FZYmk2zDzcioNsFOHjnvy/P587XBUscBM7RtXrn+tyDSzbIH1hR6rjVu2jmkKoexT6w=="],
 
     "@lix-js/sdk": ["@lix-js/sdk@0.4.7", "", { "dependencies": { "@lix-js/server-protocol-schema": "0.1.1", "dedent": "1.5.1", "human-id": "^4.1.1", "js-sha256": "^0.11.0", "kysely": "^0.27.4", "sqlite-wasm-kysely": "0.3.0", "uuid": "^10.0.0" } }, "sha512-pRbW+joG12L0ULfMiWYosIW0plmW4AsUdiPCp+Z8rAsElJ+wJ6in58zhD3UwUcd4BNcpldEGjg6PdA7e0RgsDQ=="],
 
