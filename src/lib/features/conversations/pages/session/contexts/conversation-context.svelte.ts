@@ -25,15 +25,16 @@ export { getConversationContext, setConversationContext };
 
 export function createConversationContext(conversation: ConversationDTO) {
 	setConversationContext({
-		id: conversation.id,
-		topic: conversation.topic,
-		type: conversation.type,
-		aiTone: conversation.aiTone,
+		id: conversation.id ?? '',
+		topic: conversation.topic ?? '',
+		type: conversation.type ?? 'SMALL_TALK',
+		aiTone: conversation.aiTone ?? 'NEUTRAL',
 		proficiencyLevel: conversation.proficiencyLevel,
 		interlocutor: {
 			name: conversation.aiInterlocutorName ?? '',
-			avatarId: conversation.aiInterlocutorAvatarId as ConversationAIInterlocutorAvatarId
+			avatarId: (conversation.aiInterlocutorAvatarId ??
+				'AVATAR_DEFAULT') as ConversationAIInterlocutorAvatarId
 		},
-		createdAt: conversation.createdAt
+		createdAt: conversation.createdAt ?? ''
 	});
 }

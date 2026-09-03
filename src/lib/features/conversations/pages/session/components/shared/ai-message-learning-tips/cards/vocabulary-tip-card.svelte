@@ -17,22 +17,24 @@
 		headerBlocks: AiAdviceBaseBlock[];
 		bodyBlocks: AiAdviceBaseBlock[];
 	} {
+		const register = tip.register ?? 'NEUTRAL';
+
 		return {
 			headerBlocks: [
 				{
 					type: 'translation',
 					label: 'Word',
 					translation: {
-						text: tip.word,
+						text: tip.word ?? '',
 						badges: [
 							{
-								text: tip.register,
-								register: tip.register
+								text: register,
+								register
 							}
 						]
 					},
 					nativeLanguage: {
-						text: tip.nativeLanguageEquivalent
+						text: tip.nativeLanguageEquivalent ?? ''
 					}
 				}
 			],
@@ -40,17 +42,17 @@
 				{
 					type: 'text',
 					label: 'Definition',
-					text: tip.definition
+					text: tip.definition ?? ''
 				},
 				{
 					type: 'text',
 					label: 'Usage Note',
-					text: tip.usageNote
+					text: tip.usageNote ?? ''
 				},
 				{
 					type: 'examples',
 					label: 'Example Sentences',
-					examples: tip.exampleSentences,
+					examples: tip.exampleSentences ?? [],
 					parseBold: true,
 					category: 'VOCABULARY'
 				}

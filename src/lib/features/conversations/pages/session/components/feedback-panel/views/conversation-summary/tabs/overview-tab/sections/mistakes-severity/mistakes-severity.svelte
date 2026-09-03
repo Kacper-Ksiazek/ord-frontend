@@ -13,7 +13,9 @@
 
 	const { analyses }: Props = $props();
 
-	const allMistakes: ConversationMessageMistake[] = $derived(flatMap(analyses, (f) => f.mistakes));
+	const allMistakes: ConversationMessageMistake[] = $derived(
+		flatMap(analyses, (f) => f.mistakes ?? [])
+	);
 	const mistakeStats: MistakeStats = $derived(computeMessagesStats(allMistakes));
 </script>
 

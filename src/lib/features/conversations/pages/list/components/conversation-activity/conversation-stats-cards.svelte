@@ -12,17 +12,23 @@
 	const { activity, class: className = '' }: Props = $props();
 
 	const messagesTrend = $derived(
-		activity.messagesByWeek.map((w) => ({ label: w.weekRange, value: w.count }))
+		(activity.messagesByWeek ?? []).map((w) => ({
+			label: w.weekRange ?? '',
+			value: w.count ?? 0
+		}))
 	);
 	const conversationsTrend = $derived(
-		activity.conversationsByWeek.map((w) => ({ label: w.weekRange, value: w.count }))
+		(activity.conversationsByWeek ?? []).map((w) => ({
+			label: w.weekRange ?? '',
+			value: w.count ?? 0
+		}))
 	);
 </script>
 
 <div class={cn('flex min-w-0 flex-1 flex-col gap-3 sm:flex-row', className)}>
 	<LineChartCard
 		title={m['features.conversation.list.activity.messages']()}
-		value={activity.messagesTotal}
+		value={activity.messagesTotal ?? 0}
 		data={messagesTrend}
 		variant="neutral"
 		class="min-w-0 flex-1 border-line bg-surface"
@@ -31,7 +37,7 @@
 
 	<LineChartCard
 		title={m['features.conversation.list.activity.conversations']()}
-		value={activity.conversationsTotal}
+		value={activity.conversationsTotal ?? 0}
 		data={conversationsTrend}
 		variant="neutral"
 		class="min-w-0 flex-1 border-line bg-surface"

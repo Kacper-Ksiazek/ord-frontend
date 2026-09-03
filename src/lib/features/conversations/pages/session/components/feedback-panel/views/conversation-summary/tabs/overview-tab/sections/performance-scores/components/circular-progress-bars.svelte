@@ -14,15 +14,15 @@
 	const { analyses }: CircularProgressBarsProps = $props();
 
 	const averageScores: PerformanceMetrics = $derived.by(() => {
-		const sums = analyses.reduce(
+		const sums = analyses.reduce<PerformanceMetrics>(
 			(acc, f) => {
-				acc.grammar += f.grammar;
-				acc.vocabulary += f.vocabulary;
-				acc.naturalness += f.naturalness;
+				acc.grammar += f.grammar ?? 0;
+				acc.vocabulary += f.vocabulary ?? 0;
+				acc.naturalness += f.naturalness ?? 0;
 
 				return acc;
 			},
-			{ grammar: 0, vocabulary: 0, naturalness: 0 } satisfies PerformanceMetrics
+			{ grammar: 0, vocabulary: 0, naturalness: 0 }
 		);
 
 		return {

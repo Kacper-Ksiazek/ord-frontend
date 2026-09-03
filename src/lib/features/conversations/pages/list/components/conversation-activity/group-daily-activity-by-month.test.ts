@@ -115,9 +115,11 @@ describe('buildMockConversationActivity', () => {
 		const snapshot = buildMockConversationActivity(anchor);
 		expect(snapshot.heatmap).toHaveLength(90);
 
+		const heatmap = snapshot.heatmap ?? [];
+
 		for (let i = 0; i < 90; i++) {
 			const expected = addDaysYmd('2026-04-01', -(89 - i));
-			expect(snapshot.heatmap[i].date).toBe(expected);
+			expect(heatmap[i]?.date).toBe(expected);
 		}
 	});
 

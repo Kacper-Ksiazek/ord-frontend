@@ -11,6 +11,6 @@
 </script>
 
 <div class="mb-6 flex w-full min-w-0 flex-col gap-3 xl:flex-row">
-	<ConversationActivityHeatmap heatmap={activity.heatmap} />
+	<ConversationActivityHeatmap heatmap={activity.heatmap ?? []} />
 	<ConversationStatsCards {activity} />
 </div>

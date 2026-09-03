@@ -19,32 +19,32 @@ export type MessagesContext = {
 export const [getMessagesContext, setMessagesContext] = createContext<MessagesContext>();
 
 export function createMessagesContext(conversation: ConversationDTO) {
-	const messages: CompactConversationMessage[] = conversation.messages.map((_message) => {
+	const messages: CompactConversationMessage[] = (conversation.messages ?? []).map((_message) => {
 		const message = _message as unknown as NormalizedConversationMessage;
 
 		if (message.sender === 'AI') {
 			const learningTips = message.learningTips
 				? {
-						grammarTips: message.learningTips.grammarTips,
-						vocabularyTips: message.learningTips.vocabularyTips,
-						phraseTips: message.learningTips.phraseTips,
-						createdAt: message.createdAt
+						grammarTips: message.learningTips.grammarTips ?? [],
+						vocabularyTips: message.learningTips.vocabularyTips ?? [],
+						phraseTips: message.learningTips.phraseTips ?? [],
+						createdAt: message.createdAt ?? ''
 					}
 				: null;
 
 			return {
 				sender: 'AI',
-				content: message.content,
+				content: message.content ?? '',
 				learningTips,
-				createdAt: message.createdAt
+				createdAt: message.createdAt ?? ''
 			} satisfies CompactConversationMessage;
 		}
 
 		return {
 			sender: 'USER',
-			content: message.content,
+			content: message.content ?? '',
 			analysis: message.analysis ?? null,
-			createdAt: message.createdAt
+			createdAt: message.createdAt ?? ''
 		} satisfies CompactConversationMessage;
 	});
 

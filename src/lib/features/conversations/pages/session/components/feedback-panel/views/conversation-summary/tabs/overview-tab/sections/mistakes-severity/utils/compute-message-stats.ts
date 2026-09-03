@@ -46,7 +46,9 @@ function computeMistakesBySeverity(
 ): Record<ConversationMessageMistakeSeverity, number> {
 	return mistakes.reduce(
 		(acc, m) => {
-			acc[m.severity] += 1;
+			if (m.severity) {
+				acc[m.severity] += 1;
+			}
 
 			return acc;
 		},

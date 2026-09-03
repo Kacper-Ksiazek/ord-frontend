@@ -17,8 +17,8 @@ export function aggregateAnalysis(
 			result.push({
 				type: 'MISTAKES',
 				data: mistake,
-				phrase: mistake.phrase,
-				explanation: mistake.explanation,
+				phrase: mistake.phrase ?? '',
+				explanation: mistake.explanation ?? '',
 				createdAt,
 				messageOrder,
 				searchableText: `${mistake.phrase} ${mistake.correctForm} ${mistake.explanation}`.toLowerCase()
@@ -29,8 +29,8 @@ export function aggregateAnalysis(
 			result.push({
 				type: 'STRENGTHS',
 				data: strength,
-				phrase: strength.phrase,
-				explanation: strength.explanation,
+				phrase: strength.phrase ?? '',
+				explanation: strength.explanation ?? '',
 				createdAt,
 				messageOrder,
 				searchableText: `${strength.phrase} ${strength.explanation}`.toLowerCase()
@@ -38,12 +38,12 @@ export function aggregateAnalysis(
 		}
 
 		for (const suggestion of message.analysis.suggestions ?? []) {
-			const alternativesText = suggestion.alternatives.join(' ');
+			const alternativesText = (suggestion.alternatives ?? []).join(' ');
 			result.push({
 				type: 'SUGGESTIONS',
 				data: suggestion,
-				phrase: suggestion.original,
-				explanation: suggestion.explanation,
+				phrase: suggestion.original ?? '',
+				explanation: suggestion.explanation ?? '',
 				createdAt,
 				messageOrder,
 				searchableText:

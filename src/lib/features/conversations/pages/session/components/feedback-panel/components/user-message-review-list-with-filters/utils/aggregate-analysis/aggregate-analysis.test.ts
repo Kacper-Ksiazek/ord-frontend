@@ -16,7 +16,7 @@ function makeUserMessage(
 
 const baseAnalysis = {
 	id: 'analysis-1',
-	isSabotage: false,
+	sabotage: false,
 	tutorComment: 'Good effort',
 	grammar: 7,
 	vocabulary: 8,

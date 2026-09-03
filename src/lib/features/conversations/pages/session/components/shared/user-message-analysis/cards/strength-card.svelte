@@ -23,10 +23,10 @@
 					type: 'translation',
 					label: 'Phrase',
 					translation: {
-						text: strength.phrase,
+						text: strength.phrase ?? '',
 						badges: [
 							{
-								text: strength.strengthType
+								text: strength.strengthType ?? ''
 							}
 						]
 					}
@@ -36,7 +36,7 @@
 				{
 					type: 'text',
 					label: 'Explanation',
-					text: strength.explanation
+					text: strength.explanation ?? ''
 				}
 			]
 		};

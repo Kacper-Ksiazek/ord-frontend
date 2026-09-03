@@ -20,7 +20,7 @@
 	const { conversation, onclick }: Props = $props();
 
 	const activityLabel = $derived(
-		formatRelativeOrMediumDate(conversation.updatedAt || conversation.createdAt)
+		formatRelativeOrMediumDate(conversation.updatedAt ?? conversation.createdAt ?? new Date())
 	);
 
 	const ariaLabel = $derived.by(() => {
@@ -42,7 +42,7 @@
 	>
 		<button
 			type="button"
-			data-testid={E2E_TEST_IDS.conversations.row(conversation.id)}
+			data-testid={E2E_TEST_IDS.conversations.row(conversation.id ?? '')}
 			class={cn(
 				'flex min-w-0 flex-1 items-center gap-3 px-3 py-3 text-left sm:gap-4',
 				'bg-transparent',
@@ -89,7 +89,7 @@
 		</button>
 
 		<div class="flex shrink-0 items-center pr-2">
-			<ConversationListRowActions conversationId={conversation.id} />
+			<ConversationListRowActions conversationId={conversation.id ?? ''} />
 		</div>
 	</div>
 </li>

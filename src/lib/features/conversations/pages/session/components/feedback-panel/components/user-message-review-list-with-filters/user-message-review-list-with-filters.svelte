@@ -59,10 +59,10 @@
 			.map((item: AggregatedAnalysisItem) => {
 				const subcategory: Subcategory = (() => {
 					if (item.type === 'MISTAKES') {
-						return item.data.severity;
+						return item.data.severity ?? null;
 					}
 					if (item.type === 'SUGGESTIONS') {
-						return item.data.suggestionType;
+						return item.data.suggestionType ?? null;
 					}
 
 					return null;

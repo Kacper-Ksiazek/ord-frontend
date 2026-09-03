@@ -19,25 +19,29 @@
 		headerBlocks: AiAdviceBaseBlock[];
 		bodyBlocks: AiAdviceBaseBlock[];
 	} {
+		const suggestionType = suggestion.suggestionType;
+
 		return {
 			headerBlocks: [
 				{
 					type: 'translation',
 					label: 'Original',
 					translation: {
-						text: suggestion.original,
-						badges: [
-							{
-								text: suggestion.suggestionType,
-								Icon: SUGGESTION_TYPE_ICONS_MAP[suggestion.suggestionType]
-							}
-						]
+						text: suggestion.original ?? '',
+						badges: suggestionType
+							? [
+									{
+										text: suggestionType,
+										Icon: SUGGESTION_TYPE_ICONS_MAP[suggestionType]
+									}
+								]
+							: []
 					}
 				},
 				{
 					type: 'examples',
 					label: 'Alternatives',
-					examples: suggestion.alternatives,
+					examples: suggestion.alternatives ?? [],
 					Icon: ArrowRight
 				}
 			],
@@ -45,7 +49,7 @@
 				{
 					type: 'text',
 					label: 'Explanation',
-					text: suggestion.explanation
+					text: suggestion.explanation ?? ''
 				}
 			]
 		};

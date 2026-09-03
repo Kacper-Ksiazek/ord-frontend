@@ -90,10 +90,14 @@ export function groupDailyActivityByMonth(
 	const todayStr = formatLocalYmd(today);
 
 	const byDate = new Map<string, HeatmapDay>();
-	let minDate = daily[0].date;
-	let maxDate = daily[0].date;
+	const datedPoints = daily.filter((point): point is HeatmapDay & { date: string } => !!point.date);
 
-	for (const point of daily) {
+	if (datedPoints.length === 0) return [];
+
+	let minDate = datedPoints[0].date;
+	let maxDate = datedPoints[0].date;
+
+	for (const point of datedPoints) {
 		byDate.set(point.date, point);
 		if (point.date < minDate) minDate = point.date;
 		if (point.date > maxDate) maxDate = point.date;

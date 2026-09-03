@@ -17,22 +17,24 @@
 		headerBlocks: AiAdviceBaseBlock[];
 		bodyBlocks: AiAdviceBaseBlock[];
 	} {
+		const register = tip.register ?? 'NEUTRAL';
+
 		return {
 			headerBlocks: [
 				{
 					type: 'translation',
 					label: 'Phrase',
 					translation: {
-						text: tip.phrase,
+						text: tip.phrase ?? '',
 						badges: [
 							{
-								text: tip.register,
-								register: tip.register
+								text: register,
+								register
 							}
 						]
 					},
 					nativeLanguage: {
-						text: tip.nativeLanguageEquivalent
+						text: tip.nativeLanguageEquivalent ?? ''
 					}
 				}
 			],
@@ -40,17 +42,17 @@
 				{
 					type: 'text',
 					label: 'Grammar Point',
-					text: tip.grammarPoint
+					text: tip.grammarPoint ?? ''
 				},
 				{
 					type: 'text',
 					label: 'Explanation',
-					text: tip.explanation
+					text: tip.explanation ?? ''
 				},
 				{
 					type: 'examples',
 					label: 'Example Sentences',
-					examples: tip.exampleSentences,
+					examples: tip.exampleSentences ?? [],
 					parseBold: true,
 					category: 'GRAMMAR'
 				}
