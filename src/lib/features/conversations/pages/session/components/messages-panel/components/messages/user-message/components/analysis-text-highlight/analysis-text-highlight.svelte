@@ -25,9 +25,11 @@
 	}: AnalysisTextHighlightProps = $props();
 
 	const cards = {
-		MISTAKES: analysis?.mistakes?.find((m) => includesEitherWay(m.phrase, highlightedText)),
-		STRENGTHS: analysis?.strengths?.find((s) => includesEitherWay(s.phrase, highlightedText)),
-		SUGGESTIONS: analysis?.suggestions?.find((s) => includesEitherWay(s.original, highlightedText))
+		MISTAKES: analysis?.mistakes?.find((m) => includesEitherWay(m.phrase ?? '', highlightedText)),
+		STRENGTHS: analysis?.strengths?.find((s) => includesEitherWay(s.phrase ?? '', highlightedText)),
+		SUGGESTIONS: analysis?.suggestions?.find((s) =>
+			includesEitherWay(s.original ?? '', highlightedText)
+		)
 	} satisfies Record<MessageAnalysisCriteria, unknown>;
 
 	const isMistakeCardAvailable = !isNil(cards.MISTAKES);

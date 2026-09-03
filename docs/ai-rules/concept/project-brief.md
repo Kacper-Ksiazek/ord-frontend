@@ -29,7 +29,7 @@ The project deliberately balances two priorities:
 
 Practical guidance: follow the existing conventions rigorously (they are cheap to follow and
 expensive to erode), but prefer the simplest implementation that fits them. Product features
-today are `conversations` and `quickly-added-words` — shared code in `$lib` is treated as a
+today are `conversations` and `words` — shared code in `$lib` is treated as a
 design system even when it currently has one consumer, and code is only moved into a feature
 when there is hard domain coupling.
 

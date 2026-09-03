@@ -79,7 +79,7 @@
 		return aggregateLearningTips(Array.isArray(data) ? data : [data])
 			.filter((tip) => messageOrderFilter == null || tip.messageOrder === messageOrderFilter)
 			.map((tip) => {
-				const subcategory: Subcategory = tip.type === 'PHRASES' ? tip.data.phraseType : null;
+				const subcategory: Subcategory = tip.type === 'PHRASES' ? (tip.data.phraseType ?? null) : null;
 
 				return {
 					data: tip,

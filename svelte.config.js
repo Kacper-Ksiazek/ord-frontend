@@ -15,7 +15,7 @@ const config = {
 			$auth: 'src/lib/features/auth',
 			$conversations: 'src/lib/features/conversations',
 			$appLayouts: 'src/lib/features/app-layouts',
-			$quicklyAddedWords: 'src/lib/features/quickly-added-words'
+			$words: 'src/lib/features/words'
 		}
 	}
 };

@@ -67,7 +67,11 @@ function buildWeekAggregates(
 	numWeeks: number,
 	countForDay: (date: string, messageCount: number) => number
 ): ActivityWeekPoint[] {
-	const byDate = new Map(days.map((d) => [d.date, d.count]));
+	const byDate = new Map(
+		days
+			.filter((d): d is HeatmapDay & { date: string } => !!d.date)
+			.map((d) => [d.date, d.count ?? 0])
+	);
 	const anchorWeekStart = startOfIsoWeekMonday(anchor);
 	const points: ActivityWeekPoint[] = [];
 
@@ -113,7 +117,7 @@ export function buildMockConversationActivity(anchor: Date): ConversationActivit
 		});
 	}
 
-	const messagesTotal = heatmap.reduce((acc, p) => acc + p.count, 0);
+	const messagesTotal = heatmap.reduce((acc, p) => acc + (p.count ?? 0), 0);
 	const anchorStr = formatLocalYmd(anchor);
 	const conversationsTotal = 18 + (hashDay(`${anchorStr}:conv`) % 31);
 

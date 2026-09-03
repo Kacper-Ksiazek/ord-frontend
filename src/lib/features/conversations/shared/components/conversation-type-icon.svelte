@@ -8,7 +8,7 @@
 	import type { ConversationType } from '$conversations/types';
 
 	interface ConversationTypeProps extends SVGIconProps {
-		conversationType: ConversationType;
+		conversationType: ConversationType | undefined;
 	}
 
 	const { conversationType, ...restProps }: ConversationTypeProps = $props();

@@ -15,34 +15,35 @@ export function aggregateLearningTips(
 
 		result.push(
 			...[
-				...message.learningTips.grammarTips.map<AggregatedLearningTip>((el) => ({
+				...(message.learningTips.grammarTips ?? []).map<AggregatedLearningTip>((el) => ({
 					type: 'GRAMMAR',
 					data: el,
-					phrase: el.phrase,
-					register: el.register,
+					phrase: el.phrase ?? '',
+					register: el.register ?? 'NEUTRAL',
 					createdAt,
 					messageOrder,
-					searchableText: `${el.phrase} ${el.grammarPoint} ${el.explanation}`.toLowerCase()
+					searchableText:
+						`${el.phrase ?? ''} ${el.grammarPoint ?? ''} ${el.explanation ?? ''}`.toLowerCase()
 				})),
 
-				...message.learningTips.phraseTips.map<AggregatedLearningTip>((el) => ({
+				...(message.learningTips.phraseTips ?? []).map<AggregatedLearningTip>((el) => ({
 					type: 'PHRASES',
 					data: el,
-					phrase: el.phrase,
-					register: el.register,
+					phrase: el.phrase ?? '',
+					register: el.register ?? 'NEUTRAL',
 					createdAt,
 					messageOrder,
-					searchableText: `${el.phrase} ${el.meaning}`.toLowerCase()
+					searchableText: `${el.phrase ?? ''} ${el.meaning ?? ''}`.toLowerCase()
 				})),
 
-				...message.learningTips.vocabularyTips.map<AggregatedLearningTip>((el) => ({
+				...(message.learningTips.vocabularyTips ?? []).map<AggregatedLearningTip>((el) => ({
 					type: 'VOCABULARY',
 					data: el,
-					phrase: el.word,
-					register: el.register,
+					phrase: el.word ?? '',
+					register: el.register ?? 'NEUTRAL',
 					createdAt,
 					messageOrder,
-					searchableText: `${el.word} ${el.definition} ${el.usageNote}`.toLowerCase()
+					searchableText: `${el.word ?? ''} ${el.definition ?? ''} ${el.usageNote ?? ''}`.toLowerCase()
 				}))
 			]
 		);

@@ -24,17 +24,19 @@
 					type: 'badges',
 					badges: [
 						{
-							text: mistake.errorType
+							text: mistake.errorType ?? ''
 						}
 					],
-					severity: {
-						value: mistake.severity
-					}
+					severity: mistake.severity
+						? {
+								value: mistake.severity
+							}
+						: undefined
 				},
 				{
 					type: 'text',
 					label: 'Phrase',
-					text: mistake.phrase,
+					text: mistake.phrase ?? '',
 					Icon: X,
 					iconClass: 'text-red-600 dark:text-red-400',
 					iconBgClass: 'bg-red-100/80 dark:bg-red-950/35'
@@ -42,7 +44,7 @@
 				{
 					type: 'text',
 					label: 'Correct form',
-					text: mistake.correctForm,
+					text: mistake.correctForm ?? '',
 					Icon: Check,
 					iconClass: 'text-emerald-600 dark:text-emerald-400',
 					iconBgClass: 'bg-emerald-100/80 dark:bg-emerald-950/35'
@@ -52,7 +54,7 @@
 				{
 					type: 'text',
 					label: 'Explanation',
-					text: mistake.explanation
+					text: mistake.explanation ?? ''
 				}
 			]
 		};

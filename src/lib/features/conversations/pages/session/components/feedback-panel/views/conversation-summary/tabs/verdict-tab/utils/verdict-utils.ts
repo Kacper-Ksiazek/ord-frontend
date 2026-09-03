@@ -35,11 +35,11 @@ export function computePerformanceAverages(
 		return null;
 	}
 
-	const sums = analyses.reduce(
+	const sums = analyses.reduce<PerformanceAverages>(
 		(acc, analysis) => {
-			acc.grammar += analysis.grammar;
-			acc.vocabulary += analysis.vocabulary;
-			acc.naturalness += analysis.naturalness;
+			acc.grammar += analysis.grammar ?? 0;
+			acc.vocabulary += analysis.vocabulary ?? 0;
+			acc.naturalness += analysis.naturalness ?? 0;
 
 			return acc;
 		},

@@ -18,6 +18,10 @@ export function groupConversationsByRecencyBucket(
 	};
 
 	for (const item of items) {
+		if (!item.recencyBucket) {
+			continue;
+		}
+
 		buckets[item.recencyBucket].push(item);
 	}
 

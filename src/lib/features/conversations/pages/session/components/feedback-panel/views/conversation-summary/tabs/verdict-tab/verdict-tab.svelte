@@ -19,7 +19,7 @@
 	);
 
 	const allMistakes: ConversationMessageMistake[] = $derived(
-		flatMap(analyses, (analysis) => analysis.mistakes)
+		flatMap(analyses, (analysis) => analysis.mistakes ?? [])
 	);
 
 	const mistakeStats = $derived(computeMessagesStats(allMistakes));

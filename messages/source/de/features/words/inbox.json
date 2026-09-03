@@ -1,0 +1,49 @@
+{
+	"breadcrumb": {
+		"captured_words": "Erfasste Wörter"
+	},
+	"header": {
+		"title": "Erfasste Wörter",
+		"description": "Dein erfasstes Vokabular, zuerst die neuesten."
+	},
+	"overview": {
+		"aria_label": "Statistik zu erfassten Wörtern",
+		"loading_aria_label": "Statistik zu erfassten Wörtern wird geladen",
+		"total": "Alle",
+		"active": "Aktiv",
+		"captured": "Erfasst",
+		"error": "Statistik zu erfassten Wörtern konnte nicht geladen werden.",
+		"try_again": "Erneut versuchen"
+	},
+	"actions": {
+		"activate": "Aktivieren",
+		"delete": "Löschen"
+	},
+	"selection": {
+		"select_row": "„{word}“ für Sammelaktionen auswählen"
+	},
+	"bulk": {
+		"toolbar_aria_label": "Sammelaktionen für erfasste Wörter",
+		"select_all": "Alle auf dieser Seite auswählen",
+		"unselect_all": "Alle auf dieser Seite abwählen",
+		"activate_selected": "Ausgewählte aktivieren",
+		"remove_selected": "Ausgewählte entfernen"
+	},
+	"unconfirmed_badge": "Unbestätigt",
+	"unconfirmed_tooltip": "Dieses Wort stammt aus einer nicht verifizierten Quelle.",
+	"load_error": {
+		"header": "Erfasste Wörter konnten nicht geladen werden",
+		"description": "Etwas ist schiefgelaufen. Versuche es erneut.",
+		"try_again": "Erneut versuchen"
+	},
+	"empty": {
+		"header": "Noch keine erfassten Wörter",
+		"description": "Erfasste Wörter erscheinen hier."
+	},
+	"list_aria_label": "Deine erfassten Wörter",
+	"pagination": {
+		"previous": "Zurück",
+		"next": "Weiter",
+		"page_of": "Seite {page} von {totalPages}"
+	}
+}

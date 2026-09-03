@@ -24,9 +24,15 @@
 	const tutorComment = $derived(analysis.tutorComment?.trim() ?? '');
 
 	const scores = $derived([
-		{ label: m['features.conversation.session.scores.grammar'](), score: analysis.grammar },
-		{ label: m['features.conversation.session.scores.vocabulary'](), score: analysis.vocabulary },
-		{ label: m['features.conversation.session.scores.naturalness'](), score: analysis.naturalness }
+		{ label: m['features.conversation.session.scores.grammar'](), score: analysis.grammar ?? 0 },
+		{
+			label: m['features.conversation.session.scores.vocabulary'](),
+			score: analysis.vocabulary ?? 0
+		},
+		{
+			label: m['features.conversation.session.scores.naturalness'](),
+			score: analysis.naturalness ?? 0
+		}
 	]);
 
 	const toggleAriaLabel = $derived(

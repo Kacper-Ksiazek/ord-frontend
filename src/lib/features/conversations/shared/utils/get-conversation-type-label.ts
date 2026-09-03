@@ -1,7 +1,11 @@
 import * as m from '$lib/paraglide/messages';
 import type { ConversationType } from '$conversations/types';
 
-export function getConversationTypeLabel(type: ConversationType) {
+export function getConversationTypeLabel(type: ConversationType | undefined) {
+	if (!type) {
+		return '';
+	}
+
 	const messageKey =
 		`features.conversation.enums.conversation_types.${type}.label` as keyof typeof m;
 	const messageFn = m[messageKey] as (() => string) | undefined;
@@ -9,7 +13,11 @@ export function getConversationTypeLabel(type: ConversationType) {
 	return messageFn?.() || type;
 }
 
-export function getConversationTypeDescription(type: ConversationType) {
+export function getConversationTypeDescription(type: ConversationType | undefined) {
+	if (!type) {
+		return '';
+	}
+
 	const messageKey =
 		`features.conversation.enums.conversation_types.${type}.description` as keyof typeof m;
 	const messageFn = m[messageKey] as (() => string) | undefined;
@@ -17,7 +25,7 @@ export function getConversationTypeDescription(type: ConversationType) {
 	return messageFn?.() || type;
 }
 
-export function getConversationTypeMessages(type: ConversationType) {
+export function getConversationTypeMessages(type: ConversationType | undefined) {
 	return {
 		label: getConversationTypeLabel(type),
 		description: getConversationTypeDescription(type)

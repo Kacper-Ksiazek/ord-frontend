@@ -11,7 +11,7 @@
 	const { size = 40, class: className }: AuthUserAvatarProps = $props();
 </script>
 
-{#if authStore.user}
+{#if authStore.user?.email}
 	<img
 		src={gravatarUrl(authStore.user.email, {
 			size,

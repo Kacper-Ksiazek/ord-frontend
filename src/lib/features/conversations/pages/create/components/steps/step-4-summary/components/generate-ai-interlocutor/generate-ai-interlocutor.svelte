@@ -47,6 +47,10 @@
 				recentInterlocutors: getRecentInterlocutorsFromLocalStorage()
 			});
 
+			if (!result.avatarId || !result.name) {
+				return;
+			}
+
 			saveNewInterlocutorToLocalStorage({
 				avatarId: result.avatarId,
 				name: result.name

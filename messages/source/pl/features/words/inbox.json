@@ -1,0 +1,49 @@
+{
+	"breadcrumb": {
+		"captured_words": "Zapisane słowa"
+	},
+	"header": {
+		"title": "Zapisane słowa",
+		"description": "Twoje zapisane słownictwo, od najnowszych."
+	},
+	"overview": {
+		"aria_label": "Statystyki zapisanych słów",
+		"loading_aria_label": "Ładowanie statystyk zapisanych słów",
+		"total": "Wszystkie",
+		"active": "Aktywne",
+		"captured": "Zapisane",
+		"error": "Nie udało się załadować statystyk zapisanych słów.",
+		"try_again": "Spróbuj ponownie"
+	},
+	"actions": {
+		"activate": "Aktywuj",
+		"delete": "Skasuj"
+	},
+	"selection": {
+		"select_row": "Zaznacz „{word}” do akcji zbiorczych"
+	},
+	"bulk": {
+		"toolbar_aria_label": "Akcje zbiorcze dla zapisanych słów",
+		"select_all": "Zaznacz wszystkie na tej stronie",
+		"unselect_all": "Odznacz wszystkie na tej stronie",
+		"activate_selected": "Aktywuj zaznaczone",
+		"remove_selected": "Usuń zaznaczone"
+	},
+	"unconfirmed_badge": "Niepotwierdzone",
+	"unconfirmed_tooltip": "To słowo pochodzi z niezweryfikowanego źródła.",
+	"load_error": {
+		"header": "Nie udało się załadować zapisanych słów",
+		"description": "Coś poszło nie tak. Spróbuj ponownie.",
+		"try_again": "Spróbuj ponownie"
+	},
+	"empty": {
+		"header": "Brak zapisanych słów",
+		"description": "Zapisane słowa pojawią się tutaj."
+	},
+	"list_aria_label": "Twoje zapisane słowa",
+	"pagination": {
+		"previous": "Poprzednia",
+		"next": "Następna",
+		"page_of": "Strona {page} z {totalPages}"
+	}
+}

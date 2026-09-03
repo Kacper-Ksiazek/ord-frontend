@@ -22,26 +22,29 @@
 		headerBlocks: AiAdviceBaseBlock[];
 		bodyBlocks: AiAdviceBaseBlock[];
 	} {
+		const phraseType = tip.phraseType ?? 'LITERAL';
+		const register = tip.register ?? 'NEUTRAL';
+
 		return {
 			headerBlocks: [
 				{
 					type: 'translation',
 					label: 'Phrase',
 					translation: {
-						text: tip.phrase,
+						text: tip.phrase ?? '',
 						badges: [
 							{
-								text: getPhraseTypeLabel(tip.phraseType),
-								Icon: PHRASE_TYPE_ICONS_MAP[tip.phraseType]
+								text: getPhraseTypeLabel(phraseType),
+								Icon: PHRASE_TYPE_ICONS_MAP[phraseType]
 							},
 							{
-								text: tip.register,
-								register: tip.register
+								text: register,
+								register
 							}
 						]
 					},
 					nativeLanguage: {
-						text: tip.nativeLanguageEquivalent
+						text: tip.nativeLanguageEquivalent ?? ''
 					}
 				}
 			],
@@ -49,12 +52,12 @@
 				{
 					type: 'text',
 					label: 'Meaning',
-					text: tip.meaning
+					text: tip.meaning ?? ''
 				},
 				{
 					type: 'examples',
 					label: 'Example Sentences',
-					examples: tip.exampleSentences,
+					examples: tip.exampleSentences ?? [],
 					parseBold: true,
 					category: 'PHRASES'
 				}

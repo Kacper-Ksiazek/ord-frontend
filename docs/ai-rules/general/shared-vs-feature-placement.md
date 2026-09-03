@@ -1,6 +1,6 @@
 # Shared vs feature placement
 
-Generic design-system primitives stay in shared `$lib` (`$lib/components`, `$lib/utils`, …) even if only one feature uses them today — single-feature usage alone does not justify moving code into a feature. Move code into a feature only on hard domain coupling, i.e. when it imports feature types, constants, or stores. Currently `conversations` and `quickly-added-words` are the product features; `auth` and `app-layouts` are supporting features.
+Generic design-system primitives stay in shared `$lib` (`$lib/components`, `$lib/utils`, …) even if only one feature uses them today — single-feature usage alone does not justify moving code into a feature. Move code into a feature only on hard domain coupling, i.e. when it imports feature types, constants, or stores. Currently `conversations` and `words` are the product features; `auth` and `app-layouts` are supporting features.
 
 ## Good
 

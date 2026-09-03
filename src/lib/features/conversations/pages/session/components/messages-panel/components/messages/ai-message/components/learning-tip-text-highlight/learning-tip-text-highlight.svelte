@@ -19,11 +19,15 @@
 		$props();
 
 	const cards = {
-		GRAMMAR: learningTips?.grammarTips?.find((tip) => includesEitherWay(tip.phrase, highlightedText)),
-		VOCABULARY: learningTips?.vocabularyTips?.find((tip) =>
-			includesEitherWay(tip.word, highlightedText)
+		GRAMMAR: learningTips?.grammarTips?.find((tip) =>
+			includesEitherWay(tip.phrase ?? '', highlightedText)
 		),
-		PHRASES: learningTips?.phraseTips?.find((tip) => includesEitherWay(tip.phrase, highlightedText))
+		VOCABULARY: learningTips?.vocabularyTips?.find((tip) =>
+			includesEitherWay(tip.word ?? '', highlightedText)
+		),
+		PHRASES: learningTips?.phraseTips?.find((tip) =>
+			includesEitherWay(tip.phrase ?? '', highlightedText)
+		)
 	} satisfies Record<LearningTipCategory, unknown>;
 
 	const isGrammarTipAvailable = !isNil(cards.GRAMMAR);
