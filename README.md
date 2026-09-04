@@ -82,18 +82,18 @@ This repository contains the **frontend** — a SvelteKit 2 + Svelte 5 single-pa
 
 ## 🛠️ Tech stack
 
-| Area               | Choice                                                               |
-| ------------------ | -------------------------------------------------------------------- |
-| Framework          | **SvelteKit 2** + **Svelte 5** (runes)                               |
-| Language           | **TypeScript** (strict)                                              |
-| Styling            | **Tailwind CSS v4** + **Flowbite** components, `lucide-svelte` icons |
-| Server state       | **TanStack Query** (Svelte) + **Axios**                              |
-| Streaming          | **Server-Sent Events** + **RxJS**                                    |
-| i18n               | **Paraglide JS** / **inlang** (en · pl · de)                         |
-| Component workshop | **Storybook 10** (with a11y & Vitest addons)                         |
-| Testing            | **Vitest** in browser mode (`vitest-browser-svelte`, Playwright)     |
-| Tooling            | **ESLint**, **Prettier**, **Husky** + **lint-staged**                |
-| Deployment         | **Vercel** adapter                                                   |
+| Area               | Choice                                                              |
+| ------------------ | ------------------------------------------------------------------- |
+| Framework          | **SvelteKit 2** + **Svelte 5** (runes)                              |
+| Language           | **TypeScript** (strict)                                             |
+| Styling            | **Tailwind CSS v4** + **bits-ui** (headless), `lucide-svelte` icons |
+| Server state       | **TanStack Query** (Svelte) + **Axios**                             |
+| Streaming          | **Server-Sent Events** + **RxJS**                                   |
+| i18n               | **Paraglide JS** / **inlang** (en · pl · de)                        |
+| Component workshop | **Storybook 10** (with a11y & Vitest addons)                        |
+| Testing            | **Vitest** in browser mode (`vitest-browser-svelte`, Playwright)    |
+| Tooling            | **Bun**, **ESLint**, **Prettier**, **Husky** + **lint-staged**      |
+| Deployment         | **Vercel** (`@sveltejs/adapter-vercel`, Node.js 22 serverless)      |
 
 ---
 
@@ -112,7 +112,8 @@ src/
 │   ├── features/        # Feature slices with co-located types, api-client, pages, stores
 │   │   ├── auth/        # → import via `$auth/*`
 │   │   ├── conversations/  # → import via `$conversations/*`
-│   │   └── app-layouts/ # → import via `$appLayouts/*`
+│   │   ├── app-layouts/ # → import via `$appLayouts/*`
+│   │   └── words/       # → import via `$words/*`
 │   ├── paraglide/       # Generated i18n runtime
 │   ├── stores/          # App-wide reactive stores (Svelte 5 runes)
 │   ├── types/           # Cross-cutting shared types only (feature types live in features)
@@ -126,10 +127,15 @@ src/
 
 ### Prerequisites
 
-- **Bun 1.4.1** (see `packageManager` in `package.json`)
-- **Node.js 22+**
+- **Bun 1.4.1** (see `packageManager` in `package.json`) — local dev, CI, and install scripts
 - A running instance of the Ord backend API (or point `PUBLIC_API_URL` at one).
 - A **GitHub personal access token** with `read:packages` access — required to install `@kacper-ksiazek/ord-api-types` from GitHub Packages.
+
+### Deployment runtime (Vercel)
+
+Local development and CI use **Bun** only — you do not need Node.js installed on your machine.
+
+Production SSR and server routes on Vercel run on **Node.js 22** (`runtime: 'nodejs22.x'` in `svelte.config.js`). That is configured in the adapter, not in your local toolchain.
 
 ### Setup
 
@@ -152,20 +158,20 @@ The app runs at `http://localhost:5173`.
 
 Common workflows are exposed via `make` — run `make help` for the full list.
 
-| Target                  | Description                                                                    |
-| ----------------------- | ------------------------------------------------------------------------------ |
-| `make status`           | Show docker / api / front / storybook status                                   |
-| `make ci`               | **Run all CI checks** (lint → format → types → e2e-types → build → unit-tests) |
-| `make ci-e2e`           | CI checks + Playwright E2E (requires `docker-e2e-up`)                          |
-| `make api-up`           | Start ord-api dev stack (`ORD_API_DIR` defaults to `~/workspace/ord-api`)      |
-| `make api-down`         | Stop ord-api dev stack                                                         |
-| `make api-logs`         | Follow ord-api dev stack logs                                                  |
-| `make docker-e2e-up`    | Start ephemeral E2E backend (OTP `123456`, 4 worker accounts)                  |
-| `make docker-e2e-down`  | Stop E2E backend stack                                                         |
-| `make test`             | Run unit tests (alias for `test-unit`)                                         |
-| `make test-unit`        | Vitest unit/component tests                                                    |
-| `make test-e2e`         | 3 parallel E2E journeys (requires `docker-e2e-up` or `api-up` first)           |
-| `make test-e2e-install` | Install Playwright Chromium                                                    |
+| Target                  | Description                                                                            |
+| ----------------------- | -------------------------------------------------------------------------------------- |
+| `make status`           | Show docker / api / front / storybook status                                           |
+| `make ci`               | **Run all CI checks** (lint → format → types → e2e-types → build → unit-tests → audit) |
+| `make ci-e2e`           | CI checks + Playwright E2E (requires `docker-e2e-up`)                                  |
+| `make api-up`           | Start ord-api dev stack (`ORD_API_DIR` defaults to `~/workspace/ord-api`)              |
+| `make api-down`         | Stop ord-api dev stack                                                                 |
+| `make api-logs`         | Follow ord-api dev stack logs                                                          |
+| `make docker-e2e-up`    | Start ephemeral E2E backend (OTP `123456`, 4 worker accounts)                          |
+| `make docker-e2e-down`  | Stop E2E backend stack                                                                 |
+| `make test`             | Run unit tests (alias for `test-unit`)                                                 |
+| `make test-unit`        | Vitest unit/component tests                                                            |
+| `make test-e2e`         | 3 parallel E2E journeys (requires `docker-e2e-up` or `api-up` first)                   |
+| `make test-e2e-install` | Install Playwright Chromium                                                            |
 
 `make ci` uses `./scripts/run-ci.sh` (sequential, fail-fast, matches `.github/workflows/ci.yml`).
 Test targets call `bun run test` / `bun run test:e2e` with custom summary reporters in `scripts/reporters/`.

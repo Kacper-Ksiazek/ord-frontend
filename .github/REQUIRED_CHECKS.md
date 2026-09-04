@@ -8,8 +8,10 @@ After merging the E2E CI Phase 2 workflow, enable branch protection on `main`:
    - `lint`
    - `format`
    - `types`
+   - `e2e-types`
    - `build`
    - `unit-tests`
+   - `audit`
    - `e2e`
 
 The `e2e` job name matches the workflow job in [`.github/workflows/e2e.yml`](./workflows/e2e.yml).
