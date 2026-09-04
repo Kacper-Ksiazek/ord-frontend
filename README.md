@@ -126,6 +126,7 @@ src/
 
 ### Prerequisites
 
+- **Bun 1.4.1** (see `packageManager` in `package.json`)
 - **Node.js 22+**
 - A running instance of the Ord backend API (or point `PUBLIC_API_URL` at one).
 - A **GitHub personal access token** with `read:packages` access — required to install `@kacper-ksiazek/ord-api-types` from GitHub Packages.

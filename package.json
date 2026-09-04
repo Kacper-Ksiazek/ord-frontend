@@ -2,6 +2,7 @@
 	"name": "ord-frontend",
 	"private": true,
 	"version": "0.0.1",
+	"packageManager": "bun@1.4.1",
 	"type": "module",
 	"scripts": {
 		"aggregate": "tsx scripts/aggregate-translations.ts",
