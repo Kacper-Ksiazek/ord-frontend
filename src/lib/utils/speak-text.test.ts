@@ -77,10 +77,9 @@ describe('speakText', () => {
 
 		vi.stubGlobal('HTMLMediaElement', { HAVE_METADATA });
 
-		vi.stubGlobal(
-			'Audio',
-			vi.fn(() => mockAudio)
-		);
+		vi.stubGlobal('Audio', function Audio() {
+			return mockAudio;
+		});
 
 		vi.stubGlobal('URL', {
 			createObjectURL: vi.fn(() => 'blob:mock-audio'),

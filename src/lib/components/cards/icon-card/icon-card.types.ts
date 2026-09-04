@@ -2,13 +2,7 @@ import type { Snippet } from 'svelte';
 import type { HTMLAttributes } from 'svelte/elements';
 
 export type IconCardVariant =
-	| 'blue'
-	| 'green'
-	| 'red'
-	| 'purple'
-	| 'primary'
-	| 'neutral'
-	| 'inactive';
+	'blue' | 'green' | 'red' | 'purple' | 'primary' | 'neutral' | 'inactive';
 
 export interface IconCardProps extends Omit<
 	HTMLAttributes<HTMLDivElement>,

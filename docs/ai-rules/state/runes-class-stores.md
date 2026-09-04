@@ -33,9 +33,7 @@ export { authStore } from './auth.svelte';
 ```ts
 // src/lib/features/conversations/pages/create/stores/create-conversation-payload.svelte.ts
 // Module-level $state — accepted for simple page payload singletons
-const createConversationPayload = $state<CreateConversationPayload>({
-	/* ... */
-});
+const createConversationPayload = $state<CreateConversationPayload>({/* ... */});
 
 export function getCreateConversationPayload() {
 	return createConversationPayload;

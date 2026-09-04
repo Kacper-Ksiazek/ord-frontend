@@ -30,5 +30,4 @@ export type CompactConversationUserMessage = {
 };
 
 export type CompactConversationMessage =
-	| CompactConversationAiMessage
-	| CompactConversationUserMessage;
+	CompactConversationAiMessage | CompactConversationUserMessage;

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { AIMessageLearningTips } from '$conversations/types';
-	import size from 'lodash/size';
-	import compact from 'lodash/compact';
+	import { compact } from 'es-toolkit';
+	import { size } from 'es-toolkit/compat';
 	import AiPostProcessActionBase from '../../../ai-post-process-action-base/ai-post-process-action-base.svelte';
 	import PlayMessageAudio from '../../../ai-post-process-action-base/components/play-message-audio.svelte';
 	import PlayMessageAudioProgress from '../../../ai-post-process-action-base/components/play-message-audio-progress.svelte';

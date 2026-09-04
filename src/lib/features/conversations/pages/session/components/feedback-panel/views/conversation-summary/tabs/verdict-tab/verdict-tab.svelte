@@ -1,5 +1,5 @@
 <script lang="ts">
-	import flatMap from 'lodash/flatMap';
+	import { flatMap } from 'es-toolkit';
 	import { ScrollableWrapper } from '$lib/components/utils/scrollable-wrapper';
 	import { getMessagesContext } from '$conversations/pages/session/contexts/messages-context.svelte';
 	import type { ConversationMessageMistake } from '$conversations/types';

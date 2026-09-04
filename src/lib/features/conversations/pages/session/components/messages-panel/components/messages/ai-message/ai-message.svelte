@@ -9,7 +9,7 @@
 	import { LearningTips } from './components/learning-tips';
 	import { highlightLearningTipsContent } from './utils/highlight-learning-tips';
 	import { LearningTipTextHighlight } from './components/learning-tip-text-highlight';
-	import isNil from 'lodash/isNil';
+	import { isNil } from 'es-toolkit/predicate';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 
 	interface AiMessageProps {

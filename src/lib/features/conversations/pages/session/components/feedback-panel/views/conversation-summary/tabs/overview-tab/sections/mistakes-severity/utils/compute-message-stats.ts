@@ -1,4 +1,4 @@
-import round from 'lodash/round';
+import { round } from 'es-toolkit/math';
 import type {
 	ConversationMessageMistake,
 	ConversationMessageMistakeSeverity

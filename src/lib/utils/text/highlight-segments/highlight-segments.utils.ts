@@ -1,5 +1,4 @@
-import isEmpty from 'lodash/isEmpty';
-import uniq from 'lodash/uniq';
+import { uniq } from 'es-toolkit';
 import type { HighlightRange, HighlightPart } from './highlight-segments.types';
 
 function escapeRegex(str: string): string {
@@ -19,7 +18,7 @@ export function findTextRanges<TCategory extends string | number | symbol>(
 	let lastIndex = 0;
 
 	while ((match = regex.exec(content)) !== null) {
-		if (match.index === lastIndex && isEmpty(match[0])) {
+		if (match.index === lastIndex && match[0].length === 0) {
 			regex.lastIndex++;
 			continue;
 		}
@@ -40,7 +39,7 @@ export function mergeRanges<TCategory extends string | number | symbol>(
 	ranges: HighlightRange<TCategory>[],
 	priorityMap?: Record<TCategory, number>
 ): HighlightRange<TCategory>[] {
-	if (isEmpty(ranges)) {
+	if (ranges.length === 0) {
 		return [];
 	}
 
@@ -91,7 +90,7 @@ export function buildHighlightParts<TCategory extends string | number | symbol>(
 	content: string,
 	mergedRanges: HighlightRange<TCategory>[]
 ): HighlightPart<TCategory>[] {
-	if (isEmpty(mergedRanges)) {
+	if (mergedRanges.length === 0) {
 		return [{ text: content }];
 	}
 

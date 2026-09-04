@@ -1,5 +1,4 @@
-import isEmpty from 'lodash/isEmpty';
-import flatMap from 'lodash/flatMap';
+import { flatMap } from 'es-toolkit';
 import type { HighlightPart, TextCategoryPair } from './highlight-segments.types';
 import { findTextRanges, mergeRanges, buildHighlightParts } from './highlight-segments.utils';
 
@@ -9,7 +8,7 @@ export function highlightText<TCategory extends string | number | symbol>(
 	highlights: Array<TextCategoryPair<TCategory>>,
 	priorityMap?: Record<TCategory, number>
 ): HighlightPart<TCategory>[] {
-	if (!content || isEmpty(highlights)) {
+	if (!content || highlights.length === 0) {
 		return [{ text: content }];
 	}
 

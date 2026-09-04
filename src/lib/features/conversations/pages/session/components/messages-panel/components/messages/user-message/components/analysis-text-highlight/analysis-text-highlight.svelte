@@ -1,6 +1,6 @@
 <script lang="ts">
-	import isNil from 'lodash/isNil';
-	import compact from 'lodash/compact';
+	import { isNil } from 'es-toolkit/predicate';
+	import { compact } from 'es-toolkit';
 	import type { AnalysisTextHighlightProps } from './analysis-text-highlight.types';
 	import { includesEitherWay } from '$lib/utils/functions/includes-either-way';
 	import type { MessageAnalysisCriteria } from '$conversations/types';
