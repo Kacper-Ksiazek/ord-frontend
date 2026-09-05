@@ -28,6 +28,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
       - run: bun install --frozen-lockfile
       - run: bun run lint
 
@@ -37,6 +39,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
       - run: bun install --frozen-lockfile
       - run: bun run format:check
 
@@ -46,6 +50,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
       - run: bun install --frozen-lockfile
       - run: bun run check
 
@@ -55,6 +61,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
       - run: bun install --frozen-lockfile
       - run: bun run check:e2e
 
@@ -64,6 +72,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
       - run: bun install --frozen-lockfile
       - run: bun run build
 
@@ -73,5 +83,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
       - run: bun install --frozen-lockfile
       - run: bun run test
+
+  audit:
+    name: audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
+      - run: bun install --frozen-lockfile
+      - run: bun audit --audit-level high

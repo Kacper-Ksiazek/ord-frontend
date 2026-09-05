@@ -13,8 +13,8 @@ structure changes materially, and use the checkboxes to track rule coverage.
 - **i18n:** Paraglide JS 2 (pl/en/de), `messages/` + `scripts/aggregate-translations.ts`
 - **Testing:** Vitest (unit, colocated `.test.ts`), Playwright (`e2e/journeys/`, page objects in `e2e/features/`, CI job `e2e` + pinned `ord-api` image), Storybook 10 (`.stories.svelte`)
 - **Tooling:** ESLint 9 flat config, Prettier, husky + lint-staged, bun
-- **Architecture:** FDD — `src/lib/features/{auth,conversations,app-layouts}` with public
-  barrels, aliases `$auth`/`$conversations`/`$appLayouts`, thin routes, shared design system
+- **Architecture:** FDD — `src/lib/features/{auth,conversations,app-layouts,words}` with public
+  barrels, aliases `$auth`/`$conversations`/`$appLayouts`/`$words`, thin routes, shared design system
   in `$lib/components` + `$lib/utils`
 
 > Note: the former `docs/API_STRUCTURE_GUIDELINES.md` and

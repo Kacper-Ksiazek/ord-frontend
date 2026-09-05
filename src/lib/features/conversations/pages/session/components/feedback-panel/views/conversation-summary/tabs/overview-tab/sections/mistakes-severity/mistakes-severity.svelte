@@ -1,5 +1,5 @@
 <script lang="ts">
-	import flatMap from 'lodash/flatMap';
+	import { flatMap } from 'es-toolkit';
 	import type {
 		ConversationMessageMistake,
 		ConversationUserMessageAnalysisDTO

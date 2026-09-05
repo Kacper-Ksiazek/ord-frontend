@@ -5,7 +5,7 @@ This directory contains the source translation files that are aggregated into th
 ## Directory Structure
 
 ```
-_source/
+source/
 ├── en/          # English translations
 ├── pl/          # Polish translations
 └── de/          # German translations
@@ -25,7 +25,7 @@ The aggregation script (`scripts/aggregate-translations.ts`) processes all JSON 
 Given this structure:
 
 ```
-_source/
+source/
 └── en/
     ├── common.json          # {"hello": "Hello"}
     ├── forms.json           # {"submit": "Submit"}
@@ -59,15 +59,15 @@ The script generates:
 Run the aggregation script manually:
 
 ```bash
-npm run aggregate
+bun run aggregate
 ```
 
 ### Automatic Aggregation
 
 The script automatically runs before:
 
-- `npm run dev` - Development server
-- `npm run build` - Production build
+- `bun run dev` - Development server
+- `bun run build` - Production build
 
 ## Adding New Translations
 
@@ -80,17 +80,17 @@ The script automatically runs before:
 
 ```bash
 # Create a new directory for your feature
-mkdir -p messages/_source/en/dashboard
-mkdir -p messages/_source/pl/dashboard
-mkdir -p messages/_source/de/dashboard
+mkdir -p messages/source/en/dashboard
+mkdir -p messages/source/pl/dashboard
+mkdir -p messages/source/de/dashboard
 
 # Add translation files
-echo '{"title": "Dashboard", "welcome": "Welcome back!"}' > messages/_source/en/dashboard/home.json
-echo '{"title": "Pulpit", "welcome": "Witaj ponownie!"}' > messages/_source/pl/dashboard/home.json
-echo '{"title": "Dashboard", "welcome": "Willkommen zurück!"}' > messages/_source/de/dashboard/home.json
+echo '{"title": "Dashboard", "welcome": "Welcome back!"}' > messages/source/en/dashboard/home.json
+echo '{"title": "Pulpit", "welcome": "Witaj ponownie!"}' > messages/source/pl/dashboard/home.json
+echo '{"title": "Dashboard", "welcome": "Willkommen zurück!"}' > messages/source/de/dashboard/home.json
 
 # Run aggregation
-npm run aggregate
+bun run aggregate
 ```
 
 This creates the nested structure:
@@ -147,8 +147,8 @@ This means one or more languages are missing translation keys. Check the error o
 
 ### Error: "Source directory does not exist"
 
-Make sure the `messages/_source/{locale}` directories exist for all configured locales (en, pl, de).
+Make sure the `messages/source/{locale}` directories exist for all configured locales (en, pl, de).
 
 ### Keys not updating
 
-Make sure you're editing files in `messages/_source/` not `messages/*.json`. The files in `messages/` are generated and will be overwritten.
+Make sure you're editing files in `messages/source/` not `messages/*.json`. The files in `messages/` are generated and will be overwritten.

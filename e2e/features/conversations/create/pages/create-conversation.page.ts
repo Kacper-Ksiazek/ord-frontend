@@ -7,12 +7,7 @@ export type CreateFlowStep = 'type' | 'tone' | 'topic' | 'summary';
 export type EnabledConversationType = 'SMALL_TALK' | 'TOPIC_EXPLORATION';
 
 export type ConversationTone =
-	| 'FRIENDLY'
-	| 'FORMAL'
-	| 'HUMOROUS'
-	| 'NEUTRAL'
-	| 'ENCOURAGING'
-	| 'CHALLENGING';
+	'FRIENDLY' | 'FORMAL' | 'HUMOROUS' | 'NEUTRAL' | 'ENCOURAGING' | 'CHALLENGING';
 
 const STEP_TEST_IDS: Record<CreateFlowStep, string> = {
 	type: E2E_TEST_IDS.createConversation.stepType,

@@ -1,4 +1,4 @@
-import flatMap from 'lodash/flatMap';
+import { flatMap } from 'es-toolkit';
 import type { AIMessageLearningTips } from '$conversations/types';
 import type { LearningTipCategory } from '$conversations/types';
 import { highlightText, type HighlightPart } from '$lib/utils/text/highlight-segments';

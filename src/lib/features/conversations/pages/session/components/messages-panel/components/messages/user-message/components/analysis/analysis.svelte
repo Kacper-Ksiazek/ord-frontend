@@ -12,8 +12,8 @@
 	import TextWithThreeDotsAnimation from '$lib/components/utils/text-with-three-dots-animation.svelte';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 	import { Button } from '$lib/components/buttons/button';
-	import compact from 'lodash/compact';
-	import size from 'lodash/size';
+	import { compact } from 'es-toolkit';
+	import { size } from 'es-toolkit/compat';
 	import * as m from '$lib/paraglide/messages.js';
 
 	interface AnalysisProps {

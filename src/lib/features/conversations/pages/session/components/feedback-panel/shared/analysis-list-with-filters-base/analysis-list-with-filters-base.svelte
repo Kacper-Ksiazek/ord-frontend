@@ -11,7 +11,6 @@
 		TFilters extends FilterBase<TCategory, TSubcategory>
 	"
 >
-	import isEmpty from 'lodash/isEmpty';
 	import { Inbox, RotateCcwIcon } from 'lucide-svelte';
 	import type { AnalysisListWithFiltersBaseProps } from './types/props';
 	import type { FilterableItem } from './types/utility-types';
@@ -124,7 +123,7 @@
 	/>
 
 	<ScrollableWrapper bind:scrollContainer wrapperClass="min-h-0 flex-1" contentClass="px-0">
-		{#if !isEmpty(filteredItems)}
+		{#if filteredItems.length > 0}
 			<div class="space-y-4">
 				{#each visibleItems as item (itemKey(item))}
 					{@render listItem({ item, defaultExpandState: filters.defaultExpandState ?? false })}

@@ -30,6 +30,4 @@ export interface AggregatedPhraseTip extends AggregatedLearningTipBase {
 }
 
 export type AggregatedLearningTip =
-	| AggregatedGrammarTip
-	| AggregatedVocabularyTip
-	| AggregatedPhraseTip;
+	AggregatedGrammarTip | AggregatedVocabularyTip | AggregatedPhraseTip;

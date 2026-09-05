@@ -2,7 +2,7 @@
 # Run CI checks locally — mirrors .github/workflows/ci.yml (and optionally e2e).
 #
 # Usage:
-#   ./scripts/run-ci.sh          # lint → format → types → build → unit-tests
+#   ./scripts/run-ci.sh          # lint → format → types → e2e-types → build → unit-tests → audit
 #   ./scripts/run-ci.sh --e2e    # above + Playwright E2E (requires backend)
 
 set -euo pipefail
@@ -63,6 +63,7 @@ run_step "types" bun run check
 run_step "e2e-types" bun run check:e2e
 run_step "build" bun run build
 run_step "unit-tests" bun run test
+run_step "audit" bun audit --audit-level high
 
 if [[ "$INCLUDE_E2E" -eq 1 ]]; then
   run_step "e2e" bash -c './scripts/check-e2e-backend.sh && bun run test:e2e'

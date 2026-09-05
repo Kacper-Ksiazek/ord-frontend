@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { highlightAnalysisContent } from '../utils/highlight-analysis';
 	import AnalysisTextHighlight from '../components/analysis-text-highlight/analysis-text-highlight.svelte';
-	import isNil from 'lodash/isNil';
+	import { isNil } from 'es-toolkit/predicate';
 	import type { ConversationUserMessageAnalysisDTO } from '$conversations/types';
 
 	interface UserMessageProps {

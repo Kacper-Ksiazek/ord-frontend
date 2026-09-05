@@ -1,5 +1,5 @@
 <script lang="ts">
-	import size from 'lodash/size';
+	import { size } from 'es-toolkit/compat';
 	import { getMessagesContext } from '../../../../contexts/messages-context.svelte';
 	import { getSidepanelContext } from '../../../../contexts/sidepanel-context.svelte';
 	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';

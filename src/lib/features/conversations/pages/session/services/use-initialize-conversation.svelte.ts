@@ -1,4 +1,3 @@
-import isEmpty from 'lodash/isEmpty';
 import type { Subscription } from 'rxjs';
 import { onDestroy, onMount } from 'svelte';
 import { page } from '$app/state';
@@ -18,7 +17,7 @@ export function useInitializeConversation() {
 	let aiInitSubscription: Subscription | undefined;
 
 	onMount(() => {
-		if (isEmpty(messagesContext.messages)) {
+		if (messagesContext.messages.length === 0) {
 			messagesContext.isGeneratingAiMessage = true;
 			messagesContext.aiStreamError = null;
 			messagesContext.messages.push({
