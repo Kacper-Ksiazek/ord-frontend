@@ -1,11 +1,14 @@
-import type { GetCapturedWordsParams } from '$words/types';
+import type { GetWordsParams } from '$words/types';
 
-const listParamsKey = (params: GetCapturedWordsParams) =>
+const listParamsKey = (params: GetWordsParams) =>
 	({
 		language: params.language,
 		page: params.page ?? 0,
 		perPage: params.perPage ?? 50,
-		...(params.status !== undefined ? { status: params.status } : {})
+		...(params.hasProgress !== undefined ? { hasProgress: params.hasProgress } : {}),
+		...(params.isFromUnverifiedSource !== undefined
+			? { isFromUnverifiedSource: params.isFromUnverifiedSource }
+			: {})
 	}) as const;
 
 export const wordCaptureKeys = {
@@ -15,6 +18,9 @@ export const wordCaptureKeys = {
 
 	lists: () => [...wordCaptureKeys.all, 'list'] as const,
 
-	list: (params: GetCapturedWordsParams) =>
-		[...wordCaptureKeys.lists(), listParamsKey(params)] as const
+	list: (params: GetWordsParams) => [...wordCaptureKeys.lists(), listParamsKey(params)] as const,
+
+	details: () => [...wordCaptureKeys.all, 'detail'] as const,
+
+	detail: (id: string) => [...wordCaptureKeys.details(), id] as const
 };

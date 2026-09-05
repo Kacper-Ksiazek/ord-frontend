@@ -1,5 +1,5 @@
 export * from './api/fill-gaps';
-export * from './api/list-captured-words';
+export * from './api/list-words';
 export * from './api/overview';
 export * from './api/requests';
 export * from './api/responses';

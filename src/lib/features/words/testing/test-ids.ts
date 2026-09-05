@@ -4,7 +4,11 @@ export const E2E_TEST_IDS = {
 		page: 'words-inbox-page',
 		heading: 'words-inbox-heading',
 		root: 'words-inbox-list',
-		row: (id: string) => `words-inbox-row-${id}`
+		viewToggle: 'words-inbox-view-toggle',
+		viewToggleOption: (mode: string) => `words-inbox-view-${mode}`,
+		row: (id: string) => `words-inbox-row-${id}`,
+		detailPanel: 'words-inbox-detail-panel',
+		detailClose: 'words-inbox-detail-close'
 	},
 	capturePopover: {
 		trigger: 'sidebar-capture-words',

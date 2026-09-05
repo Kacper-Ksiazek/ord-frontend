@@ -26,7 +26,7 @@
 	"save_no_language": "Ustaw język nauki w profilu przed zapisem.",
 	"save_success": {
 		"header": "Słowa zapisane",
-		"description": "Twoje słowa zostały dodane do zapisanych słów.",
+		"description": "Twoje słowa zostały zapisane.",
 		"done": "Gotowe"
 	},
 	"save_error": {

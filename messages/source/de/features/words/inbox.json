@@ -1,19 +1,31 @@
 {
 	"breadcrumb": {
-		"captured_words": "Erfasste Wörter"
+		"words": "Wörter"
 	},
 	"header": {
-		"title": "Erfasste Wörter",
-		"description": "Dein erfasstes Vokabular, zuerst die neuesten."
+		"title": "Wörter",
+		"description": "Wörter, die du lernst.",
+		"pending_description": "Überprüfe erfasste Wörter, bevor du sie zu deinem Vokabular hinzufügst."
 	},
-	"overview": {
-		"aria_label": "Statistik zu erfassten Wörtern",
-		"loading_aria_label": "Statistik zu erfassten Wörtern wird geladen",
-		"total": "Alle",
-		"active": "Aktiv",
-		"captured": "Erfasst",
-		"error": "Statistik zu erfassten Wörtern konnte nicht geladen werden.",
-		"try_again": "Erneut versuchen"
+	"view": {
+		"aria_label": "Wörteransicht",
+		"learning": "Im Lernen",
+		"pending": "Ausstehend"
+	},
+	"buckets": {
+		"today": "Heute",
+		"yesterday": "Gestern",
+		"this_week": "Diese Woche",
+		"last_week": "Letzte Woche",
+		"earlier": "Früher"
+	},
+	"row": {
+		"status_pending": "Ausstehend",
+		"status_active": "Im Lernen",
+		"progress_points": "{points} Pkt.",
+		"progress_completed": "Abgeschlossen",
+		"missing_translation": "Noch keine Übersetzung",
+		"bookmarked": "Lesezeichen"
 	},
 	"actions": {
 		"activate": "Aktivieren",
@@ -23,7 +35,7 @@
 		"select_row": "„{word}“ für Sammelaktionen auswählen"
 	},
 	"bulk": {
-		"toolbar_aria_label": "Sammelaktionen für erfasste Wörter",
+		"toolbar_aria_label": "Sammelaktionen für ausstehende Wörter",
 		"select_all": "Alle auf dieser Seite auswählen",
 		"unselect_all": "Alle auf dieser Seite abwählen",
 		"activate_selected": "Ausgewählte aktivieren",
@@ -32,18 +44,38 @@
 	"unconfirmed_badge": "Unbestätigt",
 	"unconfirmed_tooltip": "Dieses Wort stammt aus einer nicht verifizierten Quelle.",
 	"load_error": {
-		"header": "Erfasste Wörter konnten nicht geladen werden",
+		"header": "Wörter konnten nicht geladen werden",
 		"description": "Etwas ist schiefgelaufen. Versuche es erneut.",
 		"try_again": "Erneut versuchen"
 	},
 	"empty": {
-		"header": "Noch keine erfassten Wörter",
-		"description": "Erfasste Wörter erscheinen hier."
+		"header": "Noch keine Wörter",
+		"description": "Wörter, die du zum Lernen hinzufügst, erscheinen hier.",
+		"pending_header": "Keine ausstehenden Wörter",
+		"pending_description": "Erfasste Wörter zur Überprüfung erscheinen hier."
 	},
-	"list_aria_label": "Deine erfassten Wörter",
+	"list_aria_label": "Deine Wörter",
 	"pagination": {
 		"previous": "Zurück",
 		"next": "Weiter",
 		"page_of": "Seite {page} von {totalPages}"
+	},
+	"detail": {
+		"title": "Wortdetails",
+		"close": "Details schließen",
+		"definition": "Definition",
+		"use_cases": "Anwendungsfälle",
+		"synonyms": "Synonyme",
+		"antonyms": "Antonyme",
+		"example_sentences": "Beispielsätze",
+		"collocations": "Kollokationen",
+		"common_mistakes": "Häufige Fehler",
+		"progress_points": "{points} Punkte",
+		"progress_completed": "Abgeschlossen",
+		"no_details_header": "Noch kein Handbuch",
+		"no_details_description": "Erweiterte Notizen und Beispiele für dieses Wort wurden noch nicht hinzugefügt.",
+		"error_header": "Wort konnte nicht geladen werden",
+		"error_description": "Etwas ist schiefgelaufen. Versuche es erneut.",
+		"try_again": "Erneut versuchen"
 	}
 }

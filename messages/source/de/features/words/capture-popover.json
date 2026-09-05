@@ -26,7 +26,7 @@
 	"save_no_language": "Lege zuerst eine Lernsprache in deinem Profil fest.",
 	"save_success": {
 		"header": "Wörter gespeichert",
-		"description": "Deine Wörter wurden zu erfassten Wörtern hinzugefügt.",
+		"description": "Deine Wörter wurden gespeichert.",
 		"done": "Fertig"
 	},
 	"save_error": {

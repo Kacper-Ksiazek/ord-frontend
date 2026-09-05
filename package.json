@@ -76,7 +76,7 @@
 		"vitest-browser-svelte": "^3.1.0"
 	},
 	"dependencies": {
-		"@kacper-ksiazek/ord-api-types": "^1.0.46",
+		"@kacper-ksiazek/ord-api-types": "^1.0.47",
 		"@tanstack/charts": "^0.14.0",
 		"@tanstack/svelte-hotkeys": "^0.9.1",
 		"@tanstack/svelte-query": "^6.1.48",

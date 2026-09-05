@@ -1,19 +1,31 @@
 {
 	"breadcrumb": {
-		"captured_words": "Captured words"
+		"words": "Words"
 	},
 	"header": {
-		"title": "Captured words",
-		"description": "Your captured vocabulary, newest first."
+		"title": "Words",
+		"description": "Words you're learning.",
+		"pending_description": "Review captured words before adding them to your vocabulary."
 	},
-	"overview": {
-		"aria_label": "Captured words statistics",
-		"loading_aria_label": "Loading captured words statistics",
-		"total": "All",
-		"active": "Active",
-		"captured": "Captured",
-		"error": "Couldn't load captured words statistics.",
-		"try_again": "Try again"
+	"view": {
+		"aria_label": "Words view",
+		"learning": "Learning",
+		"pending": "Pending"
+	},
+	"buckets": {
+		"today": "Today",
+		"yesterday": "Yesterday",
+		"this_week": "This week",
+		"last_week": "Last week",
+		"earlier": "Earlier"
+	},
+	"row": {
+		"status_pending": "Pending",
+		"status_active": "In learning",
+		"progress_points": "{points} pts",
+		"progress_completed": "Completed",
+		"missing_translation": "No translation yet",
+		"bookmarked": "Bookmarked"
 	},
 	"actions": {
 		"activate": "Activate",
@@ -23,7 +35,7 @@
 		"select_row": "Select \"{word}\" for bulk actions"
 	},
 	"bulk": {
-		"toolbar_aria_label": "Bulk actions for captured words",
+		"toolbar_aria_label": "Bulk actions for pending words",
 		"select_all": "Select all on this page",
 		"unselect_all": "Unselect all on this page",
 		"activate_selected": "Activate selected",
@@ -32,18 +44,38 @@
 	"unconfirmed_badge": "Unconfirmed",
 	"unconfirmed_tooltip": "This word comes from an unverified source.",
 	"load_error": {
-		"header": "Couldn't load captured words",
+		"header": "Couldn't load words",
 		"description": "Something went wrong. Try again.",
 		"try_again": "Try again"
 	},
 	"empty": {
-		"header": "No captured words yet",
-		"description": "Words you capture will appear here."
+		"header": "No words yet",
+		"description": "Words you add to learning will appear here.",
+		"pending_header": "No pending words",
+		"pending_description": "Captured words waiting for review will appear here."
 	},
-	"list_aria_label": "Your captured words",
+	"list_aria_label": "Your words",
 	"pagination": {
 		"previous": "Previous",
 		"next": "Next",
 		"page_of": "Page {page} of {totalPages}"
+	},
+	"detail": {
+		"title": "Word details",
+		"close": "Close details",
+		"definition": "Definition",
+		"use_cases": "Use cases",
+		"synonyms": "Synonyms",
+		"antonyms": "Antonyms",
+		"example_sentences": "Example sentences",
+		"collocations": "Collocations",
+		"common_mistakes": "Common mistakes",
+		"progress_points": "{points} points",
+		"progress_completed": "Completed",
+		"no_details_header": "No manual yet",
+		"no_details_description": "Extended notes and examples for this word haven't been added yet.",
+		"error_header": "Couldn't load word",
+		"error_description": "Something went wrong. Try again.",
+		"try_again": "Try again"
 	}
 }
