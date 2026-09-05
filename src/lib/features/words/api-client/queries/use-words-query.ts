@@ -1,11 +1,9 @@
 import { createQuery } from '@tanstack/svelte-query';
-import type { GetCapturedWordsParams, WordsPaginatedDataResponse } from '$words/types';
-import { httpGetCapturedWords } from '../api/http-get-captured-words';
+import type { GetWordsParams, WordsPaginatedDataResponse } from '$words/types';
+import { httpGetWords } from '../api/http-get-words';
 import { wordCaptureKeys } from '../keys';
 
-export function createCapturedWordsQuery(
-	getParams: () => GetCapturedWordsParams | null = () => null
-) {
+export function createWordsQuery(getParams: () => GetWordsParams | null = () => null) {
 	return createQuery<WordsPaginatedDataResponse>(() => {
 		const params = getParams();
 
@@ -15,10 +13,10 @@ export function createCapturedWordsQuery(
 				: ([...wordCaptureKeys.lists(), 'disabled'] as const),
 			queryFn: () => {
 				if (!params) {
-					throw new Error('Captured words query requires language params');
+					throw new Error('Words query requires language params');
 				}
 
-				return httpGetCapturedWords(params);
+				return httpGetWords(params);
 			},
 			enabled: params !== null
 		};

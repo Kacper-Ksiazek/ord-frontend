@@ -1,19 +1,31 @@
 {
 	"breadcrumb": {
-		"captured_words": "Zapisane słowa"
+		"words": "Słowa"
 	},
 	"header": {
-		"title": "Zapisane słowa",
-		"description": "Twoje zapisane słownictwo, od najnowszych."
+		"title": "Słowa",
+		"description": "Słowa, których się uczysz.",
+		"pending_description": "Przejrzyj zapisane słowa, zanim dodasz je do słownictwa."
 	},
-	"overview": {
-		"aria_label": "Statystyki zapisanych słów",
-		"loading_aria_label": "Ładowanie statystyk zapisanych słów",
-		"total": "Wszystkie",
-		"active": "Aktywne",
-		"captured": "Zapisane",
-		"error": "Nie udało się załadować statystyk zapisanych słów.",
-		"try_again": "Spróbuj ponownie"
+	"view": {
+		"aria_label": "Widok słów",
+		"learning": "W nauce",
+		"pending": "Oczekujące"
+	},
+	"buckets": {
+		"today": "Dzisiaj",
+		"yesterday": "Wczoraj",
+		"this_week": "Ten tydzień",
+		"last_week": "Ostatni tydzień",
+		"earlier": "Wcześniej"
+	},
+	"row": {
+		"status_pending": "Oczekujące",
+		"status_active": "W nauce",
+		"progress_points": "{points} pkt",
+		"progress_completed": "Ukończone",
+		"missing_translation": "Brak tłumaczenia",
+		"bookmarked": "Zakładka"
 	},
 	"actions": {
 		"activate": "Aktywuj",
@@ -23,7 +35,7 @@
 		"select_row": "Zaznacz „{word}” do akcji zbiorczych"
 	},
 	"bulk": {
-		"toolbar_aria_label": "Akcje zbiorcze dla zapisanych słów",
+		"toolbar_aria_label": "Akcje zbiorcze dla oczekujących słów",
 		"select_all": "Zaznacz wszystkie na tej stronie",
 		"unselect_all": "Odznacz wszystkie na tej stronie",
 		"activate_selected": "Aktywuj zaznaczone",
@@ -32,18 +44,38 @@
 	"unconfirmed_badge": "Niepotwierdzone",
 	"unconfirmed_tooltip": "To słowo pochodzi z niezweryfikowanego źródła.",
 	"load_error": {
-		"header": "Nie udało się załadować zapisanych słów",
+		"header": "Nie udało się załadować słów",
 		"description": "Coś poszło nie tak. Spróbuj ponownie.",
 		"try_again": "Spróbuj ponownie"
 	},
 	"empty": {
-		"header": "Brak zapisanych słów",
-		"description": "Zapisane słowa pojawią się tutaj."
+		"header": "Brak słów",
+		"description": "Słowa dodane do nauki pojawią się tutaj.",
+		"pending_header": "Brak oczekujących słów",
+		"pending_description": "Zapisane słowa do przejrzenia pojawią się tutaj."
 	},
-	"list_aria_label": "Twoje zapisane słowa",
+	"list_aria_label": "Twoje słowa",
 	"pagination": {
 		"previous": "Poprzednia",
 		"next": "Następna",
 		"page_of": "Strona {page} z {totalPages}"
+	},
+	"detail": {
+		"title": "Szczegóły słowa",
+		"close": "Zamknij szczegóły",
+		"definition": "Definicja",
+		"use_cases": "Zastosowania",
+		"synonyms": "Synonimy",
+		"antonyms": "Antonimy",
+		"example_sentences": "Przykładowe zdania",
+		"collocations": "Kolokacje",
+		"common_mistakes": "Typowe błędy",
+		"progress_points": "{points} pkt",
+		"progress_completed": "Ukończone",
+		"no_details_header": "Brak podręcznika",
+		"no_details_description": "Rozszerzone notatki i przykłady dla tego słowa nie zostały jeszcze dodane.",
+		"error_header": "Nie udało się załadować słowa",
+		"error_description": "Coś poszło nie tak. Spróbuj ponownie.",
+		"try_again": "Spróbuj ponownie"
 	}
 }

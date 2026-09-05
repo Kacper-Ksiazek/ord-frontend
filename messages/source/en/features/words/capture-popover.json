@@ -26,7 +26,7 @@
 	"save_no_language": "Select a learning language in your profile before saving.",
 	"save_success": {
 		"header": "Words saved",
-		"description": "Your words were added to captured words.",
+		"description": "Your words were saved.",
 		"done": "Done"
 	},
 	"save_error": {
