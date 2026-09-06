@@ -3,7 +3,6 @@
 	import { Badge } from '$lib/components/utils/badge';
 	import { IconButton } from '$lib/components/buttons/icon-button';
 	import { Loader } from '$lib/components/utils/loader';
-	import { ScrollableWrapper } from '$lib/components/utils/scrollable-wrapper';
 	import { StatusPanel } from '$lib/components/utils/status-panel';
 	import { parseEmphasisText } from '$lib/utils/text/parse-emphasis-text';
 	import {
@@ -36,18 +35,18 @@
 <svelte:window onkeydown={handleKeydown} />
 
 <div
-	class="flex h-full w-full min-h-0 min-w-0 flex-col overflow-hidden"
+	class="flex h-full min-h-0 w-full flex-col overflow-hidden"
 	data-testid={E2E_TEST_IDS.inbox.detailPanel}
 	aria-hidden={!wordDetailContext.isOpened}
 >
 	{#if wordDetailContext.selectedWordId}
 		<div
-			class="flex h-full w-full min-w-0 flex-col overflow-hidden rounded-xl border border-line-subtle bg-surface"
+			class="flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden rounded-[10px] border border-line bg-surface"
 		>
 			<div
-				class="flex shrink-0 items-start justify-between gap-3 border-b border-line-subtle px-6 py-5"
+				class="flex w-full shrink-0 items-start justify-between gap-3 rounded-t-[10px] border-b border-line bg-surface px-6 py-5"
 			>
-				<div class="min-w-0">
+				<div class="min-w-0 flex-1">
 					<p class="text-xs font-medium uppercase tracking-wide text-ink-subtle">
 						{m['features.words.inbox.detail.title']()}
 					</p>
@@ -70,6 +69,7 @@
 				</div>
 
 				<IconButton
+					class="shrink-0"
 					type="OUTLINED"
 					variant="TEXT"
 					icon={X}
@@ -79,23 +79,26 @@
 				/>
 			</div>
 
-			<ScrollableWrapper wrapperClass="min-h-0 flex-1" contentClass="gap-6">
+			<div class="min-h-0 flex-1 overflow-y-auto overflow-x-hidden">
 				{#if wordQuery.isLoading}
 					<div class="flex items-center justify-center py-16">
 						<Loader />
 					</div>
 				{:else if wordQuery.isError}
-					<StatusPanel
-						variant="error"
-						header={m['features.words.inbox.detail.error_header']()}
-						description={wordQuery.error?.message || m['features.words.inbox.detail.error_description']()}
-						primaryButton={{
-							label: m['features.words.inbox.detail.try_again'](),
-							onClick: () => wordQuery.refetch()
-						}}
-					/>
+					<div class="px-6 py-5">
+						<StatusPanel
+							variant="error"
+							header={m['features.words.inbox.detail.error_header']()}
+							description={wordQuery.error?.message ||
+								m['features.words.inbox.detail.error_description']()}
+							primaryButton={{
+								label: m['features.words.inbox.detail.try_again'](),
+								onClick: () => wordQuery.refetch()
+							}}
+						/>
+					</div>
 				{:else if word}
-					<div class="flex flex-col gap-6 px-6 py-5">
+					<div class="flex flex-col gap-6 px-6 py-5 pb-6">
 						{#if word.extraMark || word.bank?.name || word.progress}
 							<div class="flex flex-wrap items-center gap-1.5">
 								{#if word.extraMark}
@@ -252,7 +255,7 @@
 						{/if}
 					</div>
 				{/if}
-			</ScrollableWrapper>
+			</div>
 		</div>
 	{/if}
 </div>

@@ -52,7 +52,19 @@
 		"header": "Brak słów",
 		"description": "Słowa dodane do nauki pojawią się tutaj.",
 		"pending_header": "Brak oczekujących słów",
-		"pending_description": "Zapisane słowa do przejrzenia pojawią się tutaj."
+		"pending_description": "Zapisane słowa do przejrzenia pojawią się tutaj.",
+		"filtered_header": "Brak pasujących słów",
+		"filtered_description": "Spróbuj zmienić wyszukiwanie lub filtry."
+	},
+	"filters": {
+		"search_placeholder": "Szukaj słów…",
+		"word_type_placeholder": "Typ słowa",
+		"word_type_aria": "Filtruj według typu słowa",
+		"extra_mark_placeholder": "Dodatkowa etykieta",
+		"extra_mark_aria": "Filtruj według dodatkowej etykiety",
+		"bank_placeholder": "Bank",
+		"bank_aria": "Filtruj według banku",
+		"clear": "Wyczyść filtry"
 	},
 	"list_aria_label": "Twoje słowa",
 	"pagination": {

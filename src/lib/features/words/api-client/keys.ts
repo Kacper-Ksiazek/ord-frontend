@@ -20,6 +20,12 @@ export const wordCaptureKeys = {
 
 	list: (params: GetWordsParams) => [...wordCaptureKeys.lists(), listParamsKey(params)] as const,
 
+	searches: () => [...wordCaptureKeys.all, 'search'] as const,
+
+	search: (params: Record<string, unknown>) => [...wordCaptureKeys.searches(), params] as const,
+
+	banks: () => [...wordCaptureKeys.all, 'banks'] as const,
+
 	details: () => [...wordCaptureKeys.all, 'detail'] as const,
 
 	detail: (id: string) => [...wordCaptureKeys.details(), id] as const

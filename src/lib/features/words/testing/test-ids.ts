@@ -8,7 +8,13 @@ export const E2E_TEST_IDS = {
 		viewToggleOption: (mode: string) => `words-inbox-view-${mode}`,
 		row: (id: string) => `words-inbox-row-${id}`,
 		detailPanel: 'words-inbox-detail-panel',
-		detailClose: 'words-inbox-detail-close'
+		detailClose: 'words-inbox-detail-close',
+		filters: 'words-inbox-filters',
+		filterSearch: 'words-inbox-filter-search',
+		filterWordType: 'words-inbox-filter-word-type',
+		filterExtraMark: 'words-inbox-filter-extra-mark',
+		filterBank: 'words-inbox-filter-bank',
+		filterClear: 'words-inbox-filter-clear'
 	},
 	capturePopover: {
 		trigger: 'sidebar-capture-words',

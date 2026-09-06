@@ -1,11 +1,16 @@
 <script lang="ts">
-	import { createWordsQuery } from '$words/api-client';
+	import { page as appPage } from '$app/state';
+	import { afterNavigate, replaceState } from '$app/navigation';
+	import { createWordsQuery, createWordsSearchQuery } from '$words/api-client';
 	import { authStore } from '$auth/stores';
 	import { PageContentContainer } from '$lib/components/utils/page-content-container';
 	import ContentCard from '$lib/components/utils/content-card.svelte';
 	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';
 	import CapturedWordsList from './components/captured-words-list.svelte';
 	import WordDetailPanel from './components/word-detail-panel.svelte';
+	import WordsViewToggle from './components/words-view-toggle.svelte';
+	import WordListFiltersBar from './components/word-list-filters-bar.svelte';
+	import { WordsListFiltersState } from './state/words-list-filters-state.svelte';
 	import {
 		createWordDetailContext,
 		closeWordDetail,
@@ -14,24 +19,27 @@
 	import type { WordsViewMode } from '$words/types';
 	import * as m from '$lib/paraglide/messages.js';
 	import { E2E_TEST_IDS } from '$words/testing/test-ids';
+	import { cn } from '$lib/utils/cn';
 
 	const LEARNING_PER_PAGE = 500;
 	const PENDING_PER_PAGE = 50;
 	const LIST_COLUMN_WIDTH_PX = 360;
-	const SPLIT_GAP_PX = 24;
 
 	createWordDetailContext();
 	const wordDetailContext = getWordDetailContext();
+	const filtersState = new WordsListFiltersState(appPage.url.searchParams);
 
-	let page = $state(0);
+	let listPage = $state(0);
 	let viewMode = $state<WordsViewMode>('learning');
 	let selectedWordIds = $state<string[]>([]);
 	let listScrollContainer = $state<HTMLDivElement | undefined>();
+	let previousFiltersKey = $state(filtersState.toQueryString());
 
 	const learningLanguage = $derived(authStore.user?.selectedLearningLanguage);
+	const useSearchQuery = $derived(filtersState.hasActiveFilters);
 
 	const wordsQuery = createWordsQuery(() => {
-		if (!learningLanguage) {
+		if (!learningLanguage || useSearchQuery) {
 			return null;
 		}
 
@@ -39,11 +47,27 @@
 
 		return {
 			language: learningLanguage,
-			page: isPendingView ? page : 0,
+			page: isPendingView ? listPage : 0,
 			perPage: isPendingView ? PENDING_PER_PAGE : LEARNING_PER_PAGE,
 			hasProgress: !isPendingView
 		};
 	});
+
+	const wordsSearchQuery = createWordsSearchQuery(() => {
+		if (!learningLanguage || !useSearchQuery) {
+			return null;
+		}
+
+		return filtersState.buildSearchPayload({
+			language: learningLanguage,
+			viewMode,
+			page: listPage,
+			learningPerPage: LEARNING_PER_PAGE,
+			pendingPerPage: PENDING_PER_PAGE
+		});
+	});
+
+	const activeWordsQuery = $derived(useSearchQuery ? wordsSearchQuery : wordsQuery);
 
 	const headerDescription = $derived(
 		viewMode === 'pending'
@@ -51,18 +75,49 @@
 			: m['features.words.inbox.header.description']()
 	);
 
+	afterNavigate((navigation) => {
+		if (navigation.type !== 'popstate') {
+			return;
+		}
+
+		filtersState.applyFromSearchParams(appPage.url.searchParams);
+	});
+
+	$effect(() => {
+		const query = filtersState.toQueryString();
+		const desiredSearch = query ? `?${query}` : '';
+
+		if (window.location.search === desiredSearch) {
+			return;
+		}
+
+		replaceState(desiredSearch === '' ? '?' : desiredSearch, {});
+	});
+
+	$effect(() => {
+		const nextFiltersKey = filtersState.toQueryString();
+
+		if (nextFiltersKey !== previousFiltersKey) {
+			listPage = 0;
+			clearSelection();
+			listScrollContainer?.scrollTo({ top: 0 });
+		}
+
+		previousFiltersKey = nextFiltersKey;
+	});
+
 	function clearSelection() {
 		selectedWordIds = [];
 	}
 
 	function handlePageChange(nextPage: number) {
-		page = nextPage;
+		listPage = nextPage;
 		clearSelection();
 	}
 
 	function handleViewModeChange(mode: WordsViewMode) {
 		viewMode = mode;
-		page = 0;
+		listPage = 0;
 		clearSelection();
 		listScrollContainer?.scrollTo({ top: 0 });
 
@@ -76,9 +131,15 @@
 	<title>{m['features.words.inbox.header.title']()}</title>
 </svelte:head>
 
-<PageContentContainer>
-	<ContentCard class="flex min-h-0 flex-1 flex-col" data-testid={E2E_TEST_IDS.inbox.page}>
-		<div class="shrink-0 px-6 pt-6">
+<PageContentContainer
+	class="h-full min-h-0 overflow-hidden"
+	contentClass="h-full min-h-0 overflow-hidden"
+>
+	<ContentCard
+		class="flex h-full min-h-0 flex-col overflow-hidden"
+		data-testid={E2E_TEST_IDS.inbox.page}
+	>
+		<div class="shrink-0">
 			<Breadcrumb
 				class="mb-6"
 				crumbs={[
@@ -87,41 +148,62 @@
 				]}
 			/>
 
-			<div class="border-b border-line-subtle pb-6">
-				<h1 class="text-2xl font-bold tracking-tight text-ink" data-testid={E2E_TEST_IDS.inbox.heading}>
-					{m['features.words.inbox.header.title']()}
-				</h1>
-				<p class="mt-1 text-sm text-ink-muted">
-					{headerDescription}
-				</p>
+			<div
+				class="mb-6 flex flex-col gap-3 border-b border-line-subtle pb-6 sm:flex-row sm:items-end sm:justify-between"
+			>
+				<div>
+					<h1
+						class="text-2xl font-bold tracking-tight text-ink"
+						data-testid={E2E_TEST_IDS.inbox.heading}
+					>
+						{m['features.words.inbox.header.title']()}
+					</h1>
+					<p class="mt-1 text-sm text-ink-muted">
+						{headerDescription}
+					</p>
+				</div>
+
+				{#if learningLanguage}
+					<WordsViewToggle {viewMode} onViewModeChange={handleViewModeChange} />
+				{/if}
 			</div>
+
+			{#if learningLanguage}
+				<WordListFiltersBar {filtersState} />
+			{/if}
 		</div>
 
-		<div class="flex min-h-0 flex-1 overflow-hidden px-6 pb-6 pt-6">
+		<div class="flex min-h-0 flex-1 gap-6 overflow-hidden">
 			<div
-				class="flex min-h-0 shrink-0 flex-col overflow-hidden transition-[width] duration-300 ease-in-out"
+				bind:this={listScrollContainer}
+				class="min-h-0 shrink-0 overflow-y-auto transition-[width] duration-300 ease-in-out"
 				style:width={wordDetailContext.isOpened ? `${LIST_COLUMN_WIDTH_PX}px` : '100%'}
 			>
 				<CapturedWordsList
-					{wordsQuery}
-					{page}
+					wordsQuery={activeWordsQuery}
+					page={listPage}
 					{viewMode}
+					hasActiveFilters={filtersState.hasActiveFilters}
 					hasLearningLanguage={learningLanguage !== undefined}
 					bind:selectedIds={selectedWordIds}
-					bind:scrollContainer={listScrollContainer}
 					onPageChange={handlePageChange}
-					onViewModeChange={handleViewModeChange}
 				/>
 			</div>
 
 			<div
-				class="flex min-h-0 shrink-0 flex-col overflow-hidden transition-[width,margin-left] duration-300 ease-in-out"
-				style:width={wordDetailContext.isOpened
-					? `calc(100% - ${LIST_COLUMN_WIDTH_PX}px - ${SPLIT_GAP_PX}px)`
-					: '0px'}
-				style:margin-left={wordDetailContext.isOpened ? `${SPLIT_GAP_PX}px` : '0px'}
+				class={cn(
+					'flex min-h-0 min-w-0 flex-col overflow-hidden transition-[flex-grow,width] duration-300 ease-in-out',
+					wordDetailContext.isOpened ? 'flex-1' : 'w-0 flex-none pointer-events-none'
+				)}
 			>
-				<WordDetailPanel />
+				<div
+					class={cn(
+						'h-full w-full transition-transform duration-300 ease-in-out',
+						wordDetailContext.isOpened ? 'translate-x-0' : 'translate-x-full'
+					)}
+				>
+					<WordDetailPanel />
+				</div>
 			</div>
 		</div>
 	</ContentCard>

@@ -52,7 +52,19 @@
 		"header": "No words yet",
 		"description": "Words you add to learning will appear here.",
 		"pending_header": "No pending words",
-		"pending_description": "Captured words waiting for review will appear here."
+		"pending_description": "Captured words waiting for review will appear here.",
+		"filtered_header": "No matching words",
+		"filtered_description": "Try adjusting your search or filters."
+	},
+	"filters": {
+		"search_placeholder": "Search words…",
+		"word_type_placeholder": "Word type",
+		"word_type_aria": "Filter by word type",
+		"extra_mark_placeholder": "Extra mark",
+		"extra_mark_aria": "Filter by extra mark",
+		"bank_placeholder": "Bank",
+		"bank_aria": "Filter by bank",
+		"clear": "Clear filters"
 	},
 	"list_aria_label": "Your words",
 	"pagination": {

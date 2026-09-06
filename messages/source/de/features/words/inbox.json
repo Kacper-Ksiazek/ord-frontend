@@ -52,7 +52,19 @@
 		"header": "Noch keine Wörter",
 		"description": "Wörter, die du zum Lernen hinzufügst, erscheinen hier.",
 		"pending_header": "Keine ausstehenden Wörter",
-		"pending_description": "Erfasste Wörter zur Überprüfung erscheinen hier."
+		"pending_description": "Erfasste Wörter zur Überprüfung erscheinen hier.",
+		"filtered_header": "Keine passenden Wörter",
+		"filtered_description": "Passe deine Suche oder Filter an."
+	},
+	"filters": {
+		"search_placeholder": "Wörter suchen…",
+		"word_type_placeholder": "Wortart",
+		"word_type_aria": "Nach Wortart filtern",
+		"extra_mark_placeholder": "Zusatzmarkierung",
+		"extra_mark_aria": "Nach Zusatzmarkierung filtern",
+		"bank_placeholder": "Bank",
+		"bank_aria": "Nach Bank filtern",
+		"clear": "Filter löschen"
 	},
 	"list_aria_label": "Deine Wörter",
 	"pagination": {

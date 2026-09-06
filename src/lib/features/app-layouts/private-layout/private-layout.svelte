@@ -8,7 +8,7 @@
 	<Sidebar />
 
 	<div class="flex min-w-0 flex-1 flex-col overflow-auto">
-		<main class="h-full w-full overflow-hidden">
+		<main class="min-h-full w-full">
 			{@render children()}
 		</main>
 	</div>

@@ -42,6 +42,12 @@ export const WORD_TYPE_OPTIONS: { label: string; value: WordType }[] = WORD_TYPE
 	value
 }));
 
+export const WORD_EXTRA_MARK_OPTIONS: { label: string; value: WordExtraMark }[] =
+	WORD_EXTRA_MARKS.map((value) => ({
+		label: WORD_EXTRA_MARK_LABEL[value],
+		value
+	}));
+
 export function getWordTypeLabel(type: WordType): string {
 	return WORD_TYPE_LABEL[type];
 }
