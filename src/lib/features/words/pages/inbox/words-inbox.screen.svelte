@@ -24,6 +24,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import { E2E_TEST_IDS } from '$words/testing/test-ids';
 	import { cn } from '$lib/utils/cn';
+	import ToastDevtools from '$lib/components/utils/toast/toast-devtools.svelte';
 
 	const LEARNING_PER_PAGE = 500;
 	const PENDING_PER_PAGE = 50;
@@ -217,4 +218,5 @@
 			</div>
 		</div>
 	</ContentCard>
+	<ToastDevtools />
 </PageContentContainer>

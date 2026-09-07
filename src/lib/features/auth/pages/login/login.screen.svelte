@@ -12,11 +12,12 @@
 	import { OrdLogo } from '$lib/components/ord-logo';
 	import { Alert } from '$lib/components/utils/alert';
 	import { m } from '$lib/paraglide/messages.js';
+	import { getDevLoginEmail } from '$auth/utils/dev-login-email';
 
 	const loginCopyIntro = introStagger({ startDelay: 0.28, interval: 0.08 });
 
 	let step = $state<'email' | 'otp'>('email');
-	let email = $state('');
+	let email = $state(getDevLoginEmail());
 	let otpCode = $state('');
 	let error = $state<string | null>(null);
 
