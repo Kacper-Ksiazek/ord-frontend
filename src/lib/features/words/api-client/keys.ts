@@ -1,4 +1,4 @@
-import type { GetWordsParams } from '$words/types';
+import type { GetWordOverviewParams, GetWordsParams } from '$words/types';
 
 const listParamsKey = (params: GetWordsParams) =>
 	({
@@ -14,7 +14,8 @@ const listParamsKey = (params: GetWordsParams) =>
 export const wordCaptureKeys = {
 	all: ['words', 'capture'] as const,
 
-	overview: () => [...wordCaptureKeys.all, 'overview'] as const,
+	overview: (params: GetWordOverviewParams) =>
+		[...wordCaptureKeys.all, 'overview', params.language] as const,
 
 	lists: () => [...wordCaptureKeys.all, 'list'] as const,
 
