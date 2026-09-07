@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
 	import { Tooltip } from 'bits-ui';
+	import { ToastContainer } from '$lib/components/utils/toast';
 	import faviconIco from '$lib/assets/favicon.ico';
 	import faviconSvg from '$lib/assets/logo/favicon.svg?url';
 	import '../app.css';
@@ -30,4 +31,5 @@
 			{@render children()}
 		</div>
 	</Tooltip.Provider>
+	<ToastContainer />
 </QueryClientProvider>
