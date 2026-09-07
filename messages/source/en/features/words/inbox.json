@@ -31,6 +31,16 @@
 		"activate": "Activate",
 		"delete": "Delete"
 	},
+	"toast": {
+		"activate_success": "Word added to learning",
+		"activate_error": "Couldn't activate word. Try again.",
+		"activate_many_success": "Activated {count} words",
+		"activate_many_error": "Couldn't activate selected words. Try again.",
+		"remove_success": "Word removed",
+		"remove_error": "Couldn't remove word. Try again.",
+		"remove_many_success": "Removed {count} words",
+		"remove_many_error": "Couldn't remove selected words. Try again."
+	},
 	"selection": {
 		"select_row": "Select \"{word}\" for bulk actions"
 	},

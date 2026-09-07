@@ -49,6 +49,7 @@
 
 		if (!rootEl || prefersReducedMotion()) {
 			toastStore.remove(toast.id);
+
 			return;
 		}
 
