@@ -18,7 +18,7 @@
 	const deleteLabel = m['features.words.inbox.actions.delete']();
 </script>
 
-<div class="flex shrink-0 items-center gap-1">
+<div class="flex shrink-0 items-center gap-1" onclick={(event) => event.stopPropagation()}>
 	<IconButton
 		icon={Check}
 		ariaLabel={activateLabel}

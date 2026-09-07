@@ -6,6 +6,7 @@ export const E2E_TEST_IDS = {
 		root: 'words-inbox-list',
 		viewToggle: 'words-inbox-view-toggle',
 		viewToggleOption: (mode: string) => `words-inbox-view-${mode}`,
+		viewPendingCount: 'words-inbox-view-pending-count',
 		row: (id: string) => `words-inbox-row-${id}`,
 		detailPanel: 'words-inbox-detail-panel',
 		detailClose: 'words-inbox-detail-close',

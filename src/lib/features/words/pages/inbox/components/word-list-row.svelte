@@ -2,10 +2,11 @@
 	import { Badge } from '$lib/components/utils/badge';
 	import { parseEmphasisText } from '$lib/utils/text/parse-emphasis-text';
 	import {
-		getWordExtraMarkLabel,
 		getWordTypeBadgeColor,
 		getWordTypeLabel
 	} from '$words/shared/constants';
+	import BankGroupColorDot from '$words/shared/components/bank-group-color-dot.svelte';
+	import WordExtraMarkBadge from '$words/shared/components/word-extra-mark-badge.svelte';
 	import type { WordListItem, WordsViewMode } from '$words/types';
 	import * as m from '$lib/paraglide/messages.js';
 	import { Bookmark } from 'lucide-svelte';
@@ -21,8 +22,8 @@
 	let { item, itemId, variant, compact = false }: Props = $props();
 
 	const sourceWord = $derived(item.sourceWord ?? '');
-	const showRightMeta = $derived(
-		item.extraMark || item.bank?.name || (variant === 'pending' && item.fromUnverifiedSource)
+	const showTrailingMeta = $derived(
+		item.bank?.name || (variant === 'pending' && item.fromUnverifiedSource)
 	);
 </script>
 
@@ -66,6 +67,10 @@
 				<Badge color={getWordTypeBadgeColor(item.type)}>{getWordTypeLabel(item.type)}</Badge>
 			{/if}
 
+			{#if item.extraMark}
+				<WordExtraMarkBadge mark={item.extraMark} />
+			{/if}
+
 			{#if item.bookmarked}
 				<span
 					class="inline-flex rounded-[10px] bg-accent-soft p-1 text-highlight"
@@ -76,24 +81,14 @@
 				</span>
 			{/if}
 
-			{#if showRightMeta}
+			{#if showTrailingMeta}
 				<div class="ml-auto flex max-w-full flex-wrap items-center justify-end gap-1.5">
-					{#if item.extraMark}
-						<Badge color="gray">{getWordExtraMarkLabel(item.extraMark)}</Badge>
-					{/if}
-
 					{#if item.bank?.name}
 						<span
 							class="inline-flex max-w-full items-center gap-1.5 rounded-[10px] bg-accent-soft px-2 py-0.5 text-xs font-medium text-ink-muted"
 							title={item.bank.bankGroup?.name ?? undefined}
 						>
-							{#if item.bank.bankGroup?.color}
-								<span
-									class="size-2 shrink-0 rounded-full"
-									style:background-color={item.bank.bankGroup.color}
-									aria-hidden="true"
-								></span>
-							{/if}
+							<BankGroupColorDot color={item.bank.bankGroup?.color} />
 							<span class="truncate">{item.bank.name}</span>
 						</span>
 					{/if}

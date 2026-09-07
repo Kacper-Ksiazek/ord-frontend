@@ -143,7 +143,8 @@
 	<li class="list-none">
 		<div
 			class={cn(
-				'flex w-full items-stretch rounded-[10px] border border-line bg-surface transition-colors',
+				'flex w-full rounded-[10px] border border-line bg-surface transition-colors',
+				isPendingView ? 'items-start gap-3' : 'items-stretch',
 				isDetailPanelOpen ? 'px-3 py-2.5' : 'px-3 py-3',
 				isPendingView
 					? ''
@@ -164,12 +165,14 @@
 					}}
 		>
 			{#if isPendingView && itemId}
-				<CapturedWordRowCheckbox
-					checked={isRowSelected(itemId)}
-					disabled={isBulkBusy || isActivating(itemId) || isDeleting(itemId)}
-					ariaLabel={rowCheckboxLabel(sourceWord)}
-					onCheckedChange={(checked) => setRowSelected(itemId, checked)}
-				/>
+				<div class="flex shrink-0 items-center self-start pt-0.5">
+					<CapturedWordRowCheckbox
+						checked={isRowSelected(itemId)}
+						disabled={isBulkBusy || isActivating(itemId) || isDeleting(itemId)}
+						ariaLabel={rowCheckboxLabel(sourceWord)}
+						onCheckedChange={(checked) => setRowSelected(itemId, checked)}
+					/>
+				</div>
 			{/if}
 
 			<WordListRow {item} {itemId} variant={viewMode} compact={isDetailPanelOpen && !isPendingView} />

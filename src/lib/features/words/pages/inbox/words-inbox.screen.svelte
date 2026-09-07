@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { page as appPage } from '$app/state';
 	import { afterNavigate, replaceState } from '$app/navigation';
-	import { createWordsQuery, createWordsSearchQuery } from '$words/api-client';
+	import {
+		createWordsQuery,
+		createWordsSearchQuery,
+		createWordOverviewQuery
+	} from '$words/api-client';
 	import { authStore } from '$auth/stores';
 	import { PageContentContainer } from '$lib/components/utils/page-content-container';
 	import ContentCard from '$lib/components/utils/content-card.svelte';
@@ -68,6 +72,12 @@
 	});
 
 	const activeWordsQuery = $derived(useSearchQuery ? wordsSearchQuery : wordsQuery);
+
+	const wordOverviewQuery = createWordOverviewQuery(() =>
+		learningLanguage ? { language: learningLanguage } : null
+	);
+
+	const pendingCount = $derived(wordOverviewQuery.data?.pendingCount ?? 0);
 
 	const headerDescription = $derived(
 		viewMode === 'pending'
@@ -164,7 +174,7 @@
 				</div>
 
 				{#if learningLanguage}
-					<WordsViewToggle {viewMode} onViewModeChange={handleViewModeChange} />
+					<WordsViewToggle {viewMode} {pendingCount} onViewModeChange={handleViewModeChange} />
 				{/if}
 			</div>
 

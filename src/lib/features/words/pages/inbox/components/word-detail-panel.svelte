@@ -6,10 +6,11 @@
 	import { StatusPanel } from '$lib/components/utils/status-panel';
 	import { parseEmphasisText } from '$lib/utils/text/parse-emphasis-text';
 	import {
-		getWordExtraMarkLabel,
 		getWordTypeBadgeColor,
 		getWordTypeLabel
 	} from '$words/shared/constants';
+	import BankGroupColorDot from '$words/shared/components/bank-group-color-dot.svelte';
+	import WordExtraMarkBadge from '$words/shared/components/word-extra-mark-badge.svelte';
 	import * as m from '$lib/paraglide/messages.js';
 	import { X } from 'lucide-svelte';
 	import { closeWordDetail, getWordDetailContext } from '../contexts/word-detail-context.svelte';
@@ -102,19 +103,13 @@
 						{#if word.extraMark || word.bank?.name || word.progress}
 							<div class="flex flex-wrap items-center gap-1.5">
 								{#if word.extraMark}
-									<Badge color="gray">{getWordExtraMarkLabel(word.extraMark)}</Badge>
+									<WordExtraMarkBadge mark={word.extraMark} />
 								{/if}
 								{#if word.bank?.name}
 									<span
 										class="inline-flex items-center gap-1.5 rounded-[10px] bg-accent-soft px-2 py-0.5 text-xs font-medium text-ink-muted"
 									>
-										{#if word.bank.bankGroup?.color}
-											<span
-												class="size-2 rounded-full"
-												style:background-color={word.bank.bankGroup.color}
-												aria-hidden="true"
-											></span>
-										{/if}
+										<BankGroupColorDot color={word.bank.bankGroup?.color} />
 										{word.bank.name}
 									</span>
 								{/if}
@@ -129,21 +124,23 @@
 						{/if}
 
 						{#if word.definition}
-							<section class="flex flex-col gap-2">
+							<section class="flex flex-col gap-2.5">
 								<h3 class="text-sm font-medium text-ink">
 									{m['features.words.inbox.detail.definition']()}
 								</h3>
-								<p class="text-sm leading-relaxed text-ink-muted">
-									{#each parseEmphasisText(word.definition) as part, index (index)}
-										{#if part.emphasized}
-											<span class="rounded-md bg-highlight/90 px-1 py-px font-medium text-ink">
+								<div class="rounded-xl border border-line-subtle bg-canvas px-4 py-3">
+									<p class="text-sm leading-relaxed text-ink-muted">
+										{#each parseEmphasisText(word.definition) as part, index (index)}
+											{#if part.emphasized}
+												<span class="rounded-md bg-highlight/90 px-1 py-px font-medium text-ink">
+													{part.text}
+												</span>
+											{:else}
 												{part.text}
-											</span>
-										{:else}
-											{part.text}
-										{/if}
-									{/each}
-								</p>
+											{/if}
+										{/each}
+									</p>
+								</div>
 							</section>
 						{/if}
 
@@ -151,37 +148,45 @@
 							{@const details = word.details}
 
 							{#if details.useCases?.length}
-								<section class="flex flex-col gap-2">
+								<section class="flex flex-col gap-2.5">
 									<h3 class="text-sm font-medium text-ink">
 										{m['features.words.inbox.detail.use_cases']()}
 									</h3>
-									<ul class="list-disc space-y-1 pl-5 text-sm leading-relaxed text-ink-muted">
+									<div class="flex flex-wrap gap-1.5">
 										{#each details.useCases as useCase (useCase)}
-											<li>{useCase}</li>
+											<span
+												class="inline-flex rounded-[10px] border border-line-subtle bg-accent-soft px-2.5 py-1 text-sm font-medium text-ink"
+											>
+												{useCase}
+											</span>
 										{/each}
-									</ul>
+									</div>
 								</section>
 							{/if}
 
 							{#if details.synonyms?.length}
-								<section class="flex flex-col gap-2">
+								<section class="flex flex-col gap-2.5">
 									<h3 class="text-sm font-medium text-ink">
 										{m['features.words.inbox.detail.synonyms']()}
 									</h3>
-									<p class="text-sm leading-relaxed text-ink-muted">
-										{details.synonyms.join(', ')}
-									</p>
+									<div class="flex flex-wrap gap-1.5">
+										{#each details.synonyms as synonym (synonym)}
+											<Badge color="blue">{synonym}</Badge>
+										{/each}
+									</div>
 								</section>
 							{/if}
 
 							{#if details.antonyms?.length}
-								<section class="flex flex-col gap-2">
+								<section class="flex flex-col gap-2.5">
 									<h3 class="text-sm font-medium text-ink">
 										{m['features.words.inbox.detail.antonyms']()}
 									</h3>
-									<p class="text-sm leading-relaxed text-ink-muted">
-										{details.antonyms.join(', ')}
-									</p>
+									<div class="flex flex-wrap gap-1.5">
+										{#each details.antonyms as antonym (antonym)}
+											<Badge color="red">{antonym}</Badge>
+										{/each}
+									</div>
 								</section>
 							{/if}
 
@@ -217,33 +222,37 @@
 							{/if}
 
 							{#if details.collocations?.length}
-								<section class="flex flex-col gap-2">
+								<section class="flex flex-col gap-2.5">
 									<h3 class="text-sm font-medium text-ink">
 										{m['features.words.inbox.detail.collocations']()}
 									</h3>
-									<ul class="list-disc space-y-1 pl-5 text-sm leading-relaxed text-ink-muted">
+									<div class="flex flex-col gap-2">
 										{#each details.collocations as collocation (collocation.phrase)}
-											<li>
-												<span class="text-ink">{collocation.phrase}</span>
+											<div class="rounded-xl border border-line-subtle bg-canvas px-3 py-2.5">
+												<span class="text-sm font-medium text-ink">{collocation.phrase}</span>
 												{#if collocation.translation}
-													<span> — {collocation.translation}</span>
+													<span class="text-sm text-ink-muted"> — {collocation.translation}</span>
 												{/if}
-											</li>
+											</div>
 										{/each}
-									</ul>
+									</div>
 								</section>
 							{/if}
 
 							{#if details.commonMistakes?.length}
-								<section class="flex flex-col gap-2">
+								<section class="flex flex-col gap-2.5">
 									<h3 class="text-sm font-medium text-ink">
 										{m['features.words.inbox.detail.common_mistakes']()}
 									</h3>
-									<ul class="list-disc space-y-1 pl-5 text-sm leading-relaxed text-ink-muted">
+									<div class="flex flex-col gap-2">
 										{#each details.commonMistakes as mistake (mistake)}
-											<li>{mistake}</li>
+											<div
+												class="rounded-xl border border-danger/15 bg-danger/5 px-3 py-2.5 text-sm leading-relaxed text-ink-muted"
+											>
+												{mistake}
+											</div>
 										{/each}
-									</ul>
+									</div>
 								</section>
 							{/if}
 						{:else}

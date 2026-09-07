@@ -6,7 +6,9 @@
 	import { createBanksQuery } from '$words/api-client';
 	import { WORD_EXTRA_MARK_OPTIONS, WORD_TYPE_OPTIONS } from '$words/shared/constants/enum-values';
 	import { getWordTypeSwatchDotClasses } from '$words/shared/constants/word-type-styles';
-	import type { WordType } from '$words/types';
+	import { getWordExtraMarkIcon } from '$words/shared/constants/word-extra-mark-styles';
+	import BankGroupColorDot from '$words/shared/components/bank-group-color-dot.svelte';
+	import type { WordExtraMark, WordType } from '$words/types';
 	import type { DropdownMultiSelectOption } from '$lib/components/forms/dropdown-multi-select';
 	import { Bookmark, SearchIcon, Tag, TrashIcon, Type } from 'lucide-svelte';
 	import { E2E_TEST_IDS } from '$words/testing/test-ids';
@@ -23,30 +25,39 @@
 	const bankOptions = $derived(
 		(banksQuery.data ?? []).map((bank) => ({
 			label: bank.name,
-			value: bank.id,
-			bankGroupColor: bank.bankGroup?.color
+			value: bank.id
 		}))
 	);
 
-	type BankFilterOption = DropdownMultiSelectOption<string> & {
-		bankGroupColor?: string;
-	};
+	const bankColorById = $derived.by(() => {
+		const colors = new Map<string, string>();
+
+		for (const bank of banksQuery.data ?? []) {
+			const color = bank.bankGroup?.color;
+			if (color) {
+				colors.set(bank.id, color);
+			}
+		}
+
+		return colors;
+	});
 
 	type WordTypeOption = DropdownMultiSelectOption<WordType>;
+	type ExtraMarkOption = DropdownMultiSelectOption<WordExtraMark>;
+	type BankOption = DropdownMultiSelectOption<string>;
 </script>
 
 {#snippet wordTypeOptionLeading(option: WordTypeOption)}
 	<span class={getWordTypeSwatchDotClasses(option.value)} aria-hidden="true"></span>
 {/snippet}
 
-{#snippet bankOptionLeading(option: BankFilterOption)}
-	{#if option.bankGroupColor}
-		<span
-			class="size-2 shrink-0 rounded-full"
-			style:background-color={option.bankGroupColor}
-			aria-hidden="true"
-		></span>
-	{/if}
+{#snippet extraMarkOptionLeading(option: ExtraMarkOption)}
+	{@const Icon = getWordExtraMarkIcon(option.value)}
+	<Icon class="size-4 shrink-0 text-ink-muted" aria-hidden="true" />
+{/snippet}
+
+{#snippet bankOptionLeading(option: BankOption)}
+	<BankGroupColorDot color={bankColorById.get(option.value)} />
 {/snippet}
 
 <div
@@ -84,6 +95,7 @@
 		placeholder={m['features.words.inbox.filters.extra_mark_placeholder']()}
 		ariaLabel={m['features.words.inbox.filters.extra_mark_aria']()}
 		buttonClass="w-full min-w-[10rem] basis-[12rem] sm:w-[200px] sm:flex-none"
+		optionLeading={extraMarkOptionLeading}
 	>
 		{#snippet icon()}
 			<Tag class="size-4 text-ink-muted" />
