@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Tooltip } from 'bits-ui';
+	import { mergeProps } from 'svelte-toolbelt';
 	import type { IconButtonProps } from './icon-button.types';
 	import { cn } from '$lib/utils/cn';
 	import {
@@ -48,20 +49,21 @@
 {#if tooltip}
 	<Tooltip.Root>
 		<Tooltip.Trigger>
-			{#snippet child({ props })}
+			{#snippet child({ props: triggerProps })}
 				<button
-					{...props}
-					data-testid={dataTestId}
-					{disabled}
-					aria-label={ariaLabel}
-					type="button"
-					class={cn(
-						typeof props.class === 'string' ? props.class : '',
-						baseClasses,
-						typeVariantClasses,
-						className
-					)}
-					onclick={onClick}
+					{...mergeProps(triggerProps, {
+						'data-testid': dataTestId,
+						disabled,
+						'aria-label': ariaLabel,
+						type: 'button',
+						class: cn(
+							typeof triggerProps.class === 'string' ? triggerProps.class : '',
+							baseClasses,
+							typeVariantClasses,
+							className
+						),
+						onclick: onClick
+					})}
 				>
 					<Icon class={cn(iconColorClasses, iconClass)} />
 				</button>
