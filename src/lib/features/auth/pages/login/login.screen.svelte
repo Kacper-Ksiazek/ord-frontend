@@ -12,13 +12,13 @@
 	import { OrdLogo } from '$lib/components/ord-logo';
 	import { Alert } from '$lib/components/utils/alert';
 	import { m } from '$lib/paraglide/messages.js';
-	import { getDevLoginEmail } from '$auth/utils/dev-login-email';
+	import { getDevLoginEmail, getDevLoginOtp } from '$auth/utils/dev-login-email';
 
 	const loginCopyIntro = introStagger({ startDelay: 0.28, interval: 0.08 });
 
 	let step = $state<'email' | 'otp'>('email');
 	let email = $state(getDevLoginEmail());
-	let otpCode = $state('');
+	let otpCode = $state(getDevLoginOtp());
 	let error = $state<string | null>(null);
 
 	const requestOtpMutation = createRequestOtpMutation();
@@ -36,6 +36,11 @@
 		try {
 			await requestOtpMutation.mutateAsync({ email });
 			step = 'otp';
+
+			const devOtp = getDevLoginOtp();
+			if (devOtp) {
+				otpCode = devOtp;
+			}
 		} catch (err: unknown) {
 			if (err instanceof AxiosError) {
 				error = err.response?.data?.message || m['auth.login.error_send_otp']();

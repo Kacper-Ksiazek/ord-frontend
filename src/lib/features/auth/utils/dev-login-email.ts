@@ -8,3 +8,11 @@ export function getDevLoginEmail(): string {
 
 	return env.PUBLIC_DEV_LOGIN_EMAIL?.trim() ?? '';
 }
+
+export function getDevLoginOtp(): string {
+	if (!dev || !getDevLoginEmail()) {
+		return '';
+	}
+
+	return env.PUBLIC_DEV_LOGIN_OTP?.trim() || '123456';
+}
