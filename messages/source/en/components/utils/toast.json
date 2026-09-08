@@ -1,5 +1,9 @@
 {
 	"title_success": "Success",
 	"title_error": "Error",
+	"title_ai_pending": "AI at work",
+	"ai_thinking_1": "Thinking…",
+	"ai_thinking_2": "Analyzing the word…",
+	"ai_thinking_3": "Crafting examples and notes…",
 	"dismiss_aria": "Dismiss notification"
 }

@@ -54,6 +54,32 @@
 				toast.error(m['features.words.inbox.toast.remove_error']());
 				toast.success(m['features.words.inbox.toast.remove_many_success']({ count: 2 }));
 			}
+		},
+		{
+			label: 'AI → success',
+			action: () => {
+				const aiToast = toast.aiProgress(
+					m['components.utils.toast.ai_thinking_1'](),
+					m['components.utils.toast.title_ai_pending']()
+				);
+
+				setTimeout(() => {
+					aiToast.success(m['features.words.inbox.detail.generate_with_ai_success']());
+				}, 3200);
+			}
+		},
+		{
+			label: 'AI → error',
+			action: () => {
+				const aiToast = toast.aiProgress(
+					m['components.utils.toast.ai_thinking_1'](),
+					m['components.utils.toast.title_ai_pending']()
+				);
+
+				setTimeout(() => {
+					aiToast.error(m['features.words.inbox.detail.generate_with_ai_error']());
+				}, 2800);
+			}
 		}
 	] as const;
 

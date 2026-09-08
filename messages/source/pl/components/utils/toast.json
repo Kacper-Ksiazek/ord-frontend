@@ -1,5 +1,9 @@
 {
 	"title_success": "Sukces",
 	"title_error": "Błąd",
+	"title_ai_pending": "AI pracuje",
+	"ai_thinking_1": "Myślę…",
+	"ai_thinking_2": "Analizuję słowo…",
+	"ai_thinking_3": "Tworzę przykłady i notatki…",
 	"dismiss_aria": "Zamknij powiadomienie"
 }
