@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { parseEmphasisText } from './parse-emphasis-text';
+import { parseEmphasisText, stripEmphasisMarkers } from './parse-emphasis-text';
 
 describe('parseEmphasisText', () => {
 	it('parses single-asterisk emphasis markers', () => {
@@ -48,5 +48,13 @@ describe('parseEmphasisText', () => {
 		expect(parseEmphasisText('Plain definition.')).toEqual([
 			{ text: 'Plain definition.', emphasized: false }
 		]);
+	});
+});
+
+describe('stripEmphasisMarkers', () => {
+	it('removes emphasis markers from text', () => {
+		expect(stripEmphasisMarkers('Stock prices can be *capricious*, driven by rumors.')).toBe(
+			'Stock prices can be capricious, driven by rumors.'
+		);
 	});
 });

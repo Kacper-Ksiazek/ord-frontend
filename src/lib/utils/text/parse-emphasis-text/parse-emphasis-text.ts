@@ -25,3 +25,9 @@ export function parseEmphasisText(text: string): EmphasisTextPart[] {
 
 	return parts.length > 0 ? parts : [{ text, emphasized: false }];
 }
+
+export function stripEmphasisMarkers(text: string): string {
+	return parseEmphasisText(text)
+		.map((part) => part.text)
+		.join('');
+}
