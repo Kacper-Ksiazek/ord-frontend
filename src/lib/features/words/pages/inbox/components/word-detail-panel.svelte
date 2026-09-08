@@ -2,8 +2,10 @@
 	import { createWordQuery } from '$words/api-client';
 	import {
 		createGenerateWordManualMutation,
+		createToggleWordBookmarkMutation,
 		createWordDetailsMutation
 	} from '$words/api-client/mutations';
+	import { getWordBookmarked } from '$words/api-client/utils/normalize-word-list-item';
 	import { AiActionButton } from '$lib/components/buttons/ai-action-button';
 	import { Button } from '$lib/components/buttons/button';
 	import { Badge } from '$lib/components/utils/badge';
@@ -21,6 +23,7 @@
 	import { ArrowRight, CornerDownRight, PenLine, X } from 'lucide-svelte';
 	import { closeWordDetail, getWordDetailContext } from '../contexts/word-detail-context.svelte';
 	import WordDetailManualForm from './word-detail-manual-form.svelte';
+	import WordBookmarkButton from './word-bookmark-button.svelte';
 	import WordDetailPanelSkeleton from './word-detail-panel-skeleton.svelte';
 	import WordDetailPanelAiSkeleton from './word-detail-panel-ai-skeleton.svelte';
 	import { E2E_TEST_IDS } from '$words/testing/test-ids';
@@ -29,6 +32,12 @@
 	import type { CreateWordDetailsRequest } from '$words/api-client/api/http-post-create-word-details';
 	import type { AiActionButtonProps } from '$lib/components/buttons/ai-action-button/ai-action-button.types';
 	import type { SingleWordResponse } from '$words/types';
+
+	interface Props {
+		bookmarkedOnlyFilter?: boolean;
+	}
+
+	let { bookmarkedOnlyFilter = false }: Props = $props();
 
 	const wordDetailContext = getWordDetailContext();
 
@@ -44,6 +53,7 @@
 	);
 	const generateWordManualMutation = createGenerateWordManualMutation();
 	const wordDetailsMutation = createWordDetailsMutation();
+	const bookmarkMutation = createToggleWordBookmarkMutation();
 
 	const word = $derived(wordQuery.data?.id === selectedWordId ? wordQuery.data : undefined);
 	const isDetailLoading = $derived(
@@ -61,6 +71,19 @@
 
 	const isManualBusy = $derived(
 		generateWordManualMutation.isPending || wordDetailsMutation.isPending
+	);
+	const headerSourceWord = $derived(word?.sourceWord ?? selectedWordPreview?.sourceWord ?? '');
+	const isBookmarked = $derived(
+		word
+			? getWordBookmarked(word)
+			: selectedWordPreview?.id === selectedWordId
+				? getWordBookmarked(selectedWordPreview)
+				: false
+	);
+	const isBookmarkToggling = $derived(
+		Boolean(selectedWordId) &&
+			bookmarkMutation.isPending &&
+			bookmarkMutation.variables?.wordId === selectedWordId
 	);
 
 	function resetManualEditing() {
@@ -165,6 +188,22 @@
 								id={`source-word-${selectedWordId}`}
 								dataTestId={E2E_TEST_IDS.inbox.detailSourceWordTts}
 							/>
+							{#if selectedWordId}
+								<WordBookmarkButton
+									bookmarked={isBookmarked}
+									disabled={isBookmarkToggling}
+									ariaLabel={isBookmarked
+										? m['features.words.inbox.row.remove_bookmark']({ word: headerSourceWord })
+										: m['features.words.inbox.row.add_bookmark']({ word: headerSourceWord })}
+									dataTestId={E2E_TEST_IDS.inbox.detailBookmark}
+									onToggle={() => {
+										bookmarkMutation.mutate({
+											wordId: selectedWordId,
+											bookmarkedOnlyFilter
+										});
+									}}
+								/>
+							{/if}
 						</div>
 						{#if word.translation}
 							<p class="mt-0.5 text-base text-ink-muted">{word.translation}</p>

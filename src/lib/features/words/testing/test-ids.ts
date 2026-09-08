@@ -10,6 +10,7 @@ export const E2E_TEST_IDS = {
 		row: (id: string) => `words-inbox-row-${id}`,
 		detailPanel: 'words-inbox-detail-panel',
 		detailClose: 'words-inbox-detail-close',
+		detailBookmark: 'words-inbox-detail-bookmark',
 		detailSkeleton: 'words-inbox-detail-skeleton',
 		detailAiSkeleton: 'words-inbox-detail-ai-skeleton',
 		detailEmptyState: 'words-inbox-detail-empty-state',
@@ -22,7 +23,11 @@ export const E2E_TEST_IDS = {
 		filterWordType: 'words-inbox-filter-word-type',
 		filterExtraMark: 'words-inbox-filter-extra-mark',
 		filterBank: 'words-inbox-filter-bank',
-		filterClear: 'words-inbox-filter-clear'
+		filterClear: 'words-inbox-filter-clear',
+		filterBookmarkedOnly: 'words-inbox-filter-bookmarked-only',
+		filterBookmarkedCount: 'words-inbox-filter-bookmarked-count',
+		listSkeleton: 'words-inbox-list-skeleton',
+		rowBookmark: (id: string) => `words-inbox-row-bookmark-${id}`
 	},
 	capturePopover: {
 		trigger: 'sidebar-capture-words',

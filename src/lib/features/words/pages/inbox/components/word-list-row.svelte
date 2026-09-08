@@ -1,15 +1,11 @@
 <script lang="ts">
 	import { Badge } from '$lib/components/utils/badge';
 	import { parseEmphasisText } from '$lib/utils/text/parse-emphasis-text';
-	import {
-		getWordTypeBadgeColor,
-		getWordTypeLabel
-	} from '$words/shared/constants';
+	import { getWordTypeBadgeColor, getWordTypeLabel } from '$words/shared/constants';
 	import BankGroupColorDot from '$words/shared/components/bank-group-color-dot.svelte';
 	import WordExtraMarkBadge from '$words/shared/components/word-extra-mark-badge.svelte';
 	import type { WordListItem, WordsViewMode } from '$words/types';
 	import * as m from '$lib/paraglide/messages.js';
-	import { Bookmark } from 'lucide-svelte';
 	import CapturedStatusBadge from './captured-status-badge.svelte';
 
 	interface Props {
@@ -69,16 +65,6 @@
 
 			{#if item.extraMark}
 				<WordExtraMarkBadge mark={item.extraMark} />
-			{/if}
-
-			{#if item.bookmarked}
-				<span
-					class="inline-flex rounded-[10px] bg-accent-soft p-1 text-highlight"
-					title={m['features.words.inbox.row.bookmarked']()}
-					aria-label={m['features.words.inbox.row.bookmarked']()}
-				>
-					<Bookmark class="size-3.5 fill-current" aria-hidden="true" />
-				</span>
 			{/if}
 
 			{#if showTrailingMeta}

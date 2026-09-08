@@ -4,11 +4,11 @@
 		createBulkActivateWordsMutation,
 		createBulkDeleteWordsMutation,
 		createDeleteWordMutation,
+		createToggleWordBookmarkMutation,
 		createWordsQuery,
 		createWordsSearchQuery
 	} from '$words/api-client';
 	import { Button } from '$lib/components/buttons/button';
-	import { Loader } from '$lib/components/utils/loader';
 	import { StatusPanel } from '$lib/components/utils/status-panel';
 	import type { WordListItem, WordsViewMode } from '$words/types';
 	import * as m from '$lib/paraglide/messages.js';
@@ -16,16 +16,20 @@
 	import CapturedWordRowCheckbox from './captured-word-row-checkbox.svelte';
 	import CapturedWordPendingActions from './captured-word-pending-actions.svelte';
 	import WordListRow from './word-list-row.svelte';
+	import WordBookmarkButton from './word-bookmark-button.svelte';
+	import CapturedWordsListSkeleton from './captured-words-list-skeleton.svelte';
 	import { E2E_TEST_IDS } from '$words/testing/test-ids';
 	import { groupWordsByTimeBucket, type TimeBucket } from '../utils/group-words-by-time-bucket';
 	import { getWordDetailContext, toggleWordDetail } from '../contexts/word-detail-context.svelte';
 	import { cn } from '$lib/utils/cn';
+	import { getWordBookmarked } from '$words/api-client/utils/normalize-word-list-item';
 
 	interface Props {
 		wordsQuery: ReturnType<typeof createWordsQuery> | ReturnType<typeof createWordsSearchQuery>;
 		page: number;
 		viewMode: WordsViewMode;
 		hasActiveFilters: boolean;
+		bookmarkedOnlyFilter: boolean;
 		hasLearningLanguage: boolean;
 		selectedIds?: string[];
 		onPageChange: (page: number) => void;
@@ -36,6 +40,7 @@
 		page,
 		viewMode,
 		hasActiveFilters,
+		bookmarkedOnlyFilter,
 		hasLearningLanguage,
 		selectedIds = $bindable([]),
 		onPageChange
@@ -47,6 +52,7 @@
 	const deleteMutation = createDeleteWordMutation();
 	const bulkActivateMutation = createBulkActivateWordsMutation();
 	const bulkDeleteMutation = createBulkDeleteWordsMutation();
+	const bookmarkMutation = createToggleWordBookmarkMutation();
 
 	const items = $derived(wordsQuery.data?.data ?? []);
 	const bucketGroups = $derived(viewMode === 'learning' ? groupWordsByTimeBucket(items) : []);
@@ -92,6 +98,10 @@
 
 	function isDeleting(itemId: string) {
 		return deleteMutation.isPending && deleteMutation.variables === itemId;
+	}
+
+	function isBookmarkToggling(itemId: string) {
+		return bookmarkMutation.isPending && bookmarkMutation.variables?.wordId === itemId;
 	}
 
 	function isRowSelected(itemId: string) {
@@ -143,26 +153,12 @@
 	<li class="list-none">
 		<div
 			class={cn(
-				'flex w-full rounded-[10px] border border-line bg-surface transition-colors',
-				isPendingView ? 'items-start gap-3' : 'items-stretch',
+				'flex w-full gap-2 rounded-[10px] border border-line bg-surface transition-colors',
+				isPendingView ? 'items-start' : 'items-stretch',
 				isDetailPanelOpen ? 'px-3 py-2.5' : 'px-3 py-3',
-				isPendingView
-					? ''
-					: cn('cursor-pointer', isDetailSelected(itemId) ? 'bg-highlight/35' : 'hover:bg-accent-soft')
+				!isPendingView && (isDetailSelected(itemId) ? 'bg-highlight/35' : 'hover:bg-accent-soft')
 			)}
 			data-testid={E2E_TEST_IDS.inbox.row(itemId)}
-			role={isPendingView ? undefined : 'button'}
-			tabindex={isPendingView ? undefined : 0}
-			aria-pressed={isPendingView ? undefined : isDetailSelected(itemId)}
-			onclick={isPendingView ? undefined : () => handleRowClick(itemId, item)}
-			onkeydown={isPendingView
-				? undefined
-				: (event) => {
-						if (event.key === 'Enter' || event.key === ' ') {
-							event.preventDefault();
-							handleRowClick(itemId, item);
-						}
-					}}
 		>
 			{#if isPendingView && itemId}
 				<div class="flex shrink-0 items-center self-start pt-0.5">
@@ -175,7 +171,39 @@
 				</div>
 			{/if}
 
-			<WordListRow {item} {itemId} variant={viewMode} compact={isDetailPanelOpen && !isPendingView} />
+			{#if !isPendingView && itemId}
+				<div class="flex shrink-0 self-center">
+					<WordBookmarkButton
+						bookmarked={getWordBookmarked(item)}
+						disabled={isBookmarkToggling(itemId)}
+						ariaLabel={getWordBookmarked(item)
+							? m['features.words.inbox.row.remove_bookmark']({ word: sourceWord })
+							: m['features.words.inbox.row.add_bookmark']({ word: sourceWord })}
+						dataTestId={E2E_TEST_IDS.inbox.rowBookmark(itemId)}
+						onToggle={() => {
+							bookmarkMutation.mutate({ wordId: itemId, bookmarkedOnlyFilter });
+						}}
+					/>
+				</div>
+			{/if}
+
+			<div
+				class={cn('min-w-0 flex-1', !isPendingView && 'cursor-pointer')}
+				role={isPendingView ? undefined : 'button'}
+				tabindex={isPendingView ? undefined : 0}
+				aria-pressed={isPendingView ? undefined : isDetailSelected(itemId)}
+				onclick={isPendingView ? undefined : () => handleRowClick(itemId, item)}
+				onkeydown={isPendingView
+					? undefined
+					: (event) => {
+							if (event.key === 'Enter' || event.key === ' ') {
+								event.preventDefault();
+								handleRowClick(itemId, item);
+							}
+						}}
+			>
+				<WordListRow {item} {itemId} variant={viewMode} compact={isDetailPanelOpen && !isPendingView} />
+			</div>
 
 			{#if isPendingView && itemId}
 				<CapturedWordPendingActions
@@ -203,9 +231,7 @@
 		description={m['features.words.capture-popover.save_no_language']()}
 	/>
 {:else if wordsQuery.isLoading}
-	<div class="flex items-center justify-center py-16">
-		<Loader />
-	</div>
+	<CapturedWordsListSkeleton {viewMode} compact={isDetailPanelOpen && !isPendingView} />
 {:else if wordsQuery.isError}
 	<StatusPanel
 		variant="error"
