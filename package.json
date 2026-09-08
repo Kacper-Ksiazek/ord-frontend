@@ -7,9 +7,9 @@
 	"scripts": {
 		"aggregate": "tsx scripts/aggregate-translations.ts",
 		"generate:paraglide": "paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide",
-		"predev": "npm run aggregate",
+		"predev": "npm run aggregate && npm run generate:paraglide",
 		"dev": "vite dev",
-		"prebuild": "npm run aggregate",
+		"prebuild": "npm run aggregate && npm run generate:paraglide",
 		"build": "vite build",
 		"preview": "vite preview",
 		"prepare": "husky || echo ''",
