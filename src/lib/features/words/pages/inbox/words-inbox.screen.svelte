@@ -15,10 +15,12 @@
 	import WordsViewToggle from './components/words-view-toggle.svelte';
 	import WordListFiltersBar from './components/word-list-filters-bar.svelte';
 	import { WordsListFiltersState } from './state/words-list-filters-state.svelte';
+	import { buildWordsInboxQueryString, parseWordsInboxUrl } from './state/words-inbox-url-state';
 	import {
 		createWordDetailContext,
 		closeWordDetail,
-		getWordDetailContext
+		getWordDetailContext,
+		openWordDetail
 	} from './contexts/word-detail-context.svelte';
 	import type { WordsViewMode } from '$words/types';
 	import * as m from '$lib/paraglide/messages.js';
@@ -30,15 +32,22 @@
 	const PENDING_PER_PAGE = 50;
 	const LIST_COLUMN_WIDTH_PX = 360;
 
+	const initialUrlState = parseWordsInboxUrl(appPage.url.searchParams);
+
 	createWordDetailContext();
 	const wordDetailContext = getWordDetailContext();
 	const filtersState = new WordsListFiltersState(appPage.url.searchParams);
 
-	let listPage = $state(0);
-	let viewMode = $state<WordsViewMode>('learning');
+	let listPage = $state(initialUrlState.page);
+	let viewMode = $state<WordsViewMode>(initialUrlState.viewMode);
 	let selectedWordIds = $state<string[]>([]);
 	let listScrollContainer = $state<HTMLDivElement | undefined>();
 	let previousFiltersKey = $state(filtersState.toQueryString());
+	let canSyncUrl = $state(false);
+
+	if (initialUrlState.wordId && initialUrlState.viewMode === 'learning') {
+		openWordDetail(wordDetailContext, initialUrlState.wordId);
+	}
 
 	const learningLanguage = $derived(authStore.user?.selectedLearningLanguage);
 	const useSearchQuery = $derived(filtersState.hasActiveFilters);
@@ -79,6 +88,7 @@
 	);
 
 	const pendingCount = $derived(wordOverviewQuery.data?.pendingCount ?? 0);
+	const bookmarkedCount = $derived(wordOverviewQuery.data?.bookmarkedCount ?? 0);
 
 	const headerDescription = $derived(
 		viewMode === 'pending'
@@ -87,16 +97,52 @@
 	);
 
 	afterNavigate((navigation) => {
+		canSyncUrl = true;
+
 		if (navigation.type !== 'popstate') {
 			return;
 		}
 
-		filtersState.applyFromSearchParams(appPage.url.searchParams);
+		applyInboxStateFromUrl(appPage.url.searchParams);
 	});
 
+	function applyInboxStateFromUrl(searchParams: Parameters<typeof parseWordsInboxUrl>[0]) {
+		const parsed = parseWordsInboxUrl(searchParams);
+
+		filtersState.applyFromSearchParams(searchParams);
+		viewMode = parsed.viewMode;
+		listPage = parsed.page;
+
+		if (parsed.wordId && parsed.viewMode === 'learning') {
+			if (!wordDetailContext.isOpened || wordDetailContext.selectedWordId !== parsed.wordId) {
+				openWordDetail(wordDetailContext, parsed.wordId);
+			}
+
+			return;
+		}
+
+		if (wordDetailContext.isOpened) {
+			closeWordDetail(wordDetailContext);
+		}
+	}
+
+	function buildDesiredSearch(): string {
+		const query = buildWordsInboxQueryString({
+			filters: filtersState.filters,
+			viewMode,
+			wordId: wordDetailContext.isOpened ? wordDetailContext.selectedWordId : null,
+			page: listPage
+		});
+
+		return query ? `?${query}` : '';
+	}
+
 	$effect(() => {
-		const query = filtersState.toQueryString();
-		const desiredSearch = query ? `?${query}` : '';
+		if (!canSyncUrl) {
+			return;
+		}
+
+		const desiredSearch = buildDesiredSearch();
 
 		if (window.location.search === desiredSearch) {
 			return;
@@ -187,7 +233,11 @@
 			>
 				{#if learningLanguage}
 					<div class="shrink-0">
-						<WordListFiltersBar {filtersState} isSplitView={wordDetailContext.isOpened} />
+						<WordListFiltersBar
+							{filtersState}
+							isSplitView={wordDetailContext.isOpened}
+							{bookmarkedCount}
+						/>
 					</div>
 				{/if}
 
@@ -197,6 +247,7 @@
 						page={listPage}
 						{viewMode}
 						hasActiveFilters={filtersState.hasActiveFilters}
+						bookmarkedOnlyFilter={filtersState.filters.bookmarkedOnly}
 						hasLearningLanguage={learningLanguage !== undefined}
 						bind:selectedIds={selectedWordIds}
 						onPageChange={handlePageChange}
@@ -216,7 +267,7 @@
 						wordDetailContext.isOpened ? 'translate-x-0' : 'translate-x-full'
 					)}
 				>
-					<WordDetailPanel />
+					<WordDetailPanel bookmarkedOnlyFilter={filtersState.filters.bookmarkedOnly} />
 				</div>
 			</div>
 		</div>
