@@ -30,6 +30,8 @@
 		return `${values.length} selected`;
 	});
 
+	const hasSelection = $derived(values.length > 0);
+
 	function isSelected(value: T) {
 		return values.includes(value);
 	}
@@ -64,9 +66,11 @@
 				{@render icon()}
 			{/if}
 
-			<span class="truncate text-sm font-medium">{triggerLabel}</span>
+			<span class={cn('truncate text-sm font-medium', hasSelection ? 'text-ink' : 'text-ink-muted')}>
+				{triggerLabel}
+			</span>
 		</div>
-		<ChevronDown class="w-3 h-3 shrink-0" />
+		<ChevronDown class={cn('h-3 w-3 shrink-0', hasSelection ? 'text-ink' : 'text-ink-muted')} />
 	</DropdownMenu.Trigger>
 
 	<DropdownMenu.Portal>
