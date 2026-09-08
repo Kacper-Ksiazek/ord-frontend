@@ -37,6 +37,24 @@ describe('WordsListFiltersState', () => {
 		});
 	});
 
+	it('builds search payload with bookmarked filter', () => {
+		const state = new WordsListFiltersState(new URLSearchParams('bookmarkedOnly=true'));
+
+		const payload = state.buildSearchPayload({
+			language: 'ENGLISH',
+			viewMode: 'learning',
+			page: 0,
+			learningPerPage: 500,
+			pendingPerPage: 50
+		});
+
+		expect(payload).toMatchObject({
+			bookmarked: true,
+			hasProgress: true
+		});
+		expect(state.hasActiveFilters).toBe(true);
+	});
+
 	it('clears filters', () => {
 		const state = new WordsListFiltersState(new URLSearchParams('search=test'));
 		state.clearFilters();

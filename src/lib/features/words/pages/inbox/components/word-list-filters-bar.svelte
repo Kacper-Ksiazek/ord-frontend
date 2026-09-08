@@ -1,6 +1,5 @@
 <script lang="ts">
 	import Input from '$lib/components/forms/input/input.svelte';
-	import { IconButton } from '$lib/components/buttons/icon-button';
 	import { DropdownMultiSelect } from '$lib/components/forms/dropdown-multi-select';
 	import { WordsListFiltersState } from '../state/words-list-filters-state.svelte';
 	import { createBanksQuery } from '$words/api-client';
@@ -10,16 +9,18 @@
 	import BankGroupColorDot from '$words/shared/components/bank-group-color-dot.svelte';
 	import type { WordExtraMark, WordType } from '$words/types';
 	import type { DropdownMultiSelectOption } from '$lib/components/forms/dropdown-multi-select';
-	import { Bookmark, SearchIcon, Tag, TrashIcon, Type } from 'lucide-svelte';
+	import { Bookmark, Heart, RotateCcw, SearchIcon, Tag, Type } from 'lucide-svelte';
 	import { E2E_TEST_IDS } from '$words/testing/test-ids';
 	import * as m from '$lib/paraglide/messages.js';
+	import { cn } from '$lib/utils/cn';
 
 	interface Props {
 		filtersState: WordsListFiltersState;
 		isSplitView?: boolean;
+		bookmarkedCount?: number;
 	}
 
-	let { filtersState, isSplitView = false }: Props = $props();
+	let { filtersState, isSplitView = false, bookmarkedCount = 0 }: Props = $props();
 
 	const banksQuery = createBanksQuery();
 
@@ -42,6 +43,18 @@
 
 		return colors;
 	});
+
+	function formatCount(count: number): string {
+		return count > 99 ? '99+' : String(count);
+	}
+
+	function bookmarkedBadgeClass(isActive: boolean): string {
+		return isActive ? 'bg-surface text-ink' : 'bg-accent-soft text-ink-muted';
+	}
+
+	function bookmarkedHeartClass(isActive: boolean): string {
+		return isActive ? 'fill-current text-score-low' : 'text-ink-muted';
+	}
 
 	type WordTypeOption = DropdownMultiSelectOption<WordType>;
 	type ExtraMarkOption = DropdownMultiSelectOption<WordExtraMark>;
@@ -111,16 +124,60 @@
 	{/if}
 {/snippet}
 
+{#snippet bookmarkedOnlyToggle()}
+	<button
+		type="button"
+		role="switch"
+		aria-checked={filtersState.filters.bookmarkedOnly}
+		aria-label={m['features.words.inbox.filters.bookmarked_only_aria']()}
+		data-testid={E2E_TEST_IDS.inbox.filterBookmarkedOnly}
+		class={cn(
+			'inline-flex h-[40px] shrink-0 items-center gap-2 rounded-[10px] border px-2.5 text-sm font-medium transition-colors',
+			filtersState.filters.bookmarkedOnly
+				? 'border-line bg-accent-soft text-ink'
+				: 'border-line bg-surface text-ink-muted hover:bg-accent-soft hover:text-ink'
+		)}
+		onclick={() => {
+			filtersState.filters.bookmarkedOnly = !filtersState.filters.bookmarkedOnly;
+		}}
+	>
+		<Heart
+			class={cn('size-4 shrink-0', bookmarkedHeartClass(filtersState.filters.bookmarkedOnly))}
+			aria-hidden="true"
+		/>
+		<span class="whitespace-nowrap">{m['features.words.inbox.filters.bookmarked_only']()}</span>
+		{#if bookmarkedCount > 0}
+			<span
+				class={cn(
+					'inline-flex min-w-5 items-center justify-center rounded-full px-1.5 py-0.5 text-xs font-semibold tabular-nums',
+					bookmarkedBadgeClass(filtersState.filters.bookmarkedOnly)
+				)}
+				data-testid={E2E_TEST_IDS.inbox.filterBookmarkedCount}
+			>
+				{formatCount(bookmarkedCount)}
+			</span>
+		{/if}
+	</button>
+{/snippet}
+
 {#snippet clearFiltersButton()}
-	<IconButton
-		dataTestId={E2E_TEST_IDS.inbox.filterClear}
-		onClick={() => filtersState.clearFilters()}
-		icon={TrashIcon}
-		ariaLabel={m['features.words.inbox.filters.clear']()}
-		tooltip={m['features.words.inbox.filters.clear']()}
-		variant="DELETE"
-		type="OUTLINED"
-	/>
+	<button
+		type="button"
+		data-testid={E2E_TEST_IDS.inbox.filterClear}
+		aria-label={m['features.words.inbox.filters.clear']()}
+		title={m['features.words.inbox.filters.clear']()}
+		disabled={!filtersState.hasActiveFilters}
+		class={cn(
+			'inline-flex size-[40px] shrink-0 items-center justify-center rounded-[10px] border transition-colors',
+			'border-line bg-surface text-ink-muted hover:bg-accent-soft hover:text-ink',
+			'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/20',
+			!filtersState.hasActiveFilters &&
+				'cursor-not-allowed opacity-40 hover:bg-surface hover:text-ink-muted'
+		)}
+		onclick={() => filtersState.clearFilters()}
+	>
+		<RotateCcw class="size-4 shrink-0" aria-hidden="true" />
+	</button>
 {/snippet}
 
 {#if isSplitView}
@@ -148,7 +205,8 @@
 			{@render bankFilter('w-full min-w-0')}
 		</div>
 
-		<div class="flex justify-end">
+		<div class="flex items-center justify-between gap-2">
+			{@render bookmarkedOnlyToggle()}
 			{@render clearFiltersButton()}
 		</div>
 	</div>
@@ -179,6 +237,7 @@
 			{@render bankFilter('w-full min-w-0')}
 		</div>
 
+		{@render bookmarkedOnlyToggle()}
 		{@render clearFiltersButton()}
 	</div>
 {/if}

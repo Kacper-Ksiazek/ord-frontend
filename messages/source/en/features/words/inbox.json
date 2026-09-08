@@ -25,7 +25,9 @@
 		"progress_points": "{points} pts",
 		"progress_completed": "Completed",
 		"missing_translation": "No translation yet",
-		"bookmarked": "Bookmarked"
+		"bookmarked": "Bookmarked",
+		"add_bookmark": "Bookmark \"{word}\"",
+		"remove_bookmark": "Remove bookmark for \"{word}\""
 	},
 	"actions": {
 		"activate": "Activate",
@@ -39,7 +41,8 @@
 		"remove_success": "Word deleted",
 		"remove_error": "Couldn't delete word. Try again.",
 		"remove_many_success": "{count} words deleted",
-		"remove_many_error": "Couldn't delete selected words. Try again."
+		"remove_many_error": "Couldn't delete selected words. Try again.",
+		"bookmark_error": "Couldn't update bookmark. Try again."
 	},
 	"selection": {
 		"select_row": "Select \"{word}\" for bulk actions"
@@ -74,6 +77,8 @@
 		"extra_mark_aria": "Filter by extra mark",
 		"bank_placeholder": "Bank",
 		"bank_aria": "Filter by bank",
+		"bookmarked_only": "Bookmarked",
+		"bookmarked_only_aria": "Show bookmarked words only",
 		"clear": "Clear filters"
 	},
 	"list_aria_label": "Your words",

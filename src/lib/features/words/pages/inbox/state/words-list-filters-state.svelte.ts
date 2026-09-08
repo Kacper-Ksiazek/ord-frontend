@@ -7,6 +7,7 @@ export interface WordsListFilters {
 	wordTypes: WordType[];
 	bankIds: string[];
 	wordExtraMarks: WordExtraMark[];
+	bookmarkedOnly: boolean;
 }
 
 function parseEnumList<T extends string>(value: string | null, allowed: readonly T[]): T[] {
@@ -36,7 +37,8 @@ function filtersEqual(a: WordsListFilters, b: WordsListFilters): boolean {
 		a.search === b.search &&
 		a.wordTypes.join(',') === b.wordTypes.join(',') &&
 		a.bankIds.join(',') === b.bankIds.join(',') &&
-		a.wordExtraMarks.join(',') === b.wordExtraMarks.join(',')
+		a.wordExtraMarks.join(',') === b.wordExtraMarks.join(',') &&
+		a.bookmarkedOnly === b.bookmarkedOnly
 	);
 }
 
@@ -45,7 +47,8 @@ export class WordsListFiltersState {
 		search: '',
 		wordTypes: [],
 		bankIds: [],
-		wordExtraMarks: []
+		wordExtraMarks: [],
+		bookmarkedOnly: false
 	};
 
 	filters: WordsListFilters = $state({
@@ -61,7 +64,8 @@ export class WordsListFiltersState {
 			search: urlSearchParams.get('search') ?? '',
 			wordTypes: parseEnumList(urlSearchParams.get('wordTypes'), WORD_TYPES),
 			bankIds: parseStringList(urlSearchParams.get('bankIds')),
-			wordExtraMarks: parseEnumList(urlSearchParams.get('wordExtraMarks'), WORD_EXTRA_MARKS)
+			wordExtraMarks: parseEnumList(urlSearchParams.get('wordExtraMarks'), WORD_EXTRA_MARKS),
+			bookmarkedOnly: urlSearchParams.get('bookmarkedOnly') === 'true'
 		};
 	}
 
@@ -85,7 +89,8 @@ export class WordsListFiltersState {
 			...(this.filters.wordExtraMarks.length > 0
 				? { wordExtraMarks: this.filters.wordExtraMarks }
 				: {}),
-			...(this.filters.bankIds.length > 0 ? { banksIds: this.filters.bankIds } : {})
+			...(this.filters.bankIds.length > 0 ? { banksIds: this.filters.bankIds } : {}),
+			...(this.filters.bookmarkedOnly ? { bookmarked: true } : {})
 		};
 	}
 
@@ -97,19 +102,26 @@ export class WordsListFiltersState {
 	}
 
 	toQueryString(): string {
+		return WordsListFiltersState.filtersToQueryString(this.filters);
+	}
+
+	static filtersToQueryString(filters: WordsListFilters): string {
 		const params: string[] = [];
 
-		if (this.filters.search) {
-			params.push(`search=${encodeURIComponent(this.filters.search)}`);
+		if (filters.search) {
+			params.push(`search=${encodeURIComponent(filters.search)}`);
 		}
-		if (this.filters.wordTypes.length > 0) {
-			params.push(`wordTypes=${encodeURIComponent(this.filters.wordTypes.join(','))}`);
+		if (filters.wordTypes.length > 0) {
+			params.push(`wordTypes=${encodeURIComponent(filters.wordTypes.join(','))}`);
 		}
-		if (this.filters.bankIds.length > 0) {
-			params.push(`bankIds=${encodeURIComponent(this.filters.bankIds.join(','))}`);
+		if (filters.bankIds.length > 0) {
+			params.push(`bankIds=${encodeURIComponent(filters.bankIds.join(','))}`);
 		}
-		if (this.filters.wordExtraMarks.length > 0) {
-			params.push(`wordExtraMarks=${encodeURIComponent(this.filters.wordExtraMarks.join(','))}`);
+		if (filters.wordExtraMarks.length > 0) {
+			params.push(`wordExtraMarks=${encodeURIComponent(filters.wordExtraMarks.join(','))}`);
+		}
+		if (filters.bookmarkedOnly) {
+			params.push('bookmarkedOnly=true');
 		}
 
 		return params.join('&');

@@ -25,7 +25,9 @@
 		"progress_points": "{points} pkt",
 		"progress_completed": "Ukończone",
 		"missing_translation": "Brak tłumaczenia",
-		"bookmarked": "Zakładka"
+		"bookmarked": "Zakładka",
+		"add_bookmark": "Dodaj „{word}” do zakładek",
+		"remove_bookmark": "Usuń „{word}” z zakładek"
 	},
 	"actions": {
 		"activate": "Aktywuj",
@@ -39,7 +41,8 @@
 		"remove_success": "Słowo skasowane",
 		"remove_error": "Nie udało się skasować słowa. Spróbuj ponownie.",
 		"remove_many_success": "Skasowano {count} słów",
-		"remove_many_error": "Nie udało się skasować zaznaczonych słów. Spróbuj ponownie."
+		"remove_many_error": "Nie udało się skasować zaznaczonych słów. Spróbuj ponownie.",
+		"bookmark_error": "Nie udało się zaktualizować zakładki. Spróbuj ponownie."
 	},
 	"selection": {
 		"select_row": "Zaznacz „{word}” do akcji zbiorczych"
@@ -74,6 +77,8 @@
 		"extra_mark_aria": "Filtruj według dodatkowej etykiety",
 		"bank_placeholder": "Bank",
 		"bank_aria": "Filtruj według banku",
+		"bookmarked_only": "Zakładki",
+		"bookmarked_only_aria": "Pokaż tylko słowa z zakładkami",
 		"clear": "Wyczyść filtry"
 	},
 	"list_aria_label": "Twoje słowa",

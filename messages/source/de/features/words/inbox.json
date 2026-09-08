@@ -25,7 +25,9 @@
 		"progress_points": "{points} Pkt.",
 		"progress_completed": "Abgeschlossen",
 		"missing_translation": "Noch keine Übersetzung",
-		"bookmarked": "Lesezeichen"
+		"bookmarked": "Lesezeichen",
+		"add_bookmark": "„{word}“ als Lesezeichen speichern",
+		"remove_bookmark": "Lesezeichen für „{word}“ entfernen"
 	},
 	"actions": {
 		"activate": "Aktivieren",
@@ -39,7 +41,8 @@
 		"remove_success": "Wort gelöscht",
 		"remove_error": "Wort konnte nicht gelöscht werden. Bitte erneut versuchen.",
 		"remove_many_success": "{count} Wörter gelöscht",
-		"remove_many_error": "Ausgewählte Wörter konnten nicht gelöscht werden. Bitte erneut versuchen."
+		"remove_many_error": "Ausgewählte Wörter konnten nicht gelöscht werden. Bitte erneut versuchen.",
+		"bookmark_error": "Lesezeichen konnte nicht aktualisiert werden. Bitte erneut versuchen."
 	},
 	"selection": {
 		"select_row": "„{word}“ für Sammelaktionen auswählen"
@@ -74,6 +77,8 @@
 		"extra_mark_aria": "Nach Zusatzmarkierung filtern",
 		"bank_placeholder": "Bank",
 		"bank_aria": "Nach Bank filtern",
+		"bookmarked_only": "Lesezeichen",
+		"bookmarked_only_aria": "Nur Wörter mit Lesezeichen anzeigen",
 		"clear": "Filter löschen"
 	},
 	"list_aria_label": "Deine Wörter",
