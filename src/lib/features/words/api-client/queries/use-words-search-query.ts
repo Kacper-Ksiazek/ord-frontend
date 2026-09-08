@@ -13,6 +13,7 @@ const searchParamsKey = (params: SearchWordsParams) =>
 		wordTypes: params.wordTypes ?? [],
 		wordExtraMarks: params.wordExtraMarks ?? [],
 		banksIds: params.banksIds ?? [],
+		bookmarked: params.bookmarked ?? null,
 		sortBy: params.sortBy ?? 'CREATED_AT',
 		sortDirection: params.sortDirection ?? 'DESC'
 	}) as const;
