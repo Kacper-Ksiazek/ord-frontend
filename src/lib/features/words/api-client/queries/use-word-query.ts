@@ -3,9 +3,13 @@ import type { SingleWordResponse } from '$words/types';
 import { httpGetWord } from '../api/http-get-word';
 import { wordCaptureKeys } from '../keys';
 
-export function createWordQuery(getWordId: () => string | null) {
+export function createWordQuery(
+	getWordId: () => string | null,
+	getPlaceholder: () => SingleWordResponse | undefined = () => undefined
+) {
 	return createQuery<SingleWordResponse>(() => {
 		const id = getWordId();
+		const placeholder = getPlaceholder();
 
 		return {
 			queryKey: id
@@ -18,7 +22,9 @@ export function createWordQuery(getWordId: () => string | null) {
 
 				return httpGetWord(id);
 			},
-			enabled: id !== null
+			enabled: Boolean(id),
+			placeholderData: placeholder?.id && placeholder.id === id ? placeholder : undefined,
+			refetchOnMount: 'always'
 		};
 	});
 }

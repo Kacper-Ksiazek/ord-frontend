@@ -1,8 +1,10 @@
 import { createContext } from 'svelte';
+import type { WordListItem } from '$words/types';
 
 export type WordDetailContext = {
 	isOpened: boolean;
 	selectedWordId: string | null;
+	selectedWordPreview: WordListItem | null;
 };
 
 export const [getWordDetailContext, setWordDetailContext] = createContext<WordDetailContext>();
@@ -10,14 +12,16 @@ export const [getWordDetailContext, setWordDetailContext] = createContext<WordDe
 export function createWordDetailContext() {
 	const context: WordDetailContext = $state({
 		isOpened: false,
-		selectedWordId: null
+		selectedWordId: null,
+		selectedWordPreview: null
 	});
 
 	setWordDetailContext(context);
 }
 
-export function openWordDetail(context: WordDetailContext, wordId: string) {
+export function openWordDetail(context: WordDetailContext, wordId: string, preview?: WordListItem) {
 	context.selectedWordId = wordId;
+	context.selectedWordPreview = preview ?? null;
 	context.isOpened = true;
 }
 
@@ -27,16 +31,21 @@ export function closeWordDetail(context: WordDetailContext) {
 	globalThis.setTimeout(() => {
 		if (!context.isOpened) {
 			context.selectedWordId = null;
+			context.selectedWordPreview = null;
 		}
 	}, 300);
 }
 
-export function toggleWordDetail(context: WordDetailContext, wordId: string) {
+export function toggleWordDetail(
+	context: WordDetailContext,
+	wordId: string,
+	preview?: WordListItem
+) {
 	if (context.isOpened && context.selectedWordId === wordId) {
 		closeWordDetail(context);
 
 		return;
 	}
 
-	openWordDetail(context, wordId);
+	openWordDetail(context, wordId, preview);
 }

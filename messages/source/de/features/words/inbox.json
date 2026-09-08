@@ -32,14 +32,14 @@
 		"delete": "Löschen"
 	},
 	"toast": {
-		"activate_success": "Wort zum Lernen hinzugefügt",
-		"activate_error": "Wort konnte nicht aktiviert werden. Bitte erneut versuchen.",
-		"activate_many_success": "{count} Wörter aktiviert",
-		"activate_many_error": "Ausgewählte Wörter konnten nicht aktiviert werden. Bitte erneut versuchen.",
-		"remove_success": "Wort entfernt",
-		"remove_error": "Wort konnte nicht entfernt werden. Bitte erneut versuchen.",
-		"remove_many_success": "{count} Wörter entfernt",
-		"remove_many_error": "Ausgewählte Wörter konnten nicht entfernt werden. Bitte erneut versuchen."
+		"activate_success": "Zum Lernen hinzugefügt",
+		"activate_error": "Hinzufügen zum Lernen fehlgeschlagen. Bitte erneut versuchen.",
+		"activate_many_success": "{count} Wörter zum Lernen hinzugefügt",
+		"activate_many_error": "Ausgewählte Wörter konnten nicht hinzugefügt werden. Bitte erneut versuchen.",
+		"remove_success": "Wort gelöscht",
+		"remove_error": "Wort konnte nicht gelöscht werden. Bitte erneut versuchen.",
+		"remove_many_success": "{count} Wörter gelöscht",
+		"remove_many_error": "Ausgewählte Wörter konnten nicht gelöscht werden. Bitte erneut versuchen."
 	},
 	"selection": {
 		"select_row": "„{word}“ für Sammelaktionen auswählen"
@@ -96,6 +96,22 @@
 		"progress_completed": "Abgeschlossen",
 		"no_details_header": "Noch kein Handbuch",
 		"no_details_description": "Erweiterte Notizen und Beispiele für dieses Wort wurden noch nicht hinzugefügt.",
+		"generate_with_ai": "Mit KI generieren",
+		"generate_with_ai_loading": "Handbuch wird generiert…",
+		"generate_with_ai_success": "Worthandbuch generiert",
+		"generate_with_ai_error": "Handbuch konnte nicht generiert werden. Bitte erneut versuchen.",
+		"ai_generating_label": "KI schreibt Inhalte",
+		"fill_manually": "Manuell ausfüllen",
+		"manual_form_title": "Handbuch-Details hinzufügen",
+		"manual_form_description": "Beginne mit den Grundlagen — du kannst das Handbuch später erweitern.",
+		"manual_synonyms_label": "Synonyme",
+		"manual_synonyms_placeholder": "z. B. launisch, unberechenbar",
+		"manual_use_cases_label": "Anwendungsfälle",
+		"manual_use_cases_placeholder": "Ein Anwendungsfall pro Zeile",
+		"manual_cancel": "Abbrechen",
+		"manual_save": "Handbuch speichern",
+		"manual_save_success": "Handbuch gespeichert",
+		"manual_save_error": "Handbuch konnte nicht gespeichert werden. Bitte erneut versuchen.",
 		"error_header": "Wort konnte nicht geladen werden",
 		"error_description": "Etwas ist schiefgelaufen. Versuche es erneut.",
 		"try_again": "Erneut versuchen"

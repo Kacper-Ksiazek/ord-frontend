@@ -32,14 +32,14 @@
 		"delete": "Delete"
 	},
 	"toast": {
-		"activate_success": "Word added to learning",
-		"activate_error": "Couldn't activate word. Try again.",
-		"activate_many_success": "Activated {count} words",
-		"activate_many_error": "Couldn't activate selected words. Try again.",
-		"remove_success": "Word removed",
-		"remove_error": "Couldn't remove word. Try again.",
-		"remove_many_success": "Removed {count} words",
-		"remove_many_error": "Couldn't remove selected words. Try again."
+		"activate_success": "Added to Learning",
+		"activate_error": "Couldn't add to Learning. Try again.",
+		"activate_many_success": "{count} words added to Learning",
+		"activate_many_error": "Couldn't add selected words. Try again.",
+		"remove_success": "Word deleted",
+		"remove_error": "Couldn't delete word. Try again.",
+		"remove_many_success": "{count} words deleted",
+		"remove_many_error": "Couldn't delete selected words. Try again."
 	},
 	"selection": {
 		"select_row": "Select \"{word}\" for bulk actions"
@@ -96,6 +96,22 @@
 		"progress_completed": "Completed",
 		"no_details_header": "No manual yet",
 		"no_details_description": "Extended notes and examples for this word haven't been added yet.",
+		"generate_with_ai": "Generate with AI",
+		"generate_with_ai_loading": "Generating manual…",
+		"generate_with_ai_success": "Word manual generated",
+		"generate_with_ai_error": "Couldn't generate manual. Try again.",
+		"ai_generating_label": "AI is writing",
+		"fill_manually": "Fill by hand",
+		"manual_form_title": "Add manual details",
+		"manual_form_description": "Start with a few basics — you can expand the manual later.",
+		"manual_synonyms_label": "Synonyms",
+		"manual_synonyms_placeholder": "e.g. moody, unpredictable",
+		"manual_use_cases_label": "Use cases",
+		"manual_use_cases_placeholder": "One use case per line",
+		"manual_cancel": "Cancel",
+		"manual_save": "Save manual",
+		"manual_save_success": "Manual saved",
+		"manual_save_error": "Couldn't save manual. Try again.",
 		"error_header": "Couldn't load word",
 		"error_description": "Something went wrong. Try again.",
 		"try_again": "Try again"

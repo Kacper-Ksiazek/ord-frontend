@@ -32,14 +32,14 @@
 		"delete": "Skasuj"
 	},
 	"toast": {
-		"activate_success": "Słowo dodane do nauki",
-		"activate_error": "Nie udało się aktywować słowa. Spróbuj ponownie.",
-		"activate_many_success": "Aktywowano {count} słów",
-		"activate_many_error": "Nie udało się aktywować zaznaczonych słów. Spróbuj ponownie.",
-		"remove_success": "Słowo usunięte",
-		"remove_error": "Nie udało się usunąć słowa. Spróbuj ponownie.",
-		"remove_many_success": "Usunięto {count} słów",
-		"remove_many_error": "Nie udało się usunąć zaznaczonych słów. Spróbuj ponownie."
+		"activate_success": "Dodano do nauki",
+		"activate_error": "Nie udało się dodać do nauki. Spróbuj ponownie.",
+		"activate_many_success": "Dodano {count} słów do nauki",
+		"activate_many_error": "Nie udało się dodać zaznaczonych słów. Spróbuj ponownie.",
+		"remove_success": "Słowo skasowane",
+		"remove_error": "Nie udało się skasować słowa. Spróbuj ponownie.",
+		"remove_many_success": "Skasowano {count} słów",
+		"remove_many_error": "Nie udało się skasować zaznaczonych słów. Spróbuj ponownie."
 	},
 	"selection": {
 		"select_row": "Zaznacz „{word}” do akcji zbiorczych"
@@ -96,6 +96,22 @@
 		"progress_completed": "Ukończone",
 		"no_details_header": "Brak podręcznika",
 		"no_details_description": "Rozszerzone notatki i przykłady dla tego słowa nie zostały jeszcze dodane.",
+		"generate_with_ai": "Wygeneruj z AI",
+		"generate_with_ai_loading": "Generowanie podręcznika…",
+		"generate_with_ai_success": "Podręcznik wygenerowany",
+		"generate_with_ai_error": "Nie udało się wygenerować podręcznika. Spróbuj ponownie.",
+		"ai_generating_label": "AI tworzy treść",
+		"fill_manually": "Uzupełnij ręcznie",
+		"manual_form_title": "Dodaj szczegóły podręcznika",
+		"manual_form_description": "Zacznij od podstaw — podręcznik możesz rozbudować później.",
+		"manual_synonyms_label": "Synonimy",
+		"manual_synonyms_placeholder": "np. kapryśny, nieprzewidywalny",
+		"manual_use_cases_label": "Zastosowania",
+		"manual_use_cases_placeholder": "Jedno zastosowanie w linii",
+		"manual_cancel": "Anuluj",
+		"manual_save": "Zapisz podręcznik",
+		"manual_save_success": "Podręcznik zapisany",
+		"manual_save_error": "Nie udało się zapisać podręcznika. Spróbuj ponownie.",
 		"error_header": "Nie udało się załadować słowa",
 		"error_description": "Coś poszło nie tak. Spróbuj ponownie.",
 		"try_again": "Spróbuj ponownie"

@@ -59,12 +59,12 @@
 	const wordDetailContext = getWordDetailContext();
 	const isDetailPanelOpen = $derived(wordDetailContext.isOpened);
 
-	function handleRowClick(itemId: string) {
+	function handleRowClick(itemId: string, item: WordListItem) {
 		if (!itemId || isPendingView) {
 			return;
 		}
 
-		toggleWordDetail(wordDetailContext, itemId);
+		toggleWordDetail(wordDetailContext, itemId, item);
 	}
 
 	function isDetailSelected(itemId: string) {
@@ -154,13 +154,13 @@
 			role={isPendingView ? undefined : 'button'}
 			tabindex={isPendingView ? undefined : 0}
 			aria-pressed={isPendingView ? undefined : isDetailSelected(itemId)}
-			onclick={isPendingView ? undefined : () => handleRowClick(itemId)}
+			onclick={isPendingView ? undefined : () => handleRowClick(itemId, item)}
 			onkeydown={isPendingView
 				? undefined
 				: (event) => {
 						if (event.key === 'Enter' || event.key === ' ') {
 							event.preventDefault();
-							handleRowClick(itemId);
+							handleRowClick(itemId, item);
 						}
 					}}
 		>
