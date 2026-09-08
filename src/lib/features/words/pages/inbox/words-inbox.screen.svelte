@@ -178,27 +178,30 @@
 					<WordsViewToggle {viewMode} {pendingCount} onViewModeChange={handleViewModeChange} />
 				{/if}
 			</div>
-
-			{#if learningLanguage}
-				<WordListFiltersBar {filtersState} />
-			{/if}
 		</div>
 
 		<div class="flex min-h-0 flex-1 gap-6 overflow-hidden">
 			<div
-				bind:this={listScrollContainer}
-				class="min-h-0 shrink-0 overflow-y-auto transition-[width] duration-300 ease-in-out"
+				class="flex min-h-0 shrink-0 flex-col overflow-hidden transition-[width] duration-300 ease-in-out"
 				style:width={wordDetailContext.isOpened ? `${LIST_COLUMN_WIDTH_PX}px` : '100%'}
 			>
-				<CapturedWordsList
-					wordsQuery={activeWordsQuery}
-					page={listPage}
-					{viewMode}
-					hasActiveFilters={filtersState.hasActiveFilters}
-					hasLearningLanguage={learningLanguage !== undefined}
-					bind:selectedIds={selectedWordIds}
-					onPageChange={handlePageChange}
-				/>
+				{#if learningLanguage}
+					<div class="shrink-0">
+						<WordListFiltersBar {filtersState} isSplitView={wordDetailContext.isOpened} />
+					</div>
+				{/if}
+
+				<div bind:this={listScrollContainer} class="min-h-0 flex-1 overflow-y-auto">
+					<CapturedWordsList
+						wordsQuery={activeWordsQuery}
+						page={listPage}
+						{viewMode}
+						hasActiveFilters={filtersState.hasActiveFilters}
+						hasLearningLanguage={learningLanguage !== undefined}
+						bind:selectedIds={selectedWordIds}
+						onPageChange={handlePageChange}
+					/>
+				</div>
 			</div>
 
 			<div

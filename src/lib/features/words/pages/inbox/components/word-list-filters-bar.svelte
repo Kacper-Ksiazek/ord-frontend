@@ -16,9 +16,10 @@
 
 	interface Props {
 		filtersState: WordsListFiltersState;
+		isSplitView?: boolean;
 	}
 
-	let { filtersState }: Props = $props();
+	let { filtersState, isSplitView = false }: Props = $props();
 
 	const banksQuery = createBanksQuery();
 
@@ -30,12 +31,12 @@
 	);
 
 	const bankColorById = $derived.by(() => {
-		const colors = new Map<string, string>();
+		const colors: Record<string, string> = {};
 
 		for (const bank of banksQuery.data ?? []) {
 			const color = bank.bankGroup?.color;
 			if (color) {
-				colors.set(bank.id, color);
+				colors[bank.id] = color;
 			}
 		}
 
@@ -57,51 +58,42 @@
 {/snippet}
 
 {#snippet bankOptionLeading(option: BankOption)}
-	<BankGroupColorDot color={bankColorById.get(option.value)} />
+	<BankGroupColorDot color={bankColorById[option.value]} />
 {/snippet}
 
-<div
-	class="mb-6 flex min-w-0 flex-wrap items-center gap-2"
-	data-testid={E2E_TEST_IDS.inbox.filters}
->
-	<Input
-		dataTestId={E2E_TEST_IDS.inbox.filterSearch}
-		debounced
-		bind:value={filtersState.filters.search}
-		type="search"
-		placeholder={m['features.words.inbox.filters.search_placeholder']()}
-		class="min-w-[12rem] flex-1 basis-[16rem]"
-		leftAdornment={SearchIcon}
-	/>
-
+{#snippet wordTypeFilter(buttonClass: string)}
 	<DropdownMultiSelect
 		dataTestId={E2E_TEST_IDS.inbox.filterWordType}
 		bind:values={filtersState.filters.wordTypes}
 		options={WORD_TYPE_OPTIONS}
 		placeholder={m['features.words.inbox.filters.word_type_placeholder']()}
 		ariaLabel={m['features.words.inbox.filters.word_type_aria']()}
-		buttonClass="w-full min-w-[10rem] basis-[12rem] sm:w-[180px] sm:flex-none"
+		{buttonClass}
 		optionLeading={wordTypeOptionLeading}
 	>
 		{#snippet icon()}
 			<Type class="size-4 text-ink-muted" />
 		{/snippet}
 	</DropdownMultiSelect>
+{/snippet}
 
+{#snippet extraMarkFilter(buttonClass: string)}
 	<DropdownMultiSelect
 		dataTestId={E2E_TEST_IDS.inbox.filterExtraMark}
 		bind:values={filtersState.filters.wordExtraMarks}
 		options={WORD_EXTRA_MARK_OPTIONS}
 		placeholder={m['features.words.inbox.filters.extra_mark_placeholder']()}
 		ariaLabel={m['features.words.inbox.filters.extra_mark_aria']()}
-		buttonClass="w-full min-w-[10rem] basis-[12rem] sm:w-[200px] sm:flex-none"
+		{buttonClass}
 		optionLeading={extraMarkOptionLeading}
 	>
 		{#snippet icon()}
 			<Tag class="size-4 text-ink-muted" />
 		{/snippet}
 	</DropdownMultiSelect>
+{/snippet}
 
+{#snippet bankFilter(buttonClass: string)}
 	{#if bankOptions.length > 0}
 		<DropdownMultiSelect
 			dataTestId={E2E_TEST_IDS.inbox.filterBank}
@@ -109,7 +101,7 @@
 			options={bankOptions}
 			placeholder={m['features.words.inbox.filters.bank_placeholder']()}
 			ariaLabel={m['features.words.inbox.filters.bank_aria']()}
-			buttonClass="w-full min-w-[10rem] basis-[12rem] sm:w-[180px] sm:flex-none"
+			{buttonClass}
 			optionLeading={bankOptionLeading}
 		>
 			{#snippet icon()}
@@ -117,7 +109,9 @@
 			{/snippet}
 		</DropdownMultiSelect>
 	{/if}
+{/snippet}
 
+{#snippet clearFiltersButton()}
 	<IconButton
 		dataTestId={E2E_TEST_IDS.inbox.filterClear}
 		onClick={() => filtersState.clearFilters()}
@@ -127,4 +121,64 @@
 		variant="DELETE"
 		type="OUTLINED"
 	/>
-</div>
+{/snippet}
+
+{#if isSplitView}
+	<div class="mb-4 flex min-w-0 flex-col gap-2" data-testid={E2E_TEST_IDS.inbox.filters}>
+		<Input
+			dataTestId={E2E_TEST_IDS.inbox.filterSearch}
+			debounced
+			bind:value={filtersState.filters.search}
+			type="search"
+			placeholder={m['features.words.inbox.filters.search_placeholder']()}
+			class="w-full"
+			leftAdornment={SearchIcon}
+		/>
+
+		<div class="grid grid-cols-2 gap-2">
+			<div class="min-w-0">
+				{@render wordTypeFilter('w-full min-w-0')}
+			</div>
+			<div class="min-w-0">
+				{@render extraMarkFilter('w-full min-w-0')}
+			</div>
+		</div>
+
+		<div class="min-w-0">
+			{@render bankFilter('w-full min-w-0')}
+		</div>
+
+		<div class="flex justify-end">
+			{@render clearFiltersButton()}
+		</div>
+	</div>
+{:else}
+	<div
+		class="mb-4 flex min-w-0 flex-wrap items-center gap-2"
+		data-testid={E2E_TEST_IDS.inbox.filters}
+	>
+		<Input
+			dataTestId={E2E_TEST_IDS.inbox.filterSearch}
+			debounced
+			bind:value={filtersState.filters.search}
+			type="search"
+			placeholder={m['features.words.inbox.filters.search_placeholder']()}
+			class="min-w-[12rem] flex-1 basis-[16rem]"
+			leftAdornment={SearchIcon}
+		/>
+
+		<div class="w-[180px] min-w-0 shrink-0">
+			{@render wordTypeFilter('w-full min-w-0')}
+		</div>
+
+		<div class="w-[200px] min-w-0 shrink-0">
+			{@render extraMarkFilter('w-full min-w-0')}
+		</div>
+
+		<div class="w-[180px] min-w-0 shrink-0">
+			{@render bankFilter('w-full min-w-0')}
+		</div>
+
+		{@render clearFiltersButton()}
+	</div>
+{/if}
