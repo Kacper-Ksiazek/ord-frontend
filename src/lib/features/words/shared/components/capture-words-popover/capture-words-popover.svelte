@@ -1,9 +1,20 @@
 <script lang="ts">
-	import { Popover, Switch } from 'bits-ui';
+	import { Dialog } from 'bits-ui';
 	import { fade } from 'svelte/transition';
 	import { tick } from 'svelte';
 	import { isAxiosError } from 'axios';
-	import { ArrowLeftRight, CirclePlus, EyeIcon, Minus, Plus, RotateCcw, X } from 'lucide-svelte';
+	import {
+		ArrowLeftRight,
+		BrushCleaning,
+		CirclePlus,
+		EyeIcon,
+		Minus,
+		Plus,
+		RotateCcw,
+		Save,
+		Type,
+		X
+	} from 'lucide-svelte';
 	import { Button } from '$lib/components/buttons/button';
 	import { AiActionButton } from '$lib/components/buttons/ai-action-button';
 	import type { AiActionButtonStatus } from '$lib/components/buttons/ai-action-button/ai-action-button.types';
@@ -12,7 +23,6 @@
 	import { DropdownSelect } from '$lib/components/forms/dropdown-select';
 	import type { DropdownSelectOption } from '$lib/components/forms/dropdown-select';
 	import { AutoHeightTextarea } from '$lib/components/forms/auto-height-textarea';
-	import { Divider } from '$lib/components/utils/divider';
 	import { Loader } from '$lib/components/utils/loader';
 	import { cn } from '$lib/utils/cn';
 	import { authStore } from '$auth/stores';
@@ -26,9 +36,8 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import { E2E_TEST_IDS } from '$words/testing/test-ids';
 	import {
-		CAPTURE_WORDS_POPOVER_MAX_COUNT,
-		CAPTURE_WORDS_POPOVER_ROW_HEIGHT_PX,
-		CAPTURE_WORDS_POPOVER_SCROLL_FROM_COUNT
+		CAPTURE_WORDS_DESCRIPTION_MAX_LENGTH,
+		CAPTURE_WORDS_POPOVER_MAX_COUNT
 	} from './capture-words-popover.constants';
 	import type { CaptureWordsSaveStatus } from './capture-words-popover.types';
 	import {
@@ -36,7 +45,10 @@
 		buildBulkCreatePayload,
 		collectFillGapsItems
 	} from './capture-fill-gaps.utils';
-	import { captureWordsPopoverStore } from './capture-words-popover.store.svelte';
+	import {
+		captureWordsPopoverStore,
+		isCaptureFormRowEmpty
+	} from './capture-words-popover.store.svelte';
 	import CaptureWordsSaveStatusPanel from './capture-words-save-status-panel.svelte';
 
 	type WordTypeSelectOption = DropdownSelectOption<WordType | null>;
@@ -47,17 +59,12 @@
 
 	let { isSidebarExpanded }: Props = $props();
 
-	const popoverWidthClass = $derived(
-		isSidebarExpanded ? 'w-[min(42rem,calc(100dvw-18rem))]' : 'w-[min(42rem,calc(100dvw-8rem))]'
-	);
-
-	const recordsScrollMaxHeightPx =
-		(CAPTURE_WORDS_POPOVER_SCROLL_FROM_COUNT - 1) * CAPTURE_WORDS_POPOVER_ROW_HEIGHT_PX;
+	const modalWidthClass = 'w-[min(42rem,calc(100vw-2rem))]';
 
 	const fillGapsMutation = createWordFillGapsMutation();
 	const bulkCreateMutation = createCaptureWordsMutation();
 
-	let recordsScrollEl: HTMLDivElement | undefined = $state();
+	let formScrollEl: HTMLDivElement | undefined = $state();
 	let isOpen = $state(false);
 	let fillButtonStatus = $state<AiActionButtonStatus>('default');
 	let fillGlobalError = $state<string | null>(null);
@@ -66,10 +73,6 @@
 	let saveError = $state<string | null>(null);
 
 	const learningLanguage = $derived(authStore.user?.selectedLearningLanguage ?? undefined);
-
-	const isRecordsScrollable = $derived(
-		captureWordsPopoverStore.values.length >= CAPTURE_WORDS_POPOVER_SCROLL_FROM_COUNT
-	);
 
 	const hasWordToFill = $derived(
 		captureWordsPopoverStore.values.some((row) => row.word.trim().length > 0)
@@ -87,6 +90,18 @@
 		return m['features.words.capture-popover.fill_progress']({ count });
 	});
 
+	const recordCount = $derived(captureWordsPopoverStore.values.length);
+
+	const draftWordCount = $derived(
+		captureWordsPopoverStore.values.filter((row) => row.word.trim().length > 0).length
+	);
+
+	const canRemoveRecords = $derived(recordCount > 1);
+
+	const canClearEmptyRows = $derived(
+		recordCount > 1 && captureWordsPopoverStore.values.some((row) => isCaptureFormRowEmpty(row))
+	);
+
 	const typeOptions = $derived<WordTypeSelectOption[]>([
 		{
 			label: m['features.words.capture-popover.type_placeholder'](),
@@ -95,10 +110,14 @@
 		...WORD_TYPE_OPTIONS
 	]);
 
+	function formatDraftBadgeCount(count: number): string {
+		return count > 99 ? '99+' : String(count);
+	}
+
 	async function handleAddMore() {
 		captureWordsPopoverStore.addEmptyRecord();
 		await tick();
-		recordsScrollEl?.scrollTo({ top: recordsScrollEl.scrollHeight, behavior: 'smooth' });
+		formScrollEl?.scrollTo({ top: formScrollEl.scrollHeight, behavior: 'smooth' });
 	}
 
 	function getFillValidationMessage(
@@ -201,12 +220,22 @@
 		saveError = null;
 	}
 
-	function closePopover() {
+	function closeModal() {
 		if (saveStatus === 'loading') {
 			return;
 		}
 
 		isOpen = false;
+	}
+
+	function handleOpenChange(open: boolean) {
+		if (open) {
+			isOpen = true;
+
+			return;
+		}
+
+		closeModal();
 	}
 
 	function handleSaveDone() {
@@ -216,6 +245,13 @@
 
 	function handleSaveBackToForm() {
 		resetSaveState();
+	}
+
+	function handleReset() {
+		captureWordsPopoverStore.reset();
+		fillButtonStatus = 'default';
+		fillGlobalError = null;
+		saveValidationError = null;
 	}
 
 	function handleSave() {
@@ -267,6 +303,16 @@
 	});
 </script>
 
+{#snippet wordTypeTriggerIcon({ selectedOption }: { selectedOption: WordTypeSelectOption })}
+	{#if selectedOption.value}
+		<span class={getWordTypeSwatchClasses(selectedOption.value)} aria-hidden="true">
+			<span class={getWordTypeSwatchDotClasses(selectedOption.value)}></span>
+		</span>
+	{:else}
+		<Type class="size-4 shrink-0 text-ink-muted" aria-hidden="true" />
+	{/if}
+{/snippet}
+
 {#snippet wordTypeOptionLeading(option: WordTypeSelectOption)}
 	{#if option.value}
 		<span class={getWordTypeSwatchClasses(option.value)} aria-hidden="true">
@@ -275,75 +321,107 @@
 	{/if}
 {/snippet}
 
-<Popover.Root bind:open={isOpen}>
-	<Popover.Trigger
-		data-testid={E2E_TEST_IDS.capturePopover.trigger}
-		title={m['features.words.capture-popover.title']()}
-		class={cn(
-			'flex w-full items-center py-2 transition-colors rounded-lg',
-			'cursor-pointer text-ink hover:bg-accent-soft hover:text-ink',
-			isSidebarExpanded ? 'gap-3 px-3 justify-start' : 'justify-center px-0'
-		)}
-	>
-		<CirclePlus class="h-5 w-5 shrink-0" />
-		{#if isSidebarExpanded}
-			<span class="text-sm font-medium" in:fade={{ delay: 150 }}>
-				{m['features.words.capture-popover.title']()}
+<button
+	type="button"
+	data-testid={E2E_TEST_IDS.capturePopover.trigger}
+	title={m['features.words.capture-popover.title']()}
+	class={cn(
+		'flex w-full items-center py-2 transition-colors rounded-lg',
+		'cursor-pointer text-ink hover:bg-accent-soft hover:text-ink',
+		isSidebarExpanded ? 'gap-3 px-3 justify-start' : 'justify-center px-0'
+	)}
+	onclick={() => {
+		isOpen = true;
+	}}
+>
+	<span class="relative inline-flex shrink-0">
+		<CirclePlus class="h-5 w-5" />
+		{#if draftWordCount > 0}
+			<span
+				data-testid={E2E_TEST_IDS.capturePopover.draftBadge}
+				class="absolute -right-1.5 -top-1.5 flex min-w-4 items-center justify-center rounded-full bg-ink px-1 py-0.5 text-[10px] font-semibold leading-none text-canvas tabular-nums"
+				aria-hidden="true"
+			>
+				{formatDraftBadgeCount(draftWordCount)}
 			</span>
 		{/if}
-	</Popover.Trigger>
+	</span>
+	{#if isSidebarExpanded}
+		<span class="text-sm font-medium" in:fade={{ delay: 150 }}>
+			{m['features.words.capture-popover.title']()}
+		</span>
+	{/if}
+</button>
 
-	<Popover.Portal>
-		{#if isOpen}
-			<div class="fixed inset-0 z-50 bg-ink/30" aria-hidden="true" onclick={closePopover}></div>
-		{/if}
-		<Popover.Content
+<Dialog.Root open={isOpen} onOpenChange={handleOpenChange}>
+	<Dialog.Portal>
+		<Dialog.Overlay class="fixed inset-0 z-50 bg-ink/40 backdrop-blur-sm" />
+		<Dialog.Content
 			data-testid={E2E_TEST_IDS.capturePopover.root}
-			side="right"
-			sideOffset={12}
-			collisionPadding={24}
-			class={cn('overlay-surface z-50 p-3', popoverWidthClass, 'border-ink/25 shadow-lg')}
+			class={cn(
+				'overlay-surface fixed top-1/2 left-1/2 z-50 flex max-h-[min(90dvh,calc(100vh-2rem))] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden',
+				modalWidthClass,
+				'border border-line shadow-lg'
+			)}
 		>
-			<div
-				class={cn('flex items-start gap-2', isSaveResultVisible ? 'justify-end' : 'justify-between')}
-			>
-				{#if !isSaveResultVisible}
-					<h2 class="text-base font-semibold text-ink">
-						{m['features.words.capture-popover.title']()}
-					</h2>
-				{/if}
-
-				<button
-					type="button"
-					aria-label={m['features.words.capture-popover.close']()}
-					class={cn(
-						'shrink-0 -mr-0.5 -mt-0.5 rounded-md p-1',
-						'text-ink-subtle transition-colors',
-						'hover:bg-accent-soft hover:text-ink',
-						saveStatus === 'loading' && 'cursor-not-allowed opacity-50'
-					)}
-					disabled={saveStatus === 'loading'}
-					onclick={closePopover}
+			<header class="shrink-0 border-b border-line px-5 pb-4 pt-5">
+				<div
+					class={cn('flex items-start gap-3', isSaveResultVisible ? 'justify-end' : 'justify-between')}
 				>
-					<X class="h-4 w-4" />
-				</button>
-			</div>
+					{#if !isSaveResultVisible}
+						<div class="min-w-0 flex-1">
+							<Dialog.Title class="text-lg font-semibold text-ink">
+								{m['features.words.capture-popover.title']()}
+							</Dialog.Title>
+							<Dialog.Description class="mt-1 text-sm leading-relaxed text-ink-muted">
+								{m['features.words.capture-popover.description']()}
+							</Dialog.Description>
+						</div>
+					{:else}
+						<Dialog.Title class="sr-only">
+							{m['features.words.capture-popover.title']()}
+						</Dialog.Title>
+					{/if}
 
-			{#if !isSaveResultVisible}
-				<p class="text-sm text-ink-muted">
-					{m['features.words.capture-popover.description']()}
-				</p>
+					<button
+						type="button"
+						aria-label={m['features.words.capture-popover.close']()}
+						class={cn(
+							'shrink-0 rounded-lg p-1.5 text-ink-subtle transition-colors',
+							'hover:bg-accent-soft hover:text-ink',
+							saveStatus === 'loading' && 'cursor-not-allowed opacity-50'
+						)}
+						disabled={saveStatus === 'loading'}
+						onclick={closeModal}
+					>
+						<X class="size-4" />
+					</button>
+				</div>
 
-				{#if fillGlobalError}
-					<p class="mt-2 text-sm text-danger" role="alert">{fillGlobalError}</p>
+				{#if !isSaveResultVisible && (fillGlobalError || saveValidationError)}
+					<div class="mt-3 space-y-2">
+						{#if fillGlobalError}
+							<p
+								class="rounded-[10px] border border-danger/20 bg-danger/5 px-3 py-2 text-sm text-danger"
+								role="alert"
+							>
+								{fillGlobalError}
+							</p>
+						{/if}
+
+						{#if saveValidationError}
+							<p
+								class="rounded-[10px] border border-danger/20 bg-danger/5 px-3 py-2 text-sm text-danger"
+								role="alert"
+							>
+								{saveValidationError}
+							</p>
+						{/if}
+					</div>
 				{/if}
+			</header>
 
-				{#if saveValidationError}
-					<p class="mt-2 text-sm text-danger" role="alert">{saveValidationError}</p>
-				{/if}
-			{/if}
-
-			<div class={cn('relative mb-1 min-h-[8.5rem]', !isSaveResultVisible && 'mt-2')}>
+			<div bind:this={formScrollEl} class="relative min-h-0 flex-1 overflow-y-auto px-5 py-4">
 				{#if isSaveResultVisible}
 					{#if saveStatus === 'success'}
 						<div data-testid={E2E_TEST_IDS.capturePopover.saveStatusSuccess}>
@@ -376,133 +454,109 @@
 					{/if}
 				{:else}
 					<div
-						bind:this={recordsScrollEl}
 						class={cn(
-							'flex min-h-0 flex-col gap-1',
-							isRecordsScrollable && 'overflow-y-auto overscroll-contain pr-1',
+							'flex min-h-0 flex-col gap-3',
 							saveStatus === 'loading' && 'pointer-events-none opacity-50'
 						)}
-						style:max-height={isRecordsScrollable ? `${recordsScrollMaxHeightPx}px` : undefined}
 					>
 						{#each captureWordsPopoverStore.values as wordRecord, index (index)}
-							{#if index !== 0}
-								<Divider />
-							{/if}
+							<article
+								class="rounded-xl border border-line bg-accent-soft/30 p-3"
+								aria-label={m['features.words.capture-popover.row_label']({ index: index + 1 })}
+							>
+								<div class="flex gap-2">
+									<div class="grid min-w-0 flex-1 gap-2 sm:grid-cols-3">
+										<Input
+											placeholder={m['features.words.capture-popover.word_placeholder']()}
+											class="min-w-0"
+											leftAdornment={EyeIcon}
+											bind:value={wordRecord.word}
+											disabled={isBusy}
+											onInput={() => {
+												if (wordRecord.aiError) {
+													wordRecord.aiError = null;
+												}
+											}}
+										/>
 
-							<div class="flex w-full flex-col gap-1">
-								<div class="flex w-full flex-wrap gap-1">
-									<Input
-										placeholder={m['features.words.capture-popover.word_placeholder']()}
-										class="min-w-[9rem] flex-1 basis-[12rem]"
-										leftAdornment={EyeIcon}
-										bind:value={wordRecord.word}
-										disabled={isBusy}
-										onInput={() => {
-											if (wordRecord.aiError) {
-												wordRecord.aiError = null;
-											}
-										}}
-									/>
+										<Input
+											placeholder={m['features.words.capture-popover.translation_placeholder']()}
+											class="min-w-0"
+											leftAdornment={ArrowLeftRight}
+											bind:value={wordRecord.translation}
+											disabled={isBusy}
+										/>
 
-									<Input
-										placeholder={m['features.words.capture-popover.translation_placeholder']()}
-										class="min-w-[9rem] flex-1 basis-[12rem]"
-										leftAdornment={ArrowLeftRight}
-										bind:value={wordRecord.translation}
-										disabled={isBusy}
-									/>
+										<DropdownSelect
+											value={wordRecord.type}
+											onValueChange={(type) => {
+												wordRecord.type = type;
+											}}
+											options={typeOptions}
+											buttonClass="w-full min-w-0"
+											icon={wordTypeTriggerIcon}
+											optionLeading={wordTypeOptionLeading}
+										/>
+									</div>
 
-									<DropdownSelect
-										value={wordRecord.type}
-										onValueChange={(type) => {
-											wordRecord.type = type;
-										}}
-										options={typeOptions}
-										buttonClass="w-full min-w-[9rem] basis-[10rem] sm:w-[160px] sm:flex-none"
-										optionLeading={wordTypeOptionLeading}
-									/>
-
-									<IconButton
-										type="OUTLINED"
-										variant="DELETE"
-										ariaLabel={m['features.words.capture-popover.remove_record']()}
-										onClick={() => captureWordsPopoverStore.removeRecord(index)}
-										icon={Minus}
-										disabled={isBusy}
-									/>
+									{#if canRemoveRecords}
+										<IconButton
+											type="OUTLINED"
+											variant="TEXT"
+											class="!size-10 shrink-0 self-start"
+											ariaLabel={m['features.words.capture-popover.remove_record']()}
+											onClick={() => captureWordsPopoverStore.removeRecord(index)}
+											icon={Minus}
+											disabled={isBusy}
+										/>
+									{/if}
 								</div>
 
 								{#if wordRecord.aiError}
-									<p class="text-xs text-danger" role="alert">
+									<p class="mt-2 text-xs text-danger" role="alert">
 										{getRowFillErrorMessage(wordRecord.aiError as WordFillGapsRowErrorCode)}
 									</p>
 								{/if}
 
-								<div class="flex items-center gap-2">
-									<Switch.Root
-										checked={wordRecord.isDescriptionEnabled}
-										onCheckedChange={(checked) => {
-											wordRecord.isDescriptionEnabled = checked;
-										}}
-										disabled={isBusy}
-										class="inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border border-line bg-accent-soft p-0.5 transition-colors data-[state=checked]:bg-ink disabled:cursor-not-allowed disabled:opacity-50"
-									>
-										<Switch.Thumb
-											class="block size-4 rounded-full bg-white shadow-sm transition-transform data-[state=checked]:translate-x-4"
-										/>
-									</Switch.Root>
-
+								<div class="mt-2">
 									<AutoHeightTextarea
 										formField
 										LINE_HEIGHT={20}
-										className="min-h-[40px] flex items-center flex-1"
+										maxLength={CAPTURE_WORDS_DESCRIPTION_MAX_LENGTH}
+										className="w-full"
 										placeholder={m['features.words.capture-popover.description_placeholder']()}
-										disabled={!wordRecord.isDescriptionEnabled || isBusy}
+										disabled={isBusy}
 										bind:value={wordRecord.definition}
 									/>
 								</div>
-							</div>
+							</article>
 						{/each}
 					</div>
 
-					{#if saveStatus === 'loading'}
-						<div
-							data-testid={E2E_TEST_IDS.capturePopover.saveStatusLoading}
-							class="absolute inset-0 flex items-center justify-center rounded-md bg-canvas/50"
-							aria-busy="true"
-							aria-live="polite"
+					<div class="mt-3 flex flex-wrap items-center gap-2">
+						<Button
+							onClick={handleAddMore}
+							type="OUTLINED"
+							variant="TEXT"
+							disabled={recordCount >= CAPTURE_WORDS_POPOVER_MAX_COUNT || isBusy}
 						>
-							<Loader wrapperClass="py-4" />
-						</div>
-					{/if}
-				{/if}
-			</div>
+							<Plus class="size-4" />
+							<span>{m['features.words.capture-popover.add_more']()}</span>
+						</Button>
 
-			{#if !isSaveResultVisible}
-				<div class="mt-3 flex flex-wrap items-center gap-2 border-t border-line pt-3">
-					<Button
-						onClick={handleAddMore}
-						type="OUTLINED"
-						variant="TEXT"
-						disabled={captureWordsPopoverStore.values.length >= CAPTURE_WORDS_POPOVER_MAX_COUNT || isBusy}
-					>
-						<Plus class="size-4" />
-						<span>{m['features.words.capture-popover.add_more']()}</span>
-					</Button>
+						<IconButton
+							type="OUTLINED"
+							variant="TEXT"
+							icon={BrushCleaning}
+							dataTestId={E2E_TEST_IDS.capturePopover.clearEmpty}
+							ariaLabel={m['features.words.capture-popover.clear_empty']()}
+							tooltip={m['features.words.capture-popover.clear_empty']()}
+							disabled={!canClearEmptyRows || isBusy}
+							onClick={() => captureWordsPopoverStore.removeEmptyRecords()}
+						/>
 
-					<Button
-						onClick={() => captureWordsPopoverStore.reset()}
-						type="OUTLINED"
-						variant="DELETE"
-						disabled={captureWordsPopoverStore.values.length === 1 || isBusy}
-					>
-						<RotateCcw class="size-4" />
-						<span>{m['features.words.capture-popover.reset']()}</span>
-					</Button>
-
-					<div class="ml-auto flex w-full min-w-0 flex-wrap items-stretch justify-end gap-2 sm:w-auto">
 						<AiActionButton
-							class="h-10 w-full min-w-0 sm:min-w-40 sm:w-auto"
+							class="ml-auto h-10 w-full min-w-0 sm:w-auto sm:min-w-40"
 							status={fillButtonStatus}
 							disabled={!hasWordToFill || isBusy}
 							onclick={handleFillWithAi}
@@ -513,15 +567,54 @@
 								failed: m['components.utils.generate-with-ai.failed']()
 							}}
 						/>
+					</div>
 
-						<Button class="w-full min-w-0 sm:min-w-32 sm:w-auto" disabled={isBusy} onClick={handleSave}>
+					{#if saveStatus === 'loading'}
+						<div
+							data-testid={E2E_TEST_IDS.capturePopover.saveStatusLoading}
+							class="absolute inset-0 flex items-center justify-center bg-canvas/60 backdrop-blur-[1px]"
+							aria-busy="true"
+							aria-live="polite"
+						>
+							<Loader wrapperClass="py-4" />
+						</div>
+					{/if}
+				{/if}
+			</div>
+
+			{#if !isSaveResultVisible}
+				<footer class="shrink-0 border-t border-line bg-surface/80 px-5 py-3">
+					<div class="flex flex-wrap items-center justify-end gap-2">
+						<Button type="OUTLINED" variant="TEXT" disabled={isBusy} onClick={handleReset}>
+							<RotateCcw class="size-4" aria-hidden="true" />
+							{m['features.words.capture-popover.reset']()}
+						</Button>
+
+						<Button
+							type="OUTLINED"
+							variant="TEXT"
+							disabled={saveStatus === 'loading'}
+							onClick={closeModal}
+						>
+							<X class="size-4" aria-hidden="true" />
+							{m['features.words.capture-popover.close']()}
+						</Button>
+
+						<Button
+							type="FILLED"
+							variant="PRIMARY"
+							class="min-w-24"
+							disabled={isBusy}
+							onClick={handleSave}
+						>
+							<Save class="size-4" aria-hidden="true" />
 							{saveStatus === 'loading'
 								? m['features.words.capture-popover.saving']()
 								: m['features.words.capture-popover.save']()}
 						</Button>
 					</div>
-				</div>
+				</footer>
 			{/if}
-		</Popover.Content>
-	</Popover.Portal>
-</Popover.Root>
+		</Dialog.Content>
+	</Dialog.Portal>
+</Dialog.Root>

@@ -23,6 +23,22 @@ class CaptureWordsPopoverStore {
 			row.aiError = null;
 		}
 	}
+
+	removeEmptyRecords() {
+		const filledRows = this.values.filter((row) => row.word.trim().length > 0);
+
+		if (filledRows.length > 0) {
+			this.values = filledRows;
+
+			return;
+		}
+
+		this.values = [createEmptyRow()];
+	}
+}
+
+export function isCaptureFormRowEmpty(row: CaptureFormRow): boolean {
+	return row.word.trim().length === 0;
 }
 
 function createEmptyRow(): CaptureFormRow {

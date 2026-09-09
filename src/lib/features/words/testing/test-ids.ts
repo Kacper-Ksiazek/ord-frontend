@@ -33,9 +33,11 @@ export const E2E_TEST_IDS = {
 	},
 	capturePopover: {
 		trigger: 'sidebar-capture-words',
+		draftBadge: 'sidebar-capture-words-draft-badge',
 		root: 'capture-words-popover',
 		saveStatusLoading: 'capture-words-popover-save-loading',
 		saveStatusSuccess: 'capture-words-popover-save-success',
-		saveStatusError: 'capture-words-popover-save-error'
+		saveStatusError: 'capture-words-popover-save-error',
+		clearEmpty: 'capture-words-popover-clear-empty'
 	}
 } as const;
