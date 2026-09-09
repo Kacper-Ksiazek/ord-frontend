@@ -1,8 +1,65 @@
+import { browser } from '$app/environment';
+import { authStore } from '$auth/stores';
 import { CAPTURE_WORDS_POPOVER_MAX_COUNT } from './capture-words-popover.constants';
 import type { CaptureFormRow } from './capture-words-popover.types';
+import {
+	readCaptureWordsDraftFromStorage,
+	writeCaptureWordsDraftToStorage
+} from './capture-words-popover.storage';
 
 class CaptureWordsPopoverStore {
 	values = $state<CaptureFormRow[]>([]);
+	#hydratedForUser: string | null = null;
+
+	constructor() {
+		if (!browser) return;
+
+		$effect(() => {
+			const userKey = authStore.user?.email ?? null;
+
+			if (userKey !== this.#hydratedForUser) {
+				this.#hydratedForUser = userKey;
+				this.#hydrateFromStorage(userKey);
+			}
+		});
+
+		$effect(() => {
+			const userKey = authStore.user?.email ?? null;
+			if (!userKey) return;
+
+			const snapshot = this.values.map((row) => ({
+				isDescriptionEnabled: row.isDescriptionEnabled,
+				word: row.word,
+				translation: row.translation,
+				type: row.type,
+				extraMark: row.extraMark,
+				definition: row.definition
+			}));
+
+			writeCaptureWordsDraftToStorage(userKey, snapshot);
+		});
+	}
+
+	#hydrateFromStorage(userKey: string | null) {
+		if (!userKey) {
+			this.values = [createEmptyRow()];
+
+			return;
+		}
+
+		const stored = readCaptureWordsDraftFromStorage(userKey);
+
+		if (stored && stored.length > 0) {
+			this.values = stored.map((row) => ({
+				...row,
+				aiError: null
+			}));
+
+			return;
+		}
+
+		this.values = [createEmptyRow()];
+	}
 
 	addEmptyRecord() {
 		if (this.values.length >= CAPTURE_WORDS_POPOVER_MAX_COUNT) return;
