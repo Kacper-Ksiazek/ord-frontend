@@ -79,7 +79,9 @@
 		"bank_aria": "Nach Bank filtern",
 		"bookmarked_only": "Lesezeichen",
 		"bookmarked_only_aria": "Nur Wörter mit Lesezeichen anzeigen",
-		"clear": "Filter löschen"
+		"clear": "Filter löschen",
+		"open_aria": "Filter öffnen",
+		"popover_title": "Filter"
 	},
 	"list_aria_label": "Deine Wörter",
 	"pagination": {

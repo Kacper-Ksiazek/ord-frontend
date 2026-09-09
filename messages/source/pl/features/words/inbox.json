@@ -79,7 +79,9 @@
 		"bank_aria": "Filtruj według banku",
 		"bookmarked_only": "Zakładki",
 		"bookmarked_only_aria": "Pokaż tylko słowa z zakładkami",
-		"clear": "Wyczyść filtry"
+		"clear": "Wyczyść filtry",
+		"open_aria": "Otwórz filtry",
+		"popover_title": "Filtry"
 	},
 	"list_aria_label": "Twoje słowa",
 	"pagination": {

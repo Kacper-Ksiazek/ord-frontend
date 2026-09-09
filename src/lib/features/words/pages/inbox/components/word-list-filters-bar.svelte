@@ -1,5 +1,8 @@
 <script lang="ts">
+	import { Popover } from 'bits-ui';
+	import { Button } from '$lib/components/buttons/button';
 	import Input from '$lib/components/forms/input/input.svelte';
+	import { Divider } from '$lib/components/utils/divider';
 	import { DropdownMultiSelect } from '$lib/components/forms/dropdown-multi-select';
 	import { WordsListFiltersState } from '../state/words-list-filters-state.svelte';
 	import { createBanksQuery } from '$words/api-client';
@@ -9,7 +12,7 @@
 	import BankGroupColorDot from '$words/shared/components/bank-group-color-dot.svelte';
 	import type { WordExtraMark, WordType } from '$words/types';
 	import type { DropdownMultiSelectOption } from '$lib/components/forms/dropdown-multi-select';
-	import { Bookmark, Heart, RotateCcw, SearchIcon, Tag, Type } from 'lucide-svelte';
+	import { Bookmark, Heart, ListFilter, RotateCcw, SearchIcon, Tag, Type } from 'lucide-svelte';
 	import { E2E_TEST_IDS } from '$words/testing/test-ids';
 	import * as m from '$lib/paraglide/messages.js';
 	import { cn } from '$lib/utils/cn';
@@ -21,6 +24,8 @@
 	}
 
 	let { filtersState, isSplitView = false, bookmarkedCount = 0 }: Props = $props();
+
+	let filtersPopoverOpen = $state(false);
 
 	const banksQuery = createBanksQuery();
 
@@ -124,7 +129,7 @@
 	{/if}
 {/snippet}
 
-{#snippet bookmarkedOnlyToggle()}
+{#snippet bookmarkedOnlyToggle(fullWidth = false)}
 	<button
 		type="button"
 		role="switch"
@@ -132,7 +137,8 @@
 		aria-label={m['features.words.inbox.filters.bookmarked_only_aria']()}
 		data-testid={E2E_TEST_IDS.inbox.filterBookmarkedOnly}
 		class={cn(
-			'inline-flex h-[40px] shrink-0 items-center gap-2 rounded-[10px] border px-2.5 text-sm font-medium transition-colors',
+			'inline-flex h-[40px] items-center gap-2 rounded-[10px] border px-2.5 text-sm font-medium transition-colors',
+			fullWidth ? 'w-full justify-between' : 'shrink-0',
 			filtersState.filters.bookmarkedOnly
 				? 'border-line bg-accent-soft text-ink'
 				: 'border-line bg-surface text-ink-muted hover:bg-accent-soft hover:text-ink'
@@ -141,11 +147,13 @@
 			filtersState.filters.bookmarkedOnly = !filtersState.filters.bookmarkedOnly;
 		}}
 	>
-		<Heart
-			class={cn('size-4 shrink-0', bookmarkedHeartClass(filtersState.filters.bookmarkedOnly))}
-			aria-hidden="true"
-		/>
-		<span class="whitespace-nowrap">{m['features.words.inbox.filters.bookmarked_only']()}</span>
+		<span class="inline-flex min-w-0 items-center gap-2">
+			<Heart
+				class={cn('size-4 shrink-0', bookmarkedHeartClass(filtersState.filters.bookmarkedOnly))}
+				aria-hidden="true"
+			/>
+			<span class="whitespace-nowrap">{m['features.words.inbox.filters.bookmarked_only']()}</span>
+		</span>
 		{#if bookmarkedCount > 0}
 			<span
 				class={cn(
@@ -180,34 +188,80 @@
 	</button>
 {/snippet}
 
+{#snippet clearFiltersTextButton()}
+	<Button
+		type="OUTLINED"
+		variant="DELETE"
+		class="w-full"
+		dataTestId={E2E_TEST_IDS.inbox.filterClear}
+		disabled={!filtersState.hasActiveFilters}
+		onClick={() => filtersState.clearFilters()}
+	>
+		<RotateCcw class="size-4 shrink-0" aria-hidden="true" />
+		{m['features.words.inbox.filters.clear']()}
+	</Button>
+{/snippet}
+
 {#if isSplitView}
 	<div class="mb-4 flex min-w-0 flex-col gap-2" data-testid={E2E_TEST_IDS.inbox.filters}>
-		<Input
-			dataTestId={E2E_TEST_IDS.inbox.filterSearch}
-			debounced
-			bind:value={filtersState.filters.search}
-			type="search"
-			placeholder={m['features.words.inbox.filters.search_placeholder']()}
-			class="w-full"
-			leftAdornment={SearchIcon}
-		/>
+		<div class="flex items-center gap-2">
+			<Input
+				dataTestId={E2E_TEST_IDS.inbox.filterSearch}
+				debounced
+				bind:value={filtersState.filters.search}
+				type="search"
+				placeholder={m['features.words.inbox.filters.search_placeholder']()}
+				class="min-w-0 flex-1"
+				leftAdornment={SearchIcon}
+			/>
 
-		<div class="grid grid-cols-2 gap-2">
-			<div class="min-w-0">
-				{@render wordTypeFilter('w-full min-w-0')}
-			</div>
-			<div class="min-w-0">
-				{@render extraMarkFilter('w-full min-w-0')}
-			</div>
-		</div>
+			<Popover.Root bind:open={filtersPopoverOpen}>
+				<Popover.Trigger>
+					{#snippet child({ props })}
+						<button
+							{...props}
+							type="button"
+							data-testid={E2E_TEST_IDS.inbox.filterPopoverTrigger}
+							aria-label={m['features.words.inbox.filters.open_aria']()}
+							title={m['features.words.inbox.filters.open_aria']()}
+							class={cn(
+								'inline-flex size-[40px] shrink-0 items-center justify-center rounded-[10px] border transition-colors',
+								'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/20',
+								filtersState.hasActiveFilters
+									? 'border-line bg-accent-soft text-ink'
+									: 'border-line bg-surface text-ink-muted hover:bg-accent-soft hover:text-ink'
+							)}
+						>
+							<ListFilter class="size-4 shrink-0" aria-hidden="true" />
+						</button>
+					{/snippet}
+				</Popover.Trigger>
 
-		<div class="min-w-0">
-			{@render bankFilter('w-full min-w-0')}
-		</div>
+				<Popover.Portal>
+					<Popover.Content
+						data-testid={E2E_TEST_IDS.inbox.filterPopover}
+						side="bottom"
+						align="end"
+						sideOffset={8}
+						collisionPadding={16}
+						class="overlay-surface z-50 w-[min(20rem,calc(100vw-2rem))] border border-line p-3 shadow-lg"
+					>
+						<h3 class="mb-3 text-sm font-semibold text-ink">
+							{m['features.words.inbox.filters.popover_title']()}
+						</h3>
 
-		<div class="flex items-center justify-between gap-2">
-			{@render bookmarkedOnlyToggle()}
-			{@render clearFiltersButton()}
+						<div class="flex flex-col gap-2">
+							{@render wordTypeFilter('w-full min-w-0')}
+							{@render extraMarkFilter('w-full min-w-0')}
+							{@render bankFilter('w-full min-w-0')}
+							{@render bookmarkedOnlyToggle(true)}
+						</div>
+
+						<Divider class="!my-3" />
+						{@render clearFiltersTextButton()}
+					</Popover.Content>
+				</Popover.Portal>
+			</Popover.Root>
 		</div>
 	</div>
 {:else}

@@ -24,6 +24,8 @@ export const E2E_TEST_IDS = {
 		filterExtraMark: 'words-inbox-filter-extra-mark',
 		filterBank: 'words-inbox-filter-bank',
 		filterClear: 'words-inbox-filter-clear',
+		filterPopover: 'words-inbox-filter-popover',
+		filterPopoverTrigger: 'words-inbox-filter-popover-trigger',
 		filterBookmarkedOnly: 'words-inbox-filter-bookmarked-only',
 		filterBookmarkedCount: 'words-inbox-filter-bookmarked-count',
 		listSkeleton: 'words-inbox-list-skeleton',

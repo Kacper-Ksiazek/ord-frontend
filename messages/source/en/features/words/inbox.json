@@ -79,7 +79,9 @@
 		"bank_aria": "Filter by bank",
 		"bookmarked_only": "Bookmarked",
 		"bookmarked_only_aria": "Show bookmarked words only",
-		"clear": "Clear filters"
+		"clear": "Clear filters",
+		"open_aria": "Open filters",
+		"popover_title": "Filters"
 	},
 	"list_aria_label": "Your words",
 	"pagination": {
