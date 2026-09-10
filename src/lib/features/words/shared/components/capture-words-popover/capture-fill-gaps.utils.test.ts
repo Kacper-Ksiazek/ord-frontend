@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
 	applyFillResultToRow,
-	buildBulkCreatePayload,
+	buildCreateWordsPayload,
 	collectFillGapsItems
 } from './capture-fill-gaps.utils';
 import type { CaptureFormRow } from './capture-words-popover.types';
@@ -116,10 +116,10 @@ describe('applyFillResultToRow', () => {
 	});
 });
 
-describe('buildBulkCreatePayload', () => {
+describe('buildCreateWordsPayload', () => {
 	describe('positive path', () => {
 		it('should map description to definition and skip empty rows', () => {
-			const payload = buildBulkCreatePayload(
+			const result = buildCreateWordsPayload(
 				[
 					createRow({
 						word: 'verbose',
@@ -132,28 +132,52 @@ describe('buildBulkCreatePayload', () => {
 				'ENGLISH'
 			);
 
-			expect(payload).toEqual([
-				{
-					sourceWord: 'verbose',
-					language: 'ENGLISH',
-					translation: 'rozwlekły',
-					definition: 'Long-winded.',
-					type: 'ADJECTIVE',
-					extraMark: null
-				}
-			]);
+			expect(result).toEqual({
+				ok: true,
+				payload: [
+					{
+						sourceWord: 'verbose',
+						language: 'ENGLISH',
+						translation: 'rozwlekły',
+						definition: 'Long-winded.',
+						type: 'ADJECTIVE',
+						extraMark: null
+					}
+				]
+			});
 		});
 	});
 
 	describe('negative path', () => {
-		it('should return an empty array when every row is blank', () => {
-			expect(buildBulkCreatePayload([createRow(), createRow()], 'ENGLISH')).toEqual([]);
+		it('should return no_words when every row is blank', () => {
+			expect(buildCreateWordsPayload([createRow(), createRow()], 'ENGLISH')).toEqual({
+				ok: false,
+				reason: 'no_words',
+				rowIndex: 0
+			});
+		});
+
+		it('should return incomplete_row when required fields are missing', () => {
+			expect(
+				buildCreateWordsPayload(
+					[createRow({ word: 'verbos', translation: 'rozwlekły', type: 'ADJECTIVE' })],
+					'ENGLISH'
+				)
+			).toEqual({
+				ok: false,
+				reason: 'incomplete_row',
+				rowIndex: 0
+			});
 		});
 	});
 
 	describe('edge cases', () => {
 		it('should treat whitespace-only words as empty', () => {
-			expect(buildBulkCreatePayload([createRow({ word: '   ' })], 'ENGLISH')).toEqual([]);
+			expect(buildCreateWordsPayload([createRow({ word: '   ' })], 'ENGLISH')).toEqual({
+				ok: false,
+				reason: 'no_words',
+				rowIndex: 0
+			});
 		});
 	});
 });

@@ -1,13 +1,13 @@
 import { createMutation, useQueryClient } from '@tanstack/svelte-query';
-import type { CaptureWordRequest } from '$words/types';
-import { httpPostCaptureWords } from '../api/http-post-capture-words';
+import type { CreateWordRequest } from '$words/types';
+import { httpPostCreateWords } from '../api/http-post-create-word';
 import { invalidateWordCaptureQueries } from '../utils/invalidate-word-capture-queries';
 
-export function createCaptureWordsMutation() {
+export function createCreateWordsMutation() {
 	const queryClient = useQueryClient();
 
 	return createMutation(() => ({
-		mutationFn: (body: CaptureWordRequest[]) => httpPostCaptureWords(body),
+		mutationFn: (body: CreateWordRequest[]) => httpPostCreateWords(body),
 		onSuccess: () => invalidateWordCaptureQueries(queryClient)
 	}));
 }
