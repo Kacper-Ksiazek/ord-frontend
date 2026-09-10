@@ -43,7 +43,8 @@ describe('capture-words-popover.storage', () => {
 					word: 'hello',
 					translation: 'cześć',
 					type: 'NOUN',
-					definition: 'greeting'
+					definition: 'greeting',
+					isAiGenerated: false
 				}
 			]);
 		});
@@ -65,7 +66,8 @@ describe('capture-words-popover.storage', () => {
 					word: 'run',
 					translation: 'biegać',
 					type: 'VERB',
-					definition: ''
+					definition: '',
+					isAiGenerated: true
 				}
 			]);
 
@@ -75,7 +77,8 @@ describe('capture-words-popover.storage', () => {
 					word: 'run',
 					translation: 'biegać',
 					type: 'VERB',
-					definition: ''
+					definition: '',
+					isAiGenerated: true
 				}
 			]);
 		});

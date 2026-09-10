@@ -5,6 +5,7 @@
 	import { isAxiosError } from 'axios';
 	import {
 		ArrowLeftRight,
+		BookOpen,
 		BrushCleaning,
 		CirclePlus,
 		EyeIcon,
@@ -12,6 +13,7 @@
 		Plus,
 		RotateCcw,
 		Save,
+		Tag,
 		Type,
 		X
 	} from 'lucide-svelte';
@@ -36,7 +38,9 @@
 		getWordTypeSwatchClasses,
 		getWordTypeSwatchDotClasses
 	} from '$words/shared/constants';
-	import type { WordFillGapsRowErrorCode, WordType } from '$words/types';
+	import { WORD_EXTRA_MARK_OPTIONS } from '$words/shared/constants/enum-values';
+	import { getWordExtraMarkIcon } from '$words/shared/constants/word-extra-mark-styles';
+	import type { WordExtraMark, WordFillGapsRowErrorCode, WordType } from '$words/types';
 	import * as m from '$lib/paraglide/messages.js';
 	import { E2E_TEST_IDS } from '$words/testing/test-ids';
 	import {
@@ -47,7 +51,8 @@
 	import {
 		applyFillResultToRow,
 		buildCreateWordsPayload,
-		collectFillGapsItems
+		collectFillGapsItems,
+		isRowEligibleForAiFill
 	} from './capture-fill-gaps.utils';
 	import { clearCaptureWordsDraftFromStorage } from './capture-words-popover.storage';
 	import {
@@ -59,6 +64,7 @@
 	import CaptureWordsSaveStatusPanel from './capture-words-save-status-panel.svelte';
 
 	type WordTypeSelectOption = DropdownSelectOption<WordType | null>;
+	type WordExtraMarkSelectOption = DropdownSelectOption<WordExtraMark | null>;
 
 	interface Props {
 		isSidebarExpanded: boolean;
@@ -66,7 +72,13 @@
 
 	let { isSidebarExpanded }: Props = $props();
 
-	const modalWidthClass = 'w-[min(42rem,calc(100vw-2rem))]';
+	const modalWidthClass = 'w-[min(52rem,calc(100vw-2rem))]';
+
+	const compactTypeSelectClass =
+		'w-full min-w-0 xl:w-[7.5rem] xl:max-w-[7.5rem] [&_.form-input-container]:min-w-0 [&_.form-input-container_span]:truncate';
+
+	const compactExtraMarkSelectClass =
+		'w-full min-w-0 xl:w-[10rem] xl:max-w-[10rem] [&_.form-input-container]:min-w-0 [&_.form-input-container_span]:truncate';
 
 	const queryClient = useQueryClient();
 	const fillGapsMutation = createWordFillGapsMutation();
@@ -84,7 +96,7 @@
 	const learningLanguage = $derived(authStore.user?.selectedLearningLanguage ?? undefined);
 
 	const hasWordToFill = $derived(
-		captureWordsPopoverStore.values.some((row) => row.word.trim().length > 0)
+		captureWordsPopoverStore.values.some((row) => isRowEligibleForAiFill(row))
 	);
 
 	const isBusy = $derived(
@@ -96,7 +108,7 @@
 	const isFillLoading = $derived(fillButtonStatus === 'loading');
 
 	const fillProgressLabel = $derived.by(() => {
-		const count = captureWordsPopoverStore.values.filter((row) => row.word.trim()).length;
+		const count = captureWordsPopoverStore.values.filter((row) => isRowEligibleForAiFill(row)).length;
 
 		return m['features.words.capture-popover.fill_progress']({ count });
 	});
@@ -121,6 +133,14 @@
 		...WORD_TYPE_OPTIONS
 	]);
 
+	const extraMarkOptions = $derived<WordExtraMarkSelectOption[]>([
+		{
+			label: m['features.words.capture-popover.extra_mark_placeholder'](),
+			value: null
+		},
+		...WORD_EXTRA_MARK_OPTIONS
+	]);
+
 	function formatDraftBadgeCount(count: number): string {
 		return count > 99 ? '99+' : String(count);
 	}
@@ -143,11 +163,13 @@
 	}
 
 	function getFillValidationMessage(
-		reason: 'no_words' | 'too_many_words' | 'word_too_long'
+		reason: 'no_words' | 'all_already_filled' | 'too_many_words' | 'word_too_long'
 	): string {
 		switch (reason) {
 			case 'no_words':
 				return m['features.words.capture-popover.fill_validation.no_words']();
+			case 'all_already_filled':
+				return m['features.words.capture-popover.fill_validation.all_already_filled']();
 			case 'word_too_long':
 				return m['features.words.capture-popover.fill_validation.word_too_long']();
 			case 'too_many_words':
@@ -177,6 +199,7 @@
 	function handleFillWithAi() {
 		saveValidationError = null;
 		fillGlobalError = null;
+		captureWordsPopoverStore.removeEmptyRecords();
 
 		const collected = collectFillGapsItems(captureWordsPopoverStore.values);
 		if (!collected.ok) {
@@ -461,6 +484,7 @@
 			void row.type;
 			void row.extraMark;
 			void row.definition;
+			void row.isAiGenerated;
 		}
 
 		captureWordsPopoverStore.persistDraft(userKey);
@@ -497,6 +521,22 @@
 		<span class={getWordTypeSwatchClasses(option.value)} aria-hidden="true">
 			<span class={getWordTypeSwatchDotClasses(option.value)}></span>
 		</span>
+	{/if}
+{/snippet}
+
+{#snippet extraMarkTriggerIcon({ selectedOption }: { selectedOption: WordExtraMarkSelectOption })}
+	{#if selectedOption.value}
+		{@const Icon = getWordExtraMarkIcon(selectedOption.value)}
+		<Icon class="size-4 shrink-0 text-ink-muted" aria-hidden="true" />
+	{:else}
+		<Tag class="size-4 shrink-0 text-ink-muted" aria-hidden="true" />
+	{/if}
+{/snippet}
+
+{#snippet extraMarkOptionLeading(option: WordExtraMarkSelectOption)}
+	{#if option.value}
+		{@const Icon = getWordExtraMarkIcon(option.value)}
+		<Icon class="size-4 shrink-0 text-ink-muted" aria-hidden="true" />
 	{/if}
 {/snippet}
 
@@ -555,13 +595,22 @@
 					class={cn('flex items-start gap-3', isSaveErrorVisible ? 'justify-end' : 'justify-between')}
 				>
 					{#if !isSaveErrorVisible}
-						<div class="min-w-0 flex-1">
-							<Dialog.Title class="text-lg font-semibold text-ink">
-								{m['features.words.capture-popover.title']()}
-							</Dialog.Title>
-							<Dialog.Description class="mt-1 text-sm leading-relaxed text-ink-muted">
-								{m['features.words.capture-popover.description']()}
-							</Dialog.Description>
+						<div class="flex min-w-0 flex-1 items-start gap-3">
+							<div
+								class="flex size-[54px] shrink-0 items-center justify-center rounded-[10px] bg-primary-50 text-primary-600 dark:bg-primary-900/25 dark:text-primary-400"
+								aria-hidden="true"
+							>
+								<BookOpen class="size-6" />
+							</div>
+
+							<div class="min-w-0 flex-1">
+								<Dialog.Title class="text-lg font-semibold text-ink">
+									{m['features.words.capture-popover.title']()}
+								</Dialog.Title>
+								<Dialog.Description class="mt-1 text-sm leading-relaxed text-ink-muted">
+									{m['features.words.capture-popover.description']()}
+								</Dialog.Description>
+							</div>
 						</div>
 					{:else}
 						<Dialog.Title class="sr-only">
@@ -637,7 +686,9 @@
 								aria-label={m['features.words.capture-popover.row_label']({ index: index + 1 })}
 							>
 								<div class="flex gap-2">
-									<div class="grid min-w-0 flex-1 gap-2 sm:grid-cols-3">
+									<div
+										class="grid min-w-0 flex-1 gap-2 sm:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_7.5rem_10rem]"
+									>
 										<Input
 											placeholder={m['features.words.capture-popover.word_placeholder']()}
 											class="min-w-0"
@@ -647,6 +698,10 @@
 											onInput={() => {
 												if (wordRecord.aiError) {
 													wordRecord.aiError = null;
+												}
+
+												if (wordRecord.isAiGenerated) {
+													wordRecord.isAiGenerated = false;
 												}
 											}}
 										/>
@@ -665,9 +720,21 @@
 												wordRecord.type = type;
 											}}
 											options={typeOptions}
-											buttonClass="w-full min-w-0"
+											buttonClass={compactTypeSelectClass}
 											icon={wordTypeTriggerIcon}
 											optionLeading={wordTypeOptionLeading}
+										/>
+
+										<DropdownSelect
+											value={wordRecord.extraMark ?? null}
+											onValueChange={(mark) => {
+												wordRecord.extraMark = mark ?? undefined;
+											}}
+											options={extraMarkOptions}
+											buttonClass={compactExtraMarkSelectClass}
+											ariaLabel={m['features.words.capture-popover.extra_mark_aria']()}
+											icon={extraMarkTriggerIcon}
+											optionLeading={extraMarkOptionLeading}
 										/>
 									</div>
 
@@ -702,7 +769,7 @@
 									/>
 								</div>
 
-								{#if isFillLoading && wordRecord.word.trim().length > 0}
+								{#if isFillLoading && isRowEligibleForAiFill(wordRecord)}
 									<CaptureWordsRowFillOverlay ariaLabel={fillProgressLabel} />
 								{/if}
 							</article>

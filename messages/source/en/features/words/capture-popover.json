@@ -4,6 +4,8 @@
 	"word_placeholder": "Word",
 	"translation_placeholder": "Translation",
 	"type_placeholder": "Type",
+	"extra_mark_placeholder": "Extra mark",
+	"extra_mark_aria": "Select extra mark",
 	"description_placeholder": "Enter description of the word",
 	"row_label": "Word {index}",
 	"words_count": "{count} / {max} words",
@@ -16,6 +18,7 @@
 	"fill_progress": "Filling {count} words…",
 	"fill_validation": {
 		"no_words": "Enter at least one word before using AI fill.",
+		"all_already_filled": "All words were already filled with AI. Add a new word or edit an existing one to fill again.",
 		"word_too_long": "A word must be at most 255 characters.",
 		"too_many_words": "You can fill at most 20 words at once."
 	},

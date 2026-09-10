@@ -20,7 +20,8 @@ class CaptureWordsPopoverStore {
 		if (stored && stored.length > 0) {
 			this.values = stored.map((row) => ({
 				...row,
-				aiError: null
+				aiError: null,
+				isAiGenerated: row.isAiGenerated ?? false
 			}));
 
 			return;
@@ -36,7 +37,8 @@ class CaptureWordsPopoverStore {
 			translation: row.translation,
 			type: row.type,
 			extraMark: row.extraMark,
-			definition: row.definition
+			definition: row.definition,
+			isAiGenerated: row.isAiGenerated
 		}));
 
 		writeCaptureWordsDraftToStorage(userKey, snapshot);
@@ -87,7 +89,8 @@ function createEmptyRow(): CaptureFormRow {
 		type: null,
 		extraMark: undefined,
 		definition: '',
-		aiError: null
+		aiError: null,
+		isAiGenerated: false
 	};
 }
 

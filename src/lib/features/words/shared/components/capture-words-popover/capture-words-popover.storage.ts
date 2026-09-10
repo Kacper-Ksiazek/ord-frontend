@@ -49,7 +49,8 @@ function parsePersistedRow(value: unknown): PersistedCaptureFormRow | null {
 		translation: row.translation,
 		type: row.type ?? null,
 		extraMark: row.extraMark,
-		definition: row.definition
+		definition: row.definition,
+		isAiGenerated: Boolean(row.isAiGenerated)
 	};
 }
 
@@ -92,7 +93,8 @@ export function writeCaptureWordsDraftToStorage(
 		translation: row.translation,
 		type: row.type,
 		extraMark: row.extraMark,
-		definition: row.definition
+		definition: row.definition,
+		isAiGenerated: row.isAiGenerated
 	}));
 
 	setStorageItem(getStorageKey(userKey), sanitizedRows);

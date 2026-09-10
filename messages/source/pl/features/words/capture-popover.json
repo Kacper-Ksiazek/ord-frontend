@@ -4,6 +4,8 @@
 	"word_placeholder": "Słowo",
 	"translation_placeholder": "Tłumaczenie",
 	"type_placeholder": "Typ",
+	"extra_mark_placeholder": "Dodatkowa etykieta",
+	"extra_mark_aria": "Wybierz dodatkową etykietę",
 	"description_placeholder": "Wpisz opis słowa",
 	"row_label": "Słowo {index}",
 	"words_count": "{count} / {max} słów",
@@ -16,6 +18,7 @@
 	"fill_progress": "Uzupełnianie {count} słów…",
 	"fill_validation": {
 		"no_words": "Wpisz co najmniej jedno słowo przed użyciem AI.",
+		"all_already_filled": "Wszystkie słowa zostały już uzupełnione przez AI. Dodaj nowe słowo lub edytuj istniejące, aby uzupełnić ponownie.",
 		"word_too_long": "Słowo może mieć maksymalnie 255 znaków.",
 		"too_many_words": "Możesz uzupełnić maksymalnie 20 słów naraz."
 	},

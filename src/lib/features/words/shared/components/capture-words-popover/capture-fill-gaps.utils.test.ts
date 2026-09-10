@@ -15,6 +15,7 @@ function createRow(overrides: Partial<CaptureFormRow> = {}): CaptureFormRow {
 		extraMark: undefined,
 		definition: '',
 		aiError: null,
+		isAiGenerated: false,
 		...overrides
 	};
 }
@@ -32,6 +33,44 @@ describe('collectFillGapsItems', () => {
 				rowIndices: [0, 2]
 			});
 		});
+
+		it('should skip rows already filled by AI', () => {
+			const rows = [createRow({ word: 'hello', isAiGenerated: true }), createRow({ word: 'world' })];
+
+			const result = collectFillGapsItems(rows);
+
+			expect(result).toEqual({
+				ok: true,
+				items: [{ sourceWord: 'world' }],
+				rowIndices: [1]
+			});
+		});
+
+		it('should include known optional fields in the request payload', () => {
+			const rows = [
+				createRow({
+					word: 'dude',
+					translation: 'stary',
+					type: 'NOUN',
+					extraMark: 'SLANG'
+				})
+			];
+
+			const result = collectFillGapsItems(rows);
+
+			expect(result).toEqual({
+				ok: true,
+				items: [
+					{
+						sourceWord: 'dude',
+						translation: 'stary',
+						type: 'NOUN',
+						extraMark: 'SLANG'
+					}
+				],
+				rowIndices: [0]
+			});
+		});
 	});
 
 	describe('negative path', () => {
@@ -39,6 +78,18 @@ describe('collectFillGapsItems', () => {
 			expect(collectFillGapsItems([createRow(), createRow()])).toEqual({
 				ok: false,
 				reason: 'no_words'
+			});
+		});
+
+		it('should fail when every word was already filled by AI', () => {
+			expect(
+				collectFillGapsItems([
+					createRow({ word: 'hello', isAiGenerated: true }),
+					createRow({ word: 'world', isAiGenerated: true })
+				])
+			).toEqual({
+				ok: false,
+				reason: 'all_already_filled'
 			});
 		});
 	});
@@ -74,6 +125,7 @@ describe('applyFillResultToRow', () => {
 			expect(row.type).toBe('ADJECTIVE');
 			expect(row.isDescriptionEnabled).toBe(true);
 			expect(row.aiError).toBeNull();
+			expect(row.isAiGenerated).toBe(true);
 		});
 	});
 
@@ -93,6 +145,7 @@ describe('applyFillResultToRow', () => {
 
 			expect(row.word).toBe('xqzpw');
 			expect(row.aiError).toBe('NON_EXISTENT_WORD');
+			expect(row.isAiGenerated).toBe(false);
 		});
 	});
 
@@ -112,6 +165,38 @@ describe('applyFillResultToRow', () => {
 
 			expect(row.type).toBe('NOUN');
 			expect(row.translation).toBe('biegać');
+		});
+
+		it('should fill extra mark when the row has none', () => {
+			const row = createRow({ word: 'dude' });
+
+			applyFillResultToRow(row, {
+				inputSourceWord: 'dude',
+				sourceWord: 'dude',
+				translation: 'stary',
+				definition: 'Informal address.',
+				type: 'NOUN',
+				extraMark: 'SLANG',
+				error: null
+			});
+
+			expect(row.extraMark).toBe('SLANG');
+		});
+
+		it('should keep an existing extra mark when the fill result also has one', () => {
+			const row = createRow({ word: 'dude', extraMark: 'INFORMAL' });
+
+			applyFillResultToRow(row, {
+				inputSourceWord: 'dude',
+				sourceWord: 'dude',
+				translation: 'stary',
+				definition: null,
+				type: 'NOUN',
+				extraMark: 'SLANG',
+				error: null
+			});
+
+			expect(row.extraMark).toBe('INFORMAL');
 		});
 	});
 });
