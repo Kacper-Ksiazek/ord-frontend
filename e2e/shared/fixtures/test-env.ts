@@ -1,6 +1,10 @@
-import { loadEnvE2e } from '@e2e/shared/helpers/load-env';
+import { loadEnvDev, loadEnvE2e } from '@e2e/shared/helpers/load-env';
 
-loadEnvE2e();
+if (process.env.ORD_PLAYWRIGHT_ENV === 'dev') {
+	loadEnvDev();
+} else {
+	loadEnvE2e();
+}
 
 function requireEnv(name: string): string | undefined {
 	const value = process.env[name];
@@ -39,6 +43,14 @@ export const testEnv = {
 };
 
 export function workerEmail(workerIndex: number): string {
+	if (process.env.ORD_PLAYWRIGHT_ENV === 'dev') {
+		const devEmail = requireEnv('E2E_TEST_EMAIL') ?? requireEnv('PUBLIC_DEV_LOGIN_EMAIL');
+
+		if (devEmail) {
+			return devEmail;
+		}
+	}
+
 	const bounded = workerIndex % testEnv.workerCount;
 
 	return `${testEnv.emailPrefix}${bounded}@${testEnv.emailDomain}`;

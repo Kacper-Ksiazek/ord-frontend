@@ -70,9 +70,7 @@ printf '%b\n' "${C_RED}   ${API_URL}${C_RESET}" >&2
 printf '%b\n' "" >&2
 printf '%b\n' "${C_RED}Start the API first, then run E2E tests again:${C_RESET}" >&2
 printf '%b\n' "" >&2
-printf '%b\n' "  ${C_YELLOW}make docker-e2e-up${C_RESET}    ${C_DIM}# ephemeral E2E stack (recommended)${C_RESET}" >&2
-printf '%b\n' "  ${C_DIM}# or${C_RESET}" >&2
-printf '%b\n' "  ${C_YELLOW}make api-up${C_RESET}           ${C_DIM}# ord-api dev stack${C_RESET}" >&2
+printf '%b\n' "  ${C_YELLOW}cd ../ord-ops && make e2e-up${C_RESET}    ${C_DIM}# ephemeral E2E stack${C_RESET}" >&2
 printf '%b\n' "" >&2
 printf '%b\n' "${C_DIM}Copy test env if needed: cp .env.e2e.example .env.e2e${C_RESET}" >&2
 printf '%b\n' "${C_DIM}Health check: ${HEALTH_URL}${C_RESET}" >&2

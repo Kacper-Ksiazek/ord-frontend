@@ -1,0 +1,38 @@
+---
+description: Refresh local frontend after code changes that require regeneration or restart
+alwaysApply: true
+---
+
+# Local frontend refresh
+
+After finishing frontend work in **ord-frontend**, reload generated artifacts or the dev server when changes require it:
+
+```bash
+make refresh   # paraglide + svelte-kit sync (i18n, routes)
+make wipe      # refresh + clear .svelte-kit cache
+```
+
+## When to refresh
+
+| Change | Action |
+|--------|--------|
+| `messages/source/**` | `make refresh`; restart dev server if running |
+| Routes / `+page` / `app.html` | `make refresh` |
+| Env / `.env` | Restart dev server (`ord-ops make dev-up` or `bun run dev`) |
+
+## Tests and CI
+
+```bash
+make ci          # after most code changes
+make ci-e2e      # after E2E flow changes (requires ord-ops: make e2e-up)
+make test-e2e    # Playwright on e2e stack (ord-ops: make e2e-up)
+make test-dev    # Playwright on dev stack (ord-ops: make dev-up)
+```
+
+## Backend stack
+
+**Never** start or manage the backend from ord-frontend. Use **ord-ops**:
+
+- Dev stack: `cd ../ord-ops && make dev-up`
+- E2E stack: `cd ../ord-ops && make e2e-up`
+- Native API: `cd ../ord-ops && make api-run` / `make api-restart`

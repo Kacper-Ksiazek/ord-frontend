@@ -6,6 +6,8 @@ Follow `ord-api` conventions: `.PHONY` targets, `help` as default, configurable 
 
 Do not add granular CI Makefile aliases (e.g. `lint`, `format-check`, `check`, `build`). Use `make ci` for all CI checks. Do not add feature-specific test aliases (e.g. `test-e2e-auth`). Use `make test-e2e` or pass paths via `ARGS` until a dedicated test runner exists.
 
+**No backend commands** in ord-frontend Makefile — stack orchestration belongs to ord-ops (`dev-up`, `e2e-up`, `api-run`). Naming follows the shared vocabulary: `refresh`/`wipe` for artifacts, `test`/`test-e2e`/`test-dev` for Playwright modes.
+
 ## Good
 
 ```

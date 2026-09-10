@@ -28,9 +28,17 @@ Deleted integration specs from PR #49 are **not** replaced 1:1 in Vitest yet. Th
 
 ```bash
 cp .env.e2e.example .env.e2e
-make docker-e2e-up
+cd ../ord-ops && make e2e-up
 make test-e2e-install   # once
 make test-e2e
+```
+
+Playwright on the **dev stack** (same journeys, `.env` instead of `.env.e2e`):
+
+```bash
+cp .env.example .env    # set PUBLIC_DEV_LOGIN_EMAIL
+cd ../ord-ops && make dev-up
+make test-dev
 ```
 
 Without `.env.e2e` or OTP config, tests **skip** (do not fail).

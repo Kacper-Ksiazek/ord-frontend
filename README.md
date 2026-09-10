@@ -160,22 +160,19 @@ Common workflows are exposed via `make` — run `make help` for the full list.
 
 | Target                  | Description                                                                            |
 | ----------------------- | -------------------------------------------------------------------------------------- |
-| `make status`           | Show docker / api / front / storybook status                                           |
+| `make status`           | Frontend + storybook status                                                            |
+| `make refresh`          | Regenerate paraglide + svelte-kit sync                                                 |
+| `make wipe`             | Hard reset frontend dev cache                                                          |
 | `make ci`               | **Run all CI checks** (lint → format → types → e2e-types → build → unit-tests → audit) |
-| `make ci-e2e`           | CI checks + Playwright E2E (requires `docker-e2e-up`)                                  |
-| `make api-up`           | Start ord-api dev stack (`ORD_API_DIR` defaults to `~/workspace/ord-api`)              |
-| `make api-down`         | Stop ord-api dev stack                                                                 |
-| `make api-logs`         | Follow ord-api dev stack logs                                                          |
-| `make docker-e2e-up`    | Start ephemeral E2E backend (OTP `123456`, 4 worker accounts)                          |
-| `make docker-e2e-down`  | Stop E2E backend stack                                                                 |
-| `make test`             | Run unit tests (alias for `test-unit`)                                                 |
-| `make test-unit`        | Vitest unit/component tests                                                            |
-| `make test-e2e`         | 3 parallel E2E journeys (requires `docker-e2e-up` or `api-up` first)                   |
+| `make ci-e2e`           | CI checks + Playwright E2E (requires `ord-ops make e2e-up`)                            |
+| `make test`             | Vitest unit/component tests                                                            |
+| `make test-e2e`         | Playwright on e2e stack (`ord-ops make e2e-up`)                                        |
+| `make test-dev`         | Playwright on dev stack (`ord-ops make dev-up`)                                        |
 | `make test-e2e-install` | Install Playwright Chromium                                                            |
 
 `make ci` uses `./scripts/run-ci.sh` (sequential, fail-fast, matches `.github/workflows/ci.yml`).
 Test targets call `bun run test` / `bun run test:e2e` with custom summary reporters in `scripts/reporters/`.
-Override backend path: `make docker-e2e-up ORD_API_DIR=/path/to/ord-api`.
+Stack orchestration lives in **ord-ops** — no backend commands in this repo.
 Extra test args: `make test-e2e ARGS='-- --headed'`.
 
 ### Useful scripts
@@ -216,11 +213,11 @@ Journey specs live in `e2e/journeys/`; page objects under `e2e/features/` — ne
 | [`docs/e2e-test-plan.md`](./docs/e2e-test-plan.md) | Journey overview, structure, how to run locally |
 
 ```bash
-make docker-e2e-up          # start pinned ord-api E2E stack
+cd ../ord-ops && make e2e-up   # start pinned ord-api E2E stack
 cp .env.e2e.example .env.e2e
-make test-e2e-install       # install Chromium (once)
-make test-e2e               # 3 parallel journey tests
-make ci-e2e                 # full CI + E2E
+make test-e2e-install           # install Chromium (once)
+make test-e2e                   # 3 parallel journey tests
+make ci-e2e                     # full CI + E2E
 ```
 
 **CI:** `.github/workflows/e2e.yml` runs on pull requests and `workflow_dispatch`. It checks out a **pinned** `ord-api` commit (`.github/ord-api-e2e-image.sha`), pulls the matching `ghcr.io/kacper-ksiazek/ord-api:sha-<commit>` image, starts Postgres + backend, then runs Playwright. The **`e2e` check is blocking** — failed E2E fails the PR. See [`.github/REQUIRED_CHECKS.md`](./.github/REQUIRED_CHECKS.md) to enable it on `main`.
