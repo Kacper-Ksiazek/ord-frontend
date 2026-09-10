@@ -4,7 +4,7 @@
 	"word_placeholder": "Wort",
 	"translation_placeholder": "Übersetzung",
 	"type_placeholder": "Typ",
-	"description_placeholder": "Beschreibung des Wortes eingeben (optional)",
+	"description_placeholder": "Beschreibung des Wortes eingeben",
 	"row_label": "Wort {index}",
 	"words_count": "{count} / {max} Wörter",
 	"add_more": "Weitere hinzufügen",
@@ -26,6 +26,7 @@
 		"unknown": "Diese Zeile konnte nicht ausgefüllt werden."
 	},
 	"save_no_words": "Gib mindestens ein Wort ein, um zu speichern.",
+	"save_incomplete_row": "Wort {index} hat keine Übersetzung, Beschreibung oder keinen Typ. Fülle alle Felder aus oder nutze Mit KI ausfüllen.",
 	"save_no_language": "Lege zuerst eine Lernsprache in deinem Profil fest.",
 	"save_success": {
 		"header": "Wörter gespeichert",
@@ -39,5 +40,13 @@
 		"back_to_form": "Zurück zum Formular"
 	},
 	"close": "Schließen",
-	"remove_record": "Wortzeile entfernen"
+	"remove_record": "Wortzeile entfernen",
+	"toast": {
+		"fill_success": "{count} Wörter ausgefüllt.",
+		"fill_partial_success": "{filled} von {total} Wörtern ausgefüllt. Prüfe Zeilen mit Fehlern.",
+		"fill_all_rows_error": "Keines der {count} Wörter konnte ausgefüllt werden.",
+		"fill_error": "Wörter konnten nicht ausgefüllt werden. Versuche es erneut.",
+		"save_success": "{count} Wörter gespeichert.",
+		"save_error": "Wörter konnten nicht gespeichert werden. Versuche es erneut."
+	}
 }

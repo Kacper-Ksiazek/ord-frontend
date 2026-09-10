@@ -38,6 +38,7 @@ export const E2E_TEST_IDS = {
 		saveStatusLoading: 'capture-words-popover-save-loading',
 		saveStatusSuccess: 'capture-words-popover-save-success',
 		saveStatusError: 'capture-words-popover-save-error',
-		clearEmpty: 'capture-words-popover-clear-empty'
+		clearEmpty: 'capture-words-popover-clear-empty',
+		fillRowOverlay: 'capture-words-popover-fill-row-overlay'
 	}
 } as const;

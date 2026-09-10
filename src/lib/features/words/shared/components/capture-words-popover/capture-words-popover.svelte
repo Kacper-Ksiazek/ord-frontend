@@ -24,9 +24,13 @@
 	import type { DropdownSelectOption } from '$lib/components/forms/dropdown-select';
 	import { AutoHeightTextarea } from '$lib/components/forms/auto-height-textarea';
 	import { Loader } from '$lib/components/utils/loader';
+	import { toast } from '$lib/components/utils/toast/toast';
 	import { cn } from '$lib/utils/cn';
+	import { getApiErrorMessage } from '$lib/utils/get-api-error-message';
 	import { authStore } from '$auth/stores';
-	import { createCaptureWordsMutation, createWordFillGapsMutation } from '$words/api-client';
+	import { useQueryClient } from '@tanstack/svelte-query';
+	import { createCreateWordsMutation, createWordFillGapsMutation } from '$words/api-client';
+	import { invalidateWordCaptureQueries } from '$words/api-client/utils/invalidate-word-capture-queries';
 	import {
 		WORD_TYPE_OPTIONS,
 		getWordTypeSwatchClasses,
@@ -42,13 +46,16 @@
 	import type { CaptureWordsSaveStatus } from './capture-words-popover.types';
 	import {
 		applyFillResultToRow,
-		buildBulkCreatePayload,
+		buildCreateWordsPayload,
 		collectFillGapsItems
 	} from './capture-fill-gaps.utils';
+	import { clearCaptureWordsDraftFromStorage } from './capture-words-popover.storage';
 	import {
 		captureWordsPopoverStore,
 		isCaptureFormRowEmpty
 	} from './capture-words-popover.store.svelte';
+	import CaptureWordsPopoverDevtools from './capture-words-popover-devtools.svelte';
+	import CaptureWordsRowFillOverlay from './capture-words-row-fill-overlay.svelte';
 	import CaptureWordsSaveStatusPanel from './capture-words-save-status-panel.svelte';
 
 	type WordTypeSelectOption = DropdownSelectOption<WordType | null>;
@@ -61,10 +68,12 @@
 
 	const modalWidthClass = 'w-[min(42rem,calc(100vw-2rem))]';
 
+	const queryClient = useQueryClient();
 	const fillGapsMutation = createWordFillGapsMutation();
-	const bulkCreateMutation = createCaptureWordsMutation();
+	const createWordsMutation = createCreateWordsMutation();
 
 	let formScrollEl: HTMLDivElement | undefined = $state();
+	let formResetKey = $state(0);
 	let isOpen = $state(false);
 	let fillButtonStatus = $state<AiActionButtonStatus>('default');
 	let fillGlobalError = $state<string | null>(null);
@@ -79,10 +88,12 @@
 	);
 
 	const isBusy = $derived(
-		fillGapsMutation.isPending || bulkCreateMutation.isPending || saveStatus === 'loading'
+		fillGapsMutation.isPending || createWordsMutation.isPending || saveStatus === 'loading'
 	);
 
-	const isSaveResultVisible = $derived(saveStatus === 'success' || saveStatus === 'error');
+	const isSaveErrorVisible = $derived(saveStatus === 'error');
+
+	const isFillLoading = $derived(fillButtonStatus === 'loading');
 
 	const fillProgressLabel = $derived.by(() => {
 		const count = captureWordsPopoverStore.values.filter((row) => row.word.trim()).length;
@@ -120,6 +131,17 @@
 		formScrollEl?.scrollTo({ top: formScrollEl.scrollHeight, behavior: 'smooth' });
 	}
 
+	function getSaveValidationMessage(
+		reason: 'no_words' | 'incomplete_row',
+		rowIndex: number
+	): string {
+		if (reason === 'incomplete_row') {
+			return m['features.words.capture-popover.save_incomplete_row']({ index: rowIndex + 1 });
+		}
+
+		return m['features.words.capture-popover.save_no_words']();
+	}
+
 	function getFillValidationMessage(
 		reason: 'no_words' | 'too_many_words' | 'word_too_long'
 	): string {
@@ -144,21 +166,33 @@
 		return m['features.words.capture-popover.fill_row_errors.unknown']();
 	}
 
+	function clearPersistedDraft() {
+		const userKey = authStore.user?.email;
+
+		if (userKey) {
+			clearCaptureWordsDraftFromStorage(userKey);
+		}
+	}
+
 	function handleFillWithAi() {
 		saveValidationError = null;
 		fillGlobalError = null;
 
 		const collected = collectFillGapsItems(captureWordsPopoverStore.values);
 		if (!collected.ok) {
-			fillGlobalError = getFillValidationMessage(collected.reason);
+			const message = getFillValidationMessage(collected.reason);
+			fillGlobalError = message;
 			fillButtonStatus = 'failed';
+			toast.error(message);
 
 			return;
 		}
 
 		if (!learningLanguage) {
-			fillGlobalError = m['features.words.capture-popover.save_no_language']();
+			const message = m['features.words.capture-popover.save_no_language']();
+			fillGlobalError = message;
 			fillButtonStatus = 'failed';
+			toast.error(message);
 
 			return;
 		}
@@ -166,19 +200,57 @@
 		captureWordsPopoverStore.clearAiErrors();
 		fillButtonStatus = 'loading';
 
+		const aiToast = toast.aiProgress(
+			m['components.utils.toast.ai_thinking_1'](),
+			m['components.utils.toast.title_ai_pending']()
+		);
+
 		fillGapsMutation.mutate(
 			{ language: learningLanguage, items: collected.items },
 			{
 				onSuccess: (response) => {
 					const items = response.items ?? [];
+					let rowErrorCount = 0;
+
 					for (let i = 0; i < items.length; i++) {
 						const rowIndex = collected.rowIndices[i];
 						applyFillResultToRow(captureWordsPopoverStore.values[rowIndex], items[i]);
+
+						if (captureWordsPopoverStore.values[rowIndex].aiError) {
+							rowErrorCount += 1;
+						}
 					}
+
 					fillButtonStatus = 'success';
+
+					if (rowErrorCount === items.length) {
+						aiToast.error(
+							m['features.words.capture-popover.toast.fill_all_rows_error']({
+								count: items.length
+							})
+						);
+
+						return;
+					}
+
+					if (rowErrorCount > 0) {
+						aiToast.success(
+							m['features.words.capture-popover.toast.fill_partial_success']({
+								filled: items.length - rowErrorCount,
+								total: items.length
+							})
+						);
+
+						return;
+					}
+
+					aiToast.success(
+						m['features.words.capture-popover.toast.fill_success']({ count: items.length })
+					);
 				},
 				onError: (error) => {
 					fillButtonStatus = 'failed';
+
 					if (isAxiosError(error) && error.response?.status === 400) {
 						const message =
 							typeof error.response.data === 'object' &&
@@ -188,10 +260,17 @@
 								? error.response.data.message
 								: null;
 						fillGlobalError = message ?? m['features.words.capture-popover.fill_global_error']();
+						aiToast.error(
+							getApiErrorMessage(error, m['features.words.capture-popover.toast.fill_error']())
+						);
 
 						return;
 					}
+
 					fillGlobalError = m['features.words.capture-popover.fill_global_error']();
+					aiToast.error(
+						getApiErrorMessage(error, m['features.words.capture-popover.toast.fill_error']())
+					);
 				}
 			}
 		);
@@ -238,17 +317,87 @@
 		closeModal();
 	}
 
-	function handleSaveDone() {
-		resetSaveState();
-		isOpen = false;
-	}
-
 	function handleSaveBackToForm() {
 		resetSaveState();
 	}
 
-	function handleReset() {
+	function resetForm() {
 		captureWordsPopoverStore.reset();
+		formResetKey += 1;
+		clearPersistedDraft();
+	}
+
+	function completeSaveSuccess(savedCount: number) {
+		resetForm();
+		fillButtonStatus = 'default';
+		fillGlobalError = null;
+		saveValidationError = null;
+		resetSaveState();
+		invalidateWordCaptureQueries(queryClient);
+		toast.success(m['features.words.capture-popover.toast.save_success']({ count: savedCount }));
+		isOpen = false;
+	}
+
+	function seedSampleWordsForDevtools() {
+		if (captureWordsPopoverStore.values.length === 0) {
+			captureWordsPopoverStore.addEmptyRecord();
+		}
+
+		captureWordsPopoverStore.values[0].word = 'hello';
+		captureWordsPopoverStore.values[0].translation = '';
+
+		if (captureWordsPopoverStore.values.length < 2) {
+			captureWordsPopoverStore.addEmptyRecord();
+		}
+
+		captureWordsPopoverStore.values[1].word = 'run';
+		captureWordsPopoverStore.values[1].translation = '';
+	}
+
+	function applyMockFillSuccessForDevtools() {
+		captureWordsPopoverStore.clearAiErrors();
+		fillGlobalError = null;
+
+		for (const row of captureWordsPopoverStore.values) {
+			const sourceWord = row.word.trim();
+			if (!sourceWord) continue;
+
+			applyFillResultToRow(row, {
+				inputSourceWord: sourceWord,
+				sourceWord: sourceWord,
+				translation: `translation of ${sourceWord}`,
+				definition: `Sample definition for ${sourceWord}.`,
+				type: 'NOUN',
+				extraMark: null,
+				error: null
+			});
+		}
+
+		fillButtonStatus = 'success';
+	}
+
+	function applyMockFillRowErrorsForDevtools() {
+		fillGlobalError = null;
+
+		for (const row of captureWordsPopoverStore.values) {
+			if (!row.word.trim()) continue;
+
+			applyFillResultToRow(row, {
+				inputSourceWord: row.word.trim(),
+				sourceWord: null,
+				translation: null,
+				definition: null,
+				type: null,
+				extraMark: null,
+				error: 'NON_EXISTENT_WORD'
+			});
+		}
+
+		fillButtonStatus = 'success';
+	}
+
+	function handleReset() {
+		resetForm();
 		fillButtonStatus = 'default';
 		fillGlobalError = null;
 		saveValidationError = null;
@@ -260,32 +409,62 @@
 		saveError = null;
 
 		if (!learningLanguage) {
-			saveValidationError = m['features.words.capture-popover.save_no_language']();
+			const message = m['features.words.capture-popover.save_no_language']();
+			saveValidationError = message;
+			toast.error(message);
 
 			return;
 		}
 
-		const payload = buildBulkCreatePayload(captureWordsPopoverStore.values, learningLanguage);
-		if (payload.length === 0) {
-			saveValidationError = m['features.words.capture-popover.save_no_words']();
+		const collected = buildCreateWordsPayload(captureWordsPopoverStore.values, learningLanguage);
+		if (!collected.ok) {
+			const message = getSaveValidationMessage(collected.reason, collected.rowIndex);
+			saveValidationError = message;
+			toast.error(message);
 
 			return;
 		}
 
 		saveStatus = 'loading';
 
-		bulkCreateMutation.mutate(payload, {
+		createWordsMutation.mutate(collected.payload, {
 			onSuccess: () => {
-				captureWordsPopoverStore.reset();
-				fillButtonStatus = 'default';
-				saveStatus = 'success';
+				completeSaveSuccess(collected.payload.length);
 			},
 			onError: (error) => {
 				saveStatus = 'error';
 				saveError = getSaveErrorMessage(error);
+				toast.error(getApiErrorMessage(error, m['features.words.capture-popover.toast.save_error']()));
 			}
 		});
 	}
+
+	let hydratedForUser = $state<string | null>(null);
+
+	$effect(() => {
+		const userKey = authStore.user?.email ?? null;
+
+		if (userKey !== hydratedForUser) {
+			hydratedForUser = userKey;
+			captureWordsPopoverStore.hydrateFromStorage(userKey);
+		}
+	});
+
+	$effect(() => {
+		const userKey = authStore.user?.email ?? null;
+		if (!userKey) return;
+
+		for (const row of captureWordsPopoverStore.values) {
+			void row.isDescriptionEnabled;
+			void row.word;
+			void row.translation;
+			void row.type;
+			void row.extraMark;
+			void row.definition;
+		}
+
+		captureWordsPopoverStore.persistDraft(userKey);
+	});
 
 	$effect(() => {
 		if (!isOpen) {
@@ -363,12 +542,19 @@
 				modalWidthClass,
 				'border border-line shadow-lg'
 			)}
+			onInteractOutside={(event) => {
+				if (!(event.target instanceof HTMLElement)) return;
+
+				if (event.target.closest('[data-capture-devtools]')) {
+					event.preventDefault();
+				}
+			}}
 		>
 			<header class="shrink-0 border-b border-line px-5 pb-4 pt-5">
 				<div
-					class={cn('flex items-start gap-3', isSaveResultVisible ? 'justify-end' : 'justify-between')}
+					class={cn('flex items-start gap-3', isSaveErrorVisible ? 'justify-end' : 'justify-between')}
 				>
-					{#if !isSaveResultVisible}
+					{#if !isSaveErrorVisible}
 						<div class="min-w-0 flex-1">
 							<Dialog.Title class="text-lg font-semibold text-ink">
 								{m['features.words.capture-popover.title']()}
@@ -398,7 +584,7 @@
 					</button>
 				</div>
 
-				{#if !isSaveResultVisible && (fillGlobalError || saveValidationError)}
+				{#if !isSaveErrorVisible && (fillGlobalError || saveValidationError)}
 					<div class="mt-3 space-y-2">
 						{#if fillGlobalError}
 							<p
@@ -422,36 +608,22 @@
 			</header>
 
 			<div bind:this={formScrollEl} class="relative min-h-0 flex-1 overflow-y-auto px-5 py-4">
-				{#if isSaveResultVisible}
-					{#if saveStatus === 'success'}
-						<div data-testid={E2E_TEST_IDS.capturePopover.saveStatusSuccess}>
-							<CaptureWordsSaveStatusPanel
-								variant="success"
-								header={m['features.words.capture-popover.save_success.header']()}
-								description={m['features.words.capture-popover.save_success.description']()}
-								primaryButton={{
-									label: m['features.words.capture-popover.save_success.done'](),
-									onClick: handleSaveDone
-								}}
-							/>
-						</div>
-					{:else}
-						<div data-testid={E2E_TEST_IDS.capturePopover.saveStatusError}>
-							<CaptureWordsSaveStatusPanel
-								variant="error"
-								header={m['features.words.capture-popover.save_error.header']()}
-								description={saveError ?? m['features.words.capture-popover.save_error.description']()}
-								primaryButton={{
-									label: m['features.words.capture-popover.save_error.try_again'](),
-									onClick: handleSave
-								}}
-								secondaryButton={{
-									label: m['features.words.capture-popover.save_error.back_to_form'](),
-									onClick: handleSaveBackToForm
-								}}
-							/>
-						</div>
-					{/if}
+				{#if isSaveErrorVisible}
+					<div data-testid={E2E_TEST_IDS.capturePopover.saveStatusError}>
+						<CaptureWordsSaveStatusPanel
+							variant="error"
+							header={m['features.words.capture-popover.save_error.header']()}
+							description={saveError ?? m['features.words.capture-popover.save_error.description']()}
+							primaryButton={{
+								label: m['features.words.capture-popover.save_error.try_again'](),
+								onClick: handleSave
+							}}
+							secondaryButton={{
+								label: m['features.words.capture-popover.save_error.back_to_form'](),
+								onClick: handleSaveBackToForm
+							}}
+						/>
+					</div>
 				{:else}
 					<div
 						class={cn(
@@ -459,9 +631,9 @@
 							saveStatus === 'loading' && 'pointer-events-none opacity-50'
 						)}
 					>
-						{#each captureWordsPopoverStore.values as wordRecord, index (index)}
+						{#each captureWordsPopoverStore.values as wordRecord, index (`${formResetKey}-${index}`)}
 							<article
-								class="rounded-xl border border-line bg-accent-soft/30 p-3"
+								class="relative rounded-xl border border-line bg-accent-soft/30 p-3"
 								aria-label={m['features.words.capture-popover.row_label']({ index: index + 1 })}
 							>
 								<div class="flex gap-2">
@@ -529,6 +701,10 @@
 										bind:value={wordRecord.definition}
 									/>
 								</div>
+
+								{#if isFillLoading && wordRecord.word.trim().length > 0}
+									<CaptureWordsRowFillOverlay ariaLabel={fillProgressLabel} />
+								{/if}
 							</article>
 						{/each}
 					</div>
@@ -582,7 +758,7 @@
 				{/if}
 			</div>
 
-			{#if !isSaveResultVisible}
+			{#if !isSaveErrorVisible}
 				<footer class="shrink-0 border-t border-line bg-surface/80 px-5 py-3">
 					<div class="flex flex-wrap items-center justify-end gap-2">
 						<Button type="OUTLINED" variant="TEXT" disabled={isBusy} onClick={handleReset}>
@@ -616,5 +792,21 @@
 				</footer>
 			{/if}
 		</Dialog.Content>
+
+		{#if isOpen}
+			<CaptureWordsPopoverDevtools
+				{fillButtonStatus}
+				onFillButtonStatusChange={(status) => {
+					fillButtonStatus = status;
+				}}
+				onSeedSampleWords={seedSampleWordsForDevtools}
+				onApplyMockFillSuccess={applyMockFillSuccessForDevtools}
+				onApplyMockFillRowErrors={applyMockFillRowErrorsForDevtools}
+				onSetFillGlobalError={(message) => {
+					fillGlobalError = message;
+				}}
+				onResetForm={handleReset}
+			/>
+		{/if}
 	</Dialog.Portal>
 </Dialog.Root>
