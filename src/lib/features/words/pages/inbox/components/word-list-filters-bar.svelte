@@ -82,7 +82,10 @@
 {#snippet wordTypeFilter(buttonClass: string)}
 	<DropdownMultiSelect
 		dataTestId={E2E_TEST_IDS.inbox.filterWordType}
-		bind:values={filtersState.filters.wordTypes}
+		values={filtersState.filters.wordTypes}
+		onValuesChange={(next) => {
+			filtersState.filters.wordTypes = next;
+		}}
 		options={WORD_TYPE_OPTIONS}
 		placeholder={m['features.words.inbox.filters.word_type_placeholder']()}
 		ariaLabel={m['features.words.inbox.filters.word_type_aria']()}
@@ -98,7 +101,10 @@
 {#snippet extraMarkFilter(buttonClass: string)}
 	<DropdownMultiSelect
 		dataTestId={E2E_TEST_IDS.inbox.filterExtraMark}
-		bind:values={filtersState.filters.wordExtraMarks}
+		values={filtersState.filters.wordExtraMarks}
+		onValuesChange={(next) => {
+			filtersState.filters.wordExtraMarks = next;
+		}}
 		options={WORD_EXTRA_MARK_OPTIONS}
 		placeholder={m['features.words.inbox.filters.extra_mark_placeholder']()}
 		ariaLabel={m['features.words.inbox.filters.extra_mark_aria']()}
@@ -115,7 +121,10 @@
 	{#if bankOptions.length > 0}
 		<DropdownMultiSelect
 			dataTestId={E2E_TEST_IDS.inbox.filterBank}
-			bind:values={filtersState.filters.bankIds}
+			values={filtersState.filters.bankIds}
+			onValuesChange={(next) => {
+				filtersState.filters.bankIds = next;
+			}}
 			options={bankOptions}
 			placeholder={m['features.words.inbox.filters.bank_placeholder']()}
 			ariaLabel={m['features.words.inbox.filters.bank_aria']()}
