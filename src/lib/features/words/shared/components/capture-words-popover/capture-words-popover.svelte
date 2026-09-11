@@ -14,6 +14,7 @@
 		RotateCcw,
 		Save,
 		Tag,
+		TriangleAlert,
 		Type,
 		X
 	} from 'lucide-svelte';
@@ -92,26 +93,38 @@
 	let saveValidationError = $state<string | null>(null);
 	let saveStatus = $state<CaptureWordsSaveStatus>('idle');
 	let saveError = $state<string | null>(null);
+	let fillingRowIndices = $state<number[]>([]);
 
 	const learningLanguage = $derived(authStore.user?.selectedLearningLanguage ?? undefined);
+
+	const isSaveBusy = $derived(createWordsMutation.isPending || saveStatus === 'loading');
 
 	const hasWordToFill = $derived(
 		captureWordsPopoverStore.values.some((row) => isRowEligibleForAiFill(row))
 	);
 
-	const isBusy = $derived(
-		fillGapsMutation.isPending || createWordsMutation.isPending || saveStatus === 'loading'
-	);
+	const isBusy = $derived(isSaveBusy || fillGapsMutation.isPending);
 
 	const isSaveErrorVisible = $derived(saveStatus === 'error');
 
 	const isFillLoading = $derived(fillButtonStatus === 'loading');
 
 	const fillProgressLabel = $derived.by(() => {
-		const count = captureWordsPopoverStore.values.filter((row) => isRowEligibleForAiFill(row)).length;
+		const count =
+			fillingRowIndices.length > 0
+				? fillingRowIndices.length
+				: captureWordsPopoverStore.values.filter((row) => isRowEligibleForAiFill(row)).length;
 
 		return m['features.words.capture-popover.fill_progress']({ count });
 	});
+
+	function isRowBeingFilled(index: number): boolean {
+		return isFillLoading && fillingRowIndices.includes(index);
+	}
+
+	function clearFillingRowIndices() {
+		fillingRowIndices = [];
+	}
 
 	const recordCount = $derived(captureWordsPopoverStore.values.length);
 
@@ -220,7 +233,11 @@
 			return;
 		}
 
-		captureWordsPopoverStore.clearAiErrors();
+		for (const rowIndex of collected.rowIndices) {
+			captureWordsPopoverStore.values[rowIndex].aiError = null;
+		}
+
+		fillingRowIndices = collected.rowIndices;
 		fillButtonStatus = 'loading';
 
 		const aiToast = toast.aiProgress(
@@ -294,6 +311,9 @@
 					aiToast.error(
 						getApiErrorMessage(error, m['features.words.capture-popover.toast.fill_error']())
 					);
+				},
+				onSettled: () => {
+					clearFillingRowIndices();
 				}
 			}
 		);
@@ -347,6 +367,7 @@
 	function resetForm() {
 		captureWordsPopoverStore.reset();
 		formResetKey += 1;
+		clearFillingRowIndices();
 		clearPersistedDraft();
 	}
 
@@ -496,6 +517,7 @@
 			fillButtonStatus = 'default';
 			fillGlobalError = null;
 			saveValidationError = null;
+			clearFillingRowIndices();
 		}
 	});
 
@@ -682,9 +704,21 @@
 					>
 						{#each captureWordsPopoverStore.values as wordRecord, index (`${formResetKey}-${index}`)}
 							<article
-								class="relative rounded-xl border border-line bg-accent-soft/30 p-3"
+								class={cn(
+									'relative rounded-xl border p-3',
+									wordRecord.aiError ? 'border-danger/25 bg-danger/5' : 'border-line bg-accent-soft/30'
+								)}
 								aria-label={m['features.words.capture-popover.row_label']({ index: index + 1 })}
 							>
+								{#if wordRecord.aiError}
+									<div class="mb-2 flex items-start gap-2" role="alert">
+										<TriangleAlert class="mt-0.5 size-4 shrink-0 text-danger" aria-hidden="true" />
+										<h3 class="text-sm font-medium leading-snug text-danger">
+											{getRowFillErrorMessage(wordRecord.aiError as WordFillGapsRowErrorCode)}
+										</h3>
+									</div>
+								{/if}
+
 								<div class="flex gap-2">
 									<div
 										class="grid min-w-0 flex-1 gap-2 sm:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_7.5rem_10rem]"
@@ -694,7 +728,7 @@
 											class="min-w-0"
 											leftAdornment={EyeIcon}
 											bind:value={wordRecord.word}
-											disabled={isBusy}
+											disabled={isSaveBusy || isRowBeingFilled(index)}
 											onInput={() => {
 												if (wordRecord.aiError) {
 													wordRecord.aiError = null;
@@ -711,7 +745,7 @@
 											class="min-w-0"
 											leftAdornment={ArrowLeftRight}
 											bind:value={wordRecord.translation}
-											disabled={isBusy}
+											disabled={isSaveBusy || isRowBeingFilled(index)}
 										/>
 
 										<DropdownSelect
@@ -746,16 +780,10 @@
 											ariaLabel={m['features.words.capture-popover.remove_record']()}
 											onClick={() => captureWordsPopoverStore.removeRecord(index)}
 											icon={Minus}
-											disabled={isBusy}
+											disabled={isSaveBusy || isRowBeingFilled(index)}
 										/>
 									{/if}
 								</div>
-
-								{#if wordRecord.aiError}
-									<p class="mt-2 text-xs text-danger" role="alert">
-										{getRowFillErrorMessage(wordRecord.aiError as WordFillGapsRowErrorCode)}
-									</p>
-								{/if}
 
 								<div class="mt-2">
 									<AutoHeightTextarea
@@ -764,12 +792,12 @@
 										maxLength={CAPTURE_WORDS_DESCRIPTION_MAX_LENGTH}
 										className="w-full"
 										placeholder={m['features.words.capture-popover.description_placeholder']()}
-										disabled={isBusy}
+										disabled={isSaveBusy || isRowBeingFilled(index)}
 										bind:value={wordRecord.definition}
 									/>
 								</div>
 
-								{#if isFillLoading && isRowEligibleForAiFill(wordRecord)}
+								{#if isRowBeingFilled(index)}
 									<CaptureWordsRowFillOverlay ariaLabel={fillProgressLabel} />
 								{/if}
 							</article>
