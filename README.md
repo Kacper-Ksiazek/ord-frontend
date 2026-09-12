@@ -149,7 +149,7 @@ Production SSR and server routes on Vercel run on **Node.js 22** (`runtime: 'nod
 
 ```bash
 bun install
-bun run dev
+make run    # or: bun run dev
 ```
 
 The app runs at `http://localhost:5173`.
@@ -158,17 +158,43 @@ The app runs at `http://localhost:5173`.
 
 Common workflows are exposed via `make` — run `make help` for the full list.
 
-| Target                  | Description                                                                            |
-| ----------------------- | -------------------------------------------------------------------------------------- |
-| `make status`           | Frontend + storybook status                                                            |
-| `make refresh`          | Regenerate paraglide + svelte-kit sync                                                 |
-| `make wipe`             | Hard reset frontend dev cache                                                          |
-| `make ci`               | **Run all CI checks** (lint → format → types → e2e-types → build → unit-tests → audit) |
-| `make ci-e2e`           | CI checks + Playwright E2E (requires `ord-ops make e2e-up`)                            |
-| `make test`             | Vitest unit/component tests                                                            |
-| `make test-e2e`         | Playwright on e2e stack (`ord-ops make e2e-up`)                                        |
-| `make test-dev`         | Playwright on dev stack (`ord-ops make dev-up`)                                        |
-| `make test-e2e-install` | Install Playwright Chromium                                                            |
+**🔍 Status**
+
+| Target        | Description                 |
+| ------------- | --------------------------- |
+| `make status` | Frontend + storybook status |
+
+**💻 Dev server**
+
+| Target         | Description                                   |
+| -------------- | --------------------------------------------- |
+| `make run`     | Start frontend dev server                     |
+| `make restart` | Restart frontend dev server                   |
+| `make stop`    | Stop frontend dev server                      |
+| `make reset`   | Refresh paraglide/sync and restart dev server |
+
+**🔄 Dev cache**
+
+| Target         | Description                            |
+| -------------- | -------------------------------------- |
+| `make refresh` | Regenerate paraglide + svelte-kit sync |
+| `make wipe`    | Hard reset frontend dev cache          |
+
+**✅ CI**
+
+| Target        | Description                                                                            |
+| ------------- | -------------------------------------------------------------------------------------- |
+| `make ci`     | **Run all CI checks** (lint → format → types → e2e-types → build → unit-tests → audit) |
+| `make ci-e2e` | CI checks + Playwright E2E (requires `ord-ops make e2e-up`)                            |
+
+**🧪 Tests**
+
+| Target                  | Description                                     |
+| ----------------------- | ----------------------------------------------- |
+| `make test`             | Vitest unit/component tests                     |
+| `make test-e2e`         | Playwright on e2e stack (`ord-ops make e2e-up`) |
+| `make test-dev`         | Playwright on dev stack (`ord-ops make dev-up`) |
+| `make test-e2e-install` | Install Playwright Chromium                     |
 
 `make ci` uses `./scripts/run-ci.sh` (sequential, fail-fast, matches `.github/workflows/ci.yml`).
 Test targets call `bun run test` / `bun run test:e2e` with custom summary reporters in `scripts/reporters/`.

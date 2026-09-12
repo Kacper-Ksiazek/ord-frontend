@@ -9,6 +9,7 @@ After finishing frontend work in **ord-frontend**, reload generated artifacts or
 
 ```bash
 make refresh   # paraglide + svelte-kit sync (i18n, routes)
+make reset     # refresh + restart dev server (preferred after i18n / route changes)
 make wipe      # refresh + clear .svelte-kit cache
 ```
 
@@ -16,9 +17,9 @@ make wipe      # refresh + clear .svelte-kit cache
 
 | Change | Action |
 |--------|--------|
-| `messages/source/**` | `make refresh`; restart dev server if running |
-| Routes / `+page` / `app.html` | `make refresh` |
-| Env / `.env` | Restart dev server (`ord-ops make dev-up` or `bun run dev`) |
+| `messages/source/**` | `make reset` (or `make refresh` + `make restart`) |
+| Routes / `+page` / `app.html` | `make reset` (or `make refresh` + `make restart`) |
+| Env / `.env` | Restart dev server (`make restart`, `ord-ops make dev-up`, or `bun run dev`) |
 
 ## Tests and CI
 
@@ -27,6 +28,14 @@ make ci          # after most code changes
 make ci-e2e      # after E2E flow changes (requires ord-ops: make e2e-up)
 make test-e2e    # Playwright on e2e stack (ord-ops: make e2e-up)
 make test-dev    # Playwright on dev stack (ord-ops: make dev-up)
+```
+
+## Dev server
+
+```bash
+make run       # start vite dev server
+make restart   # after env / config changes
+make stop      # stop managed dev server
 ```
 
 ## Backend stack
