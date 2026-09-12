@@ -33,6 +33,7 @@
 	--studio-highlight: #f2e6c2;
 	--studio-danger: #a33a2c;
 	--studio-on-ink: #f6f4ef;
+	--studio-scrim: rgb(12 11 10 / 0.42);
 	--studio-chart-series: var(--studio-primary-500);
 
 	/* Score tones: livelier traffic light, still warm to the studio paper */
@@ -84,6 +85,7 @@
 	--studio-highlight: #3d3420;
 	--studio-danger: #e07064;
 	--studio-on-ink: #161513;
+	--studio-scrim: rgb(0 0 0 / 0.58);
 	--studio-chart-series: var(--studio-primary-400);
 
 	--studio-score-low: var(--studio-danger);
@@ -123,6 +125,7 @@
 	--color-highlight: var(--studio-highlight);
 	--color-danger: var(--studio-danger);
 	--color-on-ink: var(--studio-on-ink);
+	--color-scrim: var(--studio-scrim);
 	--color-chart-series: var(--studio-chart-series);
 
 	--color-score-low: var(--studio-score-low);
