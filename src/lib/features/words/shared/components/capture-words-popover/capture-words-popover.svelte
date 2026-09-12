@@ -596,7 +596,7 @@
 
 <Dialog.Root open={isOpen} onOpenChange={handleOpenChange}>
 	<Dialog.Portal>
-		<Dialog.Overlay class="fixed inset-0 z-50 bg-ink/40 backdrop-blur-sm" />
+		<Dialog.Overlay class="fixed inset-0 z-50 bg-scrim backdrop-blur-sm" />
 		<Dialog.Content
 			data-testid={E2E_TEST_IDS.capturePopover.root}
 			class={cn(
@@ -706,7 +706,9 @@
 							<article
 								class={cn(
 									'relative rounded-xl border p-3',
-									wordRecord.aiError ? 'border-danger/25 bg-danger/5' : 'border-line bg-accent-soft/30'
+									wordRecord.aiError
+										? 'border-danger/25 bg-danger/5'
+										: 'border-line bg-accent-soft/30 dark:border-line-subtle dark:bg-canvas'
 								)}
 								aria-label={m['features.words.capture-popover.row_label']({ index: index + 1 })}
 							>
@@ -815,16 +817,16 @@
 							<span>{m['features.words.capture-popover.add_more']()}</span>
 						</Button>
 
-						<IconButton
+						<Button
 							type="OUTLINED"
 							variant="TEXT"
-							icon={BrushCleaning}
 							dataTestId={E2E_TEST_IDS.capturePopover.clearEmpty}
-							ariaLabel={m['features.words.capture-popover.clear_empty']()}
-							tooltip={m['features.words.capture-popover.clear_empty']()}
 							disabled={!canClearEmptyRows || isBusy}
 							onClick={() => captureWordsPopoverStore.removeEmptyRecords()}
-						/>
+						>
+							<BrushCleaning class="size-4" />
+							<span>{m['features.words.capture-popover.clear_empty']()}</span>
+						</Button>
 
 						<AiActionButton
 							class="ml-auto h-10 w-full min-w-0 sm:w-auto sm:min-w-40"
