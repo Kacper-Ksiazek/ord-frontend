@@ -15,6 +15,7 @@ messages/pl.json
 .wrangler
 /.svelte-kit
 /build
+.runtime/
 
 # OS
 .DS_Store
