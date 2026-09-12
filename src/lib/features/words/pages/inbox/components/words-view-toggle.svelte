@@ -1,5 +1,4 @@
 <script lang="ts">
-	import type { Component } from 'svelte';
 	import type { WordsInboxViewMode } from '$words/types';
 	import { ChartColumn, LayoutList } from 'lucide-svelte';
 	import { cn } from '$lib/utils/cn';
@@ -13,7 +12,7 @@
 
 	let { viewMode, onViewModeChange }: Props = $props();
 
-	const options: { mode: WordsInboxViewMode; label: () => string; icon: Component }[] = [
+	const options: { mode: WordsInboxViewMode; label: () => string; icon: typeof LayoutList }[] = [
 		{ mode: 'list', label: () => m['features.words.inbox.view.list'](), icon: LayoutList },
 		{
 			mode: 'analytics',

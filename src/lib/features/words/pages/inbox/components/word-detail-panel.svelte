@@ -184,7 +184,7 @@
 								</Badge>
 							{/if}
 							<PlayTextAudio
-								text={word.sourceWord}
+								text={word.sourceWord ?? ''}
 								id={`source-word-${selectedWordId}`}
 								dataTestId={E2E_TEST_IDS.inbox.detailSourceWordTts}
 							/>

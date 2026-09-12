@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Tooltip } from 'bits-ui';
+	import type { HTMLButtonAttributes } from 'svelte/elements';
 	import { mergeProps } from 'svelte-toolbelt';
 	import type { IconButtonProps } from './icon-button.types';
 	import { cn } from '$lib/utils/cn';
@@ -63,7 +64,7 @@
 							className
 						),
 						onclick: onClick
-					})}
+					}) as HTMLButtonAttributes}
 				>
 					<Icon class={cn(iconColorClasses, iconClass)} />
 				</button>

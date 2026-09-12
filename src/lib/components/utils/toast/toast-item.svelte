@@ -23,7 +23,7 @@
 	let isRemoving = $state(false);
 	let thinkingIndex = $state(0);
 	let autoDismissTimeout: ReturnType<typeof setTimeout> | undefined;
-	let thinkingInterval: ReturnType<typeof window.setInterval> | undefined;
+	let thinkingInterval: number | undefined;
 
 	const thinkingMessages = $derived([
 		m['components.utils.toast.ai_thinking_1'](),

@@ -8,7 +8,6 @@ export async function httpGetWord(id: string): Promise<SingleWordResponse> {
 
 	return {
 		...response.data,
-		bookmarked,
-		isBookmarked: bookmarked
+		bookmarked
 	};
 }

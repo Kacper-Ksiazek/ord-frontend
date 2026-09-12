@@ -61,17 +61,14 @@
 	</div>
 
 	<div class="space-y-4">
-		<div class="space-y-2">
-			<label class="text-sm font-medium text-ink" for="word-manual-synonyms">
-				{m['features.words.inbox.detail.manual_synonyms_label']()}
-			</label>
+		<label class="block space-y-2 text-sm font-medium text-ink">
+			{m['features.words.inbox.detail.manual_synonyms_label']()}
 			<Input
-				id="word-manual-synonyms"
 				bind:value={synonyms}
 				placeholder={m['features.words.inbox.detail.manual_synonyms_placeholder']()}
 				{disabled}
 			/>
-		</div>
+		</label>
 
 		<div class="space-y-2">
 			<label class="text-sm font-medium text-ink" for="word-manual-use-cases">
