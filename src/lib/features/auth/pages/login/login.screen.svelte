@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { AxiosError } from 'axios';
-	import { ArrowRight, Loader2 } from 'lucide-svelte';
+	import { ArrowRight, Loader2, Mail, ShieldCheck } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 	import { createRequestOtpMutation, createVerifyOtpMutation } from '$auth/api-client/mutations';
 	import { OtpInput } from '$auth/components';
@@ -122,6 +122,7 @@
 						dataTestId={E2E_TEST_IDS.login.emailInput}
 						type="email"
 						bind:value={email}
+						leftAdornment={Mail}
 						placeholder={m['auth.login.email_placeholder']()}
 						ariaLabel={m['auth.login.email_placeholder']()}
 					/>
@@ -164,7 +165,14 @@
 						disabled={verifyOtpMutation.isPending || otpCode.length !== 6}
 						onClick={() => void handleOtpSubmit()}
 					>
-						{verifyOtpMutation.isPending ? m['auth.login.verifying']() : m['auth.login.verify_button']()}
+						<span class="inline-flex items-center gap-1.5">
+							{verifyOtpMutation.isPending ? m['auth.login.verifying']() : m['auth.login.verify_button']()}
+							{#if verifyOtpMutation.isPending}
+								<Loader2 class="size-4 shrink-0 animate-spin" aria-hidden="true" />
+							{:else}
+								<ShieldCheck class="size-4 shrink-0" aria-hidden="true" />
+							{/if}
+						</span>
 					</Button>
 				</form>
 			{/if}
