@@ -2,7 +2,7 @@
 	import { cn } from '$lib/utils/cn';
 	import {
 		LogIn,
-		Bookmark,
+		BookOpen,
 		ChevronLeft,
 		ChevronRight,
 		Settings,
@@ -111,7 +111,7 @@
 	<!-- Navigation Menu Section -->
 	<nav class="flex-1 overflow-hidden px-3">
 		<div class="flex flex-col gap-2">
-			<SidebarLink title="Words" Icon={Bookmark} href="/words" />
+			<SidebarLink title="Vocabulary" Icon={BookOpen} href="/words" />
 
 			<SidebarLink title="Challenges" Icon={Smile} disabled />
 
