@@ -1,4 +1,4 @@
-import type { WordsViewMode } from '$words/types';
+import type { WordsInboxViewMode } from '$words/types';
 import { WordsListFiltersState, type WordsListFilters } from './words-list-filters-state.svelte';
 
 const WORD_ID_PATTERN =
@@ -6,9 +6,8 @@ const WORD_ID_PATTERN =
 
 export type WordsInboxUrlState = {
 	filters: WordsListFilters;
-	viewMode: WordsViewMode;
+	viewMode: WordsInboxViewMode;
 	wordId: string | null;
-	page: number;
 };
 
 function parseWordId(value: string | null): string | null {
@@ -21,24 +20,15 @@ function parseWordId(value: string | null): string | null {
 	return WORD_ID_PATTERN.test(trimmed) ? trimmed : null;
 }
 
-function parsePage(value: string | null): number {
-	if (!value) {
-		return 0;
-	}
-
-	const parsed = Number.parseInt(value, 10);
-
-	return Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
+function parseViewMode(value: string | null): WordsInboxViewMode {
+	return value === 'analytics' ? 'analytics' : 'list';
 }
 
 export function parseWordsInboxUrl(searchParams: URLSearchParams): WordsInboxUrlState {
-	const viewParam = searchParams.get('view');
-
 	return {
 		filters: WordsListFiltersState.parseSearchParams(searchParams),
-		viewMode: viewParam === 'pending' ? 'pending' : 'learning',
-		wordId: parseWordId(searchParams.get('wordId')),
-		page: parsePage(searchParams.get('page'))
+		viewMode: parseViewMode(searchParams.get('view')),
+		wordId: parseWordId(searchParams.get('wordId'))
 	};
 }
 
@@ -50,16 +40,12 @@ export function buildWordsInboxQueryString(state: WordsInboxUrlState): string {
 		parts.push(filtersQuery);
 	}
 
-	if (state.viewMode === 'pending') {
-		parts.push('view=pending');
+	if (state.viewMode === 'analytics') {
+		parts.push('view=analytics');
 	}
 
 	if (state.wordId) {
 		parts.push(`wordId=${encodeURIComponent(state.wordId)}`);
-	}
-
-	if (state.page > 0) {
-		parts.push(`page=${state.page}`);
 	}
 
 	return parts.join('&');

@@ -74,14 +74,12 @@ export class WordsListFiltersState {
 	}
 
 	buildSearchPayload(input: BuildSearchWordsParamsInput): SearchWordsParams {
-		const isPendingView = input.viewMode === 'pending';
 		const trimmedSearch = this.filters.search.trim();
 
 		return {
 			language: input.language,
-			page: isPendingView ? input.page : 0,
-			perPage: isPendingView ? input.pendingPerPage : input.learningPerPage,
-			hasProgress: !isPendingView,
+			page: 0,
+			perPage: input.learningPerPage,
 			sortBy: 'CREATED_AT',
 			sortDirection: 'DESC',
 			...(trimmedSearch ? { searchingPhrase: trimmedSearch } : {}),

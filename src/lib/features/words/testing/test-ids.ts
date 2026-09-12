@@ -4,9 +4,6 @@ export const E2E_TEST_IDS = {
 		page: 'words-inbox-page',
 		heading: 'words-inbox-heading',
 		root: 'words-inbox-list',
-		viewToggle: 'words-inbox-view-toggle',
-		viewToggleOption: (mode: string) => `words-inbox-view-${mode}`,
-		viewPendingCount: 'words-inbox-view-pending-count',
 		row: (id: string) => `words-inbox-row-${id}`,
 		detailPanel: 'words-inbox-detail-panel',
 		detailClose: 'words-inbox-detail-close',
@@ -29,7 +26,12 @@ export const E2E_TEST_IDS = {
 		filterBookmarkedOnly: 'words-inbox-filter-bookmarked-only',
 		filterBookmarkedCount: 'words-inbox-filter-bookmarked-count',
 		listSkeleton: 'words-inbox-list-skeleton',
-		rowBookmark: (id: string) => `words-inbox-row-bookmark-${id}`
+		rowBookmark: (id: string) => `words-inbox-row-bookmark-${id}`,
+		viewToggle: 'words-inbox-view-toggle',
+		viewToggleOption: (mode: 'list' | 'analytics') => `words-inbox-view-toggle-${mode}`,
+		analyticsPanel: 'words-inbox-analytics-panel',
+		analyticsTotalWords: 'words-inbox-analytics-total-words',
+		analyticsBookmarkedWords: 'words-inbox-analytics-bookmarked-words'
 	},
 	capturePopover: {
 		trigger: 'sidebar-capture-words',

@@ -5,12 +5,20 @@
 	"header": {
 		"title": "Wörter",
 		"description": "Wörter, die du lernst.",
-		"pending_description": "Überprüfe erfasste Wörter, bevor du sie zu deinem Vokabular hinzufügst."
+		"analytics_description": "Überblick über deinen Wortschatz."
 	},
 	"view": {
-		"aria_label": "Wörteransicht",
-		"learning": "Im Lernen",
-		"pending": "Ausstehend"
+		"aria_label": "Wortansicht",
+		"list": "Liste",
+		"analytics": "Analytik"
+	},
+	"analytics": {
+		"total_words": "Alle Wörter",
+		"bookmarked_words": "Lesezeichen",
+		"load_error": {
+			"header": "Analytik konnte nicht geladen werden",
+			"description": "Etwas ist schiefgelaufen. Bitte versuche es erneut."
+		}
 	},
 	"buckets": {
 		"today": "Heute",
@@ -20,42 +28,15 @@
 		"earlier": "Früher"
 	},
 	"row": {
-		"status_pending": "Ausstehend",
-		"status_active": "Im Lernen",
 		"progress_points": "{points} Pkt.",
 		"progress_completed": "Abgeschlossen",
-		"missing_translation": "Noch keine Übersetzung",
 		"bookmarked": "Lesezeichen",
 		"add_bookmark": "„{word}“ als Lesezeichen speichern",
 		"remove_bookmark": "Lesezeichen für „{word}“ entfernen"
 	},
-	"actions": {
-		"activate": "Aktivieren",
-		"delete": "Löschen"
-	},
 	"toast": {
-		"activate_success": "Zum Lernen hinzugefügt",
-		"activate_error": "Hinzufügen zum Lernen fehlgeschlagen. Bitte erneut versuchen.",
-		"activate_many_success": "{count} Wörter zum Lernen hinzugefügt",
-		"activate_many_error": "Ausgewählte Wörter konnten nicht hinzugefügt werden. Bitte erneut versuchen.",
-		"remove_success": "Wort gelöscht",
-		"remove_error": "Wort konnte nicht gelöscht werden. Bitte erneut versuchen.",
-		"remove_many_success": "{count} Wörter gelöscht",
-		"remove_many_error": "Ausgewählte Wörter konnten nicht gelöscht werden. Bitte erneut versuchen.",
 		"bookmark_error": "Lesezeichen konnte nicht aktualisiert werden. Bitte erneut versuchen."
 	},
-	"selection": {
-		"select_row": "„{word}“ für Sammelaktionen auswählen"
-	},
-	"bulk": {
-		"toolbar_aria_label": "Sammelaktionen für ausstehende Wörter",
-		"select_all": "Alle auf dieser Seite auswählen",
-		"unselect_all": "Alle auf dieser Seite abwählen",
-		"activate_selected": "Ausgewählte aktivieren",
-		"remove_selected": "Ausgewählte entfernen"
-	},
-	"unconfirmed_badge": "Unbestätigt",
-	"unconfirmed_tooltip": "Dieses Wort stammt aus einer nicht verifizierten Quelle.",
 	"load_error": {
 		"header": "Wörter konnten nicht geladen werden",
 		"description": "Etwas ist schiefgelaufen. Versuche es erneut.",
@@ -64,8 +45,6 @@
 	"empty": {
 		"header": "Noch keine Wörter",
 		"description": "Wörter, die du zum Lernen hinzufügst, erscheinen hier.",
-		"pending_header": "Keine ausstehenden Wörter",
-		"pending_description": "Erfasste Wörter zur Überprüfung erscheinen hier.",
 		"filtered_header": "Keine passenden Wörter",
 		"filtered_description": "Passe deine Suche oder Filter an."
 	},
@@ -84,11 +63,6 @@
 		"popover_title": "Filter"
 	},
 	"list_aria_label": "Deine Wörter",
-	"pagination": {
-		"previous": "Zurück",
-		"next": "Weiter",
-		"page_of": "Seite {page} von {totalPages}"
-	},
 	"detail": {
 		"title": "Wortdetails",
 		"close": "Details schließen",

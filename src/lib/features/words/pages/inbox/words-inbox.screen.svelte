@@ -12,8 +12,9 @@
 	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';
 	import CapturedWordsList from './components/captured-words-list.svelte';
 	import WordDetailPanel from './components/word-detail-panel.svelte';
-	import WordsViewToggle from './components/words-view-toggle.svelte';
 	import WordListFiltersBar from './components/word-list-filters-bar.svelte';
+	import WordsAnalyticsPanel from './components/words-analytics-panel.svelte';
+	import WordsViewToggle from './components/words-view-toggle.svelte';
 	import { WordsListFiltersState } from './state/words-list-filters-state.svelte';
 	import { buildWordsInboxQueryString, parseWordsInboxUrl } from './state/words-inbox-url-state';
 	import {
@@ -22,13 +23,12 @@
 		getWordDetailContext,
 		openWordDetail
 	} from './contexts/word-detail-context.svelte';
-	import type { WordsViewMode } from '$words/types';
+	import type { WordsInboxViewMode } from '$words/types';
 	import * as m from '$lib/paraglide/messages.js';
 	import { E2E_TEST_IDS } from '$words/testing/test-ids';
 	import { cn } from '$lib/utils/cn';
 
 	const LEARNING_PER_PAGE = 500;
-	const PENDING_PER_PAGE = 50;
 	const LIST_COLUMN_WIDTH_PX = 360;
 
 	const initialUrlState = parseWordsInboxUrl(appPage.url.searchParams);
@@ -37,16 +37,20 @@
 	const wordDetailContext = getWordDetailContext();
 	const filtersState = new WordsListFiltersState(appPage.url.searchParams);
 
-	let listPage = $state(initialUrlState.page);
-	let viewMode = $state<WordsViewMode>(initialUrlState.viewMode);
-	let selectedWordIds = $state<string[]>([]);
+	let viewMode = $state<WordsInboxViewMode>(initialUrlState.viewMode);
 	let listScrollContainer = $state<HTMLDivElement | undefined>();
 	let previousFiltersKey = $state(filtersState.toQueryString());
 	let canSyncUrl = $state(false);
 
-	if (initialUrlState.wordId && initialUrlState.viewMode === 'learning') {
+	if (initialUrlState.wordId && initialUrlState.viewMode === 'list') {
 		openWordDetail(wordDetailContext, initialUrlState.wordId);
 	}
+
+	const headerDescription = $derived(
+		viewMode === 'analytics'
+			? m['features.words.inbox.header.analytics_description']()
+			: m['features.words.inbox.header.description']()
+	);
 
 	const learningLanguage = $derived(authStore.user?.selectedLearningLanguage);
 	const useSearchQuery = $derived(filtersState.hasActiveFilters);
@@ -56,13 +60,10 @@
 			return null;
 		}
 
-		const isPendingView = viewMode === 'pending';
-
 		return {
 			language: learningLanguage,
-			page: isPendingView ? listPage : 0,
-			perPage: isPendingView ? PENDING_PER_PAGE : LEARNING_PER_PAGE,
-			hasProgress: !isPendingView
+			page: 0,
+			perPage: LEARNING_PER_PAGE
 		};
 	});
 
@@ -73,10 +74,7 @@
 
 		return filtersState.buildSearchPayload({
 			language: learningLanguage,
-			viewMode,
-			page: listPage,
-			learningPerPage: LEARNING_PER_PAGE,
-			pendingPerPage: PENDING_PER_PAGE
+			learningPerPage: LEARNING_PER_PAGE
 		});
 	});
 
@@ -86,14 +84,7 @@
 		learningLanguage ? { language: learningLanguage } : null
 	);
 
-	const pendingCount = $derived(wordOverviewQuery.data?.pendingCount ?? 0);
 	const bookmarkedCount = $derived(wordOverviewQuery.data?.bookmarkedCount ?? 0);
-
-	const headerDescription = $derived(
-		viewMode === 'pending'
-			? m['features.words.inbox.header.pending_description']()
-			: m['features.words.inbox.header.description']()
-	);
 
 	afterNavigate((navigation) => {
 		canSyncUrl = true;
@@ -108,11 +99,16 @@
 	function applyInboxStateFromUrl(searchParams: Parameters<typeof parseWordsInboxUrl>[0]) {
 		const parsed = parseWordsInboxUrl(searchParams);
 
-		filtersState.applyFromSearchParams(searchParams);
 		viewMode = parsed.viewMode;
-		listPage = parsed.page;
+		filtersState.applyFromSearchParams(searchParams);
 
-		if (parsed.wordId && parsed.viewMode === 'learning') {
+		if (parsed.viewMode === 'analytics') {
+			closeWordDetail(wordDetailContext);
+
+			return;
+		}
+
+		if (parsed.wordId) {
 			if (!wordDetailContext.isOpened || wordDetailContext.selectedWordId !== parsed.wordId) {
 				openWordDetail(wordDetailContext, parsed.wordId);
 			}
@@ -129,11 +125,20 @@
 		const query = buildWordsInboxQueryString({
 			filters: filtersState.filters,
 			viewMode,
-			wordId: wordDetailContext.isOpened ? wordDetailContext.selectedWordId : null,
-			page: listPage
+			wordId:
+				viewMode === 'list' && wordDetailContext.isOpened ? wordDetailContext.selectedWordId : null
 		});
 
 		return query ? `?${query}` : '';
+	}
+
+	function handleViewModeChange(mode: WordsInboxViewMode) {
+		viewMode = mode;
+		listScrollContainer?.scrollTo({ top: 0 });
+
+		if (mode === 'analytics') {
+			closeWordDetail(wordDetailContext);
+		}
 	}
 
 	$effect(() => {
@@ -154,33 +159,11 @@
 		const nextFiltersKey = filtersState.toQueryString();
 
 		if (nextFiltersKey !== previousFiltersKey) {
-			listPage = 0;
-			clearSelection();
 			listScrollContainer?.scrollTo({ top: 0 });
 		}
 
 		previousFiltersKey = nextFiltersKey;
 	});
-
-	function clearSelection() {
-		selectedWordIds = [];
-	}
-
-	function handlePageChange(nextPage: number) {
-		listPage = nextPage;
-		clearSelection();
-	}
-
-	function handleViewModeChange(mode: WordsViewMode) {
-		viewMode = mode;
-		listPage = 0;
-		clearSelection();
-		listScrollContainer?.scrollTo({ top: 0 });
-
-		if (mode === 'pending') {
-			closeWordDetail(wordDetailContext);
-		}
-	}
 </script>
 
 <svelte:head>
@@ -220,55 +203,58 @@
 				</div>
 
 				{#if learningLanguage}
-					<WordsViewToggle {viewMode} {pendingCount} onViewModeChange={handleViewModeChange} />
+					<WordsViewToggle {viewMode} onViewModeChange={handleViewModeChange} />
 				{/if}
 			</div>
 		</div>
 
-		<div class="flex min-h-0 flex-1 gap-6 overflow-hidden">
-			<div
-				class="flex min-h-0 shrink-0 flex-col overflow-hidden transition-[width] duration-300 ease-in-out"
-				style:width={wordDetailContext.isOpened ? `${LIST_COLUMN_WIDTH_PX}px` : '100%'}
-			>
-				{#if learningLanguage}
-					<div class="shrink-0">
-						<WordListFiltersBar
-							{filtersState}
-							isSplitView={wordDetailContext.isOpened}
-							{bookmarkedCount}
+		{#if viewMode === 'analytics'}
+			<WordsAnalyticsPanel
+				overviewQuery={wordOverviewQuery}
+				hasLearningLanguage={learningLanguage !== undefined}
+			/>
+		{:else}
+			<div class="flex min-h-0 flex-1 gap-6 overflow-hidden">
+				<div
+					class="flex min-h-0 shrink-0 flex-col overflow-hidden transition-[width] duration-300 ease-in-out"
+					style:width={wordDetailContext.isOpened ? `${LIST_COLUMN_WIDTH_PX}px` : '100%'}
+				>
+					{#if learningLanguage}
+						<div class="shrink-0">
+							<WordListFiltersBar
+								{filtersState}
+								isSplitView={wordDetailContext.isOpened}
+								{bookmarkedCount}
+							/>
+						</div>
+					{/if}
+
+					<div bind:this={listScrollContainer} class="min-h-0 flex-1 overflow-y-auto">
+						<CapturedWordsList
+							wordsQuery={activeWordsQuery}
+							hasActiveFilters={filtersState.hasActiveFilters}
+							bookmarkedOnlyFilter={filtersState.filters.bookmarkedOnly}
+							hasLearningLanguage={learningLanguage !== undefined}
 						/>
 					</div>
-				{/if}
-
-				<div bind:this={listScrollContainer} class="min-h-0 flex-1 overflow-y-auto">
-					<CapturedWordsList
-						wordsQuery={activeWordsQuery}
-						page={listPage}
-						{viewMode}
-						hasActiveFilters={filtersState.hasActiveFilters}
-						bookmarkedOnlyFilter={filtersState.filters.bookmarkedOnly}
-						hasLearningLanguage={learningLanguage !== undefined}
-						bind:selectedIds={selectedWordIds}
-						onPageChange={handlePageChange}
-					/>
 				</div>
-			</div>
 
-			<div
-				class={cn(
-					'flex min-h-0 min-w-0 flex-col overflow-hidden transition-[flex-grow,width] duration-300 ease-in-out',
-					wordDetailContext.isOpened ? 'flex-1' : 'w-0 flex-none pointer-events-none'
-				)}
-			>
 				<div
 					class={cn(
-						'h-full w-full transition-transform duration-300 ease-in-out',
-						wordDetailContext.isOpened ? 'translate-x-0' : 'translate-x-full'
+						'flex min-h-0 min-w-0 flex-col overflow-hidden transition-[flex-grow,width] duration-300 ease-in-out',
+						wordDetailContext.isOpened ? 'flex-1' : 'w-0 flex-none pointer-events-none'
 					)}
 				>
-					<WordDetailPanel bookmarkedOnlyFilter={filtersState.filters.bookmarkedOnly} />
+					<div
+						class={cn(
+							'h-full w-full transition-transform duration-300 ease-in-out',
+							wordDetailContext.isOpened ? 'translate-x-0' : 'translate-x-full'
+						)}
+					>
+						<WordDetailPanel bookmarkedOnlyFilter={filtersState.filters.bookmarkedOnly} />
+					</div>
 				</div>
 			</div>
-		</div>
+		{/if}
 	</ContentCard>
 </PageContentContainer>

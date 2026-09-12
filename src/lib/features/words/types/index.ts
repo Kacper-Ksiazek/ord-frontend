@@ -6,4 +6,5 @@ export * from './api/overview';
 export * from './api/requests';
 export * from './api/responses';
 export * from './domain/entities';
+export * from './domain/inbox-view-mode';
 export * from './domain/word-type';

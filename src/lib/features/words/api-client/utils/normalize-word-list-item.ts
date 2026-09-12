@@ -2,7 +2,6 @@ import type { WordListItem, WordsPaginatedDataResponse } from '$words/types';
 
 type RawWordListItem = WordListItem & {
 	isBookmarked?: boolean;
-	isFromUnverifiedSource?: boolean;
 };
 
 export function getWordBookmarked(item: WordListItem): boolean {
@@ -12,12 +11,9 @@ export function getWordBookmarked(item: WordListItem): boolean {
 }
 
 export function normalizeWordListItem(item: WordListItem): WordListItem {
-	const raw = item as RawWordListItem;
-
 	return {
 		...item,
-		bookmarked: getWordBookmarked(item),
-		fromUnverifiedSource: Boolean(raw.fromUnverifiedSource ?? raw.isFromUnverifiedSource)
+		bookmarked: getWordBookmarked(item)
 	};
 }
 

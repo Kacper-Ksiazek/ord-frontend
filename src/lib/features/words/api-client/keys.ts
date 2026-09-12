@@ -4,11 +4,7 @@ const listParamsKey = (params: GetWordsParams) =>
 	({
 		language: params.language,
 		page: params.page ?? 0,
-		perPage: params.perPage ?? 50,
-		...(params.hasProgress !== undefined ? { hasProgress: params.hasProgress } : {}),
-		...(params.isFromUnverifiedSource !== undefined
-			? { isFromUnverifiedSource: params.isFromUnverifiedSource }
-			: {})
+		perPage: params.perPage ?? 50
 	}) as const;
 
 export const wordCaptureKeys = {

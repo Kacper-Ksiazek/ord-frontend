@@ -14,22 +14,18 @@ describe('WordsListFiltersState', () => {
 		expect(state.hasActiveFilters).toBe(true);
 	});
 
-	it('builds search payload for learning view', () => {
+	it('builds search payload', () => {
 		const state = new WordsListFiltersState(new URLSearchParams('search=test&wordTypes=IDIOM'));
 
 		const payload = state.buildSearchPayload({
 			language: 'ENGLISH',
-			viewMode: 'learning',
-			page: 2,
-			learningPerPage: 500,
-			pendingPerPage: 50
+			learningPerPage: 500
 		});
 
 		expect(payload).toEqual({
 			language: 'ENGLISH',
 			page: 0,
 			perPage: 500,
-			hasProgress: true,
 			sortBy: 'CREATED_AT',
 			sortDirection: 'DESC',
 			searchingPhrase: 'test',
@@ -42,15 +38,11 @@ describe('WordsListFiltersState', () => {
 
 		const payload = state.buildSearchPayload({
 			language: 'ENGLISH',
-			viewMode: 'learning',
-			page: 0,
-			learningPerPage: 500,
-			pendingPerPage: 50
+			learningPerPage: 500
 		});
 
 		expect(payload).toMatchObject({
-			bookmarked: true,
-			hasProgress: true
+			bookmarked: true
 		});
 		expect(state.hasActiveFilters).toBe(true);
 	});

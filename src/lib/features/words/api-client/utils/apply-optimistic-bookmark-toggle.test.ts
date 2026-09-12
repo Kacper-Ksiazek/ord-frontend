@@ -11,7 +11,6 @@ describe('applyOptimisticBookmarkToggle', () => {
 			language: 'ENGLISH',
 			page: 0,
 			perPage: 50,
-			hasProgress: true,
 			searchingPhrase: null,
 			wordTypes: [],
 			wordExtraMarks: [],
@@ -52,7 +51,6 @@ describe('applyOptimisticBookmarkToggle', () => {
 			language: 'ENGLISH',
 			page: 0,
 			perPage: 50,
-			hasProgress: true,
 			searchingPhrase: null,
 			wordTypes: [],
 			wordExtraMarks: [],
@@ -99,15 +97,11 @@ describe('applyOptimisticBookmarkToggle', () => {
 		const listKey = wordCaptureKeys.list({
 			language: 'ENGLISH',
 			page: 0,
-			perPage: 50,
-			hasProgress: true
+			perPage: 50
 		});
 
 		queryClient.setQueryData(overviewKey, {
 			total: 1,
-			activeCount: 1,
-			pendingCount: 0,
-			unverifiedSourceCount: 0,
 			bookmarkedCount: 1
 		});
 		queryClient.setQueryData(listKey, {

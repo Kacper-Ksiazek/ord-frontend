@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import type { WordListItem } from '$words/types';
 import { getWordBookmarked, normalizeWordListItem } from './normalize-word-list-item';
 
 describe('normalizeWordListItem', () => {
@@ -6,7 +7,7 @@ describe('normalizeWordListItem', () => {
 		const item = normalizeWordListItem({
 			id: 'word-1',
 			isBookmarked: true
-		});
+		} as WordListItem & { isBookmarked?: boolean });
 
 		expect(getWordBookmarked(item)).toBe(true);
 		expect(item.bookmarked).toBe(true);
@@ -17,7 +18,7 @@ describe('normalizeWordListItem', () => {
 			id: 'word-1',
 			bookmarked: false,
 			isBookmarked: true
-		});
+		} as WordListItem & { isBookmarked?: boolean });
 
 		expect(getWordBookmarked(item)).toBe(false);
 	});

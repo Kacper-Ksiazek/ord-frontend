@@ -1,29 +1,26 @@
 <script lang="ts">
-	import type { WordsViewMode } from '$words/types';
+	import type { Component } from 'svelte';
+	import type { WordsInboxViewMode } from '$words/types';
+	import { ChartColumn, LayoutList } from 'lucide-svelte';
 	import { cn } from '$lib/utils/cn';
 	import * as m from '$lib/paraglide/messages.js';
 	import { E2E_TEST_IDS } from '$words/testing/test-ids';
 
 	interface Props {
-		viewMode: WordsViewMode;
-		pendingCount?: number;
-		onViewModeChange: (mode: WordsViewMode) => void;
+		viewMode: WordsInboxViewMode;
+		onViewModeChange: (mode: WordsInboxViewMode) => void;
 	}
 
-	let { viewMode, pendingCount = 0, onViewModeChange }: Props = $props();
+	let { viewMode, onViewModeChange }: Props = $props();
 
-	const options: { mode: WordsViewMode; label: () => string }[] = [
-		{ mode: 'learning', label: () => m['features.words.inbox.view.learning']() },
-		{ mode: 'pending', label: () => m['features.words.inbox.view.pending']() }
+	const options: { mode: WordsInboxViewMode; label: () => string; icon: Component }[] = [
+		{ mode: 'list', label: () => m['features.words.inbox.view.list'](), icon: LayoutList },
+		{
+			mode: 'analytics',
+			label: () => m['features.words.inbox.view.analytics'](),
+			icon: ChartColumn
+		}
 	];
-
-	function formatCount(count: number): string {
-		return count > 99 ? '99+' : String(count);
-	}
-
-	function pendingBadgeClass(isSelected: boolean): string {
-		return isSelected ? 'bg-surface text-ink' : 'bg-accent-soft text-ink-muted';
-	}
 </script>
 
 <div
@@ -33,6 +30,7 @@
 	data-testid={E2E_TEST_IDS.inbox.viewToggle}
 >
 	{#each options as option (option.mode)}
+		{@const Icon = option.icon}
 		<button
 			type="button"
 			role="tab"
@@ -44,18 +42,8 @@
 			data-testid={E2E_TEST_IDS.inbox.viewToggleOption(option.mode)}
 			onclick={() => onViewModeChange(option.mode)}
 		>
+			<Icon class="h-4 w-4 shrink-0" aria-hidden="true" />
 			{option.label()}
-			{#if option.mode === 'pending' && pendingCount > 0}
-				<span
-					class={cn(
-						'inline-flex min-w-5 items-center justify-center rounded-full px-1.5 py-0.5 text-xs font-semibold tabular-nums',
-						pendingBadgeClass(viewMode === 'pending')
-					)}
-					data-testid={E2E_TEST_IDS.inbox.viewPendingCount}
-				>
-					{formatCount(pendingCount)}
-				</span>
-			{/if}
 		</button>
 	{/each}
 </div>

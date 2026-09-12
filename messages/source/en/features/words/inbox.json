@@ -5,12 +5,20 @@
 	"header": {
 		"title": "Words",
 		"description": "Words you're learning.",
-		"pending_description": "Review captured words before adding them to your vocabulary."
+		"analytics_description": "An overview of your vocabulary."
 	},
 	"view": {
 		"aria_label": "Words view",
-		"learning": "Learning",
-		"pending": "Pending"
+		"list": "List",
+		"analytics": "Analytics"
+	},
+	"analytics": {
+		"total_words": "Total words",
+		"bookmarked_words": "Bookmarks",
+		"load_error": {
+			"header": "Could not load analytics",
+			"description": "Something went wrong. Please try again."
+		}
 	},
 	"buckets": {
 		"today": "Today",
@@ -20,42 +28,15 @@
 		"earlier": "Earlier"
 	},
 	"row": {
-		"status_pending": "Pending",
-		"status_active": "In learning",
 		"progress_points": "{points} pts",
 		"progress_completed": "Completed",
-		"missing_translation": "No translation yet",
 		"bookmarked": "Bookmarked",
 		"add_bookmark": "Bookmark \"{word}\"",
 		"remove_bookmark": "Remove bookmark for \"{word}\""
 	},
-	"actions": {
-		"activate": "Activate",
-		"delete": "Delete"
-	},
 	"toast": {
-		"activate_success": "Added to Learning",
-		"activate_error": "Couldn't add to Learning. Try again.",
-		"activate_many_success": "{count} words added to Learning",
-		"activate_many_error": "Couldn't add selected words. Try again.",
-		"remove_success": "Word deleted",
-		"remove_error": "Couldn't delete word. Try again.",
-		"remove_many_success": "{count} words deleted",
-		"remove_many_error": "Couldn't delete selected words. Try again.",
 		"bookmark_error": "Couldn't update bookmark. Try again."
 	},
-	"selection": {
-		"select_row": "Select \"{word}\" for bulk actions"
-	},
-	"bulk": {
-		"toolbar_aria_label": "Bulk actions for pending words",
-		"select_all": "Select all on this page",
-		"unselect_all": "Unselect all on this page",
-		"activate_selected": "Activate selected",
-		"remove_selected": "Remove selected"
-	},
-	"unconfirmed_badge": "Unconfirmed",
-	"unconfirmed_tooltip": "This word comes from an unverified source.",
 	"load_error": {
 		"header": "Couldn't load words",
 		"description": "Something went wrong. Try again.",
@@ -64,8 +45,6 @@
 	"empty": {
 		"header": "No words yet",
 		"description": "Words you add to learning will appear here.",
-		"pending_header": "No pending words",
-		"pending_description": "Captured words waiting for review will appear here.",
 		"filtered_header": "No matching words",
 		"filtered_description": "Try adjusting your search or filters."
 	},
@@ -84,11 +63,6 @@
 		"popover_title": "Filters"
 	},
 	"list_aria_label": "Your words",
-	"pagination": {
-		"previous": "Previous",
-		"next": "Next",
-		"page_of": "Page {page} of {totalPages}"
-	},
 	"detail": {
 		"title": "Word details",
 		"close": "Close details",

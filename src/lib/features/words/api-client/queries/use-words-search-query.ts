@@ -8,7 +8,6 @@ const searchParamsKey = (params: SearchWordsParams) =>
 		language: params.language,
 		page: params.page ?? 0,
 		perPage: params.perPage ?? 50,
-		hasProgress: params.hasProgress ?? true,
 		searchingPhrase: params.searchingPhrase ?? null,
 		wordTypes: params.wordTypes ?? [],
 		wordExtraMarks: params.wordExtraMarks ?? [],

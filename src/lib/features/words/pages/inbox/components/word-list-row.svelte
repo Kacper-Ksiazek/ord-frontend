@@ -4,23 +4,18 @@
 	import { getWordTypeBadgeColor, getWordTypeLabel } from '$words/shared/constants';
 	import BankGroupColorDot from '$words/shared/components/bank-group-color-dot.svelte';
 	import WordExtraMarkBadge from '$words/shared/components/word-extra-mark-badge.svelte';
-	import type { WordListItem, WordsViewMode } from '$words/types';
-	import * as m from '$lib/paraglide/messages.js';
-	import CapturedStatusBadge from './captured-status-badge.svelte';
+	import type { WordListItem } from '$words/types';
 
 	interface Props {
 		item: WordListItem;
 		itemId: string;
-		variant: WordsViewMode;
 		compact?: boolean;
 	}
 
-	let { item, itemId, variant, compact = false }: Props = $props();
+	let { item, compact = false }: Props = $props();
 
 	const sourceWord = $derived(item.sourceWord ?? '');
-	const showTrailingMeta = $derived(
-		item.bank?.name || (variant === 'pending' && item.fromUnverifiedSource)
-	);
+	const showTrailingMeta = $derived(Boolean(item.bank?.name));
 </script>
 
 <div class={compact ? 'min-w-0 flex-1' : 'min-w-0 flex-1 flex flex-col gap-2.5'}>
@@ -37,10 +32,6 @@
 
 			{#if item.translation}
 				<p class="min-w-0 truncate text-sm leading-snug text-ink-muted">{item.translation}</p>
-			{:else if variant === 'pending'}
-				<p class="text-sm leading-snug text-ink-subtle italic">
-					{m['features.words.inbox.row.missing_translation']()}
-				</p>
 			{/if}
 		</div>
 	{:else}
@@ -51,11 +42,6 @@
 				{#if item.translation}
 					<span class="px-1 text-ink-subtle" aria-hidden="true">·</span>
 					<span class="text-ink-muted">{item.translation}</span>
-				{:else if variant === 'pending'}
-					<span class="px-1 text-ink-subtle" aria-hidden="true">·</span>
-					<span class="text-ink-subtle italic"
-						>{m['features.words.inbox.row.missing_translation']()}</span
-					>
 				{/if}
 			</p>
 
@@ -77,10 +63,6 @@
 							<BankGroupColorDot color={item.bank.bankGroup?.color} />
 							<span class="truncate">{item.bank.name}</span>
 						</span>
-					{/if}
-
-					{#if variant === 'pending' && item.fromUnverifiedSource}
-						<CapturedStatusBadge {itemId} />
 					{/if}
 				</div>
 			{/if}
