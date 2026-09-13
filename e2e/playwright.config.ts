@@ -39,10 +39,12 @@ export default defineConfig({
 	webServer: {
 		command: 'bun run dev',
 		url: testEnv.baseUrl,
-		reuseExistingServer: !process.env.CI,
+		// Never reuse a casual dev server during E2E — it may have PUBLIC_DEV_LOGIN_EMAIL prefilled.
+		reuseExistingServer: !process.env.CI && !process.env.PUBLIC_E2E,
 		timeout: 120_000,
 		env: {
-			PUBLIC_API_URL: testEnv.apiUrl
+			PUBLIC_API_URL: testEnv.apiUrl,
+			PUBLIC_E2E: 'true'
 		}
 	}
 });

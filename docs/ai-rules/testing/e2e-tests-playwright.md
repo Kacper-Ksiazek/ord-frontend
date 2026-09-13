@@ -2,7 +2,7 @@
 
 E2E tests live in `e2e/` with their own config (`e2e/playwright.config.ts`):
 
-- **Specs:** `e2e/journeys/*.spec.ts` — one critical user journey per file
+- **Specs:** `e2e/journeys/*.spec.ts` — one critical user journey per file (auth, conversations, words, …)
 - **Page objects:** `e2e/features/<feature>/pages/` and `components/` (mirrors `src/lib/features/`)
 - **Shared:** `e2e/shared/` — fixtures, env, helpers
 - **Types:** `e2e/tsconfig.json` — `@e2e/*` and `$lib/*` path aliases; run `bun run check:e2e`
@@ -25,7 +25,8 @@ e2e/
 └── features/
     ├── auth/pages/
     ├── app-layouts/components/
-    └── conversations/{list,create,session}/pages/
+    ├── conversations/{list,create,session}/pages/
+    └── words/{pages,components}/
 ```
 
 ## Local setup

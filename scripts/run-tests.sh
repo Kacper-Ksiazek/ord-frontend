@@ -67,6 +67,7 @@ case "$MODE" in
 		if [[ ! -f "$ROOT/.env.e2e" ]]; then
 			echo "WARN: .env.e2e not found — E2E auth specs will skip (copy .env.e2e.example)" >&2
 		fi
+		export PUBLIC_E2E=true
 		./scripts/check-e2e-backend.sh
 		if ((${#EXTRA_ARGS[@]})); then
 			exec bun run test:e2e -- "${EXTRA_ARGS[@]}"

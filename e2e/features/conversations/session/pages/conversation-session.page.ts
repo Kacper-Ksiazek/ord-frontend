@@ -49,11 +49,14 @@ export class ConversationSessionPage {
 		await message.waitFor({ state: 'visible' });
 
 		await expect
-			.poll(async () => {
-				const text = (await message.innerText()).trim();
+			.poll(
+				async () => {
+					const text = (await message.innerText()).trim();
 
-				return text.length > 0 && !text.startsWith(AI_THINKING_PREFIX);
-			})
+					return text.length > 0 && !text.startsWith(AI_THINKING_PREFIX);
+				},
+				{ timeout: 45_000 }
+			)
 			.toBe(true);
 	}
 

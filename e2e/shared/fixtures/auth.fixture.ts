@@ -1,6 +1,7 @@
 import type { Page } from '@playwright/test';
 import { test as pagesTest } from './pages.fixture';
 import { isE2eAuthConfigured, workerEmail } from './test-env';
+import { ensureE2eWorkerAccount } from '@e2e/shared/helpers/ensure-e2e-worker-account';
 import { LoginPage } from '@e2e/auth';
 
 type AuthFixtures = {
@@ -22,6 +23,7 @@ export const test = pagesTest.extend<AuthFixtures>({
 		const email = workerEmail(testInfo.workerIndex);
 
 		await loginPage.loginWithOtp(email);
+		await ensureE2eWorkerAccount(page, testInfo.workerIndex);
 
 		await use(page);
 		await context.close();

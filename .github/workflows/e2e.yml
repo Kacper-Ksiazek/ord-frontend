@@ -26,12 +26,11 @@ jobs:
       - name: Checkout ord-frontend
         uses: actions/checkout@v4
 
-      - name: Resolve pinned ord-api image
+      - name: Read pinned ord-api commit
         id: ord-api
         run: |
           SHA=$(tr -d '[:space:]' < .github/ord-api-e2e-image.sha)
           echo "sha=${SHA}" >> "$GITHUB_OUTPUT"
-          echo "image=ghcr.io/kacper-ksiazek/ord-api:sha-${SHA}" >> "$GITHUB_OUTPUT"
 
       - name: Checkout ord-api
         uses: actions/checkout@v4
@@ -39,6 +38,12 @@ jobs:
           repository: Kacper-Ksiazek/ord-api
           ref: ${{ steps.ord-api.outputs.sha }}
           path: ord-api
+
+      - name: Resolve ord-api Docker image
+        id: ord-api-image
+        run: |
+          FULL_SHA=$(git -C ord-api rev-parse HEAD)
+          echo "image=ghcr.io/kacper-ksiazek/ord-api:sha-${FULL_SHA}" >> "$GITHUB_OUTPUT"
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -49,7 +54,7 @@ jobs:
 
       - name: Start E2E backend stack
         env:
-          ORD_API_IMAGE: ${{ steps.ord-api.outputs.image }}
+          ORD_API_IMAGE: ${{ steps.ord-api-image.outputs.image }}
         run: docker compose -f ord-api/docker-compose.e2e.yml up -d --wait
 
       - name: Create .env.e2e
@@ -89,5 +94,5 @@ jobs:
       - name: Tear down E2E backend stack
         if: always()
         env:
-          ORD_API_IMAGE: ${{ steps.ord-api.outputs.image }}
+          ORD_API_IMAGE: ${{ steps.ord-api-image.outputs.image }}
         run: docker compose -f ord-api/docker-compose.e2e.yml down -v

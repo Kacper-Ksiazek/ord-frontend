@@ -325,7 +325,7 @@
 							{/if}
 
 							{#if details.synonyms?.length}
-								<section class="flex flex-col gap-2.5">
+								<section class="flex flex-col gap-2.5" data-testid={E2E_TEST_IDS.inbox.detailSynonyms}>
 									<h3 class="text-sm font-medium text-ink">
 										{m['features.words.inbox.detail.synonyms']()}
 									</h3>
@@ -476,6 +476,7 @@
 								<div class="flex w-full max-w-md flex-col gap-2 sm:flex-row sm:justify-center">
 									<AiActionButton
 										class="h-10 w-full sm:min-w-44 sm:w-auto"
+										dataTestId={E2E_TEST_IDS.inbox.detailGenerateWithAi}
 										bind:status={aiButtonStatus}
 										disabled={isManualBusy || !word.sourceWord || !word.language}
 										onclick={handleGenerateWithAi}

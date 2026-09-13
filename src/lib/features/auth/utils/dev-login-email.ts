@@ -1,8 +1,12 @@
 import { dev } from '$app/environment';
 import { env } from '$env/dynamic/public';
 
+function isE2eRuntime(): boolean {
+	return env.PUBLIC_E2E === 'true';
+}
+
 export function getDevLoginEmail(): string {
-	if (!dev) {
+	if (!dev || isE2eRuntime()) {
 		return '';
 	}
 
@@ -10,7 +14,7 @@ export function getDevLoginEmail(): string {
 }
 
 export function getDevLoginOtp(): string {
-	if (!dev || !getDevLoginEmail()) {
+	if (!dev || isE2eRuntime() || !getDevLoginEmail()) {
 		return '';
 	}
 
