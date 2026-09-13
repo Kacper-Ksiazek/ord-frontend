@@ -31,7 +31,7 @@ e2e/
 ## Local setup
 
 - Copy `.env.e2e.example` → `.env.e2e` at the **repo root**.
-- Backend: `make docker-e2e-up` (ord-api e2e stack, OTP `123456`).
+- Backend: `ord-ops make e2e-up` (e2e stack, OTP `123456`). Dev stack: `ord-ops make dev-up` + `make test-dev`.
 - Journeys skip when `E2E_OTP_CODE` / `E2E_OTP_FETCH_URL` is missing.
 
 ## CI

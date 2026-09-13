@@ -8,12 +8,13 @@ export type CaptureFormRow = {
 	extraMark?: WordExtraMark;
 	definition: string;
 	aiError: string | null;
+	isAiGenerated: boolean;
 };
 
 export type CaptureWordsSaveStatus = 'idle' | 'loading' | 'success' | 'error';
 
 export type CollectFillGapsItemsResult =
-	| { ok: false; reason: 'no_words' | 'word_too_long' | 'too_many_words' }
+	| { ok: false; reason: 'no_words' | 'all_already_filled' | 'word_too_long' | 'too_many_words' }
 	| {
 			ok: true;
 			items: WordFillGapsItem[];

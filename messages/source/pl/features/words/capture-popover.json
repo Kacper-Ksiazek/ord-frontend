@@ -1,11 +1,16 @@
 {
-	"title": "Zapisz słowa",
-	"description": "Wpisz słowa do zapisania. Użyj AI, aby uzupełnić tłumaczenie, opis i typ, a następnie zapisz.",
+	"title": "Dodaj słowa",
+	"description": "Wpisz słowa do dodania. Użyj AI, aby uzupełnić tłumaczenie, opis i typ, a następnie zapisz.",
 	"word_placeholder": "Słowo",
 	"translation_placeholder": "Tłumaczenie",
 	"type_placeholder": "Typ",
+	"extra_mark_placeholder": "Dodatkowa etykieta",
+	"extra_mark_aria": "Wybierz dodatkową etykietę",
 	"description_placeholder": "Wpisz opis słowa",
+	"row_label": "Słowo {index}",
+	"words_count": "{count} / {max} słów",
 	"add_more": "Dodaj więcej",
+	"clear_empty": "Wyczyść puste",
 	"reset": "Resetuj",
 	"save": "Zapisz",
 	"saving": "Zapisywanie…",
@@ -13,6 +18,7 @@
 	"fill_progress": "Uzupełnianie {count} słów…",
 	"fill_validation": {
 		"no_words": "Wpisz co najmniej jedno słowo przed użyciem AI.",
+		"all_already_filled": "Wszystkie słowa zostały już uzupełnione przez AI. Dodaj nowe słowo lub edytuj istniejące, aby uzupełnić ponownie.",
 		"word_too_long": "Słowo może mieć maksymalnie 255 znaków.",
 		"too_many_words": "Możesz uzupełnić maksymalnie 20 słów naraz."
 	},
@@ -23,10 +29,11 @@
 		"unknown": "Nie udało się uzupełnić tego wiersza."
 	},
 	"save_no_words": "Wpisz co najmniej jedno słowo, aby zapisać.",
+	"save_incomplete_row": "Słowo {index} nie ma tłumaczenia, opisu lub typu. Uzupełnij pola lub użyj Uzupełnij AI.",
 	"save_no_language": "Ustaw język nauki w profilu przed zapisem.",
 	"save_success": {
 		"header": "Słowa zapisane",
-		"description": "Twoje słowa zostały dodane do zapisanych słów.",
+		"description": "Twoje słowa zostały zapisane.",
 		"done": "Gotowe"
 	},
 	"save_error": {
@@ -36,5 +43,13 @@
 		"back_to_form": "Wróć do formularza"
 	},
 	"close": "Zamknij",
-	"remove_record": "Usuń wiersz słowa"
+	"remove_record": "Usuń wiersz słowa",
+	"toast": {
+		"fill_success": "Uzupełniono {count} słów.",
+		"fill_partial_success": "Uzupełniono {filled} z {total} słów. Sprawdź wiersze z błędami.",
+		"fill_all_rows_error": "Nie udało się uzupełnić żadnego z {count} słów.",
+		"fill_error": "Nie udało się uzupełnić słów. Spróbuj ponownie.",
+		"save_success": "Zapisano {count} słów.",
+		"save_error": "Nie udało się zapisać słów. Spróbuj ponownie."
+	}
 }

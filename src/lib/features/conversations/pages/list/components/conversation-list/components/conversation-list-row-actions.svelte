@@ -96,7 +96,7 @@
 
 <Dialog.Root bind:open={confirmOpen}>
 	<Dialog.Portal>
-		<Dialog.Overlay class="fixed inset-0 z-50 bg-ink/40" />
+		<Dialog.Overlay class="fixed inset-0 z-50 bg-scrim" />
 		<Dialog.Content
 			class="overlay-surface fixed top-1/2 left-1/2 z-50 w-[min(420px,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 p-6"
 		>

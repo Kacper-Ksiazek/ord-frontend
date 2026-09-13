@@ -18,6 +18,7 @@
 	}: DropdownSelectProps<T> = $props();
 
 	const selectedOption = $derived(options.find((opt) => opt.value === value) ?? options[0]);
+	const isPlaceholder = $derived(value == null);
 
 	function handleSelect(selectedValue: typeof value) {
 		if (onValueChange) {
@@ -52,9 +53,11 @@
 				<Icon class="w-4 h-4" />
 			{/if}
 
-			<span class="text-sm font-medium">{selectedOption?.label ?? ''}</span>
+			<span class={cn('text-sm font-medium', isPlaceholder ? 'text-ink-muted' : 'text-ink')}>
+				{selectedOption?.label ?? ''}
+			</span>
 		</div>
-		<ChevronDown class="w-3 h-3" />
+		<ChevronDown class={cn('h-3 w-3 shrink-0', isPlaceholder ? 'text-ink-muted' : 'text-ink')} />
 	</DropdownMenu.Trigger>
 
 	<DropdownMenu.Portal>

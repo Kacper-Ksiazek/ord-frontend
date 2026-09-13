@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { AxiosError } from 'axios';
-	import { ArrowRight, Loader2 } from 'lucide-svelte';
+	import { ArrowRight, Loader2, Mail, ShieldCheck } from 'lucide-svelte';
 	import { goto } from '$app/navigation';
 	import { createRequestOtpMutation, createVerifyOtpMutation } from '$auth/api-client/mutations';
 	import { OtpInput } from '$auth/components';
@@ -12,12 +12,13 @@
 	import { OrdLogo } from '$lib/components/ord-logo';
 	import { Alert } from '$lib/components/utils/alert';
 	import { m } from '$lib/paraglide/messages.js';
+	import { getDevLoginEmail, getDevLoginOtp } from '$auth/utils/dev-login-email';
 
 	const loginCopyIntro = introStagger({ startDelay: 0.28, interval: 0.08 });
 
 	let step = $state<'email' | 'otp'>('email');
-	let email = $state('');
-	let otpCode = $state('');
+	let email = $state(getDevLoginEmail());
+	let otpCode = $state(getDevLoginOtp());
 	let error = $state<string | null>(null);
 
 	const requestOtpMutation = createRequestOtpMutation();
@@ -35,6 +36,11 @@
 		try {
 			await requestOtpMutation.mutateAsync({ email });
 			step = 'otp';
+
+			const devOtp = getDevLoginOtp();
+			if (devOtp) {
+				otpCode = devOtp;
+			}
 		} catch (err: unknown) {
 			if (err instanceof AxiosError) {
 				error = err.response?.data?.message || m['auth.login.error_send_otp']();
@@ -116,6 +122,7 @@
 						dataTestId={E2E_TEST_IDS.login.emailInput}
 						type="email"
 						bind:value={email}
+						leftAdornment={Mail}
 						placeholder={m['auth.login.email_placeholder']()}
 						ariaLabel={m['auth.login.email_placeholder']()}
 					/>
@@ -158,7 +165,14 @@
 						disabled={verifyOtpMutation.isPending || otpCode.length !== 6}
 						onClick={() => void handleOtpSubmit()}
 					>
-						{verifyOtpMutation.isPending ? m['auth.login.verifying']() : m['auth.login.verify_button']()}
+						<span class="inline-flex items-center gap-1.5">
+							{verifyOtpMutation.isPending ? m['auth.login.verifying']() : m['auth.login.verify_button']()}
+							{#if verifyOtpMutation.isPending}
+								<Loader2 class="size-4 shrink-0 animate-spin" aria-hidden="true" />
+							{:else}
+								<ShieldCheck class="size-4 shrink-0" aria-hidden="true" />
+							{/if}
+						</span>
 					</Button>
 				</form>
 			{/if}

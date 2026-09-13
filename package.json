@@ -7,9 +7,9 @@
 	"scripts": {
 		"aggregate": "tsx scripts/aggregate-translations.ts",
 		"generate:paraglide": "paraglide-js compile --project ./project.inlang --outdir ./src/lib/paraglide",
-		"predev": "npm run aggregate",
+		"predev": "npm run aggregate && npm run generate:paraglide",
 		"dev": "vite dev",
-		"prebuild": "npm run aggregate",
+		"prebuild": "npm run aggregate && npm run generate:paraglide",
 		"build": "vite build",
 		"preview": "vite preview",
 		"prepare": "husky || echo ''",
@@ -76,7 +76,7 @@
 		"vitest-browser-svelte": "^3.1.0"
 	},
 	"dependencies": {
-		"@kacper-ksiazek/ord-api-types": "^1.0.46",
+		"@kacper-ksiazek/ord-api-types": "1.0.48",
 		"@tanstack/charts": "^0.14.0",
 		"@tanstack/svelte-hotkeys": "^0.9.1",
 		"@tanstack/svelte-query": "^6.1.48",

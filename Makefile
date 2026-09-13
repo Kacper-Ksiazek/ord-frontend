@@ -1,49 +1,59 @@
-.PHONY: help status api-up api-down api-logs docker-e2e-up docker-e2e-down \
-	ci ci-e2e \
-	test test-unit test-e2e test-e2e-install
+.PHONY: help status run restart stop reset refresh wipe ci ci-e2e \
+	test test-e2e test-dev test-e2e-install \
+	test-unit dev dev-refresh dev-stop
 
 .DEFAULT_GOAL := help
 
-ORD_API_DIR ?= $(HOME)/workspace/ord-api
 ARGS ?=
-COMPOSE_DEV := docker compose -f $(ORD_API_DIR)/docker-compose.yaml
-COMPOSE_E2E := docker compose -f $(ORD_API_DIR)/docker-compose.e2e.yml
 
 help:
 	@echo "Available targets:"
-	@echo "  status              Show docker / api / front / storybook status"
-	@echo "  api-up              Start ord-api dev stack (default: $(ORD_API_DIR))"
-	@echo "  api-down            Stop ord-api dev stack"
-	@echo "  api-logs            Follow ord-api dev stack logs"
-	@echo "  docker-e2e-up       Start ephemeral E2E backend (OTP 123456, 4 worker accounts)"
-	@echo "  docker-e2e-down     Stop E2E backend stack"
-	@echo "  ci                  Run all CI checks (lint, format, types, e2e-types, build, unit-tests, audit)"
-	@echo "  ci-e2e              Run CI checks + Playwright E2E (requires docker-e2e-up)"
-	@echo "  test                Run unit tests (alias for test-unit)"
-	@echo "  test-unit           Vitest unit/component tests"
-	@echo "  test-e2e            3 parallel E2E journeys (requires backend — docker-e2e-up or api-up)"
+	@echo ""
+	@echo "🔍 Status:"
+	@echo "  status              Frontend + storybook status"
+	@echo ""
+	@echo "💻 Dev server:"
+	@echo "  run                 Start frontend dev server"
+	@echo "  restart             Restart frontend dev server"
+	@echo "  stop                Stop frontend dev server"
+	@echo "  reset               Refresh paraglide/sync and restart dev server"
+	@echo ""
+	@echo "🔄 Dev cache:"
+	@echo "  refresh             Regenerate paraglide + svelte-kit sync"
+	@echo "  wipe                Hard reset frontend dev cache"
+	@echo ""
+	@echo "✅ CI:"
+	@echo "  ci                  Static checks + unit tests"
+	@echo "  ci-e2e              ci + Playwright (requires ord-ops: make e2e-up)"
+	@echo ""
+	@echo "🧪 Tests:"
+	@echo "  test                Vitest unit/component tests"
+	@echo "  test-e2e            Playwright on e2e stack (ord-ops: make e2e-up)"
+	@echo "  test-dev            Playwright on dev stack (ord-ops: make dev-up)"
 	@echo "  test-e2e-install    Install Playwright Chromium browser"
 	@echo ""
-	@echo "Override backend path: make docker-e2e-up ORD_API_DIR=/path/to/ord-api"
-	@echo "Extra test args:       make test-e2e ARGS='-- --headed'"
+	@echo "Extra test args: make test-e2e ARGS='-- --headed'"
 
 status:
-	ORD_API_DIR=$(ORD_API_DIR) ORD_FRONTEND_DIR=$(CURDIR) ./scripts/dev-status.sh
+	./scripts/front-status.sh
 
-api-up:
-	$(COMPOSE_DEV) up -d
+run:
+	./scripts/dev-up.sh
 
-api-down:
-	$(COMPOSE_DEV) down
+restart:
+	./scripts/dev-restart.sh
 
-api-logs:
-	$(COMPOSE_DEV) logs -f
+stop:
+	./scripts/dev-down.sh
 
-docker-e2e-up:
-	$(COMPOSE_E2E) up -d --wait
+reset:
+	./scripts/dev-reset.sh
 
-docker-e2e-down:
-	$(COMPOSE_E2E) down --remove-orphans
+refresh:
+	bun run aggregate && bun run generate:paraglide && bunx svelte-kit sync
+
+wipe: refresh
+	rm -rf .svelte-kit
 
 ci:
 	./scripts/run-ci.sh
@@ -51,13 +61,20 @@ ci:
 ci-e2e:
 	./scripts/run-ci.sh --e2e
 
-test: test-unit
-
-test-unit:
+test:
 	./scripts/run-tests.sh unit $(ARGS)
 
 test-e2e:
 	./scripts/run-tests.sh e2e $(ARGS)
 
+test-dev:
+	./scripts/run-tests.sh dev $(ARGS)
+
 test-e2e-install:
 	bun run test:e2e:install
+
+# Deprecated aliases (hidden from help)
+dev: run
+dev-refresh: restart
+dev-stop: stop
+test-unit: test

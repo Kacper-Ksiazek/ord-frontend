@@ -1,49 +1,100 @@
 {
 	"breadcrumb": {
-		"captured_words": "Captured words"
+		"words": "Words"
 	},
 	"header": {
-		"title": "Captured words",
-		"description": "Your captured vocabulary, newest first."
+		"title": "Words",
+		"description": "Words you're learning.",
+		"analytics_description": "An overview of your vocabulary."
 	},
-	"overview": {
-		"aria_label": "Captured words statistics",
-		"loading_aria_label": "Loading captured words statistics",
-		"total": "All",
-		"active": "Active",
-		"captured": "Captured",
-		"error": "Couldn't load captured words statistics.",
-		"try_again": "Try again"
+	"view": {
+		"aria_label": "Words view",
+		"list": "List",
+		"analytics": "Analytics"
 	},
-	"actions": {
-		"activate": "Activate",
-		"delete": "Delete"
+	"analytics": {
+		"total_words": "Total words",
+		"bookmarked_words": "Bookmarks",
+		"load_error": {
+			"header": "Could not load analytics",
+			"description": "Something went wrong. Please try again."
+		}
 	},
-	"selection": {
-		"select_row": "Select \"{word}\" for bulk actions"
+	"buckets": {
+		"today": "Today",
+		"yesterday": "Yesterday",
+		"this_week": "This week",
+		"last_week": "Last week",
+		"earlier": "Earlier"
 	},
-	"bulk": {
-		"toolbar_aria_label": "Bulk actions for captured words",
-		"select_all": "Select all on this page",
-		"unselect_all": "Unselect all on this page",
-		"activate_selected": "Activate selected",
-		"remove_selected": "Remove selected"
+	"row": {
+		"progress_points": "{points} pts",
+		"progress_completed": "Completed",
+		"bookmarked": "Bookmarked",
+		"add_bookmark": "Bookmark \"{word}\"",
+		"remove_bookmark": "Remove bookmark for \"{word}\""
 	},
-	"unconfirmed_badge": "Unconfirmed",
-	"unconfirmed_tooltip": "This word comes from an unverified source.",
+	"toast": {
+		"bookmark_error": "Couldn't update bookmark. Try again."
+	},
 	"load_error": {
-		"header": "Couldn't load captured words",
+		"header": "Couldn't load words",
 		"description": "Something went wrong. Try again.",
 		"try_again": "Try again"
 	},
 	"empty": {
-		"header": "No captured words yet",
-		"description": "Words you capture will appear here."
+		"header": "No words yet",
+		"description": "Words you add to learning will appear here.",
+		"filtered_header": "No matching words",
+		"filtered_description": "Try adjusting your search or filters."
 	},
-	"list_aria_label": "Your captured words",
-	"pagination": {
-		"previous": "Previous",
-		"next": "Next",
-		"page_of": "Page {page} of {totalPages}"
+	"filters": {
+		"search_placeholder": "Search words…",
+		"word_type_placeholder": "Word type",
+		"word_type_aria": "Filter by word type",
+		"extra_mark_placeholder": "Extra mark",
+		"extra_mark_aria": "Filter by extra mark",
+		"bank_placeholder": "Bank",
+		"bank_aria": "Filter by bank",
+		"bookmarked_only": "Bookmarked",
+		"bookmarked_only_aria": "Show bookmarked words only",
+		"clear": "Clear filters",
+		"open_aria": "Open filters",
+		"popover_title": "Filters"
+	},
+	"list_aria_label": "Your words",
+	"detail": {
+		"title": "Word details",
+		"close": "Close details",
+		"definition": "Definition",
+		"use_cases": "Use cases",
+		"synonyms": "Synonyms",
+		"antonyms": "Antonyms",
+		"example_sentences": "Example sentences",
+		"collocations": "Collocations",
+		"common_mistakes": "Common mistakes",
+		"progress_points": "{points} points",
+		"progress_completed": "Completed",
+		"no_details_header": "No manual yet",
+		"no_details_description": "Extended notes and examples for this word haven't been added yet.",
+		"generate_with_ai": "Generate with AI",
+		"generate_with_ai_loading": "Generating manual…",
+		"generate_with_ai_success": "Word manual generated",
+		"generate_with_ai_error": "Couldn't generate manual. Try again.",
+		"ai_generating_label": "AI is writing",
+		"fill_manually": "Fill by hand",
+		"manual_form_title": "Add manual details",
+		"manual_form_description": "Start with a few basics — you can expand the manual later.",
+		"manual_synonyms_label": "Synonyms",
+		"manual_synonyms_placeholder": "e.g. moody, unpredictable",
+		"manual_use_cases_label": "Use cases",
+		"manual_use_cases_placeholder": "One use case per line",
+		"manual_cancel": "Cancel",
+		"manual_save": "Save manual",
+		"manual_save_success": "Manual saved",
+		"manual_save_error": "Couldn't save manual. Try again.",
+		"error_header": "Couldn't load word",
+		"error_description": "Something went wrong. Try again.",
+		"try_again": "Try again"
 	}
 }

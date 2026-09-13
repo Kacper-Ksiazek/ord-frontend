@@ -2,12 +2,11 @@
 	import { cn } from '$lib/utils/cn';
 	import {
 		LogIn,
-		Bookmark,
+		BookOpen,
 		ChevronLeft,
 		ChevronRight,
 		Settings,
 		Smile,
-		Lightbulb,
 		MessageSquare,
 		Moon,
 		Sun
@@ -112,13 +111,11 @@
 	<!-- Navigation Menu Section -->
 	<nav class="flex-1 overflow-hidden px-3">
 		<div class="flex flex-col gap-2">
-			<SidebarLink title="Words" Icon={Bookmark} disabled />
+			<SidebarLink title="Vocabulary" Icon={BookOpen} href="/words" />
 
 			<SidebarLink title="Challenges" Icon={Smile} disabled />
 
 			<SidebarLink title="Conversations" Icon={MessageSquare} href="/conversations" />
-
-			<SidebarLink title="Captured words" Icon={Lightbulb} href="/words/captured" />
 		</div>
 	</nav>
 

@@ -1,49 +1,100 @@
 {
 	"breadcrumb": {
-		"captured_words": "Erfasste Wörter"
+		"words": "Wörter"
 	},
 	"header": {
-		"title": "Erfasste Wörter",
-		"description": "Dein erfasstes Vokabular, zuerst die neuesten."
+		"title": "Wörter",
+		"description": "Wörter, die du lernst.",
+		"analytics_description": "Überblick über deinen Wortschatz."
 	},
-	"overview": {
-		"aria_label": "Statistik zu erfassten Wörtern",
-		"loading_aria_label": "Statistik zu erfassten Wörtern wird geladen",
-		"total": "Alle",
-		"active": "Aktiv",
-		"captured": "Erfasst",
-		"error": "Statistik zu erfassten Wörtern konnte nicht geladen werden.",
-		"try_again": "Erneut versuchen"
+	"view": {
+		"aria_label": "Wortansicht",
+		"list": "Liste",
+		"analytics": "Analytik"
 	},
-	"actions": {
-		"activate": "Aktivieren",
-		"delete": "Löschen"
+	"analytics": {
+		"total_words": "Alle Wörter",
+		"bookmarked_words": "Lesezeichen",
+		"load_error": {
+			"header": "Analytik konnte nicht geladen werden",
+			"description": "Etwas ist schiefgelaufen. Bitte versuche es erneut."
+		}
 	},
-	"selection": {
-		"select_row": "„{word}“ für Sammelaktionen auswählen"
+	"buckets": {
+		"today": "Heute",
+		"yesterday": "Gestern",
+		"this_week": "Diese Woche",
+		"last_week": "Letzte Woche",
+		"earlier": "Früher"
 	},
-	"bulk": {
-		"toolbar_aria_label": "Sammelaktionen für erfasste Wörter",
-		"select_all": "Alle auf dieser Seite auswählen",
-		"unselect_all": "Alle auf dieser Seite abwählen",
-		"activate_selected": "Ausgewählte aktivieren",
-		"remove_selected": "Ausgewählte entfernen"
+	"row": {
+		"progress_points": "{points} Pkt.",
+		"progress_completed": "Abgeschlossen",
+		"bookmarked": "Lesezeichen",
+		"add_bookmark": "„{word}“ als Lesezeichen speichern",
+		"remove_bookmark": "Lesezeichen für „{word}“ entfernen"
 	},
-	"unconfirmed_badge": "Unbestätigt",
-	"unconfirmed_tooltip": "Dieses Wort stammt aus einer nicht verifizierten Quelle.",
+	"toast": {
+		"bookmark_error": "Lesezeichen konnte nicht aktualisiert werden. Bitte erneut versuchen."
+	},
 	"load_error": {
-		"header": "Erfasste Wörter konnten nicht geladen werden",
+		"header": "Wörter konnten nicht geladen werden",
 		"description": "Etwas ist schiefgelaufen. Versuche es erneut.",
 		"try_again": "Erneut versuchen"
 	},
 	"empty": {
-		"header": "Noch keine erfassten Wörter",
-		"description": "Erfasste Wörter erscheinen hier."
+		"header": "Noch keine Wörter",
+		"description": "Wörter, die du zum Lernen hinzufügst, erscheinen hier.",
+		"filtered_header": "Keine passenden Wörter",
+		"filtered_description": "Passe deine Suche oder Filter an."
 	},
-	"list_aria_label": "Deine erfassten Wörter",
-	"pagination": {
-		"previous": "Zurück",
-		"next": "Weiter",
-		"page_of": "Seite {page} von {totalPages}"
+	"filters": {
+		"search_placeholder": "Wörter suchen…",
+		"word_type_placeholder": "Wortart",
+		"word_type_aria": "Nach Wortart filtern",
+		"extra_mark_placeholder": "Zusatzmarkierung",
+		"extra_mark_aria": "Nach Zusatzmarkierung filtern",
+		"bank_placeholder": "Bank",
+		"bank_aria": "Nach Bank filtern",
+		"bookmarked_only": "Lesezeichen",
+		"bookmarked_only_aria": "Nur Wörter mit Lesezeichen anzeigen",
+		"clear": "Filter löschen",
+		"open_aria": "Filter öffnen",
+		"popover_title": "Filter"
+	},
+	"list_aria_label": "Deine Wörter",
+	"detail": {
+		"title": "Wortdetails",
+		"close": "Details schließen",
+		"definition": "Definition",
+		"use_cases": "Anwendungsfälle",
+		"synonyms": "Synonyme",
+		"antonyms": "Antonyme",
+		"example_sentences": "Beispielsätze",
+		"collocations": "Kollokationen",
+		"common_mistakes": "Häufige Fehler",
+		"progress_points": "{points} Punkte",
+		"progress_completed": "Abgeschlossen",
+		"no_details_header": "Noch kein Handbuch",
+		"no_details_description": "Erweiterte Notizen und Beispiele für dieses Wort wurden noch nicht hinzugefügt.",
+		"generate_with_ai": "Mit KI generieren",
+		"generate_with_ai_loading": "Handbuch wird generiert…",
+		"generate_with_ai_success": "Worthandbuch generiert",
+		"generate_with_ai_error": "Handbuch konnte nicht generiert werden. Bitte erneut versuchen.",
+		"ai_generating_label": "KI schreibt Inhalte",
+		"fill_manually": "Manuell ausfüllen",
+		"manual_form_title": "Handbuch-Details hinzufügen",
+		"manual_form_description": "Beginne mit den Grundlagen — du kannst das Handbuch später erweitern.",
+		"manual_synonyms_label": "Synonyme",
+		"manual_synonyms_placeholder": "z. B. launisch, unberechenbar",
+		"manual_use_cases_label": "Anwendungsfälle",
+		"manual_use_cases_placeholder": "Ein Anwendungsfall pro Zeile",
+		"manual_cancel": "Abbrechen",
+		"manual_save": "Handbuch speichern",
+		"manual_save_success": "Handbuch gespeichert",
+		"manual_save_error": "Handbuch konnte nicht gespeichert werden. Bitte erneut versuchen.",
+		"error_header": "Wort konnte nicht geladen werden",
+		"error_description": "Etwas ist schiefgelaufen. Versuche es erneut.",
+		"try_again": "Erneut versuchen"
 	}
 }

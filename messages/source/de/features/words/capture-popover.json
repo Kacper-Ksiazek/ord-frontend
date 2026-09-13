@@ -1,11 +1,16 @@
 {
-	"title": "Wörter erfassen",
-	"description": "Wörter zum Erfassen eingeben. Mit KI Übersetzung, Beschreibung und Typ ergänzen und speichern.",
+	"title": "Wörter hinzufügen",
+	"description": "Wörter zum Hinzufügen eingeben. Mit KI Übersetzung, Beschreibung und Typ ergänzen und speichern.",
 	"word_placeholder": "Wort",
 	"translation_placeholder": "Übersetzung",
 	"type_placeholder": "Typ",
+	"extra_mark_placeholder": "Zusatzmarkierung",
+	"extra_mark_aria": "Zusatzmarkierung auswählen",
 	"description_placeholder": "Beschreibung des Wortes eingeben",
+	"row_label": "Wort {index}",
+	"words_count": "{count} / {max} Wörter",
 	"add_more": "Weitere hinzufügen",
+	"clear_empty": "Leere entfernen",
 	"reset": "Zurücksetzen",
 	"save": "Speichern",
 	"saving": "Speichern…",
@@ -13,6 +18,7 @@
 	"fill_progress": "{count} Wörter werden ausgefüllt…",
 	"fill_validation": {
 		"no_words": "Gib mindestens ein Wort ein, bevor du die KI nutzt.",
+		"all_already_filled": "Alle Wörter wurden bereits mit KI ausgefüllt. Füge ein neues Wort hinzu oder bearbeite ein bestehendes, um erneut auszufüllen.",
 		"word_too_long": "Ein Wort darf höchstens 255 Zeichen lang sein.",
 		"too_many_words": "Es können höchstens 20 Wörter auf einmal ausgefüllt werden."
 	},
@@ -23,10 +29,11 @@
 		"unknown": "Diese Zeile konnte nicht ausgefüllt werden."
 	},
 	"save_no_words": "Gib mindestens ein Wort ein, um zu speichern.",
+	"save_incomplete_row": "Wort {index} hat keine Übersetzung, Beschreibung oder keinen Typ. Fülle alle Felder aus oder nutze Mit KI ausfüllen.",
 	"save_no_language": "Lege zuerst eine Lernsprache in deinem Profil fest.",
 	"save_success": {
 		"header": "Wörter gespeichert",
-		"description": "Deine Wörter wurden zu erfassten Wörtern hinzugefügt.",
+		"description": "Deine Wörter wurden gespeichert.",
 		"done": "Fertig"
 	},
 	"save_error": {
@@ -36,5 +43,13 @@
 		"back_to_form": "Zurück zum Formular"
 	},
 	"close": "Schließen",
-	"remove_record": "Wortzeile entfernen"
+	"remove_record": "Wortzeile entfernen",
+	"toast": {
+		"fill_success": "{count} Wörter ausgefüllt.",
+		"fill_partial_success": "{filled} von {total} Wörtern ausgefüllt. Prüfe Zeilen mit Fehlern.",
+		"fill_all_rows_error": "Keines der {count} Wörter konnte ausgefüllt werden.",
+		"fill_error": "Wörter konnten nicht ausgefüllt werden. Versuche es erneut.",
+		"save_success": "{count} Wörter gespeichert.",
+		"save_error": "Wörter konnten nicht gespeichert werden. Versuche es erneut."
+	}
 }

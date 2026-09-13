@@ -1,11 +1,16 @@
 {
-	"title": "Capture words",
-	"description": "Enter words to capture. Use AI to fill translation, description, and type, then save.",
+	"title": "Add words",
+	"description": "Enter words to add. Use AI to fill translation, description, and type, then save.",
 	"word_placeholder": "Word",
 	"translation_placeholder": "Translation",
 	"type_placeholder": "Type",
+	"extra_mark_placeholder": "Extra mark",
+	"extra_mark_aria": "Select extra mark",
 	"description_placeholder": "Enter description of the word",
+	"row_label": "Word {index}",
+	"words_count": "{count} / {max} words",
 	"add_more": "Add more",
+	"clear_empty": "Clear empty",
 	"reset": "Reset",
 	"save": "Save",
 	"saving": "Saving...",
@@ -13,6 +18,7 @@
 	"fill_progress": "Filling {count} words…",
 	"fill_validation": {
 		"no_words": "Enter at least one word before using AI fill.",
+		"all_already_filled": "All words were already filled with AI. Add a new word or edit an existing one to fill again.",
 		"word_too_long": "A word must be at most 255 characters.",
 		"too_many_words": "You can fill at most 20 words at once."
 	},
@@ -23,10 +29,11 @@
 		"unknown": "Could not fill this row."
 	},
 	"save_no_words": "Enter at least one word to save.",
+	"save_incomplete_row": "Word {index} is missing translation, description, or type. Fill all fields or use Fill with AI.",
 	"save_no_language": "Select a learning language in your profile before saving.",
 	"save_success": {
 		"header": "Words saved",
-		"description": "Your words were added to captured words.",
+		"description": "Your words were saved.",
 		"done": "Done"
 	},
 	"save_error": {
@@ -36,5 +43,13 @@
 		"back_to_form": "Back to form"
 	},
 	"close": "Close",
-	"remove_record": "Remove word row"
+	"remove_record": "Remove word row",
+	"toast": {
+		"fill_success": "Filled {count} words.",
+		"fill_partial_success": "Filled {filled} of {total} words. Check rows with errors.",
+		"fill_all_rows_error": "Could not fill any of the {count} words.",
+		"fill_error": "Could not fill words. Try again.",
+		"save_success": "Saved {count} words.",
+		"save_error": "Could not save words. Try again."
+	}
 }
