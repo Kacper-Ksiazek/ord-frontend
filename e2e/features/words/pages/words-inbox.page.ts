@@ -1,6 +1,7 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import { E2E_TEST_IDS } from '@e2e/words/test-ids';
 import { E2E_TEST_IDS as APP_LAYOUTS_E2E_TEST_IDS } from '@e2e/app-layouts/test-ids';
+import { clickTtsAndWaitForSpeak } from '@e2e/shared/helpers/click-tts';
 
 export class WordsInboxPage {
 	readonly path = '/words';
@@ -60,6 +61,20 @@ export class WordsInboxPage {
 			timeout: 45_000
 		});
 		await this.page.getByTestId(E2E_TEST_IDS.inbox.detailSynonyms).waitFor({ state: 'visible' });
+	}
+
+	async clickSourceWordTts(): Promise<void> {
+		await clickTtsAndWaitForSpeak(
+			this.page,
+			this.page.getByTestId(E2E_TEST_IDS.inbox.detailSourceWordTts)
+		);
+	}
+
+	async clickExampleSentenceTts(index = 0): Promise<void> {
+		await clickTtsAndWaitForSpeak(
+			this.page,
+			this.page.getByTestId(E2E_TEST_IDS.inbox.detailExampleSentenceTts(index))
+		);
 	}
 }
 

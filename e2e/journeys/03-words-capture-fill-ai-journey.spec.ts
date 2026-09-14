@@ -27,6 +27,8 @@ test.describe('Words capture fill AI journey', () => {
 
 		await wordsInboxPage.search(sourceWord);
 		await wordsInboxPage.expectWordVisible(sourceWord);
+		await wordsInboxPage.openWordBySourceText(sourceWord);
+		await wordsInboxPage.clickSourceWordTts();
 		await expect(authenticatedPage).toHaveURL(new RegExp(`search=${sourceWord}`));
 	});
 });

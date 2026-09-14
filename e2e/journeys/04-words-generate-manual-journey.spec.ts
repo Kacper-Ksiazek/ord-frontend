@@ -20,5 +20,7 @@ test.describe('Words generate manual journey', () => {
 		await wordsInboxPage.expectDetailEmptyState();
 		await wordsInboxPage.clickGenerateManualWithAi();
 		await wordsInboxPage.waitForGeneratedManual();
+		await wordsInboxPage.clickSourceWordTts();
+		await wordsInboxPage.clickExampleSentenceTts(0);
 	});
 });

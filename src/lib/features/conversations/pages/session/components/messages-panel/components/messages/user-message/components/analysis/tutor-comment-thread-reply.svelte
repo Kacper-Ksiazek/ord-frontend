@@ -10,6 +10,7 @@
 	import { slide } from 'svelte/transition';
 	import PlayMessageAudio from '../../../ai-post-process-action-base/components/play-message-audio.svelte';
 	import PlayMessageAudioProgress from '../../../ai-post-process-action-base/components/play-message-audio-progress.svelte';
+	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 
 	interface TutorCommentThreadReplyProps {
 		analysis: ConversationUserMessageAnalysisDTO;
@@ -86,6 +87,7 @@
 		{#if tutorComment}
 			<button
 				type="button"
+				data-testid={E2E_TEST_IDS.session.messageTutorCommentToggle(messageIndex)}
 				class="flex min-h-9 w-full items-center gap-0 px-4 py-2 text-left transition-colors hover:bg-accent-soft"
 				aria-expanded={isExpanded}
 				aria-label={toggleAriaLabel}
