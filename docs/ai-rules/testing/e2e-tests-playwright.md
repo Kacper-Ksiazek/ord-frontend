@@ -34,6 +34,7 @@ e2e/
 - Copy `.env.e2e.example` → `.env.e2e` at the **repo root**.
 - Backend: `ord-ops make e2e-up` (e2e stack, OTP `123456`). Dev stack: `ord-ops make dev-up` + `make test-dev`.
 - Journeys skip when `E2E_OTP_CODE` / `E2E_OTP_FETCH_URL` is missing.
+- Demo videos: `make test-e2e-record-report` (record + open report). Helpers: `test-e2e-record`, `test-e2e-report`, `test-e2e-clean`, `test-dev-record`.
 
 ## CI
 

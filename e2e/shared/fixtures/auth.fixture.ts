@@ -10,15 +10,15 @@ type AuthFixtures = {
 };
 
 export const test = pagesTest.extend<AuthFixtures>({
-	authenticatedPage: async ({ browser }, use, testInfo) => {
+	// Use the built-in `page` fixture so Playwright records video/trace for journeys 01–04.
+	// Manual `browser.newContext()` is not linked to the test runner's artifact pipeline.
+	authenticatedPage: async ({ page }, use, testInfo) => {
 		if (!isE2eAuthConfigured()) {
 			testInfo.skip(true, 'E2E_OTP_CODE or E2E_OTP_FETCH_URL required');
 
 			return;
 		}
 
-		const context = await browser.newContext();
-		const page = await context.newPage();
 		const loginPage = new LoginPage(page);
 		const email = workerEmail(testInfo.workerIndex);
 
@@ -26,7 +26,6 @@ export const test = pagesTest.extend<AuthFixtures>({
 		await ensureE2eWorkerAccount(page, testInfo.workerIndex);
 
 		await use(page);
-		await context.close();
 	}
 });
 

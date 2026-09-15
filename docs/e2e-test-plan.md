@@ -37,6 +37,18 @@ make test-e2e-install   # once
 make test-e2e
 ```
 
+Record a **video for every journey** (demo / walkthrough; default keeps video only on failure):
+
+```bash
+make test-e2e-record-report   # record + open HTML report
+# or step by step:
+make test-e2e-record
+make test-e2e-report
+make test-e2e-clean           # remove e2e/test-results + playwright-report
+```
+
+Or set `E2E_RECORD_VIDEO=true` in `.env.e2e`. Videos land under `e2e/test-results/` and are linked from the HTML report.
+
 Playwright on the **dev stack** (same journeys, `.env` instead of `.env.e2e`):
 
 ```bash
