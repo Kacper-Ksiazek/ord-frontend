@@ -8,4 +8,6 @@ export interface AiActionButtonProps {
 	onclick: () => void;
 	labels?: AiActionButtonLabels;
 	class?: string;
+	/** Stable selector for E2E tests (`data-testid`) */
+	dataTestId?: string;
 }

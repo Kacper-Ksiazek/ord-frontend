@@ -189,17 +189,23 @@ Common workflows are exposed via `make` — run `make help` for the full list.
 
 **🧪 Tests**
 
-| Target                  | Description                                     |
-| ----------------------- | ----------------------------------------------- |
-| `make test`             | Vitest unit/component tests                     |
-| `make test-e2e`         | Playwright on e2e stack (`ord-ops make e2e-up`) |
-| `make test-dev`         | Playwright on dev stack (`ord-ops make dev-up`) |
-| `make test-e2e-install` | Install Playwright Chromium                     |
+| Target                        | Description                                     |
+| ----------------------------- | ----------------------------------------------- |
+| `make test`                   | Vitest unit/component tests                     |
+| `make test-e2e`               | Playwright on e2e stack (`ord-ops make e2e-up`) |
+| `make test-e2e-record`        | E2E journeys + video for every test             |
+| `make test-e2e-record-report` | Record journeys, then open HTML report          |
+| `make test-e2e-report`        | Open last Playwright HTML report                |
+| `make test-e2e-clean`         | Remove E2E videos, traces, and HTML report      |
+| `make test-e2e-ui`            | Playwright UI mode on e2e stack                 |
+| `make test-dev`               | Playwright on dev stack (`ord-ops make dev-up`) |
+| `make test-dev-ui`            | Playwright UI mode on dev stack                 |
+| `make test-e2e-install`       | Install Playwright Chromium                     |
 
 `make ci` uses `./scripts/run-ci.sh` (sequential, fail-fast, matches `.github/workflows/ci.yml`).
 Test targets call `bun run test` / `bun run test:e2e` with custom summary reporters in `scripts/reporters/`.
 Stack orchestration lives in **ord-ops** — no backend commands in this repo.
-Extra test args: `make test-e2e ARGS='-- --headed'`.
+Extra test args: `make test-e2e ARGS='-- --headed'`. UI mode: `make test-e2e-ui`. Filter journeys: `make test-e2e-ui ARGS='journeys/03-words-capture-fill-ai-journey.spec.ts'`.
 
 ### Useful scripts
 

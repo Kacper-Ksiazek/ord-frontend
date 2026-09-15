@@ -726,6 +726,7 @@
 										class="grid min-w-0 flex-1 gap-2 sm:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_7.5rem_10rem]"
 									>
 										<Input
+											dataTestId={E2E_TEST_IDS.capturePopover.wordInput(index)}
 											placeholder={m['features.words.capture-popover.word_placeholder']()}
 											class="min-w-0"
 											leftAdornment={EyeIcon}
@@ -743,6 +744,7 @@
 										/>
 
 										<Input
+											dataTestId={E2E_TEST_IDS.capturePopover.translationInput(index)}
 											placeholder={m['features.words.capture-popover.translation_placeholder']()}
 											class="min-w-0"
 											leftAdornment={ArrowLeftRight}
@@ -830,6 +832,7 @@
 
 						<AiActionButton
 							class="ml-auto h-10 w-full min-w-0 sm:w-auto sm:min-w-40"
+							dataTestId={E2E_TEST_IDS.capturePopover.fillWithAi}
 							status={fillButtonStatus}
 							disabled={!hasWordToFill || isBusy}
 							onclick={handleFillWithAi}
@@ -877,6 +880,7 @@
 							type="FILLED"
 							variant="PRIMARY"
 							class="min-w-24"
+							dataTestId={E2E_TEST_IDS.capturePopover.save}
 							disabled={isBusy}
 							onClick={handleSave}
 						>

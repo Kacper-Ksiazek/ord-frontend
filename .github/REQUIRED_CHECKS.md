@@ -18,10 +18,10 @@ The `e2e` job name matches the workflow job in [`.github/workflows/e2e.yml`](./w
 
 ## Updating the pinned ord-api image
 
-CI pulls a specific GHCR tag (`sha-<commit>`), not `latest`. When `ord-api` changes the E2E runtime profile, OTP whitelist, or health check contract:
+CI pulls a specific GHCR tag (`sha-<full-commit-sha>`), not `latest`. When `ord-api` changes the E2E runtime profile, OTP whitelist, or health check contract:
 
 1. Merge and publish the new `ord-api` image to GHCR (push to `ord-api` `main`).
-2. Update [`.github/ord-api-e2e-image.sha`](./ord-api-e2e-image.sha) with the new commit SHA.
+2. Update [`.github/ord-api-e2e-image.sha`](./ord-api-e2e-image.sha) with the new **full** commit SHA (40 chars; GHCR tags use `github.sha`, not the short hash).
 3. Open a frontend PR and verify the `e2e` check passes.
 
 Local runs can override the image:

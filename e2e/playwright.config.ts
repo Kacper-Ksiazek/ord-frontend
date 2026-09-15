@@ -5,6 +5,7 @@ import { testEnv } from './shared/fixtures/test-env';
 
 const e2eDir = path.dirname(fileURLToPath(import.meta.url));
 const isCi = !!process.env.CI;
+const recordVideo = process.env.E2E_RECORD_VIDEO === 'true';
 
 export default defineConfig({
 	testDir: './journeys',
@@ -28,7 +29,7 @@ export default defineConfig({
 		navigationTimeout: isCi ? 30_000 : 8_000,
 		trace: 'retain-on-failure',
 		screenshot: 'only-on-failure',
-		video: 'retain-on-failure'
+		video: recordVideo ? 'on' : 'retain-on-failure'
 	},
 	projects: [
 		{
@@ -39,10 +40,12 @@ export default defineConfig({
 	webServer: {
 		command: 'bun run dev',
 		url: testEnv.baseUrl,
-		reuseExistingServer: !process.env.CI,
+		// Never reuse a casual dev server during E2E — it may have PUBLIC_DEV_LOGIN_EMAIL prefilled.
+		reuseExistingServer: !process.env.CI && !process.env.PUBLIC_E2E,
 		timeout: 120_000,
 		env: {
-			PUBLIC_API_URL: testEnv.apiUrl
+			PUBLIC_API_URL: testEnv.apiUrl,
+			PUBLIC_E2E: 'true'
 		}
 	}
 });

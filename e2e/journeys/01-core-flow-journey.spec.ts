@@ -32,10 +32,13 @@ test.describe('Core flow journey', () => {
 
 		await conversationSessionPage.expectLoaded();
 		await conversationSessionPage.waitForAiGreeting();
+		await conversationSessionPage.clickAiMessageTts(0);
 		await conversationSessionPage.expectComposerReady();
 
 		await conversationSessionPage.sendMessage(USER_MESSAGE);
 		await conversationSessionPage.waitForUserMessage(1);
+		await conversationSessionPage.clickUserMessageTutorTts(1);
 		await conversationSessionPage.waitForAiReply(2);
+		await conversationSessionPage.clickAiMessageTts(2);
 	});
 });

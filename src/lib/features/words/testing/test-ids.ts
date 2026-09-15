@@ -15,6 +15,8 @@ export const E2E_TEST_IDS = {
 		detailSourceWordTts: 'words-inbox-detail-source-word-tts',
 		detailExampleSentenceTts: (index: number) => `words-inbox-detail-example-sentence-tts-${index}`,
 		detailManualForm: 'words-inbox-detail-manual-form',
+		detailGenerateWithAi: 'words-inbox-detail-generate-with-ai',
+		detailSynonyms: 'words-inbox-detail-synonyms',
 		filters: 'words-inbox-filters',
 		filterSearch: 'words-inbox-filter-search',
 		filterWordType: 'words-inbox-filter-word-type',
@@ -41,6 +43,10 @@ export const E2E_TEST_IDS = {
 		saveStatusSuccess: 'capture-words-popover-save-success',
 		saveStatusError: 'capture-words-popover-save-error',
 		clearEmpty: 'capture-words-popover-clear-empty',
-		fillRowOverlay: 'capture-words-popover-fill-row-overlay'
+		fillRowOverlay: 'capture-words-popover-fill-row-overlay',
+		wordInput: (index: number) => `capture-words-popover-word-input-${index}`,
+		translationInput: (index: number) => `capture-words-popover-translation-input-${index}`,
+		fillWithAi: 'capture-words-popover-fill-with-ai',
+		save: 'capture-words-popover-save'
 	}
 } as const;

@@ -32,10 +32,13 @@ test.describe('Resume conversation journey', () => {
 
 		await conversationSessionPage.expectLoaded();
 		await conversationSessionPage.waitForAiGreeting();
+		await conversationSessionPage.clickAiMessageTts(0);
 		await conversationSessionPage.expectComposerReady();
 		await conversationSessionPage.sendMessage(USER_MESSAGE);
 		await conversationSessionPage.waitForUserMessage(1);
+		await conversationSessionPage.clickUserMessageTutorTts(1);
 		await conversationSessionPage.waitForAiReply(2);
+		await conversationSessionPage.clickAiMessageTts(2);
 
 		const conversationId = new URL(authenticatedPage.url()).pathname.split('/').pop();
 		expect(conversationId).toBeTruthy();
@@ -51,7 +54,10 @@ test.describe('Resume conversation journey', () => {
 		await expect(authenticatedPage).toHaveURL(new RegExp(`/conversations/${conversationId}$`));
 		await conversationSessionPage.expectLoaded();
 		await conversationSessionPage.waitForAiGreeting();
+		await conversationSessionPage.clickAiMessageTts(0);
 		await conversationSessionPage.waitForUserMessage(1);
+		await conversationSessionPage.clickUserMessageTutorTts(1);
+		await conversationSessionPage.clickAiMessageTts(2);
 		await conversationSessionPage.expectAiMessageCount(2);
 	});
 });

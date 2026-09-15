@@ -1,5 +1,6 @@
 import { expect, type Locator, type Page } from '@playwright/test';
 import { E2E_TEST_IDS } from '@e2e/conversations/test-ids';
+import { clickTtsAndWaitForSpeak } from '@e2e/shared/helpers/click-tts';
 
 const AI_THINKING_PREFIX = 'Myśli';
 
@@ -30,6 +31,14 @@ export class ConversationSessionPage {
 		return this.page.getByTestId(E2E_TEST_IDS.session.userMessage(index));
 	}
 
+	messageTtsButton(index: number): Locator {
+		return this.page.getByTestId(E2E_TEST_IDS.session.messageTtsButton(index));
+	}
+
+	tutorCommentToggle(messageIndex: number): Locator {
+		return this.page.getByTestId(E2E_TEST_IDS.session.messageTutorCommentToggle(messageIndex));
+	}
+
 	conversationPath(id: string): string {
 		return `${this.pathPrefix}${id}`;
 	}
@@ -49,11 +58,14 @@ export class ConversationSessionPage {
 		await message.waitFor({ state: 'visible' });
 
 		await expect
-			.poll(async () => {
-				const text = (await message.innerText()).trim();
+			.poll(
+				async () => {
+					const text = (await message.innerText()).trim();
 
-				return text.length > 0 && !text.startsWith(AI_THINKING_PREFIX);
-			})
+					return text.length > 0 && !text.startsWith(AI_THINKING_PREFIX);
+				},
+				{ timeout: 45_000 }
+			)
 			.toBe(true);
 	}
 
@@ -88,6 +100,30 @@ export class ConversationSessionPage {
 
 	async expectAiMessageCount(count: number): Promise<void> {
 		await expect(this.page.locator('[data-testid^="ai-message-"]')).toHaveCount(count);
+	}
+
+	async clickAiMessageTts(messageIndex: number): Promise<void> {
+		await clickTtsAndWaitForSpeak(this.page, this.messageTtsButton(messageIndex));
+	}
+
+	async waitForUserMessageAnalysis(messageIndex: number): Promise<void> {
+		await this.tutorCommentToggle(messageIndex).waitFor({ state: 'visible', timeout: 45_000 });
+	}
+
+	async expandUserMessageTutorComment(messageIndex: number): Promise<void> {
+		const toggle = this.tutorCommentToggle(messageIndex);
+
+		if ((await toggle.getAttribute('aria-expanded')) !== 'true') {
+			await toggle.click();
+		}
+
+		await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+	}
+
+	async clickUserMessageTutorTts(messageIndex: number): Promise<void> {
+		await this.waitForUserMessageAnalysis(messageIndex);
+		await this.expandUserMessageTutorComment(messageIndex);
+		await clickTtsAndWaitForSpeak(this.page, this.messageTtsButton(messageIndex));
 	}
 }
 

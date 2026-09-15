@@ -48,6 +48,7 @@ export const E2E_TEST_IDS = {
 		aiMessage: (index: number) => `ai-message-${index}`,
 		userMessage: (index: number) => `user-message-${index}`,
 		messageTtsButton: (index: number) => `message-tts-button-${index}`,
+		messageTutorCommentToggle: (index: number) => `message-tutor-comment-toggle-${index}`,
 		messageLearningTips: (index: number) => `message-learning-tips-${index}`,
 		messageAnalysis: (index: number) => `message-analysis-${index}`,
 		feedbackPanel: 'feedback-panel',

@@ -18,6 +18,8 @@
 			"@e2e/app-layouts/*": ["./features/app-layouts/*"],
 			"@e2e/conversations": ["./features/conversations/index.ts"],
 			"@e2e/conversations/*": ["./features/conversations/*"],
+			"@e2e/words": ["./features/words/index.ts"],
+			"@e2e/words/*": ["./features/words/*"],
 			"$lib/*": ["../src/lib/*"],
 			"$auth/*": ["../src/lib/features/auth/*"],
 			"$conversations/*": ["../src/lib/features/conversations/*"],
