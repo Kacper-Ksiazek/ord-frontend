@@ -161,22 +161,18 @@ describe('speakText', () => {
 		it('should pass language to the TTS request', async () => {
 			mockResolvedTtsAudio();
 
-			const playback = speakText('Hola', { id: 1, language: 'SPANISH' });
+			void speakText('Hola', { id: 1, language: 'SPANISH' });
 
-			await Promise.resolve();
-			mockAudio.readyState = HAVE_METADATA;
-			mockAudio.emit('loadedmetadata');
-			await Promise.resolve();
-			mockAudio.emit('ended');
+			await vi.waitFor(() => {
+				expect(httpPostRequestTtsAudio).toHaveBeenCalledWith(
+					expect.objectContaining({
+						text: 'Hola',
+						language: 'SPANISH'
+					})
+				);
+			});
 
-			await playback;
-
-			expect(httpPostRequestTtsAudio).toHaveBeenCalledWith(
-				expect.objectContaining({
-					text: 'Hola',
-					language: 'SPANISH'
-				})
-			);
+			stopSpeaking();
 		});
 
 		it('should expose SpeakTextCanceledError for superseded playback handlers', () => {
