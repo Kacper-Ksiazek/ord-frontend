@@ -6,6 +6,7 @@
 	setConversationContext({
 		id: 'storybook-conversation',
 		topic: 'Learning English',
+		language: 'ENGLISH',
 		type: 'SMALL_TALK',
 		aiTone: 'FRIENDLY',
 		proficiencyLevel: 'B1',

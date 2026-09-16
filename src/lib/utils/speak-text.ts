@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { httpPostRequestTtsAudio } from '$lib/api-client/api/http-post-request-tts-audio';
+import type { LanguageName } from '$lib/types/core/domain/languages';
 import { speakTextPlayback } from './speak-text.svelte';
 import type { SpeakTextProgress, SpeakTextStatus } from './speak-text.types';
 
@@ -12,6 +13,7 @@ export type SpeakTextResult = {
 export type SpeakTextOptions = {
 	signal?: AbortSignal;
 	id?: string | number;
+	language?: LanguageName;
 	onProgress?: (progress: SpeakTextProgress) => void;
 };
 
@@ -286,7 +288,11 @@ export async function speakText(
 	setPlaybackState(speakingId, 'loading');
 
 	try {
-		const blob = await httpPostRequestTtsAudio(text, controller.signal);
+		const blob = await httpPostRequestTtsAudio({
+			text,
+			language: options?.language,
+			signal: controller.signal
+		});
 
 		if (id !== requestId || controller.signal.aborted) {
 			return;

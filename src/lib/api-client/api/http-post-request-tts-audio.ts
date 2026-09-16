@@ -1,5 +1,12 @@
 import axios from 'axios';
 import { api } from '$lib/api-client/axios';
+import type { LanguageName } from '$lib/types/core/domain/languages';
+
+export type HttpPostRequestTtsAudioParams = {
+	text: string;
+	language?: LanguageName;
+	signal?: AbortSignal;
+};
 
 async function errorMessageFromBlob(blob: Blob): Promise<string | null> {
 	try {
@@ -11,11 +18,15 @@ async function errorMessageFromBlob(blob: Blob): Promise<string | null> {
 	}
 }
 
-export async function httpPostRequestTtsAudio(text: string, signal?: AbortSignal): Promise<Blob> {
+export async function httpPostRequestTtsAudio({
+	text,
+	language,
+	signal
+}: HttpPostRequestTtsAudioParams): Promise<Blob> {
 	try {
 		const response = await api.post<Blob>(
 			'/api/v1/tts/speak',
-			{ text },
+			language ? { text, language } : { text },
 			{ responseType: 'blob', signal }
 		);
 
