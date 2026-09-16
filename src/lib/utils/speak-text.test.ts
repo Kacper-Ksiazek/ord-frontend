@@ -163,8 +163,10 @@ describe('speakText', () => {
 
 			const playback = speakText('Hola', { id: 1, language: 'SPANISH' });
 
+			await Promise.resolve();
 			mockAudio.readyState = HAVE_METADATA;
 			mockAudio.emit('loadedmetadata');
+			await Promise.resolve();
 			mockAudio.emit('ended');
 
 			await playback;

@@ -65,7 +65,9 @@ describe('httpPostRequestTtsAudio', () => {
 		});
 		vi.mocked(axios.isAxiosError).mockReturnValue(true);
 
-		await expect(httpPostRequestTtsAudio({ text: 'Hello' })).rejects.toThrow('Log in first, then try again.');
+		await expect(httpPostRequestTtsAudio({ text: 'Hello' })).rejects.toThrow(
+			'Log in first, then try again.'
+		);
 	});
 
 	it('throws API error message from blob response', async () => {
