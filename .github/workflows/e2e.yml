@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout ord-frontend
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Read pinned ord-api commit
         id: ord-api
@@ -33,7 +33,7 @@ jobs:
           echo "sha=${SHA}" >> "$GITHUB_OUTPUT"
 
       - name: Checkout ord-api
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           repository: Kacper-Ksiazek/ord-api
           ref: ${{ steps.ord-api.outputs.sha }}
