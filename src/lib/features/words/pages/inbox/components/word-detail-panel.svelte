@@ -186,6 +186,7 @@
 							<PlayTextAudio
 								text={word.sourceWord ?? ''}
 								id={`source-word-${selectedWordId}`}
+								language={word.language}
 								dataTestId={E2E_TEST_IDS.inbox.detailSourceWordTts}
 							/>
 							{#if selectedWordId}
@@ -380,6 +381,7 @@
 													<PlayTextAudio
 														text={stripEmphasisMarkers(example.sentence)}
 														id={`example-sentence-${selectedWordId}-${exampleIndex}`}
+														language={word.language}
 														dataTestId={E2E_TEST_IDS.inbox.detailExampleSentenceTts(exampleIndex)}
 													/>
 												</div>

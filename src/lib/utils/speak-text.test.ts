@@ -53,7 +53,7 @@ let mockAudio: MockAudioElement;
 const HAVE_METADATA = 1;
 
 function mockResolvedTtsAudio() {
-	vi.mocked(httpPostRequestTtsAudio).mockImplementation(async (_text, signal) => {
+	vi.mocked(httpPostRequestTtsAudio).mockImplementation(async ({ signal }) => {
 		if (signal?.aborted) {
 			throw new axios.CanceledError('canceled');
 		}
@@ -158,6 +158,23 @@ describe('speakText', () => {
 	});
 
 	describe('edge cases', () => {
+		it('should pass language to the TTS request', async () => {
+			mockResolvedTtsAudio();
+
+			void speakText('Hola', { id: 1, language: 'SPANISH' });
+
+			await vi.waitFor(() => {
+				expect(httpPostRequestTtsAudio).toHaveBeenCalledWith(
+					expect.objectContaining({
+						text: 'Hola',
+						language: 'SPANISH'
+					})
+				);
+			});
+
+			stopSpeaking();
+		});
+
 		it('should expose SpeakTextCanceledError for superseded playback handlers', () => {
 			expect(new SpeakTextCanceledError()).toBeInstanceOf(Error);
 			expect(new SpeakTextCanceledError().name).toBe('SpeakTextCanceledError');

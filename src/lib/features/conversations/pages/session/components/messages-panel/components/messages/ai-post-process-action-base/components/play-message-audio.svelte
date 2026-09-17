@@ -4,15 +4,30 @@
 	import { LoaderCircle, Square, Volume2 } from 'lucide-svelte';
 	import { speakText, stopSpeaking } from '$lib/utils/speak-text';
 	import { speakTextPlayback } from '$lib/utils/speak-text.svelte';
+	import type { LanguageName } from '$lib/types/core/domain/languages';
+	import { getConversationContext } from '$conversations/pages/session/contexts/conversation-context.svelte';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
 
 	interface PlayMessageAudioProps {
 		message: string;
 		messageIndex: number;
+		language?: LanguageName;
 		disabled?: boolean;
 	}
 
-	let { message, messageIndex, disabled = false }: PlayMessageAudioProps = $props();
+	let { message, messageIndex, language, disabled = false }: PlayMessageAudioProps = $props();
+
+	const conversationLanguage = $derived.by(() => {
+		if (language) {
+			return language;
+		}
+
+		try {
+			return getConversationContext().language;
+		} catch {
+			return undefined;
+		}
+	});
 
 	let errorMessage = $state<string | null>(null);
 	let errorTimeoutId: ReturnType<typeof setTimeout> | undefined;
@@ -93,7 +108,8 @@
 
 		try {
 			await speakText(message.trim(), {
-				id: messageIndex
+				id: messageIndex,
+				language: conversationLanguage
 			});
 		} catch (error) {
 			showError(error instanceof Error ? error.message : 'Request failed');

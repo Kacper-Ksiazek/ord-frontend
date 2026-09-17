@@ -24,12 +24,26 @@ describe('httpPostRequestTtsAudio', () => {
 		const { api } = await import('$lib/api-client/axios');
 		vi.mocked(api.post).mockResolvedValue({ data: blob });
 
-		const result = await httpPostRequestTtsAudio('Hello');
+		const result = await httpPostRequestTtsAudio({ text: 'Hello' });
 
 		expect(result).toBe(blob);
 		expect(api.post).toHaveBeenCalledWith(
 			'/api/v1/tts/speak',
 			{ text: 'Hello' },
+			{ responseType: 'blob', signal: undefined }
+		);
+	});
+
+	it('includes language in request body when provided', async () => {
+		const blob = new Blob(['audio'], { type: 'audio/mpeg' });
+		const { api } = await import('$lib/api-client/axios');
+		vi.mocked(api.post).mockResolvedValue({ data: blob });
+
+		await httpPostRequestTtsAudio({ text: 'Hallo', language: 'GERMAN' });
+
+		expect(api.post).toHaveBeenCalledWith(
+			'/api/v1/tts/speak',
+			{ text: 'Hallo', language: 'GERMAN' },
 			{ responseType: 'blob', signal: undefined }
 		);
 	});
@@ -41,7 +55,7 @@ describe('httpPostRequestTtsAudio', () => {
 		vi.mocked(axios.isAxiosError).mockReturnValue(true);
 		Object.assign(canceled, { code: 'ERR_CANCELED' });
 
-		await expect(httpPostRequestTtsAudio('Hello')).rejects.toBe(canceled);
+		await expect(httpPostRequestTtsAudio({ text: 'Hello' })).rejects.toBe(canceled);
 	});
 
 	it('throws login message on 401', async () => {
@@ -51,7 +65,9 @@ describe('httpPostRequestTtsAudio', () => {
 		});
 		vi.mocked(axios.isAxiosError).mockReturnValue(true);
 
-		await expect(httpPostRequestTtsAudio('Hello')).rejects.toThrow('Log in first, then try again.');
+		await expect(httpPostRequestTtsAudio({ text: 'Hello' })).rejects.toThrow(
+			'Log in first, then try again.'
+		);
 	});
 
 	it('throws API error message from blob response', async () => {
@@ -64,7 +80,7 @@ describe('httpPostRequestTtsAudio', () => {
 		});
 		vi.mocked(axios.isAxiosError).mockReturnValue(true);
 
-		await expect(httpPostRequestTtsAudio('Hello')).rejects.toThrow('TTS unavailable');
+		await expect(httpPostRequestTtsAudio({ text: 'Hello' })).rejects.toThrow('TTS unavailable');
 	});
 
 	it('throws status fallback when blob has no error message', async () => {
@@ -75,7 +91,7 @@ describe('httpPostRequestTtsAudio', () => {
 		});
 		vi.mocked(axios.isAxiosError).mockReturnValue(true);
 
-		await expect(httpPostRequestTtsAudio('Hello')).rejects.toThrow('TTS failed (500)');
+		await expect(httpPostRequestTtsAudio({ text: 'Hello' })).rejects.toThrow('TTS failed (500)');
 	});
 
 	it('passes abort signal to axios', async () => {
@@ -84,7 +100,7 @@ describe('httpPostRequestTtsAudio', () => {
 		vi.mocked(api.post).mockResolvedValue({ data: blob });
 		const controller = new AbortController();
 
-		await httpPostRequestTtsAudio('Hello', controller.signal);
+		await httpPostRequestTtsAudio({ text: 'Hello', signal: controller.signal });
 
 		expect(api.post).toHaveBeenCalledWith(
 			'/api/v1/tts/speak',

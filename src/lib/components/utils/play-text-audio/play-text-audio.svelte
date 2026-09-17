@@ -4,15 +4,17 @@
 	import { LoaderCircle, Square, Volume2 } from 'lucide-svelte';
 	import { speakText, stopSpeaking } from '$lib/utils/speak-text';
 	import { speakTextPlayback } from '$lib/utils/speak-text.svelte';
+	import type { LanguageName } from '$lib/types/core/domain/languages';
 
 	interface PlayTextAudioProps {
 		text: string;
 		id: string | number;
+		language?: LanguageName;
 		disabled?: boolean;
 		dataTestId?: string;
 	}
 
-	let { text, id, disabled = false, dataTestId }: PlayTextAudioProps = $props();
+	let { text, id, language, disabled = false, dataTestId }: PlayTextAudioProps = $props();
 
 	let errorMessage = $state<string | null>(null);
 	let errorTimeoutId: ReturnType<typeof setTimeout> | undefined;
@@ -92,7 +94,7 @@
 		}
 
 		try {
-			await speakText(text.trim(), { id });
+			await speakText(text.trim(), { id, language });
 		} catch (error) {
 			showError(error instanceof Error ? error.message : 'Request failed');
 		}
