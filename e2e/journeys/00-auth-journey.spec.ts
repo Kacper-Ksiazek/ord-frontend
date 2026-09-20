@@ -52,7 +52,8 @@ test.describe('Auth journey', () => {
 		const email = emailForWorker(testInfo.workerIndex);
 		const sidebar = createSidebarComponent(page);
 
-		await loginPage.proceedToOtpStep(email);
+		await loginPage.goto();
+		await loginPage.proceedToOtpStep(email, { assumeOnLoginPage: true });
 		const correctCode = await resolveOtpCode(email);
 		const wrongCode = wrongOtpCode(correctCode);
 		await loginPage.fillOtp(wrongCode);
@@ -66,7 +67,8 @@ test.describe('Auth journey', () => {
 	test('send a new OTP and log in after a failed attempt', async ({ page, loginPage }, testInfo) => {
 		const email = emailForWorker(testInfo.workerIndex);
 
-		await loginPage.proceedToOtpStep(email);
+		await loginPage.goto();
+		await loginPage.proceedToOtpStep(email, { assumeOnLoginPage: true });
 		const correctCode = await resolveOtpCode(email);
 		const wrongCode = wrongOtpCode(correctCode);
 

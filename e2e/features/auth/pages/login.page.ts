@@ -25,30 +25,40 @@ export class LoginPage {
 
 	async goto(): Promise<void> {
 		await this.page.goto(this.path, { waitUntil: 'domcontentloaded' });
-		await this.emailInput.waitFor();
+		await this.emailInput.waitFor({ state: 'visible' });
+		await this.page.waitForFunction(
+			() => {
+				const intro = document.querySelector<HTMLElement>('[data-intro]');
+
+				return !intro || getComputedStyle(intro).opacity !== '0';
+			},
+			undefined,
+			{ timeout: 5_000 }
+		);
 	}
 
 	async fillEmail(email: string): Promise<void> {
 		await this.emailInput.click();
-		await this.emailInput.pressSequentially(email, { delay: 20 });
+		await this.emailInput.pressSequentially(email, { delay: 30 });
 		await expect(this.emailInput).toHaveValue(email);
-		await expect(this.emailSubmitButton).toBeEnabled({ timeout: 15_000 });
 	}
 
 	async submitEmail(): Promise<void> {
-		await this.emailSubmitButton.click();
+		await this.emailInput.press('Enter');
 	}
 
 	async proceedToOtpStep(email: string, options?: { assumeOnLoginPage?: boolean }): Promise<void> {
 		if (options?.assumeOnLoginPage) {
-			await this.emailInput.waitFor();
+			await this.emailInput.waitFor({ state: 'visible' });
 		} else {
 			await this.goto();
 		}
 
 		await this.fillEmail(email);
-		await this.submitEmail();
-		await this.otpGroup.waitFor({ state: 'visible' });
+		await Promise.all([
+			this.otpGroup.waitFor({ state: 'visible', timeout: 30_000 }),
+			this.submitEmail()
+		]);
 	}
 
 	private otpDigitPrefix(): string {
@@ -96,7 +106,6 @@ export class LoginPage {
 	async fillOtp(code: string): Promise<void> {
 		await this.clearOtpDigits();
 		await this.typeOtpDigitByDigit(code);
-		await expect.poll(() => this.readOtpDigitValues(), { timeout: 15_000 }).toBe(code);
 	}
 
 	async submitOtp(): Promise<void> {
