@@ -9,6 +9,8 @@ function invertOtpCode(code: string): string {
 }
 
 test.describe('Auth journey', () => {
+	test.describe.configure({ mode: 'serial' });
+
 	test.beforeEach(() => {
 		test.skip(!isE2eAuthConfigured(), 'E2E_OTP_CODE or E2E_OTP_FETCH_URL required');
 	});
@@ -24,7 +26,7 @@ test.describe('Auth journey', () => {
 		await conversationsListPage.goto();
 		await expect(page).toHaveURL(/\/login/);
 
-		await loginPage.loginWithOtp(email);
+		await loginPage.loginWithOtp(email, undefined, { assumeOnLoginPage: true });
 
 		await conversationsListPage.goto();
 		await expect(page).toHaveURL(/\/conversations/);
