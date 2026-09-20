@@ -4,8 +4,13 @@ import { resolveOtpCode } from '@e2e/shared/helpers/otp';
 import { createSidebarComponent } from '@e2e/app-layouts';
 import { createConversationsListPage } from '@e2e/conversations/list';
 
-function invertOtpCode(code: string): string {
-	return code === '000000' ? '111111' : '000000';
+function wrongOtpCode(correctCode: string): string {
+	const wrong = correctCode
+		.split('')
+		.map((digit) => String((Number(digit) + 1) % 10))
+		.join('');
+
+	return wrong === correctCode ? '654321' : wrong;
 }
 
 test.describe('Auth journey', () => {
@@ -49,7 +54,7 @@ test.describe('Auth journey', () => {
 
 		await loginPage.proceedToOtpStep(email);
 		const correctCode = await resolveOtpCode(email);
-		const wrongCode = invertOtpCode(correctCode);
+		const wrongCode = wrongOtpCode(correctCode);
 		await loginPage.fillOtp(wrongCode);
 		await loginPage.submitOtp();
 		await loginPage.expectErrorVisible();
@@ -63,7 +68,7 @@ test.describe('Auth journey', () => {
 
 		await loginPage.proceedToOtpStep(email);
 		const correctCode = await resolveOtpCode(email);
-		const wrongCode = invertOtpCode(correctCode);
+		const wrongCode = wrongOtpCode(correctCode);
 
 		await loginPage.fillOtp(wrongCode);
 		await loginPage.submitOtp();

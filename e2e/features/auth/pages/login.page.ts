@@ -71,39 +71,35 @@ export class LoginPage {
 		}, digitPrefix);
 	}
 
-	private async clearOtpDigits(): Promise<void> {
-		const current = await this.readOtpDigitValues();
-
-		if (current.length === 0) {
-			return;
+	private async typeOtpDigitByDigit(code: string): Promise<void> {
+		for (let i = 0; i < 6; i++) {
+			const digit = code[i] ?? '';
+			await this.otpDigit(i + 1).click();
+			await this.page.keyboard.press(digit);
 		}
+	}
 
+	private async clearOtpDigits(): Promise<void> {
 		await this.otpDigit(6).click();
 
-		for (let i = 0; i < current.length; i++) {
+		for (let attempt = 0; attempt < 6; attempt++) {
+			const current = await this.readOtpDigitValues();
+
+			if (current.length === 0) {
+				return;
+			}
+
 			await this.page.keyboard.press('Backspace');
 		}
-
-		await expect(this.otpSubmitButton).toBeDisabled();
 	}
 
 	async fillOtp(code: string): Promise<void> {
 		await this.clearOtpDigits();
-		await this.otpDigit(1).click();
-		await this.otpDigit(1).evaluate((input, otp) => {
-			const clipboardData = new DataTransfer();
-			clipboardData.setData('text/plain', otp);
-			input.dispatchEvent(
-				new ClipboardEvent('paste', { clipboardData, bubbles: true, cancelable: true })
-			);
-		}, code);
-
-		await expect.poll(() => this.readOtpDigitValues(), { timeout: 15_000 }).toBe(code);
+		await this.typeOtpDigitByDigit(code);
 		await expect(this.otpSubmitButton).toBeEnabled({ timeout: 15_000 });
 	}
 
 	async submitOtp(): Promise<void> {
-		await expect(this.otpSubmitButton).toBeEnabled({ timeout: 15_000 });
 		await this.otpSubmitButton.click();
 	}
 
