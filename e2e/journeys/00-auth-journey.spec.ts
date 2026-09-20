@@ -58,10 +58,11 @@ test.describe('Auth journey', () => {
 
 	test('send a new OTP and log in after a failed attempt', async ({ page, loginPage }, testInfo) => {
 		const email = emailForWorker(testInfo.workerIndex);
+
+		await loginPage.proceedToOtpStep(email);
 		const correctCode = await resolveOtpCode(email);
 		const wrongCode = invertOtpCode(correctCode);
 
-		await loginPage.proceedToOtpStep(email);
 		await loginPage.fillOtp(wrongCode);
 		await loginPage.submitOtp();
 		await loginPage.expectErrorVisible();

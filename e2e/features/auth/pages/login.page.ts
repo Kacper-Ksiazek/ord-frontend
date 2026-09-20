@@ -72,9 +72,13 @@ export class LoginPage {
 			},
 			{ expectedValue: expected, digitPrefix: otpDigitPrefix }
 		);
+
+		// otpSubmit stays disabled until parent otpCode bindable catches up with the digit inputs.
+		await expect(this.otpSubmitButton).toBeEnabled();
 	}
 
 	async submitOtp(): Promise<void> {
+		await expect(this.otpSubmitButton).toBeEnabled();
 		await this.otpSubmitButton.click();
 	}
 
