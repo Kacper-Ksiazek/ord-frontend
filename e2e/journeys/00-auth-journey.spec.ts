@@ -1,7 +1,12 @@
 import { test, expect } from '@e2e/shared/fixtures/auth.fixture';
 import { emailForWorker, isE2eAuthConfigured } from '@e2e/shared/fixtures/test-env';
+import { resolveOtpCode } from '@e2e/shared/helpers/otp';
 import { createSidebarComponent } from '@e2e/app-layouts';
 import { createConversationsListPage } from '@e2e/conversations/list';
+
+function invertOtpCode(code: string): string {
+	return code === '000000' ? '111111' : '000000';
+}
 
 test.describe('Auth journey', () => {
 	test.beforeEach(() => {
@@ -30,6 +35,56 @@ test.describe('Auth journey', () => {
 		await expect(page).toHaveURL(/\/login/);
 
 		await conversationsListPage.goto();
+		await expect(page).toHaveURL(/\/login/);
+	});
+
+	test('show an error and stay on login when the OTP is wrong', async ({
+		page,
+		loginPage
+	}, testInfo) => {
+		const email = emailForWorker(testInfo.workerIndex);
+		const sidebar = createSidebarComponent(page);
+		const correctCode = await resolveOtpCode(email);
+		const wrongCode = invertOtpCode(correctCode);
+
+		await loginPage.proceedToOtpStep(email);
+		await loginPage.fillOtp(wrongCode);
+		await loginPage.submitOtp();
+		await loginPage.expectErrorVisible();
+
+		await expect(page).toHaveURL(/\/login/);
+		await expect(sidebar.userEmail(email)).toHaveCount(0);
+	});
+
+	test('send a new OTP and log in after a failed attempt', async ({ page, loginPage }, testInfo) => {
+		const email = emailForWorker(testInfo.workerIndex);
+		const correctCode = await resolveOtpCode(email);
+		const wrongCode = invertOtpCode(correctCode);
+
+		await loginPage.proceedToOtpStep(email);
+		await loginPage.fillOtp(wrongCode);
+		await loginPage.submitOtp();
+		await loginPage.expectErrorVisible();
+
+		await loginPage.fillOtp(correctCode);
+		await loginPage.submitOtp();
+		await loginPage.waitForLoginSuccess();
+
+		await expect(page).toHaveURL(/\/conversations/);
+	});
+
+	test('redirect to login when the session cookie is gone on a private page', async ({
+		page,
+		loginPage
+	}, testInfo) => {
+		const email = emailForWorker(testInfo.workerIndex);
+
+		await loginPage.loginWithOtp(email);
+		await expect(page).toHaveURL(/\/conversations/);
+
+		await page.context().clearCookies();
+		await page.goto('/conversations');
+
 		await expect(page).toHaveURL(/\/login/);
 	});
 });

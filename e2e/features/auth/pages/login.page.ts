@@ -9,12 +9,14 @@ export class LoginPage {
 	readonly emailSubmitButton: Locator;
 	readonly otpGroup: Locator;
 	readonly otpSubmitButton: Locator;
+	readonly error: Locator;
 
 	constructor(protected readonly page: Page) {
 		this.emailInput = page.getByTestId(E2E_TEST_IDS.login.emailInput);
 		this.emailSubmitButton = page.getByTestId(E2E_TEST_IDS.login.emailSubmit);
 		this.otpGroup = page.getByTestId(E2E_TEST_IDS.login.otpInput);
 		this.otpSubmitButton = page.getByTestId(E2E_TEST_IDS.login.otpSubmit);
+		this.error = page.getByTestId(E2E_TEST_IDS.login.error);
 	}
 
 	otpDigit(index: number): Locator {
@@ -89,6 +91,10 @@ export class LoginPage {
 		// Login screen calls goto('/'); `(private)/+page.ts` redirects to `/conversations`.
 		// Wait for the final route — `/` matches too early and races the private layout.
 		await this.page.waitForURL((url) => url.pathname === '/conversations');
+	}
+
+	async expectErrorVisible(): Promise<void> {
+		await expect(this.error).toBeVisible();
 	}
 }
 
