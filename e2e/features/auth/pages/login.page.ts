@@ -46,46 +46,34 @@ export class LoginPage {
 		await this.otpGroup.waitFor({ state: 'visible' });
 	}
 
-	async fillOtp(code: string): Promise<void> {
-		const expected = Array.from({ length: 6 }, (_, i) => code[i] ?? '').join('');
+	private async clearOtpDigits(): Promise<void> {
+		await this.otpDigit(6).click();
 
 		for (let i = 0; i < 6; i++) {
-			await this.otpDigit(i + 1).fill(code[i] ?? '');
+			await this.page.keyboard.press('Backspace');
 		}
+	}
 
-		const otpDigitPrefix = E2E_TEST_IDS.login.otpDigit(1).replace(/\d$/, '');
+	async fillOtp(code: string): Promise<void> {
+		await this.clearOtpDigits();
+		await this.otpDigit(1).click();
+		await this.page.keyboard.type(code, { delay: 20 });
 
-		// Headless runs faster than Svelte bindable/effect flush — wait until digits are synced.
-		await this.page.waitForFunction(
-			({ expectedValue, digitPrefix }) => {
-				const inputs = document.querySelectorAll<HTMLInputElement>(`[data-testid^="${digitPrefix}"]`);
-				const value = Array.from(inputs)
-					.sort(
-						(a, b) =>
-							Number(a.dataset.testid?.replace(digitPrefix, '')) -
-							Number(b.dataset.testid?.replace(digitPrefix, ''))
-					)
-					.map((input) => input.value)
-					.join('');
+		// Wait until Svelte bindable otpCode enables verify — DOM .fill() alone is not enough.
+		await this.page.waitForFunction((testId) => {
+			const button = document.querySelector(`[data-testid="${testId}"]`) as HTMLButtonElement | null;
 
-				return value === expectedValue;
-			},
-			{ expectedValue: expected, digitPrefix: otpDigitPrefix }
-		);
-
-		// otpSubmit stays disabled until parent otpCode bindable catches up with the digit inputs.
-		await expect(this.otpSubmitButton).toBeEnabled();
+			return button !== null && !button.disabled;
+		}, E2E_TEST_IDS.login.otpSubmit);
 	}
 
 	async submitOtp(): Promise<void> {
-		await expect(this.otpSubmitButton).toBeEnabled();
 		await this.otpSubmitButton.click();
 	}
 
 	async loginWithOtp(email: string, otpCode?: string): Promise<void> {
-		const code = otpCode ?? (await resolveOtpCode(email));
-
 		await this.proceedToOtpStep(email);
+		const code = otpCode ?? (await resolveOtpCode(email));
 		await this.fillOtp(code);
 		await this.submitOtp();
 		await this.waitForLoginSuccess();

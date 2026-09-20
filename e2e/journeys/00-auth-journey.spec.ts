@@ -44,10 +44,10 @@ test.describe('Auth journey', () => {
 	}, testInfo) => {
 		const email = emailForWorker(testInfo.workerIndex);
 		const sidebar = createSidebarComponent(page);
-		const correctCode = await resolveOtpCode(email);
-		const wrongCode = invertOtpCode(correctCode);
 
 		await loginPage.proceedToOtpStep(email);
+		const correctCode = await resolveOtpCode(email);
+		const wrongCode = invertOtpCode(correctCode);
 		await loginPage.fillOtp(wrongCode);
 		await loginPage.submitOtp();
 		await loginPage.expectErrorVisible();
