@@ -96,11 +96,12 @@ export class LoginPage {
 	async fillOtp(code: string): Promise<void> {
 		await this.clearOtpDigits();
 		await this.typeOtpDigitByDigit(code);
-		await expect(this.otpSubmitButton).toBeEnabled({ timeout: 15_000 });
+		await expect.poll(() => this.readOtpDigitValues(), { timeout: 15_000 }).toBe(code);
 	}
 
 	async submitOtp(): Promise<void> {
-		await this.otpSubmitButton.click();
+		// OtpInput submits via oncomplete (Enter) — do not rely on verify button enabled state.
+		await this.otpDigit(6).press('Enter');
 	}
 
 	async loginWithOtp(
