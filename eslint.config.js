@@ -25,6 +25,15 @@ export default [
 	...svelte.configs['flat/recommended'],
 	...svelte.configs['flat/prettier'],
 	{
+		files: ['svelte.config.js'],
+		languageOptions: {
+			globals: {
+				process: 'readonly',
+				URL: 'readonly'
+			}
+		}
+	},
+	{
 		files: ['eslint-rules/**/*.js'],
 		languageOptions: {
 			globals: {
