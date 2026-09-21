@@ -34,7 +34,11 @@ export default defineConfig({
 	projects: [
 		{
 			name: 'chromium',
-			use: { ...devices['Desktop Chrome'] }
+			use: {
+				...devices['Desktop Chrome'],
+				// Login and other screens use introStagger; skip animations in E2E for stable selectors.
+				reducedMotion: 'reduce'
+			}
 		}
 	],
 	webServer: {

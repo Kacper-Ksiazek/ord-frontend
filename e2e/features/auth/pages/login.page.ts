@@ -41,18 +41,7 @@ export class LoginPage {
 	}
 
 	async submitEmail(): Promise<void> {
-		// Enter submits the form; the visible button can stay opacity:0 during intro animation on CI.
 		await this.emailInput.press('Enter');
-	}
-
-	private async waitForOtpRequestResponse(): Promise<void> {
-		await this.page.waitForResponse(
-			(response) =>
-				response.url().includes('/api/v1/auth/otp-request') &&
-				response.request().method() === 'POST' &&
-				response.ok(),
-			{ timeout: 30_000 }
-		);
 	}
 
 	async proceedToOtpStep(email: string, options?: { assumeOnLoginPage?: boolean }): Promise<void> {
@@ -64,7 +53,6 @@ export class LoginPage {
 
 		await this.fillEmail(email);
 		await Promise.all([
-			this.waitForOtpRequestResponse(),
 			this.otpGroup.waitFor({ state: 'visible', timeout: 30_000 }),
 			this.submitEmail()
 		]);
