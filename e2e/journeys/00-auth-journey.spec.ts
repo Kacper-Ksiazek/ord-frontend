@@ -52,8 +52,8 @@ test.describe('Auth journey', () => {
 		const email = emailForWorker(testInfo.workerIndex);
 		const sidebar = createSidebarComponent(page);
 
-		// Serial: previous test already leaves the browser on /login.
-		await loginPage.proceedToOtpStep(email, { assumeOnLoginPage: true });
+		// Serial: previous test can leave /login on the OTP step after redirect — reset via goto().
+		await loginPage.proceedToOtpStep(email);
 		const correctCode = await resolveOtpCode(email);
 		const wrongCode = wrongOtpCode(correctCode);
 		await loginPage.fillOtp(wrongCode);
