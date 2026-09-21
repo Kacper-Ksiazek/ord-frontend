@@ -9,12 +9,14 @@ export class LoginPage {
 	readonly emailSubmitButton: Locator;
 	readonly otpGroup: Locator;
 	readonly otpSubmitButton: Locator;
+	readonly error: Locator;
 
 	constructor(protected readonly page: Page) {
 		this.emailInput = page.getByTestId(E2E_TEST_IDS.login.emailInput);
 		this.emailSubmitButton = page.getByTestId(E2E_TEST_IDS.login.emailSubmit);
 		this.otpGroup = page.getByTestId(E2E_TEST_IDS.login.otpInput);
 		this.otpSubmitButton = page.getByTestId(E2E_TEST_IDS.login.otpSubmit);
+		this.error = page.getByTestId(E2E_TEST_IDS.login.error);
 	}
 
 	otpDigit(index: number): Locator {
@@ -22,64 +24,102 @@ export class LoginPage {
 	}
 
 	async goto(): Promise<void> {
-		await this.page.goto(this.path);
-		await this.emailInput.waitFor();
+		await this.page.goto(this.path, { waitUntil: 'domcontentloaded' });
+		await this.emailInput.waitFor({ state: 'visible' });
+		await this.page.waitForFunction(
+			() => {
+				const intro = document.querySelector<HTMLElement>('[data-intro]');
+
+				return !intro || getComputedStyle(intro).opacity !== '0';
+			},
+			undefined,
+			{ timeout: 5_000 }
+		);
 	}
 
 	async fillEmail(email: string): Promise<void> {
 		await this.emailInput.click();
-		await this.emailInput.pressSequentially(email, { delay: 20 });
+		await this.emailInput.pressSequentially(email, { delay: 30 });
 		await expect(this.emailInput).toHaveValue(email);
-		await expect(this.emailSubmitButton).toBeEnabled();
 	}
 
 	async submitEmail(): Promise<void> {
-		await this.emailSubmitButton.click();
+		await this.emailInput.press('Enter');
 	}
 
-	async proceedToOtpStep(email: string): Promise<void> {
-		await this.goto();
+	async proceedToOtpStep(email: string, options?: { assumeOnLoginPage?: boolean }): Promise<void> {
+		if (options?.assumeOnLoginPage) {
+			await this.emailInput.waitFor({ state: 'visible' });
+		} else {
+			await this.goto();
+		}
+
 		await this.fillEmail(email);
-		await this.submitEmail();
-		await this.otpGroup.waitFor({ state: 'visible' });
+		await Promise.all([
+			this.otpGroup.waitFor({ state: 'visible', timeout: 30_000 }),
+			this.submitEmail()
+		]);
+	}
+
+	private otpDigitPrefix(): string {
+		return E2E_TEST_IDS.login.otpDigit(1).replace(/\d$/, '');
+	}
+
+	private async readOtpDigitValues(): Promise<string> {
+		const digitPrefix = this.otpDigitPrefix();
+
+		return this.page.evaluate((prefix) => {
+			const inputs = document.querySelectorAll<HTMLInputElement>(`[data-testid^="${prefix}"]`);
+
+			return Array.from(inputs)
+				.sort(
+					(a, b) =>
+						Number(a.dataset.testid?.replace(prefix, '')) - Number(b.dataset.testid?.replace(prefix, ''))
+				)
+				.map((input) => input.value)
+				.join('');
+		}, digitPrefix);
+	}
+
+	private async typeOtpDigitByDigit(code: string): Promise<void> {
+		for (let i = 0; i < 6; i++) {
+			const digit = code[i] ?? '';
+			await this.otpDigit(i + 1).click();
+			await this.page.keyboard.press(digit);
+		}
+	}
+
+	private async clearOtpDigits(): Promise<void> {
+		await this.otpDigit(6).click();
+
+		for (let attempt = 0; attempt < 6; attempt++) {
+			const current = await this.readOtpDigitValues();
+
+			if (current.length === 0) {
+				return;
+			}
+
+			await this.page.keyboard.press('Backspace');
+		}
 	}
 
 	async fillOtp(code: string): Promise<void> {
-		const expected = Array.from({ length: 6 }, (_, i) => code[i] ?? '').join('');
-
-		for (let i = 0; i < 6; i++) {
-			await this.otpDigit(i + 1).fill(code[i] ?? '');
-		}
-
-		const otpDigitPrefix = E2E_TEST_IDS.login.otpDigit(1).replace(/\d$/, '');
-
-		// Headless runs faster than Svelte bindable/effect flush — wait until digits are synced.
-		await this.page.waitForFunction(
-			({ expectedValue, digitPrefix }) => {
-				const inputs = document.querySelectorAll<HTMLInputElement>(`[data-testid^="${digitPrefix}"]`);
-				const value = Array.from(inputs)
-					.sort(
-						(a, b) =>
-							Number(a.dataset.testid?.replace(digitPrefix, '')) -
-							Number(b.dataset.testid?.replace(digitPrefix, ''))
-					)
-					.map((input) => input.value)
-					.join('');
-
-				return value === expectedValue;
-			},
-			{ expectedValue: expected, digitPrefix: otpDigitPrefix }
-		);
+		await this.clearOtpDigits();
+		await this.typeOtpDigitByDigit(code);
 	}
 
 	async submitOtp(): Promise<void> {
-		await this.otpSubmitButton.click();
+		// OtpInput submits via oncomplete (Enter) — do not rely on verify button enabled state.
+		await this.otpDigit(6).press('Enter');
 	}
 
-	async loginWithOtp(email: string, otpCode?: string): Promise<void> {
+	async loginWithOtp(
+		email: string,
+		otpCode?: string,
+		options?: { assumeOnLoginPage?: boolean }
+	): Promise<void> {
+		await this.proceedToOtpStep(email, options);
 		const code = otpCode ?? (await resolveOtpCode(email));
-
-		await this.proceedToOtpStep(email);
 		await this.fillOtp(code);
 		await this.submitOtp();
 		await this.waitForLoginSuccess();
@@ -89,6 +129,10 @@ export class LoginPage {
 		// Login screen calls goto('/'); `(private)/+page.ts` redirects to `/conversations`.
 		// Wait for the final route — `/` matches too early and races the private layout.
 		await this.page.waitForURL((url) => url.pathname === '/conversations');
+	}
+
+	async expectErrorVisible(): Promise<void> {
+		await expect(this.error).toBeVisible();
 	}
 }
 

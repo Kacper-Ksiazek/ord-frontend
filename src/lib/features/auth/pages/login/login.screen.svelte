@@ -74,7 +74,8 @@
 		}
 	}
 
-	function handleOtpComplete() {
+	function handleOtpComplete(code: string) {
+		otpCode = code;
 		void handleOtpSubmit();
 	}
 </script>

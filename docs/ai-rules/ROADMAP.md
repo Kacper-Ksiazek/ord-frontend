@@ -92,7 +92,7 @@ Covers: `messages/`, `scripts/aggregate-translations.ts`, `src/lib/paraglide` (g
 
 Covers: `src/**/*.test.ts`, `e2e/`, `src/**/*.stories.svelte`, `vite.config.ts`, `.claude/skills/test-utils`.
 
-- [x] Vitest unit test conventions (colocated, utils-focused)
+- [x] Vitest unit test conventions (colocated, utils-focused; `*.test.ts` vs `*.svelte.test.ts` projects)
 - [x] Playwright e2e structure (journeys + page objects)
 - [x] E2E app bugs block tests (no workarounds in specs; notify developer)
 - [x] E2E CI workflow (blocking `e2e` job, `.github/ord-api-e2e-image.sha` pin)
@@ -104,7 +104,7 @@ Covers: git history, `.husky/`, `lint-staged` config, `docs/jira/`.
 
 - [x] Commit message format (`type(ORDUI-N): summary`)
 - [x] PR-per-subtask workflow, branch naming (`ordui-N-slug`)
-- [x] Pre-commit hooks (husky: lint-staged — prettier + eslint on staged files; types in `make ci`)
+- [x] Pre-commit hooks (husky: lint-staged — prettier + eslint incl. `ord/vitest-test-file-naming`; types in `make ci`)
 
 ## Progress
 

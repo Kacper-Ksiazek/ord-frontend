@@ -3,6 +3,7 @@ import * as ts from 'typescript-eslint';
 import svelte from 'eslint-plugin-svelte';
 import tsParser from '@typescript-eslint/parser';
 import unusedImports from 'eslint-plugin-unused-imports';
+import ord from './eslint-rules/ord/index.js';
 
 export default [
 	{
@@ -23,6 +24,14 @@ export default [
 	...ts.configs.strict,
 	...svelte.configs['flat/recommended'],
 	...svelte.configs['flat/prettier'],
+	{
+		files: ['eslint-rules/**/*.js'],
+		languageOptions: {
+			globals: {
+				process: 'readonly'
+			}
+		}
+	},
 	{
 		files: ['**/*.cjs'],
 		languageOptions: {
@@ -158,6 +167,15 @@ export default [
 					]
 				}
 			]
+		}
+	},
+	{
+		files: ['src/**/*.{test,spec}.{js,ts}'],
+		plugins: {
+			ord
+		},
+		rules: {
+			'ord/vitest-test-file-naming': 'error'
 		}
 	},
 	{

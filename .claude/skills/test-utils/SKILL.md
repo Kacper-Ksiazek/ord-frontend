@@ -23,10 +23,14 @@ Generate comprehensive unit tests for TypeScript utility functions using Vitest.
 
 4. **Write the test file**
    - Place it next to the source file with `.test.ts` suffix
+   - **Naming:** `foo.test.ts` for `foo.ts` and `foo.svelte.ts` (stores, guards, utils) — Vitest **server** (node) project
+   - **Only** `Foo.svelte.test.ts` when testing a **`Foo.svelte` component** in the browser — Vitest **client** project (Playwright)
+   - Never name a store/guard/util test `*.svelte.test.ts` just because the source is `.svelte.ts`
 
-5. **Run type checking and fix all errors**
-   - After writing the test file, run `bun run check` and filter output to the test file
-   - Fix all TypeScript errors before finishing — repeat until `bun run check` reports no errors for the test file
+5. **Validate and run tests**
+   - Run `bun run lint` on the new test file (rule `ord/vitest-test-file-naming` catches wrong `*.svelte.test.ts` names)
+   - Run `bun run test:server` (node unit tests; same project CI relies on for utils/stores/guards)
+   - Run `bun run check` and fix TypeScript errors in the test file before finishing
 
 ## Test Structure Rules
 
