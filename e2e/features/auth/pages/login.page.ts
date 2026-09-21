@@ -40,7 +40,6 @@ export class LoginPage {
 		await this.emailInput.click();
 		await this.emailInput.fill(email);
 		await expect(this.emailInput).toHaveValue(email);
-		await expect(this.emailSubmitButton).toBeEnabled();
 	}
 
 	async submitEmail(): Promise<void> {

@@ -75,7 +75,9 @@ export class ConversationSessionPage {
 
 	async expectComposerReady(): Promise<void> {
 		await this.messageComposer.waitFor({ state: 'visible' });
-		await expect(this.messageInput).toBeEnabled();
+		await this.messageInput.waitFor({ state: 'visible' });
+		// Send stays disabled while AI is generating; the textarea itself is always enabled.
+		await expect(this.sendButton).toBeEnabled({ timeout: 30_000 });
 	}
 
 	async sendMessage(text: string): Promise<void> {
