@@ -36,8 +36,11 @@ export default defineConfig({
 			name: 'chromium',
 			use: {
 				...devices['Desktop Chrome'],
-				// Login and other screens use introStagger; skip animations in E2E for stable selectors.
-				reducedMotion: 'reduce'
+				// Playwright 1.62 drops top-level `reducedMotion`; only `contextOptions` is forwarded.
+				// Login uses introStagger, which hides the form until JS runs unless motion is reduced.
+				contextOptions: {
+					reducedMotion: 'reduce'
+				}
 			}
 		}
 	],

@@ -33,17 +33,27 @@ export class LoginPage {
 			await this.page.reload({ waitUntil: 'domcontentloaded' });
 		}
 
-		await this.emailInput.waitFor({ state: 'visible' });
+		await this.emailInput.waitFor({ state: 'visible', timeout: 30_000 });
 	}
 
 	async fillEmail(email: string): Promise<void> {
-		await this.emailInput.click();
-		await this.emailInput.fill(email);
-		await expect(this.emailInput).toHaveValue(email);
+		// SSR paints the form before Svelte hydrates. fill() updates the DOM immediately, but
+		// Continue stays disabled until the client binds `email`. Hydration can also wipe a
+		// value typed too early, so keep filling until the button enables.
+		await expect(async () => {
+			if ((await this.emailInput.inputValue()) !== email) {
+				await this.emailInput.fill(email);
+			}
+
+			await expect(this.emailInput).toHaveValue(email, { timeout: 1_000 });
+			await expect(this.emailSubmitButton).toBeEnabled({ timeout: 1_000 });
+		}).toPass({ timeout: 20_000 });
 	}
 
 	async submitEmail(): Promise<void> {
-		await this.emailInput.press('Enter');
+		// Click the enabled button. Enter on an unhydrated form is a native GET to `/login?`
+		// because Continue is type="button" and onsubmit is not attached yet.
+		await this.emailSubmitButton.click();
 	}
 
 	private waitForOtpRequestResponse() {
@@ -62,7 +72,7 @@ export class LoginPage {
 			if (await this.otpGroup.isVisible()) {
 				await this.goto();
 			} else {
-				await this.emailInput.waitFor({ state: 'visible' });
+				await this.emailInput.waitFor({ state: 'visible', timeout: 30_000 });
 			}
 		} else {
 			await this.goto();
@@ -85,12 +95,7 @@ export class LoginPage {
 	}
 
 	async proceedToOtpStep(email: string, options?: { assumeOnLoginPage?: boolean }): Promise<void> {
-		try {
-			await this.requestOtpForEmail(email, options);
-		} catch {
-			await this.goto();
-			await this.requestOtpForEmail(email, { assumeOnLoginPage: true });
-		}
+		await this.requestOtpForEmail(email, options);
 	}
 
 	private otpDigitPrefix(): string {
