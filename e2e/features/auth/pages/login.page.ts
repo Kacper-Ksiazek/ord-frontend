@@ -41,7 +41,8 @@ export class LoginPage {
 	}
 
 	async submitEmail(): Promise<void> {
-		await this.emailSubmitButton.click();
+		// Enter submits the form; the visible button can stay opacity:0 during intro animation on CI.
+		await this.emailInput.press('Enter');
 	}
 
 	private async waitForOtpRequestResponse(): Promise<void> {
