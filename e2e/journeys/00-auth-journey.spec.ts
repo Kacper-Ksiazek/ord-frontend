@@ -88,10 +88,12 @@ test.describe('Auth journey', () => {
 		loginPage
 	}, testInfo) => {
 		const email = emailForWorker(testInfo.workerIndex);
+		const conversationsListPage = createConversationsListPage(page);
 
-		// Serial: previous test already leaves an authenticated session on /conversations.
-		if (!page.url().includes('/conversations')) {
-			await loginPage.loginWithOtp(email);
+		// Serial: reuse the authenticated session from the prior test when possible.
+		await conversationsListPage.goto();
+		if (/\/login/.test(page.url())) {
+			await loginPage.loginWithOtp(email, undefined, { assumeOnLoginPage: true });
 		}
 
 		await expect(page).toHaveURL(/\/conversations/);
