@@ -25,17 +25,33 @@ export class LoginPage {
 
 	async goto(): Promise<void> {
 		await this.page.goto(this.path, { waitUntil: 'domcontentloaded' });
+
+		// Serial auth tests can land on /login still on the OTP step — reload to reset form state.
+		if (!(await this.emailInput.isVisible())) {
+			await this.page.reload({ waitUntil: 'domcontentloaded' });
+		}
+
 		await this.emailInput.waitFor({ state: 'visible' });
 	}
 
 	async fillEmail(email: string): Promise<void> {
 		await this.emailInput.click();
-		await this.emailInput.pressSequentially(email, { delay: 30 });
+		await this.emailInput.fill(email);
 		await expect(this.emailInput).toHaveValue(email);
 	}
 
 	async submitEmail(): Promise<void> {
-		await this.emailInput.press('Enter');
+		await this.emailSubmitButton.click();
+	}
+
+	private async waitForOtpRequestResponse(): Promise<void> {
+		await this.page.waitForResponse(
+			(response) =>
+				response.url().includes('/api/v1/auth/otp-request') &&
+				response.request().method() === 'POST' &&
+				response.ok(),
+			{ timeout: 30_000 }
+		);
 	}
 
 	async proceedToOtpStep(email: string, options?: { assumeOnLoginPage?: boolean }): Promise<void> {
@@ -47,6 +63,7 @@ export class LoginPage {
 
 		await this.fillEmail(email);
 		await Promise.all([
+			this.waitForOtpRequestResponse(),
 			this.otpGroup.waitFor({ state: 'visible', timeout: 30_000 }),
 			this.submitEmail()
 		]);
