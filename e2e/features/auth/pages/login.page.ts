@@ -27,7 +27,9 @@ export class LoginPage {
 		await this.page.goto(this.path, { waitUntil: 'domcontentloaded' });
 
 		// Serial auth tests can land on /login still on the OTP step — reload to reset form state.
-		if (!(await this.emailInput.isVisible())) {
+		if (await this.otpGroup.isVisible()) {
+			await this.page.reload({ waitUntil: 'domcontentloaded' });
+		} else if (!(await this.emailInput.isVisible())) {
 			await this.page.reload({ waitUntil: 'domcontentloaded' });
 		}
 
@@ -36,26 +38,60 @@ export class LoginPage {
 
 	async fillEmail(email: string): Promise<void> {
 		await this.emailInput.click();
-		await this.emailInput.pressSequentially(email, { delay: 30 });
+		await this.emailInput.fill(email);
 		await expect(this.emailInput).toHaveValue(email);
+		await expect(this.emailSubmitButton).toBeEnabled();
 	}
 
 	async submitEmail(): Promise<void> {
 		await this.emailInput.press('Enter');
 	}
 
-	async proceedToOtpStep(email: string, options?: { assumeOnLoginPage?: boolean }): Promise<void> {
+	private waitForOtpRequestResponse() {
+		return this.page.waitForResponse(
+			(response) =>
+				response.url().includes('/api/v1/auth/otp-request') && response.request().method() === 'POST',
+			{ timeout: 30_000 }
+		);
+	}
+
+	private async requestOtpForEmail(
+		email: string,
+		options?: { assumeOnLoginPage?: boolean }
+	): Promise<void> {
 		if (options?.assumeOnLoginPage) {
-			await this.emailInput.waitFor({ state: 'visible' });
+			if (await this.otpGroup.isVisible()) {
+				await this.goto();
+			} else {
+				await this.emailInput.waitFor({ state: 'visible' });
+			}
 		} else {
 			await this.goto();
 		}
 
 		await this.fillEmail(email);
+
+		const otpResponse = this.waitForOtpRequestResponse();
 		await Promise.all([
+			otpResponse,
 			this.otpGroup.waitFor({ state: 'visible', timeout: 30_000 }),
 			this.submitEmail()
 		]);
+
+		const response = await otpResponse;
+
+		if (!response.ok()) {
+			throw new Error(`OTP request failed (${response.status()}): ${await response.text()}`);
+		}
+	}
+
+	async proceedToOtpStep(email: string, options?: { assumeOnLoginPage?: boolean }): Promise<void> {
+		try {
+			await this.requestOtpForEmail(email, options);
+		} catch {
+			await this.goto();
+			await this.requestOtpForEmail(email, { assumeOnLoginPage: true });
+		}
 	}
 
 	private otpDigitPrefix(): string {

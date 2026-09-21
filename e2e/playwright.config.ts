@@ -11,7 +11,7 @@ export default defineConfig({
 	testDir: './journeys',
 	globalSetup: path.join(e2eDir, 'global-setup.ts'),
 	forbidOnly: isCi,
-	retries: isCi ? 1 : 0,
+	retries: 1,
 	// One worker per journey test; workerIndex maps to e2e-ci-w{n}@ord.test.
 	workers: 3,
 	reporter: [
