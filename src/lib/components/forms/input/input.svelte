@@ -99,9 +99,25 @@
 
 	let debounceTimer: ReturnType<typeof setTimeout> | undefined;
 
+	function valueFromEvent(event: Event): string {
+		const target = event.target;
+
+		// Read the DOM value. `internalValue` can still be stale when this listener runs
+		// before Svelte's bind:value flushes, which leaves parent state empty.
+		// `target` rather than `currentTarget`: Svelte may delegate the event.
+		if (target instanceof HTMLInputElement || target instanceof HTMLTextAreaElement) {
+			return target.value;
+		}
+
+		return internalValue;
+	}
+
 	function propagateValue(event: Event, notify: 'input' | 'change') {
+		const next = valueFromEvent(event);
+		internalValue = next;
+
 		if (!debounced) {
-			value = internalValue;
+			value = next;
 			if (notify === 'input') onInput?.(event);
 			else onChange?.(event);
 
@@ -111,7 +127,7 @@
 		clearTimeout(debounceTimer);
 
 		debounceTimer = setTimeout(() => {
-			value = internalValue;
+			value = next;
 			if (notify === 'input') onInput?.(event);
 			else onChange?.(event);
 		}, debounceDelay);

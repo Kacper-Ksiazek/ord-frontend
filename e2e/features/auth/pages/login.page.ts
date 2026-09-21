@@ -37,14 +37,12 @@ export class LoginPage {
 	}
 
 	async fillEmail(email: string): Promise<void> {
-		// SSR paints the form before Svelte hydrates. fill() updates the DOM immediately, but
-		// Continue stays disabled until the client binds `email`. Hydration can also wipe a
-		// value typed too early, so keep filling until the button enables.
+		// A fill before hydration writes the DOM and never reaches Svelte, so Continue stays
+		// disabled. Clear and fill again until the bound address enables the button.
 		await expect(async () => {
-			if ((await this.emailInput.inputValue()) !== email) {
-				await this.emailInput.fill(email);
-			}
-
+			await this.emailInput.click();
+			await this.emailInput.fill('');
+			await this.emailInput.fill(email);
 			await expect(this.emailInput).toHaveValue(email, { timeout: 1_000 });
 			await expect(this.emailSubmitButton).toBeEnabled({ timeout: 1_000 });
 		}).toPass({ timeout: 20_000 });
@@ -69,10 +67,12 @@ export class LoginPage {
 		options?: { assumeOnLoginPage?: boolean }
 	): Promise<void> {
 		if (options?.assumeOnLoginPage) {
-			if (await this.otpGroup.isVisible()) {
+			// Serial tests do not share a page. A fresh context is about:blank, and a previous
+			// attempt can still be on the OTP step — both need a real navigation to the email form.
+			const onEmailStep = (await this.emailInput.isVisible()) && !(await this.otpGroup.isVisible());
+
+			if (!onEmailStep) {
 				await this.goto();
-			} else {
-				await this.emailInput.waitFor({ state: 'visible', timeout: 30_000 });
 			}
 		} else {
 			await this.goto();
