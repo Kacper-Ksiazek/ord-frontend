@@ -36,7 +36,7 @@ export class LoginPage {
 
 	async fillEmail(email: string): Promise<void> {
 		await this.emailInput.click();
-		await this.emailInput.fill(email);
+		await this.emailInput.pressSequentially(email, { delay: 30 });
 		await expect(this.emailInput).toHaveValue(email);
 	}
 

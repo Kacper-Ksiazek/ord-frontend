@@ -52,7 +52,7 @@ test.describe('Auth journey', () => {
 		const email = emailForWorker(testInfo.workerIndex);
 		const sidebar = createSidebarComponent(page);
 
-		await loginPage.goto();
+		// Serial: previous test already leaves the browser on /login.
 		await loginPage.proceedToOtpStep(email, { assumeOnLoginPage: true });
 		const correctCode = await resolveOtpCode(email);
 		const wrongCode = wrongOtpCode(correctCode);
