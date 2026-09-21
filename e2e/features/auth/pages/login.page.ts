@@ -25,40 +25,77 @@ export class LoginPage {
 
 	async goto(): Promise<void> {
 		await this.page.goto(this.path, { waitUntil: 'domcontentloaded' });
-		await this.emailInput.waitFor({ state: 'visible' });
-		await this.page.waitForFunction(
-			() => {
-				const intro = document.querySelector<HTMLElement>('[data-intro]');
 
-				return !intro || getComputedStyle(intro).opacity !== '0';
-			},
-			undefined,
-			{ timeout: 5_000 }
-		);
+		// Serial auth tests can land on /login still on the OTP step — reload to reset form state.
+		if (await this.otpGroup.isVisible()) {
+			await this.page.reload({ waitUntil: 'domcontentloaded' });
+		} else if (!(await this.emailInput.isVisible())) {
+			await this.page.reload({ waitUntil: 'domcontentloaded' });
+		}
+
+		await this.emailInput.waitFor({ state: 'visible', timeout: 30_000 });
 	}
 
 	async fillEmail(email: string): Promise<void> {
-		await this.emailInput.click();
-		await this.emailInput.pressSequentially(email, { delay: 30 });
-		await expect(this.emailInput).toHaveValue(email);
+		// A fill before hydration writes the DOM and never reaches Svelte, so Continue stays
+		// disabled. Clear and fill again until the bound address enables the button.
+		await expect(async () => {
+			await this.emailInput.click();
+			await this.emailInput.fill('');
+			await this.emailInput.fill(email);
+			await expect(this.emailInput).toHaveValue(email, { timeout: 1_000 });
+			await expect(this.emailSubmitButton).toBeEnabled({ timeout: 1_000 });
+		}).toPass({ timeout: 20_000 });
 	}
 
 	async submitEmail(): Promise<void> {
-		await this.emailInput.press('Enter');
+		// Click the enabled button. Enter on an unhydrated form is a native GET to `/login?`
+		// because Continue is type="button" and onsubmit is not attached yet.
+		await this.emailSubmitButton.click();
 	}
 
-	async proceedToOtpStep(email: string, options?: { assumeOnLoginPage?: boolean }): Promise<void> {
+	private waitForOtpRequestResponse() {
+		return this.page.waitForResponse(
+			(response) =>
+				response.url().includes('/api/v1/auth/otp-request') && response.request().method() === 'POST',
+			{ timeout: 30_000 }
+		);
+	}
+
+	private async requestOtpForEmail(
+		email: string,
+		options?: { assumeOnLoginPage?: boolean }
+	): Promise<void> {
 		if (options?.assumeOnLoginPage) {
-			await this.emailInput.waitFor({ state: 'visible' });
+			// Serial tests do not share a page. A fresh context is about:blank, and a previous
+			// attempt can still be on the OTP step — both need a real navigation to the email form.
+			const onEmailStep = (await this.emailInput.isVisible()) && !(await this.otpGroup.isVisible());
+
+			if (!onEmailStep) {
+				await this.goto();
+			}
 		} else {
 			await this.goto();
 		}
 
 		await this.fillEmail(email);
+
+		const otpResponse = this.waitForOtpRequestResponse();
 		await Promise.all([
+			otpResponse,
 			this.otpGroup.waitFor({ state: 'visible', timeout: 30_000 }),
 			this.submitEmail()
 		]);
+
+		const response = await otpResponse;
+
+		if (!response.ok()) {
+			throw new Error(`OTP request failed (${response.status()}): ${await response.text()}`);
+		}
+	}
+
+	async proceedToOtpStep(email: string, options?: { assumeOnLoginPage?: boolean }): Promise<void> {
+		await this.requestOtpForEmail(email, options);
 	}
 
 	private otpDigitPrefix(): string {

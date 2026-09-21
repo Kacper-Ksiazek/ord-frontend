@@ -78,6 +78,7 @@
 	},
 	"dependencies": {
 		"@kacper-ksiazek/ord-api-types": "1.0.51",
+		"@sentry/sveltekit": "^10.75.0",
 		"@tanstack/charts": "^0.14.0",
 		"@tanstack/svelte-hotkeys": "^0.9.1",
 		"@tanstack/svelte-query": "^6.1.48",

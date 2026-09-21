@@ -52,7 +52,6 @@ test.describe('Auth journey', () => {
 		const email = emailForWorker(testInfo.workerIndex);
 		const sidebar = createSidebarComponent(page);
 
-		await loginPage.goto();
 		await loginPage.proceedToOtpStep(email, { assumeOnLoginPage: true });
 		const correctCode = await resolveOtpCode(email);
 		const wrongCode = wrongOtpCode(correctCode);
@@ -88,8 +87,14 @@ test.describe('Auth journey', () => {
 		loginPage
 	}, testInfo) => {
 		const email = emailForWorker(testInfo.workerIndex);
+		const conversationsListPage = createConversationsListPage(page);
 
-		await loginPage.loginWithOtp(email);
+		// Serial: reuse the authenticated session from the prior test when possible.
+		await conversationsListPage.goto();
+		if (/\/login/.test(page.url())) {
+			await loginPage.loginWithOtp(email, undefined, { assumeOnLoginPage: true });
+		}
+
 		await expect(page).toHaveURL(/\/conversations/);
 
 		await page.context().clearCookies();

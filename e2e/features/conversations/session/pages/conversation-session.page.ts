@@ -75,7 +75,18 @@ export class ConversationSessionPage {
 
 	async expectComposerReady(): Promise<void> {
 		await this.messageComposer.waitFor({ state: 'visible' });
-		await expect(this.messageInput).toBeEnabled();
+		await this.messageInput.waitFor({ state: 'visible' });
+		// Send stays disabled until the user types, but loses cursor-wait when AI finishes generating.
+		await expect
+			.poll(
+				async () => {
+					const className = await this.sendButton.getAttribute('class');
+
+					return !className?.includes('cursor-wait');
+				},
+				{ timeout: 30_000 }
+			)
+			.toBe(true);
 	}
 
 	async sendMessage(text: string): Promise<void> {

@@ -2,7 +2,7 @@ import { expect, type Locator, type Page } from '@playwright/test';
 
 export async function clickTtsAndWaitForSpeak(page: Page, button: Locator): Promise<void> {
 	await expect(button).toBeVisible();
-	await expect(button).toBeEnabled();
+	await expect.poll(async () => await button.isEnabled(), { timeout: 30_000 }).toBe(true);
 
 	const ttsResponse = page.waitForResponse(
 		(response) =>

@@ -9,10 +9,12 @@ export default async function globalSetup(config: FullConfig): Promise<void> {
 	const browser = await chromium.launch();
 	const page = await browser.newPage();
 
-	await page.goto(new URL('/conversations', baseURL).href, {
-		timeout: 60_000,
-		waitUntil: 'domcontentloaded'
-	});
+	for (const route of ['/conversations', '/login']) {
+		await page.goto(new URL(route, baseURL).href, {
+			timeout: 60_000,
+			waitUntil: 'domcontentloaded'
+		});
+	}
 
 	await browser.close();
 }
