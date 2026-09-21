@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 		<!-- Dark mode script - must run before rendering to prevent FOUC -->
-		<script>
+		<script nonce="%sveltekit.nonce%">
 			// Check localStorage and system preference, apply dark class immediately
 			try {
 				const theme = localStorage.getItem('ord_app_theme');
