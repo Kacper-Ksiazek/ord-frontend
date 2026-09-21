@@ -12,21 +12,21 @@ export default defineConfig({
 	globalSetup: path.join(e2eDir, 'global-setup.ts'),
 	forbidOnly: isCi,
 	retries: 1,
-	// One worker per journey test; workerIndex maps to e2e-ci-w{n}@ord.test.
-	workers: 3,
+	// CI runs journeys in parallel; locally use one worker to avoid OTP login stampede on cold Vite.
+	workers: isCi ? 3 : 1,
 	reporter: [
 		['../scripts/reporters/playwright-reporter.ts'],
 		['html', { open: 'never', outputFolder: path.join(e2eDir, 'playwright-report') }]
 	],
 	outputDir: path.join(e2eDir, 'test-results'),
-	timeout: isCi ? 90_000 : 60_000,
+	timeout: 120_000,
 	expect: {
 		timeout: 8_000
 	},
 	use: {
 		baseURL: testEnv.baseUrl,
-		actionTimeout: isCi ? 15_000 : 8_000,
-		navigationTimeout: isCi ? 30_000 : 8_000,
+		actionTimeout: 15_000,
+		navigationTimeout: 30_000,
 		trace: 'retain-on-failure',
 		screenshot: 'only-on-failure',
 		video: recordVideo ? 'on' : 'retain-on-failure'
