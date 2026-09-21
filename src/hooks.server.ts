@@ -1,4 +1,6 @@
+import * as Sentry from '@sentry/sveltekit';
 import type { Handle } from '@sveltejs/kit';
+import { sequence } from '@sveltejs/kit/hooks';
 import { paraglideMiddleware } from '$lib/paraglide/server';
 
 const handleParaglide: Handle = ({ event, resolve }) =>
@@ -10,4 +12,12 @@ const handleParaglide: Handle = ({ event, resolve }) =>
 		});
 	});
 
-export const handle: Handle = handleParaglide;
+export const handleError = Sentry.handleErrorWithSentry(({ error }) => {
+	console.error('Server error:', error);
+
+	return {
+		message: 'An unexpected error occurred'
+	};
+});
+
+export const handle = sequence(Sentry.sentryHandle(), handleParaglide);
