@@ -26,15 +26,6 @@ export class LoginPage {
 	async goto(): Promise<void> {
 		await this.page.goto(this.path, { waitUntil: 'domcontentloaded' });
 		await this.emailInput.waitFor({ state: 'visible' });
-		await this.page.waitForFunction(
-			() => {
-				const intro = document.querySelector<HTMLElement>('[data-intro]');
-
-				return !intro || getComputedStyle(intro).opacity !== '0';
-			},
-			undefined,
-			{ timeout: 5_000 }
-		);
 	}
 
 	async fillEmail(email: string): Promise<void> {
