@@ -51,7 +51,13 @@ const config = {
 							'font-src': ['self'],
 							'form-action': ['self'],
 							'frame-ancestors': ['none'],
-							'img-src': ['self', 'data:', 'https://flagcdn.com'],
+							'img-src': [
+								'self',
+								'data:',
+								'https://flagcdn.com',
+								'https://gravatar.com',
+								'https://www.gravatar.com'
+							],
 							'media-src': ['self', 'blob:'],
 							'object-src': ['none'],
 							'script-src': ['self'],
