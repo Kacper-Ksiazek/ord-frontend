@@ -1,6 +1,12 @@
 # Unit tests: Vitest, colocated `.test.ts`
 
-Write unit tests with Vitest in a `.test.ts` file placed next to the source file. Focus on pure utils and state logic (classes/functions in `.ts` / `.svelte.ts` modules), not component rendering. Use `describe` per function/class, `it` labels starting with `"should ..."` where descriptive, AAA structure separated by blank lines (no `// Arrange` comments), and for utils the three nested `describe` blocks: `positive path`, `negative path`, `edge cases` (see `.claude/skills/test-utils/SKILL.md`).
+Write unit tests with Vitest in a `.test.ts` file placed next to the source file. Focus on pure utils and state logic (classes/functions in `.ts` / `.svelte.ts` modules), not component rendering. Use `describe` per function/class, `it` labels starting with `"should ..."` where descriptive, and AAA structure separated by blank lines (no `// Arrange` comments).
+
+For **utils** with branching behavior, prefer the three nested `describe` blocks from
+`.claude/skills/test-utils/SKILL.md`: `positive path`, `negative path`, `edge cases`. For stores
+and other modules, the same clarity helps but you may use a flatter structure when the behavior is
+small — still colocate `*.test.ts` and avoid tests that only assert the obvious (see
+`general/proportionality-for-small-team.md`).
 
 Vitest runs **two projects** (`vite.config.ts`):
 

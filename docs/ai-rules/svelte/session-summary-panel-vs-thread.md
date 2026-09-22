@@ -1,27 +1,8 @@
-# Session summary panel vs message thread
+# Session summary panel vs thread (conversations spec)
 
-The conversation session has two surfaces: the **message thread** (left) and the **summary panel**
-(right). They must not duplicate the same content at the same level of detail.
+This behavior is **product-specific**, not a general component rule. Full detail lives in
+[`docs/specs/conversation-session-summary-panel.md`](../../specs/conversation-session-summary-panel.md).
 
-## Message thread
-
-- Per-message detail: bubble text, tutor comment thread, inline analysis/tips badges, highlights.
-- Live state: streaming, retries, audio playback tied to a message index.
-- Entry to summary: analysis/tips icons open the panel on the matching browse tab with
-  `filterMessageOrder` set to the global message index.
-
-## Summary panel (`ConversationSummaryView`)
-
-- Session-level coach view, not live telemetry.
-- **Werdykt** tab: AI summary placeholder (future), averages score strip, compact trend + severity bar.
-- **Przegląd** / **Wskazówki** tabs: cross-message browse lists with filters; optional
-  `filterMessageOrder` from thread drill-down.
-- Jump-to-message: `requestScrollToMessage` → messages panel scrolls via `data-testid`.
-
-## State (`sidepanel-context.svelte.ts`)
-
-- `summaryTab`: `'verdict' | 'analysis' | 'learning-tips'`
-- `filterMessageOrder`: global index in `messagesContext.messages`
-- `scrollToMessageIndex`: one-shot scroll target for the thread
-
-Do not reintroduce separate “details” panel views for a single message; use unified tabs + filter.
+When changing the conversation session side panel or message thread, read and update that spec
+so the two surfaces stay distinct (thread = live per-message detail; panel = session-level coach
+view with tabs and optional `filterMessageOrder` drill-down).

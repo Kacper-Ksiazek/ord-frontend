@@ -28,10 +28,13 @@ The project deliberately balances two priorities:
    speculative abstractions, or process overhead that does not pay off at this scale.
 
 Practical guidance: follow the existing conventions rigorously (they are cheap to follow and
-expensive to erode), but prefer the simplest implementation that fits them. Product features
+expensive to erode), but prefer the simplest implementation that fits them — see
+`general/proportionality-for-small-team.md`. Product features
 today are `conversations` and `words` — shared code in `$lib` is treated as a
 design system even when it currently has one consumer, and code is only moved into a feature
 when there is hard domain coupling.
+
+Screen-level UX belongs in `docs/specs/`; see `concept/rules-vs-specs.md`.
 
 ## Work tracking
 

@@ -1,6 +1,6 @@
 # Use Svelte 5 runes, never legacy reactivity syntax
 
-All components use Svelte 5 runes: `$props()` for props, `$state()` for local state, `$derived` / `$derived.by()` for computed values, and `$effect()` for side effects. Legacy `export let` and `$:` reactive statements are forbidden — no file in this repo uses them.
+All components use Svelte 5 runes: `$props()` for props, `$state()` for local state, `$derived` / `$derived.by()` for computed values, and `$effect()` for side effects. Legacy `export let` and `$:` reactive statements are forbidden — no file in this repo uses them. For when to choose `$derived` vs `$effect`, see [`derived-before-effect.md`](./derived-before-effect.md).
 
 ## Good
 

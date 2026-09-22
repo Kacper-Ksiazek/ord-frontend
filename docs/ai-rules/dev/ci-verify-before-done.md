@@ -2,7 +2,10 @@
 
 After any code change, the agent **must** run `make ci` and fix all failures before considering the task done. This mirrors the GitHub `ci` workflow: lint, format, types, e2e-types, build, unit tests, and dependency audit (`bun audit --audit-level high`).
 
-When changes affect E2E flows, auth, or conversations UI, also run E2E checks. The agent **runs ord-ops itself** — do not ask the user to start stacks.
+When changes affect E2E flows, auth, or conversations UI, also run E2E checks when **ord-ops** is
+available in the environment. The agent runs ord-ops itself — do not ask the user to start stacks.
+If the stack is unavailable (e.g. cloud sandbox without ord-ops), run `make ci`, document E2E in the
+PR test plan, and note what was not executed locally.
 
 ```bash
 cd ~/workspace/ord-ops && make run-e2e    # e2e-up + Playwright (preferred)
