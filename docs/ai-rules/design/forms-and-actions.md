@@ -2,7 +2,7 @@
 
 Forms use shared **`Input`**, **`Button`**, and related wrappers from `$lib/components/forms` and
 `$lib/components/buttons`. Style with Quiet studio tokens (`border-line`, `bg-surface`, `text-ink`) —
-see [`styling/tailwind-conventions.md`](../styling/tailwind-conventions.md).
+see [`tailwind-conventions.md`](./tailwind-conventions.md).
 
 ## Actions
 

@@ -34,7 +34,7 @@ today are `conversations` and `words` — shared code in `$lib` is treated as a
 design system even when it currently has one consumer, and code is only moved into a feature
 when there is hard domain coupling.
 
-Screen-level UX belongs in `docs/ai-rules/ui-ux/`; see `concept/rules-vs-specs.md`.
+Screen-level UX and styling belong in `docs/ai-rules/design/`; see `concept/design-docs.md`.
 
 ## Work tracking
 

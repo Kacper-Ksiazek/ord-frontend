@@ -19,17 +19,17 @@ structure changes materially, and use the checkboxes to track rule coverage.
 
 > Note: the former `docs/API_STRUCTURE_GUIDELINES.md` and
 > `docs/COMPONENT_CREATION_GUIDELINES.md` were migrated into the `api-design/`, `general/`,
-> `svelte/`, and `styling/` rule categories and deleted.
+> `svelte/`, and `design/` rule categories and deleted.
 >
-> Screen-level UX lives in `docs/ai-rules/ui-ux/`. `docs/specs/` keeps redirect stubs for old links;
-> see `concept/rules-vs-specs.md`.
+> All UI (tokens, layout, loading, feature screen notes) lives in **`docs/ai-rules/design/`**;
+> see `concept/design-docs.md`. Legacy **`docs/specs/`** is only a README pointer.
 
 ## Categories
 
 ### concept/ — project intent & doc layers
 
 - [x] Project brief (architecture vs iteration)
-- [x] AI rules vs product specs (`ui-ux/` vs `docs/specs/` stubs)
+- [x] Design docs map (`concept/design-docs.md` — single `design/` folder)
 
 ### general/ — architecture & boundaries
 
@@ -63,26 +63,22 @@ Covers: `src/lib/components`, `src/lib/features/**/components`.
 - [x] Snippets, file naming, colocated stories
 - [x] Local snippets for complex conditional/looped markup
 
-### ui-ux/ — product UI consistency
+### design/ — tokens, UI patterns, feature screen UX
 
-Covers: new screens, loading/empty/error UX, lists, session coach layout. Complements `styling/` (tokens)
-and `$lib/components` (Storybook).
+Covers: `src/app.css`, `$lib/styles`, `$lib/components`, new screens, Storybook reference layouts.
 
-- [x] Page and section layout (PageContentContainer, ContentCard, Breadcrumb, StatusPanel)
+**Foundation:** `cn`, Tailwind 4, dark mode, bits-ui, TanStack Charts.
+
+**Patterns:** page shell, skeleton loading / empty / error, forms, lists & filters.
+
+**Feature UX:** e.g. conversation coach session (thread vs summary panel).
+
+- [x] Class merging (`cn`), Tailwind conventions, dark mode
+- [x] bits-ui + Quiet studio tokens; TanStack Charts
+- [x] Page and section layout (PageContentContainer, ContentCard, StatusPanel)
 - [x] Loading, empty, and error states (skeleton-first; Loader/Spinner antipatterns)
-- [x] Forms and actions (shared Button/Input, disabled submit)
-- [x] Lists and filters (incl. conversation recency grouping + API alignment)
-- [x] Conversation coach surfaces (session thread vs summary panel)
-
-### styling/ — Tailwind & theming
-
-Covers: `src/app.css`, `src/lib/styles`, `src/lib/stores/theme.svelte.ts`, component classes.
-
-- [x] `cn` from `$lib/utils/cn` (never clsx), class merging
-- [x] Theme (dark/light) handling patterns
-- [x] Tailwind 4 conventions used in the repo
-- [x] bits-ui headless primitives + Quiet studio tokens
-- [x] TanStack Charts (`$lib/components/charts`, no Apex)
+- [x] Forms and actions; lists and filters (incl. recency grouping)
+- [x] Conversation coach surfaces
 
 ### api-design/ — API client & data fetching
 
@@ -92,7 +88,7 @@ Covers: `src/lib/api-client`, feature `api-client/` + `services/` dirs.
 - [x] TanStack Query usage (queries, `use-*-mutation` files, key factories)
 - [x] Services layer (SSE/streaming logic out of components) + SSE stream callers
 - [x] API types from generated schema + barrel export conventions
-- [x] User-visible errors (pointer → `ui-ux/loading-empty-error-states.md`)
+- [x] User-visible errors (pointer → `design/loading-empty-error-states.md`)
 
 ### state/ — stores & state
 
