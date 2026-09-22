@@ -68,11 +68,11 @@ Covers: `src/lib/components`, `src/lib/features/**/components`.
 Covers: `src/app.css`, `$lib/styles`, `$lib/components`, new screens, Storybook reference layouts.
 
 - **`foundation/`** — `cn`, Tailwind 4, dark mode, bits-ui, TanStack Charts
-- **`patterns/`** — page shell, forms, lists; **`patterns/states/`** — loading, empty, error UX
+- **`patterns/`** — page shell, forms, lists; **`patterns/states/`** — skeletons, empty/error, toasts + AI progress
 - **`features/`** — e.g. conversation coach session (thread vs summary panel)
 
 - [x] Foundation rules (5 files under `design/foundation/`)
-- [x] Pattern rules (`design/patterns/` + `design/patterns/states/`)
+- [x] Pattern rules (`design/patterns/` + `design/patterns/states/` incl. toasts)
 - [x] Feature UX (`design/features/conversation-coach-surfaces.md`)
 
 ### api-design/ — API client & data fetching

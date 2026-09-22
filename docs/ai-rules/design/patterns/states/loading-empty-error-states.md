@@ -39,8 +39,10 @@ topic picker skeleton rows, `generate-ai-interlocutor` avatar skeleton.
 
 When a query or mutation fails, show something the user can act on — not only `console.error`.
 
-- **`StatusPanel`** (`variant="error"`) for full-page or blocking query failures, with **retry**
-  via `refetch()` when using TanStack Query.
+- **`StatusPanel`** for full-page or blocking query failures, with **retry** via `refetch()` when using
+  TanStack Query.
+- **Toasts** for action/mutation outcomes and AI in-flight feedback — see
+  [`toast-notifications-and-ai-progress.md`](./toast-notifications-and-ai-progress.md).
 - **i18n** for headers and fallbacks; API `error.message` only when safe to expose.
 - **Forms:** inline errors next to fields; avoid raw stack traces in the UI.
 
