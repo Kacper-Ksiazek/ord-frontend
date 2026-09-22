@@ -9,7 +9,6 @@ Overlays and interactive primitives come from bits-ui (headless). Style them wit
 	import { DropdownMenu } from 'bits-ui';
 	import { Badge } from '$lib/components/utils/badge';
 	import { Button } from '$lib/components/buttons/button';
-	import { Spinner } from '$lib/components/utils/spinner';
 	import { cn } from '$lib/utils/cn';
 
 	let { loading = false, class: className = '' }: Props = $props();
@@ -17,10 +16,7 @@ Overlays and interactive primitives come from bits-ui (headless). Style them wit
 
 <Badge class={cn('shrink-0', className)} color="primary">New</Badge>
 
-<Button variant="PRIMARY" onClick={handleSave}>
-	{#if loading}
-		<Spinner />
-	{/if}
+<Button variant="PRIMARY" disabled={loading} onClick={handleSave}>
 	Save
 </Button>
 ```

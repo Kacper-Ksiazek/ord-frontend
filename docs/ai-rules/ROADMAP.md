@@ -21,14 +21,15 @@ structure changes materially, and use the checkboxes to track rule coverage.
 > `docs/COMPONENT_CREATION_GUIDELINES.md` were migrated into the `api-design/`, `general/`,
 > `svelte/`, and `styling/` rule categories and deleted.
 >
-> Product UX for specific screens lives in `docs/specs/`; see `concept/rules-vs-specs.md`.
+> Screen-level UX lives in `docs/ai-rules/ui-ux/`. `docs/specs/` keeps redirect stubs for old links;
+> see `concept/rules-vs-specs.md`.
 
 ## Categories
 
 ### concept/ — project intent & doc layers
 
 - [x] Project brief (architecture vs iteration)
-- [x] AI rules vs product specs (`docs/specs/`)
+- [x] AI rules vs product specs (`ui-ux/` vs `docs/specs/` stubs)
 
 ### general/ — architecture & boundaries
 
@@ -61,7 +62,17 @@ Covers: `src/lib/components`, `src/lib/features/**/components`.
 - [x] Props typing and defaults (+ types files, sub-components, component stores)
 - [x] Snippets, file naming, colocated stories
 - [x] Local snippets for complex conditional/looped markup
-- [x] Session summary panel vs thread (pointer → `docs/specs/conversation-session-summary-panel.md`)
+
+### ui-ux/ — product UI consistency
+
+Covers: new screens, loading/empty/error UX, lists, session coach layout. Complements `styling/` (tokens)
+and `$lib/components` (Storybook).
+
+- [x] Page and section layout (PageContentContainer, ContentCard, Breadcrumb, StatusPanel)
+- [x] Loading, empty, and error states (skeleton-first; Loader/Spinner antipatterns)
+- [x] Forms and actions (shared Button/Input, disabled submit)
+- [x] Lists and filters (incl. conversation recency grouping + API alignment)
+- [x] Conversation coach surfaces (session thread vs summary panel)
 
 ### styling/ — Tailwind & theming
 
@@ -81,7 +92,7 @@ Covers: `src/lib/api-client`, feature `api-client/` + `services/` dirs.
 - [x] TanStack Query usage (queries, `use-*-mutation` files, key factories)
 - [x] Services layer (SSE/streaming logic out of components) + SSE stream callers
 - [x] API types from generated schema + barrel export conventions
-- [x] User-visible errors (i18n + StatusPanel / retry patterns)
+- [x] User-visible errors (pointer → `ui-ux/loading-empty-error-states.md`)
 
 ### state/ — stores & state
 
