@@ -2,7 +2,7 @@
 	import type { Snippet } from 'svelte';
 	import { page } from '$app/state';
 	import { createConversationQuery } from '$conversations/api-client/queries';
-	import { Loader } from '$lib/components/utils/loader';
+	import ConversationSessionLayoutSkeleton from './conversation-session-layout-skeleton.svelte';
 	import { StatusPanel } from '$lib/components/utils/status-panel';
 	import * as m from '$lib/paraglide/messages.js';
 	import { createConversationContext } from './contexts/conversation-context.svelte';
@@ -61,7 +61,7 @@
 		}}
 	/>
 {:else if !isLoaded}
-	<Loader wrapperClass="flex-1 items-center justify-center" />
+	<ConversationSessionLayoutSkeleton />
 {:else}
 	{@render children()}
 {/if}

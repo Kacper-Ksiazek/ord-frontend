@@ -12,6 +12,8 @@ export const E2E_TEST_IDS = {
 		filterTypeOption: (type: string) => `conversations-filter-type-option-${type}`,
 		filterClear: 'conversations-filter-clear',
 		noMatches: 'conversations-no-matches',
+		listSkeleton: 'conversations-list-skeleton',
+		activitySkeleton: 'conversations-activity-skeleton',
 		row: (id: string) => `conversation-row-${id}`,
 		rowMenu: (id: string) => `conversation-row-menu-${id}`
 	},
@@ -39,6 +41,7 @@ export const E2E_TEST_IDS = {
 	},
 	session: {
 		page: 'conversation-session-page',
+		layoutSkeleton: 'conversation-session-layout-skeleton',
 		messagesPanel: 'messages-panel',
 		backButton: 'session-back-button',
 		summaryToggle: 'session-summary-toggle',

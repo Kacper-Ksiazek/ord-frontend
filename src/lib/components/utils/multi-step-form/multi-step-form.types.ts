@@ -20,6 +20,8 @@ export interface MultiStepFormProps {
 	finalStepButtonText?: string;
 	/** Callback when the final step button is clicked */
 	onFinalStepClick?: () => void;
+	/** When true, disables navigation and the final step action (e.g. submit in flight). */
+	finalStepPending?: boolean;
 	/** Prefix for `data-testid` on stepper segments and navigation buttons */
 	dataTestIdPrefix?: string;
 }

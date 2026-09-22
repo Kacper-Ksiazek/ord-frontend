@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { createConversationsQuery } from '$conversations/api-client/queries';
-	import { Loader } from '$lib/components/utils/loader';
 	import ConversationListRow from './components/conversation-list-row.svelte';
+	import ConversationListSkeleton from './conversation-list-skeleton.svelte';
 	import { groupConversationsByRecencyBucket } from './utils/group-conversations-by-recency-bucket';
 	import type { ConversationListFiltersState } from '$conversations/pages/list/state/conversation-list-state.svelte';
 	import { StatusPanel } from '$lib/components/utils/status-panel';
@@ -39,9 +39,7 @@
 {/snippet}
 
 {#if conversationsQuery.isLoading}
-	<div class="flex items-center justify-center py-16">
-		<Loader />
-	</div>
+	<ConversationListSkeleton />
 {:else if conversationsQuery.data?.length === 0}
 	{#if filtersState.hasActiveFilters}
 		<div data-testid={E2E_TEST_IDS.conversations.noMatches}>
