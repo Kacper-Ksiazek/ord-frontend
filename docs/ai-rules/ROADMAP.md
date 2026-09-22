@@ -68,11 +68,11 @@ Covers: `src/lib/components`, `src/lib/features/**/components`.
 Covers: `src/app.css`, `$lib/styles`, `$lib/components`, new screens, Storybook reference layouts.
 
 - **`foundation/`** — `cn`, Tailwind 4, dark mode, bits-ui, TanStack Charts
-- **`patterns/`** — page shell; skeleton loading / empty / error; forms; lists & filters
+- **`patterns/`** — page shell, forms, lists; **`patterns/states/`** — loading, empty, error UX
 - **`features/`** — e.g. conversation coach session (thread vs summary panel)
 
 - [x] Foundation rules (5 files under `design/foundation/`)
-- [x] Pattern rules (4 files under `design/patterns/`)
+- [x] Pattern rules (`design/patterns/` + `design/patterns/states/`)
 - [x] Feature UX (`design/features/conversation-coach-surfaces.md`)
 
 ### api-design/ — API client & data fetching
@@ -83,7 +83,7 @@ Covers: `src/lib/api-client`, feature `api-client/` + `services/` dirs.
 - [x] TanStack Query usage (queries, `use-*-mutation` files, key factories)
 - [x] Services layer (SSE/streaming logic out of components) + SSE stream callers
 - [x] API types from generated schema + barrel export conventions
-- [x] User-visible errors (pointer → `design/patterns/loading-empty-error-states.md`)
+- [x] User-visible errors (pointer → `design/patterns/states/loading-empty-error-states.md`)
 
 ### state/ — stores & state
 

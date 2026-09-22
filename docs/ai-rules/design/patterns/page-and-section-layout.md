@@ -16,7 +16,7 @@ see Storybook (`Utils/PageContentContainer`, `Utils/ContentCard`, `Navigation/Br
   list already uses that rhythm.
 
 Full-page failures (failed TanStack Query on first load) use **`StatusPanel`** instead of an empty
-card — see [`loading-empty-error-states.md`](./loading-empty-error-states.md).
+card — see [`loading-empty-error-states.md`](./states/loading-empty-error-states.md).
 
 ## Two-pane session layouts
 

@@ -10,7 +10,7 @@ words inbox for density and spacing.
 - Use existing row components or cards (`border-line`, `rounded-[10px]`, hover `bg-accent-soft`) —
   match conversations list / words inbox rather than table markup unless the design already uses tables.
 - **Loading:** section-level or list-level **skeleton** rows — never `Loader` for new work
-  ([`loading-empty-error-states.md`](./loading-empty-error-states.md)).
+  ([`loading-empty-error-states.md`](./states/loading-empty-error-states.md)).
 
 ## Filters
 

@@ -9,7 +9,7 @@ see [`tailwind-conventions.md`](../foundation/tailwind-conventions.md).
 - **Primary** action: `Button` with `variant="PRIMARY"` (filled ink/surface pattern from design system).
 - **Secondary / ghost**: existing `variant` values — do not invent new button CSS per screen.
 - **Loading submit:** set `disabled` on the button; keep the label readable. Avoid **`Spinner`**
-  inside buttons on new work — see [`loading-empty-error-states.md`](./loading-empty-error-states.md).
+  inside buttons on new work — see [`loading-empty-error-states.md`](./states/loading-empty-error-states.md).
 - **Destructive** flows: reuse existing patterns (danger tokens, confirmation dialogs via bits-ui
   wrappers if present).
 
