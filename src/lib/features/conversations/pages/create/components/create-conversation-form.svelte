@@ -2,7 +2,6 @@
 	import { browser } from '$app/environment';
 	import { MultiStepForm } from '$lib/components/utils/multi-step-form';
 	import type { StepConfig } from '$lib/components/utils/multi-step-form';
-	import { Loader } from '$lib/components/utils/loader';
 	import {
 		getCreateConversationPayload,
 		setCreateConversationPayload,
@@ -139,53 +138,50 @@
 	}
 </script>
 
-{#if isLoading}
-	<Loader wrapperClass="flex-1 items-center justify-center" />
-{:else}
-	{#if error}
-		<div
-			class="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg"
-			data-testid={E2E_TEST_IDS.createConversation.error}
-		>
-			<p class="text-sm text-red-800 dark:text-red-200">{error}</p>
-		</div>
-	{/if}
-	<Breadcrumb
-		class="mb-6"
-		crumbs={[
-			{ label: m['features.conversation.create.form.breadcrumb.home'](), href: '/' },
-			{
-				label: m['features.conversation.create.form.breadcrumb.conversations'](),
-				href: '/conversations'
-			},
-			{ label: m['features.conversation.create.form.breadcrumb.create_new']() }
-		]}
-	/>
-
-	<MultiStepForm
-		{steps}
-		bind:currentStep
-		dataTestIdPrefix="create-conversation"
-		onStepChange={handleStepChange}
-		finalStepButtonText={m['features.conversation.create.form.start_conversation_button']()}
-		onFinalStepClick={handleFinalStepClick}
+{#if error}
+	<div
+		class="mb-4 p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg"
+		data-testid={E2E_TEST_IDS.createConversation.error}
 	>
-		{#snippet children(stepIndex)}
-			{#if stepIndex === 0}
-				<Step1ConversationType />
-			{:else if stepIndex === 1}
-				<Step2ConversationTone />
-			{:else if stepIndex === 2}
-				<Step3ConversationTopic />
-			{:else if stepIndex === 3}
-				<Step4Summary
-					onEditTopic={() => {
-						const newStep = 2;
-						currentStep = newStep;
-						handleStepChange(newStep);
-					}}
-				/>
-			{/if}
-		{/snippet}
-	</MultiStepForm>
+		<p class="text-sm text-red-800 dark:text-red-200">{error}</p>
+	</div>
 {/if}
+<Breadcrumb
+	class="mb-6"
+	crumbs={[
+		{ label: m['features.conversation.create.form.breadcrumb.home'](), href: '/' },
+		{
+			label: m['features.conversation.create.form.breadcrumb.conversations'](),
+			href: '/conversations'
+		},
+		{ label: m['features.conversation.create.form.breadcrumb.create_new']() }
+	]}
+/>
+
+<MultiStepForm
+	{steps}
+	bind:currentStep
+	finalStepPending={isLoading}
+	dataTestIdPrefix="create-conversation"
+	onStepChange={handleStepChange}
+	finalStepButtonText={m['features.conversation.create.form.start_conversation_button']()}
+	onFinalStepClick={handleFinalStepClick}
+>
+	{#snippet children(stepIndex)}
+		{#if stepIndex === 0}
+			<Step1ConversationType />
+		{:else if stepIndex === 1}
+			<Step2ConversationTone />
+		{:else if stepIndex === 2}
+			<Step3ConversationTopic />
+		{:else if stepIndex === 3}
+			<Step4Summary
+				onEditTopic={() => {
+					const newStep = 2;
+					currentStep = newStep;
+					handleStepChange(newStep);
+				}}
+			/>
+		{/if}
+	{/snippet}
+</MultiStepForm>

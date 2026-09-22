@@ -16,6 +16,7 @@
 		onStepChange,
 		finalStepButtonText,
 		onFinalStepClick,
+		finalStepPending = false,
 		dataTestIdPrefix,
 		children
 	}: Props = $props();
@@ -114,6 +115,7 @@
 					type="OUTLINED"
 					variant="PRIMARY"
 					onClick={previousStep}
+					disabled={finalStepPending}
 					hotkey={hotkeyPrevious}
 					dataTestId={dataTestIdPrefix ? `${dataTestIdPrefix}-previous` : undefined}
 					class="min-w-64"
@@ -129,7 +131,7 @@
 					type="FILLED"
 					variant="PRIMARY"
 					onClick={nextStep}
-					disabled={!canGoNext}
+					disabled={!canGoNext || finalStepPending}
 					hotkey={hotkeyNext}
 					dataTestId={dataTestIdPrefix ? `${dataTestIdPrefix}-next` : undefined}
 					class="min-w-64"
@@ -147,7 +149,7 @@
 							nextStep();
 						}
 					}}
-					disabled={!canGoNext}
+					disabled={!canGoNext || finalStepPending}
 					hotkey={hotkeyComplete}
 					dataTestId={dataTestIdPrefix ? `${dataTestIdPrefix}-start` : undefined}
 					class="min-w-64"

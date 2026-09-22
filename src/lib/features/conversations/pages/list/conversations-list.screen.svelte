@@ -12,8 +12,8 @@
 	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';
 	import * as m from '$lib/paraglide/messages.js';
 	import { Button } from '$lib/components/buttons/button';
-	import { Loader } from '$lib/components/utils/loader';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
+	import ConversationActivitySectionSkeleton from './components/conversation-activity/conversation-activity-section-skeleton.svelte';
 	import ConversationList from './components/conversation-list/conversation-list.svelte';
 	import ConversationListFiltersBar from './components/conversation-filters/conversation-list-filters-bar.svelte';
 	import ConversationActivitySection from './components/conversation-activity/conversation-activity-section.svelte';
@@ -97,13 +97,7 @@
 			</div>
 
 			{#if activityOverviewQuery.isPending}
-				<div
-					class="mb-6 flex min-h-[120px] items-center justify-center rounded-[10px] border border-line bg-surface"
-					aria-busy="true"
-					aria-label={m['features.conversation.list.activity.loading_aria']()}
-				>
-					<Loader wrapperClass="py-8" />
-				</div>
+				<ConversationActivitySectionSkeleton />
 			{:else if activityOverviewQuery.isError}
 				<div
 					class="mb-6 flex flex-col items-start gap-3 rounded-[10px] border border-danger/25 bg-danger/5 p-4"
