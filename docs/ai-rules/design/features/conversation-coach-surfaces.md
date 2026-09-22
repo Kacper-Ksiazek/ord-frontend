@@ -16,7 +16,7 @@ Analysis/tips affordances on a message open the panel on the matching browse tab
 ## Summary panel tabs
 
 - **Werdykt:** session verdict placeholder (future AI summary), average score strip, compact trend +
-  severity visuals — charts follow [`tanstack-charts.md`](./tanstack-charts.md)
+  severity visuals — charts follow [`tanstack-charts.md`](../foundation/tanstack-charts.md)
   (compact height in panel, token colors).
 - **Przegląd** / **Wskazówki:** cross-message browse lists with filters; optional
   `filterMessageOrder` when drilled from the thread.

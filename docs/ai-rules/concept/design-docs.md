@@ -1,30 +1,36 @@
 # Design rules — one place for UI
 
-All **visual and product UI** guidance for agents lives in **`docs/ai-rules/design/`** (tokens, Tailwind,
-components, layouts, loading states, lists, feature-specific screen notes). Do not split the same topic across
-`styling/`, `ui-ux/`, or `docs/specs/` — those paths are merged or legacy.
+All **visual and product UI** guidance for agents lives under **`docs/ai-rules/design/`**. Do not use legacy
+`styling/`, `ui-ux/`, or new files under `docs/specs/` (see [`docs/specs/README.md`](../../specs/README.md)).
 
-## Inside `design/`
+## Folder layout
 
-| Layer          | Files (examples)                                                                                                             | When to read                                                                 |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| **Foundation** | `class-merging-with-cn.md`, `tailwind-conventions.md`, `dark-mode-theming.md`, `bits-ui-primitives.md`, `tanstack-charts.md` | Markup, tokens, theme, primitives, charts                                    |
-| **Patterns**   | `page-and-section-layout.md`, `loading-empty-error-states.md`, `forms-and-actions.md`, `lists-and-filters.md`                | New screens, skeletons, forms, lists                                         |
-| **Feature UX** | `conversation-coach-surfaces.md`                                                                                             | One feature’s screen split (extend this file or add `design/<feature>-….md`) |
+```
+design/
+  foundation/   — tokens, Tailwind, theme, bits-ui, charts
+  patterns/     — page shell, loading/empty/error, forms, lists
+  features/     — screen UX tied to one product area
+```
 
-Add a new **pattern** before inventing per-screen docs. Add a **feature UX** file only when behavior is tied to
-one product area and would rot inside a generic pattern.
+| Layer          | Path                 | Examples                                                                              |
+| -------------- | -------------------- | ------------------------------------------------------------------------------------- |
+| **Foundation** | `design/foundation/` | `tailwind-conventions.md`, `dark-mode-theming.md`, `bits-ui-primitives.md`            |
+| **Patterns**   | `design/patterns/`   | `page-and-section-layout.md`, `loading-empty-error-states.md`, `lists-and-filters.md` |
+| **Feature UX** | `design/features/`   | `conversation-coach-surfaces.md` — add `features/<feature>-….md` when needed          |
+
+Read **foundation** for markup and tokens; **patterns** for new screens; **features** only for one-off product
+behavior that would rot inside a generic pattern.
 
 ## Good
 
 ```
-docs/ai-rules/design/loading-empty-error-states.md — skeleton-first for any feature
-docs/ai-rules/design/conversation-coach-surfaces.md — session thread vs summary panel
+design/patterns/loading-empty-error-states.md — skeleton-first for any feature
+design/features/conversation-coach-surfaces.md — session thread vs summary panel
 ```
 
 ## Bad
 
 ```
-docs/specs/my-screen.md — duplicates design/ (use design/ or extend an existing pattern)
-docs/ai-rules/styling/… or ui-ux/… — removed; use design/
+design/patterns/conversation-werdykt-tab-essay.md — belongs in features/ or extend features/conversation-coach-surfaces.md
+docs/specs/new-screen.md — use design/patterns or design/features instead
 ```

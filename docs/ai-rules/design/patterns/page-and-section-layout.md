@@ -23,7 +23,7 @@ card — see [`loading-empty-error-states.md`](./loading-empty-error-states.md).
 Conversation **session** and similar “workspace” screens use a main column plus optional side panel
 without nesting extra `ContentCard` shells per column unless the design already does. Coach /
 summary content stays **session-level**; live per-item detail stays in the primary column — see
-[`conversation-coach-surfaces.md`](./conversation-coach-surfaces.md).
+[`conversation-coach-surfaces.md`](../features/conversation-coach-surfaces.md).
 
 ## Good
 
