@@ -1,7 +1,8 @@
 # TanStack Charts
 
 Charts use [@tanstack/charts](https://tanstack.com/charts/latest) (pre-alpha; pin version in
-`package.json`). Do not add ApexCharts or Flowbite chart wrappers.
+`package.json`). This repo standardizes on TanStack Charts — avoid adding ApexCharts or Flowbite
+chart wrappers unless you deliberately change the chart stack.
 
 ## Where code lives
 

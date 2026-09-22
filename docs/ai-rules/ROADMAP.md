@@ -19,9 +19,17 @@ structure changes materially, and use the checkboxes to track rule coverage.
 
 > Note: the former `docs/API_STRUCTURE_GUIDELINES.md` and
 > `docs/COMPONENT_CREATION_GUIDELINES.md` were migrated into the `api-design/`, `general/`,
-> `svelte/`, and `styling/` rule categories and deleted.
+> `svelte/`, and `design/` rule categories and deleted.
+>
+> All UI (tokens, layout, loading, feature screen notes) lives in **`docs/ai-rules/design/`**;
+> see `concept/design-docs.md`. Legacy **`docs/specs/`** is only a README pointer.
 
 ## Categories
+
+### concept/ — project intent & doc layers
+
+- [x] Project brief (architecture vs iteration)
+- [x] Design docs map (`concept/design-docs.md` — single `design/` folder)
 
 ### general/ — architecture & boundaries
 
@@ -32,6 +40,7 @@ Covers: `src/lib/features/*`, `svelte.config.js` aliases, `src/routes`, `src/lib
 - [x] Thin routes (routes are wrappers over feature page barrels)
 - [x] Shared vs feature placement (single-consumer ≠ feature ownership)
 - [x] Feature internal structure (pages/, shared/, root barrel)
+- [x] Proportionality for a one-person project (avoid optional overhead)
 
 ### typescript/ — language conventions
 
@@ -39,7 +48,7 @@ Covers: `src/**/*.ts`, `tsconfig.json`, `eslint.config.js`.
 
 - [x] File naming (kebab-case, `.svelte.ts` for runes modules)
 - [x] Naming conventions (`use-*-mutation`, `http*`, AI acronym casing)
-- [x] Type imports and API types from `@kacper-ksiazek/ord-api-types`
+- [x] Type imports and API types (canonical rule in `api-design/`; typescript/ cross-link)
 - [x] Enum/constants patterns (`enum-values.ts` style)
 
 ### svelte/ — components
@@ -47,21 +56,24 @@ Covers: `src/**/*.ts`, `tsconfig.json`, `eslint.config.js`.
 Covers: `src/lib/components`, `src/lib/features/**/components`.
 
 - [x] Svelte 5 runes usage ($state, $derived, $props, $effect)
+- [x] Prefer `$derived` over `$effect` for computed state
+- [x] Accessibility basics (keyboard, labels, bits-ui composition)
 - [x] Component folder layout (folder + index.ts barrel + stories)
 - [x] Props typing and defaults (+ types files, sub-components, component stores)
 - [x] Snippets, file naming, colocated stories
 - [x] Local snippets for complex conditional/looped markup
-- [x] Session summary panel vs thread responsibilities
 
-### styling/ — Tailwind & theming
+### design/ — tokens, UI patterns, feature screen UX
 
-Covers: `src/app.css`, `src/lib/styles`, `src/lib/stores/theme.svelte.ts`, component classes.
+Covers: `src/app.css`, `$lib/styles`, `$lib/components`, new screens, Storybook reference layouts.
 
-- [x] `cn` from `$lib/utils/cn` (never clsx), class merging
-- [x] Theme (dark/light) handling patterns
-- [x] Tailwind 4 conventions used in the repo
-- [x] bits-ui headless primitives + Quiet studio tokens
-- [x] TanStack Charts (`$lib/components/charts`, no Apex)
+- **`foundation/`** — `cn`, Tailwind 4, dark mode, bits-ui, TanStack Charts
+- **`patterns/`** — page shell, forms, lists; **`patterns/states/`** — skeletons, empty/error, toasts + AI progress
+- **`features/`** — e.g. conversation coach session (thread vs summary panel)
+
+- [x] Foundation rules (5 files under `design/foundation/`)
+- [x] Pattern rules (`design/patterns/` + `design/patterns/states/` incl. toasts)
+- [x] Feature UX (`design/features/conversation-coach-surfaces.md`)
 
 ### api-design/ — API client & data fetching
 
@@ -71,6 +83,7 @@ Covers: `src/lib/api-client`, feature `api-client/` + `services/` dirs.
 - [x] TanStack Query usage (queries, `use-*-mutation` files, key factories)
 - [x] Services layer (SSE/streaming logic out of components) + SSE stream callers
 - [x] API types from generated schema + barrel export conventions
+- [x] User-visible errors (pointer → `design/patterns/states/loading-empty-error-states.md`)
 
 ### state/ — stores & state
 
@@ -92,7 +105,7 @@ Covers: `messages/`, `scripts/aggregate-translations.ts`, `src/lib/paraglide` (g
 
 Covers: `src/**/*.test.ts`, `e2e/`, `src/**/*.stories.svelte`, `vite.config.ts`, `.claude/skills/test-utils`.
 
-- [x] Vitest unit test conventions (colocated, utils-focused; `*.test.ts` vs `*.svelte.test.ts` projects)
+- [x] Vitest unit test conventions (colocated; utils describe structure optional elsewhere)
 - [x] Playwright e2e structure (journeys + page objects)
 - [x] E2E app bugs block tests (no workarounds in specs; notify developer)
 - [x] E2E CI workflow (blocking `e2e` job, `.github/ord-api-e2e-image.sha` pin)
@@ -105,6 +118,14 @@ Covers: git history, `.husky/`, `lint-staged` config, `docs/jira/`.
 - [x] Commit message format (`type(ORDUI-N): summary`)
 - [x] PR-per-subtask workflow, branch naming (`ordui-N-slug`)
 - [x] Pre-commit hooks (husky: lint-staged — prettier + eslint incl. `ord/vitest-test-file-naming`; types in `make ci`)
+
+### dev/ — Makefile & agent verification
+
+Covers: root `Makefile`, `README.md` dev table, CI parity.
+
+- [x] CI verification before finishing (`make ci`; E2E when ord-ops available)
+- [x] Makefile and README sync
+- [x] Env and secrets (`PUBLIC_*` only in client; no committed keys)
 
 ## Progress
 

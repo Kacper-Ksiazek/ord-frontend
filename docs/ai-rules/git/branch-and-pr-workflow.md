@@ -1,6 +1,9 @@
 # Branch & PR workflow: one branch and PR per Jira subtask
 
-Name branches `ordui-N-short-slug` (lowercase Jira key plus a short kebab-case slug). Do one PR per Jira subtask, merged into `main` via a GitHub PR using a merge commit (never push directly to `main`). The PR body has two sections: `## Summary` and `## Test plan`.
+Name branches `ordui-N-short-slug` (lowercase Jira key plus a short kebab-case slug). Do one PR per Jira subtask, merged into `main` via a GitHub PR using a merge commit (prefer not to push directly to `main`). The PR body has two sections: `## Summary` and `## Test plan`.
+
+Cursor Cloud Agents may use platform branch naming (e.g. `cursor/...`); keep commit messages in
+`type(ORDUI-N): summary` form when a Jira key is known.
 
 PRs to `main` must pass CI checks including **`e2e`** (Playwright against pinned `ord-api` GHCR image). Enable required checks per [`.github/REQUIRED_CHECKS.md`](../../../.github/REQUIRED_CHECKS.md). When changing user flows or auth/conversations UI, mention E2E impact in the test plan (`bun run test:e2e` locally or rely on the `e2e` job).
 
