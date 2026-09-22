@@ -31,8 +31,6 @@ see [`styling/tailwind-conventions.md`](../styling/tailwind-conventions.md).
 ## Bad
 
 ```svelte
-<button class="rounded bg-blue-600 px-4 py-2 text-white" onclick={handleSubmit}>
-	Submit
-</button>
+<button class="rounded bg-blue-600 px-4 py-2 text-white" onclick={handleSubmit}> Submit </button>
 <!-- one-off colors, English label, no shared Button -->
 ```

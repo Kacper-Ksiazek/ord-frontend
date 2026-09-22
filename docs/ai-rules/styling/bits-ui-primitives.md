@@ -16,9 +16,7 @@ Overlays and interactive primitives come from bits-ui (headless). Style them wit
 
 <Badge class={cn('shrink-0', className)} color="primary">New</Badge>
 
-<Button variant="PRIMARY" disabled={loading} onClick={handleSave}>
-	Save
-</Button>
+<Button variant="PRIMARY" disabled={loading} onClick={handleSave}>Save</Button>
 ```
 
 ## Bad
