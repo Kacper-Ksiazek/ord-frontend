@@ -22,9 +22,7 @@
 
 	<div class="flex min-w-0 flex-1 flex-col gap-3 sm:flex-row">
 		{#each [0, 1] as cardIndex (cardIndex)}
-			<div
-				class="min-h-[120px] min-w-0 flex-1 rounded-[10px] border border-line bg-surface p-4"
-			>
+			<div class="min-h-[120px] min-w-0 flex-1 rounded-[10px] border border-line bg-surface p-4">
 				<Skeleton class="mb-2 h-3 w-24 rounded-md bg-accent-soft" />
 				<Skeleton class="mb-4 h-8 w-16 rounded-md bg-accent-soft" />
 				<Skeleton class="h-16 w-full rounded-md bg-accent-soft" />

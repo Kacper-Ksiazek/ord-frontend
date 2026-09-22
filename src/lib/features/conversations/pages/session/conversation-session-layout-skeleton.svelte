@@ -37,7 +37,9 @@
 		<Skeleton class="h-12 w-full rounded-[10px] bg-accent-soft" />
 	</div>
 
-	<div class="hidden min-h-0 w-full shrink-0 border-l border-line-subtle bg-surface p-6 lg:block lg:w-80">
+	<div
+		class="hidden min-h-0 w-full shrink-0 border-l border-line-subtle bg-surface p-6 lg:block lg:w-80"
+	>
 		<Skeleton class="mb-4 h-6 w-32 rounded-md bg-accent-soft" />
 		<Skeleton class="mb-2 h-10 w-full rounded-[10px] bg-accent-soft" />
 		<Skeleton class="h-24 w-full rounded-[10px] bg-accent-soft" />
