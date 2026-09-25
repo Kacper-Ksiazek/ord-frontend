@@ -1,5 +1,5 @@
 import { test, expect } from '@e2e/shared/fixtures/auth.fixture';
-import { emailForWorker, isE2eAuthConfigured } from '@e2e/shared/fixtures/test-env';
+import { emailForWorker, isE2eAuthConfigured, testEnv } from '@e2e/shared/fixtures/test-env';
 import { resolveOtpCode } from '@e2e/shared/helpers/otp';
 import { createSidebarComponent } from '@e2e/app-layouts';
 import { createConversationsListPage } from '@e2e/conversations/list';
@@ -80,6 +80,42 @@ test.describe('Auth journey', () => {
 		await loginPage.waitForLoginSuccess();
 
 		await expect(page).toHaveURL(/\/conversations/);
+	});
+
+	test('send the Polish UI locale with the OTP request', async ({ page, loginPage }, testInfo) => {
+		const email = emailForWorker(testInfo.workerIndex);
+
+		await page.context().addCookies([
+			{
+				name: 'PARAGLIDE_LOCALE',
+				value: 'pl',
+				url: testEnv.baseUrl
+			}
+		]);
+
+		const otpRequest = page.waitForRequest(
+			(request) => request.url().includes('/api/v1/auth/otp-request') && request.method() === 'POST'
+		);
+
+		await loginPage.proceedToOtpStep(email, { assumeOnLoginPage: true });
+
+		expect((await otpRequest).postDataJSON()).toMatchObject({ email, locale: 'pl' });
+		await expect(page.locator('html')).toHaveAttribute('lang', 'pl');
+	});
+
+	test('sign in from the email OTP link', async ({ page, loginPage }, testInfo) => {
+		const email = emailForWorker(testInfo.workerIndex);
+
+		await loginPage.goto();
+		await loginPage.proceedToOtpStep(email, { assumeOnLoginPage: true });
+		const code = await resolveOtpCode(email);
+
+		await loginPage.openEmailSignInLink(email, code);
+		await loginPage.waitForLoginSuccess();
+
+		await expect(page).toHaveURL(/\/conversations/);
+		expect(new URL(page.url()).searchParams.has('code')).toBe(false);
+		expect(new URL(page.url()).searchParams.has('email')).toBe(false);
 	});
 
 	test('redirect to login when the session cookie is gone on a private page', async ({

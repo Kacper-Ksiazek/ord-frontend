@@ -23,6 +23,12 @@ export class LoginPage {
 		return this.page.getByTestId(E2E_TEST_IDS.login.otpDigit(index));
 	}
 
+	async openEmailSignInLink(email: string, code: string): Promise<void> {
+		const params = new URLSearchParams({ email, code });
+
+		await this.page.goto(`${this.path}?${params.toString()}`, { waitUntil: 'domcontentloaded' });
+	}
+
 	async goto(): Promise<void> {
 		await this.page.goto(this.path, { waitUntil: 'domcontentloaded' });
 
