@@ -14,7 +14,11 @@ intended for clients.
 
 ```ts
 // $lib/api-client/axios.ts — base URL from public config only
-const baseURL = import.meta.env.PUBLIC_API_BASE_URL;
+import { PUBLIC_API_URL } from '$env/static/public';
+
+export const api = axios.create({
+	baseURL: PUBLIC_API_URL
+});
 ```
 
 ## Bad
