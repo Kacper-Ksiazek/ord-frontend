@@ -808,7 +808,22 @@
 						{/each}
 					</div>
 
-					<div class="mt-3 flex flex-wrap items-center gap-2">
+					{#if saveStatus === 'loading'}
+						<div
+							data-testid={E2E_TEST_IDS.capturePopover.saveStatusLoading}
+							class="absolute inset-0 flex items-center justify-center bg-canvas/60 backdrop-blur-[1px]"
+							aria-busy="true"
+							aria-live="polite"
+						>
+							<Loader wrapperClass="py-4" />
+						</div>
+					{/if}
+				{/if}
+			</div>
+
+			{#if !isSaveErrorVisible}
+				<div class="shrink-0 border-t border-line bg-surface/80 px-5 py-3">
+					<div class="flex flex-wrap items-center gap-2">
 						<Button
 							onClick={handleAddMore}
 							type="OUTLINED"
@@ -844,21 +859,8 @@
 							}}
 						/>
 					</div>
+				</div>
 
-					{#if saveStatus === 'loading'}
-						<div
-							data-testid={E2E_TEST_IDS.capturePopover.saveStatusLoading}
-							class="absolute inset-0 flex items-center justify-center bg-canvas/60 backdrop-blur-[1px]"
-							aria-busy="true"
-							aria-live="polite"
-						>
-							<Loader wrapperClass="py-4" />
-						</div>
-					{/if}
-				{/if}
-			</div>
-
-			{#if !isSaveErrorVisible}
 				<footer class="shrink-0 border-t border-line bg-surface/80 px-5 py-3">
 					<div class="flex flex-wrap items-center justify-end gap-2">
 						<Button type="OUTLINED" variant="TEXT" disabled={isBusy} onClick={handleReset}>

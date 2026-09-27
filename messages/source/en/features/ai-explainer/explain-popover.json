@@ -1,0 +1,32 @@
+{
+	"title": "Explain",
+	"description": "Ask for a short explanation of a word or phrase, then refine it.",
+	"phrase_label": "Word",
+	"phrase_placeholder": "hund",
+	"language_label": "Language",
+	"language_aria": "Language of the phrase",
+	"context_label": "Context (optional)",
+	"context_placeholder": "Optional: a sentence where you saw the word",
+	"instruction_label": "What specifically to explain (optional)",
+	"instruction_placeholder": "Optional, for example: focus on everyday use",
+	"explain": "Explain",
+	"explaining": "Explaining…",
+	"reset": "Clear",
+	"close": "Close",
+	"examples_label": "Examples",
+	"play_example": "Play example",
+	"error": "Could not get an explanation. Check the phrase and your learning language, then try again.",
+	"context_required": "Add a context sentence to explain it in that sentence.",
+	"tabs": {
+		"request": "Request",
+		"answer": "Explanation"
+	},
+	"answer_empty": "Run Explain to see the answer here.",
+	"actions": {
+		"SIMPLER": "Simpler",
+		"MORE_EXAMPLES": "More examples",
+		"REGISTER": "Formal or informal",
+		"SIMILAR_EXPRESSIONS": "Similar expressions",
+		"IN_THIS_CONTEXT": "In this sentence"
+	}
+}

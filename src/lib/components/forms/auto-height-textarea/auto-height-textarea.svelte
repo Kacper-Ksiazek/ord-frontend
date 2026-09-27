@@ -16,6 +16,8 @@
 		isValid = $bindable(true),
 		LINE_HEIGHT = 26,
 		VERTICAL_PADDING = 12,
+		minRows: minRowsProp = 1,
+		maxRows: maxRowsProp = 10,
 		onkeydown,
 		onfocus,
 		onblur,
@@ -33,13 +35,26 @@
 	let textareaElement: HTMLTextAreaElement | undefined = $state();
 	let isSingleRowFormField = $state(false);
 
-	const MIN_ROWS = 1;
-	const MAX_ROWS = 10;
 	const FORM_FIELD_MIN_HEIGHT_PX = 40;
+	/** Matches `leading-5` on the form-field textarea. */
+	const FORM_FIELD_LINE_HEIGHT_PX = 20;
+	/** Matches `py-2.5` (10px top + 10px bottom) on the form-field textarea. */
+	const FORM_FIELD_BLOCK_PADDING_PX = 20;
 
 	function totalHeightPx(rows: number) {
 		return rows * LINE_HEIGHT + VERTICAL_PADDING;
 	}
+
+	function formFieldTotalHeightPx(rows: number) {
+		return rows * FORM_FIELD_LINE_HEIGHT_PX + FORM_FIELD_BLOCK_PADDING_PX;
+	}
+
+	const MIN_ROWS = $derived(Math.max(1, minRowsProp));
+	const MAX_ROWS = $derived(Math.max(MIN_ROWS, maxRowsProp));
+	const formFieldMinHeightPx = $derived(
+		Math.max(FORM_FIELD_MIN_HEIGHT_PX, formFieldTotalHeightPx(MIN_ROWS))
+	);
+	const formFieldMaxHeightPx = $derived(formFieldTotalHeightPx(MAX_ROWS));
 
 	function adjustTextareaHeight() {
 		if (!textareaElement) return;
@@ -48,10 +63,11 @@
 
 		if (formField) {
 			const scrollHeight = textareaElement.scrollHeight;
-			const maxHeight = totalHeightPx(MAX_ROWS);
+			const maxHeight = formFieldMaxHeightPx;
+			const minHeight = formFieldMinHeightPx;
 
-			isSingleRowFormField = scrollHeight <= FORM_FIELD_MIN_HEIGHT_PX;
-			textareaElement.style.height = `${Math.min(maxHeight, Math.max(FORM_FIELD_MIN_HEIGHT_PX, scrollHeight))}px`;
+			isSingleRowFormField = MIN_ROWS === 1 && scrollHeight <= formFieldTotalHeightPx(1);
+			textareaElement.style.height = `${Math.min(maxHeight, Math.max(minHeight, scrollHeight))}px`;
 			textareaElement.style.overflowY = scrollHeight > maxHeight ? 'auto' : 'hidden';
 
 			return;
@@ -155,7 +171,7 @@
 				'ring-2 ring-inset ring-red-600/60 dark:ring-red-400/60'
 		)}
 		style={formField
-			? `min-height: ${FORM_FIELD_MIN_HEIGHT_PX}px; max-height: ${totalHeightPx(MAX_ROWS)}px;`
+			? `min-height: ${formFieldMinHeightPx}px; max-height: ${formFieldMaxHeightPx}px;`
 			: `min-height: ${totalHeightPx(MIN_ROWS)}px; max-height: ${totalHeightPx(MAX_ROWS)}px;`}
 	></textarea>
 

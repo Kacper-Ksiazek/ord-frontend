@@ -1,0 +1,32 @@
+{
+	"title": "Wyjaśnij",
+	"description": "Poproś o krótkie wyjaśnienie słowa lub wyrażenia, a potem je doprecyzuj.",
+	"phrase_label": "Słowo",
+	"phrase_placeholder": "hund",
+	"language_label": "Język",
+	"language_aria": "Język wyrażenia",
+	"context_label": "Kontekst (opcjonalne)",
+	"context_placeholder": "Opcjonalnie: jedno zdanie, w którym słowo padło",
+	"instruction_label": "Co konkretnie wyjaśnić (opcjonalne)",
+	"instruction_placeholder": "Opcjonalnie, na przykład: skup się na codziennym użyciu",
+	"explain": "Wyjaśnij",
+	"explaining": "Wyjaśniam…",
+	"reset": "Wyczyść",
+	"close": "Zamknij",
+	"examples_label": "Przykłady",
+	"play_example": "Odtwórz przykład",
+	"error": "Nie udało się pobrać wyjaśnienia. Sprawdź frazę i język nauki, a potem spróbuj ponownie.",
+	"context_required": "Dodaj zdanie kontekstu, żeby wyjaśnić frazę w tym zdaniu.",
+	"tabs": {
+		"request": "Zapytanie",
+		"answer": "Wyjaśnienie"
+	},
+	"answer_empty": "Kliknij „Wyjaśnij”, żeby zobaczyć odpowiedź tutaj.",
+	"actions": {
+		"SIMPLER": "Prościej",
+		"MORE_EXAMPLES": "Więcej przykładów",
+		"REGISTER": "Formalnie albo swobodnie",
+		"SIMILAR_EXPRESSIONS": "Podobne wyrażenia",
+		"IN_THIS_CONTEXT": "W tym zdaniu"
+	}
+}

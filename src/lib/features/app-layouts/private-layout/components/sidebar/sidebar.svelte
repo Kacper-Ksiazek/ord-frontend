@@ -24,6 +24,7 @@
 	import { createLogoutMutation } from '$auth/api-client';
 	import { goto } from '$app/navigation';
 	import { E2E_TEST_IDS } from '$appLayouts/testing/test-ids';
+	import { ExplainPhrasePopover } from '$aiExplainer';
 	import { CaptureWordsPopover } from '$words';
 
 	const { mutateAsync: handleLogout } = createLogoutMutation();
@@ -123,6 +124,7 @@
 
 	<div class="flex flex-col gap-2 px-3">
 		<CaptureWordsPopover isSidebarExpanded={sidebarStore.isExpanded} />
+		<ExplainPhrasePopover isSidebarExpanded={sidebarStore.isExpanded} />
 	</div>
 
 	<Divider />

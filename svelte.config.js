@@ -81,7 +81,8 @@ const config = {
 			$auth: 'src/lib/features/auth',
 			$conversations: 'src/lib/features/conversations',
 			$appLayouts: 'src/lib/features/app-layouts',
-			$words: 'src/lib/features/words'
+			$words: 'src/lib/features/words',
+			$aiExplainer: 'src/lib/features/ai-explainer'
 		}
 	}
 };
