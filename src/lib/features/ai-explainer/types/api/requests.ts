@@ -20,9 +20,7 @@ export type ExplainPhraseRequest = FromSchema<'ExplainPhraseRequest', ExplainPhr
 export const EXPLAIN_PHRASE_FOLLOW_UP_ACTIONS = [
 	'SIMPLER',
 	'MORE_EXAMPLES',
-	'REGISTER',
-	'SIMILAR_EXPRESSIONS',
-	'IN_THIS_CONTEXT'
+	'SIMILAR_EXPRESSIONS'
 ] as const;
 
 type ExplainPhraseFollowUpActionFallback = (typeof EXPLAIN_PHRASE_FOLLOW_UP_ACTIONS)[number];

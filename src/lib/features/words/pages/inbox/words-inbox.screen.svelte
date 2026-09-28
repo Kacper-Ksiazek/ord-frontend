@@ -17,6 +17,7 @@
 	import WordsViewToggle from './components/words-view-toggle.svelte';
 	import { WordsListFiltersState } from './state/words-list-filters-state.svelte';
 	import { buildWordsInboxQueryString, parseWordsInboxUrl } from './state/words-inbox-url-state';
+	import { preserveModalQueryParam } from '$lib/utils/url/modal-query';
 	import {
 		createWordDetailContext,
 		closeWordDetail,
@@ -122,12 +123,15 @@
 	}
 
 	function buildDesiredSearch(): string {
-		const query = buildWordsInboxQueryString({
-			filters: filtersState.filters,
-			viewMode,
-			wordId:
-				viewMode === 'list' && wordDetailContext.isOpened ? wordDetailContext.selectedWordId : null
-		});
+		const query = preserveModalQueryParam(
+			buildWordsInboxQueryString({
+				filters: filtersState.filters,
+				viewMode,
+				wordId:
+					viewMode === 'list' && wordDetailContext.isOpened ? wordDetailContext.selectedWordId : null
+			}),
+			window.location.search
+		);
 
 		return query ? `?${query}` : '';
 	}

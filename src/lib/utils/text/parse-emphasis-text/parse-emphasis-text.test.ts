@@ -44,6 +44,21 @@ describe('parseEmphasisText', () => {
 		]);
 	});
 
+	it('parses curly double-quote emphasis markers', () => {
+		expect(
+			parseEmphasisText(
+				'“Audacity” means “zuchwałość” or “bezczelność” in Polish. It describes bold behavior.'
+			)
+		).toEqual([
+			{ text: 'Audacity', emphasized: true },
+			{ text: ' means ', emphasized: false },
+			{ text: 'zuchwałość', emphasized: true },
+			{ text: ' or ', emphasized: false },
+			{ text: 'bezczelność', emphasized: true },
+			{ text: ' in Polish. It describes bold behavior.', emphasized: false }
+		]);
+	});
+
 	it('returns plain text when no markers are present', () => {
 		expect(parseEmphasisText('Plain definition.')).toEqual([
 			{ text: 'Plain definition.', emphasized: false }

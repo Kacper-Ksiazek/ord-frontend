@@ -3,7 +3,7 @@ export interface EmphasisTextPart {
 	emphasized: boolean;
 }
 
-const EMPHASIS_TEXT_REGEX = /(\*([^*]+?)\*|'([^']+?)')/g;
+const EMPHASIS_TEXT_REGEX = /(\*([^*]+?)\*|'([^']+?)'|"([^"]+?)"|\u201C([^\u201D]+?)\u201D)/g;
 
 export function parseEmphasisText(text: string): EmphasisTextPart[] {
 	const parts: EmphasisTextPart[] = [];
@@ -15,7 +15,10 @@ export function parseEmphasisText(text: string): EmphasisTextPart[] {
 			parts.push({ text: text.slice(lastIndex, match.index), emphasized: false });
 		}
 
-		parts.push({ text: match[2] ?? match[3], emphasized: true });
+		parts.push({
+			text: match[2] ?? match[3] ?? match[4] ?? match[5],
+			emphasized: true
+		});
 		lastIndex = match.index + match[0].length;
 	}
 

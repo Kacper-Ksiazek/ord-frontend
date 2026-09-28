@@ -1,12 +1,15 @@
 <script lang="ts">
-	import { Dialog } from 'bits-ui';
+	import { Dialog, Tooltip } from 'bits-ui';
 	import { fade } from 'svelte/transition';
-	import { onDestroy } from 'svelte';
+	import { onDestroy, onMount, tick } from 'svelte';
+	import { afterNavigate, replaceState } from '$app/navigation';
+	import { browser } from '$app/environment';
 	import type { Subscription } from 'rxjs';
 	import type { Observable } from 'rxjs';
-	import { Sparkles, X } from 'lucide-svelte';
+	import { BookPlus, Check, Eraser, SlidersHorizontal, Sparkles, X } from 'lucide-svelte';
 	import { authStore } from '$auth/stores';
 	import { Button } from '$lib/components/buttons/button';
+	import { IconButton } from '$lib/components/buttons/icon-button';
 	import { Input } from '$lib/components/forms/input';
 	import { AutoHeightTextarea } from '$lib/components/forms/auto-height-textarea';
 	import { DropdownSelect } from '$lib/components/forms/dropdown-select';
@@ -16,19 +19,37 @@
 	import { Tabs } from '$lib/components/navigation/tabs';
 	import type { Tab } from '$lib/components/navigation/tabs';
 	import { cn } from '$lib/utils/cn';
+	import { parseEmphasisText } from '$lib/utils/text/parse-emphasis-text';
+	import { highlightText, type HighlightPart } from '$lib/utils/text/highlight-segments';
+	import {
+		isExplainModalOpenFromLocationSearch,
+		searchWithExplainModal
+	} from '$lib/utils/url/modal-query';
+	import type { SubmitEvent } from 'svelte/elements';
 	import type { LanguageName } from '$lib/types/core/domain/languages';
 	import * as m from '$lib/paraglide/messages.js';
-	import {
-		EXPLAIN_PHRASE_FOLLOW_UP_ACTIONS,
-		type ExplainPhraseFollowUpAction
-	} from '$aiExplainer/types';
+	import type { ExplainPhraseFollowUpAction } from '$aiExplainer/types';
 	import { httpPostExplainPhrase } from '$aiExplainer/api-client/sse/http-post-explain-phrase';
 	import { httpPostExplainPhraseFollowUp } from '$aiExplainer/api-client/sse/http-post-explain-phrase-follow-up';
 	import { splitExplainerStream } from '../../utils/split-explainer-stream';
-	import { createMockExplainerStream } from '../../utils/mock-explainer-stream';
+	import {
+		parseAdditionalExamples,
+		parseSimilarExpressions
+	} from '../../utils/parse-explainer-follow-up';
 	import { E2E_TEST_IDS } from '$aiExplainer/testing/test-ids';
 	import type { ExplainPhraseDevtoolsSeed } from './explain-phrase-popover-devtools.constants';
 	import ExplainPhrasePopoverDevtools from './explain-phrase-popover-devtools.svelte';
+	import ExplainPhrasePopoverStreamSkeleton from './explain-phrase-popover-stream-skeleton.svelte';
+	import { ExplainPhraseCompactComposer } from './explain-phrase-compact-composer';
+	import { Spinner } from '$lib/components/utils/spinner';
+	import { toast } from '$lib/components/utils/toast';
+	import { getApiErrorMessage } from '$lib/utils/get-api-error-message';
+	import {
+		createCreateWordsMutation,
+		createWordFillGapsMutation,
+		httpPostLookupDefinedWords
+	} from '$words';
+	import type { SimilarExpression } from '../../utils/parse-explainer-follow-up';
 
 	interface Props {
 		isSidebarExpanded: boolean;
@@ -37,9 +58,9 @@
 	const PHRASE_MAX = 255;
 	const CONTEXT_MAX = 2000;
 	const INSTRUCTION_MAX = 500;
-	const PREVIOUS_EXPLANATION_MAX = 4000;
 
 	type ExplainPopoverTab = 'request' | 'answer';
+	type ExplainStreamTarget = 'explanation' | 'simpler' | 'examples' | 'similar';
 
 	const LANGUAGE_OPTIONS: DropdownSelectOption<LanguageName>[] = [
 		{ value: 'ENGLISH', label: 'English' },
@@ -61,14 +82,65 @@
 	let context = $state('');
 	let customInstruction = $state('');
 	let streamedText = $state('');
+	let simplerText = $state('');
+	let extraExamplesRaw = $state('');
+	let similarRaw = $state('');
+	let streamTarget = $state<ExplainStreamTarget>('explanation');
 	let isStreaming = $state(false);
 	let errorMessage = $state<string | null>(null);
 	let streamSubscription: Subscription | undefined;
 	let activeTab = $state<ExplainPopoverTab>('request');
+	let requestFormAdvanced = $state(false);
+	let answerScrollEl = $state<HTMLDivElement | null>(null);
+	let savingSimilarKey = $state<string | null>(null);
+	let definedSourceWords = $state<string[]>([]);
+	let definedLookupReady = $state(false);
+	let definedLookupId = 0;
 
-	const view = $derived(splitExplainerStream(streamedText));
-	const hasContext = $derived(context.trim().length > 0);
+	const createWordsMutation = createCreateWordsMutation();
+	const fillGapsMutation = createWordFillGapsMutation();
+
+	const streamExamplesFinalized = $derived(!isStreaming);
+	const view = $derived(splitExplainerStream(streamedText, streamExamplesFinalized));
+	const extraExamples = $derived(
+		parseAdditionalExamples(extraExamplesRaw, view.examples, {
+			finalize: streamExamplesFinalized
+		})
+	);
+	const similarView = $derived(
+		parseSimilarExpressions(similarRaw, { finalize: streamExamplesFinalized })
+	);
+	const similarLookupPhrases = $derived(
+		similarView.items.map((item) => item.phrase.trim()).filter((phrase) => phrase.length > 0)
+	);
 	const hasResponse = $derived(isStreaming || streamedText.trim().length > 0);
+	const showFollowUpSections = $derived(
+		streamedText.trim().length > 0 && (streamTarget !== 'explanation' || !isStreaming)
+	);
+	const canTriggerFollowUp = $derived(streamedText.trim().length > 0 && !isStreaming);
+	const showSimplerContent = $derived(
+		simplerText.length > 0 || (isStreaming && streamTarget === 'simpler')
+	);
+	const showMoreExamplesContent = $derived(
+		view.examplePartial.length > 0 ||
+			extraExamples.examples.length > 0 ||
+			extraExamples.partial.length > 0 ||
+			(isStreaming && streamTarget === 'examples')
+	);
+	const showSimilarContent = $derived(
+		similarView.items.length > 0 ||
+			similarView.partial !== null ||
+			(isStreaming && streamTarget === 'similar')
+	);
+	const showExplanationSkeleton = $derived(
+		isStreaming && streamTarget === 'explanation' && view.explanation.trim().length === 0
+	);
+	const showSimilarSkeleton = $derived(
+		isStreaming &&
+			streamTarget === 'similar' &&
+			similarView.items.length === 0 &&
+			similarView.partial === null
+	);
 	const explainPopoverTabs = $derived<Tab<ExplainPopoverTab>[]>([
 		{
 			id: 'request',
@@ -87,12 +159,33 @@
 			customInstruction.length <= INSTRUCTION_MAX &&
 			!isStreaming
 	);
-	const canFollowUp = $derived(streamedText.trim().length > 0 && !isStreaming);
-
+	const canClearPhrase = $derived(phrase.trim().length > 0 && !isStreaming);
 	$effect(() => {
 		if (!hasResponse && activeTab === 'answer') {
 			activeTab = 'request';
 		}
+	});
+
+	const answerStreamScrollKey = $derived(
+		isStreaming && activeTab === 'answer'
+			? `${streamTarget}:${streamedText.length}:${view.examplePartial.length}:${simplerText.length}:${extraExamplesRaw.length}:${extraExamples.partial.length}:${similarRaw.length}`
+			: null
+	);
+
+	$effect(() => {
+		const key = answerStreamScrollKey;
+
+		if (!key || !answerScrollEl) {
+			return;
+		}
+
+		void tick().then(() => {
+			if (!answerScrollEl) {
+				return;
+			}
+
+			answerScrollEl.scrollTop = answerScrollEl.scrollHeight;
+		});
 	});
 
 	function emptyToNull(value: string): string | null {
@@ -101,18 +194,26 @@
 		return trimmed.length > 0 ? trimmed : null;
 	}
 
+	type ExplainerPhraseHighlight = 'phrase';
+
+	function highlightPhraseInExample(sentence: string): HighlightPart<ExplainerPhraseHighlight>[] {
+		const term = phrase.trim();
+
+		if (!term) {
+			return [{ text: sentence }];
+		}
+
+		return highlightText(sentence, [{ text: term, category: 'phrase' }]);
+	}
+
 	function actionLabel(action: ExplainPhraseFollowUpAction): string {
 		switch (action) {
 			case 'SIMPLER':
 				return m['features.ai-explainer.explain-popover.actions.SIMPLER']();
 			case 'MORE_EXAMPLES':
 				return m['features.ai-explainer.explain-popover.actions.MORE_EXAMPLES']();
-			case 'REGISTER':
-				return m['features.ai-explainer.explain-popover.actions.REGISTER']();
 			case 'SIMILAR_EXPRESSIONS':
 				return m['features.ai-explainer.explain-popover.actions.SIMILAR_EXPRESSIONS']();
-			case 'IN_THIS_CONTEXT':
-				return m['features.ai-explainer.explain-popover.actions.IN_THIS_CONTEXT']();
 		}
 	}
 
@@ -121,15 +222,156 @@
 		streamSubscription = undefined;
 	}
 
-	function startStream(source: Observable<string>) {
+	function clearFollowUps() {
+		simplerText = '';
+		extraExamplesRaw = '';
+		similarRaw = '';
+		savingSimilarKey = null;
+		definedSourceWords = [];
+		definedLookupReady = false;
+		definedLookupId += 1;
+	}
+
+	$effect(() => {
+		const phrases = similarLookupPhrases;
+		const lookupLanguage = language;
+		const canLookup = streamExamplesFinalized;
+
+		if (!canLookup) {
+			return;
+		}
+
+		const requestId = ++definedLookupId;
+
+		if (phrases.length === 0) {
+			definedSourceWords = [];
+			definedLookupReady = true;
+
+			return;
+		}
+
+		definedLookupReady = false;
+		definedSourceWords = [];
+
+		void httpPostLookupDefinedWords({
+			language: lookupLanguage,
+			sourceWords: phrases
+		})
+			.then((response) => {
+				if (requestId !== definedLookupId) {
+					return;
+				}
+
+				definedSourceWords = response.words.map((word) => word.sourceWord.trim().toLocaleLowerCase());
+				definedLookupReady = true;
+			})
+			.catch(() => {
+				if (requestId !== definedLookupId) {
+					return;
+				}
+
+				definedLookupReady = false;
+			});
+	});
+
+	function similarExpressionKey(item: SimilarExpression) {
+		return item.phrase.trim().toLocaleLowerCase();
+	}
+
+	function clipWordField(value: string) {
+		return value.trim().slice(0, 255);
+	}
+
+	async function saveSimilarExpression(item: SimilarExpression) {
+		const key = similarExpressionKey(item);
+
+		if (!key || savingSimilarKey !== null || definedSourceWords.includes(key)) {
+			return;
+		}
+
+		const sourceWord = clipWordField(item.phrase);
+		const translation = clipWordField(item.translation);
+		const definition = clipWordField(item.description);
+
+		if (!sourceWord || !translation || !definition) {
+			return;
+		}
+
+		savingSimilarKey = key;
+
+		const aiToast = toast.aiProgress(
+			m['components.utils.toast.ai_thinking_1'](),
+			m['components.utils.toast.title_ai_pending']()
+		);
+
+		try {
+			const filled = await fillGapsMutation.mutateAsync({
+				language,
+				items: [{ sourceWord, translation, definition }]
+			});
+			const result = filled.items?.[0];
+			const type = result?.type;
+
+			if (!type || result?.error) {
+				aiToast.error(m['features.ai-explainer.explain-popover.save_similar_error']());
+
+				return;
+			}
+
+			await createWordsMutation.mutateAsync([
+				{
+					sourceWord,
+					language,
+					translation,
+					definition,
+					type,
+					extraMark: result.extraMark ?? null
+				}
+			]);
+
+			definedSourceWords = [...definedSourceWords, key];
+			aiToast.success(
+				m['features.ai-explainer.explain-popover.save_similar_success']({ word: sourceWord })
+			);
+		} catch (error) {
+			aiToast.error(
+				getApiErrorMessage(error, m['features.ai-explainer.explain-popover.save_similar_error']())
+			);
+		} finally {
+			savingSimilarKey = null;
+		}
+	}
+
+	function startStream(source: Observable<string>, target: ExplainStreamTarget) {
 		stopStream();
 		errorMessage = null;
 		isStreaming = true;
-		streamedText = '';
+		streamTarget = target;
+
+		if (target === 'explanation') {
+			streamedText = '';
+			clearFollowUps();
+		}
+
+		if (target === 'simpler') {
+			simplerText = '';
+		}
+
+		if (target === 'similar') {
+			similarRaw = '';
+		}
 
 		streamSubscription = source.subscribe({
 			next: (chunk) => {
-				streamedText += chunk;
+				if (target === 'explanation') {
+					streamedText += chunk;
+				} else if (target === 'simpler') {
+					simplerText += chunk;
+				} else if (target === 'examples') {
+					extraExamplesRaw += chunk;
+				} else {
+					similarRaw += chunk;
+				}
 			},
 			error: () => {
 				isStreaming = false;
@@ -141,29 +383,76 @@
 		});
 	}
 
-	function openModal() {
+	function syncExplainModalQuery(open: boolean) {
+		if (!browser) {
+			return;
+		}
+
+		const desired = searchWithExplainModal(window.location.search, open);
+		const current = window.location.search;
+
+		if (current === desired || (desired === '' && current === '')) {
+			return;
+		}
+
+		replaceState(desired === '' ? '?' : desired, {});
+	}
+
+	function applyExplainModalFromLocation() {
+		if (!browser) {
+			return;
+		}
+
+		const wantsOpen = isExplainModalOpenFromLocationSearch(window.location.search);
+
+		if (wantsOpen && !isOpen) {
+			openModal({ skipUrl: true });
+
+			return;
+		}
+
+		if (!wantsOpen && isOpen) {
+			closeModal({ skipUrl: true });
+		}
+	}
+
+	function openModal(options?: { skipUrl?: boolean }) {
 		if (!phrase.trim()) {
 			language = authStore.user?.selectedLearningLanguage ?? language;
 		}
 
 		isOpen = true;
+
+		if (!options?.skipUrl) {
+			syncExplainModalQuery(true);
+		}
 	}
 
-	function closeModal() {
+	function closeModal(options?: { skipUrl?: boolean }) {
 		stopStream();
 		isStreaming = false;
 		isOpen = false;
+
+		if (!options?.skipUrl) {
+			syncExplainModalQuery(false);
+		}
 	}
 
 	function handleOpenChange(open: boolean) {
 		if (open) {
-			isOpen = true;
+			openModal();
 
 			return;
 		}
 
 		closeModal();
 	}
+
+	onMount(applyExplainModalFromLocation);
+
+	afterNavigate(() => {
+		applyExplainModalFromLocation();
+	});
 
 	function handleReset() {
 		stopStream();
@@ -173,8 +462,30 @@
 		context = '';
 		customInstruction = '';
 		streamedText = '';
+		clearFollowUps();
 		errorMessage = null;
 		language = authStore.user?.selectedLearningLanguage ?? 'ENGLISH';
+		requestFormAdvanced = false;
+	}
+
+	function handleExplainSubmit(event: SubmitEvent) {
+		event.preventDefault();
+
+		if (!canExplain) {
+			return;
+		}
+
+		handleExplain();
+	}
+
+	function handleCompactSubmit(nextPhrase: string) {
+		phrase = nextPhrase;
+
+		if (!canExplain) {
+			return;
+		}
+
+		handleExplain();
 	}
 
 	function handleExplain() {
@@ -190,7 +501,8 @@
 				language,
 				context: emptyToNull(context),
 				customInstruction: emptyToNull(customInstruction)
-			})
+			}),
+			'explanation'
 		);
 	}
 
@@ -203,53 +515,29 @@
 		context = seed.context ?? '';
 		customInstruction = seed.customInstruction ?? '';
 		streamedText = '';
+		clearFollowUps();
 		isOpen = true;
-	}
-
-	function applyMockExplanationForDevtools(text: string, options?: { stream?: boolean }) {
-		stopStream();
-		errorMessage = null;
-
-		if (!phrase.trim()) {
-			phrase = 'Hund';
-			language = 'GERMAN';
-		}
-
-		isOpen = true;
-		activeTab = 'answer';
-
-		if (options?.stream) {
-			startStream(createMockExplainerStream(text));
-
-			return;
-		}
-
-		isStreaming = false;
-		streamedText = text;
 	}
 
 	function handleFollowUp(action: ExplainPhraseFollowUpAction) {
-		if (!canFollowUp) {
-			return;
-		}
-
-		if (action === 'IN_THIS_CONTEXT' && !hasContext) {
-			errorMessage = m['features.ai-explainer.explain-popover.context_required']();
-			activeTab = 'request';
-
+		if (!canTriggerFollowUp) {
 			return;
 		}
 
 		activeTab = 'answer';
+
+		const streamTargetForAction =
+			action === 'SIMPLER' ? 'simpler' : action === 'MORE_EXAMPLES' ? 'examples' : 'similar';
 
 		startStream(
 			httpPostExplainPhraseFollowUp({
 				phrase: phrase.trim(),
 				language,
-				previousExplanation: streamedText.slice(0, PREVIOUS_EXPLANATION_MAX),
+				previousExplanation: streamedText,
 				action,
 				context: emptyToNull(context)
-			})
+			}),
+			streamTargetForAction
 		);
 	}
 
@@ -258,6 +546,148 @@
 
 {#snippet phraseLanguageOptionLeading(option: DropdownSelectOption<LanguageName>)}
 	<ExplainPhraseLanguageFlag language={option.value} />
+{/snippet}
+
+{#snippet emphasizedExplainerText(content: string)}
+	{#each parseEmphasisText(content) as part, index (index)}
+		{#if part.emphasized}
+			<span class="rounded-md bg-highlight/90 px-1 py-px font-medium text-ink">{part.text}</span>
+		{:else}
+			{part.text}
+		{/if}
+	{/each}
+{/snippet}
+
+{#snippet advancedOptionsToggle()}
+	<IconButton
+		icon={SlidersHorizontal}
+		ariaLabel={m['features.ai-explainer.explain-popover.advanced_options_label']()}
+		tooltip={m['features.ai-explainer.explain-popover.advanced_options_label']()}
+		dataTestId={E2E_TEST_IDS.explainPopover.advancedToggle}
+		type="OUTLINED"
+		variant="TEXT"
+		disabled={isStreaming}
+		class={cn('h-8 w-8 shrink-0 border-none', requestFormAdvanced && 'bg-accent-soft text-ink')}
+		onClick={() => {
+			requestFormAdvanced = !requestFormAdvanced;
+		}}
+	/>
+{/snippet}
+
+{#snippet clearPhraseAction()}
+	<IconButton
+		icon={Eraser}
+		ariaLabel={m['features.ai-explainer.explain-popover.reset']()}
+		tooltip={m['features.ai-explainer.explain-popover.reset']()}
+		type="OUTLINED"
+		variant="TEXT"
+		disabled={!canClearPhrase}
+		class="h-8 w-8 shrink-0 border-none"
+		onClick={() => {
+			phrase = '';
+		}}
+	/>
+{/snippet}
+
+{#snippet saveSimilarButton(item: SimilarExpression)}
+	{@const key = similarExpressionKey(item)}
+	{@const isSaving = savingSimilarKey === key}
+	{@const isDefined = definedSourceWords.includes(key)}
+	{@const saveLabel = m['features.ai-explainer.explain-popover.save_similar']({ word: item.phrase })}
+	{@const savedLabel = m['features.ai-explainer.explain-popover.save_similar_saved']({
+		word: item.phrase
+	})}
+	{#if isSaving}
+		<span class="flex size-8 shrink-0 items-center justify-center" aria-label={saveLabel}>
+			<Spinner class="size-4 text-ink" />
+		</span>
+	{:else if !definedLookupReady}
+		<span class="size-8 shrink-0" aria-hidden="true"></span>
+	{:else if isDefined}
+		<Tooltip.Root>
+			<Tooltip.Trigger>
+				{#snippet child({ props: triggerProps })}
+					<span
+						{...triggerProps}
+						class={cn(
+							'flex size-8 shrink-0 items-center justify-center text-ink-muted',
+							triggerProps.class
+						)}
+						aria-label={savedLabel}
+					>
+						<Check class="size-4" aria-hidden="true" />
+					</span>
+				{/snippet}
+			</Tooltip.Trigger>
+			<Tooltip.Portal>
+				<Tooltip.Content class="overlay-surface z-50 px-2 py-1 text-xs" sideOffset={6}>
+					{savedLabel}
+				</Tooltip.Content>
+			</Tooltip.Portal>
+		</Tooltip.Root>
+	{:else}
+		<IconButton
+			icon={BookPlus}
+			ariaLabel={saveLabel}
+			tooltip={saveLabel}
+			type="OUTLINED"
+			variant="TEXT"
+			disabled={savingSimilarKey !== null}
+			class="size-8 shrink-0 border-none text-ink-muted hover:bg-accent-soft hover:text-ink disabled:opacity-60"
+			iconClass="size-4"
+			onClick={() => {
+				void saveSimilarExpression(item);
+			}}
+		/>
+	{/if}
+{/snippet}
+
+{#snippet explainerExampleText(sentence: string)}
+	{#each highlightPhraseInExample(sentence) as part, index (index)}
+		{#if part.highlight}
+			<span class="font-semibold">{part.text}</span>
+		{:else}
+			{part.text}
+		{/if}
+	{/each}
+{/snippet}
+
+{#snippet explainerExampleListItem(
+	example: string,
+	audioId: string,
+	options: { streaming?: boolean; dataTestId?: string } = {}
+)}
+	<li class="flex items-start gap-2.5" data-testid={options.dataTestId}>
+		{#if options.streaming}
+			<span class="flex size-10 shrink-0" aria-hidden="true" />
+		{:else}
+			<PlayTextAudio text={example} id={audioId} {language} />
+		{/if}
+		<span class="message-body text-base text-ink">
+			{@render explainerExampleText(example)}
+		</span>
+	</li>
+{/snippet}
+
+{#snippet explainRequestActions()}
+	<div class="flex flex-wrap items-center justify-end gap-2 pt-1">
+		<Button type="OUTLINED" variant="TEXT" disabled={isStreaming} onClick={handleReset}>
+			{m['features.ai-explainer.explain-popover.reset']()}
+		</Button>
+		<Button
+			type="FILLED"
+			variant="PRIMARY"
+			class="min-w-24"
+			dataTestId={E2E_TEST_IDS.explainPopover.submit}
+			disabled={!canExplain}
+			onClick={handleExplain}
+		>
+			<Sparkles class="size-4" aria-hidden="true" />
+			{isStreaming
+				? m['features.ai-explainer.explain-popover.explaining']()
+				: m['features.ai-explainer.explain-popover.explain']()}
+		</Button>
+	</div>
 {/snippet}
 
 <button
@@ -284,7 +714,7 @@
 		<Dialog.Overlay class="fixed inset-0 z-50 bg-scrim backdrop-blur-sm" />
 		<Dialog.Content
 			data-testid={E2E_TEST_IDS.explainPopover.root}
-			class="overlay-surface fixed top-1/2 left-1/2 z-50 flex max-h-[min(90dvh,calc(100vh-2rem))] w-[min(52rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden border border-line shadow-lg"
+			class="overlay-surface fixed top-1/2 left-1/2 z-50 flex h-[min(640px,calc(100vh-2rem))] w-[min(52rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden border border-line shadow-lg"
 			onInteractOutside={(event) => {
 				if (!(event.target instanceof HTMLElement)) return;
 
@@ -329,169 +759,305 @@
 					</p>
 				{/if}
 
-				<Tabs
-					dataTestId={E2E_TEST_IDS.explainPopover.tabs}
-					tabs={explainPopoverTabs}
-					bind:activeTab
-					activeColor="primary"
-					variant="underline"
-					class="mt-3 border-line"
-				/>
+				<div class="mt-3 flex items-center justify-between gap-3 border-b border-line">
+					<Tabs
+						dataTestId={E2E_TEST_IDS.explainPopover.tabs}
+						tabs={explainPopoverTabs}
+						bind:activeTab
+						activeColor="primary"
+						variant="underline"
+						class="!mt-0 min-w-0 flex-1 !border-0"
+					/>
+					{#if activeTab === 'request'}
+						<div class="flex shrink-0 items-center gap-0.5 pb-1">
+							{@render clearPhraseAction()}
+							{@render advancedOptionsToggle()}
+						</div>
+					{/if}
+				</div>
 			</header>
 
-			<div class="min-h-0 flex-1 overflow-y-auto px-5 py-4">
+			<div
+				bind:this={answerScrollEl}
+				class="flex min-h-0 flex-1 flex-col overflow-y-auto scroll-pb-4 px-5 py-4"
+			>
 				{#if activeTab === 'request'}
-					<div class="flex flex-col gap-3">
-						<div class="flex gap-3">
-							<div class="min-w-0 flex-1 space-y-2">
+					{#if requestFormAdvanced}
+						<form class="flex flex-col gap-3" onsubmit={handleExplainSubmit}>
+							<div class="flex gap-3">
+								<div class="min-w-0 flex-1 space-y-2">
+									<p class="text-sm font-medium text-ink">
+										{m['features.ai-explainer.explain-popover.phrase_label']()}
+									</p>
+									<Input
+										dataTestId={E2E_TEST_IDS.explainPopover.phrase}
+										ariaLabel={m['features.ai-explainer.explain-popover.phrase_label']()}
+										bind:value={phrase}
+										maxLength={PHRASE_MAX}
+										placeholder={m['features.ai-explainer.explain-popover.phrase_placeholder']()}
+										disabled={isStreaming}
+									/>
+								</div>
+
+								<div class="w-[200px] shrink-0 space-y-2">
+									<p class="text-sm font-medium text-ink">
+										{m['features.ai-explainer.explain-popover.language_label']()}
+									</p>
+									<DropdownSelect
+										value={language}
+										options={LANGUAGE_OPTIONS}
+										ariaLabel={m['features.ai-explainer.explain-popover.language_aria']()}
+										optionLeading={phraseLanguageOptionLeading}
+										onValueChange={(next) => {
+											language = next;
+										}}
+									/>
+								</div>
+							</div>
+
+							<div class="space-y-2">
 								<p class="text-sm font-medium text-ink">
-									{m['features.ai-explainer.explain-popover.phrase_label']()}
+									{m['features.ai-explainer.explain-popover.context_label']()}
 								</p>
-								<Input
-									dataTestId={E2E_TEST_IDS.explainPopover.phrase}
-									ariaLabel={m['features.ai-explainer.explain-popover.phrase_label']()}
-									bind:value={phrase}
-									maxLength={PHRASE_MAX}
-									placeholder={m['features.ai-explainer.explain-popover.phrase_placeholder']()}
+								<AutoHeightTextarea
+									bind:value={context}
+									maxLength={CONTEXT_MAX}
+									formField
+									minRows={3}
+									maxRows={6}
+									placeholder={m['features.ai-explainer.explain-popover.context_placeholder']()}
 									disabled={isStreaming}
 								/>
 							</div>
 
-							<div class="w-[200px] shrink-0 space-y-2">
+							<div class="space-y-2">
 								<p class="text-sm font-medium text-ink">
-									{m['features.ai-explainer.explain-popover.language_label']()}
+									{m['features.ai-explainer.explain-popover.instruction_label']()}
 								</p>
-								<DropdownSelect
-									value={language}
-									options={LANGUAGE_OPTIONS}
-									ariaLabel={m['features.ai-explainer.explain-popover.language_aria']()}
-									optionLeading={phraseLanguageOptionLeading}
-									onValueChange={(next) => {
-										language = next;
-									}}
+								<AutoHeightTextarea
+									bind:value={customInstruction}
+									maxLength={INSTRUCTION_MAX}
+									formField
+									placeholder={m['features.ai-explainer.explain-popover.instruction_placeholder']()}
+									disabled={isStreaming}
 								/>
 							</div>
-						</div>
 
-						<div class="space-y-2">
-							<p class="text-sm font-medium text-ink">
-								{m['features.ai-explainer.explain-popover.context_label']()}
-							</p>
-							<AutoHeightTextarea
-								bind:value={context}
-								maxLength={CONTEXT_MAX}
-								formField
-								minRows={3}
-								maxRows={6}
-								placeholder={m['features.ai-explainer.explain-popover.context_placeholder']()}
-								disabled={isStreaming}
-							/>
+							{@render explainRequestActions()}
+						</form>
+					{:else}
+						<div class="flex flex-1 flex-col justify-center py-10">
+							<div class="mx-auto w-full max-w-lg space-y-5">
+								<form onsubmit={handleExplainSubmit}>
+									<ExplainPhraseCompactComposer
+										bind:value={phrase}
+										maxLength={PHRASE_MAX}
+										placeholder={m['features.ai-explainer.explain-popover.phrase_compact_placeholder']()}
+										sendAriaLabel={m['features.ai-explainer.explain-popover.explain']()}
+										phraseDataTestId={E2E_TEST_IDS.explainPopover.phrase}
+										sendDataTestId={E2E_TEST_IDS.explainPopover.submit}
+										disabled={isStreaming}
+										pending={isStreaming}
+										onValueChange={(next) => {
+											phrase = next;
+										}}
+										onSubmit={handleCompactSubmit}
+									/>
+								</form>
+							</div>
 						</div>
-
-						<div class="space-y-2">
-							<p class="text-sm font-medium text-ink">
-								{m['features.ai-explainer.explain-popover.instruction_label']()}
-							</p>
-							<AutoHeightTextarea
-								bind:value={customInstruction}
-								maxLength={INSTRUCTION_MAX}
-								formField
-								placeholder={m['features.ai-explainer.explain-popover.instruction_placeholder']()}
-								disabled={isStreaming}
-							/>
-						</div>
-					</div>
+					{/if}
 				{:else}
-					<div class="flex min-h-48 flex-col gap-3 rounded-xl border border-line bg-accent-soft/30 p-4">
-						{#if view.explanation || isStreaming}
-							<p
-								data-testid={E2E_TEST_IDS.explainPopover.explanation}
-								class="text-sm leading-relaxed whitespace-pre-wrap text-ink"
-								aria-live="polite"
-							>
-								{view.explanation}
-								{#if isStreaming && view.examples.length === 0}
-									<span class="text-ink-muted" aria-hidden="true">▍</span>
-								{/if}
-							</p>
+					<div class="space-y-4">
+						{#if view.explanation || (isStreaming && streamTarget === 'explanation')}
+							{#if showExplanationSkeleton}
+								<ExplainPhrasePopoverStreamSkeleton variant="explanation" />
+							{:else}
+								<p
+									data-testid={E2E_TEST_IDS.explainPopover.explanation}
+									class={cn(
+										'message-body text-base whitespace-pre-wrap text-ink',
+										isStreaming && streamTarget === 'explanation' && 'generation-in-progress rounded-[10px]'
+									)}
+									aria-live="polite"
+								>
+									{@render emphasizedExplainerText(view.explanation)}
+								</p>
+							{/if}
 						{:else}
-							<p class="text-sm leading-relaxed text-ink-muted">
+							<p class="message-body text-base text-ink-muted">
 								{m['features.ai-explainer.explain-popover.answer_empty']()}
 							</p>
 						{/if}
 
-						{#if view.examples.length > 0}
+						{#if view.examples.length > 0 || view.examplePartial.length > 0 || showMoreExamplesContent || showFollowUpSections}
 							<div class="space-y-2">
-								<p class="text-sm font-medium text-ink">
+								<p class="text-sm font-medium text-ink-muted">
 									{m['features.ai-explainer.explain-popover.examples_label']()}
 								</p>
-								<ul class="space-y-2">
-									{#each view.examples as example, index (index)}
-										<li
-											data-testid={E2E_TEST_IDS.explainPopover.example(index)}
-											class="flex items-start gap-2 text-sm leading-relaxed text-ink"
+								{#if view.examples.length > 0 || view.examplePartial.length > 0 || showMoreExamplesContent}
+									<ul class="space-y-2.5">
+										{#each view.examples as example, index (index)}
+											{@render explainerExampleListItem(example, `explain-example-${index}`, {
+												dataTestId: E2E_TEST_IDS.explainPopover.example(index)
+											})}
+										{/each}
+										{#if view.examplePartial}
+											{@render explainerExampleListItem(
+												view.examplePartial,
+												`explain-example-partial-${view.examples.length}`,
+												{
+													streaming: isStreaming && streamTarget === 'explanation'
+												}
+											)}
+										{/if}
+										{#each extraExamples.examples as example, index (`more-${index}-${example}`)}
+											{@render explainerExampleListItem(
+												example,
+												`explain-more-example-${view.examples.length + index}`
+											)}
+										{/each}
+										{#if extraExamples.partial}
+											{@render explainerExampleListItem(
+												extraExamples.partial,
+												`explain-more-example-partial-${view.examples.length + extraExamples.examples.length}`,
+												{
+													streaming: isStreaming && streamTarget === 'examples'
+												}
+											)}
+										{/if}
+									</ul>
+								{/if}
+								{#if showFollowUpSections && !showMoreExamplesContent}
+									<Button
+										type="OUTLINED"
+										variant="TEXT"
+										dataTestId={E2E_TEST_IDS.explainPopover.followUp('MORE_EXAMPLES')}
+										disabled={!canTriggerFollowUp}
+										onClick={() => handleFollowUp('MORE_EXAMPLES')}
+									>
+										<Sparkles class="size-4" aria-hidden="true" />
+										{actionLabel('MORE_EXAMPLES')}
+									</Button>
+								{/if}
+							</div>
+						{/if}
+
+						{#if showFollowUpSections}
+							<div class="space-y-4" in:fade={{ delay: 200, duration: 250 }}>
+								<div class="space-y-2">
+									<p class="text-sm font-medium text-ink-muted">
+										{m['features.ai-explainer.explain-popover.simpler_section']()}
+									</p>
+									{#if !showSimplerContent}
+										<Button
+											type="OUTLINED"
+											variant="TEXT"
+											dataTestId={E2E_TEST_IDS.explainPopover.followUp('SIMPLER')}
+											disabled={!canTriggerFollowUp}
+											onClick={() => handleFollowUp('SIMPLER')}
 										>
-											<PlayTextAudio text={example} id={`explain-example-${index}`} {language} />
-											<span>{example}</span>
-										</li>
-									{/each}
-								</ul>
+											<Sparkles class="size-4" aria-hidden="true" />
+											{actionLabel('SIMPLER')}
+										</Button>
+									{/if}
+									{#if showSimplerContent}
+										<p
+											class={cn(
+												'message-body text-base whitespace-pre-wrap text-ink',
+												isStreaming && streamTarget === 'simpler' && 'generation-in-progress rounded-[10px]'
+											)}
+											aria-live="polite"
+										>
+											{@render emphasizedExplainerText(simplerText)}
+										</p>
+									{/if}
+								</div>
+
+								<div class="space-y-2">
+									<p class="text-sm font-medium text-ink-muted">
+										{m['features.ai-explainer.explain-popover.similar_section']()}
+									</p>
+									{#if !showSimilarContent}
+										<Button
+											type="OUTLINED"
+											variant="TEXT"
+											dataTestId={E2E_TEST_IDS.explainPopover.followUp('SIMILAR_EXPRESSIONS')}
+											disabled={!canTriggerFollowUp}
+											onClick={() => handleFollowUp('SIMILAR_EXPRESSIONS')}
+										>
+											<Sparkles class="size-4" aria-hidden="true" />
+											{actionLabel('SIMILAR_EXPRESSIONS')}
+										</Button>
+									{/if}
+									{#if showSimilarContent}
+										{#if showSimilarSkeleton}
+											<ExplainPhrasePopoverStreamSkeleton variant="similar" />
+										{:else}
+											<ul class="flex flex-col gap-2">
+												{#each similarView.items as item, index (`${item.phrase}-${index}`)}
+													<li class="list-none">
+														<div
+															class="flex w-full items-center gap-2 rounded-[10px] border border-line bg-surface px-3 py-3"
+														>
+															<div class="flex min-w-0 flex-1 flex-col gap-2.5">
+																<p class="min-w-0 text-base leading-snug">
+																	<span class="font-semibold text-ink">{item.phrase}</span>
+																	<span class="px-1 text-ink-subtle" aria-hidden="true">·</span>
+																	<span class="text-ink-muted">{item.translation}</span>
+																</p>
+																<p class="text-sm leading-relaxed text-ink-muted">
+																	{@render emphasizedExplainerText(item.description)}
+																</p>
+															</div>
+															{@render saveSimilarButton(item)}
+														</div>
+													</li>
+												{/each}
+												{#if similarView.partial}
+													<li class="list-none">
+														<div
+															class="flex w-full items-center gap-2 rounded-[10px] border border-line bg-surface px-3 py-3"
+														>
+															<div class="flex min-w-0 flex-1 flex-col gap-2.5">
+																<p class="min-w-0 text-base leading-snug">
+																	<span class="font-semibold text-ink">
+																		{similarView.partial.phrase}
+																	</span>
+																	{#if similarView.partial.translation}
+																		<span class="px-1 text-ink-subtle" aria-hidden="true">·</span>
+																		<span class="text-ink-muted">
+																			{similarView.partial.translation}
+																		</span>
+																	{/if}
+																</p>
+																{#if similarView.partial.description || (similarView.partial.translation && isStreaming)}
+																	<p class="text-sm leading-relaxed text-ink-muted">
+																		{similarView.partial.description}
+																	</p>
+																{/if}
+															</div>
+														</div>
+													</li>
+												{/if}
+											</ul>
+										{/if}
+									{/if}
+								</div>
 							</div>
 						{/if}
 					</div>
-
-					{#if canFollowUp || (isStreaming && streamedText.length > 0)}
-						<div class="mt-4 flex flex-wrap gap-2">
-							{#each EXPLAIN_PHRASE_FOLLOW_UP_ACTIONS as action (action)}
-								<Button
-									type="OUTLINED"
-									variant="TEXT"
-									dataTestId={E2E_TEST_IDS.explainPopover.followUp(action)}
-									disabled={!canFollowUp || (action === 'IN_THIS_CONTEXT' && !hasContext)}
-									title={action === 'IN_THIS_CONTEXT' && !hasContext
-										? m['features.ai-explainer.explain-popover.context_required']()
-										: undefined}
-									onClick={() => handleFollowUp(action)}
-								>
-									{actionLabel(action)}
-								</Button>
-							{/each}
-						</div>
-					{/if}
+					<div class="h-4 shrink-0" aria-hidden="true"></div>
 				{/if}
 			</div>
-
-			<footer class="shrink-0 border-t border-line bg-surface/80 px-5 py-3">
-				<div class="flex flex-wrap items-center justify-end gap-2">
-					<Button type="OUTLINED" variant="TEXT" disabled={isStreaming} onClick={handleReset}>
-						{m['features.ai-explainer.explain-popover.reset']()}
-					</Button>
-					<Button type="OUTLINED" variant="TEXT" onClick={closeModal}>
-						<X class="size-4" aria-hidden="true" />
-						{m['features.ai-explainer.explain-popover.close']()}
-					</Button>
-					<Button
-						type="FILLED"
-						variant="PRIMARY"
-						class="min-w-24"
-						dataTestId={E2E_TEST_IDS.explainPopover.submit}
-						disabled={!canExplain}
-						onClick={handleExplain}
-					>
-						<Sparkles class="size-4" aria-hidden="true" />
-						{isStreaming
-							? m['features.ai-explainer.explain-popover.explaining']()
-							: m['features.ai-explainer.explain-popover.explain']()}
-					</Button>
-				</div>
-			</footer>
 		</Dialog.Content>
 		{#if isOpen}
 			<ExplainPhrasePopoverDevtools
 				onApplySeed={applyExplainPhraseSeedForDevtools}
-				onApplyMockExplanation={applyMockExplanationForDevtools}
-				onSetError={(message) => {
-					errorMessage = message;
+				onRunExplain={handleExplain}
+				onFollowUp={handleFollowUp}
+				onClearError={() => {
+					errorMessage = null;
 				}}
 				onResetForm={handleReset}
 				onOpenModal={openModal}

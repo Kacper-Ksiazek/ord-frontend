@@ -1,54 +1,43 @@
 <script lang="ts">
 	import { Button } from '$lib/components/buttons/button';
 	import { cn } from '$lib/utils/cn';
+	import type { ExplainPhraseFollowUpAction } from '$aiExplainer/types';
 	import {
 		EXPLAIN_PHRASE_DEVTOOLS_SEEDS,
-		MOCK_EXPLANATION_PLAIN,
-		MOCK_EXPLANATION_WITH_EXAMPLES,
 		type ExplainPhraseDevtoolsSeed
 	} from './explain-phrase-popover-devtools.constants';
 
 	interface Props {
 		onApplySeed: (seed: ExplainPhraseDevtoolsSeed) => void;
-		onApplyMockExplanation: (text: string, options?: { stream?: boolean }) => void;
-		onSetError: (message: string | null) => void;
+		onRunExplain: () => void;
+		onFollowUp: (action: ExplainPhraseFollowUpAction) => void;
+		onClearError: () => void;
 		onResetForm: () => void;
 		onOpenModal: () => void;
 	}
 
-	let { onApplySeed, onApplyMockExplanation, onSetError, onResetForm, onOpenModal }: Props =
+	let { onApplySeed, onRunExplain, onFollowUp, onClearError, onResetForm, onOpenModal }: Props =
 		$props();
 
 	let open = $state(false);
 
 	const formPresets = [
+		{ label: 'EN: audacity', seed: EXPLAIN_PHRASE_DEVTOOLS_SEEDS.englishAudacity },
 		{ label: 'DE: Hund', seed: EXPLAIN_PHRASE_DEVTOOLS_SEEDS.germanNoun },
 		{ label: 'NO + context', seed: EXPLAIN_PHRASE_DEVTOOLS_SEEDS.norwegianWithContext },
 		{ label: 'PL idiom full', seed: EXPLAIN_PHRASE_DEVTOOLS_SEEDS.polishIdiomFull },
 		{ label: 'EN phrasal verb', seed: EXPLAIN_PHRASE_DEVTOOLS_SEEDS.englishPhrasalVerb }
 	] as const;
 
-	const responsePresets = [
-		{
-			label: 'Mock answer',
-			action: () => onApplyMockExplanation(MOCK_EXPLANATION_PLAIN)
-		},
-		{
-			label: 'Mock + examples',
-			action: () => onApplyMockExplanation(MOCK_EXPLANATION_WITH_EXAMPLES)
-		},
-		{
-			label: 'Stream mock',
-			action: () => onApplyMockExplanation(MOCK_EXPLANATION_WITH_EXAMPLES, { stream: true })
-		},
-		{
-			label: 'Mock API error',
-			action: () => onSetError('Mock error — could not get an explanation.')
-		},
-		{
-			label: 'Clear error',
-			action: () => onSetError(null)
-		},
+	const followUpPresets: { label: string; action: ExplainPhraseFollowUpAction }[] = [
+		{ label: 'Simpler', action: 'SIMPLER' },
+		{ label: 'More examples', action: 'MORE_EXAMPLES' },
+		{ label: 'Similar expressions', action: 'SIMILAR_EXPRESSIONS' }
+	];
+
+	const actionPresets = [
+		{ label: 'Run explain', action: onRunExplain },
+		{ label: 'Clear error', action: onClearError },
 		{ label: 'Open modal', action: onOpenModal },
 		{ label: 'Reset form', action: onResetForm }
 	] as const;
@@ -94,10 +83,29 @@
 				</div>
 
 				<div>
-					<p class="text-xs font-semibold uppercase tracking-wide text-ink-muted">Response / state</p>
+					<p class="text-xs font-semibold uppercase tracking-wide text-ink-muted">API</p>
 					<div class="mt-2 grid grid-cols-2 gap-2">
-						{#each responsePresets as preset (preset.label)}
+						{#each actionPresets as preset (preset.label)}
 							<Button type="OUTLINED" variant="TEXT" class="!h-8 !px-2 !text-xs" onClick={preset.action}>
+								{preset.label}
+							</Button>
+						{/each}
+					</div>
+				</div>
+
+				<div>
+					<p class="text-xs font-semibold uppercase tracking-wide text-ink-muted">Follow-ups</p>
+					<p class="mt-1 text-xs text-ink-subtle">
+						Calls the follow-up endpoint; run explain first so there is a previous answer.
+					</p>
+					<div class="mt-2 grid grid-cols-2 gap-2">
+						{#each followUpPresets as preset (preset.action)}
+							<Button
+								type="OUTLINED"
+								variant="TEXT"
+								class="!h-auto !min-h-8 !px-2 !py-1 !text-xs"
+								onClick={() => onFollowUp(preset.action)}
+							>
 								{preset.label}
 							</Button>
 						{/each}

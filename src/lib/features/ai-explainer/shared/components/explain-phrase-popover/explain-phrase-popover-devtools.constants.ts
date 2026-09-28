@@ -29,14 +29,9 @@ export const EXPLAIN_PHRASE_DEVTOOLS_SEEDS = {
 		language: 'ENGLISH' as LanguageName,
 		context: 'He told a joke to break the ice at the start of the meeting.',
 		customInstruction: 'Explain for a B1 learner; mention informal meetings.'
+	},
+	englishAudacity: {
+		phrase: 'audacity',
+		language: 'ENGLISH' as LanguageName
 	}
 } satisfies Record<string, ExplainPhraseDevtoolsSeed>;
-
-export const MOCK_EXPLANATION_PLAIN =
-	'„Hund” to podstawowe niemieckie słowo na psa. Używasz go tak samo często jak angielskie „dog” — o konkretnym zwierzęciu, rasie albo metaforze lojalności.';
-
-export const MOCK_EXPLANATION_WITH_EXAMPLES = `${MOCK_EXPLANATION_PLAIN}
-
-» Der Hund bellt laut.
-» Mein Hund ist sehr freundlich.
-» Sie hat Angst vor Hunden.`;
