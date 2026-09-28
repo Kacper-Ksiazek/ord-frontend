@@ -77,6 +77,7 @@
 		"progress_completed": "Abgeschlossen",
 		"no_details_header": "Noch kein Handbuch",
 		"no_details_description": "Erweiterte Notizen und Beispiele für dieses Wort wurden noch nicht hinzugefügt.",
+		"loading_details": "Erweiterte Notizen werden geladen…",
 		"generate_with_ai": "Mit KI generieren",
 		"generate_with_ai_loading": "Handbuch wird generiert…",
 		"generate_with_ai_success": "Worthandbuch generiert",

@@ -77,6 +77,7 @@
 		"progress_completed": "Ukończone",
 		"no_details_header": "Brak podręcznika",
 		"no_details_description": "Rozszerzone notatki i przykłady dla tego słowa nie zostały jeszcze dodane.",
+		"loading_details": "Ładowanie rozszerzonych notatek…",
 		"generate_with_ai": "Wygeneruj z AI",
 		"generate_with_ai_loading": "Generowanie podręcznika…",
 		"generate_with_ai_success": "Podręcznik wygenerowany",

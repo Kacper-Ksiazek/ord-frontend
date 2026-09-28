@@ -10,6 +10,7 @@ export const E2E_TEST_IDS = {
 		detailBookmark: 'words-inbox-detail-bookmark',
 		detailSkeleton: 'words-inbox-detail-skeleton',
 		detailAiSkeleton: 'words-inbox-detail-ai-skeleton',
+		detailPendingSkeleton: 'words-inbox-detail-pending-skeleton',
 		detailEmptyState: 'words-inbox-detail-empty-state',
 		detailFillManually: 'words-inbox-detail-fill-manually',
 		detailSourceWordTts: 'words-inbox-detail-source-word-tts',
