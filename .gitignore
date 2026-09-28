@@ -46,5 +46,5 @@ src/lib/paraglide
 *storybook.log
 storybook-static
 
-# Debug logs
-.cursor/debug.log
+# Cursor agent debug sessions (NDJSON)
+.cursor/debug*.log
