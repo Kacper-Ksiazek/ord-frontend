@@ -5,4 +5,3 @@ export {
 	plainTextFromEmphasisParts,
 	stripEmphasisMarkers
 } from './parse-emphasis-text';
-export type { EmphasisTextPart } from './parse-emphasis-text';
