@@ -37,7 +37,7 @@
 	$effect(() => {
 		const query = preserveModalQueryParam(
 			filtersState.toQueryString(),
-			typeof window === 'undefined' ? '' : window.location.search
+			window?.location.search ?? ''
 		);
 		const desiredSearch = query ? `?${query}` : '';
 
