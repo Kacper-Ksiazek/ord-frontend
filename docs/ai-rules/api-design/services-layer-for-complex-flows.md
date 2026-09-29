@@ -4,7 +4,30 @@ Components never call `http*` functions directly for streaming or multi-step flo
 
 The same rule applies to **dialogs and popovers**: subscribing to SSE, mapping stream chunks, and follow-up actions belong in `services/` or a colocated `use-*.svelte.ts` — not inlined in the modal `.svelte` alongside hundreds of lines of markup.
 
+Reuse shared subscription helpers from `$lib/services/` when the lifecycle pattern is the same across features; keep feature-specific chunk routing and `http*` calls in the feature `use-*-flow` composable.
+
 ## Good
+
+```ts
+// src/lib/services/use-text-stream-subscription.svelte.ts — shared subscribe/stop/onDestroy
+// src/lib/features/ai-explainer/shared/services/use-explain-phrase-flow.svelte.ts — product orchestration
+import { useTextStreamSubscription } from '$lib/services/use-text-stream-subscription.svelte';
+import { httpPostExplainPhrase } from '$aiExplainer/api-client/sse/http-post-explain-phrase';
+
+export function useExplainPhraseFlow() {
+	const textStream = useTextStreamSubscription();
+
+	function explain() {
+		textStream.start(httpPostExplainPhrase(payload), {
+			onChunk: (chunk) => {
+				streamedText += chunk;
+			}
+		});
+	}
+
+	return { explain /* … */ };
+}
+```
 
 ```ts
 // src/lib/features/conversations/pages/create/services/suggest-conversation-topics.ts
@@ -36,5 +59,19 @@ export function suggestConversationTopics({
 			next: (topic) => topics.push(topic.value)
 		});
 	}
+</script>
+```
+
+```svelte
+<script lang="ts">
+	// Each popover reimplements subscribe/unsubscribe instead of $lib/services/use-text-stream-subscription.svelte.ts
+	let subscription: Subscription | undefined;
+
+	function startStream(source: Observable<string>) {
+		subscription?.unsubscribe();
+		subscription = source.subscribe({ next: (chunk) => (text += chunk) });
+	}
+
+	onDestroy(() => subscription?.unsubscribe());
 </script>
 ```
