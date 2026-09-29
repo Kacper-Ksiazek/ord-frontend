@@ -13,6 +13,16 @@ Specs import `test`/`expect` from `@e2e/shared/fixtures/*` (not directly from `@
 
 **App bugs:** if a journey fails unless you work around product behavior, stop and notify the developer — see `testing/e2e-app-bugs-block-tests.md`. Do not ship specs that pass only via reload, cache bust, or API-only shortcuts.
 
+## New user-facing flows → new journey (automatic test loop)
+
+When a PR adds a **new user path** (modal, query deep link such as `?modal=…`, new screen, or visible SSE-driven flow), add a matching spec under `e2e/journeys/` — **prefer the same PR** as the feature. A follow-up PR is acceptable only when the e2e stack is blocked; link it in the feature PR and land it immediately after — do not defer journeys indefinitely.
+
+Each journey exercises the path end-to-end (auth fixtures, page objects, `getByTestId` from the feature’s `testing/test-ids`), not micro UI assertions (those belong in Vitest). For modals tied to URL state, cover at least: open (control and/or deep link), close (param removed), coexisting list filters unchanged, and a minimal happy path (mock SSE/API consistent with other feature e2e patterns).
+
+**Automatic test loop:** unit tests via `make ci` plus the blocking CI **`e2e`** job on PRs. A shipped flow without a journey is manually testable only and outside the regression loop.
+
+See also [`dev/ci-verify-before-done.md`](../dev/ci-verify-before-done.md) for running e2e locally before merge.
+
 ## Directory layout
 
 ```
@@ -67,6 +77,10 @@ test.describe('Auth journey', () => {
 ```
 
 ## Bad
+
+```ts
+// Feature PR ships modal + URL helpers with Vitest only — no e2e/journeys/* spec (regression gap)
+```
 
 ```ts
 // Multiple micro-tests for UI validation — use Vitest instead

@@ -2,6 +2,8 @@
 
 Components never call `http*` functions directly for streaming or multi-step flows. Page-level `services/` files own that orchestration: plain functions for one-off flows (e.g. subscribing to an SSE `Observable` and mapping it to callbacks/Promises), and `use-*.svelte.ts` composables when the flow needs Svelte context or lifecycle (`useMessageFlow`, `useInitializeConversation`).
 
+The same rule applies to **dialogs and popovers**: subscribing to SSE, mapping stream chunks, and follow-up actions belong in `services/` or a colocated `use-*.svelte.ts` — not inlined in the modal `.svelte` alongside hundreds of lines of markup.
+
 ## Good
 
 ```ts

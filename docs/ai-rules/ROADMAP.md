@@ -41,6 +41,7 @@ Covers: `src/lib/features/*`, `svelte.config.js` aliases, `src/routes`, `src/lib
 - [x] Shared vs feature placement (single-consumer ≠ feature ownership)
 - [x] Feature internal structure (pages/, shared/, root barrel)
 - [x] Proportionality for a one-person project (avoid optional overhead)
+- [x] No dev-only artifacts in shipped src (`no-dev-only-artifacts-in-src.md`)
 
 ### typescript/ — language conventions
 
@@ -50,6 +51,7 @@ Covers: `src/**/*.ts`, `tsconfig.json`, `eslint.config.js`.
 - [x] Naming conventions (`use-*-mutation`, `http*`, AI acronym casing)
 - [x] Type imports and API types (canonical rule in `api-design/`; typescript/ cross-link)
 - [x] Enum/constants patterns (`enum-values.ts` style)
+- [x] Util module public API layout (`*.ts` + `*.types.ts` pairs)
 
 ### svelte/ — components
 
@@ -82,6 +84,7 @@ Covers: `src/lib/api-client`, feature `api-client/` + `services/` dirs.
 - [x] `http*` function conventions (naming, axios usage, one file per endpoint)
 - [x] TanStack Query usage (queries, `use-*-mutation` files, key factories)
 - [x] Services layer (SSE/streaming logic out of components) + SSE stream callers
+- [x] SSE utility structure (`createSSEStream` helpers + tests)
 - [x] API types from generated schema + barrel export conventions
 - [x] User-visible errors (pointer → `design/patterns/states/loading-empty-error-states.md`)
 
@@ -106,7 +109,7 @@ Covers: `messages/`, `scripts/aggregate-translations.ts`, `src/lib/paraglide` (g
 Covers: `src/**/*.test.ts`, `e2e/`, `src/**/*.stories.svelte`, `vite.config.ts`, `.claude/skills/test-utils`.
 
 - [x] Vitest unit test conventions (colocated; utils describe structure optional elsewhere)
-- [x] Playwright e2e structure (journeys + page objects)
+- [x] Playwright e2e structure (journeys + page objects; new flows → new journey, same PR preferred)
 - [x] E2E app bugs block tests (no workarounds in specs; notify developer)
 - [x] E2E CI workflow (blocking `e2e` job, `.github/ord-api-e2e-image.sha` pin)
 - [x] Storybook stories conventions
