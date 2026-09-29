@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Badge } from '$lib/components/utils/badge';
-	import { parseEmphasisText } from '$lib/utils/text/parse-emphasis-text';
+	import { parseEmphasisTextForHeadword } from '$lib/utils/text/parse-emphasis-text';
 	import { getWordTypeBadgeColor, getWordTypeLabel } from '$words/shared/constants';
 	import BankGroupColorDot from '$words/shared/components/bank-group-color-dot.svelte';
 	import WordExtraMarkBadge from '$words/shared/components/word-extra-mark-badge.svelte';
@@ -70,7 +70,7 @@
 
 		{#if item.definition}
 			<p class="text-sm leading-relaxed text-ink-muted">
-				{#each parseEmphasisText(item.definition) as part, index (index)}
+				{#each parseEmphasisTextForHeadword(item.definition, sourceWord) as part, index (index)}
 					{#if part.emphasized}
 						<span class="rounded-md bg-highlight/90 px-1 py-px font-medium text-ink">{part.text}</span>
 					{:else}

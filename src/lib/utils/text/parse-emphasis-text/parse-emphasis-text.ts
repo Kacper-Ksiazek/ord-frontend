@@ -34,3 +34,22 @@ export function stripEmphasisMarkers(text: string): string {
 		.map((part) => part.text)
 		.join('');
 }
+
+/** Headword must not be emphasized in UI when it already appears as the row title. */
+export function parseEmphasisTextForHeadword(text: string, headword: string): EmphasisTextPart[] {
+	const trimmedHeadword = headword.trim();
+
+	if (!trimmedHeadword) {
+		return parseEmphasisText(text);
+	}
+
+	return parseEmphasisText(text).map((part) =>
+		part.emphasized && part.text.trim() === trimmedHeadword
+			? { text: part.text, emphasized: false }
+			: part
+	);
+}
+
+export function plainTextFromEmphasisParts(parts: EmphasisTextPart[]): string {
+	return parts.map((part) => part.text).join('');
+}

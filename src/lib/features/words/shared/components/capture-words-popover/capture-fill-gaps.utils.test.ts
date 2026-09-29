@@ -106,6 +106,22 @@ describe('collectFillGapsItems', () => {
 
 describe('applyFillResultToRow', () => {
 	describe('positive path', () => {
+		it('should store definition without headword emphasis markers', () => {
+			const row = createRow({ word: 'e2eword' });
+
+			applyFillResultToRow(row, {
+				inputSourceWord: 'e2eword',
+				sourceWord: 'e2eword',
+				translation: 'gloss',
+				definition: 'A concise definition of "e2eword" for vocabulary practice.',
+				type: 'NOUN',
+				extraMark: null,
+				error: null
+			});
+
+			expect(row.definition).toBe('A concise definition of e2eword for vocabulary practice.');
+		});
+
 		it('should fill empty fields on success and preserve manual translation', () => {
 			const row = createRow({ word: 'verbos', translation: 'my gloss' });
 
