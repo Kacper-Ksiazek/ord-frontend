@@ -37,8 +37,6 @@
 		parseSimilarExpressions
 	} from '../../utils/parse-explainer-follow-up';
 	import { E2E_TEST_IDS } from '$aiExplainer/testing/test-ids';
-	import type { ExplainPhraseDevtoolsSeed } from './explain-phrase-popover-devtools.constants';
-	import ExplainPhrasePopoverDevtools from './explain-phrase-popover-devtools.svelte';
 	import ExplainPhrasePopoverStreamSkeleton from './explain-phrase-popover-stream-skeleton.svelte';
 	import { ExplainPhraseCompactComposer } from './explain-phrase-compact-composer';
 	import { Spinner } from '$lib/components/utils/spinner';
@@ -506,19 +504,6 @@
 		);
 	}
 
-	function applyExplainPhraseSeedForDevtools(seed: ExplainPhraseDevtoolsSeed) {
-		stopStream();
-		isStreaming = false;
-		errorMessage = null;
-		phrase = seed.phrase;
-		language = seed.language;
-		context = seed.context ?? '';
-		customInstruction = seed.customInstruction ?? '';
-		streamedText = '';
-		clearFollowUps();
-		isOpen = true;
-	}
-
 	function handleFollowUp(action: ExplainPhraseFollowUpAction) {
 		if (!canTriggerFollowUp) {
 			return;
@@ -715,13 +700,6 @@
 		<Dialog.Content
 			data-testid={E2E_TEST_IDS.explainPopover.root}
 			class="overlay-surface fixed top-1/2 left-1/2 z-50 flex h-[min(640px,calc(100vh-2rem))] w-[min(52rem,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden border border-line shadow-lg"
-			onInteractOutside={(event) => {
-				if (!(event.target instanceof HTMLElement)) return;
-
-				if (event.target.closest('[data-explain-phrase-devtools]')) {
-					event.preventDefault();
-				}
-			}}
 		>
 			<header class="shrink-0 border-b border-line px-5 pt-5 pb-0">
 				<div class="flex items-start justify-between gap-3">
@@ -1051,17 +1029,5 @@
 				{/if}
 			</div>
 		</Dialog.Content>
-		{#if isOpen}
-			<ExplainPhrasePopoverDevtools
-				onApplySeed={applyExplainPhraseSeedForDevtools}
-				onRunExplain={handleExplain}
-				onFollowUp={handleFollowUp}
-				onClearError={() => {
-					errorMessage = null;
-				}}
-				onResetForm={handleReset}
-				onOpenModal={openModal}
-			/>
-		{/if}
 	</Dialog.Portal>
 </Dialog.Root>
