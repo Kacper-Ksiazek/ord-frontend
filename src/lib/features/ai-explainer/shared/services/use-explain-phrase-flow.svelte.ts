@@ -151,7 +151,7 @@ export function useExplainPhraseFlow() {
 					return;
 				}
 
-				definedLookupReady = false;
+				definedLookupReady = true;
 			});
 	});
 
