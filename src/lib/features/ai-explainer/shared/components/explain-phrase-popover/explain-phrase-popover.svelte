@@ -25,7 +25,6 @@
 		isExplainModalOpenFromLocationSearch,
 		searchWithExplainModal
 	} from '$lib/utils/url/modal-query';
-	import type { SubmitEvent } from 'svelte/elements';
 	import type { LanguageName } from '$lib/types/core/domain/languages';
 	import * as m from '$lib/paraglide/messages.js';
 	import type { ExplainPhraseFollowUpAction } from '$aiExplainer/types';
@@ -466,7 +465,7 @@
 		requestFormAdvanced = false;
 	}
 
-	function handleExplainSubmit(event: SubmitEvent) {
+	function handleExplainSubmit(event: Event) {
 		event.preventDefault();
 
 		if (!canExplain) {
@@ -684,7 +683,7 @@
 		'cursor-pointer text-ink hover:bg-accent-soft hover:text-ink',
 		isSidebarExpanded ? 'justify-start gap-3 px-3' : 'justify-center px-0'
 	)}
-	onclick={openModal}
+	onclick={() => openModal()}
 >
 	<Sparkles class="h-5 w-5 shrink-0" />
 	{#if isSidebarExpanded}
@@ -723,7 +722,7 @@
 						type="button"
 						aria-label={m['features.ai-explainer.explain-popover.close']()}
 						class="shrink-0 rounded-lg p-1.5 text-ink-subtle transition-colors hover:bg-accent-soft hover:text-ink"
-						onclick={closeModal}
+						onclick={() => closeModal()}
 					>
 						<X class="size-4" />
 					</button>

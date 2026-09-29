@@ -80,7 +80,7 @@ export function parseSimilarExpressions(
 ): SimilarExpressionsView {
 	const { complete, partial } = splitPrefixedLines(raw);
 	const items = complete
-		.map(parseSimilarExpression)
+		.map((line) => parseSimilarExpression(line))
 		.filter((item): item is SimilarExpression => item !== null);
 	const partialItem = partial.trim().length > 0 ? parseSimilarExpression(partial, true) : null;
 

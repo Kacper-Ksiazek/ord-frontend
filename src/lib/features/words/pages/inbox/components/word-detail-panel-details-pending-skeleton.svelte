@@ -8,7 +8,7 @@
 	class="flex flex-col gap-6"
 	data-testid={E2E_TEST_IDS.inbox.detailPendingSkeleton}
 	aria-busy="true"
-	aria-label={m['features.words.inbox.detail.loading']()}
+	aria-label={m['features.words.inbox.detail.loading_details']()}
 >
 	<section class="flex flex-col gap-2.5">
 		<AiSkeleton class="h-4 w-24 rounded-md" />
