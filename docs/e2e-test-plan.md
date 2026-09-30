@@ -17,16 +17,16 @@ Each journey is **one test per file**. Workers run in parallel (`workers: 3`); P
 
 ## What CI covers vs. intentionally uncovered
 
-| Area                                                      | Covered by                         | Notes                                                 |
-| --------------------------------------------------------- | ---------------------------------- | ----------------------------------------------------- |
-| Auth OTP, session, logout guards                          | `00-auth-journey`                  | Full UI login path                                    |
-| Create flow + live SSE chat + message TTS                 | `01-core-flow-journey`             | AI learning-tips TTS + user tutor-comment TTS         |
-| List → row → session resume (SPA) + TTS                   | `02-resume-conversation-journey`   | Guards stale cache on reopen (regression from PR #44) |
-| Words capture modal + Fill with AI + save + TTS           | `03-words-capture-fill-ai-journey` | Stubbed AI fill-gaps on e2e backend profile           |
-| Words list → detail panel → Generate with AI manual + TTS | `04-words-generate-manual-journey` | Source word + example sentence TTS                    |
-| Explain phrase modal (`modal=explain`) + SSE explain      | `05-explain-phrase-journey`        | List search preserved; English phrase `audacity`      |
-| List filters, topic suggestions, wizard step validation   | —                                  | **Not in E2E** — unit/component tests or manual QA    |
-| Feedback panel, activity heatmap                          | —                                  | **Not in E2E** — deferred                             |
+| Area                                                           | Covered by                         | Notes                                                                       |
+| -------------------------------------------------------------- | ---------------------------------- | --------------------------------------------------------------------------- |
+| Auth OTP, session, logout guards                               | `00-auth-journey`                  | Full UI login path                                                          |
+| Create flow + live SSE chat + message TTS                      | `01-core-flow-journey`             | AI learning-tips TTS + user tutor-comment TTS                               |
+| List → row → session resume (SPA) + TTS                        | `02-resume-conversation-journey`   | Guards stale cache on reopen (regression from PR #44)                       |
+| Words capture modal + Fill with AI + save + TTS                | `03-words-capture-fill-ai-journey` | Stubbed AI fill-gaps on e2e backend profile                                 |
+| Words list → detail panel → Generate with AI manual + TTS      | `04-words-generate-manual-journey` | Source word + example sentence TTS                                          |
+| Explain phrase modal (`modal=explain`) + SSE explain/follow-up | `05-explain-phrase-journey`        | List search preserved; `audacity`; follow-ups; clear + advanced form fields |
+| List filters, topic suggestions, wizard step validation        | —                                  | **Not in E2E** — unit/component tests or manual QA                          |
+| Feedback panel, activity heatmap                               | —                                  | **Not in E2E** — deferred                                                   |
 
 Deleted integration specs from PR #49 are **not** replaced 1:1 in Vitest yet. The journeys above are the explicit regression contract; gaps are accepted for a hobby-project scope.
 

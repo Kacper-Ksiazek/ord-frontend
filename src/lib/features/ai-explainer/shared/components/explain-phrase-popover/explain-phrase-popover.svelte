@@ -150,9 +150,10 @@
 		type="OUTLINED"
 		variant="TEXT"
 		disabled={!flow.canClearPhrase}
+		dataTestId={E2E_TEST_IDS.explainPopover.clearPhrase}
 		class="h-8 w-8 shrink-0 border-none"
 		onClick={() => {
-			flow.phrase = '';
+			flow.handleReset();
 		}}
 	/>
 {/snippet}
@@ -382,6 +383,7 @@
 									{m['features.ai-explainer.explain-popover.context_label']()}
 								</p>
 								<AutoHeightTextarea
+									dataTestId={E2E_TEST_IDS.explainPopover.context}
 									bind:value={flow.context}
 									maxLength={EXPLAIN_CONTEXT_MAX}
 									formField
@@ -397,6 +399,7 @@
 									{m['features.ai-explainer.explain-popover.instruction_label']()}
 								</p>
 								<AutoHeightTextarea
+									dataTestId={E2E_TEST_IDS.explainPopover.customInstruction}
 									bind:value={flow.customInstruction}
 									maxLength={EXPLAIN_INSTRUCTION_MAX}
 									formField
