@@ -109,7 +109,7 @@ Covers: `messages/`, `scripts/aggregate-translations.ts`, `src/lib/paraglide` (g
 Covers: `src/**/*.test.ts`, `e2e/`, `src/**/*.stories.svelte`, `vite.config.ts`, `.claude/skills/test-utils`.
 
 - [x] Vitest unit test conventions (colocated; utils describe structure optional elsewhere)
-- [x] Playwright e2e structure (journeys + page objects; new flows → new journey, same PR preferred)
+- [x] Playwright e2e structure (journeys + page objects; see `e2e-journey-for-new-user-flows.md`)
 - [x] E2E app bugs block tests (no workarounds in specs; notify developer)
 - [x] E2E CI workflow (blocking `e2e` job, `.github/ord-api-e2e-image.sha` pin)
 - [x] Storybook stories conventions
