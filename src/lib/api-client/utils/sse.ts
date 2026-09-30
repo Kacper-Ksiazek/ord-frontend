@@ -61,16 +61,17 @@ export function createSSEStream<T = unknown>(
 				const reader = response.body.getReader();
 				const decoder = new TextDecoder();
 				let buffer = '';
+				let eventDataLines: string[] = [];
 
 				// Process the stream
 				while (true) {
 					const { done, value } = await reader.read();
 
 					if (done) {
-						// Process any remaining data in buffer
-						if (buffer.trim()) {
-							processMessage(buffer.trim());
+						if (buffer.length > 0) {
+							pushStreamLine(buffer);
 						}
+						flushEvent();
 						subscriber.complete();
 						break;
 					}
@@ -78,34 +79,51 @@ export function createSSEStream<T = unknown>(
 					// Append new data to buffer
 					buffer += decoder.decode(value, { stream: true });
 
-					// Process complete lines
 					const lines = buffer.split('\n');
-
-					// Keep the last incomplete line in the buffer
 					buffer = lines.pop() || '';
 
 					for (const line of lines) {
-						if (line.trim()) {
-							processMessage(line.trim());
-						}
+						pushStreamLine(line);
 					}
 				}
 
-				function processMessage(line: string) {
-					try {
-						const rawData = line;
+				function pushStreamLine(line: string) {
+					const normalized = line.endsWith('\r') ? line.slice(0, -1) : line;
 
+					if (normalized === '') {
+						flushEvent();
+
+						return;
+					}
+
+					if (!normalized.startsWith('data:')) {
+						return;
+					}
+
+					eventDataLines.push(normalized.slice('data:'.length));
+				}
+
+				function flushEvent() {
+					if (eventDataLines.length === 0) {
+						return;
+					}
+
+					const rawData = eventDataLines.join('\n');
+					eventDataLines = [];
+					emitPayload(rawData);
+				}
+
+				function emitPayload(rawData: string) {
+					try {
 						let parsedData: T;
 
-						// Use custom parser if provided
 						if (options?.parser) {
 							parsedData = options.parser(rawData) as T;
 						} else {
-							// Try to parse as JSON, fallback to string
 							try {
-								parsedData = JSON.parse(rawData.replaceAll('data:', '')) as T;
+								parsedData = JSON.parse(rawData) as T;
 							} catch {
-								parsedData = rawData.replaceAll('data:', '') as T;
+								parsedData = rawData as T;
 							}
 						}
 

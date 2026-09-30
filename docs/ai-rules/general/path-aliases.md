@@ -1,8 +1,8 @@
 # Path aliases
 
-Use the feature aliases defined in `svelte.config.js` — `$auth`, `$conversations`, `$appLayouts`, `$words` — plus `$lib` for shared code. Never use relative paths (`../../..`) or `$lib/features/...` paths to cross a feature boundary; relative imports are only for files within the same feature/page. Cross-feature imports must go only through public barrels (`$auth`, `$conversations`, `$appLayouts`, `$words`).
+Use the feature aliases defined in `svelte.config.js` — `$auth`, `$conversations`, `$appLayouts`, `$words`, `$aiExplainer` — plus `$lib` for shared code. Never use relative paths (`../../..`) or `$lib/features/...` paths to cross a feature boundary; relative imports are only for files within the same feature/page. Cross-feature imports must go only through public barrels (`$auth`, `$conversations`, `$appLayouts`, `$words`, `$aiExplainer`).
 
-ESLint enforces this via `@typescript-eslint/no-restricted-imports` in `eslint.config.js`: `$lib/features/*`, relative `**/features/*`, and sibling-feature relative paths (`../../../auth/*`, `../conversations/*`, `../app-layouts/*`, `../words/*`) fail lint. Use the alias barrels instead.
+ESLint enforces this via `@typescript-eslint/no-restricted-imports` in `eslint.config.js`: `$lib/features/*`, relative `**/features/*`, and sibling-feature relative paths (`../../../auth/*`, `../conversations/*`, `../app-layouts/*`, `../words/*`, `../ai-explainer/*`) fail lint. Use the alias barrels instead.
 
 ## Good
 

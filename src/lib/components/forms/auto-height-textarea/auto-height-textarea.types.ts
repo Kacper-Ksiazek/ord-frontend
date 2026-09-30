@@ -13,6 +13,8 @@ export interface AutoHeightTextareaProps {
 	variant?: InputVariant;
 	LINE_HEIGHT?: number;
 	VERTICAL_PADDING?: number;
+	minRows?: number;
+	maxRows?: number;
 	/** When set, `isValid` reflects whether length is within this limit; over-limit values are allowed (no typing cap), invalid uses error styling. */
 	maxLength?: number;
 	/** Reflects whether the value length is within `maxLength` (not updated when `maxLength` is unset). */

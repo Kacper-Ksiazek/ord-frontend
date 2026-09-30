@@ -228,5 +228,26 @@
 	color: var(--color-ink-subtle);
 }
 
+@keyframes ai-composer-glow {
+	from {
+		box-shadow:
+			0 0 10px 0 color-mix(in srgb, var(--color-primary-400) 22%, transparent),
+			0 0 28px 2px color-mix(in srgb, var(--color-primary-300) 14%, transparent);
+	}
+	to {
+		box-shadow:
+			0 0 16px 2px color-mix(in srgb, var(--color-primary-400) 38%, transparent),
+			0 0 40px 8px color-mix(in srgb, var(--color-primary-300) 24%, transparent);
+	}
+}
+
+.ai-composer-glow {
+	animation: ai-composer-glow 2.1s ease-in-out infinite;
+}
+
+.ai-composer-glow--active {
+	animation-duration: 0.9s;
+}
+
 /* Import typography classes */
 @import './lib/styles/typography.css';

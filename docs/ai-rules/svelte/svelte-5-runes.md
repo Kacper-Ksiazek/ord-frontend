@@ -2,6 +2,8 @@
 
 All components use Svelte 5 runes: `$props()` for props, `$state()` for local state, `$derived` / `$derived.by()` for computed values, and `$effect()` for side effects. Legacy `export let` and `$:` reactive statements are forbidden — no file in this repo uses them. For when to choose `$derived` vs `$effect`, see [`derived-before-effect.md`](./derived-before-effect.md).
 
+In `$effect()` that runs only in the browser (URL sync, `window.location`, DOM), read browser globals with optional chaining and a default — e.g. `window?.location.search ?? ''` — instead of `typeof window === 'undefined' ? …` when the effect’s only job is client-side history/query sync.
+
 ## Good
 
 ```svelte

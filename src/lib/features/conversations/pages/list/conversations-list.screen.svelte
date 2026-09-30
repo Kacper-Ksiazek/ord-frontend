@@ -13,6 +13,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import { Button } from '$lib/components/buttons/button';
 	import { E2E_TEST_IDS } from '$conversations/testing/test-ids';
+	import { preserveModalQueryParam } from '$lib/utils/url/modal-query';
 	import ConversationActivitySectionSkeleton from './components/conversation-activity/conversation-activity-section-skeleton.svelte';
 	import ConversationList from './components/conversation-list/conversation-list.svelte';
 	import ConversationListFiltersBar from './components/conversation-filters/conversation-list-filters-bar.svelte';
@@ -34,7 +35,10 @@
 	});
 
 	$effect(() => {
-		const query = filtersState.toQueryString();
+		const query = preserveModalQueryParam(
+			filtersState.toQueryString(),
+			window?.location.search ?? ''
+		);
 		const desiredSearch = query ? `?${query}` : '';
 
 		// `replaceState` updates history but not `$app/state` `page.url` — compare the real location.

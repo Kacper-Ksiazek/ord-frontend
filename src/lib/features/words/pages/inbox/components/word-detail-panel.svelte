@@ -26,6 +26,7 @@
 	import WordBookmarkButton from './word-bookmark-button.svelte';
 	import WordDetailPanelSkeleton from './word-detail-panel-skeleton.svelte';
 	import WordDetailPanelAiSkeleton from './word-detail-panel-ai-skeleton.svelte';
+	import WordDetailPanelDetailsPendingSkeleton from './word-detail-panel-details-pending-skeleton.svelte';
 	import { E2E_TEST_IDS } from '$words/testing/test-ids';
 	import { toast } from '$lib/components/utils/toast';
 	import { getApiErrorMessage } from '$lib/utils/get-api-error-message';
@@ -62,12 +63,16 @@
 			!wordQuery.isError &&
 			(wordQuery.isPending || wordQuery.isFetching)
 	);
-	const isDetailsSectionLoading = $derived(
-		Boolean(word) && wordQuery.isFetching && !word?.details && !generateWordManualMutation.isPending
-	);
-	const isAiGeneratingDetails = $derived(generateWordManualMutation.isPending);
 	let isManualEditing = $state(false);
 	let aiButtonStatus = $state<AiActionButtonProps['status']>('default');
+	const isAiGeneratingDetails = $derived(generateWordManualMutation.isPending);
+	const isAwaitingInitialDetailsFetch = $derived(
+		Boolean(word) &&
+			!word?.details &&
+			!wordQuery.isFetched &&
+			!isAiGeneratingDetails &&
+			!isManualEditing
+	);
 
 	const isManualBusy = $derived(
 		generateWordManualMutation.isPending || wordDetailsMutation.isPending
@@ -455,8 +460,8 @@
 							{/if}
 						{:else if isAiGeneratingDetails}
 							<WordDetailPanelAiSkeleton />
-						{:else if isDetailsSectionLoading}
-							<WordDetailPanelSkeleton />
+						{:else if isAwaitingInitialDetailsFetch}
+							<WordDetailPanelDetailsPendingSkeleton />
 						{:else if isManualEditing}
 							<WordDetailManualForm
 								disabled={isManualBusy}

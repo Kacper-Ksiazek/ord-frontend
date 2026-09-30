@@ -1,0 +1,39 @@
+{
+	"title": "Erklären",
+	"description": "Hol dir eine kurze Erklärung zu einem Wort oder Ausdruck und verfeinere sie danach.",
+	"phrase_label": "Wort",
+	"phrase_placeholder": "hund",
+	"phrase_compact_placeholder": "Wort oder Ausdruck eingeben…",
+	"advanced_options_label": "Erweiterte Optionen",
+	"language_label": "Sprache",
+	"language_aria": "Sprache des Ausdrucks",
+	"context_label": "Kontext (optional)",
+	"context_placeholder": "Optional: ein Satz, in dem das Wort vorkam",
+	"instruction_label": "Was genau erklärt werden soll (optional)",
+	"instruction_placeholder": "Optional, zum Beispiel: Alltagssprache erklären",
+	"explain": "Erklären",
+	"explaining": "Erkläre…",
+	"reset": "Leeren",
+	"close": "Schließen",
+	"examples_label": "Beispiele",
+	"play_example": "Beispiel abspielen",
+	"error": "Die Erklärung konnte nicht geladen werden. Prüfe Ausdruck und Lernsprache und versuche es erneut.",
+	"tabs": {
+		"request": "Anfrage",
+		"answer": "Erklärung"
+	},
+	"answer_empty": "Klicke auf „Erklären“, um die Antwort hier zu sehen.",
+	"follow_up_label": "Antwort verfeinern",
+	"simpler_section": "Einfachere Definition",
+	"more_examples_section": "Mehr Beispiele",
+	"similar_section": "Ähnliche Ausdrücke",
+	"save_similar": "„{word}“ zum Wortschatz hinzufügen",
+	"save_similar_saved": "„{word}“ ist schon im Wortschatz",
+	"save_similar_success": "„{word}“ wurde zum Wortschatz hinzugefügt.",
+	"save_similar_error": "Dieses Wort konnte nicht zum Wortschatz hinzugefügt werden.",
+	"actions": {
+		"SIMPLER": "Einfacher",
+		"MORE_EXAMPLES": "Mehr Beispiele",
+		"SIMILAR_EXPRESSIONS": "Ähnliche Ausdrücke"
+	}
+}

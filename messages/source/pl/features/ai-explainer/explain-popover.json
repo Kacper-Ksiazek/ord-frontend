@@ -1,0 +1,39 @@
+{
+	"title": "Wyjaśnij",
+	"description": "Poproś o krótkie wyjaśnienie słowa lub wyrażenia, a potem je doprecyzuj.",
+	"phrase_label": "Słowo",
+	"phrase_placeholder": "hund",
+	"phrase_compact_placeholder": "Wpisz słowo lub wyrażenie…",
+	"advanced_options_label": "Opcje zaawansowane",
+	"language_label": "Język",
+	"language_aria": "Język wyrażenia",
+	"context_label": "Kontekst (opcjonalne)",
+	"context_placeholder": "Opcjonalnie: jedno zdanie, w którym słowo padło",
+	"instruction_label": "Co konkretnie wyjaśnić (opcjonalne)",
+	"instruction_placeholder": "Opcjonalnie, na przykład: skup się na codziennym użyciu",
+	"explain": "Wyjaśnij",
+	"explaining": "Wyjaśniam…",
+	"reset": "Wyczyść",
+	"close": "Zamknij",
+	"examples_label": "Przykłady",
+	"play_example": "Odtwórz przykład",
+	"error": "Nie udało się pobrać wyjaśnienia. Sprawdź frazę i język nauki, a potem spróbuj ponownie.",
+	"tabs": {
+		"request": "Zapytanie",
+		"answer": "Wyjaśnienie"
+	},
+	"answer_empty": "Kliknij „Wyjaśnij”, żeby zobaczyć odpowiedź tutaj.",
+	"follow_up_label": "Doprecyzuj odpowiedź",
+	"simpler_section": "Uproszczona definicja",
+	"more_examples_section": "Więcej przykładów",
+	"similar_section": "Podobne wyrażenia",
+	"save_similar": "Dodaj „{word}” do rejestru",
+	"save_similar_saved": "„{word}” jest już w rejestrze",
+	"save_similar_success": "Dodano „{word}” do rejestru słów.",
+	"save_similar_error": "Nie udało się dodać tego słowa do rejestru.",
+	"actions": {
+		"SIMPLER": "Prościej",
+		"MORE_EXAMPLES": "Więcej przykładów",
+		"SIMILAR_EXPRESSIONS": "Podobne wyrażenia"
+	}
+}

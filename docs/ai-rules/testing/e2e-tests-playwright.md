@@ -13,6 +13,8 @@ Specs import `test`/`expect` from `@e2e/shared/fixtures/*` (not directly from `@
 
 **App bugs:** if a journey fails unless you work around product behavior, stop and notify the developer — see `testing/e2e-app-bugs-block-tests.md`. Do not ship specs that pass only via reload, cache bust, or API-only shortcuts.
 
+**New user paths:** each shipped flow needs an `e2e/journeys/` spec — see [`e2e-journey-for-new-user-flows.md`](e2e-journey-for-new-user-flows.md).
+
 ## Directory layout
 
 ```

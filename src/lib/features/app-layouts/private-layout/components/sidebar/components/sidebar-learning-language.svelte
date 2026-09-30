@@ -2,7 +2,7 @@
 	import { DropdownMenu } from 'bits-ui';
 	import { ChevronDown, Plus } from 'lucide-svelte';
 	import { authStore } from '$auth/stores';
-	import CountryFlag from '$lib/assets/images/country-flags/country-flag.svelte';
+	import LanguageNameFlag from '$lib/assets/images/country-flags/language-name-flag.svelte';
 	import type { LanguageName } from '$lib/types/core/domain/languages';
 	import { cn } from '$lib/utils/cn';
 	import * as m from '$lib/paraglide/messages.js';
@@ -25,20 +25,6 @@
 	};
 
 	const AVAILABLE_LANGUAGES = Object.keys(LANGUAGE_LABELS) as LanguageName[];
-
-	const COUNTRY_FLAG_LANGUAGES = new Set<LanguageName>(['ENGLISH', 'POLISH', 'GERMAN']);
-
-	const languageFlags: Record<LanguageName, string> = {
-		ENGLISH: 'gb',
-		SPANISH: 'es',
-		FRENCH: 'fr',
-		GERMAN: 'de',
-		ITALIAN: 'it',
-		POLISH: 'pl',
-		RUSSIAN: 'ru',
-		NORWEGIAN: 'no',
-		SLOVENIAN: 'si'
-	};
 
 	const menuItemClasses =
 		'flex h-10 w-full cursor-pointer items-center gap-2 rounded-md px-2 text-sm text-ink outline-none hover:bg-accent-soft';
@@ -85,22 +71,10 @@
 	function handleAddNewLanguage() {}
 </script>
 
-{#snippet languageFlag(languageName: LanguageName, className = 'w-6 h-4 shrink-0 rounded-sm')}
-	{#if COUNTRY_FLAG_LANGUAGES.has(languageName)}
-		<CountryFlag flag={languageName} class={className} />
-	{:else}
-		<img
-			src={`https://flagcdn.com/w80/${languageFlags[languageName] ?? 'world'}.png`}
-			alt=""
-			class={className}
-		/>
-	{/if}
-{/snippet}
-
 <div class="mx-3 my-2 h-12 shrink-0">
 	<DropdownMenu.Root>
 		<DropdownMenu.Trigger class={triggerClasses} aria-label="Change learning language">
-			{@render languageFlag(displayLanguage)}
+			<LanguageNameFlag language={displayLanguage} />
 
 			<div class={labelClasses} aria-hidden={!isExpanded}>
 				<p class="truncate text-xs leading-4 text-ink-muted">Currently learning</p>
@@ -122,7 +96,7 @@
 						onSelect={() => handleLanguageSelect(languageName)}
 						class={cn(menuItemClasses, displayLanguage === languageName && 'bg-accent-soft font-medium')}
 					>
-						{@render languageFlag(languageName, 'h-4 w-6 shrink-0 rounded-sm')}
+						<LanguageNameFlag language={languageName} />
 						<span class="truncate">{LANGUAGE_LABELS[languageName]}</span>
 					</DropdownMenu.Item>
 				{/each}

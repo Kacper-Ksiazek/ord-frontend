@@ -5,6 +5,10 @@ import type {
 	WordFillGapsResultItem
 } from '$words/types';
 import { CAPTURE_WORDS_POPOVER_MAX_COUNT } from './capture-words-popover.constants';
+import {
+	parseEmphasisTextForHeadword,
+	plainTextFromEmphasisParts
+} from '$lib/utils/text/parse-emphasis-text';
 import type { CaptureFormRow, CollectFillGapsItemsResult } from './capture-words-popover.types';
 
 const MAX_WORD_LENGTH = 255;
@@ -89,7 +93,10 @@ export function applyFillResultToRow(row: CaptureFormRow, result: WordFillGapsRe
 	}
 
 	if (result.definition && !(row.definition?.trim() ?? '')) {
-		row.definition = result.definition;
+		const headword = (result.sourceWord ?? result.inputSourceWord ?? row.word).trim();
+		row.definition = plainTextFromEmphasisParts(
+			parseEmphasisTextForHeadword(result.definition, headword)
+		);
 		row.isDescriptionEnabled = true;
 	}
 

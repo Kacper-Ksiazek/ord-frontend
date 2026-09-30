@@ -1,0 +1,39 @@
+{
+	"title": "Explain",
+	"description": "Ask for a short explanation of a word or phrase, then refine it.",
+	"phrase_label": "Word",
+	"phrase_placeholder": "hund",
+	"phrase_compact_placeholder": "Type a word or phrase…",
+	"advanced_options_label": "Advanced options",
+	"language_label": "Language",
+	"language_aria": "Language of the phrase",
+	"context_label": "Context (optional)",
+	"context_placeholder": "Optional: a sentence where you saw the word",
+	"instruction_label": "What specifically to explain (optional)",
+	"instruction_placeholder": "Optional, for example: focus on everyday use",
+	"explain": "Explain",
+	"explaining": "Explaining…",
+	"reset": "Clear",
+	"close": "Close",
+	"examples_label": "Examples",
+	"play_example": "Play example",
+	"error": "Could not get an explanation. Check the phrase and your learning language, then try again.",
+	"tabs": {
+		"request": "Request",
+		"answer": "Explanation"
+	},
+	"answer_empty": "Run Explain to see the answer here.",
+	"follow_up_label": "Refine the answer",
+	"simpler_section": "Simpler definition",
+	"more_examples_section": "More examples",
+	"similar_section": "Similar expressions",
+	"save_similar": "Add “{word}” to your word register",
+	"save_similar_saved": "“{word}” is already in your word register",
+	"save_similar_success": "Added “{word}” to your word register.",
+	"save_similar_error": "Could not add this word to the register.",
+	"actions": {
+		"SIMPLER": "Simpler",
+		"MORE_EXAMPLES": "More examples",
+		"SIMILAR_EXPRESSIONS": "Similar expressions"
+	}
+}

@@ -6,7 +6,16 @@ export function isSentryEnabled(): boolean {
 		return false;
 	}
 
-	return Boolean(env.PUBLIC_SENTRY_DSN?.trim());
+	if (!env.PUBLIC_SENTRY_DSN?.trim()) {
+		return false;
+	}
+
+	// Vite dev server (localhost) and explicit development environment — no Sentry noise.
+	if (import.meta.env.DEV || getSentryEnvironment() === 'development') {
+		return false;
+	}
+
+	return true;
 }
 
 export function getSentryEnvironment(): string {

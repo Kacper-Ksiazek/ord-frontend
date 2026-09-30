@@ -13,8 +13,8 @@ structure changes materially, and use the checkboxes to track rule coverage.
 - **i18n:** Paraglide JS 2 (pl/en/de), `messages/` + `scripts/aggregate-translations.ts`
 - **Testing:** Vitest (unit, colocated `.test.ts`), Playwright (`e2e/journeys/`, page objects in `e2e/features/`, CI job `e2e` + pinned `ord-api` image), Storybook 10 (`.stories.svelte`)
 - **Tooling:** ESLint 9 flat config, Prettier, husky + lint-staged, bun
-- **Architecture:** FDD — `src/lib/features/{auth,conversations,app-layouts,words}` with public
-  barrels, aliases `$auth`/`$conversations`/`$appLayouts`/`$words`, thin routes, shared design system
+- **Architecture:** FDD — `src/lib/features/{auth,conversations,app-layouts,words,ai-explainer}` with public
+  barrels, aliases `$auth`/`$conversations`/`$appLayouts`/`$words`/`$aiExplainer`, thin routes, shared design system
   in `$lib/components` + `$lib/utils`
 
 > Note: the former `docs/API_STRUCTURE_GUIDELINES.md` and
@@ -41,6 +41,7 @@ Covers: `src/lib/features/*`, `svelte.config.js` aliases, `src/routes`, `src/lib
 - [x] Shared vs feature placement (single-consumer ≠ feature ownership)
 - [x] Feature internal structure (pages/, shared/, root barrel)
 - [x] Proportionality for a one-person project (avoid optional overhead)
+- [x] No dev-only artifacts in shipped src (`no-dev-only-artifacts-in-src.md`)
 
 ### typescript/ — language conventions
 
@@ -50,6 +51,7 @@ Covers: `src/**/*.ts`, `tsconfig.json`, `eslint.config.js`.
 - [x] Naming conventions (`use-*-mutation`, `http*`, AI acronym casing)
 - [x] Type imports and API types (canonical rule in `api-design/`; typescript/ cross-link)
 - [x] Enum/constants patterns (`enum-values.ts` style)
+- [x] Util module public API layout (`*.ts` + `*.types.ts` pairs)
 
 ### svelte/ — components
 
@@ -82,6 +84,7 @@ Covers: `src/lib/api-client`, feature `api-client/` + `services/` dirs.
 - [x] `http*` function conventions (naming, axios usage, one file per endpoint)
 - [x] TanStack Query usage (queries, `use-*-mutation` files, key factories)
 - [x] Services layer (SSE/streaming logic out of components) + SSE stream callers
+- [x] SSE utility structure (`createSSEStream` helpers + tests)
 - [x] API types from generated schema + barrel export conventions
 - [x] User-visible errors (pointer → `design/patterns/states/loading-empty-error-states.md`)
 
@@ -106,7 +109,7 @@ Covers: `messages/`, `scripts/aggregate-translations.ts`, `src/lib/paraglide` (g
 Covers: `src/**/*.test.ts`, `e2e/`, `src/**/*.stories.svelte`, `vite.config.ts`, `.claude/skills/test-utils`.
 
 - [x] Vitest unit test conventions (colocated; utils describe structure optional elsewhere)
-- [x] Playwright e2e structure (journeys + page objects)
+- [x] Playwright e2e structure (journeys + page objects; see `e2e-journey-for-new-user-flows.md`)
 - [x] E2E app bugs block tests (no workarounds in specs; notify developer)
 - [x] E2E CI workflow (blocking `e2e` job, `.github/ord-api-e2e-image.sha` pin)
 - [x] Storybook stories conventions
