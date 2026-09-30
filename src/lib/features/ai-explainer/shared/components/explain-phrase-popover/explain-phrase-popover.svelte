@@ -31,6 +31,7 @@
 	import ExplainPhrasePopoverStreamSkeleton from './explain-phrase-popover-stream-skeleton.svelte';
 	import { ExplainPhraseCompactComposer } from './explain-phrase-compact-composer';
 	import { Spinner } from '$lib/components/utils/spinner';
+	import { authStore } from '$auth/stores';
 
 	interface Props {
 		isSidebarExpanded: boolean;
@@ -53,6 +54,15 @@
 	let { isSidebarExpanded }: Props = $props();
 
 	let answerScrollEl = $state<HTMLDivElement | null>(null);
+
+	const compactGreetingFirstName = $derived(authStore.user?.name?.trim().split(/\s+/)[0] ?? '');
+	const compactGreeting = $derived(
+		compactGreetingFirstName.length > 0
+			? m['features.ai-explainer.explain-popover.compact_greeting_named']({
+					name: compactGreetingFirstName
+				})
+			: m['features.ai-explainer.explain-popover.compact_greeting']()
+	);
 
 	const explainPopoverTabs = $derived<Tab<ExplainPopoverTab>[]>([
 		{
@@ -411,9 +421,26 @@
 							{@render explainRequestActions()}
 						</form>
 					{:else}
-						<div class="flex flex-1 flex-col justify-center py-10">
-							<div class="mx-auto w-full max-w-lg space-y-5">
-								<form onsubmit={flow.handleExplainSubmit}>
+						<div
+							class="relative flex min-h-[min(420px,100%)] flex-1 flex-col items-center justify-center py-8 sm:py-12"
+						>
+							<div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+								<div
+									class="absolute top-1/2 left-1/2 h-[min(320px,75%)] w-[min(640px,110%)] -translate-x-1/2 -translate-y-[58%] rounded-full bg-primary-500/8 blur-3xl dark:bg-primary-400/12"
+								></div>
+								<div
+									class="absolute top-1/2 left-1/2 h-[min(200px,50%)] w-[min(420px,85%)] -translate-x-1/2 -translate-y-[55%] rounded-full bg-highlight/35 blur-2xl dark:bg-highlight/20"
+								></div>
+							</div>
+
+							<div class="relative w-full max-w-xl space-y-8 px-1">
+								<p
+									class="w-full text-center text-pretty text-[1.625rem] leading-snug font-medium tracking-tight text-ink sm:text-[1.75rem]"
+								>
+									{compactGreeting}
+								</p>
+
+								<form class="w-full" onsubmit={flow.handleExplainSubmit}>
 									<ExplainPhraseCompactComposer
 										bind:value={flow.phrase}
 										maxLength={EXPLAIN_PHRASE_MAX}

@@ -18,10 +18,10 @@
 	type="button"
 	data-testid={dataTestId}
 	class={cn(
-		'flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-transparent p-0 transition-colors',
+		'flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-transparent p-0 transition-colors',
 		disabled && 'cursor-not-allowed opacity-30',
 		pending && 'cursor-wait',
-		!disabled && !pending && 'hover:bg-accent-soft'
+		!disabled && !pending && 'hover:bg-accent-soft text-primary-600 dark:text-primary-400'
 	)}
 	{disabled}
 	aria-label={ariaLabel}
