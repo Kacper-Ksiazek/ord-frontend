@@ -1,0 +1,36 @@
+{
+	"page_title": "Home",
+	"greeting_morning": "Dzień dobry, {name}",
+	"greeting_afternoon": "Dzień dobry, {name}",
+	"greeting_evening": "Dobry wieczór, {name}",
+	"words_title": "Słówka",
+	"words_added_last_30": "Dodane w ostatnich 30 dniach",
+	"words_by_type_empty": "Brak słówek",
+	"conversations_title": "Konwersacje",
+	"conversations_total": "Konwersacje",
+	"messages_total": "Wiadomości",
+	"conversations_last_30": "Nowe konwersacje w 30 dniach",
+	"messages_last_30": "Nowe wiadomości w 30 dniach",
+	"games_title": "Gry",
+	"games_coming_soon": "Wkrótce",
+	"games_total": "Ukończone gry",
+	"games_last_30": "Ukończone w 30 dniach",
+	"activity_title": "Ten rok",
+	"heatmap_aria": "Aktywność w {year}. Każda kolumna to tydzień, od poniedziałku do niedzieli.",
+	"heatmap_empty": "{date}: brak aktywności",
+	"heatmap_one": "{date}: 1 zdarzenie",
+	"heatmap_n": "{date}: {count} zdarzeń",
+	"load_error": {
+		"header": "Nie udało się wczytać strony głównej",
+		"description_fallback": "Coś poszło nie tak. Spróbuj ponownie.",
+		"try_again": "Spróbuj ponownie"
+	},
+	"word_type": {
+		"noun": "Rzeczownik",
+		"verb": "Czasownik",
+		"adjective": "Przymiotnik",
+		"adverb": "Przysłówek",
+		"idiom": "Idiom",
+		"phrase": "Wyrażenie"
+	}
+}

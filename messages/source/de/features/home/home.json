@@ -1,0 +1,36 @@
+{
+	"page_title": "Home",
+	"greeting_morning": "Guten Morgen, {name}",
+	"greeting_afternoon": "Guten Tag, {name}",
+	"greeting_evening": "Guten Abend, {name}",
+	"words_title": "Wörter",
+	"words_added_last_30": "In den letzten 30 Tagen hinzugefügt",
+	"words_by_type_empty": "Noch keine Wörter",
+	"conversations_title": "Konversationen",
+	"conversations_total": "Konversationen",
+	"messages_total": "Nachrichten",
+	"conversations_last_30": "Neue Konversationen in 30 Tagen",
+	"messages_last_30": "Neue Nachrichten in 30 Tagen",
+	"games_title": "Spiele",
+	"games_coming_soon": "Demnächst",
+	"games_total": "Beendete Spiele",
+	"games_last_30": "Beendet in 30 Tagen",
+	"activity_title": "Dieses Jahr",
+	"heatmap_aria": "Aktivität in {year}. Jede Spalte ist eine Woche, Montag bis Sonntag.",
+	"heatmap_empty": "{date}: keine Aktivität",
+	"heatmap_one": "{date}: 1 Ereignis",
+	"heatmap_n": "{date}: {count} Ereignisse",
+	"load_error": {
+		"header": "Startseite konnte nicht geladen werden",
+		"description_fallback": "Etwas ist schiefgelaufen. Versuch es erneut.",
+		"try_again": "Erneut versuchen"
+	},
+	"word_type": {
+		"noun": "Nomen",
+		"verb": "Verb",
+		"adjective": "Adjektiv",
+		"adverb": "Adverb",
+		"idiom": "Redewendung",
+		"phrase": "Ausdruck"
+	}
+}

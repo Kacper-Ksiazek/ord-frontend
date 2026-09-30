@@ -3,6 +3,7 @@
 	import {
 		LogIn,
 		BookOpen,
+		House,
 		ChevronLeft,
 		ChevronRight,
 		Settings,
@@ -112,6 +113,8 @@
 	<!-- Navigation Menu Section -->
 	<nav class="flex-1 overflow-hidden px-3">
 		<div class="flex flex-col gap-2">
+			<SidebarLink title="Home" Icon={House} href="/" />
+
 			<SidebarLink title="Vocabulary" Icon={BookOpen} href="/words" />
 
 			<SidebarLink title="Challenges" Icon={Smile} disabled />

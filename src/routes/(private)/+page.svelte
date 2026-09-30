@@ -1,1 +1,5 @@
-<!-- Unreachable: `(private)/+page.ts` always redirects to `/conversations`. -->
+<script lang="ts">
+	import { HomeScreen } from '$home/pages/home';
+</script>
+
+<HomeScreen />

@@ -16,7 +16,9 @@
 	let { title, Icon, disabled = false, href, onclick, fadeDelay = 150 }: Props = $props();
 
 	const isActive = $derived(
-		href != null && (page.url.pathname === href || page.url.pathname.startsWith(`${href}/`))
+		href != null &&
+			(page.url.pathname === href ||
+				(href !== '/' && page.url.pathname.startsWith(`${href}/`)))
 	);
 
 	const classList = $derived(
