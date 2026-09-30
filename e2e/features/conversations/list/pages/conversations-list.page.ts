@@ -65,7 +65,7 @@ export class ConversationsListPage {
 	async fillSearchFilter(search: string): Promise<void> {
 		await this.filterSearch.fill(search);
 		await expect
-			.poll(() => new URL(this.page.url()).searchParams.get('search'), { timeout: 8_000 })
+			.poll(() => new URL(this.page.url()).searchParams.get('search'), { timeout: 1_000 })
 			.toBe(search);
 	}
 
@@ -73,7 +73,7 @@ export class ConversationsListPage {
 		await this.filterType.click();
 		await this.page.getByTestId(E2E_TEST_IDS.conversations.filterTypeOption(type)).click();
 		await expect
-			.poll(() => new URL(this.page.url()).searchParams.get('type'), { timeout: 8_000 })
+			.poll(() => new URL(this.page.url()).searchParams.get('type'), { timeout: 1_000 })
 			.toBe(type);
 	}
 
@@ -116,7 +116,7 @@ export class ConversationsListPage {
 
 					return true;
 				},
-				{ timeout: 8_000 }
+				{ timeout: 1_000 }
 			)
 			.toBe(true);
 	}

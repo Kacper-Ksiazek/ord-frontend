@@ -225,9 +225,9 @@
 	audioId: string,
 	options: { streaming?: boolean; dataTestId?: string } = {}
 )}
-	<li class="flex items-start gap-2.5" data-testid={options.dataTestId}>
+	<li class="flex min-h-8 items-start gap-2.5" data-testid={options.dataTestId}>
 		{#if options.streaming}
-			<span class="flex size-10 shrink-0" aria-hidden="true" />
+			<span class="h-8 w-8 shrink-0" aria-hidden="true" />
 		{:else}
 			<PlayTextAudio text={example} id={audioId} language={flow.language} />
 		{/if}
@@ -304,6 +304,7 @@
 					</div>
 					<button
 						type="button"
+						data-testid={E2E_TEST_IDS.explainPopover.close}
 						aria-label={m['features.ai-explainer.explain-popover.close']()}
 						class="shrink-0 rounded-lg p-1.5 text-ink-subtle transition-colors hover:bg-accent-soft hover:text-ink"
 						onclick={() => flow.closeModal()}
@@ -488,6 +489,9 @@
 													streaming: flow.isStreaming && flow.streamTarget === 'examples'
 												}
 											)}
+										{/if}
+										{#if flow.isStreaming && flow.streamTarget === 'examples'}
+											<ExplainPhrasePopoverStreamSkeleton variant="more-examples" />
 										{/if}
 									</ul>
 								{/if}

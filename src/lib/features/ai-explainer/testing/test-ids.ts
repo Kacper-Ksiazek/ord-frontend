@@ -6,9 +6,11 @@ export const E2E_TEST_IDS = {
 		phrase: 'explain-phrase-popover-phrase',
 		advancedToggle: 'explain-phrase-popover-advanced-toggle',
 		submit: 'explain-phrase-popover-submit',
+		close: 'explain-phrase-popover-close',
 		followUp: (action: string) => `explain-phrase-popover-follow-up-${action}`,
 		explanation: 'explain-phrase-popover-explanation',
 		explanationSkeleton: 'explain-phrase-popover-explanation-skeleton',
+		moreExamplesSkeleton: 'explain-phrase-popover-more-examples-skeleton',
 		similarSkeleton: 'explain-phrase-popover-similar-skeleton',
 		example: (index: number) => `explain-phrase-popover-example-${index}`
 	}

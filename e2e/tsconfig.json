@@ -20,6 +20,8 @@
 			"@e2e/conversations/*": ["./features/conversations/*"],
 			"@e2e/words": ["./features/words/index.ts"],
 			"@e2e/words/*": ["./features/words/*"],
+			"@e2e/ai-explainer": ["./features/ai-explainer/index.ts"],
+			"@e2e/ai-explainer/*": ["./features/ai-explainer/*"],
 			"$lib/*": ["../src/lib/*"],
 			"$auth/*": ["../src/lib/features/auth/*"],
 			"$conversations/*": ["../src/lib/features/conversations/*"],

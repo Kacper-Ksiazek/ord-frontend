@@ -30,13 +30,16 @@
 	}: Props = $props();
 
 	let isFocused = $state(false);
+	/** Writable derived so send enablement tracks typing while still syncing external resets from `value`. */
+	let phraseInput = $derived(value);
 
 	const hasPhrase = $derived(
-		value.trim().length > 0 && (maxLength === undefined || value.length <= maxLength)
+		phraseInput.trim().length > 0 && (maxLength === undefined || phraseInput.length <= maxLength)
 	);
 	const sendDisabled = $derived(!hasPhrase || pending || disabled);
 
 	function publish(next: string) {
+		phraseInput = next;
 		value = next;
 		onValueChange?.(next);
 	}
@@ -50,14 +53,14 @@
 	}
 
 	function submit() {
-		const next = value.trim();
+		const next = phraseInput.trim();
 
 		if (!next || sendDisabled || !onSubmit) {
 			return;
 		}
 
-		publish(value);
-		onSubmit(value);
+		publish(phraseInput);
+		onSubmit(phraseInput);
 	}
 
 	function handleKeyDown(event: KeyboardEvent) {
@@ -76,7 +79,7 @@
 >
 	<AutoHeightTextarea
 		dataTestId={phraseDataTestId}
-		bind:value
+		bind:value={phraseInput}
 		{placeholder}
 		{maxLength}
 		{disabled}

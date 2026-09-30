@@ -293,20 +293,26 @@ export function useExplainPhraseFlow() {
 		replaceState(desired === '' ? '?' : desired, {});
 	}
 
-	function applyExplainModalFromLocation() {
+	function locationSearchFromNavigation(navigation: { to?: { url: URL } | null }): string {
+		return navigation.to?.url?.search ?? window.location.search;
+	}
+
+	function syncOpenFromUrl(search: string) {
 		if (!browser) {
 			return;
 		}
 
-		const wantsOpen = isExplainModalOpenFromLocationSearch(window.location.search);
-
-		if (wantsOpen && !isOpen) {
+		if (isExplainModalOpenFromLocationSearch(search) && !isOpen) {
 			openModal({ skipUrl: true });
+		}
+	}
 
+	function syncCloseFromUrl(search: string) {
+		if (!browser) {
 			return;
 		}
 
-		if (!wantsOpen && isOpen) {
+		if (!isExplainModalOpenFromLocationSearch(search) && isOpen) {
 			closeModal({ skipUrl: true });
 		}
 	}
@@ -316,11 +322,13 @@ export function useExplainPhraseFlow() {
 			language = authStore.user?.selectedLearningLanguage ?? language;
 		}
 
-		isOpen = true;
-
+		// Sync URL before opening so afterNavigate → applyExplainModalFromLocation does not
+		// see stale search (no modal=explain) and immediately close the dialog.
 		if (!options?.skipUrl) {
 			syncExplainModalQuery(true);
 		}
+
+		isOpen = true;
 	}
 
 	function closeModal(options?: { skipUrl?: boolean }) {
@@ -415,24 +423,73 @@ export function useExplainPhraseFlow() {
 		);
 	}
 
-	onMount(applyExplainModalFromLocation);
+	onMount(() => {
+		syncOpenFromUrl(window.location.search);
+	});
 
-	afterNavigate(() => {
-		applyExplainModalFromLocation();
+	afterNavigate((navigation) => {
+		const search = locationSearchFromNavigation(navigation);
+
+		syncOpenFromUrl(search);
+
+		// replaceState (modal query) is not a distinct AfterNavigate type — only sync close on history navigation.
+		if (navigation.type === 'popstate') {
+			syncCloseFromUrl(search);
+		}
 	});
 
 	return {
-		isOpen,
-		phrase,
-		language,
-		context,
-		customInstruction,
-		streamedText,
-		simplerText,
-		streamTarget,
-		errorMessage,
-		activeTab,
-		requestFormAdvanced,
+		get isOpen() {
+			return isOpen;
+		},
+		get phrase() {
+			return phrase;
+		},
+		set phrase(next) {
+			phrase = next;
+		},
+		get language() {
+			return language;
+		},
+		set language(next) {
+			language = next;
+		},
+		get context() {
+			return context;
+		},
+		set context(next) {
+			context = next;
+		},
+		get customInstruction() {
+			return customInstruction;
+		},
+		set customInstruction(next) {
+			customInstruction = next;
+		},
+		get streamedText() {
+			return streamedText;
+		},
+		get simplerText() {
+			return simplerText;
+		},
+		get streamTarget() {
+			return streamTarget;
+		},
+		get errorMessage() {
+			return errorMessage;
+		},
+		get activeTab() {
+			return activeTab;
+		},
+		set activeTab(next) {
+			activeTab = next;
+		},
+		get requestFormAdvanced() {
+			return requestFormAdvanced;
+		},
+		set requestFormAdvanced(next) {
+			requestFormAdvanced = next;
+		},
 		savingSimilarKey,
 		definedSourceWords,
 		definedLookupReady,
