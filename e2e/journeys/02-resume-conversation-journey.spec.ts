@@ -17,47 +17,61 @@ test.describe('Resume conversation journey', () => {
 		const conversationsListPage = createConversationsListPage(authenticatedPage);
 		const createConversationPage = createCreateConversationPage(authenticatedPage);
 		const conversationSessionPage = createConversationSessionPage(authenticatedPage);
+		let conversationId: string | undefined;
 
-		await conversationsListPage.goto();
-		await conversationsListPage.expectLoaded();
-		await conversationsListPage.clickNewConversation();
-		await expect(authenticatedPage).toHaveURL(/\/conversations\/create/);
+		await test.step('01. Open conversations list and start new conversation', async () => {
+			await conversationsListPage.goto();
+			await conversationsListPage.expectLoaded();
+			await conversationsListPage.clickNewConversation();
+			await expect(authenticatedPage).toHaveURL(/\/conversations\/create/);
+		});
 
-		await createConversationPage.clearStoredDefaults();
-		await createConversationPage.goto();
-		await createConversationPage.expectLoaded();
-		await createConversationPage.expectStepVisible('type');
-		await createConversationPage.completeTypeToneTopicSteps();
-		await createConversationPage.startConversationAndWaitForSession();
+		await test.step('02. Complete create wizard and open live session', async () => {
+			await createConversationPage.clearStoredDefaults();
+			await createConversationPage.goto();
+			await createConversationPage.expectLoaded();
+			await createConversationPage.expectStepVisible('type');
+			await createConversationPage.completeTypeToneTopicSteps();
+			await createConversationPage.startConversationAndWaitForSession();
+		});
 
-		await conversationSessionPage.expectLoaded();
-		await conversationSessionPage.waitForAiGreeting();
-		await conversationSessionPage.clickAiMessageTts(0);
-		await conversationSessionPage.expectComposerReady();
-		await conversationSessionPage.sendMessage(USER_MESSAGE);
-		await conversationSessionPage.waitForUserMessage(1);
-		await conversationSessionPage.clickUserMessageTutorTts(1);
-		await conversationSessionPage.waitForAiReply(2);
-		await conversationSessionPage.clickAiMessageTts(2);
+		await test.step('03. Exchange messages in the session', async () => {
+			await conversationSessionPage.expectLoaded();
+			await conversationSessionPage.waitForAiGreeting();
+			await conversationSessionPage.clickAiMessageTts(0);
+			await conversationSessionPage.expectComposerReady();
+			await conversationSessionPage.sendMessage(USER_MESSAGE);
+			await conversationSessionPage.waitForUserMessage(1);
+			await conversationSessionPage.clickUserMessageTutorTts(1);
+			await conversationSessionPage.waitForAiReply(2);
+			await conversationSessionPage.clickAiMessageTts(2);
+		});
 
-		const conversationId = new URL(authenticatedPage.url()).pathname.split('/').pop();
-		expect(conversationId).toBeTruthy();
-		if (!conversationId) {
-			throw new Error('Expected conversation id in session URL');
-		}
+		await test.step('04. Return to conversations list', async () => {
+			conversationId = new URL(authenticatedPage.url()).pathname.split('/').pop();
+			expect(conversationId).toBeTruthy();
+			if (!conversationId) {
+				throw new Error('Expected conversation id in session URL');
+			}
 
-		await conversationSessionPage.clickBack();
-		await expect(authenticatedPage).toHaveURL(/\/conversations$/);
-		await conversationsListPage.expectLoaded();
+			await conversationSessionPage.clickBack();
+			await expect(authenticatedPage).toHaveURL(/\/conversations$/);
+			await conversationsListPage.expectLoaded();
 
-		await conversationsListPage.openConversation(conversationId);
-		await expect(authenticatedPage).toHaveURL(new RegExp(`/conversations/${conversationId}$`));
-		await conversationSessionPage.expectLoaded();
-		await conversationSessionPage.waitForAiGreeting();
-		await conversationSessionPage.clickAiMessageTts(0);
-		await conversationSessionPage.waitForUserMessage(1);
-		await conversationSessionPage.clickUserMessageTutorTts(1);
-		await conversationSessionPage.clickAiMessageTts(2);
-		await conversationSessionPage.expectAiMessageCount(2);
+			await conversationsListPage.openConversation(conversationId);
+		});
+
+		await test.step('05. Reopen conversation and verify persisted messages', async () => {
+			expect(conversationId).toBeTruthy();
+
+			await expect(authenticatedPage).toHaveURL(new RegExp(`/conversations/${conversationId}$`));
+			await conversationSessionPage.expectLoaded();
+			await conversationSessionPage.waitForAiGreeting();
+			await conversationSessionPage.clickAiMessageTts(0);
+			await conversationSessionPage.waitForUserMessage(1);
+			await conversationSessionPage.clickUserMessageTutorTts(1);
+			await conversationSessionPage.clickAiMessageTts(2);
+			await conversationSessionPage.expectAiMessageCount(2);
+		});
 	});
 });

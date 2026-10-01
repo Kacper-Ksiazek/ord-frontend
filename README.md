@@ -245,14 +245,14 @@ Journey specs live in `e2e/journeys/`; page objects under `e2e/features/` — ne
 | [`docs/e2e-test-plan.md`](./docs/e2e-test-plan.md) | Journey overview, structure, how to run locally |
 
 ```bash
-cd ../ord-ops && make e2e-up   # start pinned ord-api E2E stack
+cd ../ord-ops && make e2e-up   # start ord-api E2E stack (GHCR latest)
 cp .env.e2e.example .env.e2e
 make test-e2e-install           # install Chromium (once)
 make test-e2e                   # 3 parallel journey tests
 make ci-e2e                     # full CI + E2E
 ```
 
-**CI:** `.github/workflows/e2e.yml` runs on pull requests and `workflow_dispatch`. It checks out a **pinned** `ord-api` commit (`.github/ord-api-e2e-image.sha`), pulls the matching `ghcr.io/kacper-ksiazek/ord-api:sha-<commit>` image, starts Postgres + backend, then runs Playwright. The **`e2e` check is blocking** — failed E2E fails the PR. See [`.github/REQUIRED_CHECKS.md`](./.github/REQUIRED_CHECKS.md) to enable it on `main`.
+**CI:** `.github/workflows/e2e.yml` runs on pull requests and `workflow_dispatch`. It pulls **`ghcr.io/kacper-ksiazek/ord-api:latest`** from GHCR, starts Postgres + backend via `ord-api`’s `docker-compose.e2e.yml`, then runs Playwright. The **`e2e` check is blocking** — failed E2E fails the PR. See [`.github/REQUIRED_CHECKS.md`](./.github/REQUIRED_CHECKS.md) to enable it on `main`.
 
 ---
 

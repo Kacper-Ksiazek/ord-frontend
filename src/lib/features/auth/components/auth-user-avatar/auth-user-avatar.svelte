@@ -1,6 +1,7 @@
 <script lang="ts">
 	import gravatarUrl from 'gravatar-url';
 	import { authStore } from '$auth/stores';
+	import { RemoteImage } from '$lib/components/utils/remote-image';
 	import { cn } from '$lib/utils/cn';
 
 	interface AuthUserAvatarProps {
@@ -12,13 +13,15 @@
 </script>
 
 {#if authStore.user?.email}
-	<img
+	<RemoteImage
 		src={gravatarUrl(authStore.user.email, {
 			size,
 			default: 'identicon'
 		})}
 		alt="User avatar"
-		class={cn('rounded-full shrink-0', className)}
+		class={cn('shrink-0 rounded-full', className)}
 		style="width: {size}px; height: {size}px;"
+		width={size}
+		height={size}
 	/>
 {/if}

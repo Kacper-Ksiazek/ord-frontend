@@ -30,13 +30,16 @@
 	}: Props = $props();
 
 	let isFocused = $state(false);
+	/** Writable derived so send enablement tracks typing while still syncing external resets from `value`. */
+	let phraseInput = $derived(value);
 
 	const hasPhrase = $derived(
-		value.trim().length > 0 && (maxLength === undefined || value.length <= maxLength)
+		phraseInput.trim().length > 0 && (maxLength === undefined || phraseInput.length <= maxLength)
 	);
 	const sendDisabled = $derived(!hasPhrase || pending || disabled);
 
 	function publish(next: string) {
+		phraseInput = next;
 		value = next;
 		onValueChange?.(next);
 	}
@@ -50,14 +53,14 @@
 	}
 
 	function submit() {
-		const next = value.trim();
+		const next = phraseInput.trim();
 
 		if (!next || sendDisabled || !onSubmit) {
 			return;
 		}
 
-		publish(value);
-		onSubmit(value);
+		publish(phraseInput);
+		onSubmit(phraseInput);
 	}
 
 	function handleKeyDown(event: KeyboardEvent) {
@@ -70,19 +73,20 @@
 
 <div
 	class={cn(
-		'flex w-full min-h-10 shrink-0 items-center gap-2 rounded-[10px] border border-line bg-surface px-4 py-2',
-		isFocused && 'border-ink'
+		'flex w-full min-h-[52px] shrink-0 items-center gap-2 rounded-full border border-line/90 bg-surface/95 px-4 py-2 shadow-[0_8px_32px_-12px] shadow-ink/12 ring-1 ring-ink/5 backdrop-blur-sm transition-[border-color,box-shadow]',
+		isFocused &&
+			'border-ink/25 shadow-[0_12px_40px_-14px] shadow-primary-600/20 ring-primary-600/10 dark:shadow-primary-400/15'
 	)}
 >
 	<AutoHeightTextarea
 		dataTestId={phraseDataTestId}
-		bind:value
+		bind:value={phraseInput}
 		{placeholder}
 		{maxLength}
 		{disabled}
-		className="flex min-h-8 w-full min-w-0 items-center self-center"
-		textareaClass="message-body text-ink px-0 py-0 leading-[1.8] placeholder:text-ink-muted"
-		LINE_HEIGHT={26}
+		className="flex min-h-0 w-full min-w-0 flex-1 items-center"
+		textareaClass="message-body block text-base text-ink !px-0 !py-0 leading-6 placeholder:text-ink-subtle"
+		LINE_HEIGHT={24}
 		VERTICAL_PADDING={0}
 		onInput={handleInput}
 		onkeydown={handleKeyDown}
@@ -90,7 +94,7 @@
 		onblur={() => (isFocused = false)}
 	/>
 
-	<div class="shrink-0 self-end">
+	<div class="shrink-0 self-center">
 		<SendButton
 			dataTestId={sendDataTestId}
 			ariaLabel={sendAriaLabel}

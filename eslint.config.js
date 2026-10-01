@@ -75,6 +75,7 @@ export default [
 				MouseEvent: 'readonly',
 				HTMLButtonElement: 'readonly',
 				HTMLDivElement: 'readonly',
+				HTMLImageElement: 'readonly',
 				HTMLInputElement: 'readonly',
 				HTMLTextAreaElement: 'readonly',
 				HTMLElement: 'readonly',

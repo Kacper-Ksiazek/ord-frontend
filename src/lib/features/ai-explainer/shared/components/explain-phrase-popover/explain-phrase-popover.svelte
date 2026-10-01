@@ -31,6 +31,7 @@
 	import ExplainPhrasePopoverStreamSkeleton from './explain-phrase-popover-stream-skeleton.svelte';
 	import { ExplainPhraseCompactComposer } from './explain-phrase-compact-composer';
 	import { Spinner } from '$lib/components/utils/spinner';
+	import { authStore } from '$auth/stores';
 
 	interface Props {
 		isSidebarExpanded: boolean;
@@ -53,6 +54,15 @@
 	let { isSidebarExpanded }: Props = $props();
 
 	let answerScrollEl = $state<HTMLDivElement | null>(null);
+
+	const compactGreetingFirstName = $derived(authStore.user?.name?.trim().split(/\s+/)[0] ?? '');
+	const compactGreeting = $derived(
+		compactGreetingFirstName.length > 0
+			? m['features.ai-explainer.explain-popover.compact_greeting_named']({
+					name: compactGreetingFirstName
+				})
+			: m['features.ai-explainer.explain-popover.compact_greeting']()
+	);
 
 	const explainPopoverTabs = $derived<Tab<ExplainPopoverTab>[]>([
 		{
@@ -150,9 +160,10 @@
 		type="OUTLINED"
 		variant="TEXT"
 		disabled={!flow.canClearPhrase}
+		dataTestId={E2E_TEST_IDS.explainPopover.clearPhrase}
 		class="h-8 w-8 shrink-0 border-none"
 		onClick={() => {
-			flow.phrase = '';
+			flow.handleReset();
 		}}
 	/>
 {/snippet}
@@ -225,9 +236,9 @@
 	audioId: string,
 	options: { streaming?: boolean; dataTestId?: string } = {}
 )}
-	<li class="flex items-start gap-2.5" data-testid={options.dataTestId}>
+	<li class="flex min-h-8 items-start gap-2.5" data-testid={options.dataTestId}>
 		{#if options.streaming}
-			<span class="flex size-10 shrink-0" aria-hidden="true" />
+			<span class="h-8 w-8 shrink-0" aria-hidden="true"></span>
 		{:else}
 			<PlayTextAudio text={example} id={audioId} language={flow.language} />
 		{/if}
@@ -304,6 +315,7 @@
 					</div>
 					<button
 						type="button"
+						data-testid={E2E_TEST_IDS.explainPopover.close}
 						aria-label={m['features.ai-explainer.explain-popover.close']()}
 						class="shrink-0 rounded-lg p-1.5 text-ink-subtle transition-colors hover:bg-accent-soft hover:text-ink"
 						onclick={() => flow.closeModal()}
@@ -381,6 +393,7 @@
 									{m['features.ai-explainer.explain-popover.context_label']()}
 								</p>
 								<AutoHeightTextarea
+									dataTestId={E2E_TEST_IDS.explainPopover.context}
 									bind:value={flow.context}
 									maxLength={EXPLAIN_CONTEXT_MAX}
 									formField
@@ -396,6 +409,7 @@
 									{m['features.ai-explainer.explain-popover.instruction_label']()}
 								</p>
 								<AutoHeightTextarea
+									dataTestId={E2E_TEST_IDS.explainPopover.customInstruction}
 									bind:value={flow.customInstruction}
 									maxLength={EXPLAIN_INSTRUCTION_MAX}
 									formField
@@ -407,9 +421,26 @@
 							{@render explainRequestActions()}
 						</form>
 					{:else}
-						<div class="flex flex-1 flex-col justify-center py-10">
-							<div class="mx-auto w-full max-w-lg space-y-5">
-								<form onsubmit={flow.handleExplainSubmit}>
+						<div
+							class="relative flex min-h-[min(420px,100%)] flex-1 flex-col items-center justify-center py-8 sm:py-12"
+						>
+							<div class="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
+								<div
+									class="absolute top-1/2 left-1/2 h-[min(320px,75%)] w-[min(640px,110%)] -translate-x-1/2 -translate-y-[58%] rounded-full bg-primary-500/8 blur-3xl dark:bg-primary-400/12"
+								></div>
+								<div
+									class="absolute top-1/2 left-1/2 h-[min(200px,50%)] w-[min(420px,85%)] -translate-x-1/2 -translate-y-[55%] rounded-full bg-highlight/35 blur-2xl dark:bg-highlight/20"
+								></div>
+							</div>
+
+							<div class="relative w-full max-w-xl space-y-8 px-1">
+								<p
+									class="w-full text-center text-pretty text-[1.625rem] leading-snug font-medium tracking-tight text-ink sm:text-[1.75rem]"
+								>
+									{compactGreeting}
+								</p>
+
+								<form class="w-full" onsubmit={flow.handleExplainSubmit}>
 									<ExplainPhraseCompactComposer
 										bind:value={flow.phrase}
 										maxLength={EXPLAIN_PHRASE_MAX}
@@ -488,6 +519,9 @@
 													streaming: flow.isStreaming && flow.streamTarget === 'examples'
 												}
 											)}
+										{/if}
+										{#if flow.isStreaming && flow.streamTarget === 'examples'}
+											<ExplainPhrasePopoverStreamSkeleton variant="more-examples" />
 										{/if}
 									</ul>
 								{/if}

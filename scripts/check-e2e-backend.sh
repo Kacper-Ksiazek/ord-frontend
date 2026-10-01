@@ -93,10 +93,10 @@ if curl -sf --max-time 3 "$HEALTH_URL" > /dev/null 2>&1; then
     printf '%b\n' "${C_RED}${C_BOLD}⚠️  E2E backend is too old for words journeys${C_RESET}" >&2
     printf '%b\n' "${C_RED}   Missing POST /api/v1/words/ai/fill-gaps (HTTP 404)${C_RESET}" >&2
     printf '%b\n' "" >&2
-    printf '%b\n' "${C_RED}Use the pinned API image, then restart the stack:${C_RESET}" >&2
+    printf '%b\n' "${C_RED}Pull the latest GHCR API image, then restart the stack:${C_RESET}" >&2
     printf '%b\n' "" >&2
     printf '%b\n' "  ${C_YELLOW}cd ../ord-ops && make e2e-down && make e2e-up${C_RESET}" >&2
-    printf '%b\n' "${C_DIM}Pin: ord-frontend/.github/ord-api-e2e-image.sha${C_RESET}" >&2
+    printf '%b\n' "${C_DIM}Image: ghcr.io/kacper-ksiazek/ord-api:latest${C_RESET}" >&2
     printf '%b\n' "" >&2
     exit 1
   fi
