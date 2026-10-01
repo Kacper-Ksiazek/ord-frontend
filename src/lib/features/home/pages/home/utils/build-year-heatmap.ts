@@ -20,11 +20,49 @@ export interface YearHeatmapMonthLabel {
 	label: string;
 }
 
+export interface YearHeatmapMonthSpan {
+	label: string;
+	monthIndex: number;
+	weekStart: number;
+	weekEnd: number;
+}
+
+export function heatmapCellInMonth(
+	cell: YearHeatmapCell,
+	year: number,
+	monthIndex: number
+): boolean {
+	if (!cell.date) {
+		return false;
+	}
+
+	const date = new Date(`${cell.date}T00:00:00Z`);
+
+	return date.getUTCFullYear() === year && date.getUTCMonth() === monthIndex;
+}
+
 export interface YearHeatmap {
 	year: number;
 	weekCount: number;
 	cells: YearHeatmapCell[];
 	monthLabels: YearHeatmapMonthLabel[];
+	monthSpans: YearHeatmapMonthSpan[];
+}
+
+export function sliceHeatmapCellsForWeekRange(
+	cells: YearHeatmapCell[],
+	weekStart: number,
+	weekEnd: number
+): YearHeatmapCell[] {
+	const sliced: YearHeatmapCell[] = [];
+
+	for (let column = weekStart; column <= weekEnd; column += 1) {
+		for (let row = 0; row < 7; row += 1) {
+			sliced.push(cells[column * 7 + row]);
+		}
+	}
+
+	return sliced;
 }
 
 function isLeapYear(year: number): boolean {
@@ -98,11 +136,13 @@ export function buildYearHeatmap(
 		count: 0
 	}));
 	const monthLabels: YearHeatmapMonthLabel[] = [];
+	const monthWeekEndColumn: number[] = [];
 	let labeledMonth = -1;
 
 	for (let dayOfYear = 0; dayOfYear < totalDays; dayOfYear += 1) {
 		const date = utcDate(year, 0, 1 + dayOfYear);
 		const slot = leading + dayOfYear;
+		const weekColumn = Math.floor(slot / 7);
 		const dateKey = formatUtc(date);
 
 		cells[slot] = {
@@ -114,17 +154,27 @@ export function buildYearHeatmap(
 
 		if (month !== labeledMonth) {
 			monthLabels.push({
-				column: Math.floor(slot / 7),
+				column: weekColumn,
 				label: monthLabel(month)
 			});
 			labeledMonth = month;
 		}
+
+		monthWeekEndColumn[month] = weekColumn;
 	}
+
+	const monthSpans: YearHeatmapMonthSpan[] = monthLabels.map((entry, index) => ({
+		label: entry.label,
+		monthIndex: index,
+		weekStart: entry.column,
+		weekEnd: monthWeekEndColumn[index] ?? entry.column
+	}));
 
 	return {
 		year,
 		weekCount,
 		cells,
-		monthLabels
+		monthLabels,
+		monthSpans
 	};
 }

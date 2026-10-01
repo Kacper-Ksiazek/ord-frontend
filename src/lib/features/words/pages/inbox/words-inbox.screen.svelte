@@ -174,14 +174,8 @@
 	<title>{m['features.words.inbox.header.title']()}</title>
 </svelte:head>
 
-<PageContentContainer
-	class="h-full min-h-0 overflow-hidden"
-	contentClass="h-full min-h-0 overflow-hidden"
->
-	<ContentCard
-		class="flex h-full min-h-0 flex-col overflow-hidden"
-		data-testid={E2E_TEST_IDS.inbox.page}
-	>
+<PageContentContainer class="min-h-0" contentClass="flex min-h-0 flex-1 flex-col">
+	<ContentCard class="flex min-h-0 flex-1 flex-col" data-testid={E2E_TEST_IDS.inbox.page}>
 		<div class="shrink-0">
 			<Breadcrumb
 				class="mb-6"
@@ -213,10 +207,12 @@
 		</div>
 
 		{#if viewMode === 'analytics'}
-			<WordsAnalyticsPanel
-				overviewQuery={wordOverviewQuery}
-				hasLearningLanguage={learningLanguage !== undefined}
-			/>
+			<div class="flex min-h-0 flex-1 flex-col">
+				<WordsAnalyticsPanel
+					overviewQuery={wordOverviewQuery}
+					hasLearningLanguage={learningLanguage !== undefined}
+				/>
+			</div>
 		{:else}
 			<div class="flex min-h-0 flex-1 gap-6 overflow-hidden">
 				<div

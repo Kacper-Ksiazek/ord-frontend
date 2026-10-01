@@ -8,6 +8,14 @@ export const E2E_TEST_IDS = {
 		gamesComingSoon: 'home-games-coming-soon',
 		gamesCounts: 'home-games-counts',
 		heatmap: 'home-year-heatmap',
-		skeleton: 'home-skeleton'
+		skeleton: 'home-skeleton',
+		recentWordsSection: 'home-recent-words-section',
+		recentWordsViewAll: 'home-recent-words-view-all',
+		recentWordRow: (id: string) => `home-recent-word-row-${id}`,
+		recentConversationsSection: 'home-recent-conversations-section',
+		recentConversationsViewAll: 'home-recent-conversations-view-all',
+		recentConversationRow: (id: string) => `home-recent-conversation-row-${id}`,
+		recentAddWordButton: 'home-recent-add-word-button',
+		recentNewConversationButton: 'home-recent-new-conversation-button'
 	}
 };

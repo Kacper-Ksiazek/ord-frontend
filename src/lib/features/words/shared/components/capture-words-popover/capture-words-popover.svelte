@@ -69,9 +69,15 @@
 
 	interface Props {
 		isSidebarExpanded: boolean;
+		triggerVariant?: 'sidebar' | 'header-icon';
+		triggerDataTestId?: string;
 	}
 
-	let { isSidebarExpanded }: Props = $props();
+	let {
+		isSidebarExpanded,
+		triggerVariant = 'sidebar',
+		triggerDataTestId = E2E_TEST_IDS.capturePopover.trigger
+	}: Props = $props();
 
 	const modalWidthClass = 'w-[min(52rem,calc(100vw-2rem))]';
 
@@ -562,37 +568,61 @@
 	{/if}
 {/snippet}
 
-<button
-	type="button"
-	data-testid={E2E_TEST_IDS.capturePopover.trigger}
-	title={m['features.words.capture-popover.title']()}
-	class={cn(
-		'flex w-full items-center py-2 transition-colors rounded-lg',
-		'cursor-pointer text-ink hover:bg-accent-soft hover:text-ink',
-		isSidebarExpanded ? 'gap-3 px-3 justify-start' : 'justify-center px-0'
-	)}
-	onclick={() => {
-		isOpen = true;
-	}}
->
+{#if triggerVariant === 'header-icon'}
 	<span class="relative inline-flex shrink-0">
-		<CirclePlus class="h-5 w-5" />
+		<IconButton
+			icon={CirclePlus}
+			type="FILLED"
+			variant="PRIMARY"
+			ariaLabel={m['features.words.capture-popover.title']()}
+			dataTestId={triggerDataTestId}
+			onClick={() => {
+				isOpen = true;
+			}}
+		/>
 		{#if draftWordCount > 0}
 			<span
 				data-testid={E2E_TEST_IDS.capturePopover.draftBadge}
-				class="absolute -right-1.5 -top-1.5 flex min-w-4 items-center justify-center rounded-full bg-ink px-1 py-0.5 text-[10px] font-semibold leading-none text-canvas tabular-nums"
+				class="pointer-events-none absolute -right-1 -top-1 flex min-w-4 items-center justify-center rounded-full bg-ink px-1 py-0.5 text-[10px] font-semibold leading-none text-canvas tabular-nums"
 				aria-hidden="true"
 			>
 				{formatDraftBadgeCount(draftWordCount)}
 			</span>
 		{/if}
 	</span>
-	{#if isSidebarExpanded}
-		<span class="text-sm font-medium" in:fade={{ delay: 150 }}>
-			{m['features.words.capture-popover.title']()}
+{:else}
+	<button
+		type="button"
+		data-testid={triggerDataTestId}
+		title={m['features.words.capture-popover.title']()}
+		class={cn(
+			'flex w-full items-center py-2 transition-colors rounded-lg',
+			'cursor-pointer text-ink hover:bg-accent-soft hover:text-ink',
+			isSidebarExpanded ? 'gap-3 px-3 justify-start' : 'justify-center px-0'
+		)}
+		onclick={() => {
+			isOpen = true;
+		}}
+	>
+		<span class="relative inline-flex shrink-0">
+			<CirclePlus class="h-5 w-5" />
+			{#if draftWordCount > 0}
+				<span
+					data-testid={E2E_TEST_IDS.capturePopover.draftBadge}
+					class="absolute -right-1.5 -top-1.5 flex min-w-4 items-center justify-center rounded-full bg-ink px-1 py-0.5 text-[10px] font-semibold leading-none text-canvas tabular-nums"
+					aria-hidden="true"
+				>
+					{formatDraftBadgeCount(draftWordCount)}
+				</span>
+			{/if}
 		</span>
-	{/if}
-</button>
+		{#if isSidebarExpanded}
+			<span class="text-sm font-medium" in:fade={{ delay: 150 }}>
+				{m['features.words.capture-popover.title']()}
+			</span>
+		{/if}
+	</button>
+{/if}
 
 <Dialog.Root open={isOpen} onOpenChange={handleOpenChange}>
 	<Dialog.Portal>

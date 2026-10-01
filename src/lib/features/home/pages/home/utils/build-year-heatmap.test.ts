@@ -1,5 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { activityFillClass, buildYearHeatmap } from './build-year-heatmap';
+import {
+	activityFillClass,
+	buildYearHeatmap,
+	heatmapCellInMonth,
+	sliceHeatmapCellsForWeekRange
+} from './build-year-heatmap';
 
 const monthNames = (monthIndex: number) =>
 	['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][monthIndex] ??
@@ -24,6 +29,44 @@ describe('buildYearHeatmap', () => {
 			expect(grid.cells[3]).toEqual({ date: '2026-01-01', count: 0 });
 			expect(grid.monthLabels[0]).toEqual({ column: 0, label: 'Jan' });
 			expect(grid.monthLabels).toHaveLength(12);
+			expect(grid.monthSpans[0]).toEqual({
+				label: 'Jan',
+				monthIndex: 0,
+				weekStart: 0,
+				weekEnd: 4
+			});
+			expect(grid.monthSpans).toHaveLength(12);
+		});
+
+		it('should include every day of each month inside its week span', () => {
+			const grid = buildYearHeatmap(2026, [], monthNames);
+			const february = grid.monthSpans[1];
+			const februaryCells = sliceHeatmapCellsForWeekRange(
+				grid.cells,
+				february.weekStart,
+				february.weekEnd
+			);
+
+			expect(februaryCells.filter((cell) => heatmapCellInMonth(cell, 2026, 1)).length).toBe(28);
+		});
+
+		it('should not treat adjacent-month days in a shared week as belonging to the wrong month', () => {
+			const grid = buildYearHeatmap(2026, [], monthNames);
+			const februarySpan = grid.monthSpans[1];
+			const februaryCells = sliceHeatmapCellsForWeekRange(
+				grid.cells,
+				februarySpan.weekStart,
+				februarySpan.weekEnd
+			);
+			const januaryDayInFebruarySlice = februaryCells.find((cell) =>
+				cell.date?.startsWith('2026-01-')
+			);
+
+			expect(januaryDayInFebruarySlice).toBeDefined();
+			if (!januaryDayInFebruarySlice) {
+				return;
+			}
+			expect(heatmapCellInMonth(januaryDayInFebruarySlice, 2026, 1)).toBe(false);
 		});
 	});
 

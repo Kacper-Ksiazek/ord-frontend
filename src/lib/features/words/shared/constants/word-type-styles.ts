@@ -43,3 +43,8 @@ export function getWordTypeSwatchClasses(type: WordType): string {
 export function getWordTypeSwatchDotClasses(type: WordType): string {
 	return cn('size-2 rounded-full', WORD_TYPE_SWATCH_DOT[type]);
 }
+
+/** Solid fill for stacked distribution bars (word type breakdown). */
+export function getWordTypeBarFillClass(type: WordType): string {
+	return WORD_TYPE_SWATCH_DOT[type];
+}

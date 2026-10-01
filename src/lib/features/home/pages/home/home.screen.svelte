@@ -8,6 +8,7 @@
 	import * as m from '$lib/paraglide/messages.js';
 	import HomeCountCards from './components/home-count-cards.svelte';
 	import HomeScreenSkeleton from './components/home-screen-skeleton.svelte';
+	import HomeRecentSections from './components/home-recent-sections.svelte';
 	import HomeYearHeatmap from './components/home-year-heatmap.svelte';
 	import { firstNameFromDisplayName, homeGreetingPeriod } from './utils/home-greeting';
 
@@ -43,7 +44,7 @@
 		}}
 	/>
 {:else}
-	<PageContentContainer>
+	<PageContentContainer class="max-w-[1440px]">
 		<ContentCard data-testid={E2E_TEST_IDS.home.page}>
 			<div class="flex flex-col gap-6">
 				<h1 class="text-2xl font-bold tracking-tight text-ink" data-testid={E2E_TEST_IDS.home.greeting}>
@@ -58,6 +59,7 @@
 						year={homeQuery.data.activity.year ?? 0}
 						days={homeQuery.data.activity.days ?? []}
 					/>
+					<HomeRecentSections />
 				{/if}
 			</div>
 		</ContentCard>
