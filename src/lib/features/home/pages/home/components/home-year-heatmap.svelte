@@ -61,10 +61,7 @@
 			</div>
 
 			<div class="flex flex-col gap-1">
-				<div
-					class="grid h-4 gap-1"
-					style="grid-template-columns: repeat({grid.weekCount}, 1rem);"
-				>
+				<div class="grid h-4 gap-1" style="grid-template-columns: repeat({grid.weekCount}, 1rem);">
 					{#each grid.monthLabels as month (month.label)}
 						<span
 							class="text-[10px] font-medium leading-none text-ink-subtle"

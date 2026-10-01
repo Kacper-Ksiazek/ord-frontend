@@ -35,7 +35,8 @@
 	<StatusPanel
 		variant="error"
 		header={m['features.home.home.load_error.header']()}
-		description={homeQuery.error?.message || m['features.home.home.load_error.description_fallback']()}
+		description={homeQuery.error?.message ||
+			m['features.home.home.load_error.description_fallback']()}
 		primaryButton={{
 			label: m['features.home.home.load_error.try_again'](),
 			onClick: () => homeQuery.refetch()
@@ -45,10 +46,7 @@
 	<PageContentContainer>
 		<ContentCard data-testid={E2E_TEST_IDS.home.page}>
 			<div class="flex flex-col gap-6">
-				<h1
-					class="text-2xl font-bold tracking-tight text-ink"
-					data-testid={E2E_TEST_IDS.home.greeting}
-				>
+				<h1 class="text-2xl font-bold tracking-tight text-ink" data-testid={E2E_TEST_IDS.home.greeting}>
 					{greeting}
 				</h1>
 

@@ -57,10 +57,7 @@
 	>
 		<h2 class="text-sm font-medium text-ink-muted">{m['features.home.home.words_title']()}</h2>
 		<p class="text-2xl font-semibold tabular-nums text-ink">{home.words.total ?? 0}</p>
-		{@render stat(
-			m['features.home.home.words_added_last_30'](),
-			home.words.addedLast30Days ?? 0
-		)}
+		{@render stat(m['features.home.home.words_added_last_30'](), home.words.addedLast30Days ?? 0)}
 		{#if typeRows.length === 0}
 			<p class="text-sm text-ink-subtle">{m['features.home.home.words_by_type_empty']()}</p>
 		{:else}

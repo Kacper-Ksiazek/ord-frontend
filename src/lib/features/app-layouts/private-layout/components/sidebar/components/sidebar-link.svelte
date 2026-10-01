@@ -17,8 +17,7 @@
 
 	const isActive = $derived(
 		href != null &&
-			(page.url.pathname === href ||
-				(href !== '/' && page.url.pathname.startsWith(`${href}/`)))
+			(page.url.pathname === href || (href !== '/' && page.url.pathname.startsWith(`${href}/`)))
 	);
 
 	const classList = $derived(

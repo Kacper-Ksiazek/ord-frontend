@@ -1,6 +1,14 @@
 import type { HomeActivityDay } from '$home/types';
 
-export const YEAR_HEATMAP_WEEKDAY_LABELS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'] as const;
+export const YEAR_HEATMAP_WEEKDAY_LABELS = [
+	'Mon',
+	'Tue',
+	'Wed',
+	'Thu',
+	'Fri',
+	'Sat',
+	'Sun'
+] as const;
 
 export interface YearHeatmapCell {
 	date: string | null;

@@ -79,7 +79,7 @@ test.describe('Auth journey', () => {
 		await loginPage.submitOtp();
 		await loginPage.waitForLoginSuccess();
 
-		await expect(page).toHaveURL(/\/conversations/);
+		await expect(page).toHaveURL((url) => url.pathname === '/');
 	});
 
 	test('send the Polish UI locale with the OTP request', async ({ page, loginPage }, testInfo) => {
@@ -113,7 +113,7 @@ test.describe('Auth journey', () => {
 		await loginPage.openEmailSignInLink(email, code);
 		await loginPage.waitForLoginSuccess();
 
-		await expect(page).toHaveURL(/\/conversations/);
+		await expect(page).toHaveURL((url) => url.pathname === '/');
 		expect(new URL(page.url()).searchParams.has('code')).toBe(false);
 		expect(new URL(page.url()).searchParams.has('email')).toBe(false);
 	});
@@ -129,6 +129,7 @@ test.describe('Auth journey', () => {
 		await conversationsListPage.goto();
 		if (/\/login/.test(page.url())) {
 			await loginPage.loginWithOtp(email, undefined, { assumeOnLoginPage: true });
+			await conversationsListPage.goto();
 		}
 
 		await expect(page).toHaveURL(/\/conversations/);
