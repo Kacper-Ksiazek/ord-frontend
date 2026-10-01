@@ -50,7 +50,7 @@
 			aria-busy="true"
 			aria-label={index === 0 ? ariaLabel : undefined}
 		>
-			<AiSkeleton class="h-8 w-8 shrink-0 rounded-[10px]" aria-hidden="true" />
+			<AiSkeleton class="h-8 w-8 shrink-0 rounded-[10px]" />
 			<div class="flex min-h-8 min-w-0 flex-1 items-center">
 				<AiSkeleton class={cn('h-8 rounded-md', width)} />
 			</div>
