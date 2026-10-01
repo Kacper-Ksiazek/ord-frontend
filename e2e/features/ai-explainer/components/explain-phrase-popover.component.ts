@@ -9,6 +9,16 @@ export type ExplainPhraseRequestBody = {
 	customInstruction: string | null;
 };
 
+export type ExplainPhraseFollowUpAction = 'SIMPLER' | 'MORE_EXAMPLES' | 'SIMILAR_EXPRESSIONS';
+
+export type ExplainPhraseFollowUpRequestBody = {
+	phrase: string;
+	language: string;
+	previousExplanation: string;
+	action: ExplainPhraseFollowUpAction;
+	context: string | null;
+};
+
 export class ExplainPhrasePopoverComponent {
 	constructor(private readonly page: Page) {}
 
@@ -44,6 +54,48 @@ export class ExplainPhrasePopoverComponent {
 		await expect(
 			this.page.getByTestId(`${E2E_TEST_IDS.explainPopover.tabs}-tab-answer`)
 		).toBeDisabled();
+	}
+
+	private requestTab() {
+		return this.page.getByTestId(`${E2E_TEST_IDS.explainPopover.tabs}-tab-request`);
+	}
+
+	async clickRequestTab(): Promise<void> {
+		await this.requestTab().click();
+		await expect(this.root().getByTestId(E2E_TEST_IDS.explainPopover.phrase)).toBeVisible();
+	}
+
+	async clickClearAll(): Promise<void> {
+		const clear = this.root().getByTestId(E2E_TEST_IDS.explainPopover.clearPhrase);
+		await expect(clear).toBeEnabled({ timeout: 15_000 });
+		await clear.click();
+	}
+
+	async toggleAdvancedForm(): Promise<void> {
+		const toggle = this.root().getByTestId(E2E_TEST_IDS.explainPopover.advancedToggle);
+		await expect(toggle).toBeEnabled();
+		await toggle.click();
+	}
+
+	async expectAdvancedFormFieldsEditable(): Promise<void> {
+		const context = this.root().getByTestId(E2E_TEST_IDS.explainPopover.context);
+		const instruction = this.root().getByTestId(E2E_TEST_IDS.explainPopover.customInstruction);
+
+		await expect(context).toBeVisible();
+		await expect(instruction).toBeVisible();
+		await expect(context).toBeEnabled();
+		await expect(instruction).toBeEnabled();
+
+		const contextSample = 'E2E context for audacity';
+		const instructionSample = 'Explain like I am five';
+
+		await context.click();
+		await context.fill(contextSample);
+		await expect(context).toHaveValue(contextSample);
+
+		await instruction.click();
+		await instruction.fill(instructionSample);
+		await expect(instruction).toHaveValue(instructionSample);
 	}
 
 	async fillPhrase(phrase: string): Promise<void> {
@@ -83,6 +135,72 @@ export class ExplainPhrasePopoverComponent {
 		}
 
 		return response.request().postDataJSON() as ExplainPhraseRequestBody;
+	}
+
+	async clickFollowUpAndWaitForResponse(
+		action: ExplainPhraseFollowUpAction
+	): Promise<ExplainPhraseFollowUpRequestBody> {
+		const button = this.root().getByTestId(E2E_TEST_IDS.explainPopover.followUp(action));
+		await expect(button).toBeEnabled({ timeout: 15_000 });
+
+		const followUpResponse = this.page.waitForResponse(
+			(response) => {
+				if (
+					response.request().method() !== 'POST' ||
+					!response.url().includes('/api/v1/ai-explainer/explain-phrase/follow-up')
+				) {
+					return false;
+				}
+				try {
+					const body = response.request().postDataJSON() as ExplainPhraseFollowUpRequestBody;
+
+					return body.action === action;
+				} catch {
+					return false;
+				}
+			},
+			{ timeout: 30_000 }
+		);
+
+		await button.click();
+
+		const response = await followUpResponse;
+
+		if (!response.ok()) {
+			const body = await response.text().catch(() => '(body unavailable)');
+
+			throw new Error(`Explain phrase follow-up failed (${response.status()}): ${body}`);
+		}
+
+		// SSE: only assert status + request body here. Do not await response.finished() or
+		// response.text() — streams may never mark "finished" in CDP, which hangs the test.
+
+		return response.request().postDataJSON() as ExplainPhraseFollowUpRequestBody;
+	}
+
+	async waitForMoreExamplesSkeletonHidden(): Promise<void> {
+		const skeleton = this.root().getByTestId(E2E_TEST_IDS.explainPopover.moreExamplesSkeleton);
+		if (await skeleton.isVisible().catch(() => false)) {
+			await expect(skeleton).toBeHidden({ timeout: 45_000 });
+		}
+	}
+
+	async expectMoreExamplesVisible(): Promise<void> {
+		await expect(this.root().getByText('cut in line', { exact: false })).toBeVisible({
+			timeout: 45_000
+		});
+	}
+
+	async expectSimplerDefinitionVisible(): Promise<void> {
+		await expect(this.root().getByText('very bold', { exact: false })).toBeVisible({
+			timeout: 45_000
+		});
+	}
+
+	async expectSimilarExpressionsVisible(): Promise<void> {
+		await expect(this.root().getByText('nerve', { exact: false })).toBeVisible({
+			timeout: 45_000
+		});
 	}
 
 	async waitForExplanationComplete(): Promise<void> {

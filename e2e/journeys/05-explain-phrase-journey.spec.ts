@@ -62,5 +62,52 @@ test.describe('Explain phrase journey', () => {
 			await explainPopover.expectModalInUrl(true);
 			await conversationsListPage.expectUrlFilters({ search: LIST_SEARCH_FILTER });
 		});
+
+		await test.step('06. Follow up with more examples', async () => {
+			const followUpBody = await explainPopover.clickFollowUpAndWaitForResponse('MORE_EXAMPLES');
+			expect(followUpBody).toMatchObject({
+				phrase: EXPLAIN_PHRASE,
+				language: 'ENGLISH',
+				action: 'MORE_EXAMPLES'
+			});
+			expect(followUpBody.previousExplanation.trim().length).toBeGreaterThan(0);
+
+			await explainPopover.waitForMoreExamplesSkeletonHidden();
+			await explainPopover.expectMoreExamplesVisible();
+		});
+
+		await test.step('07. Follow up with simpler definition', async () => {
+			const followUpBody = await explainPopover.clickFollowUpAndWaitForResponse('SIMPLER');
+			expect(followUpBody).toMatchObject({
+				phrase: EXPLAIN_PHRASE,
+				language: 'ENGLISH',
+				action: 'SIMPLER'
+			});
+			expect(followUpBody.previousExplanation.trim().length).toBeGreaterThan(0);
+
+			await explainPopover.expectSimplerDefinitionVisible();
+		});
+
+		await test.step('08. Follow up with similar expressions', async () => {
+			const followUpBody = await explainPopover.clickFollowUpAndWaitForResponse('SIMILAR_EXPRESSIONS');
+			expect(followUpBody).toMatchObject({
+				phrase: EXPLAIN_PHRASE,
+				language: 'ENGLISH',
+				action: 'SIMILAR_EXPRESSIONS'
+			});
+
+			await explainPopover.expectSimilarExpressionsVisible();
+		});
+
+		await test.step('09. Clear explainer state from request tab', async () => {
+			await explainPopover.clickRequestTab();
+			await explainPopover.clickClearAll();
+			await explainPopover.expectAnswerTabDisabled();
+		});
+
+		await test.step('10. Advanced form context and instruction fields are editable', async () => {
+			await explainPopover.toggleAdvancedForm();
+			await explainPopover.expectAdvancedFormFieldsEditable();
+		});
 	});
 });

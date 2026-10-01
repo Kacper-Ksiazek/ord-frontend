@@ -105,7 +105,13 @@ export function useExplainPhraseFlow() {
 			customInstruction.length <= EXPLAIN_INSTRUCTION_MAX &&
 			!isStreaming
 	);
-	const canClearPhrase = $derived(phrase.trim().length > 0 && !isStreaming);
+	const canClearPhrase = $derived(
+		!isStreaming &&
+			(phrase.trim().length > 0 ||
+				context.length > 0 ||
+				customInstruction.length > 0 ||
+				streamedText.trim().length > 0)
+	);
 
 	$effect(() => {
 		if (!hasResponse && activeTab === 'answer') {
