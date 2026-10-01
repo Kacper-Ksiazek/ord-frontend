@@ -2,7 +2,7 @@
 
 E2E tests live in `e2e/` with their own config (`e2e/playwright.config.ts`):
 
-- **Specs:** `e2e/journeys/*.spec.ts` — one critical user journey per file (auth, conversations, words, …)
+- **Specs:** `e2e/journeys/*.spec.ts` — one critical user journey per file (auth, conversations, words, …); each flow uses **enumerated `test.step`** labels — see [`e2e-journey-enumerated-steps.md`](e2e-journey-enumerated-steps.md)
 - **Page objects:** `e2e/features/<feature>/pages/` and `components/` (mirrors `src/lib/features/`)
 - **Shared:** `e2e/shared/` — fixtures, env, helpers
 - **Types:** `e2e/tsconfig.json` — `@e2e/*` and `$lib/*` path aliases; run `bun run check:e2e`
@@ -12,6 +12,10 @@ Specs import `test`/`expect` from `@e2e/shared/fixtures/*` (not directly from `@
 **Parallel workers:** `workers: 3` — each worker maps to `e2e-ci-w{n}@ord.test` via `emailForWorker(testInfo.workerIndex)` or the `authenticatedPage` fixture.
 
 **App bugs:** if a journey fails unless you work around product behavior, stop and notify the developer — see `testing/e2e-app-bugs-block-tests.md`. Do not ship specs that pass only via reload, cache bust, or API-only shortcuts.
+
+**Failed run triage:** on the 1st and 2nd failure, spawn the **E2E triage agent** (Task + `.cursor/skills/e2e-triage/SKILL.md`) before changing the spec — `testing/e2e-triage-agent.md`, `testing/e2e-failure-triage-manual-first.md`.
+
+**Artifacts:** never commit `test-results/` or IDE `error-context.md`; run `make test-e2e-clean` when done — `testing/e2e-run-artifacts-hygiene.md`.
 
 **New user paths:** each shipped flow needs an `e2e/journeys/` spec — see [`e2e-journey-for-new-user-flows.md`](e2e-journey-for-new-user-flows.md).
 
@@ -60,10 +64,15 @@ test.describe('Auth journey', () => {
 		const email = emailForWorker(testInfo.workerIndex);
 		const conversationsListPage = createConversationsListPage(page);
 
-		await conversationsListPage.goto();
-		await expect(page).toHaveURL(/\/login/);
-		await loginPage.loginWithOtp(email);
-		await conversationsListPage.expectLoaded();
+		await test.step('01. Redirect to login from a private route', async () => {
+			await conversationsListPage.goto();
+			await expect(page).toHaveURL(/\/login/);
+		});
+
+		await test.step('02. Log in with OTP', async () => {
+			await loginPage.loginWithOtp(email);
+			await conversationsListPage.expectLoaded();
+		});
 	});
 });
 ```
