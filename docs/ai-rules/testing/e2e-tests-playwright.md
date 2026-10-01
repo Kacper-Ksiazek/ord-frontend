@@ -45,7 +45,7 @@ e2e/
 ## CI
 
 - Workflow: `.github/workflows/e2e.yml` — job **`e2e`**, blocking on PRs.
-- Backend image pinned: `.github/ord-api-e2e-image.sha`.
+- Backend image: `ghcr.io/kacper-ksiazek/ord-api:latest` from GHCR (see `ord-api/docker-compose.e2e.yml`).
 
 ## Good
 

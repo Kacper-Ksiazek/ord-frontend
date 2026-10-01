@@ -31,13 +31,13 @@ You may read files under `e2e/`, `docs/ai-rules/testing/`, terminal output, and 
 
 ## Classification (pick one primary)
 
-| Bucket             | Signals                                                                        | Typical owner                                    |
-| ------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------ |
-| **env / stack**    | `invalid URL`, login/navigation before feature, missing OTP, Vite not up       | Developer machine / ord-ops                      |
-| **backend / stub** | Empty SSE, wrong fixture, 4xx/5xx on API, pinned `ord-api-e2e-image.sha` stale | ord-api + image pin in frontend                  |
-| **app bug**        | Manual repro fails; UI wrong; SPA vs full reload differs                       | Feature code in ord-frontend                     |
-| **test bug**       | Manual repro passes; assertion/env mismatch only                               | E2E page object / journey                        |
-| **flake**          | Intermittent timing; passes on retry without code change                       | Stabilize wait strategy after ruling out app bug |
+| Bucket             | Signals                                                                       | Typical owner                                    |
+| ------------------ | ----------------------------------------------------------------------------- | ------------------------------------------------ |
+| **env / stack**    | `invalid URL`, login/navigation before feature, missing OTP, Vite not up      | Developer machine / ord-ops                      |
+| **backend / stub** | Empty SSE, wrong fixture, 4xx/5xx on API, stale GHCR `ord-api:latest` locally | ord-api publish + `e2e-up` / pull latest image   |
+| **app bug**        | Manual repro fails; UI wrong; SPA vs full reload differs                      | Feature code in ord-frontend                     |
+| **test bug**       | Manual repro passes; assertion/env mismatch only                              | E2E page object / journey                        |
+| **flake**          | Intermittent timing; passes on retry without code change                      | Stabilize wait strategy after ruling out app bug |
 
 ## Output format (always use this structure)
 

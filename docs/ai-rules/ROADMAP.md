@@ -113,7 +113,7 @@ Covers: `src/**/*.test.ts`, `e2e/`, `src/**/*.stories.svelte`, `vite.config.ts`,
 - [x] E2E failure triage (manual-first) + run artifact hygiene (`e2e-failure-triage-manual-first.md`, `e2e-run-artifacts-hygiene.md`; Cursor rule `e2e-journey-agent.mdc`)
 - [x] Dedicated E2E triage agent (`.cursor/skills/e2e-triage/SKILL.md`, `e2e-triage-agent.md`; Task delegate on 1st/2nd fail)
 - [x] E2E app bugs block tests (no workarounds in specs; notify developer)
-- [x] E2E CI workflow (blocking `e2e` job, `.github/ord-api-e2e-image.sha` pin)
+- [x] E2E CI workflow (blocking `e2e` job, GHCR `ord-api:latest`)
 - [x] Storybook stories conventions
 
 ### git/ — workflow
