@@ -15,20 +15,26 @@ test.describe('Words capture fill AI journey', () => {
 		const wordsInboxPage = createWordsInboxPage(authenticatedPage);
 		const capturePopover = createCaptureWordsPopoverComponent(authenticatedPage);
 
-		await wordsInboxPage.goto();
-		await wordsInboxPage.expectLoaded();
+		await test.step('01. Open words inbox', async () => {
+			await wordsInboxPage.goto();
+			await wordsInboxPage.expectLoaded();
+		});
 
-		await capturePopover.openFromSidebar();
-		await capturePopover.fillWord(0, sourceWord);
-		await capturePopover.clickFillWithAi();
-		await capturePopover.waitForFillComplete();
-		await capturePopover.clickSave();
-		await capturePopover.waitForClosed();
+		await test.step('02. Capture word with Fill with AI and save', async () => {
+			await capturePopover.openFromSidebar();
+			await capturePopover.fillWord(0, sourceWord);
+			await capturePopover.clickFillWithAi();
+			await capturePopover.waitForFillComplete();
+			await capturePopover.clickSave();
+			await capturePopover.waitForClosed();
+		});
 
-		await wordsInboxPage.search(sourceWord);
-		await wordsInboxPage.expectWordVisible(sourceWord);
-		await wordsInboxPage.openWordBySourceText(sourceWord);
-		await wordsInboxPage.clickSourceWordTts();
-		await expect(authenticatedPage).toHaveURL(new RegExp(`search=${sourceWord}`));
+		await test.step('03. Find word in inbox and open detail with TTS', async () => {
+			await wordsInboxPage.search(sourceWord);
+			await wordsInboxPage.expectWordVisible(sourceWord);
+			await wordsInboxPage.openWordBySourceText(sourceWord);
+			await wordsInboxPage.clickSourceWordTts();
+			await expect(authenticatedPage).toHaveURL(new RegExp(`search=${sourceWord}`));
+		});
 	});
 });

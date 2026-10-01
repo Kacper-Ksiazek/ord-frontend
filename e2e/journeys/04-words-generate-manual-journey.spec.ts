@@ -14,13 +14,23 @@ test.describe('Words generate manual journey', () => {
 		const sourceWord = uniqueE2eWord('manual', testInfo.workerIndex);
 		const wordsInboxPage = createWordsInboxPage(authenticatedPage);
 
-		await createWordWithAiFill(authenticatedPage, sourceWord);
+		await test.step('01. Seed inbox word with AI fill helper', async () => {
+			await createWordWithAiFill(authenticatedPage, sourceWord);
+		});
 
-		await wordsInboxPage.openWordBySourceText(sourceWord);
-		await wordsInboxPage.expectDetailEmptyState();
-		await wordsInboxPage.clickGenerateManualWithAi();
-		await wordsInboxPage.waitForGeneratedManual();
-		await wordsInboxPage.clickSourceWordTts();
-		await wordsInboxPage.clickExampleSentenceTts(0);
+		await test.step('02. Open word detail empty state', async () => {
+			await wordsInboxPage.openWordBySourceText(sourceWord);
+			await wordsInboxPage.expectDetailEmptyState();
+		});
+
+		await test.step('03. Generate manual with AI', async () => {
+			await wordsInboxPage.clickGenerateManualWithAi();
+			await wordsInboxPage.waitForGeneratedManual();
+		});
+
+		await test.step('04. Play source word and example sentence TTS', async () => {
+			await wordsInboxPage.clickSourceWordTts();
+			await wordsInboxPage.clickExampleSentenceTts(0);
+		});
 	});
 });
