@@ -18,27 +18,35 @@ test.describe('Core flow journey', () => {
 		const createConversationPage = createCreateConversationPage(authenticatedPage);
 		const conversationSessionPage = createConversationSessionPage(authenticatedPage);
 
-		await conversationsListPage.goto();
-		await conversationsListPage.expectLoaded();
-		await conversationsListPage.clickNewConversation();
-		await expect(authenticatedPage).toHaveURL(/\/conversations\/create/);
+		await test.step('01. Open conversations list and start new conversation', async () => {
+			await conversationsListPage.goto();
+			await conversationsListPage.expectLoaded();
+			await conversationsListPage.clickNewConversation();
+			await expect(authenticatedPage).toHaveURL(/\/conversations\/create/);
+		});
 
-		await createConversationPage.clearStoredDefaults();
-		await createConversationPage.goto();
-		await createConversationPage.expectLoaded();
-		await createConversationPage.expectStepVisible('type');
-		await createConversationPage.completeTypeToneTopicSteps();
-		await createConversationPage.startConversationAndWaitForSession();
+		await test.step('02. Complete create wizard and open live session', async () => {
+			await createConversationPage.clearStoredDefaults();
+			await createConversationPage.goto();
+			await createConversationPage.expectLoaded();
+			await createConversationPage.expectStepVisible('type');
+			await createConversationPage.completeTypeToneTopicSteps();
+			await createConversationPage.startConversationAndWaitForSession();
+		});
 
-		await conversationSessionPage.expectLoaded();
-		await conversationSessionPage.waitForAiGreeting();
-		await conversationSessionPage.clickAiMessageTts(0);
-		await conversationSessionPage.expectComposerReady();
+		await test.step('03. Wait for AI greeting and play TTS', async () => {
+			await conversationSessionPage.expectLoaded();
+			await conversationSessionPage.waitForAiGreeting();
+			await conversationSessionPage.clickAiMessageTts(0);
+			await conversationSessionPage.expectComposerReady();
+		});
 
-		await conversationSessionPage.sendMessage(USER_MESSAGE);
-		await conversationSessionPage.waitForUserMessage(1);
-		await conversationSessionPage.clickUserMessageTutorTts(1);
-		await conversationSessionPage.waitForAiReply(2);
-		await conversationSessionPage.clickAiMessageTts(2);
+		await test.step('04. Send user message and verify AI reply with TTS', async () => {
+			await conversationSessionPage.sendMessage(USER_MESSAGE);
+			await conversationSessionPage.waitForUserMessage(1);
+			await conversationSessionPage.clickUserMessageTutorTts(1);
+			await conversationSessionPage.waitForAiReply(2);
+			await conversationSessionPage.clickAiMessageTts(2);
+		});
 	});
 });

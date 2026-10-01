@@ -1,0 +1,29 @@
+---
+description: E2E journey work — delegate failures to triage agent, no artifact litter
+globs: e2e/**/*.ts,docs/ai-rules/testing/e2e-*.md
+alwaysApply: false
+---
+
+# E2E journey agent behavior
+
+When writing or debugging `e2e/journeys/*` or E2E page objects:
+
+## Failures (1st and 2nd run) — delegate to triage agent
+
+Do **not** immediately edit journey specs or page objects.
+
+1. Spawn a **Task** subagent (`generalPurpose`, `inherit`, foreground) using the template in `docs/ai-rules/testing/e2e-triage-agent.md` and instruct it to follow `.cursor/skills/e2e-triage/SKILL.md`.
+2. Paste the error, command, journey path, failed `test.step` label, and failure count (1 or 2).
+3. Wait for the **E2E triage report**. Treat **Spec edits allowed? No** as blocking until the user confirms manual reproduction or explicitly overrides.
+
+Policy: `docs/ai-rules/testing/e2e-failure-triage-manual-first.md`, `e2e-app-bugs-block-tests.md`.
+
+On **3rd+** failure, you may still invoke triage if classification is unclear; do not skip manual check without user consent.
+
+## User shortcut
+
+If the user says **“E2E triage”** or only wants classification, run the triage skill yourself (read `.cursor/skills/e2e-triage/SKILL.md`) without editing journeys.
+
+## After success or end of task
+
+Run `make test-e2e-clean`. Remove repo-root `test-results/` if it exists. Never stage or commit `test-results/`, `error-context.md`, or `.last-run.json`. See `docs/ai-rules/testing/e2e-run-artifacts-hygiene.md`.

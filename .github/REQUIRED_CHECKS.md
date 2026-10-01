@@ -16,15 +16,13 @@ After merging the E2E CI Phase 2 workflow, enable branch protection on `main`:
 
 The `e2e` job name matches the workflow job in [`.github/workflows/e2e.yml`](./workflows/e2e.yml).
 
-## Updating the pinned ord-api image
+## E2E backend image (GHCR)
 
-CI pulls a specific GHCR tag (`sha-<full-commit-sha>`), not `latest`. When `ord-api` changes the E2E runtime profile, OTP whitelist, or health check contract:
+CI pulls **`ghcr.io/kacper-ksiazek/ord-api:latest`** from GitHub Container Registry (same default as `ord-api/docker-compose.e2e.yml`). Each push to `ord-api` `main` republishes `latest` via [Publish ord-api to GHCR](https://github.com/Kacper-Ksiazek/ord-api/blob/main/.github/workflows/publish-ghcr.yml).
 
-1. Merge and publish the new `ord-api` image to GHCR (push to `ord-api` `main`).
-2. Update [`.github/ord-api-e2e-image.sha`](./ord-api-e2e-image.sha) with the new **full** commit SHA (40 chars; GHCR tags use `github.sha`, not the short hash).
-3. Open a frontend PR and verify the `e2e` check passes.
+When `ord-api` changes the E2E runtime profile, OTP whitelist, or health check contract, merge to `ord-api` `main` and wait for that workflow before expecting frontend E2E to pass.
 
-Local runs can override the image:
+Local override:
 
 ```bash
 ORD_API_IMAGE=ghcr.io/kacper-ksiazek/ord-api:sha-<commit> docker compose -f path/to/ord-api/docker-compose.e2e.yml up --wait

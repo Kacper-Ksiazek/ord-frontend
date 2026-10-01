@@ -2,6 +2,8 @@
 
 When implementing or debugging E2E journeys, a failing or surprising flow often indicates an **application bug**, not a test gap. Agents must **stop and notify the human developer immediately** — before adding assertions, workarounds, or marking journeys as done.
 
+On the **first and second** failure for the same goal, require a **manual reproduction** in the browser before more test edits — see [`e2e-failure-triage-manual-first.md`](e2e-failure-triage-manual-first.md). When a run finishes successfully, clean local artifacts — see [`e2e-run-artifacts-hygiene.md`](e2e-run-artifacts-hygiene.md).
+
 Do not write tests that pass only by bypassing broken product behavior (`page.reload()`, extra waits, API-only paths that skip the user journey, etc.).
 
 ## When to flag

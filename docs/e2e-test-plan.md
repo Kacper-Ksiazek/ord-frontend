@@ -75,7 +75,7 @@ Page objects live under `e2e/features/` and mirror `src/lib/features/`. Specs im
 ## CI
 
 - Workflow: `.github/workflows/e2e.yml` — blocking on PRs.
-- Backend image pinned: `.github/ord-api-e2e-image.sha` → `ghcr.io/kacper-ksiazek/ord-api:sha-<commit>`.
+- Backend image: `ghcr.io/kacper-ksiazek/ord-api:latest` (GHCR; republished on each `ord-api` `main` push).
 - Typecheck: `bun run check:e2e`.
 
 ## Adding a new journey

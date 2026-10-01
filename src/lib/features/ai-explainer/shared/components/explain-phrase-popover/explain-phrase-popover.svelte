@@ -238,7 +238,7 @@
 )}
 	<li class="flex min-h-8 items-start gap-2.5" data-testid={options.dataTestId}>
 		{#if options.streaming}
-			<span class="h-8 w-8 shrink-0" aria-hidden="true" />
+			<span class="h-8 w-8 shrink-0" aria-hidden="true"></span>
 		{:else}
 			<PlayTextAudio text={example} id={audioId} language={flow.language} />
 		{/if}
