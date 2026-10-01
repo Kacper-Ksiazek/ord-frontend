@@ -4,11 +4,11 @@ Playwright journey work uses a **separate triage agent** so the implementation a
 
 ## When to invoke
 
-| Trigger | Who invokes |
-|---------|-------------|
-| 1st or 2nd failure on the same journey goal | **Main agent** (mandatory before editing `e2e/journeys/*`) |
-| User says “triage E2E”, “why did this fail”, pastes `error-context.md` | **User** or main agent |
-| CI `e2e` job red on PR | Optional: human runs triage locally with same failure |
+| Trigger                                                                | Who invokes                                                |
+| ---------------------------------------------------------------------- | ---------------------------------------------------------- |
+| 1st or 2nd failure on the same journey goal                            | **Main agent** (mandatory before editing `e2e/journeys/*`) |
+| User says “triage E2E”, “why did this fail”, pastes `error-context.md` | **User** or main agent                                     |
+| CI `e2e` job red on PR                                                 | Optional: human runs triage locally with same failure      |
 
 ## How to invoke (Cursor)
 
@@ -49,13 +49,13 @@ Output the triage report only. No code changes.
 
 ## Relationship to other docs
 
-| Doc | Role |
-|-----|------|
+| Doc                                                                        | Role                                 |
+| -------------------------------------------------------------------------- | ------------------------------------ |
 | [`e2e-failure-triage-manual-first.md`](e2e-failure-triage-manual-first.md) | Policy: manual check on 1st/2nd fail |
-| [`e2e-app-bugs-block-tests.md`](e2e-app-bugs-block-tests.md) | No workarounds in specs |
-| [`e2e-run-artifacts-hygiene.md`](e2e-run-artifacts-hygiene.md) | Clean `test-results` after runs |
-| `.cursor/skills/e2e-triage/SKILL.md` | **Triage agent** operating manual |
-| `.cursor/rules/e2e-journey-agent.mdc` | Main agent: delegate + hygiene |
+| [`e2e-app-bugs-block-tests.md`](e2e-app-bugs-block-tests.md)               | No workarounds in specs              |
+| [`e2e-run-artifacts-hygiene.md`](e2e-run-artifacts-hygiene.md)             | Clean `test-results` after runs      |
+| `.cursor/skills/e2e-triage/SKILL.md`                                       | **Triage agent** operating manual    |
+| `.cursor/rules/e2e-journey-agent.mdc`                                      | Main agent: delegate + hygiene       |
 
 ## Good workflow
 

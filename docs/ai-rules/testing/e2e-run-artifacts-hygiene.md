@@ -4,13 +4,13 @@ Playwright and the IDE create **local-only** files. They are not part of the pro
 
 ## Where artifacts belong
 
-| Path | Source | In git? |
-|------|--------|--------|
-| `e2e/test-results/` | Playwright `outputDir` (traces, screenshots, video) | No — `.gitignore` |
-| `e2e/playwright-report/` | HTML report | No |
-| `test-results/` (repo root) | IDE / Playwright run from wrong cwd | No — add to `.gitignore`, delete |
-| `test-results/**/error-context.md` | IDE helper for AI on failure | Never commit |
-| `test-results/.last-run.json` | IDE last-run metadata | Never commit |
+| Path                               | Source                                              | In git?                          |
+| ---------------------------------- | --------------------------------------------------- | -------------------------------- |
+| `e2e/test-results/`                | Playwright `outputDir` (traces, screenshots, video) | No — `.gitignore`                |
+| `e2e/playwright-report/`           | HTML report                                         | No                               |
+| `test-results/` (repo root)        | IDE / Playwright run from wrong cwd                 | No — add to `.gitignore`, delete |
+| `test-results/**/error-context.md` | IDE helper for AI on failure                        | Never commit                     |
+| `test-results/.last-run.json`      | IDE last-run metadata                               | Never commit                     |
 
 Official clean command: `make test-e2e-clean` (removes `e2e/test-results` and `e2e/playwright-report`).
 
