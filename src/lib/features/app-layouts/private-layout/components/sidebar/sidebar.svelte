@@ -7,7 +7,7 @@
 		ChevronLeft,
 		ChevronRight,
 		Settings,
-		Smile,
+		Gamepad2,
 		MessageSquare,
 		Moon,
 		Sun
@@ -117,7 +117,7 @@
 
 			<SidebarLink title="Vocabulary" Icon={BookOpen} href="/words" />
 
-			<SidebarLink title="Challenges" Icon={Smile} disabled />
+			<SidebarLink title="Challenges" Icon={Gamepad2} disabled />
 
 			<SidebarLink title="Conversations" Icon={MessageSquare} href="/conversations" />
 		</div>
