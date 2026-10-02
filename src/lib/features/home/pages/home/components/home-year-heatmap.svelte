@@ -3,12 +3,15 @@
 	import { E2E_TEST_IDS } from '$home/testing/test-ids';
 	import { cn } from '$lib/utils/cn';
 	import { CalendarDays } from 'lucide-svelte';
+	import { getLocale } from '$lib/paraglide/runtime';
 	import * as m from '$lib/paraglide/messages.js';
 	import {
-		YEAR_HEATMAP_WEEKDAY_LABELS,
-		activityFillClass,
 		buildYearHeatmap,
+		formatYearHeatmapMonthLabel,
+		formatYearHeatmapWeekdayLabels,
+		heatmapCellFillClass,
 		heatmapCellInMonth,
+		heatmapTodayUtcKey,
 		sliceHeatmapCellsForWeekRange
 	} from '../utils/build-year-heatmap';
 
@@ -19,15 +22,18 @@
 
 	const { year, days }: Props = $props();
 
+	const locale = $derived(getLocale());
+
 	const grid = $derived(
 		buildYearHeatmap(year, days ?? [], (monthIndex) =>
-			new Intl.DateTimeFormat(undefined, { month: 'short', timeZone: 'UTC' }).format(
-				new Date(Date.UTC(year, monthIndex, 1))
-			)
+			formatYearHeatmapMonthLabel(locale, year, monthIndex)
 		)
 	);
 
+	const weekdayLabels = $derived(formatYearHeatmapWeekdayLabels(locale));
+
 	const maxCount = $derived(Math.max(0, ...grid.cells.map((cell) => cell.count)));
+	const todayUtc = $derived(heatmapTodayUtcKey());
 
 	const cellSize = '15px';
 
@@ -61,7 +67,7 @@
 		>
 			<div class="flex shrink-0 flex-col gap-1" aria-hidden="true">
 				<div class="h-[15px]"></div>
-				{#each YEAR_HEATMAP_WEEKDAY_LABELS as label (label)}
+				{#each weekdayLabels as label, index (`${label}-${index}`)}
 					<span class="flex h-[15px] items-center text-[10px] font-medium leading-none text-ink-subtle">
 						{label}
 					</span>
@@ -85,7 +91,7 @@
 									{@const label = cellLabel(cell.date ?? '', cell.count)}
 									<span
 										role="gridcell"
-										class={cn('size-[15px] rounded-sm', activityFillClass(cell.count, maxCount))}
+										class={cn('size-[15px] rounded-sm', heatmapCellFillClass(cell, maxCount, todayUtc))}
 										title={label}
 										aria-label={label}
 									></span>

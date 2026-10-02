@@ -2,7 +2,7 @@
 	import type { Snippet } from 'svelte';
 	import { goto } from '$app/navigation';
 	import { E2E_TEST_IDS } from '$home/testing/test-ids';
-	import { IconButton } from '$lib/components/buttons/icon-button';
+	import { Button } from '$lib/components/buttons/button';
 	import { CaptureWordsPopover } from '$words';
 	import { BookOpen, ChevronRight, MessageSquare, MessageSquarePlus } from 'lucide-svelte';
 	import HomeRecentConversationsList from './home-recent-conversations-list.svelte';
@@ -76,16 +76,20 @@
 		isSidebarExpanded={false}
 		triggerVariant="header-icon"
 		triggerDataTestId={E2E_TEST_IDS.home.recentAddWordButton}
+		triggerLabel={m['features.home.home.recent_add_word']()}
 	/>
 {/snippet}
 
 {#snippet conversationsHeaderAction()}
-	<IconButton
-		icon={MessageSquarePlus}
+	<Button
 		type="FILLED"
 		variant="PRIMARY"
-		ariaLabel={m['features.home.home.recent_new_conversation']()}
 		dataTestId={E2E_TEST_IDS.home.recentNewConversationButton}
+		ariaLabel={m['features.home.home.recent_new_conversation']()}
+		class="gap-2"
 		onClick={() => goto('/conversations/create')}
-	/>
+	>
+		<MessageSquarePlus class="size-4 shrink-0" aria-hidden="true" />
+		{m['features.home.home.recent_new_conversation']()}
+	</Button>
 {/snippet}

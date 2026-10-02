@@ -1,14 +1,35 @@
 import { describe, expect, it } from 'vitest';
 import {
+	HEATMAP_FUTURE_CLASS,
+	HEATMAP_PAST_QUIET_CLASS,
 	activityFillClass,
 	buildYearHeatmap,
+	formatYearHeatmapMonthLabel,
+	formatYearHeatmapWeekdayLabels,
+	heatmapCellFillClass,
 	heatmapCellInMonth,
+	isHeatmapFutureDay,
 	sliceHeatmapCellsForWeekRange
 } from './build-year-heatmap';
 
 const monthNames = (monthIndex: number) =>
 	['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][monthIndex] ??
 	'';
+
+describe('formatYearHeatmapWeekdayLabels', () => {
+	it('should format seven UTC weekdays starting on Monday for the app locale', () => {
+		const labels = formatYearHeatmapWeekdayLabels('pl');
+
+		expect(labels).toHaveLength(7);
+		expect(labels[0]?.toLowerCase()).toMatch(/pon/);
+	});
+});
+
+describe('formatYearHeatmapMonthLabel', () => {
+	it('should format a short month name for the app locale', () => {
+		expect(formatYearHeatmapMonthLabel('pl', 2026, 8).toLowerCase()).toMatch(/wrz/);
+	});
+});
 
 describe('buildYearHeatmap', () => {
 	describe('positive path', () => {
@@ -97,23 +118,50 @@ describe('buildYearHeatmap', () => {
 	});
 });
 
+describe('heatmapCellFillClass', () => {
+	it('should use a muted canvas fill for future days without activity', () => {
+		const cell = { date: '2026-12-31', count: 0 };
+
+		expect(heatmapCellFillClass(cell, 4, '2026-10-02')).toBe(HEATMAP_FUTURE_CLASS);
+	});
+
+	it('should keep accent-soft for past quiet days', () => {
+		const cell = { date: '2026-01-02', count: 0 };
+
+		expect(heatmapCellFillClass(cell, 4, '2026-10-02')).toBe(HEATMAP_PAST_QUIET_CLASS);
+	});
+
+	it('should still shade days that had activity', () => {
+		const cell = { date: '2026-09-30', count: 4 };
+
+		expect(heatmapCellFillClass(cell, 4, '2026-10-02')).toBe('bg-ink dark:bg-primary-600');
+	});
+});
+
+describe('isHeatmapFutureDay', () => {
+	it('should compare UTC date keys lexicographically', () => {
+		expect(isHeatmapFutureDay('2026-10-03', '2026-10-02')).toBe(true);
+		expect(isHeatmapFutureDay('2026-10-02', '2026-10-02')).toBe(false);
+	});
+});
+
 describe('activityFillClass', () => {
 	describe('positive path', () => {
 		it('should darken higher counts relative to the year max', () => {
-			expect(activityFillClass(8, 8)).toBe('bg-ink');
-			expect(activityFillClass(1, 8)).toBe('bg-primary-200');
+			expect(activityFillClass(8, 8)).toBe('bg-ink dark:bg-primary-600');
+			expect(activityFillClass(1, 8)).toBe('bg-primary-200 dark:bg-primary-200');
 		});
 	});
 
 	describe('negative path', () => {
 		it('should keep a zero day pale', () => {
-			expect(activityFillClass(0, 8)).toBe('bg-accent-soft');
+			expect(activityFillClass(0, 8)).toBe(HEATMAP_PAST_QUIET_CLASS);
 		});
 	});
 
 	describe('edge cases', () => {
 		it('should stay pale when the year has no activity', () => {
-			expect(activityFillClass(0, 0)).toBe('bg-accent-soft');
+			expect(activityFillClass(0, 0)).toBe(HEATMAP_PAST_QUIET_CLASS);
 		});
 	});
 });

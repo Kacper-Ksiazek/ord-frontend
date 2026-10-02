@@ -1,14 +1,23 @@
 import type { HomeActivityDay } from '$home/types';
 
-export const YEAR_HEATMAP_WEEKDAY_LABELS = [
-	'Mon',
-	'Tue',
-	'Wed',
-	'Thu',
-	'Fri',
-	'Sat',
-	'Sun'
-] as const;
+/** UTC week starting Monday 2024-01-01. */
+export function formatYearHeatmapWeekdayLabels(locale: string): readonly string[] {
+	const formatter = new Intl.DateTimeFormat(locale, { weekday: 'short', timeZone: 'UTC' });
+
+	return Array.from({ length: 7 }, (_, dayOffset) =>
+		formatter.format(new Date(Date.UTC(2024, 0, 1 + dayOffset)))
+	);
+}
+
+export function formatYearHeatmapMonthLabel(
+	locale: string,
+	year: number,
+	monthIndex: number
+): string {
+	return new Intl.DateTimeFormat(locale, { month: 'short', timeZone: 'UTC' }).format(
+		new Date(Date.UTC(year, monthIndex, 1))
+	);
+}
 
 export interface YearHeatmapCell {
 	date: string | null;
@@ -77,11 +86,20 @@ function utcDate(year: number, monthIndex: number, day: number): Date {
 	return new Date(Date.UTC(year, monthIndex, day));
 }
 
-function formatUtc(date: Date): string {
+export function formatUtcDateKey(date: Date): string {
 	const month = String(date.getUTCMonth() + 1).padStart(2, '0');
 	const day = String(date.getUTCDate()).padStart(2, '0');
 
 	return `${date.getUTCFullYear()}-${month}-${day}`;
+}
+
+/** UTC calendar date for “today”, matching activity day keys from the API. */
+export function heatmapTodayUtcKey(reference: Date = new Date()): string {
+	return formatUtcDateKey(reference);
+}
+
+export function isHeatmapFutureDay(date: string, todayUtc: string): boolean {
+	return date > todayUtc;
 }
 
 /** Monday = 0 … Sunday = 6, from a UTC date. */
@@ -89,26 +107,49 @@ function mondayIndex(date: Date): number {
 	return (date.getUTCDay() + 6) % 7;
 }
 
+/** Past days with no activity — `accent-soft` blends into dark `surface`. */
+export const HEATMAP_PAST_QUIET_CLASS = 'bg-accent-soft dark:bg-line';
+
+/** Days after today UTC — slightly recessed vs quiet past days. */
+export const HEATMAP_FUTURE_CLASS =
+	'border border-line-subtle bg-canvas dark:border-line dark:bg-canvas';
+
 export function activityFillClass(count: number, max: number): string {
 	if (count <= 0 || max <= 0) {
-		return 'bg-accent-soft';
+		return HEATMAP_PAST_QUIET_CLASS;
 	}
 
 	const ratio = count / max;
 
 	if (ratio >= 0.75) {
-		return 'bg-ink';
+		return 'bg-ink dark:bg-primary-600';
 	}
 
 	if (ratio >= 0.5) {
-		return 'bg-primary-500';
+		return 'bg-primary-500 dark:bg-primary-400';
 	}
 
 	if (ratio >= 0.25) {
-		return 'bg-primary-300';
+		return 'bg-primary-300 dark:bg-primary-300';
 	}
 
-	return 'bg-primary-200';
+	return 'bg-primary-200 dark:bg-primary-200';
+}
+
+export function heatmapCellFillClass(cell: YearHeatmapCell, max: number, todayUtc: string): string {
+	if (!cell.date) {
+		return '';
+	}
+
+	if (cell.count > 0 && max > 0) {
+		return activityFillClass(cell.count, max);
+	}
+
+	if (isHeatmapFutureDay(cell.date, todayUtc)) {
+		return HEATMAP_FUTURE_CLASS;
+	}
+
+	return activityFillClass(cell.count, max);
 }
 
 export function buildYearHeatmap(
@@ -143,7 +184,7 @@ export function buildYearHeatmap(
 		const date = utcDate(year, 0, 1 + dayOfYear);
 		const slot = leading + dayOfYear;
 		const weekColumn = Math.floor(slot / 7);
-		const dateKey = formatUtc(date);
+		const dateKey = formatUtcDateKey(date);
 
 		cells[slot] = {
 			date: dateKey,

@@ -71,13 +71,19 @@
 		isSidebarExpanded: boolean;
 		triggerVariant?: 'sidebar' | 'header-icon';
 		triggerDataTestId?: string;
+		triggerLabel?: string;
 	}
 
 	let {
 		isSidebarExpanded,
 		triggerVariant = 'sidebar',
-		triggerDataTestId = E2E_TEST_IDS.capturePopover.trigger
+		triggerDataTestId = E2E_TEST_IDS.capturePopover.trigger,
+		triggerLabel
 	}: Props = $props();
+
+	const headerTriggerLabel = $derived(
+		triggerLabel ?? m['features.words.capture-popover.title']()
+	);
 
 	const modalWidthClass = 'w-[min(52rem,calc(100vw-2rem))]';
 
@@ -569,27 +575,19 @@
 {/snippet}
 
 {#if triggerVariant === 'header-icon'}
-	<span class="relative inline-flex shrink-0">
-		<IconButton
-			icon={CirclePlus}
-			type="FILLED"
-			variant="PRIMARY"
-			ariaLabel={m['features.words.capture-popover.title']()}
-			dataTestId={triggerDataTestId}
-			onClick={() => {
-				isOpen = true;
-			}}
-		/>
-		{#if draftWordCount > 0}
-			<span
-				data-testid={E2E_TEST_IDS.capturePopover.draftBadge}
-				class="pointer-events-none absolute -right-1 -top-1 flex min-w-4 items-center justify-center rounded-full bg-ink px-1 py-0.5 text-[10px] font-semibold leading-none text-canvas tabular-nums"
-				aria-hidden="true"
-			>
-				{formatDraftBadgeCount(draftWordCount)}
-			</span>
-		{/if}
-	</span>
+	<Button
+		type="FILLED"
+		variant="PRIMARY"
+		dataTestId={triggerDataTestId}
+		ariaLabel={headerTriggerLabel}
+		class="shrink-0 gap-2"
+		onClick={() => {
+			isOpen = true;
+		}}
+	>
+		<CirclePlus class="size-4 shrink-0" aria-hidden="true" />
+		{headerTriggerLabel}
+	</Button>
 {:else}
 	<button
 		type="button"
