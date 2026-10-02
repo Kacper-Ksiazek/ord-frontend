@@ -8,6 +8,13 @@ export type HomeActivityDay = {
 	count: number;
 };
 
+export type HomeTrendsSection = {
+	wordsAdded: HomeActivityDay[];
+	conversationsCreated: HomeActivityDay[];
+	messages: HomeActivityDay[];
+	gamesFinished: HomeActivityDay[];
+};
+
 export type HomeResponse = {
 	words: {
 		total: number;
@@ -25,6 +32,7 @@ export type HomeResponse = {
 		total: number | null;
 		last30Days: number | null;
 	};
+	trends: HomeTrendsSection;
 	activity: {
 		year: number;
 		days: HomeActivityDay[];

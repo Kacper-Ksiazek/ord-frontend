@@ -1,1 +1,1 @@
-export type { HomeActivityDay, HomeResponse } from './api/home-response';
+export type { HomeActivityDay, HomeResponse, HomeTrendsSection } from './api/home-response';

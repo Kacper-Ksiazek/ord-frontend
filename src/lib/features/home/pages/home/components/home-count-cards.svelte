@@ -1,9 +1,10 @@
 <script lang="ts">
-	import type { HomeResponse } from '$home/types';
+	import type { HomeActivityDay, HomeResponse } from '$home/types';
+	import HomeCountTrendChart from './home-count-trend-chart.svelte';
 	import { WORD_TYPES } from '$words/shared/constants';
 	import { getWordTypeBarFillClass, getWordTypeLabel } from '$words/shared/constants';
 	import { E2E_TEST_IDS } from '$home/testing/test-ids';
-	import { BookOpen, MessageSquare, Smile } from 'lucide-svelte';
+	import { BookOpen, Gamepad2, MessageSquare } from 'lucide-svelte';
 	import * as m from '$lib/paraglide/messages.js';
 
 	interface Props {
@@ -57,13 +58,41 @@
 	</div>
 {/snippet}
 
+{#snippet cardSummaryTop(
+	title: string,
+	Icon: LucideIcon,
+	value: number,
+	trendDays: HomeActivityDay[],
+	trendAriaLabel: string,
+	trendChartTestId: string
+)}
+	<div class="flex min-w-0 items-stretch gap-8">
+		<div class="flex min-w-0 flex-1 flex-col justify-between gap-2">
+			{@render cardHeader(title, Icon)}
+			{@render heroMetric(value)}
+		</div>
+		<HomeCountTrendChart
+			days={trendDays}
+			ariaLabel={trendAriaLabel}
+			data-testid={trendChartTestId}
+			class="w-[220px] shrink-0 p-1"
+		/>
+	</div>
+{/snippet}
+
 <div class="grid w-full grid-cols-3 gap-3">
 	<section
 		class="flex min-w-0 flex-col gap-3 rounded-[10px] border border-line bg-surface p-4"
 		data-testid={E2E_TEST_IDS.home.wordsCard}
 	>
-		{@render cardHeader(m['features.home.home.words_title'](), BookOpen)}
-		{@render heroMetric(home.words.total ?? 0)}
+		{@render cardSummaryTop(
+			m['features.home.home.words_title'](),
+			BookOpen,
+			home.words.total ?? 0,
+			home.trends?.wordsAdded ?? [],
+			m['features.home.home.words_trend_chart_aria'](),
+			E2E_TEST_IDS.home.wordsTrendChart
+		)}
 		<div class="flex flex-col gap-2 border-t border-line-subtle pt-3">
 			{@render dotStat(m['features.home.home.this_month_stat'](), home.words.addedLast30Days ?? 0)}
 		</div>
@@ -86,8 +115,14 @@
 		class="flex min-w-0 flex-col gap-3 rounded-[10px] border border-line bg-surface p-4"
 		data-testid={E2E_TEST_IDS.home.conversationsCard}
 	>
-		{@render cardHeader(m['features.home.home.conversations_title'](), MessageSquare)}
-		{@render heroMetric(home.conversations.total ?? 0)}
+		{@render cardSummaryTop(
+			m['features.home.home.conversations_title'](),
+			MessageSquare,
+			home.conversations.total ?? 0,
+			home.trends?.conversationsCreated ?? [],
+			m['features.home.home.conversations_trend_chart_aria'](),
+			E2E_TEST_IDS.home.conversationsTrendChart
+		)}
 		<div class="flex flex-col gap-2 border-t border-line-subtle pt-3">
 			{@render dotStat(
 				m['features.home.home.this_month_stat'](),
@@ -105,21 +140,40 @@
 	</section>
 
 	<section
-		class="flex min-w-0 flex-col gap-3 rounded-[10px] border border-line bg-surface p-4"
+		class="relative flex min-w-0 flex-col gap-3 rounded-[10px] border border-line bg-surface p-4"
 		data-testid={E2E_TEST_IDS.home.gamesCard}
 	>
-		{@render cardHeader(m['features.home.home.games_title'](), Smile)}
+		<span
+			class="pointer-events-none absolute right-3 top-3 label-small shrink-0 whitespace-nowrap rounded-md border border-line bg-surface px-2.5 py-1 text-ink-muted"
+			role="status"
+			data-testid={E2E_TEST_IDS.home.gamesComingSoon}
+		>
+			{m['features.home.home.games_coming_soon']()}
+		</span>
+
 		{#if showGameCounts}
 			<div class="flex flex-col gap-3" data-testid={E2E_TEST_IDS.home.gamesCounts}>
-				{@render heroMetric(home.games.total ?? 0)}
+				{@render cardSummaryTop(
+					m['features.home.home.games_title'](),
+					Gamepad2,
+					home.games.total ?? 0,
+					home.trends?.gamesFinished ?? [],
+					m['features.home.home.games_trend_chart_aria'](),
+					E2E_TEST_IDS.home.gamesTrendChart
+				)}
 				<div class="flex flex-col gap-2 border-t border-line-subtle pt-3">
 					{@render dotStat(m['features.home.home.this_month_stat'](), home.games.last30Days ?? 0)}
 				</div>
 			</div>
 		{:else}
-			<p class="text-sm text-ink" data-testid={E2E_TEST_IDS.home.gamesComingSoon}>
-				{m['features.home.home.games_coming_soon']()}
-			</p>
+			{@render cardSummaryTop(
+				m['features.home.home.games_title'](),
+				Gamepad2,
+				0,
+				home.trends?.gamesFinished ?? [],
+				m['features.home.home.games_trend_chart_aria'](),
+				E2E_TEST_IDS.home.gamesTrendChart
+			)}
 		{/if}
 	</section>
 </div>
