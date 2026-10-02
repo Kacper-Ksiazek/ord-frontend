@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { WordsInboxViewMode } from '$words/types';
-	import { ChartColumn, LayoutList } from 'lucide-svelte';
+	import { ChartColumn, LayoutList, Sparkles } from 'lucide-svelte';
 	import { cn } from '$lib/utils/cn';
 	import * as m from '$lib/paraglide/messages.js';
 	import { E2E_TEST_IDS } from '$words/testing/test-ids';
@@ -12,12 +12,21 @@
 
 	let { viewMode, onViewModeChange }: Props = $props();
 
-	const options: { mode: WordsInboxViewMode; label: () => string; icon: typeof LayoutList }[] = [
+	const options: {
+		mode: WordsInboxViewMode;
+		label: () => string;
+		icon: typeof LayoutList;
+	}[] = [
 		{ mode: 'list', label: () => m['features.words.inbox.view.list'](), icon: LayoutList },
 		{
 			mode: 'analytics',
 			label: () => m['features.words.inbox.view.analytics'](),
 			icon: ChartColumn
+		},
+		{
+			mode: 'recommend',
+			label: () => m['features.words.inbox.view.recommend'](),
+			icon: Sparkles
 		}
 	];
 </script>
@@ -30,14 +39,16 @@
 >
 	{#each options as option (option.mode)}
 		{@const Icon = option.icon}
+		{@const isSelected = viewMode === option.mode}
 		<button
 			type="button"
 			role="tab"
 			class={cn(
 				'inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors',
-				viewMode === option.mode ? 'bg-accent-soft text-ink' : 'text-ink-muted hover:text-ink'
+				isSelected && 'bg-accent-soft text-ink',
+				!isSelected && 'text-ink-muted hover:text-ink'
 			)}
-			aria-selected={viewMode === option.mode}
+			aria-selected={isSelected}
 			data-testid={E2E_TEST_IDS.inbox.viewToggleOption(option.mode)}
 			onclick={() => onViewModeChange(option.mode)}
 		>

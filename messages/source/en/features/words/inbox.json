@@ -5,12 +5,18 @@
 	"header": {
 		"title": "Words",
 		"description": "Words you're learning.",
-		"analytics_description": "An overview of your vocabulary."
+		"analytics_description": "An overview of your vocabulary.",
+		"recommend_new": "Recommend new",
+		"recommend_description": "Suggestions for new words to learn."
+	},
+	"recommend": {
+		"placeholder": "Word recommendations will appear here soon."
 	},
 	"view": {
 		"aria_label": "Words view",
 		"list": "List",
-		"analytics": "Analytics"
+		"analytics": "Analytics",
+		"recommend": "Recommendations"
 	},
 	"analytics": {
 		"total_words": "Total words",

@@ -2,7 +2,13 @@
 	"page_title": "Conversations",
 	"heading": "Conversations",
 	"subtitle": "Continue a practice chat or start a new one.",
+	"summary_description": "Activity overview and conversation stats.",
 	"new_conversation": "New conversation",
+	"view": {
+		"aria_label": "Conversations view",
+		"list": "List",
+		"summary": "Summary"
+	},
 	"load_error": {
 		"header": "Couldn't load conversations",
 		"description_fallback": "Something went wrong. Try again.",

@@ -5,12 +5,18 @@
 	"header": {
 		"title": "Wörter",
 		"description": "Wörter, die du lernst.",
-		"analytics_description": "Überblick über deinen Wortschatz."
+		"analytics_description": "Überblick über deinen Wortschatz.",
+		"recommend_new": "Neue empfehlen",
+		"recommend_description": "Vorschläge für neue Wörter zum Lernen."
+	},
+	"recommend": {
+		"placeholder": "Wortempfehlungen erscheinen hier bald."
 	},
 	"view": {
 		"aria_label": "Wortansicht",
 		"list": "Liste",
-		"analytics": "Analytik"
+		"analytics": "Analytik",
+		"recommend": "Empfehlungen"
 	},
 	"analytics": {
 		"total_words": "Alle Wörter",

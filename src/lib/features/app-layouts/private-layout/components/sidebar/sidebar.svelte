@@ -3,10 +3,11 @@
 	import {
 		LogIn,
 		BookOpen,
+		House,
 		ChevronLeft,
 		ChevronRight,
 		Settings,
-		Smile,
+		Gamepad2,
 		MessageSquare,
 		Moon,
 		Sun
@@ -112,9 +113,11 @@
 	<!-- Navigation Menu Section -->
 	<nav class="flex-1 overflow-hidden px-3">
 		<div class="flex flex-col gap-2">
+			<SidebarLink title="Home" Icon={House} href="/" />
+
 			<SidebarLink title="Vocabulary" Icon={BookOpen} href="/words" />
 
-			<SidebarLink title="Challenges" Icon={Smile} disabled />
+			<SidebarLink title="Challenges" Icon={Gamepad2} disabled />
 
 			<SidebarLink title="Conversations" Icon={MessageSquare} href="/conversations" />
 		</div>

@@ -7,7 +7,7 @@
 	import { StatusPanel } from '$lib/components/utils/status-panel';
 	import type { WordListItem } from '$words/types';
 	import * as m from '$lib/paraglide/messages.js';
-	import WordListRow from './word-list-row.svelte';
+	import { WordListRow } from '$words/shared/components/word-list-row';
 	import WordBookmarkButton from './word-bookmark-button.svelte';
 	import CapturedWordsListSkeleton from './captured-words-list-skeleton.svelte';
 	import { E2E_TEST_IDS } from '$words/testing/test-ids';

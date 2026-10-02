@@ -4,15 +4,18 @@
 	import { getWordTypeBadgeColor, getWordTypeLabel } from '$words/shared/constants';
 	import BankGroupColorDot from '$words/shared/components/bank-group-color-dot.svelte';
 	import WordExtraMarkBadge from '$words/shared/components/word-extra-mark-badge.svelte';
+	import { cn } from '$lib/utils/cn';
 	import type { WordListItem } from '$words/types';
 
 	interface Props {
 		item: WordListItem;
 		itemId: string;
 		compact?: boolean;
+		/** When set, clamps the definition paragraph to this many lines (e.g. home previews). */
+		definitionLineClamp?: number;
 	}
 
-	let { item, compact = false }: Props = $props();
+	let { item, compact = false, definitionLineClamp }: Props = $props();
 
 	const sourceWord = $derived(item.sourceWord ?? '');
 	const showTrailingMeta = $derived(Boolean(item.bank?.name));
@@ -69,7 +72,14 @@
 		</div>
 
 		{#if item.definition}
-			<p class="text-sm leading-relaxed text-ink-muted">
+			<p
+				class={cn(
+					'text-sm leading-relaxed text-ink-muted',
+					definitionLineClamp === 1 && 'line-clamp-1 min-w-0',
+					definitionLineClamp === 2 && 'line-clamp-2 min-w-0'
+				)}
+				title={definitionLineClamp != null ? item.definition : undefined}
+			>
 				{#each parseEmphasisTextForHeadword(item.definition, sourceWord) as part, index (index)}
 					{#if part.emphasized}
 						<span class="rounded-md bg-highlight/90 px-1 py-px font-medium text-ink">{part.text}</span>

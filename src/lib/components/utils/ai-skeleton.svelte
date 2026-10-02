@@ -1,16 +1,17 @@
 <script lang="ts">
 	import { cn } from '$lib/utils/cn';
 	import type { Snippet } from 'svelte';
+	import type { HTMLAttributes } from 'svelte/elements';
 
-	interface Props {
+	interface Props extends HTMLAttributes<HTMLDivElement> {
 		class?: string;
 		children?: Snippet;
 	}
 
-	const { class: customClass = '', children }: Props = $props();
+	const { class: customClass = '', children, ...restProps }: Props = $props();
 </script>
 
-<div class={cn('ai-skeleton h-full w-full rounded-md', customClass)}>
+<div {...restProps} class={cn('ai-skeleton h-full w-full rounded-md', customClass)}>
 	{@render children?.()}
 </div>
 

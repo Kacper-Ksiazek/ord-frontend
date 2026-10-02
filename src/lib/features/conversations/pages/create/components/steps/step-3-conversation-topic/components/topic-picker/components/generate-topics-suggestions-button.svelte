@@ -56,7 +56,7 @@
 </script>
 
 <div
-	class="flex items-center gap-3"
+	class="flex items-center gap-3 rounded-[10px] border border-line bg-surface px-4 py-3"
 	data-testid={E2E_TEST_IDS.createConversation.topicGenerateButton}
 >
 	<div class="shrink-0">

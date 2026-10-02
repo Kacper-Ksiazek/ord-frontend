@@ -2,7 +2,7 @@
 	import { IconButton } from '$lib/components/buttons/icon-button';
 	import SelectableCard from '$lib/components/utils/selectable-card.svelte';
 	import { cn } from '$lib/utils/cn';
-	import { Pin, PinOff, X } from 'lucide-svelte';
+	import { Bookmark, X } from 'lucide-svelte';
 	import {
 		getCreateConversationPayload,
 		topicPickerStore
@@ -50,6 +50,11 @@
 	}
 
 	const isActionDisabled = $derived(isSelected || selectionDisabled);
+	const saveForLaterLabel = $derived(
+		isPinned
+			? m['features.conversation.create.step-3.topic_picker.topic_row.unpin_tooltip']()
+			: m['features.conversation.create.step-3.topic_picker.topic_row.pin_tooltip']()
+	);
 </script>
 
 <SelectableCard
@@ -57,57 +62,24 @@
 	onclick={isActionDisabled ? () => {} : onclick}
 	data-testid={E2E_TEST_IDS.createConversation.topicRow(index)}
 	class={cn(
-		'flex-row gap-2 justify-between items-center px-2 py-1',
-		'border border-gray-200 dark:border-slate-600',
-		selectionDisabled && 'cursor-not-allowed opacity-60',
-		isSelected &&
-			'border-primary-400 ring-1 ring-primary-300 dark:border-primary-500 dark:ring-primary-800'
+		'flex-row items-center justify-between gap-3 px-4 py-3.5',
+		selectionDisabled && 'cursor-not-allowed opacity-60'
 	)}
 	isSelected={isSelected && !selectionDisabled}
 >
-	<div class="flex min-w-0 flex-1 items-center gap-2">
-		<span
-			class={cn(
-				'flex h-8 min-w-8 shrink-0 items-center justify-center rounded-lg text-sm font-semibold tabular-nums',
-				'bg-gray-200 text-gray-900 dark:bg-gray-600 dark:text-gray-50',
-				isSelected && 'bg-primary-600 text-white dark:bg-primary-500 dark:text-white'
-			)}>{index + 1}</span
-		>
+	<p class="min-w-0 flex-1 text-base font-medium leading-snug text-ink">{topic}</p>
 
-		<span
-			class={cn(
-				'text-sm min-w-0 flex-1 py-1 pr-2',
-				isSelected && 'text-gray-900 dark:text-gray-50',
-				!isSelected && 'text-gray-800 dark:text-gray-200'
-			)}>{topic}</span
-		>
-	</div>
-
-	{#if isPinned}
-		<IconButton
-			icon={PinOff}
-			ariaLabel={m['features.conversation.create.step-3.topic_picker.topic_row.unpin_tooltip']()}
-			tooltip={m['features.conversation.create.step-3.topic_picker.topic_row.unpin_tooltip']()}
-			type="OUTLINED"
-			variant="TEXT"
-			class="shrink-0 self-center size-7"
-			iconClass="h-3.5 w-3.5"
-			onClick={handlePinToggle}
-			disabled={isActionDisabled}
-		/>
-	{:else}
-		<IconButton
-			icon={Pin}
-			ariaLabel={m['features.conversation.create.step-3.topic_picker.topic_row.pin_tooltip']()}
-			tooltip={m['features.conversation.create.step-3.topic_picker.topic_row.pin_tooltip']()}
-			type="OUTLINED"
-			variant="TEXT"
-			class="shrink-0 self-center size-7"
-			iconClass="h-3.5 w-3.5"
-			onClick={handlePinToggle}
-			disabled={isActionDisabled}
-		/>
-	{/if}
+	<IconButton
+		icon={Bookmark}
+		ariaLabel={saveForLaterLabel}
+		tooltip={saveForLaterLabel}
+		type="OUTLINED"
+		variant="TEXT"
+		class="size-8 shrink-0 border-none"
+		iconClass={cn('size-4', isPinned && 'fill-current text-ink')}
+		onClick={handlePinToggle}
+		disabled={isActionDisabled}
+	/>
 
 	<IconButton
 		icon={X}
@@ -115,8 +87,8 @@
 		tooltip={m['features.conversation.create.step-3.topic_picker.topic_row.remove_tooltip']()}
 		type="OUTLINED"
 		variant={isActionDisabled ? 'TEXT' : 'DELETE'}
-		class="shrink-0 self-center size-7"
-		iconClass="h-3.5 w-3.5"
+		class="size-8 shrink-0 border-none"
+		iconClass="size-4"
 		onClick={(e) => {
 			e.stopPropagation();
 			removeTopic(topic);
