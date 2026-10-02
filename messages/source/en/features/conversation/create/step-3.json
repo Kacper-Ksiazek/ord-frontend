@@ -22,11 +22,19 @@
 		"placeholder": "Enter a topic...",
 		"selected_topic": "Selected topic",
 		"no_topic_selected": "No topic selected",
-		"pinned_section_title": "Pinned",
+		"pinned_section_title": "Saved for later",
 		"suggested_section_title": "Suggested topics",
+		"tabs": {
+			"create": "Create topic",
+			"saved_for_later": "Saved for later"
+		},
+		"saved_empty": {
+			"header": "No saved topics yet",
+			"description": "Save a suggested topic for later to come back to it anytime."
+		},
 		"topic_row": {
-			"pin_tooltip": "Pin topic",
-			"unpin_tooltip": "Unpin topic",
+			"pin_tooltip": "Save for later",
+			"unpin_tooltip": "Remove from saved for later",
 			"remove_tooltip": "Remove topic from the list"
 		},
 		"custom_topic": {

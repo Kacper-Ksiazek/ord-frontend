@@ -22,11 +22,19 @@
 		"placeholder": "Wprowadź temat...",
 		"selected_topic": "Wybrany temat",
 		"no_topic_selected": "Nie wybrano tematu",
-		"pinned_section_title": "Przypięte",
+		"pinned_section_title": "Zapisane na później",
 		"suggested_section_title": "Sugerowane tematy",
+		"tabs": {
+			"create": "Utwórz temat",
+			"saved_for_later": "Zapisane na później"
+		},
+		"saved_empty": {
+			"header": "Brak zapisanych tematów",
+			"description": "Zapisz sugerowany temat na później, aby wrócić do niego w dowolnym momencie."
+		},
 		"topic_row": {
-			"pin_tooltip": "Przypnij temat",
-			"unpin_tooltip": "Odepnij temat",
+			"pin_tooltip": "Zapisz na później",
+			"unpin_tooltip": "Usuń z zapisanych na później",
 			"remove_tooltip": "Usuń temat z listy"
 		},
 		"custom_topic": {
