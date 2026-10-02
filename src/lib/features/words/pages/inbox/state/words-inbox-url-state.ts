@@ -21,7 +21,15 @@ function parseWordId(value: string | null): string | null {
 }
 
 function parseViewMode(value: string | null): WordsInboxViewMode {
-	return value === 'analytics' ? 'analytics' : 'list';
+	if (value === 'analytics') {
+		return 'analytics';
+	}
+
+	if (value === 'recommend') {
+		return 'recommend';
+	}
+
+	return 'list';
 }
 
 export function parseWordsInboxUrl(searchParams: URLSearchParams): WordsInboxUrlState {
@@ -42,6 +50,8 @@ export function buildWordsInboxQueryString(state: WordsInboxUrlState): string {
 
 	if (state.viewMode === 'analytics') {
 		parts.push('view=analytics');
+	} else if (state.viewMode === 'recommend') {
+		parts.push('view=recommend');
 	}
 
 	if (state.wordId) {
