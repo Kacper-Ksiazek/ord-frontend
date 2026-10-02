@@ -81,9 +81,7 @@
 		triggerLabel
 	}: Props = $props();
 
-	const headerTriggerLabel = $derived(
-		triggerLabel ?? m['features.words.capture-popover.title']()
-	);
+	const headerTriggerLabel = $derived(triggerLabel ?? m['features.words.capture-popover.title']());
 
 	const modalWidthClass = 'w-[min(52rem,calc(100vw-2rem))]';
 
