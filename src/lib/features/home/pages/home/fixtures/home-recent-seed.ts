@@ -41,7 +41,7 @@ export const HOME_RECENT_CONVERSATIONS_SEED: ConversationSummaryDTO[] = [
 		type: 'SMALL_TALK',
 		aiTone: 'FRIENDLY',
 		aiInterlocutorName: 'Emma',
-		aiInterlocutorAvatarId: 'AVATAR_DEFAULT',
+		aiInterlocutorAvatarId: 'AVATAR_EPSILON',
 		recencyBucket: 'THIS_WEEK',
 		createdAt: '2026-09-29T11:00:00.000Z',
 		updatedAt: '2026-09-29T11:42:00.000Z'
@@ -54,7 +54,7 @@ export const HOME_RECENT_CONVERSATIONS_SEED: ConversationSummaryDTO[] = [
 		type: 'SCENARIO_ROLEPLAY',
 		aiTone: 'FORMAL',
 		aiInterlocutorName: 'James',
-		aiInterlocutorAvatarId: 'AVATAR_DEFAULT',
+		aiInterlocutorAvatarId: 'AVATAR_BETA',
 		recencyBucket: 'THIS_MONTH',
 		createdAt: '2026-09-22T16:30:00.000Z',
 		updatedAt: '2026-09-23T08:15:00.000Z'
@@ -67,7 +67,7 @@ export const HOME_RECENT_CONVERSATIONS_SEED: ConversationSummaryDTO[] = [
 		type: 'SMALL_TALK',
 		aiTone: 'FRIENDLY',
 		aiInterlocutorName: 'Lily',
-		aiInterlocutorAvatarId: 'AVATAR_DEFAULT',
+		aiInterlocutorAvatarId: 'AVATAR_GAMMA',
 		recencyBucket: 'LATER',
 		createdAt: '2026-09-10T19:00:00.000Z',
 		updatedAt: '2026-09-10T19:55:00.000Z'
