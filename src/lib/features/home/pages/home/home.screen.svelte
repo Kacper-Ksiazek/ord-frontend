@@ -9,10 +9,15 @@
 	import HomeCountCards from './components/home-count-cards.svelte';
 	import HomeScreenSkeleton from './components/home-screen-skeleton.svelte';
 	import HomeRecentSections from './components/home-recent-sections.svelte';
+	import HomeSkeletonDevtools from './components/home-skeleton-devtools.svelte';
 	import HomeYearHeatmap from './components/home-year-heatmap.svelte';
+	import { homeSkeletonPreviewDev } from './state/home-skeleton-preview.dev.svelte';
 	import { firstNameFromDisplayName, homeGreetingPeriod } from './utils/home-greeting';
 
 	const homeQuery = createHomeQuery();
+	const showHomeSkeleton = $derived(
+		homeQuery.isPending || (import.meta.env.DEV && homeSkeletonPreviewDev.preview)
+	);
 	const greetingPeriod = homeGreetingPeriod(new Date());
 	const firstName = $derived(firstNameFromDisplayName(page.data.user?.name));
 	const greeting = $derived.by(() => {
@@ -51,7 +56,7 @@
 					{greeting}
 				</h1>
 
-				{#if homeQuery.isPending}
+				{#if showHomeSkeleton}
 					<HomeScreenSkeleton />
 				{:else if homeQuery.data}
 					<HomeCountCards home={homeQuery.data} />
@@ -64,4 +69,5 @@
 			</div>
 		</ContentCard>
 	</PageContentContainer>
+	<HomeSkeletonDevtools />
 {/if}
