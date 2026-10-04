@@ -28,6 +28,7 @@
 	import type { WordsInboxViewMode } from '$words/types';
 	import * as m from '$lib/paraglide/messages.js';
 	import { E2E_TEST_IDS } from '$words/testing/test-ids';
+	import { BookOpen } from 'lucide-svelte';
 	import { cn } from '$lib/utils/cn';
 
 	const LEARNING_PER_PAGE = 500;
@@ -195,16 +196,24 @@
 			<div
 				class="mb-6 flex flex-col gap-3 border-b border-line-subtle pb-6 sm:flex-row sm:items-end sm:justify-between"
 			>
-				<div>
-					<h1
-						class="text-2xl font-bold tracking-tight text-ink"
-						data-testid={E2E_TEST_IDS.inbox.heading}
+				<div class="flex min-w-0 items-start gap-3">
+					<div
+						class="flex size-[54px] shrink-0 items-center justify-center rounded-lg bg-accent-soft text-ink"
+						aria-hidden="true"
 					>
-						{m['features.words.inbox.header.title']()}
-					</h1>
-					<p class="mt-1 text-sm text-ink-muted">
-						{headerDescription}
-					</p>
+						<BookOpen class="size-5 shrink-0" />
+					</div>
+					<div class="min-w-0 flex-1">
+						<h1
+							class="text-2xl font-bold tracking-tight text-ink"
+							data-testid={E2E_TEST_IDS.inbox.heading}
+						>
+							{m['features.words.inbox.header.title']()}
+						</h1>
+						<p class="mt-1 text-sm text-ink-muted">
+							{headerDescription}
+						</p>
+					</div>
 				</div>
 
 				{#if learningLanguage}
