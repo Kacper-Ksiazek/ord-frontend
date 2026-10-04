@@ -66,8 +66,8 @@
 	trendAriaLabel: string,
 	trendChartTestId: string
 )}
-	<div class="flex min-w-0 items-stretch gap-8">
-		<div class="flex min-w-0 flex-1 flex-col justify-between gap-2">
+	<div class="grid min-w-0 grid-cols-[minmax(0,3fr)_minmax(0,7fr)] items-stretch gap-3">
+		<div class="flex min-w-0 flex-col justify-between gap-2">
 			{@render cardHeader(title, Icon)}
 			{@render heroMetric(value)}
 		</div>
@@ -75,7 +75,7 @@
 			days={trendDays}
 			ariaLabel={trendAriaLabel}
 			data-testid={trendChartTestId}
-			class="w-[220px] shrink-0 p-1"
+			class="min-w-0 w-full p-1"
 		/>
 	</div>
 {/snippet}

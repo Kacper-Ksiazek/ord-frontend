@@ -32,6 +32,7 @@
 					id: 'home-count-trend',
 					x: 'index',
 					y: 'value',
+					points: false,
 					stroke: lineColor,
 					strokeWidth: 2
 				})
@@ -46,13 +47,15 @@
 				axis: false,
 				grid: false
 			},
-			margin: CHART_MARGINS_COMPACT
+			margin: CHART_MARGINS_COMPACT,
+			focusRing: false,
+			tooltip: false
 		})
 	);
 </script>
 
 <div
-	class={cn('min-h-[4.5rem] w-full min-w-0', className)}
+	class={cn('pointer-events-none min-h-[4.5rem] w-full min-w-0 select-none', className)}
 	data-testid={dataTestId}
 	role="img"
 	aria-label={ariaLabel}
