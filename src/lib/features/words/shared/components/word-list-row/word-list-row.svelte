@@ -5,10 +5,19 @@
 	import BankGroupColorDot from '$words/shared/components/bank-group-color-dot.svelte';
 	import WordExtraMarkBadge from '$words/shared/components/word-extra-mark-badge.svelte';
 	import { cn } from '$lib/utils/cn';
-	import type { WordListItem } from '$words/types';
+	import type { WordExtraMark, WordListItem, WordType } from '$words/types';
+
+	type WordRowItem = {
+		sourceWord?: string | null;
+		translation?: string | null;
+		definition?: string | null;
+		type?: WordType | null;
+		extraMark?: WordExtraMark | null;
+		bank?: WordListItem['bank'];
+	};
 
 	interface Props {
-		item: WordListItem;
+		item: WordRowItem;
 		itemId: string;
 		compact?: boolean;
 		/** When set, clamps the definition paragraph to this many lines (e.g. home previews). */

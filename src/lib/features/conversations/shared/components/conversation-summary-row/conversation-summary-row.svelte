@@ -2,8 +2,20 @@
 	import type { Snippet } from 'svelte';
 	import type {
 		ConversationAIInterlocutorAvatarId,
-		ConversationSummaryDTO
+		ConversationSummaryDTO,
+		ConversationAITone,
+		ConversationType
 	} from '$conversations/types';
+
+	type ConversationRow = {
+		topic?: string | null;
+		type?: ConversationType | null;
+		aiTone?: ConversationAITone | null;
+		aiInterlocutorName?: string | null;
+		aiInterlocutorAvatarId?: string | null;
+		updatedAt?: string | null;
+		createdAt?: string | null;
+	};
 	import AiInterlocutorAvatar from '$conversations/shared/components/ai-interlocutor-avatar.svelte';
 	import ConversationTypeIcon from '$conversations/shared/components/conversation-type-icon.svelte';
 	import { getConversationToneLabel, getConversationTypeLabel } from '$conversations/shared/utils';
@@ -12,7 +24,7 @@
 	import { ChevronRight } from 'lucide-svelte';
 
 	interface Props {
-		conversation: ConversationSummaryDTO;
+		conversation: ConversationRow | ConversationSummaryDTO;
 		onclick: () => void;
 		dataTestId?: string;
 		showChevron?: boolean;
