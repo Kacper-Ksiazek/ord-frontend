@@ -4,17 +4,20 @@
 	import { E2E_TEST_IDS } from '$home/testing/test-ids';
 	import { Button } from '$lib/components/buttons/button';
 	import { CaptureWordsPopover } from '$words';
+	import { cn } from '$lib/utils/cn';
 	import { BookOpen, ChevronRight, MessageSquare, MessageSquarePlus } from 'lucide-svelte';
 	import HomeRecentConversationsList from './home-recent-conversations-list.svelte';
 	import HomeRecentWordsList from './home-recent-words-list.svelte';
 	import * as m from '$lib/paraglide/messages.js';
-	import {
-		HOME_RECENT_CONVERSATIONS_SEED,
-		HOME_RECENT_WORDS_SEED
-	} from '../fixtures/home-recent-seed';
+	import type { ConversationSummaryDTO } from '$conversations/types';
+	import type { WordListItem } from '$words/types';
 
-	const recentWords = HOME_RECENT_WORDS_SEED;
-	const recentConversations = HOME_RECENT_CONVERSATIONS_SEED;
+	interface Props {
+		recentWords: WordListItem[];
+		recentConversations: ConversationSummaryDTO[];
+	}
+
+	const { recentWords, recentConversations }: Props = $props();
 </script>
 
 {#snippet viewAllLink(href: string, label: string, testId: string)}
@@ -39,20 +42,27 @@
 {/snippet}
 
 <div class="grid w-full grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-x-10 lg:gap-y-6">
-	<section class="flex min-w-0 flex-col gap-3" data-testid={E2E_TEST_IDS.home.recentWordsSection}>
+	<section
+		class={cn('flex min-w-0 flex-col gap-3', recentWords.length === 0 && 'min-h-[360px]')}
+		data-testid={E2E_TEST_IDS.home.recentWordsSection}
+	>
 		{@render sectionHeader(m['features.home.home.recent_words_title'](), BookOpen, wordsHeaderAction)}
 
-		<HomeRecentWordsList items={recentWords} />
+		<div class={cn(recentWords.length === 0 && 'flex min-h-0 flex-1 flex-col')}>
+			<HomeRecentWordsList items={recentWords} />
+		</div>
 
-		{@render viewAllLink(
-			'/words',
-			m['features.home.home.recent_view_all_words'](),
-			E2E_TEST_IDS.home.recentWordsViewAll
-		)}
+		{#if recentWords.length > 0}
+			{@render viewAllLink(
+				'/words',
+				m['features.home.home.recent_view_all_words'](),
+				E2E_TEST_IDS.home.recentWordsViewAll
+			)}
+		{/if}
 	</section>
 
 	<section
-		class="flex min-w-0 flex-col gap-3"
+		class={cn('flex min-w-0 flex-col gap-3', recentConversations.length === 0 && 'min-h-[360px]')}
 		data-testid={E2E_TEST_IDS.home.recentConversationsSection}
 	>
 		{@render sectionHeader(
@@ -61,13 +71,17 @@
 			conversationsHeaderAction
 		)}
 
-		<HomeRecentConversationsList items={recentConversations} />
+		<div class={cn(recentConversations.length === 0 && 'flex min-h-0 flex-1 flex-col')}>
+			<HomeRecentConversationsList items={recentConversations} />
+		</div>
 
-		{@render viewAllLink(
-			'/conversations',
-			m['features.home.home.recent_view_all_conversations'](),
-			E2E_TEST_IDS.home.recentConversationsViewAll
-		)}
+		{#if recentConversations.length > 0}
+			{@render viewAllLink(
+				'/conversations',
+				m['features.home.home.recent_view_all_conversations'](),
+				E2E_TEST_IDS.home.recentConversationsViewAll
+			)}
+		{/if}
 	</section>
 </div>
 

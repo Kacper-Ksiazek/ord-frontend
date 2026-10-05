@@ -1,4 +1,5 @@
-import type { WordType } from '$words/types';
+import type { ConversationSummaryDTO } from '$conversations/types';
+import type { WordListItem, WordType } from '$words/types';
 
 /**
  * Mirrors GET /api/v1/home (`HomeResponse`) until `@kacper-ksiazek/ord-api-types` includes this schema.
@@ -37,4 +38,6 @@ export type HomeResponse = {
 		year: number;
 		days: HomeActivityDay[];
 	};
+	recentWords: WordListItem[];
+	recentConversations: ConversationSummaryDTO[];
 };

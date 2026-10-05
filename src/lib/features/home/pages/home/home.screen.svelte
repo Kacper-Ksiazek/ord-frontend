@@ -11,13 +11,18 @@
 	import HomeRecentSections from './components/home-recent-sections.svelte';
 	import HomeSkeletonDevtools from './components/home-skeleton-devtools.svelte';
 	import HomeYearHeatmap from './components/home-year-heatmap.svelte';
+	import { buildEmptyHomeResponse } from './fixtures/home-empty-response';
+	import { homeEmptyDataMockDev } from './state/home-empty-data-mock.dev.svelte';
 	import { homeSkeletonPreviewDev } from './state/home-skeleton-preview.dev.svelte';
 	import { firstNameFromDisplayName, homeGreetingPeriod } from './utils/home-greeting';
 
 	const homeQuery = createHomeQuery();
+	const useEmptyHomeMock = $derived(import.meta.env.DEV && homeEmptyDataMockDev.mockEmpty);
 	const showHomeSkeleton = $derived(
-		homeQuery.isPending || (import.meta.env.DEV && homeSkeletonPreviewDev.preview)
+		(homeQuery.isPending && !useEmptyHomeMock) ||
+			(import.meta.env.DEV && homeSkeletonPreviewDev.preview)
 	);
+	const homeData = $derived(useEmptyHomeMock ? buildEmptyHomeResponse() : homeQuery.data);
 	const greetingPeriod = homeGreetingPeriod(new Date());
 	const firstName = $derived(firstNameFromDisplayName(page.data.user?.name));
 	const greeting = $derived.by(() => {
@@ -58,13 +63,13 @@
 
 				{#if showHomeSkeleton}
 					<HomeScreenSkeleton />
-				{:else if homeQuery.data}
-					<HomeCountCards home={homeQuery.data} />
-					<HomeYearHeatmap
-						year={homeQuery.data.activity.year ?? 0}
-						days={homeQuery.data.activity.days ?? []}
+				{:else if homeData}
+					<HomeCountCards home={homeData} />
+					<HomeYearHeatmap year={homeData.activity.year ?? 0} days={homeData.activity.days ?? []} />
+					<HomeRecentSections
+						recentWords={homeData.recentWords}
+						recentConversations={homeData.recentConversations}
 					/>
-					<HomeRecentSections />
 				{/if}
 			</div>
 		</ContentCard>
