@@ -1,11 +1,13 @@
 <script lang="ts">
 	import { Button } from '$lib/components/buttons/button';
 	import { E2E_TEST_IDS } from '$home/testing/test-ids';
+	import { homeEmptyDataMockDev } from '../state/home-empty-data-mock.dev.svelte';
 	import { homeSkeletonPreviewDev } from '../state/home-skeleton-preview.dev.svelte';
 
 	let open = $state(false);
 
 	const showSkeleton = $derived(homeSkeletonPreviewDev.preview);
+	const mockEmptyData = $derived(homeEmptyDataMockDev.mockEmpty);
 </script>
 
 {#if import.meta.env.DEV}
@@ -30,7 +32,7 @@
 				class="pointer-events-auto overlay-surface w-[min(280px,calc(100vw-2rem))] rounded-[10px] border border-line p-3 shadow-lg"
 				data-testid={E2E_TEST_IDS.home.skeletonDevtoolsPanel}
 			>
-				<p class="text-xs font-medium text-ink-muted">Home loading preview</p>
+				<p class="text-xs font-medium text-ink-muted">Home preview (dev)</p>
 				<label class="mt-2 flex cursor-pointer items-center justify-between gap-3">
 					<span class="text-sm text-ink">Show skeletons</span>
 					<input
@@ -43,10 +45,26 @@
 						}}
 					/>
 				</label>
+				<label class="mt-2 flex cursor-pointer items-center justify-between gap-3">
+					<span class="text-sm text-ink">Mock empty data</span>
+					<input
+						type="checkbox"
+						class="size-4 rounded border-line accent-ink"
+						checked={mockEmptyData}
+						data-testid={E2E_TEST_IDS.home.emptyDataDevtoolsSwitch}
+						onchange={(event) => {
+							homeEmptyDataMockDev.setMockEmpty(event.currentTarget.checked);
+						}}
+					/>
+				</label>
 				<p class="mt-2 text-xs text-ink-subtle">
-					{showSkeleton
-						? 'Skeleton layout (ignores loaded data).'
-						: 'Live data when the home query has loaded.'}
+					{#if showSkeleton}
+						Skeleton layout (ignores loaded data).
+					{:else if mockEmptyData}
+						Zeroed summary, heatmap, and empty recent lists.
+					{:else}
+						Live data when the home query has loaded.
+					{/if}
 				</p>
 			</div>
 		{/if}
