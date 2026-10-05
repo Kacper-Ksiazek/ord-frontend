@@ -3,19 +3,31 @@
 	import { defineChart, lineY } from '@tanstack/charts';
 	import { scaleLinear } from '@tanstack/charts/scales/linear';
 	import { scalePoint } from '@tanstack/charts/scales/point';
-	import { CHART_MARGINS_COMPACT, TanStackChart, getChartPrimaryLine } from '$lib/components/charts';
+	import {
+		CHART_MARGINS_COMPACT,
+		TanStackChart,
+		getChartInkDisabled,
+		getChartInkMuted
+	} from '$lib/components/charts';
 	import { cn } from '$lib/utils/cn';
 
 	interface Props {
 		days: HomeActivityDay[];
 		ariaLabel: string;
+		disabled?: boolean;
 		class?: string;
 		'data-testid'?: string;
 	}
 
-	const { days, ariaLabel, class: className = '', 'data-testid': dataTestId }: Props = $props();
+	const {
+		days,
+		ariaLabel,
+		disabled = false,
+		class: className = '',
+		'data-testid': dataTestId
+	}: Props = $props();
 
-	const lineColor = $derived(getChartPrimaryLine());
+	const lineColor = $derived(disabled ? getChartInkDisabled() : getChartInkMuted());
 
 	const rows = $derived(
 		days.map((day, index) => ({
@@ -34,7 +46,7 @@
 					y: 'value',
 					points: false,
 					stroke: lineColor,
-					strokeWidth: 2
+					strokeWidth: 1.5
 				})
 			],
 			x: {

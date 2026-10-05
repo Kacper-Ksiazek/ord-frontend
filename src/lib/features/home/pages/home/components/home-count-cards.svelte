@@ -1,9 +1,12 @@
 <script lang="ts">
 	import type { HomeActivityDay, HomeResponse } from '$home/types';
+	import HomeCountCardEmptyFooter from './home-count-card-empty-footer.svelte';
+	import HomeGamesComingSoonCard from './home-games-coming-soon-card.svelte';
 	import HomeCountTrendChart from './home-count-trend-chart.svelte';
 	import { WORD_TYPES } from '$words/shared/constants';
 	import { getWordTypeBarFillClass, getWordTypeLabel } from '$words/shared/constants';
 	import { E2E_TEST_IDS } from '$home/testing/test-ids';
+	import { cn } from '$lib/utils/cn';
 	import { BookOpen, Gamepad2, MessageSquare } from 'lucide-svelte';
 	import * as m from '$lib/paraglide/messages.js';
 
@@ -26,10 +29,24 @@
 	);
 
 	const showGameCounts = $derived(home.games.total != null && home.games.last30Days != null);
+	const isGamesComingSoon = $derived(home.games.comingSoon || !showGameCounts);
+
+	const isWordsCardEmpty = $derived((home.words.total ?? 0) === 0);
+	const isConversationsCardEmpty = $derived((home.conversations.total ?? 0) === 0);
+	const isGamesCardEmpty = $derived((home.games.total ?? 0) === 0);
 
 	const typeBarAriaLabel = $derived(
 		typeRows.map((row) => `${getWordTypeLabel(row.type)}: ${row.count}`).join(', ')
 	);
+
+	function countCardSectionClass(isEmpty: boolean) {
+		return cn(
+			'flex min-h-[260px] min-w-0 flex-col gap-3 rounded-[10px] border border-line bg-surface p-4',
+			isEmpty && 'h-full'
+		);
+	}
+
+	const emptyFooterClass = 'min-h-0 flex-1';
 </script>
 
 {#snippet cardHeader(title: string, Icon: LucideIcon)}
@@ -39,9 +56,12 @@
 	</div>
 {/snippet}
 
-{#snippet heroMetric(value: number)}
+{#snippet heroMetric(value: number, disabled: boolean)}
 	<p
-		class="text-4xl font-bold tabular-nums leading-none tracking-tight text-ink"
+		class={cn(
+			'text-4xl font-bold tabular-nums leading-none tracking-tight',
+			disabled ? 'text-ink-subtle' : 'text-ink'
+		)}
 		aria-label={String(value)}
 	>
 		{value}
@@ -64,55 +84,84 @@
 	value: number,
 	trendDays: HomeActivityDay[],
 	trendAriaLabel: string,
-	trendChartTestId: string
+	trendChartTestId: string,
+	trendChartDisabled: boolean
 )}
 	<div class="grid min-w-0 grid-cols-[minmax(0,3fr)_minmax(0,7fr)] items-stretch gap-3">
 		<div class="flex min-w-0 flex-col justify-between gap-2">
 			{@render cardHeader(title, Icon)}
-			{@render heroMetric(value)}
+			{@render heroMetric(value, trendChartDisabled)}
 		</div>
 		<HomeCountTrendChart
 			days={trendDays}
 			ariaLabel={trendAriaLabel}
+			disabled={trendChartDisabled}
 			data-testid={trendChartTestId}
 			class="min-w-0 w-full p-1"
 		/>
 	</div>
 {/snippet}
 
-<div class="grid w-full grid-cols-3 gap-3">
-	<section
-		class="flex min-w-0 flex-col gap-3 rounded-[10px] border border-line bg-surface p-4"
-		data-testid={E2E_TEST_IDS.home.wordsCard}
-	>
+<div class="grid w-full grid-cols-3 items-stretch gap-3">
+	<section class={countCardSectionClass(isWordsCardEmpty)} data-testid={E2E_TEST_IDS.home.wordsCard}>
 		{@render cardSummaryTop(
 			m['features.home.home.words_title'](),
 			BookOpen,
 			home.words.total ?? 0,
 			home.trends?.wordsAdded ?? [],
 			m['features.home.home.words_trend_chart_aria'](),
-			E2E_TEST_IDS.home.wordsTrendChart
+			E2E_TEST_IDS.home.wordsTrendChart,
+			isWordsCardEmpty
 		)}
-		<div class="flex flex-col gap-2 border-t border-line-subtle pt-3">
-			{@render dotStat(m['features.home.home.this_month_stat'](), home.words.addedLast30Days ?? 0)}
-		</div>
-		{#if typeRows.length === 0}
-			<p class="text-sm text-ink-subtle">{m['features.home.home.words_by_type_empty']()}</p>
+		{#if isWordsCardEmpty}
+			<HomeCountCardEmptyFooter
+				title={m['features.home.home.count_card_empty.words_title']()}
+				description={m['features.home.home.count_card_empty.words_description']()}
+				class={emptyFooterClass}
+				data-testid={E2E_TEST_IDS.home.wordsCardEmpty}
+			/>
 		{:else}
-			<div class="flex h-2.5 w-full gap-1" role="img" aria-label={typeBarAriaLabel}>
-				{#each typeRows as row (row.type)}
-					<div
-						class="h-full min-w-[3px] rounded-full {getWordTypeBarFillClass(row.type)}"
-						style={`flex: ${row.count} 1 0`}
-						title={`${getWordTypeLabel(row.type)}: ${row.count}`}
-					></div>
-				{/each}
+			<div class="flex flex-col gap-2 border-t border-line-subtle pt-3">
+				{#if typeRows.length === 0}
+					<p class="text-sm text-ink-subtle">{m['features.home.home.words_by_type_empty']()}</p>
+				{:else}
+					<div class="flex flex-col gap-2">
+						<div class="flex h-2.5 w-full gap-1" role="img" aria-label={typeBarAriaLabel}>
+							{#each typeRows as row (row.type)}
+								<div
+									class="h-full min-w-[3px] rounded-full {getWordTypeBarFillClass(row.type)}"
+									style={`flex: ${row.count} 1 0`}
+									title={`${getWordTypeLabel(row.type)}: ${row.count}`}
+								></div>
+							{/each}
+						</div>
+						<ul
+							class="flex flex-wrap gap-x-3 gap-y-1.5"
+							aria-label={typeBarAriaLabel}
+							data-testid={E2E_TEST_IDS.home.wordsTypeLegend}
+						>
+							{#each typeRows as row (row.type)}
+								<li class="flex list-none items-center gap-1.5">
+									<span
+										class="size-2 shrink-0 rounded-full {getWordTypeBarFillClass(row.type)}"
+										aria-hidden="true"
+									></span>
+									<span class="text-xs text-ink-muted">{getWordTypeLabel(row.type)}</span>
+									<span class="text-xs font-semibold tabular-nums text-ink">{row.count}</span>
+								</li>
+							{/each}
+						</ul>
+					</div>
+				{/if}
+			</div>
+			<div class="flex flex-col gap-2 border-t border-line-subtle pt-3">
+				{@render dotStat(m['features.home.home.this_month_stat'](), home.words.addedLast30Days ?? 0)}
 			</div>
 		{/if}
 	</section>
 
 	<section
-		class="flex min-w-0 flex-col gap-3 rounded-[10px] border border-line bg-surface p-4"
+		class={countCardSectionClass(isConversationsCardEmpty)}
 		data-testid={E2E_TEST_IDS.home.conversationsCard}
 	>
 		{@render cardSummaryTop(
@@ -121,59 +170,67 @@
 			home.conversations.total ?? 0,
 			home.trends?.conversationsCreated ?? [],
 			m['features.home.home.conversations_trend_chart_aria'](),
-			E2E_TEST_IDS.home.conversationsTrendChart
+			E2E_TEST_IDS.home.conversationsTrendChart,
+			isConversationsCardEmpty
 		)}
-		<div class="flex flex-col gap-2 border-t border-line-subtle pt-3">
-			{@render dotStat(
-				m['features.home.home.this_month_stat'](),
-				home.conversations.createdLast30Days ?? 0
-			)}
-			{@render dotStat(
-				m['features.home.home.messages_total'](),
-				home.conversations.messagesTotal ?? 0
-			)}
-			{@render dotStat(
-				m['features.home.home.messages_last_30'](),
-				home.conversations.messagesLast30Days ?? 0
-			)}
-		</div>
+		{#if isConversationsCardEmpty}
+			<HomeCountCardEmptyFooter
+				title={m['features.home.home.count_card_empty.conversations_title']()}
+				description={m['features.home.home.count_card_empty.conversations_description']()}
+				class={emptyFooterClass}
+				data-testid={E2E_TEST_IDS.home.conversationsCardEmpty}
+			/>
+		{:else}
+			<div class="flex flex-col gap-2 border-t border-line-subtle pt-3">
+				{@render dotStat(
+					m['features.home.home.this_month_stat'](),
+					home.conversations.createdLast30Days ?? 0
+				)}
+				{@render dotStat(
+					m['features.home.home.messages_total'](),
+					home.conversations.messagesTotal ?? 0
+				)}
+				{@render dotStat(
+					m['features.home.home.messages_last_30'](),
+					home.conversations.messagesLast30Days ?? 0
+				)}
+			</div>
+		{/if}
 	</section>
 
 	<section
-		class="relative flex min-w-0 flex-col gap-3 rounded-[10px] border border-line bg-surface p-4"
+		class={cn(countCardSectionClass(isGamesComingSoon || isGamesCardEmpty), 'h-full')}
 		data-testid={E2E_TEST_IDS.home.gamesCard}
 	>
-		<span
-			class="pointer-events-none absolute right-3 top-3 label-small shrink-0 whitespace-nowrap rounded-md border border-line bg-surface px-2.5 py-1 text-ink-muted"
-			role="status"
-			data-testid={E2E_TEST_IDS.home.gamesComingSoon}
-		>
-			{m['features.home.home.games_coming_soon']()}
-		</span>
-
-		{#if showGameCounts}
-			<div class="flex flex-col gap-3" data-testid={E2E_TEST_IDS.home.gamesCounts}>
+		{#if isGamesComingSoon}
+			<HomeGamesComingSoonCard />
+		{:else}
+			<div
+				class={cn('flex flex-col gap-3', isGamesCardEmpty && 'min-h-0 flex-1')}
+				data-testid={E2E_TEST_IDS.home.gamesCounts}
+			>
 				{@render cardSummaryTop(
 					m['features.home.home.games_title'](),
 					Gamepad2,
 					home.games.total ?? 0,
 					home.trends?.gamesFinished ?? [],
 					m['features.home.home.games_trend_chart_aria'](),
-					E2E_TEST_IDS.home.gamesTrendChart
+					E2E_TEST_IDS.home.gamesTrendChart,
+					isGamesCardEmpty
 				)}
-				<div class="flex flex-col gap-2 border-t border-line-subtle pt-3">
-					{@render dotStat(m['features.home.home.this_month_stat'](), home.games.last30Days ?? 0)}
-				</div>
+				{#if isGamesCardEmpty}
+					<HomeCountCardEmptyFooter
+						title={m['features.home.home.count_card_empty.games_title']()}
+						description={m['features.home.home.count_card_empty.games_description']()}
+						class={emptyFooterClass}
+						data-testid={E2E_TEST_IDS.home.gamesCardEmpty}
+					/>
+				{:else}
+					<div class="flex flex-col gap-2 border-t border-line-subtle pt-3">
+						{@render dotStat(m['features.home.home.this_month_stat'](), home.games.last30Days ?? 0)}
+					</div>
+				{/if}
 			</div>
-		{:else}
-			{@render cardSummaryTop(
-				m['features.home.home.games_title'](),
-				Gamepad2,
-				0,
-				home.trends?.gamesFinished ?? [],
-				m['features.home.home.games_trend_chart_aria'](),
-				E2E_TEST_IDS.home.gamesTrendChart
-			)}
 		{/if}
 	</section>
 </div>

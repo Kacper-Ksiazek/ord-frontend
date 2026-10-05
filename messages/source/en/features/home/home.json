@@ -7,6 +7,14 @@
 	"words_added_last_30": "Added in the last 30 days",
 	"this_month_stat": "this month",
 	"words_by_type_empty": "No words yet",
+	"count_card_empty": {
+		"words_title": "No words yet",
+		"words_description": "Add vocabulary to see monthly stats and types here.",
+		"conversations_title": "No conversations yet",
+		"conversations_description": "Practice speaking to fill this card with activity.",
+		"games_title": "Games coming soon",
+		"games_description": "Short language games will land here — stay tuned."
+	},
 	"conversations_title": "Conversations",
 	"conversations_total": "Conversations",
 	"messages_total": "Messages",
@@ -22,6 +30,14 @@
 	"recent_view_all_conversations": "All conversations",
 	"recent_add_word": "Add word",
 	"recent_new_conversation": "New conversation",
+	"recent_words_empty": {
+		"header": "No words yet",
+		"description": "Add a word to start building your vocabulary."
+	},
+	"recent_conversations_empty": {
+		"header": "No conversations yet",
+		"description": "Start a guided session to practice speaking and get feedback."
+	},
 	"words_trend_chart_aria": "Words added in the last 90 days",
 	"conversations_trend_chart_aria": "New conversations in the last 90 days",
 	"games_trend_chart_aria": "Finished games in the last 90 days",
@@ -34,13 +50,5 @@
 		"header": "Couldn't load home",
 		"description_fallback": "Something went wrong. Try again.",
 		"try_again": "Try again"
-	},
-	"word_type": {
-		"noun": "Noun",
-		"verb": "Verb",
-		"adjective": "Adjective",
-		"adverb": "Adverb",
-		"idiom": "Idiom",
-		"phrase": "Phrase"
 	}
 }

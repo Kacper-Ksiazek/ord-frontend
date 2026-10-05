@@ -7,6 +7,14 @@
 	"words_added_last_30": "In den letzten 30 Tagen hinzugefügt",
 	"this_month_stat": "diesen Monat",
 	"words_by_type_empty": "Noch keine Wörter",
+	"count_card_empty": {
+		"words_title": "Noch keine Wörter",
+		"words_description": "Füge Vokabeln hinzu, um Monatsstatistiken und Typen zu sehen.",
+		"conversations_title": "Noch keine Konversationen",
+		"conversations_description": "Übe Sprechen, um diese Karte mit Aktivität zu füllen.",
+		"games_title": "Spiele demnächst",
+		"games_description": "Kurze Sprachspiele kommen hier — bleib dran."
+	},
 	"conversations_title": "Konversationen",
 	"conversations_total": "Konversationen",
 	"messages_total": "Nachrichten",
@@ -22,6 +30,14 @@
 	"recent_view_all_conversations": "Alle Konversationen",
 	"recent_add_word": "Wort hinzufügen",
 	"recent_new_conversation": "Neue Konversation",
+	"recent_words_empty": {
+		"header": "Noch keine Wörter",
+		"description": "Füge ein Wort hinzu, um deinen Wortschatz aufzubauen."
+	},
+	"recent_conversations_empty": {
+		"header": "Noch keine Konversationen",
+		"description": "Starte eine Sitzung, um Sprechen zu üben und Feedback zu erhalten."
+	},
 	"words_trend_chart_aria": "Hinzugefügte Wörter in den letzten 90 Tagen",
 	"conversations_trend_chart_aria": "Neue Konversationen in den letzten 90 Tagen",
 	"games_trend_chart_aria": "Beendete Spiele in den letzten 90 Tagen",
@@ -34,13 +50,5 @@
 		"header": "Startseite konnte nicht geladen werden",
 		"description_fallback": "Etwas ist schiefgelaufen. Versuch es erneut.",
 		"try_again": "Erneut versuchen"
-	},
-	"word_type": {
-		"noun": "Nomen",
-		"verb": "Verb",
-		"adjective": "Adjektiv",
-		"adverb": "Adverb",
-		"idiom": "Redewendung",
-		"phrase": "Ausdruck"
 	}
 }
