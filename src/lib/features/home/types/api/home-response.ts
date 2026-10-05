@@ -58,12 +58,14 @@ export type HomeResponse = {
 		conversations: HomeConversationsOverview;
 		games: HomeGamesOverview;
 	};
-	activityPerDay: {
-		year: number;
-		days: HomeActivityDay[];
-	};
 	recentContent: {
 		words: HomeRecentWord[];
 		conversations: HomeRecentConversation[];
 	};
+};
+
+/** Mirrors GET /api/v1/home/activity (`HomeActivityPerDay`). */
+export type HomeActivityPerDay = {
+	year: number;
+	days: HomeActivityDay[];
 };

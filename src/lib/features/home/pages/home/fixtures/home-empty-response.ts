@@ -1,4 +1,4 @@
-import type { HomeActivityDay, HomeResponse } from '$home/types';
+import type { HomeActivityDay, HomeActivityPerDay, HomeResponse } from '$home/types';
 
 function formatUtcDateKey(date: Date): string {
 	const month = String(date.getUTCMonth() + 1).padStart(2, '0');
@@ -37,7 +37,7 @@ function emptyTrends() {
 }
 
 /** DEV preview: zeroed home summary matching an empty account. */
-export function buildEmptyHomeResponse(reference = new Date()): HomeResponse {
+export function buildEmptyHomeResponse(): HomeResponse {
 	const trends = emptyTrends();
 
 	return {
@@ -63,13 +63,17 @@ export function buildEmptyHomeResponse(reference = new Date()): HomeResponse {
 				trend: trends.gamesFinished
 			}
 		},
-		activityPerDay: {
-			year: reference.getUTCFullYear(),
-			days: []
-		},
 		recentContent: {
 			words: [],
 			conversations: []
 		}
+	};
+}
+
+/** DEV preview: empty year heatmap matching an account with no activity. */
+export function buildEmptyHomeActivity(reference = new Date()): HomeActivityPerDay {
+	return {
+		year: reference.getUTCFullYear(),
+		days: []
 	};
 }
