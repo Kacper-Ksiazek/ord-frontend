@@ -57,10 +57,13 @@
 					<HomeScreenSkeleton />
 				{:else if homeData}
 					<HomeCountCards home={homeData} />
-					<HomeYearHeatmap year={homeData.activity.year ?? 0} days={homeData.activity.days ?? []} />
+					<HomeYearHeatmap
+						year={homeData.activityPerDay.year ?? 0}
+						days={homeData.activityPerDay.days ?? []}
+					/>
 					<HomeRecentSections
-						recentWords={homeData.recentWords}
-						recentConversations={homeData.recentConversations}
+						recentWords={homeData.recentContent.words}
+						recentConversations={homeData.recentContent.conversations}
 					/>
 				{/if}
 			</div>

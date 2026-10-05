@@ -1,4 +1,4 @@
-import type { HomeActivityDay, HomeResponse, HomeTrendsSection } from '$home/types';
+import type { HomeActivityDay, HomeResponse } from '$home/types';
 
 function formatUtcDateKey(date: Date): string {
 	const month = String(date.getUTCMonth() + 1).padStart(2, '0');
@@ -25,7 +25,7 @@ function buildZeroTrendSeries(dayCount: number): HomeActivityDay[] {
 	return days;
 }
 
-function emptyTrends(): HomeTrendsSection {
+function emptyTrends() {
 	const series = buildZeroTrendSeries(90);
 
 	return {
@@ -38,29 +38,38 @@ function emptyTrends(): HomeTrendsSection {
 
 /** DEV preview: zeroed home summary matching an empty account. */
 export function buildEmptyHomeResponse(reference = new Date()): HomeResponse {
+	const trends = emptyTrends();
+
 	return {
-		words: {
-			total: 0,
-			addedLast30Days: 0,
-			byType: {}
+		overviews: {
+			words: {
+				total: 0,
+				addedLast30Days: 0,
+				byType: {},
+				trend: trends.wordsAdded
+			},
+			conversations: {
+				total: 0,
+				messagesTotal: 0,
+				createdLast30Days: 0,
+				messagesLast30Days: 0,
+				createdTrend: trends.conversationsCreated,
+				messagesTrend: trends.messages
+			},
+			games: {
+				comingSoon: true,
+				total: null,
+				last30Days: null,
+				trend: trends.gamesFinished
+			}
 		},
-		conversations: {
-			total: 0,
-			messagesTotal: 0,
-			createdLast30Days: 0,
-			messagesLast30Days: 0
-		},
-		games: {
-			comingSoon: true,
-			total: null,
-			last30Days: null
-		},
-		trends: emptyTrends(),
-		activity: {
+		activityPerDay: {
 			year: reference.getUTCFullYear(),
 			days: []
 		},
-		recentWords: [],
-		recentConversations: []
+		recentContent: {
+			words: [],
+			conversations: []
+		}
 	};
 }

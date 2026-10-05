@@ -1,13 +1,13 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { ConversationSummaryRow } from '$conversations/shared/components/conversation-summary-row';
-	import type { ConversationSummaryDTO } from '$conversations/types';
+	import type { HomeRecentConversation } from '$home/types';
 	import { StatusPanel } from '$lib/components/utils/status-panel';
 	import { E2E_TEST_IDS } from '$home/testing/test-ids';
 	import * as m from '$lib/paraglide/messages.js';
 
 	interface Props {
-		items: ConversationSummaryDTO[];
+		items: HomeRecentConversation[];
 	}
 
 	const { items }: Props = $props();

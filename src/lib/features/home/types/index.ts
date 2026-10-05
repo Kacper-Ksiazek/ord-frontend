@@ -1,1 +1,9 @@
-export type { HomeActivityDay, HomeResponse, HomeTrendsSection } from './api/home-response';
+export type {
+	HomeActivityDay,
+	HomeConversationsOverview,
+	HomeGamesOverview,
+	HomeRecentConversation,
+	HomeRecentWord,
+	HomeResponse,
+	HomeWordsOverview
+} from './api/home-response';

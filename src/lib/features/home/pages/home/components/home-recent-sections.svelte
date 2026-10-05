@@ -9,12 +9,11 @@
 	import HomeRecentConversationsList from './home-recent-conversations-list.svelte';
 	import HomeRecentWordsList from './home-recent-words-list.svelte';
 	import * as m from '$lib/paraglide/messages.js';
-	import type { ConversationSummaryDTO } from '$conversations/types';
-	import type { WordListItem } from '$words/types';
+	import type { HomeRecentConversation, HomeRecentWord } from '$home/types';
 
 	interface Props {
-		recentWords: WordListItem[];
-		recentConversations: ConversationSummaryDTO[];
+		recentWords: HomeRecentWord[];
+		recentConversations: HomeRecentConversation[];
 	}
 
 	const { recentWords, recentConversations }: Props = $props();

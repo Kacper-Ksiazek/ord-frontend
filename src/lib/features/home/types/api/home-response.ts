@@ -1,5 +1,5 @@
-import type { ConversationSummaryDTO } from '$conversations/types';
-import type { WordListItem, WordType } from '$words/types';
+import type { ConversationAITone, ConversationType } from '$conversations/types';
+import type { WordExtraMark, WordType } from '$words/types';
 
 /**
  * Mirrors GET /api/v1/home (`HomeResponse`) until `@kacper-ksiazek/ord-api-types` includes this schema.
@@ -9,35 +9,61 @@ export type HomeActivityDay = {
 	count: number;
 };
 
-export type HomeTrendsSection = {
-	wordsAdded: HomeActivityDay[];
-	conversationsCreated: HomeActivityDay[];
-	messages: HomeActivityDay[];
-	gamesFinished: HomeActivityDay[];
+export type HomeWordsOverview = {
+	total: number;
+	addedLast30Days: number;
+	byType: Partial<Record<WordType, number>>;
+	trend: HomeActivityDay[];
+};
+
+export type HomeConversationsOverview = {
+	total: number;
+	messagesTotal: number;
+	createdLast30Days: number;
+	messagesLast30Days: number;
+	createdTrend: HomeActivityDay[];
+	messagesTrend: HomeActivityDay[];
+};
+
+export type HomeGamesOverview = {
+	comingSoon: boolean;
+	total: number | null;
+	last30Days: number | null;
+	trend: HomeActivityDay[];
+};
+
+export type HomeRecentWord = {
+	id: string;
+	sourceWord: string;
+	translation: string;
+	definitionPreview?: string | null;
+	isBookmarked: boolean;
+	type: WordType;
+	extraMark?: WordExtraMark | null;
+};
+
+export type HomeRecentConversation = {
+	id: string;
+	topic: string;
+	type: ConversationType;
+	aiTone: ConversationAITone;
+	aiInterlocutorName: string;
+	aiInterlocutorAvatarId: string;
+	updatedAt: string;
 };
 
 export type HomeResponse = {
-	words: {
-		total: number;
-		addedLast30Days: number;
-		byType: Partial<Record<WordType, number>>;
+	overviews: {
+		words: HomeWordsOverview;
+		conversations: HomeConversationsOverview;
+		games: HomeGamesOverview;
 	};
-	conversations: {
-		total: number;
-		messagesTotal: number;
-		createdLast30Days: number;
-		messagesLast30Days: number;
-	};
-	games: {
-		comingSoon: boolean;
-		total: number | null;
-		last30Days: number | null;
-	};
-	trends: HomeTrendsSection;
-	activity: {
+	activityPerDay: {
 		year: number;
 		days: HomeActivityDay[];
 	};
-	recentWords: WordListItem[];
-	recentConversations: ConversationSummaryDTO[];
+	recentContent: {
+		words: HomeRecentWord[];
+		conversations: HomeRecentConversation[];
+	};
 };

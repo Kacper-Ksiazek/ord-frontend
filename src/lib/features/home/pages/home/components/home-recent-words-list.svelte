@@ -4,13 +4,13 @@
 	import { getWordBookmarked } from '$words/api-client/utils/normalize-word-list-item';
 	import WordBookmarkButton from '$words/pages/inbox/components/word-bookmark-button.svelte';
 	import { WordListRow } from '$words/shared/components/word-list-row';
-	import type { WordListItem } from '$words/types';
+	import type { HomeRecentWord } from '$home/types';
 	import { StatusPanel } from '$lib/components/utils/status-panel';
 	import { ChevronRight } from 'lucide-svelte';
 	import * as m from '$lib/paraglide/messages.js';
 
 	interface Props {
-		items: WordListItem[];
+		items: HomeRecentWord[];
 	}
 
 	const { items }: Props = $props();
@@ -57,7 +57,17 @@
 						onclick={() => goto('/words')}
 					>
 						<span class="min-w-0 flex-1">
-							<WordListRow {item} {itemId} definitionLineClamp={1} />
+							<WordListRow
+								item={{
+									sourceWord: item.sourceWord,
+									translation: item.translation,
+									definition: item.definitionPreview,
+									type: item.type,
+									extraMark: item.extraMark
+								}}
+								{itemId}
+								definitionLineClamp={1}
+							/>
 						</span>
 						<ChevronRight
 							class="size-4 shrink-0 text-ink-subtle transition-colors group-hover:text-ink-muted"

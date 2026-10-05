@@ -18,7 +18,7 @@
 
 	const typeRows = $derived(
 		WORD_TYPES.flatMap((type) => {
-			const count = home.words.byType?.[type];
+			const count = home.overviews.words.byType?.[type];
 
 			if (count === undefined || count <= 0) {
 				return [];
@@ -28,12 +28,14 @@
 		}).sort((a, b) => b.count - a.count)
 	);
 
-	const showGameCounts = $derived(home.games.total != null && home.games.last30Days != null);
-	const isGamesComingSoon = $derived(home.games.comingSoon || !showGameCounts);
+	const showGameCounts = $derived(
+		home.overviews.games.total != null && home.overviews.games.last30Days != null
+	);
+	const isGamesComingSoon = $derived(home.overviews.games.comingSoon || !showGameCounts);
 
-	const isWordsCardEmpty = $derived((home.words.total ?? 0) === 0);
-	const isConversationsCardEmpty = $derived((home.conversations.total ?? 0) === 0);
-	const isGamesCardEmpty = $derived((home.games.total ?? 0) === 0);
+	const isWordsCardEmpty = $derived((home.overviews.words.total ?? 0) === 0);
+	const isConversationsCardEmpty = $derived((home.overviews.conversations.total ?? 0) === 0);
+	const isGamesCardEmpty = $derived((home.overviews.games.total ?? 0) === 0);
 
 	const typeBarAriaLabel = $derived(
 		typeRows.map((row) => `${getWordTypeLabel(row.type)}: ${row.count}`).join(', ')
@@ -107,8 +109,8 @@
 		{@render cardSummaryTop(
 			m['features.home.home.words_title'](),
 			BookOpen,
-			home.words.total ?? 0,
-			home.trends?.wordsAdded ?? [],
+			home.overviews.words.total ?? 0,
+			home.overviews.words.trend ?? [],
 			m['features.home.home.words_trend_chart_aria'](),
 			E2E_TEST_IDS.home.wordsTrendChart,
 			isWordsCardEmpty
@@ -155,7 +157,10 @@
 				{/if}
 			</div>
 			<div class="flex flex-col gap-2 border-t border-line-subtle pt-3">
-				{@render dotStat(m['features.home.home.this_month_stat'](), home.words.addedLast30Days ?? 0)}
+				{@render dotStat(
+					m['features.home.home.this_month_stat'](),
+					home.overviews.words.addedLast30Days ?? 0
+				)}
 			</div>
 		{/if}
 	</section>
@@ -167,8 +172,8 @@
 		{@render cardSummaryTop(
 			m['features.home.home.conversations_title'](),
 			MessageSquare,
-			home.conversations.total ?? 0,
-			home.trends?.conversationsCreated ?? [],
+			home.overviews.conversations.total ?? 0,
+			home.overviews.conversations.createdTrend ?? [],
 			m['features.home.home.conversations_trend_chart_aria'](),
 			E2E_TEST_IDS.home.conversationsTrendChart,
 			isConversationsCardEmpty
@@ -184,15 +189,15 @@
 			<div class="flex flex-col gap-2 border-t border-line-subtle pt-3">
 				{@render dotStat(
 					m['features.home.home.this_month_stat'](),
-					home.conversations.createdLast30Days ?? 0
+					home.overviews.conversations.createdLast30Days ?? 0
 				)}
 				{@render dotStat(
 					m['features.home.home.messages_total'](),
-					home.conversations.messagesTotal ?? 0
+					home.overviews.conversations.messagesTotal ?? 0
 				)}
 				{@render dotStat(
 					m['features.home.home.messages_last_30'](),
-					home.conversations.messagesLast30Days ?? 0
+					home.overviews.conversations.messagesLast30Days ?? 0
 				)}
 			</div>
 		{/if}
@@ -212,8 +217,8 @@
 				{@render cardSummaryTop(
 					m['features.home.home.games_title'](),
 					Gamepad2,
-					home.games.total ?? 0,
-					home.trends?.gamesFinished ?? [],
+					home.overviews.games.total ?? 0,
+					home.overviews.games.trend ?? [],
 					m['features.home.home.games_trend_chart_aria'](),
 					E2E_TEST_IDS.home.gamesTrendChart,
 					isGamesCardEmpty
@@ -227,7 +232,10 @@
 					/>
 				{:else}
 					<div class="flex flex-col gap-2 border-t border-line-subtle pt-3">
-						{@render dotStat(m['features.home.home.this_month_stat'](), home.games.last30Days ?? 0)}
+						{@render dotStat(
+							m['features.home.home.this_month_stat'](),
+							home.overviews.games.last30Days ?? 0
+						)}
 					</div>
 				{/if}
 			</div>
