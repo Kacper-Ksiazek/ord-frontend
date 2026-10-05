@@ -35,7 +35,7 @@
 	import { createCreateWordsMutation, createWordFillGapsMutation } from '$words/api-client';
 	import { invalidateWordCaptureQueries } from '$words/api-client/utils/invalidate-word-capture-queries';
 	import {
-		WORD_TYPE_OPTIONS,
+		getWordTypeSelectOptions,
 		getWordTypeSwatchClasses,
 		getWordTypeSwatchDotClasses
 	} from '$words/shared/constants';
@@ -153,7 +153,7 @@
 			label: m['features.words.capture-popover.type_placeholder'](),
 			value: null
 		},
-		...WORD_TYPE_OPTIONS
+		...getWordTypeSelectOptions()
 	]);
 
 	const extraMarkOptions = $derived<WordExtraMarkSelectOption[]>([

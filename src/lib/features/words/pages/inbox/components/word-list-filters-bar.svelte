@@ -6,7 +6,10 @@
 	import { DropdownMultiSelect } from '$lib/components/forms/dropdown-multi-select';
 	import { WordsListFiltersState } from '../state/words-list-filters-state.svelte';
 	import { createBanksQuery } from '$words/api-client';
-	import { WORD_EXTRA_MARK_OPTIONS, WORD_TYPE_OPTIONS } from '$words/shared/constants/enum-values';
+	import {
+		WORD_EXTRA_MARK_OPTIONS,
+		getWordTypeSelectOptions
+	} from '$words/shared/constants/enum-values';
 	import { getWordTypeSwatchDotClasses } from '$words/shared/constants/word-type-styles';
 	import { getWordExtraMarkIcon } from '$words/shared/constants/word-extra-mark-styles';
 	import BankGroupColorDot from '$words/shared/components/bank-group-color-dot.svelte';
@@ -64,6 +67,8 @@
 	type WordTypeOption = DropdownMultiSelectOption<WordType>;
 	type ExtraMarkOption = DropdownMultiSelectOption<WordExtraMark>;
 	type BankOption = DropdownMultiSelectOption<string>;
+
+	const wordTypeOptions = $derived(getWordTypeSelectOptions());
 </script>
 
 {#snippet wordTypeOptionLeading(option: WordTypeOption)}
@@ -86,7 +91,7 @@
 		onValuesChange={(next) => {
 			filtersState.filters.wordTypes = next;
 		}}
-		options={WORD_TYPE_OPTIONS}
+		options={wordTypeOptions}
 		placeholder={m['features.words.inbox.filters.word_type_placeholder']()}
 		ariaLabel={m['features.words.inbox.filters.word_type_aria']()}
 		{buttonClass}

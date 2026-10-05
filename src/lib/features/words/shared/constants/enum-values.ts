@@ -1,4 +1,5 @@
 import type { WordExtraMark, WordType } from '$words/types';
+import { getWordTypeLabel as getWordTypeLabelI18n } from '$words/shared/utils/get-word-type-label';
 
 export const WORD_TYPES: WordType[] = ['NOUN', 'VERB', 'ADJECTIVE', 'ADVERB', 'IDIOM', 'PHRASE'];
 
@@ -37,10 +38,12 @@ export const WORD_EXTRA_MARK_LABEL: Record<WordExtraMark, string> = {
 	POETIC: 'Poetic'
 };
 
-export const WORD_TYPE_OPTIONS: { label: string; value: WordType }[] = WORD_TYPES.map((value) => ({
-	label: WORD_TYPE_LABEL[value],
-	value
-}));
+export function getWordTypeSelectOptions(): { label: string; value: WordType }[] {
+	return WORD_TYPES.map((value) => ({
+		label: getWordTypeLabelI18n(value),
+		value
+	}));
+}
 
 export const WORD_EXTRA_MARK_OPTIONS: { label: string; value: WordExtraMark }[] =
 	WORD_EXTRA_MARKS.map((value) => ({
@@ -49,7 +52,7 @@ export const WORD_EXTRA_MARK_OPTIONS: { label: string; value: WordExtraMark }[] 
 	}));
 
 export function getWordTypeLabel(type: WordType): string {
-	return WORD_TYPE_LABEL[type];
+	return getWordTypeLabelI18n(type);
 }
 
 export function getWordExtraMarkLabel(mark: WordExtraMark): string {

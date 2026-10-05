@@ -1,0 +1,10 @@
+{
+	"word_types": {
+		"NOUN": { "label": "Rzeczownik" },
+		"VERB": { "label": "Czasownik" },
+		"ADJECTIVE": { "label": "Przymiotnik" },
+		"ADVERB": { "label": "Przysłówek" },
+		"IDIOM": { "label": "Idiom" },
+		"PHRASE": { "label": "Wyrażenie" }
+	}
+}

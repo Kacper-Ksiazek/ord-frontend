@@ -1,0 +1,10 @@
+{
+	"word_types": {
+		"NOUN": { "label": "Noun" },
+		"VERB": { "label": "Verb" },
+		"ADJECTIVE": { "label": "Adjective" },
+		"ADVERB": { "label": "Adverb" },
+		"IDIOM": { "label": "Idiom" },
+		"PHRASE": { "label": "Phrase" }
+	}
+}
