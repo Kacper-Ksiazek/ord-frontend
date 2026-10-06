@@ -191,7 +191,8 @@ export class ExplainPhrasePopoverComponent {
 	}
 
 	async expectSimplerDefinitionVisible(): Promise<void> {
-		await expect(this.root().getByText('simpler take', { exact: false })).toBeVisible({
+		// Pinned stub: AI_EXPLAINER_FOLLOW_UP_SIMPLER.stream.json
+		await expect(this.root().getByText('very bold', { exact: false })).toBeVisible({
 			timeout: 45_000
 		});
 	}
