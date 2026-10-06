@@ -2,7 +2,7 @@
 
 Each non-trivial component lives in its own kebab-case folder containing `<name>.svelte`, an `index.ts` barrel export, and optional colocated `<name>.types.ts`, `<name>.constants.ts`, `<name>.store.svelte.ts`, and `<name>.stories.svelte`. Only trivial, self-contained components (< ~100 lines, no sub-components) may be a bare single `.svelte` file.
 
-When a folder component grows past roughly **300 lines** or mixes many UI sections (tabs, stream output, forms), split markup into a nested `components/` folder (see [`sub-components-folder.md`](./sub-components-folder.md)) and move non-UI state into `<name>.store.svelte.ts` or feature `services/` — do not keep an entire modal or screen in one `.svelte` file.
+When a component grows past roughly **200 lines**, or several `{#snippet}` blocks are really separate card or section states, split markup into a nested `components/` folder (see [`sub-components-folder.md`](./sub-components-folder.md)) and move non-UI state into `<name>.store.svelte.ts` or feature `services/`. Do not keep an entire modal, screen, or multi-card section in one `.svelte` file. Snippets do not replace that split.
 
 ## Good
 

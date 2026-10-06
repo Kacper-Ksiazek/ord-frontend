@@ -83,6 +83,9 @@ Notes:
 
 - Keep snippets local to the component (defined in the same file); if a block is needed by
   other components, promote it to a sub-component in a `components/` subfolder instead.
+- A snippet clarifies a repeated or conditional block inside a component that is already small.
+  Several section snippets in a file past ~200 lines are card or section states: move them to
+  `components/` (see [`component-folder-layout.md`](./component-folder-layout.md)).
 - Type snippet parameters inline (`props: { label: string; ... }`) — snippets are
   type-checked like functions.
 - This is for readability of large blocks; don't wrap trivial one-liners in snippets.

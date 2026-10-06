@@ -1,6 +1,6 @@
 # E2E: new user-facing flows need a journey
 
-When a PR adds a **new user path** (modal, query deep link such as `?modal=…`, new screen, or visible SSE-driven flow), add a matching spec under `e2e/journeys/` — **prefer the same PR** as the feature. A follow-up PR is acceptable only when the e2e stack is blocked; link it in the feature PR (Jira if deferred) and land it immediately after — do not defer journeys indefinitely.
+When a PR adds a **new user path** — a page, a view, a modal, a query deep link such as `?modal=…`, or a visible SSE-driven flow — add a matching spec under `e2e/journeys/` in the **same PR**. A follow-up is allowed only when the e2e stack is blocked. The feature PR body must link that follow-up PR or Jira issue, and [`page-journey-coverage.md`](./page-journey-coverage.md) must name the same link. Do not defer a journey with no link.
 
 Each journey exercises the path end-to-end (auth fixtures, page objects, `getByTestId` from the feature’s `testing/test-ids`), not micro UI assertions (those belong in Vitest). Structure the single `test()` body with **numbered `test.step` blocks** (`'01. …'`, `'02. …'`) — see [`e2e-journey-enumerated-steps.md`](e2e-journey-enumerated-steps.md). For modals tied to URL state, cover at least: open (control and/or deep link), close (param removed), coexisting list filters unchanged, and a minimal happy path (mock SSE/API consistent with other feature e2e patterns).
 
@@ -21,5 +21,6 @@ See also [`dev/ci-verify-before-done.md`](../dev/ci-verify-before-done.md) for r
 ```ts
 // Feature PR ships modal + URL helpers with Vitest only — no e2e/journeys/* spec (regression gap)
 
-// Deferred e2e with no Jira link and no immediate follow-up PR
+// New page with no journey, no follow-up PR, and no Jira link
+// Deferred e2e whose link is missing from the PR body and from page-journey-coverage.md
 ```

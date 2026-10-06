@@ -52,6 +52,7 @@ Covers: `src/**/*.ts`, `tsconfig.json`, `eslint.config.js`.
 - [x] Type imports and API types (canonical rule in `api-design/`; typescript/ cross-link)
 - [x] Enum/constants patterns (`enum-values.ts` style)
 - [x] Util module public API layout (`*.ts` + `*.types.ts` pairs)
+- [x] Type imports grouped above value imports (`separate-type-imports.md`)
 
 ### svelte/ — components
 
@@ -64,6 +65,7 @@ Covers: `src/lib/components`, `src/lib/features/**/components`.
 - [x] Props typing and defaults (+ types files, sub-components, component stores)
 - [x] Snippets, file naming, colocated stories
 - [x] Local snippets for complex conditional/looped markup
+- [x] No URLs assembled in components (assets, CDNs, API paths — `no-urls-assembled-in-components.md`)
 
 ### design/ — tokens, UI patterns, feature screen UX
 
@@ -115,6 +117,7 @@ Covers: `src/**/*.test.ts`, `e2e/`, `src/**/*.stories.svelte`, `vite.config.ts`,
 - [x] E2E app bugs block tests (no workarounds in specs; notify developer)
 - [x] E2E CI workflow (blocking `e2e` job, GHCR `ord-api:latest`)
 - [x] Storybook stories conventions
+- [x] Page journey coverage posture (`page-journey-coverage-posture.md`, `page-journey-coverage.md`)
 
 ### git/ — workflow
 
