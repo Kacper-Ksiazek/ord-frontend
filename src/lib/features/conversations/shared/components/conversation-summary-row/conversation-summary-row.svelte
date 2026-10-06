@@ -34,6 +34,7 @@
 	const { conversation, onclick, dataTestId, showChevron = true, trailing }: Props = $props();
 
 	const interlocutorName = $derived(conversation.aiInterlocutorName?.trim() ?? '');
+	const conversationType = $derived(conversation.type ?? undefined);
 
 	const activityLabel = $derived(
 		formatRelativeOrMediumDate(conversation.updatedAt ?? conversation.createdAt ?? new Date())
@@ -59,7 +60,7 @@
 			class="flex size-12 shrink-0 items-center justify-center rounded-[10px] bg-accent-soft p-2 text-ink-muted transition-colors group-hover:bg-primary-200 [&_svg]:size-7 [&_svg]:shrink-0"
 			aria-hidden="true"
 		>
-			<ConversationTypeIcon conversationType={conversation.type} class="size-7" />
+			<ConversationTypeIcon {conversationType} class="size-7" />
 		</span>
 	</div>
 
@@ -94,7 +95,7 @@
 
 			<div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
 				<Badge class="transition-colors group-hover:bg-primary-200">
-					{getConversationTypeLabel(conversation.type)}
+					{getConversationTypeLabel(conversationType)}
 				</Badge>
 				{#if conversation.aiTone}
 					<Badge class="transition-colors group-hover:bg-primary-200">
