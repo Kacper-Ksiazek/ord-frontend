@@ -1,71 +1,12 @@
-import type { ConversationAITone, ConversationType } from '$conversations/types';
-import type { WordExtraMark, WordType } from '$words/types';
+import type { components } from '@kacper-ksiazek/ord-api-types';
 
-/**
- * Mirrors GET /api/v1/home (`HomeResponse`) until `@kacper-ksiazek/ord-api-types` includes this schema.
- */
-export type HomeActivityDay = {
-	date: string;
-	count: number;
-};
-
-export type HomeWordsOverview = {
-	total: number;
-	addedLast30Days: number;
-	byType: Partial<Record<WordType, number>>;
-	trend: HomeActivityDay[];
-};
-
-export type HomeConversationsOverview = {
-	total: number;
-	messagesTotal: number;
-	createdLast30Days: number;
-	messagesLast30Days: number;
-	createdTrend: HomeActivityDay[];
-	messagesTrend: HomeActivityDay[];
-};
-
-export type HomeGamesOverview = {
-	comingSoon: boolean;
-	total: number | null;
-	last30Days: number | null;
-	trend: HomeActivityDay[];
-};
-
-export type HomeRecentWord = {
-	id: string;
-	sourceWord: string;
-	translation: string;
-	definitionPreview?: string | null;
-	isBookmarked: boolean;
-	type: WordType;
-	extraMark?: WordExtraMark | null;
-};
-
-export type HomeRecentConversation = {
-	id: string;
-	topic: string;
-	type: ConversationType;
-	aiTone: ConversationAITone;
-	aiInterlocutorName: string;
-	aiInterlocutorAvatarId: string;
-	updatedAt: string;
-};
-
-export type HomeResponse = {
-	overviews: {
-		words: HomeWordsOverview;
-		conversations: HomeConversationsOverview;
-		games: HomeGamesOverview;
-	};
-	recentContent: {
-		words: HomeRecentWord[];
-		conversations: HomeRecentConversation[];
-	};
-};
-
-/** Mirrors GET /api/v1/home/activity (`HomeActivityPerDay`). */
-export type HomeActivityPerDay = {
-	year: number;
-	days: HomeActivityDay[];
-};
+export type HomeActivityDay = components['schemas']['HomeActivityDay'];
+export type HomeActivityPerDay = components['schemas']['HomeActivityPerDay'];
+export type HomeConversationsOverview = components['schemas']['HomeConversationsOverview'];
+export type HomeGamesOverview = components['schemas']['HomeGamesOverview'];
+export type HomeOverviews = components['schemas']['HomeOverviews'];
+export type HomeRecentContent = components['schemas']['HomeRecentContent'];
+export type HomeRecentConversation = components['schemas']['HomeRecentConversation'];
+export type HomeRecentWord = components['schemas']['HomeRecentWord'];
+export type HomeResponse = components['schemas']['HomeResponse'];
+export type HomeWordsOverview = components['schemas']['HomeWordsOverview'];

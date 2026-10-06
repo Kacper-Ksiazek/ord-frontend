@@ -33,7 +33,7 @@
 		days.map((day, index) => ({
 			id: day.date,
 			index,
-			value: day.count
+			value: day.count ?? 0
 		}))
 	);
 

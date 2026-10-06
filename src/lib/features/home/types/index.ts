@@ -3,6 +3,8 @@ export type {
 	HomeActivityPerDay,
 	HomeConversationsOverview,
 	HomeGamesOverview,
+	HomeOverviews,
+	HomeRecentContent,
 	HomeRecentConversation,
 	HomeRecentWord,
 	HomeResponse,

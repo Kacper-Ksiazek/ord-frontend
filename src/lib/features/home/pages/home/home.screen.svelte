@@ -83,8 +83,8 @@
 					<HomeRecentSectionsSkeleton />
 				{:else if homeData}
 					<HomeRecentSections
-						recentWords={homeData.recentContent.words}
-						recentConversations={homeData.recentContent.conversations}
+						recentWords={homeData.recentContent?.words ?? []}
+						recentConversations={homeData.recentContent?.conversations ?? []}
 					/>
 				{/if}
 			</div>

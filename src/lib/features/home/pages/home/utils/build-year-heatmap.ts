@@ -164,8 +164,10 @@ export function buildYearHeatmap(
 			continue;
 		}
 
-		if (day.count > 0) {
-			counts.set(day.date, (counts.get(day.date) ?? 0) + day.count);
+		const count = day.count ?? 0;
+
+		if (count > 0 && day.date) {
+			counts.set(day.date, (counts.get(day.date) ?? 0) + count);
 		}
 	}
 
