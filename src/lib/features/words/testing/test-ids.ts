@@ -31,7 +31,7 @@ export const E2E_TEST_IDS = {
 		listSkeleton: 'words-inbox-list-skeleton',
 		rowBookmark: (id: string) => `words-inbox-row-bookmark-${id}`,
 		viewToggle: 'words-inbox-view-toggle',
-		viewToggleOption: (mode: 'list' | 'analytics') => `words-inbox-view-toggle-${mode}`,
+		viewToggleOption: (mode: 'recommend' | 'list' | 'analytics') => `words-inbox-view-toggle-${mode}`,
 		analyticsPanel: 'words-inbox-analytics-panel',
 		analyticsTotalWords: 'words-inbox-analytics-total-words',
 		analyticsBookmarkedWords: 'words-inbox-analytics-bookmarked-words'

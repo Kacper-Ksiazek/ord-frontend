@@ -1,0 +1,54 @@
+{
+	"page_title": "Home",
+	"greeting_morning": "Guten Morgen, {name}",
+	"greeting_afternoon": "Guten Tag, {name}",
+	"greeting_evening": "Guten Abend, {name}",
+	"words_title": "Wörter",
+	"words_added_last_30": "In den letzten 30 Tagen hinzugefügt",
+	"this_month_stat": "diesen Monat",
+	"words_by_type_empty": "Noch keine Wörter",
+	"count_card_empty": {
+		"words_title": "Noch keine Wörter",
+		"words_description": "Füge Vokabeln hinzu, um Monatsstatistiken und Typen zu sehen.",
+		"conversations_title": "Noch keine Konversationen",
+		"conversations_description": "Übe Sprechen, um diese Karte mit Aktivität zu füllen.",
+		"games_title": "Spiele demnächst",
+		"games_description": "Kurze Sprachspiele kommen hier — bleib dran."
+	},
+	"conversations_title": "Konversationen",
+	"conversations_total": "Konversationen",
+	"messages_total": "Nachrichten",
+	"conversations_last_30": "Neue Konversationen in 30 Tagen",
+	"messages_last_30": "Nachrichten diesen Monat",
+	"games_title": "Spiele",
+	"games_coming_soon": "Demnächst",
+	"games_total": "Beendete Spiele",
+	"games_last_30": "Beendet in 30 Tagen",
+	"recent_words_title": "Zuletzt hinzugefügte Wörter",
+	"recent_conversations_title": "Letzte Konversationen",
+	"recent_view_all_words": "Alle Wörter",
+	"recent_view_all_conversations": "Alle Konversationen",
+	"recent_add_word": "Wort hinzufügen",
+	"recent_new_conversation": "Neue Konversation",
+	"recent_words_empty": {
+		"header": "Noch keine Wörter",
+		"description": "Füge ein Wort hinzu, um deinen Wortschatz aufzubauen."
+	},
+	"recent_conversations_empty": {
+		"header": "Noch keine Konversationen",
+		"description": "Starte eine Sitzung, um Sprechen zu üben und Feedback zu erhalten."
+	},
+	"words_trend_chart_aria": "Hinzugefügte Wörter in den letzten 90 Tagen",
+	"conversations_trend_chart_aria": "Neue Konversationen in den letzten 90 Tagen",
+	"games_trend_chart_aria": "Beendete Spiele in den letzten 90 Tagen",
+	"activity_title": "Dieses Jahr",
+	"heatmap_aria": "Aktivität in {year}. Jede Spalte ist eine Woche, Montag bis Sonntag.",
+	"heatmap_empty": "{date}: keine Aktivität",
+	"heatmap_one": "{date}: 1 Ereignis",
+	"heatmap_n": "{date}: {count} Ereignisse",
+	"load_error": {
+		"header": "Startseite konnte nicht geladen werden",
+		"description_fallback": "Etwas ist schiefgelaufen. Versuch es erneut.",
+		"try_again": "Erneut versuchen"
+	}
+}

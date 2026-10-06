@@ -22,11 +22,19 @@
 		"placeholder": "Thema eingeben...",
 		"selected_topic": "Ausgewähltes Thema",
 		"no_topic_selected": "Kein Thema ausgewählt",
-		"pinned_section_title": "Angepinnt",
+		"pinned_section_title": "Für später gespeichert",
 		"suggested_section_title": "Vorgeschlagene Themen",
+		"tabs": {
+			"create": "Thema erstellen",
+			"saved_for_later": "Für später gespeichert"
+		},
+		"saved_empty": {
+			"header": "Noch keine gespeicherten Themen",
+			"description": "Speichere ein vorgeschlagenes Thema für später, um jederzeit darauf zurückzukommen."
+		},
 		"topic_row": {
-			"pin_tooltip": "Thema anpinnen",
-			"unpin_tooltip": "Thema lösen",
+			"pin_tooltip": "Für später speichern",
+			"unpin_tooltip": "Aus „Für später“ entfernen",
 			"remove_tooltip": "Thema aus der Liste entfernen"
 		},
 		"custom_topic": {

@@ -1,13 +1,10 @@
 import type { WordListItem, WordsPaginatedDataResponse } from '$words/types';
 
-type RawWordListItem = WordListItem & {
-	isBookmarked?: boolean;
-};
-
-export function getWordBookmarked(item: WordListItem): boolean {
-	const raw = item as RawWordListItem;
-
-	return Boolean(raw.bookmarked ?? raw.isBookmarked);
+export function getWordBookmarked(item: {
+	bookmarked?: boolean | null;
+	isBookmarked?: boolean | null;
+}): boolean {
+	return Boolean(item.bookmarked ?? item.isBookmarked);
 }
 
 export function normalizeWordListItem(item: WordListItem): WordListItem {

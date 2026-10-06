@@ -1,0 +1,54 @@
+{
+	"page_title": "Home",
+	"greeting_morning": "Dzień dobry, {name}",
+	"greeting_afternoon": "Dzień dobry, {name}",
+	"greeting_evening": "Dobry wieczór, {name}",
+	"words_title": "Słówka",
+	"words_added_last_30": "Dodane w ostatnich 30 dniach",
+	"this_month_stat": "ten miesiąc",
+	"words_by_type_empty": "Brak słówek",
+	"count_card_empty": {
+		"words_title": "Brak słówek",
+		"words_description": "Dodaj słownictwo, żeby zobaczyć statystyki miesiąca i typy.",
+		"conversations_title": "Brak konwersacji",
+		"conversations_description": "Ćwicz mówienie, żeby wypełnić tę kartę aktywnością.",
+		"games_title": "Gry wkrótce",
+		"games_description": "Krótkie gry językowe pojawią się tutaj — zostań z nami."
+	},
+	"conversations_title": "Konwersacje",
+	"conversations_total": "Konwersacje",
+	"messages_total": "Wiadomości",
+	"conversations_last_30": "Nowe konwersacje w 30 dniach",
+	"messages_last_30": "wiadomości w tym miesiącu",
+	"games_title": "Gry",
+	"games_coming_soon": "Wkrótce",
+	"games_total": "Ukończone gry",
+	"games_last_30": "Ukończone w 30 dniach",
+	"recent_words_title": "Ostatnie dodane słówka",
+	"recent_conversations_title": "Ostatnie konwersacje",
+	"recent_view_all_words": "Wszystkie słówka",
+	"recent_view_all_conversations": "Wszystkie konwersacje",
+	"recent_add_word": "Dodaj słówko",
+	"recent_new_conversation": "Nowa konwersacja",
+	"recent_words_empty": {
+		"header": "Brak słówek",
+		"description": "Dodaj słówko, żeby zacząć budować swoje słownictwo."
+	},
+	"recent_conversations_empty": {
+		"header": "Brak konwersacji",
+		"description": "Rozpocznij sesję, żeby ćwiczyć mówienie i dostawać feedback."
+	},
+	"words_trend_chart_aria": "Dodane słówka w ostatnich 90 dniach",
+	"conversations_trend_chart_aria": "Nowe konwersacje w ostatnich 90 dniach",
+	"games_trend_chart_aria": "Ukończone gry w ostatnich 90 dniach",
+	"activity_title": "Ten rok",
+	"heatmap_aria": "Aktywność w {year}. Każda kolumna to tydzień, od poniedziałku do niedzieli.",
+	"heatmap_empty": "{date}: brak aktywności",
+	"heatmap_one": "{date}: 1 zdarzenie",
+	"heatmap_n": "{date}: {count} zdarzeń",
+	"load_error": {
+		"header": "Nie udało się wczytać strony głównej",
+		"description_fallback": "Coś poszło nie tak. Spróbuj ponownie.",
+		"try_again": "Spróbuj ponownie"
+	}
+}

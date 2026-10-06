@@ -2,7 +2,13 @@
 	"page_title": "Gespräche",
 	"heading": "Gespräche",
 	"subtitle": "Setze eine Übung fort oder starte ein neues Gespräch.",
+	"summary_description": "Aktivitätsübersicht und Gesprächsstatistiken.",
 	"new_conversation": "Neues Gespräch",
+	"view": {
+		"aria_label": "Gesprächsansicht",
+		"list": "Liste",
+		"summary": "Zusammenfassung"
+	},
 	"load_error": {
 		"header": "Gespräche konnten nicht geladen werden",
 		"description_fallback": "Etwas ist schiefgelaufen. Bitte erneut versuchen.",

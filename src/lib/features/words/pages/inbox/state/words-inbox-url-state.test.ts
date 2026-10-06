@@ -19,6 +19,12 @@ describe('wordsInboxUrlState', () => {
 		expect(parsed.viewMode).toBe('analytics');
 	});
 
+	it('parses recommend view from URL', () => {
+		const parsed = parseWordsInboxUrl(new URLSearchParams('view=recommend'));
+
+		expect(parsed.viewMode).toBe('recommend');
+	});
+
 	it('builds query string with filters and word detail', () => {
 		const query = buildWordsInboxQueryString({
 			filters: {
@@ -67,5 +73,21 @@ describe('wordsInboxUrlState', () => {
 		});
 
 		expect(query).toBe('view=analytics');
+	});
+
+	it('includes recommend view in URL', () => {
+		const query = buildWordsInboxQueryString({
+			filters: {
+				search: '',
+				wordTypes: [],
+				bankIds: [],
+				wordExtraMarks: [],
+				bookmarkedOnly: false
+			},
+			viewMode: 'recommend',
+			wordId: null
+		});
+
+		expect(query).toBe('view=recommend');
 	});
 });

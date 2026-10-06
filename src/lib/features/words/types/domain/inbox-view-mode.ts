@@ -1,6 +1,7 @@
-export type WordsInboxViewMode = 'list' | 'analytics';
+export type WordsInboxViewMode = 'recommend' | 'list' | 'analytics';
 
 export const WORDS_INBOX_VIEW_MODES = [
 	'list',
-	'analytics'
+	'analytics',
+	'recommend'
 ] as const satisfies readonly WordsInboxViewMode[];

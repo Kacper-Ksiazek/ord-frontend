@@ -6,6 +6,7 @@ export * from './api/responses';
 export * from './api/list-conversations';
 export * from './api/conversation-list-activity';
 export * from './api';
+export * from './domain/conversations-list-view-mode';
 export * from './domain/conversation';
 export * from './domain/conversation-message';
 export * from './domain/conversation-message-analysis';

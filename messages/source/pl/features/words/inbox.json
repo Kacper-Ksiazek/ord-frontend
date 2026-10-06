@@ -5,12 +5,18 @@
 	"header": {
 		"title": "Słowa",
 		"description": "Słowa, których się uczysz.",
-		"analytics_description": "Podsumowanie Twojego słownictwa."
+		"analytics_description": "Podsumowanie Twojego słownictwa.",
+		"recommend_new": "Zarekomenduj nowe",
+		"recommend_description": "Sugestie nowych słówek do nauki."
+	},
+	"recommend": {
+		"placeholder": "Rekomendacje słówek pojawią się tutaj wkrótce."
 	},
 	"view": {
 		"aria_label": "Widok słów",
 		"list": "Lista",
-		"analytics": "Analityka"
+		"analytics": "Analityka",
+		"recommend": "Rekomendacje"
 	},
 	"analytics": {
 		"total_words": "Wszystkie słowa",

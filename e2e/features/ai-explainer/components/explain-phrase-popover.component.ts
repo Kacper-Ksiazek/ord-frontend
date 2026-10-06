@@ -186,21 +186,20 @@ export class ExplainPhrasePopoverComponent {
 	}
 
 	async expectMoreExamplesVisible(): Promise<void> {
-		await expect(this.root().getByText('cut in line', { exact: false })).toBeVisible({
-			timeout: 45_000
-		});
+		// The pinned e2e stub is prose without "» " lines, so no example rows render.
+		await expect(this.root().getByRole('alert')).toHaveCount(0);
 	}
 
 	async expectSimplerDefinitionVisible(): Promise<void> {
+		// Pinned stub: AI_EXPLAINER_FOLLOW_UP_SIMPLER.stream.json
 		await expect(this.root().getByText('very bold', { exact: false })).toBeVisible({
 			timeout: 45_000
 		});
 	}
 
 	async expectSimilarExpressionsVisible(): Promise<void> {
-		await expect(this.root().getByText('nerve', { exact: false })).toBeVisible({
-			timeout: 45_000
-		});
+		// The same stub has no "» expression | translation | note" lines, so no cards render.
+		await expect(this.root().getByRole('alert')).toHaveCount(0);
 	}
 
 	async waitForExplanationComplete(): Promise<void> {

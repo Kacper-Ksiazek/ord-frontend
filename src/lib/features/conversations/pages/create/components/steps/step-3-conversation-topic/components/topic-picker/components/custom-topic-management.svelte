@@ -61,9 +61,9 @@
 	});
 </script>
 
-<div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
-	<div class="flex flex-col min-w-0 flex-1 gap-3">
-		<label class="flex shrink-0 items-center gap-2 sm:pt-1.5">
+<div class="rounded-[10px] border border-line bg-surface px-4 py-4">
+	<div class="flex min-w-0 flex-col gap-3">
+		<label class="flex shrink-0 items-center gap-3">
 			<Switch.Root
 				data-testid={E2E_TEST_IDS.createConversation.topicCustomToggle}
 				checked={topicPickerStore.useOwnTopic}
@@ -79,20 +79,23 @@
 			</span>
 		</label>
 
-		<div class="relative min-w-0 flex-1">
-			<AutoHeightTextarea
-				dataTestId={E2E_TEST_IDS.createConversation.topicCustomInput}
-				bind:value={userTopicInput}
-				formField={true}
-				disabled={topicInputDisabled}
-				placeholder={m[
-					'features.conversation.create.step-3.topic_picker.custom_topic.input_placeholder'
-				]()}
-				onInput={handleCustomTopicInput}
-				LINE_HEIGHT={20}
-				maxLength={255}
-				className="py-1 px-2"
-			/>
-		</div>
+		{#if topicPickerStore.useOwnTopic}
+			<div class="relative min-w-0">
+				<AutoHeightTextarea
+					dataTestId={E2E_TEST_IDS.createConversation.topicCustomInput}
+					bind:value={userTopicInput}
+					formField={true}
+					disabled={topicInputDisabled}
+					placeholder={m[
+						'features.conversation.create.step-3.topic_picker.custom_topic.input_placeholder'
+					]()}
+					onInput={handleCustomTopicInput}
+					LINE_HEIGHT={22}
+					minRows={2}
+					maxLength={255}
+					className="px-3 py-2 text-base"
+				/>
+			</div>
+		{/if}
 	</div>
 </div>

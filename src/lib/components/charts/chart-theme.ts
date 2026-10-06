@@ -12,6 +12,11 @@ export function getChartInkMuted(): string {
 	return readStudioCssVar('--studio-ink-muted', '#6b6860');
 }
 
+/** Flat / empty sparklines — quieter than {@link getChartInkMuted}. */
+export function getChartInkDisabled(): string {
+	return readStudioCssVar('--studio-line-subtle', '#efece6');
+}
+
 export function getChartLine(): string {
 	return readStudioCssVar('--studio-line', '#e7e4dc');
 }

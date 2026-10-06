@@ -10,6 +10,7 @@
 	import { PageContentContainer } from '$lib/components/utils/page-content-container';
 	import ContentCard from '$lib/components/utils/content-card.svelte';
 	import { Breadcrumb } from '$lib/components/navigation/breadcrumb';
+	import { StatusPanel } from '$lib/components/utils/status-panel';
 	import CapturedWordsList from './components/captured-words-list.svelte';
 	import WordDetailPanel from './components/word-detail-panel.svelte';
 	import WordListFiltersBar from './components/word-list-filters-bar.svelte';
@@ -27,6 +28,7 @@
 	import type { WordsInboxViewMode } from '$words/types';
 	import * as m from '$lib/paraglide/messages.js';
 	import { E2E_TEST_IDS } from '$words/testing/test-ids';
+	import { BookOpen } from 'lucide-svelte';
 	import { cn } from '$lib/utils/cn';
 
 	const LEARNING_PER_PAGE = 500;
@@ -47,11 +49,17 @@
 		openWordDetail(wordDetailContext, initialUrlState.wordId);
 	}
 
-	const headerDescription = $derived(
-		viewMode === 'analytics'
-			? m['features.words.inbox.header.analytics_description']()
-			: m['features.words.inbox.header.description']()
-	);
+	const headerDescription = $derived.by(() => {
+		if (viewMode === 'analytics') {
+			return m['features.words.inbox.header.analytics_description']();
+		}
+
+		if (viewMode === 'recommend') {
+			return m['features.words.inbox.header.recommend_description']();
+		}
+
+		return m['features.words.inbox.header.description']();
+	});
 
 	const learningLanguage = $derived(authStore.user?.selectedLearningLanguage);
 	const useSearchQuery = $derived(filtersState.hasActiveFilters);
@@ -103,7 +111,7 @@
 		viewMode = parsed.viewMode;
 		filtersState.applyFromSearchParams(searchParams);
 
-		if (parsed.viewMode === 'analytics') {
+		if (parsed.viewMode === 'analytics' || parsed.viewMode === 'recommend') {
 			closeWordDetail(wordDetailContext);
 
 			return;
@@ -140,7 +148,7 @@
 		viewMode = mode;
 		listScrollContainer?.scrollTo({ top: 0 });
 
-		if (mode === 'analytics') {
+		if (mode === 'analytics' || mode === 'recommend') {
 			closeWordDetail(wordDetailContext);
 		}
 	}
@@ -174,14 +182,8 @@
 	<title>{m['features.words.inbox.header.title']()}</title>
 </svelte:head>
 
-<PageContentContainer
-	class="h-full min-h-0 overflow-hidden"
-	contentClass="h-full min-h-0 overflow-hidden"
->
-	<ContentCard
-		class="flex h-full min-h-0 flex-col overflow-hidden"
-		data-testid={E2E_TEST_IDS.inbox.page}
-	>
+<PageContentContainer class="min-h-0" contentClass="flex min-h-0 flex-1 flex-col">
+	<ContentCard class="flex min-h-0 flex-1 flex-col" data-testid={E2E_TEST_IDS.inbox.page}>
 		<div class="shrink-0">
 			<Breadcrumb
 				class="mb-6"
@@ -194,16 +196,24 @@
 			<div
 				class="mb-6 flex flex-col gap-3 border-b border-line-subtle pb-6 sm:flex-row sm:items-end sm:justify-between"
 			>
-				<div>
-					<h1
-						class="text-2xl font-bold tracking-tight text-ink"
-						data-testid={E2E_TEST_IDS.inbox.heading}
+				<div class="flex min-w-0 items-start gap-3">
+					<div
+						class="flex size-[54px] shrink-0 items-center justify-center rounded-lg bg-accent-soft text-ink"
+						aria-hidden="true"
 					>
-						{m['features.words.inbox.header.title']()}
-					</h1>
-					<p class="mt-1 text-sm text-ink-muted">
-						{headerDescription}
-					</p>
+						<BookOpen class="size-5 shrink-0" />
+					</div>
+					<div class="min-w-0 flex-1">
+						<h1
+							class="text-2xl font-bold tracking-tight text-ink"
+							data-testid={E2E_TEST_IDS.inbox.heading}
+						>
+							{m['features.words.inbox.header.title']()}
+						</h1>
+						<p class="mt-1 text-sm text-ink-muted">
+							{headerDescription}
+						</p>
+					</div>
 				</div>
 
 				{#if learningLanguage}
@@ -213,9 +223,19 @@
 		</div>
 
 		{#if viewMode === 'analytics'}
-			<WordsAnalyticsPanel
-				overviewQuery={wordOverviewQuery}
-				hasLearningLanguage={learningLanguage !== undefined}
+			<div class="flex min-h-0 flex-1 flex-col">
+				<WordsAnalyticsPanel
+					overviewQuery={wordOverviewQuery}
+					hasLearningLanguage={learningLanguage !== undefined}
+				/>
+			</div>
+		{:else if viewMode === 'recommend'}
+			<StatusPanel
+				variant="information"
+				class="w-full shrink-0 rounded-[10px] border border-dashed border-line bg-surface py-10"
+				header={m['features.words.inbox.header.recommend_new']()}
+				description={m['features.words.inbox.recommend.placeholder']()}
+				descriptionClass="content-long"
 			/>
 		{:else}
 			<div class="flex min-h-0 flex-1 gap-6 overflow-hidden">

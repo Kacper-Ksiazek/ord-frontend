@@ -2,7 +2,13 @@
 	"page_title": "Rozmowy",
 	"heading": "Rozmowy",
 	"subtitle": "Kontynuuj ćwiczenie lub rozpocznij nową rozmowę.",
+	"summary_description": "Podsumowanie aktywności i statystyki rozmów.",
 	"new_conversation": "Nowa rozmowa",
+	"view": {
+		"aria_label": "Widok rozmów",
+		"list": "Lista",
+		"summary": "Podsumowanie"
+	},
 	"load_error": {
 		"header": "Nie udało się wczytać rozmów",
 		"description_fallback": "Coś poszło nie tak. Spróbuj ponownie.",

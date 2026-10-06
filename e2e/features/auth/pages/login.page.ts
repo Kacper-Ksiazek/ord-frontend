@@ -169,9 +169,8 @@ export class LoginPage {
 	}
 
 	async waitForLoginSuccess(): Promise<void> {
-		// Login screen calls goto('/'); `(private)/+page.ts` redirects to `/conversations`.
-		// Wait for the final route — `/` matches too early and races the private layout.
-		await this.page.waitForURL((url) => url.pathname === '/conversations');
+		// Login screen calls goto('/'). Home is that route; there is no redirect to /conversations.
+		await this.page.waitForURL((url) => url.pathname === '/');
 	}
 
 	async expectErrorVisible(): Promise<void> {

@@ -1,6 +1,8 @@
 # Split util public API into implementation + `.types.ts` pairs
 
-When a feature `utils/` module exports multiple functions and their types, give each **public** function its own kebab-case file pair: `parse-additional-examples.ts` + `parse-additional-examples.types.ts`. The `.ts` file re-exports only types consumers need. Keep private consts, helpers, and internal interfaces unexported in the implementation file (or a private sibling). Do not export symbols “for completeness” if nothing outside the folder imports them.
+When a feature `utils/` module exports multiple functions and their types, give each **public** function its own kebab-case file pair: `parse-additional-examples.ts` + `parse-additional-examples.types.ts`, plus a colocated `parse-additional-examples.test.ts`. Exported types live only in the `.types.ts` file. The implementation file re-exports the types consumers need and holds the function body.
+
+A private helper used once stays inline in that function. A helper used more than once may be a private function in the same file. Do not export symbols “for completeness” if nothing outside the folder imports them. Split a util file before it passes roughly **200 lines**. Trivial one-liners may be duplicated instead of extracted.
 
 ## Good
 

@@ -1,0 +1,30 @@
+export const E2E_TEST_IDS = {
+	home: {
+		page: 'home-page',
+		greeting: 'home-greeting',
+		wordsCard: 'home-words-card',
+		wordsCardEmpty: 'home-words-card-empty',
+		wordsTypeLegend: 'home-words-type-legend',
+		wordsTrendChart: 'home-words-trend-chart',
+		conversationsCard: 'home-conversations-card',
+		conversationsCardEmpty: 'home-conversations-card-empty',
+		conversationsTrendChart: 'home-conversations-trend-chart',
+		gamesCard: 'home-games-card',
+		gamesCardEmpty: 'home-games-card-empty',
+		gamesTrendChart: 'home-games-trend-chart',
+		gamesComingSoon: 'home-games-coming-soon',
+		gamesCounts: 'home-games-counts',
+		heatmap: 'home-year-heatmap',
+		skeleton: 'home-skeleton',
+		recentWordsSection: 'home-recent-words-section',
+		recentWordsEmpty: 'home-recent-words-empty',
+		recentWordsViewAll: 'home-recent-words-view-all',
+		recentWordRow: (id: string) => `home-recent-word-row-${id}`,
+		recentConversationsSection: 'home-recent-conversations-section',
+		recentConversationsEmpty: 'home-recent-conversations-empty',
+		recentConversationsViewAll: 'home-recent-conversations-view-all',
+		recentConversationRow: (id: string) => `home-recent-conversation-row-${id}`,
+		recentAddWordButton: 'home-recent-add-word-button',
+		recentNewConversationButton: 'home-recent-new-conversation-button'
+	}
+};

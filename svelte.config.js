@@ -82,7 +82,8 @@ const config = {
 			$conversations: 'src/lib/features/conversations',
 			$appLayouts: 'src/lib/features/app-layouts',
 			$words: 'src/lib/features/words',
-			$aiExplainer: 'src/lib/features/ai-explainer'
+			$aiExplainer: 'src/lib/features/ai-explainer',
+			$home: 'src/lib/features/home'
 		}
 	}
 };
