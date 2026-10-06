@@ -6,15 +6,15 @@ import { playwright } from '@vitest/browser-playwright';
 import { defineConfig, loadEnv } from 'vite';
 
 export default defineConfig(({ mode }) => {
-	const env = loadEnv(mode, process.cwd(), '');
-	const sentryAuthToken = env.SENTRY_AUTH_TOKEN?.trim();
+	const sentryEnv = loadEnv(mode, process.cwd(), 'SENTRY_');
+	const sentryAuthToken = sentryEnv.SENTRY_AUTH_TOKEN?.trim();
 
 	return {
 		plugins: [
 			sentrySvelteKit({
 				adapter: 'vercel',
-				org: env.SENTRY_ORG ?? 'kksiazek',
-				project: env.SENTRY_PROJECT ?? 'ord-ui',
+				org: sentryEnv.SENTRY_ORG ?? 'kksiazek',
+				project: sentryEnv.SENTRY_PROJECT ?? 'ord-ui',
 				authToken: sentryAuthToken,
 				autoUploadSourceMaps: Boolean(sentryAuthToken)
 			}),

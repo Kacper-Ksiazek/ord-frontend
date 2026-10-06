@@ -26,6 +26,8 @@ jobs:
     steps:
       - name: Checkout ord-frontend
         uses: actions/checkout@v4
+        with:
+          persist-credentials: false
 
       - name: Checkout ord-api (compose only)
         uses: actions/checkout@v4
@@ -33,6 +35,7 @@ jobs:
           repository: Kacper-Ksiazek/ord-api
           ref: main
           path: ord-api
+          persist-credentials: false
 
       - name: Log in to GHCR
         uses: docker/login-action@v3
@@ -57,7 +60,7 @@ jobs:
           EOF
 
       - name: Set up Bun
-        uses: oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
         with:
           bun-version-file: package.json
 

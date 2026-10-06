@@ -1,6 +1,6 @@
 import { existsSync } from 'node:fs';
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
-import { join, relative } from 'node:path';
+import { isAbsolute, join, relative, resolve, sep } from 'node:path';
 
 const LOCALES = ['en', 'pl', 'de'] as const;
 const MESSAGES_DIR = './messages';
@@ -40,23 +40,47 @@ function flattenObject(obj: Record<string, unknown>, prefix: string = ''): Trans
 	return result;
 }
 
+function assertPathWithinRoot(rootDir: string, targetPath: string): void {
+	const resolvedRoot = resolve(rootDir);
+	const resolvedTarget = resolve(targetPath);
+	const relativePath = relative(resolvedRoot, resolvedTarget);
+
+	if (relativePath !== '' && (relativePath.startsWith('..') || isAbsolute(relativePath))) {
+		throw new Error(`Refusing to read path outside translation source root: ${targetPath}`);
+	}
+}
+
+function isSafeDirectoryEntryName(name: string): boolean {
+	return name !== '.' && name !== '..' && !name.includes(sep) && !name.includes('/');
+}
+
 /**
  * Recursively reads all JSON files from a directory and its subdirectories
  */
-async function readJsonFilesRecursive(dir: string, basePath: string = ''): Promise<TranslationMap> {
+async function readJsonFilesRecursive(
+	dir: string,
+	basePath: string = '',
+	rootDir: string = dir
+): Promise<TranslationMap> {
 	const translations: TranslationMap = {};
 
 	try {
 		const entries = await readdir(dir, { withFileTypes: true });
 
 		for (const entry of entries) {
+			if (!isSafeDirectoryEntryName(entry.name)) {
+				continue;
+			}
+
 			const fullPath = join(dir, entry.name);
+			assertPathWithinRoot(rootDir, fullPath);
 
 			if (entry.isDirectory()) {
 				// Recursively process subdirectories
 				const nestedTranslations = await readJsonFilesRecursive(
 					fullPath,
-					basePath ? `${basePath}.${entry.name}` : entry.name
+					basePath ? `${basePath}.${entry.name}` : entry.name,
+					rootDir
 				);
 				Object.assign(translations, nestedTranslations);
 			} else if (entry.isFile() && entry.name.endsWith('.json')) {
