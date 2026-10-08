@@ -4,5 +4,7 @@
 	"default_tone_star_tooltip": "Als Standardton speichern. Wird beim nächsten neuen Gespräch automatisch ausgewählt.",
 	"default_tone_star_tooltip_remove": "Gespeicherten Standard entfernen. Wenn dieser Ton gewählt ist, wird die Auswahl zurückgesetzt.",
 	"default_tone_star_aria_label": "Als Standard-Gesprächston speichern",
-	"default_tone_star_aria_label_remove": "Standard-Gesprächston entfernen"
+	"default_tone_star_aria_label_remove": "Standard-Gesprächston entfernen",
+	"compact_view_label": "Kompakte Ansicht",
+	"compact_view_aria_label": "Kompakte Ansicht für Gesprächston-Karten"
 }

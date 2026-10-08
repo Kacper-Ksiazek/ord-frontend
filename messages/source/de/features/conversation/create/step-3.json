@@ -32,18 +32,24 @@
 			"header": "Noch keine gespeicherten Themen",
 			"description": "Speichere ein vorgeschlagenes Thema für später, um jederzeit darauf zurückzukommen."
 		},
+		"suggested_empty": {
+			"header": "Die Liste ist leer",
+			"description": "Nutze „Vorschlagen“, um die Liste zu füllen, oder wähle ein eigenes Thema. Eines von beiden reicht, um fortzufahren."
+		},
 		"topic_row": {
 			"pin_tooltip": "Für später speichern",
 			"unpin_tooltip": "Aus „Für später“ entfernen",
 			"remove_tooltip": "Thema aus der Liste entfernen"
 		},
 		"custom_topic": {
+			"section_title": "Eigenes Thema",
 			"label": "Benutzerdefiniertes Thema",
 			"input_placeholder": "Geben Sie Ihr eigenes Thema ein",
 			"use_own_topic": "Eigenes Thema verwenden"
 		},
 		"generate_suggestions": {
-			"button": "Schreiben Sie zusätzliche Anweisungen, um vorgeschlagene Themen zu personalisieren (optional)",
+			"action_label": "Vorschlagen",
+			"button": "Optionale Anweisung zur Verfeinerung der Themenvorschläge",
 			"generating": "Vorschläge werden generiert...",
 			"success": "Vorschläge generiert",
 			"failed": "Vorschläge konnten nicht generiert werden"

@@ -32,18 +32,24 @@
 			"header": "No saved topics yet",
 			"description": "Save a suggested topic for later to come back to it anytime."
 		},
+		"suggested_empty": {
+			"header": "The list is empty",
+			"description": "Use Suggest to fill the list, or choose your own topic. Either one is enough to continue."
+		},
 		"topic_row": {
 			"pin_tooltip": "Save for later",
 			"unpin_tooltip": "Remove from saved for later",
 			"remove_tooltip": "Remove topic from the list"
 		},
 		"custom_topic": {
+			"section_title": "Your own topic",
 			"label": "Custom topic",
 			"input_placeholder": "Enter your own topic",
 			"use_own_topic": "Use your own topic"
 		},
 		"generate_suggestions": {
-			"button": "Write additional instructions to personalize suggested topics (optional)",
+			"action_label": "Suggest",
+			"button": "Optional instruction to refine suggested topics",
 			"generating": "Generating suggestions...",
 			"success": "Suggestions generated",
 			"failed": "Failed to generate suggestions"

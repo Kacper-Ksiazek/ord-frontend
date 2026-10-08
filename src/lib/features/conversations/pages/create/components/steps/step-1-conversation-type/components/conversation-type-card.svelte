@@ -16,6 +16,7 @@
 		type: ConversationType;
 		label: string;
 		description: string;
+		compact?: boolean;
 		onclick: () => void;
 	};
 
@@ -23,6 +24,7 @@
 		onclick,
 		isSelected,
 		disabled = false,
+		compact = false,
 		isPreferredDefault = false,
 		onToggleDefault,
 		type,
@@ -30,10 +32,8 @@
 		description
 	}: ConversationTypeCardProps = $props();
 
-	const enableHints = true;
-
 	const comingSoonChipClass = cn(
-		'pointer-events-none absolute right-3 top-3 label-small shrink-0 whitespace-nowrap rounded-md px-2.5 py-1',
+		'pointer-events-none absolute right-3 top-3 shrink-0 whitespace-nowrap rounded-md px-3 py-1.5 text-sm',
 		'border border-line bg-surface text-ink-muted'
 	);
 </script>
@@ -45,8 +45,13 @@
 	locked={disabled}
 	data-testid={E2E_TEST_IDS.createConversation.typeCard(type)}
 	class={cn(
-		'relative w-full min-w-0',
-		'px-[clamp(0.75rem,2vw,1rem)] py-[clamp(0.75rem,2.5vh,1.75rem)]'
+		'relative w-full min-h-[220px] min-w-0',
+		'px-[clamp(0.75rem,2vw,1rem)]',
+		compact ? 'py-[clamp(0.75rem,1.5vh,1.25rem)]' : 'py-[clamp(0.75rem,2.5vh,1.75rem)]',
+		!isSelected &&
+			!disabled &&
+			'!bg-[color-mix(in_srgb,var(--color-accent-soft)_48%,var(--color-surface))] hover:!border-ink hover:!bg-surface',
+		isSelected && !disabled && '!border-ink !bg-surface'
 	)}
 >
 	{#if onToggleDefault}
@@ -81,7 +86,8 @@
 	<ConversationTypeIcon
 		conversationType={type}
 		class={cn(
-			'mb-1 size-[clamp(2.5rem,6vh,3.5rem)] text-ink-subtle',
+			'mb-1 text-ink-subtle',
+			compact ? 'size-[clamp(3.25rem,8vh,4.75rem)]' : 'size-[clamp(2.5rem,6vh,3.5rem)]',
 			disabled && 'text-ink-subtle',
 			isSelected && !disabled && 'text-ink'
 		)}
@@ -91,7 +97,7 @@
 		{label}
 	</h3>
 
-	{#if enableHints}
+	{#if !compact}
 		<p
 			class={cn(
 				'text-center text-xs leading-snug sm:text-sm text-ink-muted',

@@ -24,4 +24,6 @@ export interface MultiStepFormProps {
 	finalStepPending?: boolean;
 	/** Prefix for `data-testid` on stepper segments and navigation buttons */
 	dataTestIdPrefix?: string;
+	/** When false, footer navigation is hidden on the last step (actions live in step content). */
+	finalStepNavigationInFooter?: boolean;
 }

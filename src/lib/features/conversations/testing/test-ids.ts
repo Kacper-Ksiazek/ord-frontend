@@ -35,6 +35,7 @@ export const E2E_TEST_IDS = {
 		toneCard: (tone: string) => `conversation-tone-card-${tone}`,
 		topicPicker: 'create-conversation-topic-picker',
 		topicPickerTabs: 'create-conversation-topic-picker-tabs',
+		topicPickerTab: (tab: 'create' | 'saved') => `create-conversation-topic-picker-tabs-${tab}`,
 		topicPickerCreatePanel: 'create-conversation-topic-picker-create-panel',
 		topicPickerSavedPanel: 'create-conversation-topic-picker-saved-panel',
 		topicRow: (index: number) => `topic-row-${index}`,

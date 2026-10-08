@@ -8,6 +8,8 @@ const TOPIC_PICKER_PINNED_TOPICS_STORAGE_KEY = 'create_conversation_topic_picker
 type TopicBuckets = {
 	pinned: string[];
 	unpinned: string[];
+	/** Stable UI order; pin/unpin does not reorder. */
+	order: string[];
 };
 
 class TopicPickerStore {
@@ -19,6 +21,11 @@ class TopicPickerStore {
 			{
 				pinned: [],
 				unpinned: [
+					"What's your favorite way to spend a weekend?",
+					'Have you seen any good movies lately?',
+					'If you could travel anywhere, where would you go?'
+				],
+				order: [
 					"What's your favorite way to spend a weekend?",
 					'Have you seen any good movies lately?',
 					'If you could travel anywhere, where would you go?'
@@ -50,27 +57,56 @@ class TopicPickerStore {
 		}
 	}
 
-	/** Reorders buckets so pinned matches `savedPinned` (only topics that still exist). */
+	#topicOrder(buckets: TopicBuckets): string[] {
+		if (buckets.order.length > 0) {
+			return buckets.order;
+		}
+
+		return [
+			...buckets.unpinned,
+			...buckets.pinned.filter((topic) => !buckets.unpinned.includes(topic))
+		];
+	}
+
+	#topicsInList(buckets: TopicBuckets): Set<string> {
+		return new Set([...buckets.pinned, ...buckets.unpinned]);
+	}
+
+	/** Restores saved pins, including generated topics that are not in the seed list. */
 	#applySavedPinnedOrder(buckets: TopicBuckets, savedPinned: string[]): TopicBuckets {
-		const defaultOrder = [...buckets.pinned, ...buckets.unpinned];
-		const inList = new Set(defaultOrder);
+		const displayOrder = this.#topicOrder(buckets);
+		const inList = this.#topicsInList(buckets);
 
 		const newPinned: string[] = [];
+		const restoredExtras: string[] = [];
 
 		for (const t of savedPinned) {
-			if (inList.has(t) && !newPinned.includes(t)) {
-				newPinned.push(t);
+			if (!t || newPinned.includes(t)) continue;
+
+			newPinned.push(t);
+
+			if (!inList.has(t)) {
+				restoredExtras.push(t);
 			}
 		}
 
 		const pinnedSet = new Set(newPinned);
-		const newUnpinned = defaultOrder.filter((t) => !pinnedSet.has(t));
+		const newUnpinned = displayOrder.filter((t) => inList.has(t) && !pinnedSet.has(t));
 
-		return { pinned: newPinned, unpinned: newUnpinned };
+		return {
+			pinned: newPinned,
+			unpinned: newUnpinned,
+			order: [...displayOrder, ...restoredExtras]
+		};
 	}
 
 	#setBucketsAndPersist(type: ConversationType, buckets: TopicBuckets): void {
-		this.topics.set(type, buckets);
+		const normalized: TopicBuckets = {
+			...buckets,
+			order: buckets.order.length > 0 ? buckets.order : this.#topicOrder(buckets)
+		};
+
+		this.topics.set(type, normalized);
 
 		if (!browser) return;
 
@@ -87,12 +123,24 @@ class TopicPickerStore {
 		this.useOwnTopic = false;
 	}
 
-	getAllTopics(type: ConversationType): string[] {
+	getTopicsInDisplayOrder(type: ConversationType): { topic: string; isPinned: boolean }[] {
 		const b = this.topics.get(type);
 
 		if (!b) return [];
 
-		return [...b.pinned, ...b.unpinned];
+		const pinnedSet = new Set(b.pinned);
+		const inList = this.#topicsInList(b);
+
+		return this.#topicOrder(b)
+			.filter((topic) => inList.has(topic))
+			.map((topic) => ({
+				topic,
+				isPinned: pinnedSet.has(topic)
+			}));
+	}
+
+	getAllTopics(type: ConversationType): string[] {
+		return this.getTopicsInDisplayOrder(type).map((item) => item.topic);
 	}
 
 	removeTopicFromList(type: ConversationType, topicToRemove: string): void {
@@ -100,9 +148,12 @@ class TopicPickerStore {
 
 		if (!b) return;
 
+		const order = this.#topicOrder(b).filter((t) => t !== topicToRemove);
+
 		this.#setBucketsAndPersist(type, {
 			pinned: b.pinned.filter((t) => t !== topicToRemove),
-			unpinned: b.unpinned.filter((t) => t !== topicToRemove)
+			unpinned: b.unpinned.filter((t) => t !== topicToRemove),
+			order
 		});
 	}
 
@@ -113,7 +164,8 @@ class TopicPickerStore {
 
 		this.#setBucketsAndPersist(type, {
 			pinned: [...b.pinned, topic],
-			unpinned: b.unpinned.filter((t) => t !== topic)
+			unpinned: b.unpinned.filter((t) => t !== topic),
+			order: this.#topicOrder(b)
 		});
 	}
 
@@ -124,16 +176,23 @@ class TopicPickerStore {
 
 		this.#setBucketsAndPersist(type, {
 			pinned: b.pinned.filter((t) => t !== topic),
-			unpinned: [...b.unpinned, topic]
+			unpinned: [...b.unpinned, topic],
+			order: this.#topicOrder(b)
 		});
 	}
 
 	appendUnpinnedTopic(type: ConversationType, topic: string): void {
-		const b = this.topics.get(type) ?? { pinned: [], unpinned: [] };
+		const b = this.topics.get(type) ?? { pinned: [], unpinned: [], order: [] };
+		const order = this.#topicOrder(b);
+
+		if (order.includes(topic)) {
+			return;
+		}
 
 		this.topics.set(type, {
 			pinned: b.pinned,
-			unpinned: [...b.unpinned, topic]
+			unpinned: [...b.unpinned, topic],
+			order: [...order, topic]
 		});
 	}
 }

@@ -18,11 +18,13 @@
 		onFinalStepClick,
 		finalStepPending = false,
 		dataTestIdPrefix,
+		finalStepNavigationInFooter = true,
 		children
 	}: Props = $props();
 
 	const totalSteps = steps.length;
 	const currentStep = $derived(currentStepProp);
+	const showFooterNavigation = $derived(currentStep < totalSteps - 1 || finalStepNavigationInFooter);
 
 	const canGoNext = $derived.by(() => {
 		const stepConfig = steps[currentStep];
@@ -108,55 +110,57 @@
 	</div>
 
 	<!-- Navigation Buttons -->
-	<div class="flex items-center gap-2 pt-4">
-		{#if canGoPrevious}
-			<div transition:fade={{ duration: 150 }}>
-				<Button
-					type="OUTLINED"
-					variant="PRIMARY"
-					onClick={previousStep}
-					disabled={finalStepPending}
-					hotkey={hotkeyPrevious}
-					dataTestId={dataTestIdPrefix ? `${dataTestIdPrefix}-previous` : undefined}
-					class="min-w-64"
-				>
-					{m['components.utils.multi-step-form.previous']()}
-				</Button>
-			</div>
-		{/if}
-
-		<div class="ml-auto">
-			{#if currentStep < totalSteps - 1}
-				<Button
-					type="FILLED"
-					variant="PRIMARY"
-					onClick={nextStep}
-					disabled={!canGoNext || finalStepPending}
-					hotkey={hotkeyNext}
-					dataTestId={dataTestIdPrefix ? `${dataTestIdPrefix}-next` : undefined}
-					class="min-w-64"
-				>
-					{m['components.utils.multi-step-form.next']()}
-				</Button>
-			{:else if finalStepButtonText}
-				<Button
-					type="FILLED"
-					variant="PRIMARY"
-					onClick={() => {
-						if (onFinalStepClick) {
-							onFinalStepClick();
-						} else {
-							nextStep();
-						}
-					}}
-					disabled={!canGoNext || finalStepPending}
-					hotkey={hotkeyComplete}
-					dataTestId={dataTestIdPrefix ? `${dataTestIdPrefix}-start` : undefined}
-					class="min-w-64"
-				>
-					{finalStepButtonText}
-				</Button>
+	{#if showFooterNavigation}
+		<div class="flex items-center gap-2 pt-4">
+			{#if canGoPrevious}
+				<div transition:fade={{ duration: 150 }}>
+					<Button
+						type="OUTLINED"
+						variant="PRIMARY"
+						onClick={previousStep}
+						disabled={finalStepPending}
+						hotkey={hotkeyPrevious}
+						dataTestId={dataTestIdPrefix ? `${dataTestIdPrefix}-previous` : undefined}
+						class="min-w-64"
+					>
+						{m['components.utils.multi-step-form.previous']()}
+					</Button>
+				</div>
 			{/if}
+
+			<div class="ml-auto">
+				{#if currentStep < totalSteps - 1}
+					<Button
+						type="FILLED"
+						variant="PRIMARY"
+						onClick={nextStep}
+						disabled={!canGoNext || finalStepPending}
+						hotkey={hotkeyNext}
+						dataTestId={dataTestIdPrefix ? `${dataTestIdPrefix}-next` : undefined}
+						class="min-w-64"
+					>
+						{m['components.utils.multi-step-form.next']()}
+					</Button>
+				{:else if finalStepButtonText}
+					<Button
+						type="FILLED"
+						variant="PRIMARY"
+						onClick={() => {
+							if (onFinalStepClick) {
+								onFinalStepClick();
+							} else {
+								nextStep();
+							}
+						}}
+						disabled={!canGoNext || finalStepPending}
+						hotkey={hotkeyComplete}
+						dataTestId={dataTestIdPrefix ? `${dataTestIdPrefix}-start` : undefined}
+						class="min-w-64"
+					>
+						{finalStepButtonText}
+					</Button>
+				{/if}
+			</div>
 		</div>
-	</div>
+	{/if}
 </div>
