@@ -38,12 +38,14 @@
 			"remove_tooltip": "Thema aus der Liste entfernen"
 		},
 		"custom_topic": {
+			"section_title": "Eigenes Thema",
 			"label": "Benutzerdefiniertes Thema",
 			"input_placeholder": "Geben Sie Ihr eigenes Thema ein",
 			"use_own_topic": "Eigenes Thema verwenden"
 		},
 		"generate_suggestions": {
-			"button": "Schreiben Sie zusätzliche Anweisungen, um vorgeschlagene Themen zu personalisieren (optional)",
+			"action_label": "Vorschlagen",
+			"button": "Optionale Anweisung zur Verfeinerung der Themenvorschläge",
 			"generating": "Vorschläge werden generiert...",
 			"success": "Vorschläge generiert",
 			"failed": "Vorschläge konnten nicht generiert werden"

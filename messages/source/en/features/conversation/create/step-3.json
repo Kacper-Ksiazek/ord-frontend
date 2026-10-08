@@ -38,12 +38,14 @@
 			"remove_tooltip": "Remove topic from the list"
 		},
 		"custom_topic": {
+			"section_title": "Your own topic",
 			"label": "Custom topic",
 			"input_placeholder": "Enter your own topic",
 			"use_own_topic": "Use your own topic"
 		},
 		"generate_suggestions": {
-			"button": "Write additional instructions to personalize suggested topics (optional)",
+			"action_label": "Suggest",
+			"button": "Optional instruction to refine suggested topics",
 			"generating": "Generating suggestions...",
 			"success": "Suggestions generated",
 			"failed": "Failed to generate suggestions"

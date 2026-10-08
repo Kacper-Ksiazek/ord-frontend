@@ -38,12 +38,14 @@
 			"remove_tooltip": "Usuń temat z listy"
 		},
 		"custom_topic": {
+			"section_title": "Własny temat",
 			"label": "Niestandardowy temat",
 			"input_placeholder": "Wprowadź własny temat",
 			"use_own_topic": "Użyj własnego tematu"
 		},
 		"generate_suggestions": {
-			"button": "Wpisz dodatkowa instrukcje, by spersonalizować sugerowane tematy ( opcjonalne )",
+			"action_label": "Sugeruj",
+			"button": "Opcjonalna instrukcja, by doprecyzować sugerowane tematy",
 			"generating": "Generowanie sugestii...",
 			"success": "Sugestie wygenerowane",
 			"failed": "Nie udało się wygenerować sugestii"
