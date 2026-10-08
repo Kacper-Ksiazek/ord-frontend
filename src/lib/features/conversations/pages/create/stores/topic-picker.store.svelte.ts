@@ -72,23 +72,32 @@ class TopicPickerStore {
 		return new Set([...buckets.pinned, ...buckets.unpinned]);
 	}
 
-	/** Reorders buckets so pinned matches `savedPinned` (only topics that still exist). */
+	/** Restores saved pins, including generated topics that are not in the seed list. */
 	#applySavedPinnedOrder(buckets: TopicBuckets, savedPinned: string[]): TopicBuckets {
 		const displayOrder = this.#topicOrder(buckets);
 		const inList = this.#topicsInList(buckets);
 
 		const newPinned: string[] = [];
+		const restoredExtras: string[] = [];
 
 		for (const t of savedPinned) {
-			if (inList.has(t) && !newPinned.includes(t)) {
-				newPinned.push(t);
+			if (!t || newPinned.includes(t)) continue;
+
+			newPinned.push(t);
+
+			if (!inList.has(t)) {
+				restoredExtras.push(t);
 			}
 		}
 
 		const pinnedSet = new Set(newPinned);
 		const newUnpinned = displayOrder.filter((t) => inList.has(t) && !pinnedSet.has(t));
 
-		return { pinned: newPinned, unpinned: newUnpinned, order: displayOrder };
+		return {
+			pinned: newPinned,
+			unpinned: newUnpinned,
+			order: [...displayOrder, ...restoredExtras]
+		};
 	}
 
 	#setBucketsAndPersist(type: ConversationType, buckets: TopicBuckets): void {

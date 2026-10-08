@@ -82,10 +82,10 @@
 		{#key selectedTopicTab}
 			{#if selectedTopicTab === 'create'}
 				<div
-					class="absolute inset-0 flex min-h-0 flex-col gap-4 overflow-y-auto overflow-x-hidden"
+					class="absolute inset-0 flex h-full min-h-0 flex-col gap-4 overflow-hidden"
 					data-testid={E2E_TEST_IDS.createConversation.topicPickerCreatePanel}
 				>
-					<div class="flex min-h-0 flex-col gap-2">
+					<div class="flex min-h-0 flex-1 flex-col gap-2">
 						<p class="text-sm font-medium text-ink-muted">
 							{m['features.conversation.create.step-3.topic_picker.suggested_section_title']()}
 						</p>
@@ -95,22 +95,22 @@
 							onStreamChunkReceive={scrollTopicListToEnd}
 						/>
 
-						{#if !hasSuggestedTopics}
-							<StatusPanel
-								variant="information"
-								class="w-full shrink-0 rounded-[10px] border border-dashed border-line bg-surface py-10"
-								header={m['features.conversation.create.step-3.topic_picker.suggested_empty.header']()}
-								description={m[
-									'features.conversation.create.step-3.topic_picker.suggested_empty.description'
-								]()}
-								descriptionClass="content-long"
-							/>
-						{:else}
-							<ScrollableWrapper
-								bind:scrollContainer={topicListScrollEl}
-								wrapperClass="max-h-[min(28rem,52vh)]"
-								contentClass="gap-2"
-							>
+						<ScrollableWrapper
+							bind:scrollContainer={topicListScrollEl}
+							wrapperClass="min-h-0 flex-1"
+							contentClass="gap-2"
+						>
+							{#if !hasSuggestedTopics}
+								<StatusPanel
+									variant="information"
+									class="w-full shrink-0 rounded-[10px] border border-dashed border-line bg-surface py-10"
+									header={m['features.conversation.create.step-3.topic_picker.suggested_empty.header']()}
+									description={m[
+										'features.conversation.create.step-3.topic_picker.suggested_empty.description'
+									]()}
+									descriptionClass="content-long"
+								/>
+							{:else}
 								{#each createTabTopics as item, i (item.topic)}
 									{@const payload = getCreateConversationPayload()}
 									<TopicRow
@@ -130,11 +130,11 @@
 										<Skeleton class="h-12 shrink-0 rounded-[10px]" />
 									{/each}
 								{/if}
-							</ScrollableWrapper>
-						{/if}
-					</div>
+							{/if}
 
-					<CustomTopicManagement />
+							<CustomTopicManagement />
+						</ScrollableWrapper>
+					</div>
 				</div>
 			{:else if selectedTopicTab === 'saved'}
 				<div

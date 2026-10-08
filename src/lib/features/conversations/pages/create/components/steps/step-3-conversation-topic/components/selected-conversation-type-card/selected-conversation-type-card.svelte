@@ -62,7 +62,7 @@
 {#if selectedConversationType || selectedConversationTone}
 	<div
 		class={stackVertically
-			? 'mb-0 grid w-full grid-cols-1 gap-2 sm:grid-cols-2 sm:gap-3'
+			? 'mb-0 grid w-full grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5'
 			: 'mb-6 flex gap-4'}
 	>
 		{#if selectedConversationType}

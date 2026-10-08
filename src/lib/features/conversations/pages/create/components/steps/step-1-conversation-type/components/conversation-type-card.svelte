@@ -33,7 +33,7 @@
 	}: ConversationTypeCardProps = $props();
 
 	const comingSoonChipClass = cn(
-		'pointer-events-none absolute right-3 top-3 label-small shrink-0 whitespace-nowrap rounded-md px-2.5 py-1',
+		'pointer-events-none absolute right-3 top-3 shrink-0 whitespace-nowrap rounded-md px-3 py-1.5 text-sm',
 		'border border-line bg-surface text-ink-muted'
 	);
 </script>
@@ -47,7 +47,11 @@
 	class={cn(
 		'relative w-full min-h-[220px] min-w-0',
 		'px-[clamp(0.75rem,2vw,1rem)]',
-		compact ? 'py-[clamp(0.75rem,1.5vh,1.25rem)]' : 'py-[clamp(0.75rem,2.5vh,1.75rem)]'
+		compact ? 'py-[clamp(0.75rem,1.5vh,1.25rem)]' : 'py-[clamp(0.75rem,2.5vh,1.75rem)]',
+		!isSelected &&
+			!disabled &&
+			'!bg-[color-mix(in_srgb,var(--color-accent-soft)_48%,var(--color-surface))] hover:!border-ink hover:!bg-surface',
+		isSelected && !disabled && '!border-ink !bg-surface'
 	)}
 >
 	{#if onToggleDefault}

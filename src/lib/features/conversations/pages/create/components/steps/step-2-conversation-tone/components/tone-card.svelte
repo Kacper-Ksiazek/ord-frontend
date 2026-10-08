@@ -38,7 +38,10 @@
 	class={cn(
 		'relative w-full min-h-[220px] min-w-0',
 		'px-[clamp(0.75rem,2vw,1rem)]',
-		compact ? 'py-[clamp(0.75rem,1.5vh,1.25rem)]' : 'py-[clamp(0.75rem,2.5vh,1.75rem)]'
+		compact ? 'py-[clamp(0.75rem,1.5vh,1.25rem)]' : 'py-[clamp(0.75rem,2.5vh,1.75rem)]',
+		!isSelected &&
+			'!bg-[color-mix(in_srgb,var(--color-accent-soft)_48%,var(--color-surface))] hover:!border-ink hover:!bg-surface',
+		isSelected && '!border-ink !bg-surface'
 	)}
 >
 	{#if onToggleDefault}
