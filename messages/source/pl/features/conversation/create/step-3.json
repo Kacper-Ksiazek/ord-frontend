@@ -32,6 +32,10 @@
 			"header": "Brak zapisanych tematów",
 			"description": "Zapisz sugerowany temat na później, aby wrócić do niego w dowolnym momencie."
 		},
+		"suggested_empty": {
+			"header": "Lista jest pusta",
+			"description": "Użyj „Sugeruj”, by uzupełnić listę, lub wybierz własny temat. Wystarczy jedno z tych, żeby przejść dalej."
+		},
 		"topic_row": {
 			"pin_tooltip": "Zapisz na później",
 			"unpin_tooltip": "Usuń z zapisanych na później",

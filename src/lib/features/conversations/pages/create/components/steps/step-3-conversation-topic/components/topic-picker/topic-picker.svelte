@@ -99,8 +99,10 @@
 							<StatusPanel
 								variant="information"
 								class="w-full shrink-0 rounded-[10px] border border-dashed border-line bg-surface py-10"
-								header={m['features.conversation.create.step-3.topic_picker.no_topic_selected']()}
-								description={m['features.conversation.create.step-3.description']()}
+								header={m['features.conversation.create.step-3.topic_picker.suggested_empty.header']()}
+								description={m[
+									'features.conversation.create.step-3.topic_picker.suggested_empty.description'
+								]()}
 								descriptionClass="content-long"
 							/>
 						{:else}

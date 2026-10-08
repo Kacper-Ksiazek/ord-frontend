@@ -32,6 +32,10 @@
 			"header": "No saved topics yet",
 			"description": "Save a suggested topic for later to come back to it anytime."
 		},
+		"suggested_empty": {
+			"header": "The list is empty",
+			"description": "Use Suggest to fill the list, or choose your own topic. Either one is enough to continue."
+		},
 		"topic_row": {
 			"pin_tooltip": "Save for later",
 			"unpin_tooltip": "Remove from saved for later",
