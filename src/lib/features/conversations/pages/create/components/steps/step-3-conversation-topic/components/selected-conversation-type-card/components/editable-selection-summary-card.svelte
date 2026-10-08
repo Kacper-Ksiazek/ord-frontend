@@ -1,10 +1,8 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { Dialog } from 'bits-ui';
+	import { DropdownMenu } from 'bits-ui';
 	import { Pencil } from 'lucide-svelte';
-	import { Button } from '$lib/components/buttons/button';
-	import { IconButton } from '$lib/components/buttons/icon-button';
-	import * as m from '$lib/paraglide/messages.js';
+	import { cn } from '$lib/utils/cn';
 
 	const summaryIconClass = 'size-[clamp(2rem,5vh,3rem)] text-primary-500 dark:text-primary-400';
 
@@ -14,13 +12,10 @@
 		icon: Snippet<[className: string]>;
 		editAriaLabel: string;
 		editTooltip: string;
-		modalTitle: string;
-		modalBody: Snippet;
+		dropdownContent: Snippet;
 	}
 
-	let { label, title, icon, editAriaLabel, editTooltip, modalTitle, modalBody }: Props = $props();
-
-	let modalOpen = $state(false);
+	let { label, title, icon, editAriaLabel, editTooltip, dropdownContent }: Props = $props();
 </script>
 
 <div class="flex min-w-0 flex-1 flex-col">
@@ -39,44 +34,28 @@
 				</div>
 			</div>
 
-			<IconButton
-				icon={Pencil}
-				ariaLabel={editAriaLabel}
-				tooltip={editTooltip}
-				type="OUTLINED"
-				variant="TEXT"
-				class="size-8 shrink-0"
-				onClick={(e) => {
-					e.stopPropagation();
-					modalOpen = true;
-				}}
-			/>
+			<DropdownMenu.Root>
+				<DropdownMenu.Trigger
+					class={cn(
+						'inline-flex size-8 shrink-0 items-center justify-center rounded-[10px] border border-line bg-transparent p-0',
+						'cursor-pointer hover:bg-accent-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-ink/20 focus-visible:ring-offset-2 focus-visible:ring-offset-canvas'
+					)}
+					aria-label={editAriaLabel}
+					title={editTooltip}
+				>
+					<Pencil class="size-4 text-ink" aria-hidden="true" />
+				</DropdownMenu.Trigger>
+
+				<DropdownMenu.Portal>
+					<DropdownMenu.Content
+						class="overlay-surface z-50 mt-1 max-h-[min(24rem,70vh)] w-72 overflow-y-auto p-1"
+						align="end"
+						sideOffset={8}
+					>
+						{@render dropdownContent()}
+					</DropdownMenu.Content>
+				</DropdownMenu.Portal>
+			</DropdownMenu.Root>
 		</div>
 	</div>
-
-	<Dialog.Root bind:open={modalOpen}>
-		<Dialog.Portal>
-			<Dialog.Overlay class="fixed inset-0 z-50 bg-scrim" />
-			<Dialog.Content
-				class="overlay-surface fixed top-1/2 left-1/2 z-50 w-[min(720px,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 p-6"
-			>
-				<Dialog.Title class="text-lg font-medium text-ink">{modalTitle}</Dialog.Title>
-				<div class="mt-4">
-					{@render modalBody()}
-				</div>
-				<div class="mt-6 flex w-full justify-end">
-					<Button
-						type="FILLED"
-						variant="PRIMARY"
-						class="min-w-48"
-						onClick={() => {
-							modalOpen = false;
-						}}
-					>
-						{m['features.conversation.create.step-3.summary_cards.done_button']()}
-					</Button>
-				</div>
-			</Dialog.Content>
-		</Dialog.Portal>
-	</Dialog.Root>
 </div>
