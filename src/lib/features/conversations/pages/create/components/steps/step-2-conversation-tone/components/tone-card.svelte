@@ -15,20 +15,20 @@
 		tone: ConversationAITone;
 		label: string;
 		description: string;
+		compact?: boolean;
 		onclick: () => void;
 	};
 
 	const {
 		onclick,
 		isSelected,
+		compact = false,
 		isPreferredDefault = false,
 		onToggleDefault,
 		tone,
 		label,
 		description
 	}: ToneCardProps = $props();
-
-	const enableHints = true;
 </script>
 
 <SelectableCard
@@ -36,8 +36,9 @@
 	{isSelected}
 	data-testid={E2E_TEST_IDS.createConversation.toneCard(tone)}
 	class={cn(
-		'relative w-full min-w-0',
-		'px-[clamp(0.75rem,2vw,1rem)] py-[clamp(0.75rem,2.5vh,1.75rem)]'
+		'relative w-full min-h-[220px] min-w-0',
+		'px-[clamp(0.75rem,2vw,1rem)]',
+		compact ? 'py-[clamp(0.75rem,1.5vh,1.25rem)]' : 'py-[clamp(0.75rem,2.5vh,1.75rem)]'
 	)}
 >
 	{#if onToggleDefault}
@@ -66,7 +67,8 @@
 	<ConversationToneIcon
 		{tone}
 		class={cn(
-			'mb-1 size-[clamp(2.5rem,6vh,3.5rem)] text-gray-300 dark:text-gray-600',
+			'mb-1 text-gray-300 dark:text-gray-600',
+			compact ? 'size-[clamp(3.25rem,8vh,4.75rem)]' : 'size-[clamp(2.5rem,6vh,3.5rem)]',
 			isSelected && 'text-primary-500 dark:text-white'
 		)}
 	/>
@@ -75,7 +77,7 @@
 		{label}
 	</h3>
 
-	{#if enableHints}
+	{#if !compact}
 		<p
 			class={cn(
 				'text-center text-xs leading-snug sm:text-sm dark:text-gray-400',
