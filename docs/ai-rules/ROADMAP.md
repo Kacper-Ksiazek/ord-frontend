@@ -30,6 +30,7 @@ structure changes materially, and use the checkboxes to track rule coverage.
 
 - [x] Project brief (architecture vs iteration)
 - [x] Design docs map (`concept/design-docs.md` — single `design/` folder)
+- [x] Review context (`concept/review-context.md` — idea gate on; invariants for automated review)
 
 ### general/ — architecture & boundaries
 
