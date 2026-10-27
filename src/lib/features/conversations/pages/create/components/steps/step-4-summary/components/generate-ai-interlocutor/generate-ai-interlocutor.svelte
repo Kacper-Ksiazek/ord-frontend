@@ -23,12 +23,14 @@
 
 	const { mutateAsync: handleGenerateInterlocutor } = createGenerateAiInterlocutorMutation();
 
-	const payload = getCreateConversationPayload();
+	const payload = $derived(getCreateConversationPayload());
 	const hasGeneratedInterlocutor = $derived(
 		!!(payload.aiInterlocutorName && payload.aiInterlocutorAvatarId)
 	);
 
 	const canGenerate = $derived(!!(payload.type && payload.topic && payload.language));
+
+	const generatingAriaLabel = m['features.conversation.create.step-4.ai_interlocutor.generating']();
 
 	async function generateInterlocutor() {
 		if (!canGenerate || !payload.type || !payload.topic || !payload.language) {
@@ -105,20 +107,28 @@
 			/>
 		</div>
 
-		<h3 class="heading-5 w-full truncate text-center">
-			{payload.aiInterlocutorName}
-		</h3>
+		{#if isGenerating}
+			{@render interlocutor_name_skeleton()}
+		{:else}
+			<h3 class="heading-5 w-full truncate text-center">
+				{payload.aiInterlocutorName}
+			</h3>
+		{/if}
 	</div>
 {/snippet}
 
+{#snippet interlocutor_name_skeleton()}
+	<Skeleton class="h-7 w-[min(12rem,80%)] max-w-full rounded-md" aria-hidden="true" />
+{/snippet}
+
 {#snippet generating_in_progress()}
-	<div class="mx-auto flex w-full flex-col items-center gap-2">
+	<div
+		class="mx-auto flex w-full flex-col items-center gap-3"
+		aria-busy="true"
+		aria-label={generatingAriaLabel}
+	>
 		<Skeleton class="size-[clamp(8rem,min(22vw,22vh),16rem)] rounded-full" />
-		<div class="flex min-h-8 w-full items-center justify-center px-2 text-center">
-			<p class="caption">
-				{m['features.conversation.create.step-4.ai_interlocutor.generating']()}
-			</p>
-		</div>
+		{@render interlocutor_name_skeleton()}
 	</div>
 {/snippet}
 

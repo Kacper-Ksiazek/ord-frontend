@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { Switch } from 'bits-ui';
-	import { AutoHeightTextarea } from '$lib/components/forms/auto-height-textarea';
+	import { Input } from '$lib/components/forms/input';
+	import { cn } from '$lib/utils/cn';
+	import { Check, PenLine } from 'lucide-svelte';
 	import {
 		getCreateConversationPayload,
 		setCreateConversationPayload,
@@ -12,18 +13,20 @@
 
 	let userTopicInput = $state('');
 
-	const topicInputDisabled = $derived.by(() => {
-		const type = getCreateConversationPayload().type;
+	const ownTopicLabel = $derived(
+		m['features.conversation.create.step-3.topic_picker.custom_topic.use_own_topic']()
+	);
 
-		return !type || !topicPickerStore.useOwnTopic;
-	});
+	const hasConversationType = $derived.by(() => Boolean(getCreateConversationPayload().type));
+
+	const isOwnTopicSelected = $derived(topicPickerStore.useOwnTopic);
 
 	function syncPayloadTopicFromInput() {
 		const trimmed = userTopicInput.trim();
 		setCreateConversationPayload({ topic: trimmed || undefined });
 	}
 
-	function handleUseOwnTopicChange(next: boolean) {
+	function setUseOwnTopic(next: boolean) {
 		topicPickerStore.useOwnTopic = next;
 
 		if (next) {
@@ -39,6 +42,14 @@
 		if (current && !list.includes(current)) {
 			setCreateConversationPayload({ topic: undefined });
 		}
+	}
+
+	function handleCheckboxToggle(event: MouseEvent) {
+		event.stopPropagation();
+		if (!hasConversationType) {
+			return;
+		}
+		setUseOwnTopic(!isOwnTopicSelected);
 	}
 
 	function handleCustomTopicInput() {
@@ -61,41 +72,62 @@
 	});
 </script>
 
-<div class="rounded-[10px] border border-line bg-surface px-4 py-4">
-	<div class="flex min-w-0 flex-col gap-3">
-		<label class="flex shrink-0 items-center gap-3">
-			<Switch.Root
-				data-testid={E2E_TEST_IDS.createConversation.topicCustomToggle}
-				checked={topicPickerStore.useOwnTopic}
-				onCheckedChange={handleUseOwnTopicChange}
-				class="inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border border-line bg-accent-soft p-0.5 transition-colors data-[state=checked]:bg-ink"
-			>
-				<Switch.Thumb
-					class="block size-4 rounded-full bg-white shadow-sm transition-transform data-[state=checked]:translate-x-4"
-				/>
-			</Switch.Root>
-			<span class="text-sm font-medium text-ink">
-				{m['features.conversation.create.step-3.topic_picker.custom_topic.use_own_topic']()}
-			</span>
-		</label>
+<div class="flex min-h-0 flex-col gap-2">
+	<p class="text-sm font-medium text-ink-muted">
+		{m['features.conversation.create.step-3.topic_picker.custom_topic.section_title']()}
+	</p>
 
-		{#if topicPickerStore.useOwnTopic}
-			<div class="relative min-w-0">
-				<AutoHeightTextarea
-					dataTestId={E2E_TEST_IDS.createConversation.topicCustomInput}
-					bind:value={userTopicInput}
-					formField={true}
-					disabled={topicInputDisabled}
-					placeholder={m[
-						'features.conversation.create.step-3.topic_picker.custom_topic.input_placeholder'
-					]()}
-					onInput={handleCustomTopicInput}
-					LINE_HEIGHT={22}
-					minRows={2}
-					maxLength={255}
-					className="px-3 py-2 text-base"
-				/>
-			</div>
-		{/if}
+	<div
+		class={cn(
+			'flex flex-row items-center gap-1 rounded-[10px] border border-line bg-surface p-2',
+			isOwnTopicSelected && 'border-ink'
+		)}
+	>
+		<button
+			type="button"
+			role="checkbox"
+			aria-checked={isOwnTopicSelected}
+			aria-label={ownTopicLabel}
+			data-testid={E2E_TEST_IDS.createConversation.topicCustomToggle}
+			class={cn(
+				'inline-flex size-7 shrink-0 items-center justify-center rounded-lg transition-colors',
+				'hover:bg-accent-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/20',
+				!hasConversationType && 'cursor-not-allowed'
+			)}
+			disabled={!hasConversationType}
+			onclick={handleCheckboxToggle}
+		>
+			<span
+				class={cn(
+					'flex size-7 items-center justify-center rounded-[5px] border-2 transition-colors',
+					isOwnTopicSelected ? 'border-ink bg-ink text-surface' : 'border-line bg-surface'
+				)}
+				aria-hidden="true"
+			>
+				{#if isOwnTopicSelected}
+					<Check class="size-3.5" strokeWidth={3} />
+				{/if}
+			</span>
+		</button>
+
+		<span
+			class="inline-flex size-7 shrink-0 items-center justify-center text-ink-muted"
+			aria-hidden="true"
+		>
+			<PenLine class="size-4" />
+		</span>
+
+		<Input
+			dataTestId={E2E_TEST_IDS.createConversation.topicCustomInput}
+			bind:value={userTopicInput}
+			disabled={!hasConversationType}
+			placeholder={m[
+				'features.conversation.create.step-3.topic_picker.custom_topic.input_placeholder'
+			]()}
+			onInput={handleCustomTopicInput}
+			maxLength={255}
+			class="min-w-0 flex-1"
+			inputClass="h-7 min-h-0 border-0 bg-transparent px-0 py-0 text-sm font-medium leading-snug text-ink shadow-none hover:bg-transparent focus:border-transparent focus:outline-none focus:ring-0 focus:ring-offset-0"
+		/>
 	</div>
 </div>

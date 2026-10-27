@@ -5,5 +5,7 @@
 	"default_type_star_tooltip": "Als Standardtyp speichern. Wird beim nächsten neuen Gespräch automatisch ausgewählt.",
 	"default_type_star_tooltip_remove": "Gespeicherten Standard entfernen. Wenn dieser Typ gewählt ist, wird die Auswahl zurückgesetzt.",
 	"default_type_star_aria_label": "Als Standard-Gesprächstyp speichern",
-	"default_type_star_aria_label_remove": "Standard-Gesprächstyp entfernen"
+	"default_type_star_aria_label_remove": "Standard-Gesprächstyp entfernen",
+	"compact_view_label": "Kompakte Ansicht",
+	"compact_view_aria_label": "Kompakte Ansicht für Gesprächstyp-Karten"
 }
