@@ -1,6 +1,6 @@
 # Tailwind 4 utility-first styling
 
-The project uses Tailwind CSS 4 via `@tailwindcss/vite` — configuration lives in CSS (`@theme`, `@custom-variant`, `@plugin`, `@source` in `src/app.css`), there is no `tailwind.config.js`. Style components with utility classes directly in markup; reserve custom CSS for global concerns in `src/app.css` and shared `@layer components` classes in `src/lib/styles/` (e.g. typography classes like `heading-1`, `body-small`). Use Quiet studio tokens (`canvas`, `surface`, `ink`, `line`, `accent-soft`, `on-ink`) for chrome — they swap in `.dark`. Keep `primary-*` only for leftover brand ramps; prefer `ink` for filled actions.
+The project uses Tailwind CSS 4 via `@tailwindcss/vite` — configuration lives in CSS (`@theme`, `@custom-variant`, `@plugin`, `@source` in `src/app.css`), there is no `tailwind.config.js`. Style components with utility classes directly in markup; reserve custom CSS for global concerns in `src/app.css` and shared `@layer components` classes in `src/lib/styles/` (e.g. typography classes like `heading-1`, `body-small`). Use Quiet studio tokens (`canvas`, `surface`, `ink`, `ink-body`, `line`, `accent`, `accent-soft`, `on-ink`) for chrome — `accent` (rose) is reserved for actions, selection and focus, never for mistake or error feedback, which uses `danger` and the score tones — they swap in `.dark`. Keep `primary-*` only for leftover brand ramps; prefer `ink` for filled actions.
 
 ## Good
 

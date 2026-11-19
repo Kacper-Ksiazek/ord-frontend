@@ -1,6 +1,6 @@
 # Dark mode via `themeStore` and semantic tokens
 
-Theme state lives in `$lib/stores/theme.svelte.ts` (`themeStore`), which persists to localStorage and toggles the `dark` class on `<html>`. Quiet studio colors (`canvas`, `surface`, `ink`, `ink-muted`, `ink-subtle`, `line`, `accent-soft`, `highlight`, `danger`, `on-ink`) swap under `.dark` in `src/app.css`, so `bg-canvas` / `text-ink` / `border-line` work in both themes without a `dark:` pair.
+Theme state lives in `$lib/stores/theme.svelte.ts` (`themeStore`), which persists to localStorage and toggles the `dark` class on `<html>`. Quiet studio colors (`canvas`, `surface`, `ink`, `ink-body`, `ink-muted`, `ink-subtle`, `line`, `accent`, `accent-ink`, `accent-soft`, `highlight`, `danger`, `on-ink`) swap under `.dark` in `src/app.css`, so `bg-canvas` / `text-ink` / `border-line` work in both themes without a `dark:` pair. Those tokens map onto the raw scales in `$lib/styles/palette.css` (neutral greys, one rose accent, brick danger, muted score tones); change a color there or in the token map, never as a hex in a component, and never reference `--palette-*` outside `src/app.css`.
 
 Prefer those tokens. Use `dark:` only for colors that are not tokenized (e.g. analysis greens/blues). Read `themeStore.theme` / `themeStore.isDark` only when a class cannot express the difference (e.g. picking an SVG asset) — never touch `document.documentElement.classList` in components.
 

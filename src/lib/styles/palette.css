@@ -1,0 +1,53 @@
+/*
+ * Raw palette: neutral (white → black), rose (single accent) and muted status hues.
+ * Never use these directly in components — semantic `--studio-*` tokens in `src/app.css`
+ * map onto them and swap under `.dark`.
+ */
+:root {
+	--palette-white: #ffffff;
+	--palette-black: #111111;
+
+	--palette-neutral-50: #fafafa;
+	--palette-neutral-100: #f5f5f5;
+	--palette-neutral-200: #ebebeb;
+	--palette-neutral-300: #e0e0e0;
+	--palette-neutral-400: #c2c2c2;
+	--palette-neutral-500: #9a9a9a;
+	--palette-neutral-600: #6b6b6b;
+	--palette-neutral-700: #4a4a4a;
+	--palette-neutral-800: #2a2a2a;
+	--palette-neutral-900: #1a1a1a;
+	--palette-neutral-950: #0d0d0d;
+
+	--palette-rose-50: #fdf3f6;
+	--palette-rose-100: #fbe4ec;
+	--palette-rose-200: #f5bccd;
+	--palette-rose-300: #ee8fab;
+	--palette-rose-400: #e06a8e;
+	--palette-rose-500: #cc4f76;
+	--palette-rose-600: #b03d64;
+	--palette-rose-700: #8f3051;
+	--palette-rose-800: #6e2540;
+	--palette-rose-900: #4d1a2d;
+	--palette-rose-950: #2e0f1b;
+
+	/* Danger is brick (orange-leaning red) so it never reads as the rose accent. */
+	--palette-brick-300: #ee8a78;
+	--palette-brick-600: #b3402b;
+
+	--palette-amber-100: #f7e9c4;
+	--palette-amber-900: #3a3020;
+
+	/* Score tones: muted traffic light */
+	--palette-score-low: #c0533f;
+	--palette-score-low-medium: #cf7a3c;
+	--palette-score-medium: #ad8a22;
+	--palette-score-high: #4f9a57;
+	--palette-score-perfect: #3b8a4b;
+
+	--palette-score-low-dark: #e8806f;
+	--palette-score-low-medium-dark: #eb9a5f;
+	--palette-score-medium-dark: #dfc05e;
+	--palette-score-high-dark: #82c98a;
+	--palette-score-perfect-dark: #6fbf80;
+}

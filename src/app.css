@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import './lib/styles/palette.css';
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* Noto Sans Variable Font */
@@ -20,28 +21,35 @@
 	font-display: swap;
 }
 
+/*
+ * Semantic tokens — map onto the raw palette in `$lib/styles/palette.css`.
+ * Neutral greys carry the chrome; rose is the single accent; danger stays brick.
+ */
 :root {
-	--studio-canvas: #f6f4ef;
-	--studio-surface: #ffffff;
-	--studio-ink: #1c1b18;
-	--studio-ink-muted: #6b6860;
-	--studio-ink-subtle: #9a968c;
-	--studio-line: #e7e4dc;
+	--studio-canvas: var(--palette-neutral-50);
+	--studio-surface: var(--palette-white);
+	--studio-ink: var(--palette-black);
+	--studio-ink-body: var(--palette-neutral-700);
+	--studio-ink-muted: var(--palette-neutral-600);
+	--studio-ink-subtle: var(--palette-neutral-500);
+	--studio-line: var(--palette-neutral-200);
 	--studio-line-subtle: color-mix(in srgb, var(--studio-line) 42%, var(--studio-surface));
 	--studio-message-ai: color-mix(in srgb, var(--studio-surface) 42%, var(--studio-canvas));
-	--studio-accent-soft: #efece4;
-	--studio-highlight: #f2e6c2;
-	--studio-danger: #a33a2c;
-	--studio-on-ink: #f6f4ef;
-	--studio-scrim: rgb(12 11 10 / 0.42);
+	--studio-accent: var(--palette-rose-600);
+	--studio-accent-ink: var(--palette-white);
+	--studio-accent-soft: var(--palette-neutral-100);
+	--studio-highlight: var(--palette-amber-100);
+	--studio-danger: var(--palette-brick-600);
+	--studio-on-ink: var(--palette-white);
+	--studio-scrim: rgb(13 13 13 / 0.42);
 	--studio-chart-series: var(--studio-primary-500);
 
-	/* Score tones: livelier traffic light, still warm to the studio paper */
-	--studio-score-low: #d14b3a;
-	--studio-score-low-medium: #e87a2e;
-	--studio-score-medium: #c08c12;
-	--studio-score-high: #3fa64a;
-	--studio-score-perfect: #2a8f3e;
+	/* Score tones: muted traffic light */
+	--studio-score-low: var(--palette-score-low);
+	--studio-score-low-medium: var(--palette-score-low-medium);
+	--studio-score-medium: var(--palette-score-medium);
+	--studio-score-high: var(--palette-score-high);
+	--studio-score-perfect: var(--palette-score-perfect);
 	--studio-score-low-soft: color-mix(in srgb, var(--studio-score-low) 48%, var(--studio-canvas));
 	--studio-score-low-medium-soft: color-mix(
 		in srgb,
@@ -60,50 +68,58 @@
 		var(--studio-canvas)
 	);
 
-	--studio-primary-50: #efece4;
-	--studio-primary-100: #e7e4dc;
-	--studio-primary-200: #d4cfc4;
-	--studio-primary-300: #b7b1a4;
-	--studio-primary-400: #6b6860;
-	--studio-primary-500: #3a3832;
-	--studio-primary-600: #1c1b18;
-	--studio-primary-700: #141311;
-	--studio-primary-800: #11100e;
-	--studio-primary-900: #0c0b0a;
+	/* Legacy neutral ramp (light → ink); prefer the semantic tokens above */
+	--studio-primary-50: var(--palette-neutral-100);
+	--studio-primary-100: var(--palette-neutral-200);
+	--studio-primary-200: var(--palette-neutral-300);
+	--studio-primary-300: var(--palette-neutral-400);
+	--studio-primary-400: var(--palette-neutral-600);
+	--studio-primary-500: var(--palette-neutral-800);
+	--studio-primary-600: var(--palette-black);
+	--studio-primary-700: var(--palette-neutral-900);
+	--studio-primary-800: var(--palette-neutral-950);
+	--studio-primary-900: var(--palette-neutral-950);
 }
 
 .dark {
-	--studio-canvas: #161513;
-	--studio-surface: #1e1c18;
-	--studio-ink: #f4f1ea;
-	--studio-ink-muted: #a8a49a;
-	--studio-ink-subtle: #7c786f;
-	--studio-line: #2f2c27;
+	--studio-canvas: var(--palette-neutral-950);
+	--studio-surface: var(--palette-neutral-900);
+	--studio-ink: var(--palette-neutral-300);
+	--studio-ink-body: var(--palette-neutral-400);
+	--studio-ink-muted: var(--palette-neutral-500);
+	--studio-ink-subtle: var(--palette-neutral-600);
+	--studio-line: var(--palette-neutral-800);
 	--studio-line-subtle: color-mix(in srgb, var(--studio-line) 55%, var(--studio-surface));
 	--studio-message-ai: color-mix(in srgb, var(--studio-surface) 58%, var(--studio-canvas));
-	--studio-accent-soft: #241f1a;
-	--studio-highlight: #3d3420;
-	--studio-danger: #e07064;
-	--studio-on-ink: #161513;
+	--studio-accent: var(--palette-rose-300);
+	--studio-accent-ink: var(--palette-rose-950);
+	--studio-accent-soft: var(--palette-neutral-800);
+	--studio-highlight: var(--palette-amber-900);
+	--studio-danger: var(--palette-brick-300);
+	--studio-on-ink: var(--palette-neutral-950);
 	--studio-scrim: rgb(0 0 0 / 0.58);
 	--studio-chart-series: var(--studio-primary-400);
 
-	--studio-score-low: var(--studio-danger);
-	--studio-score-low-medium: #f08a45;
-	--studio-score-medium: #ebc34a;
-	--studio-score-high: #6fd46a;
-	--studio-score-perfect: #5ecf72;
+	--studio-score-low: var(--palette-score-low-dark);
+	--studio-score-low-medium: var(--palette-score-low-medium-dark);
+	--studio-score-medium: var(--palette-score-medium-dark);
+	--studio-score-high: var(--palette-score-high-dark);
+	--studio-score-perfect: var(--palette-score-perfect-dark);
 
-	--studio-primary-50: #241f1a;
-	--studio-primary-100: #2f2c27;
-	--studio-primary-200: #3a3630;
-	--studio-primary-300: #5c574e;
-	--studio-primary-400: #a8a49a;
-	--studio-primary-500: #d4cfc4;
-	--studio-primary-600: #f4f1ea;
-	--studio-primary-700: #ffffff;
-	--studio-primary-800: #ffffff;
-	--studio-primary-900: #ffffff;
+	--studio-primary-50: var(--palette-neutral-900);
+	--studio-primary-100: var(--palette-neutral-800);
+	--studio-primary-200: color-mix(
+		in srgb,
+		var(--palette-neutral-800) 50%,
+		var(--palette-neutral-700)
+	);
+	--studio-primary-300: var(--palette-neutral-700);
+	--studio-primary-400: var(--palette-neutral-500);
+	--studio-primary-500: var(--palette-neutral-400);
+	--studio-primary-600: var(--palette-neutral-300);
+	--studio-primary-700: var(--palette-neutral-200);
+	--studio-primary-800: var(--palette-neutral-100);
+	--studio-primary-900: var(--palette-neutral-50);
 }
 
 @theme {
@@ -116,11 +132,14 @@
 	--color-canvas: var(--studio-canvas);
 	--color-surface: var(--studio-surface);
 	--color-ink: var(--studio-ink);
+	--color-ink-body: var(--studio-ink-body);
 	--color-ink-muted: var(--studio-ink-muted);
 	--color-ink-subtle: var(--studio-ink-subtle);
 	--color-line: var(--studio-line);
 	--color-line-subtle: var(--studio-line-subtle);
 	--color-message-ai: var(--studio-message-ai);
+	--color-accent: var(--studio-accent);
+	--color-accent-ink: var(--studio-accent-ink);
 	--color-accent-soft: var(--studio-accent-soft);
 	--color-highlight: var(--studio-highlight);
 	--color-danger: var(--studio-danger);

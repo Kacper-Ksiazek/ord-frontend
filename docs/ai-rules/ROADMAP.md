@@ -7,7 +7,7 @@ structure changes materially, and use the checkboxes to track rule coverage.
 
 - **Framework:** SvelteKit 2 + Svelte 5 (runes), Vite 7, adapter-vercel
 - **Language:** TypeScript (strict, `typescript-eslint` strict config)
-- **Styling:** Tailwind CSS 4, Quiet studio tokens that swap under `.dark`, bits-ui (headless) + `$lib/utils/cn`, lucide-svelte icons
+- **Styling:** Tailwind CSS 4, Quiet studio tokens (neutral greys + rose accent, raw scales in `$lib/styles/palette.css`) that swap under `.dark`, bits-ui (headless) + `$lib/utils/cn`, lucide-svelte icons
 - **Data:** TanStack Svelte Query 6, axios-based `src/lib/api-client` (`http*` naming), rxjs (SSE)
 - **API contract:** `@kacper-ksiazek/ord-api-types` package
 - **i18n:** Paraglide JS 2 (pl/en/de), `messages/` + `scripts/aggregate-translations.ts`
