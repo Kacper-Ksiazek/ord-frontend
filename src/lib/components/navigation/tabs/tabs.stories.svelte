@@ -19,7 +19,7 @@
 <Story name="Default">
 	<div class="space-y-8">
 		<div>
-			<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Underline Variant</h3>
+			<h3 class="text-lg font-semibold mb-4 text-ink">Underline Variant</h3>
 			<Tabs
 				tabs={[
 					{ id: 'home', label: 'Home', icon: House },
@@ -29,12 +29,12 @@
 				bind:activeTab={activeTabUnderline}
 				variant="underline"
 			/>
-			<p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
+			<p class="mt-4 text-sm text-ink-muted">
 				Active tab: <strong>{activeTabUnderline}</strong>
 			</p>
 		</div>
 		<div>
-			<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Outlined Variant</h3>
+			<h3 class="text-lg font-semibold mb-4 text-ink">Outlined Variant</h3>
 			<Tabs
 				tabs={[
 					{ id: 'home', label: 'Home', icon: House },
@@ -44,7 +44,7 @@
 				bind:activeTab={activeTabOutlined}
 				variant="outlined"
 			/>
-			<p class="mt-4 text-sm text-gray-600 dark:text-gray-400">
+			<p class="mt-4 text-sm text-ink-muted">
 				Active tab: <strong>{activeTabOutlined}</strong>
 			</p>
 		</div>

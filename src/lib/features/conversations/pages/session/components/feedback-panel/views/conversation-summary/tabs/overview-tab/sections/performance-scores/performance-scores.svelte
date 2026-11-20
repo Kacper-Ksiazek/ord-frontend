@@ -60,7 +60,7 @@
 							message.content.length > 50 ? message.content.substring(0, 60) + '...' : message.content}
 
 						<tr
-							class="bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700 cursor-pointer transition-colors hover:bg-gray-50 dark:hover:bg-gray-700/50"
+							class="bg-surface border-b border-line cursor-pointer transition-colors hover:bg-accent-soft"
 							onclick={() => alert(`Message ${rowNumber}`)}
 							role="button"
 							tabindex="0"
@@ -71,7 +71,7 @@
 								}
 							}}
 						>
-							<td class="text-xs text-gray-500 dark:text-gray-400">{rowNumber}.</td>
+							<td class="text-xs text-ink-muted">{rowNumber}.</td>
 							<td class="body-small">
 								{trimmedMessage}
 							</td>
@@ -93,13 +93,12 @@
 			</table>
 
 			{#if hasMoreRowsThanLimit}
-				<div class="flex justify-center border-t border-gray-200 pt-2 dark:border-gray-700">
+				<div class="flex justify-center border-t border-line pt-2">
 					<button
 						type="button"
 						class={cn(
-							'inline-flex items-center gap-1.5 rounded-md px-2 py-1.5 text-xs text-gray-500 transition-colors',
-							'hover:bg-gray-50 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-gray-800/60 dark:hover:text-gray-200',
-							'focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-400 dark:focus-visible:ring-gray-500'
+							'inline-flex items-center gap-1.5 rounded-md px-2 py-1.5 text-xs text-ink-muted transition-colors',
+							'hover:bg-accent-soft hover:text-ink-body'
 						)}
 						onclick={() => (isListExpanded = !isListExpanded)}
 						aria-expanded={isListExpanded}

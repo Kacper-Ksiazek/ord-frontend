@@ -16,8 +16,8 @@
 {#if count > 0}
 	<span
 		class={cn(
-			'inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs border border-gray-200 dark:border-gray-700',
-			'bg-gray-50 dark:bg-gray-800 caption'
+			'inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs border border-line',
+			'bg-canvas caption'
 		)}
 	>
 		<AnalysisMetricIcon

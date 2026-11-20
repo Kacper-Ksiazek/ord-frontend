@@ -25,7 +25,7 @@
 
 <span
 	class={cn(
-		'inline-flex items-center gap-1 rounded-[10px] px-2 py-0.5 text-xs font-medium',
+		'inline-flex items-center gap-1 rounded-control px-2 py-0.5 text-xs font-medium',
 		colorClasses[color],
 		className
 	)}

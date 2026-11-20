@@ -32,8 +32,8 @@
 				{@render icon(summaryIconClass)}
 
 				<div class="min-w-0">
-					<p class="text-xs text-gray-500 dark:text-gray-400">{label}</p>
-					<h3 class="truncate text-base font-bold text-gray-900 dark:text-gray-50 sm:text-lg">
+					<p class="text-xs text-ink-muted">{label}</p>
+					<h3 class="truncate text-base font-bold text-ink sm:text-lg">
 						{title}
 					</h3>
 				</div>

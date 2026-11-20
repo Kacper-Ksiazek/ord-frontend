@@ -50,7 +50,7 @@
 			data-testid={E2E_TEST_IDS.conversations.rowMenu(conversationId)}
 			aria-label={m['features.conversation.list.row_actions.menu_aria']()}
 			class={cn(
-				'flex size-8 shrink-0 items-center justify-center rounded-[10px] text-ink-subtle transition-colors',
+				'flex size-8 shrink-0 items-center justify-center rounded-control text-ink-subtle transition-colors',
 				'hover:bg-accent-soft hover:text-ink',
 				'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/20',
 				isDeleting && 'cursor-wait opacity-50'

@@ -177,23 +177,17 @@
 		`${item.data.messageOrder}-${item.data.type}-${item.data.phrase}-${item.data.searchableText.slice(0, 24)}`}
 >
 	{#snippet emptyNoData()}
-		<Inbox
-			class="size-12 text-gray-400 dark:text-gray-500 shrink-0"
-			strokeWidth={1.25}
-			aria-hidden="true"
-		/>
+		<Inbox class="size-12 text-ink-subtle shrink-0" strokeWidth={1.25} aria-hidden="true" />
 		<div class="flex flex-col gap-2 max-w-sm">
-			<h3 class="heading-5 text-gray-900 dark:text-gray-100">No learning tips yet</h3>
-			<p class="text-sm text-gray-600 dark:text-gray-400">
+			<h3 class="heading-5 text-ink">No learning tips yet</h3>
+			<p class="text-sm text-ink-muted">
 				Tips from the tutor will appear here when available for this message.
 			</p>
 		</div>
 	{/snippet}
 	{#snippet emptyFiltered()}
-		<h3 class="heading-5 text-gray-900 dark:text-gray-100">No tips match your filters</h3>
-		<p class="text-sm text-gray-600 dark:text-gray-400">
-			Try changing or clearing your filters to see more items.
-		</p>
+		<h3 class="heading-5 text-ink">No tips match your filters</h3>
+		<p class="text-sm text-ink-muted">Try changing or clearing your filters to see more items.</p>
 	{/snippet}
 	{#snippet customFilters()}
 		<DropdownSelect

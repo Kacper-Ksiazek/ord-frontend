@@ -16,13 +16,11 @@
 <Story name="Default">
 	<!-- Same contract as app: bounded column — flex + min-h-0 so flex-1 child can shrink and scroll. -->
 	<div
-		class="flex h-[320px] w-full max-w-md flex-col overflow-hidden rounded-xl border border-gray-200 bg-gray-50 p-2 min-h-0 dark:border-gray-700 dark:bg-gray-900"
+		class="flex h-[320px] w-full max-w-md flex-col overflow-hidden rounded-xl border border-line bg-canvas p-2 min-h-0"
 	>
 		<ScrollableWrapper wrapperClass="min-h-0 flex-1 px-3 py-4" contentClass="gap-4">
 			{#each Array.from({ length: 24 }, (_, i) => i) as i (i)}
-				<div
-					class="rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm text-gray-800 shadow-sm dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100"
-				>
+				<div class="rounded-lg border border-line bg-surface px-4 py-3 text-sm text-ink shadow-sm">
 					Scrollable block {i + 1} — content grows vertically so the fade mask and scrollbar activate.
 				</div>
 			{/each}
@@ -32,11 +30,11 @@
 
 <Story name="TightPadding">
 	<div
-		class="flex h-[200px] w-full max-w-sm flex-col overflow-hidden rounded-lg border border-dashed border-gray-300 min-h-0 dark:border-gray-600"
+		class="flex h-[200px] w-full max-w-sm flex-col overflow-hidden rounded-lg border border-dashed border-line min-h-0"
 	>
 		<ScrollableWrapper wrapperClass="min-h-0 flex-1 px-2 py-1" contentClass="gap-2">
 			{#each Array.from({ length: 16 }, (_, i) => i) as i (i)}
-				<p class="text-xs text-gray-600 dark:text-gray-400">Row {i + 1}</p>
+				<p class="text-xs text-ink-muted">Row {i + 1}</p>
 			{/each}
 		</ScrollableWrapper>
 	</div>

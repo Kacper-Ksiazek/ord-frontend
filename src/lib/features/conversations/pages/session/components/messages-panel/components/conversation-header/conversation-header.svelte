@@ -9,7 +9,7 @@
 	const conversation = getConversationContext();
 </script>
 
-<div class="w-full overflow-hidden rounded-[10px] border border-line bg-surface text-ink">
+<div class="w-full overflow-hidden rounded-control border border-line bg-surface text-ink">
 	<div class="flex items-start gap-4 px-4 py-3">
 		<InterlocutorDetails />
 

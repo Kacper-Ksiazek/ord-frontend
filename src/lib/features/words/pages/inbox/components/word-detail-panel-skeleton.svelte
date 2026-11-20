@@ -9,9 +9,9 @@
 	aria-hidden="true"
 >
 	<div class="flex flex-wrap items-center gap-2">
-		<Skeleton class="h-6 w-16 rounded-[10px] bg-accent-soft" />
-		<Skeleton class="h-6 w-24 rounded-[10px] bg-accent-soft" />
-		<Skeleton class="h-6 w-20 rounded-[10px] bg-accent-soft" />
+		<Skeleton class="h-6 w-16 rounded-control bg-accent-soft" />
+		<Skeleton class="h-6 w-24 rounded-control bg-accent-soft" />
+		<Skeleton class="h-6 w-20 rounded-control bg-accent-soft" />
 	</div>
 
 	<section class="flex flex-col gap-2.5">
@@ -28,9 +28,9 @@
 	<section class="flex flex-col gap-2.5">
 		<Skeleton class="h-4 w-28 rounded-md bg-accent-soft" />
 		<div class="flex flex-wrap gap-2">
-			<Skeleton class="h-8 w-24 rounded-[10px] bg-accent-soft" />
-			<Skeleton class="h-8 w-20 rounded-[10px] bg-accent-soft" />
-			<Skeleton class="h-8 w-28 rounded-[10px] bg-accent-soft" />
+			<Skeleton class="h-8 w-24 rounded-control bg-accent-soft" />
+			<Skeleton class="h-8 w-20 rounded-control bg-accent-soft" />
+			<Skeleton class="h-8 w-28 rounded-control bg-accent-soft" />
 		</div>
 	</section>
 

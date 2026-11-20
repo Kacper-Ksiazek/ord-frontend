@@ -36,7 +36,7 @@
 </script>
 
 <Story name="Default">
-	<div class="p-8 bg-white dark:bg-gray-800 min-h-screen transition-colors">
+	<div class="p-8 bg-surface min-h-screen transition-colors">
 		<div class="max-w-2xl mx-auto">
 			<MultiStepForm
 				{steps}
@@ -46,23 +46,23 @@
 			>
 				{#snippet children(stepIndex)}
 					{#if stepIndex === 0}
-						<div class="p-6 bg-gray-50 dark:bg-gray-700 rounded-lg">
-							<h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Step 1 Content</h3>
-							<p class="text-gray-600 dark:text-gray-300">
+						<div class="p-6 bg-canvas rounded-lg">
+							<h3 class="text-xl font-semibold mb-4 text-ink">Step 1 Content</h3>
+							<p class="text-ink-muted">
 								This is the first step of the form. You can add any content here.
 							</p>
 						</div>
 					{:else if stepIndex === 1}
-						<div class="p-6 bg-gray-50 dark:bg-gray-700 rounded-lg">
-							<h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Step 2 Content</h3>
-							<p class="text-gray-600 dark:text-gray-300">
+						<div class="p-6 bg-canvas rounded-lg">
+							<h3 class="text-xl font-semibold mb-4 text-ink">Step 2 Content</h3>
+							<p class="text-ink-muted">
 								This is the second step of the form. Navigate back and forth using the buttons.
 							</p>
 						</div>
 					{:else if stepIndex === 2}
-						<div class="p-6 bg-gray-50 dark:bg-gray-700 rounded-lg">
-							<h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-white">Step 3 Content</h3>
-							<p class="text-gray-600 dark:text-gray-300">
+						<div class="p-6 bg-canvas rounded-lg">
+							<h3 class="text-xl font-semibold mb-4 text-ink">Step 3 Content</h3>
+							<p class="text-ink-muted">
 								This is the final step of the form. The button text changes to "Complete" on this step.
 							</p>
 						</div>

@@ -82,7 +82,7 @@
 	/>
 
 	<div
-		class="min-w-0 flex-1 overflow-hidden rounded-[10px] border border-line bg-message-ai text-ink"
+		class="min-w-0 flex-1 overflow-hidden rounded-control border border-line bg-message-ai text-ink"
 	>
 		{#if tutorComment}
 			<button

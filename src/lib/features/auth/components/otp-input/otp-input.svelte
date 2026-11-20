@@ -134,7 +134,7 @@
 			onfocus={handleFocus}
 			{disabled}
 			class={cn(
-				'h-14 w-12 rounded-[10px] border text-center text-2xl font-medium outline-none transition-colors',
+				'h-14 w-12 rounded-control border text-center text-2xl font-medium outline-none transition-colors',
 				'text-ink',
 				error
 					? 'border-danger focus:border-danger focus:ring-2 focus:ring-danger/25'

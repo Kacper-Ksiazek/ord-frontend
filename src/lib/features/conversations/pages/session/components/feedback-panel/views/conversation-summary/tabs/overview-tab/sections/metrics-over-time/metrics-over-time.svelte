@@ -60,7 +60,7 @@
 	<div class="space-y-4">
 		<div class="flex items-center gap-2">
 			<h3 class="heading-5">Metrics Over Time</h3>
-			<span class="text-gray-500">-</span>
+			<span class="text-ink-muted">-</span>
 			<DropdownSelect
 				bind:value={selectedMetric}
 				options={metricOptions}

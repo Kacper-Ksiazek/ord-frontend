@@ -21,11 +21,11 @@
 </script>
 
 <Story name="All cases">
-	<div class="p-8 bg-white dark:bg-gray-900">
+	<div class="p-8 bg-surface">
 		<div class="flex flex-col gap-4">
 			{#each cases as c (c.label)}
 				<div class="flex items-center gap-3">
-					<span class="text-sm text-gray-600 dark:text-gray-400 w-64">{c.label}</span>
+					<span class="text-sm text-ink-muted w-64">{c.label}</span>
 					<ScoreDiffIndicator currentScore={c.currentScore} averageScore={c.averageScore} />
 				</div>
 			{/each}

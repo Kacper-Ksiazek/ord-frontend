@@ -18,9 +18,9 @@
 	</div>
 
 	<div class="flex flex-wrap items-center gap-2">
-		<AiSkeleton class="h-6 w-16 rounded-[10px]" />
-		<AiSkeleton class="h-6 w-24 rounded-[10px]" />
-		<AiSkeleton class="h-6 w-20 rounded-[10px]" />
+		<AiSkeleton class="h-6 w-16 rounded-control" />
+		<AiSkeleton class="h-6 w-24 rounded-control" />
+		<AiSkeleton class="h-6 w-20 rounded-control" />
 	</div>
 
 	<section class="flex flex-col gap-2.5">
@@ -39,9 +39,9 @@
 	<section class="flex flex-col gap-2.5">
 		<AiSkeleton class="h-4 w-28 rounded-md" />
 		<div class="flex flex-wrap gap-2">
-			<AiSkeleton class="h-8 w-24 rounded-[10px]" />
-			<AiSkeleton class="h-8 w-20 rounded-[10px]" />
-			<AiSkeleton class="h-8 w-28 rounded-[10px]" />
+			<AiSkeleton class="h-8 w-24 rounded-control" />
+			<AiSkeleton class="h-8 w-20 rounded-control" />
+			<AiSkeleton class="h-8 w-28 rounded-control" />
 		</div>
 	</section>
 

@@ -28,7 +28,7 @@
 				<div
 					class="rounded-full shrink-0 flex items-center justify-center p-2.5 {hasMistakes
 						? ''
-						: 'bg-gray-300 dark:bg-gray-600'}"
+						: 'bg-line'}"
 					style={hasMistakes ? `background-color: ${stats.color}` : undefined}
 				>
 					<Icon class="w-5 h-5 text-white" />

@@ -44,7 +44,7 @@
 
 <div
 	class={cn(
-		'p-3 rounded-[10px] flex-1 relative border transition-colors',
+		'p-3 rounded-control flex-1 relative border transition-colors',
 		'focus:outline-none',
 		colors.bg,
 		colors.border,

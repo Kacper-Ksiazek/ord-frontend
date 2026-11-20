@@ -17,7 +17,7 @@
 </script>
 
 <Story name="Stack layout">
-	<div class="p-8 bg-white dark:bg-gray-900">
+	<div class="p-8 bg-surface">
 		<div class="flex items-end gap-8">
 			{#each severities as severity (severity)}
 				<MistakeSeverityIndicator {severity} />
@@ -27,7 +27,7 @@
 </Story>
 
 <Story name="Inline layout">
-	<div class="p-8 bg-white dark:bg-gray-900">
+	<div class="p-8 bg-surface">
 		<div class="flex flex-col gap-2">
 			{#each severities as severity (severity)}
 				<MistakeSeverityIndicator {severity} layout="inline" />
@@ -37,7 +37,7 @@
 </Story>
 
 <Story name="No mistakes (greyed out)">
-	<div class="p-8 bg-white dark:bg-gray-900">
+	<div class="p-8 bg-surface">
 		<div class="flex items-end gap-8">
 			{#each severities as severity (severity)}
 				<MistakeSeverityIndicator {severity} hasMistakes={false} />
@@ -47,7 +47,7 @@
 </Story>
 
 <Story name="Without label">
-	<div class="p-8 bg-white dark:bg-gray-900">
+	<div class="p-8 bg-surface">
 		<div class="flex items-end gap-8">
 			{#each severities as severity (severity)}
 				<MistakeSeverityIndicator {severity} showLabel={false} />

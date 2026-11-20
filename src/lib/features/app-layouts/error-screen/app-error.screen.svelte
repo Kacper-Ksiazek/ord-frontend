@@ -26,13 +26,11 @@
 
 <div class="flex flex-col {showHeader ? 'h-screen' : 'h-full items-center justify-center'}">
 	{#if showHeader}
-		<header
-			class="sticky top-0 z-50 border-b border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950"
-		>
+		<header class="sticky top-0 z-50 border-b border-line bg-surface">
 			<div class="container mx-auto px-4 h-16 flex items-center justify-between">
 				<div class="flex items-center gap-2">
 					<AppLogo size="md" />
-					<span class="text-lg font-semibold text-gray-900 dark:text-gray-50">ORD</span>
+					<span class="text-lg font-semibold text-ink">ORD</span>
 				</div>
 			</div>
 		</header>
@@ -44,7 +42,7 @@
 				<h1 class="text-7xl font-bold text-primary-600 dark:text-primary-400 mb-2">
 					{page.status}
 				</h1>
-				<p class="text-xl font-semibold text-gray-900 dark:text-gray-50">
+				<p class="text-xl font-semibold text-ink">
 					{#if page.status === 404}
 						Page Not Found
 					{:else if page.status === 500}
@@ -55,7 +53,7 @@
 				</p>
 			</div>
 
-			<p class="text-gray-600 dark:text-gray-400 mb-8">
+			<p class="text-ink-muted mb-8">
 				{#if page.status === 404}
 					{resolvedNotFoundMessage}
 				{:else if page.status === 500}
@@ -74,7 +72,7 @@
 				</a>
 				<button
 					onclick={() => window.history.back()}
-					class="inline-flex items-center justify-center px-6 py-2.5 bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-50 font-medium rounded-lg transition-colors"
+					class="inline-flex items-center justify-center px-6 py-2.5 bg-accent-soft hover:bg-line text-ink font-medium rounded-lg transition-colors"
 				>
 					Go Back
 				</button>

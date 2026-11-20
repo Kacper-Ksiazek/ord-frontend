@@ -33,9 +33,9 @@
 
 <Story name="Default">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Basic Dropdown</h3>
+		<h3 class="text-lg font-semibold mb-4 text-ink">Basic Dropdown</h3>
 		<DropdownSelect bind:value={basicValue} options={basicOptions} ariaLabel="Select an option" />
-		<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+		<p class="mt-2 text-sm text-ink-muted">
 			Selected: <strong>{basicValue}</strong>
 		</p>
 	</div>
@@ -43,7 +43,7 @@
 
 <Story name="With Icons">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Dropdown with Icons</h3>
+		<h3 class="text-lg font-semibold mb-4 text-ink">Dropdown with Icons</h3>
 		<DropdownSelect
 			bind:value={iconValue}
 			options={iconOptions}
@@ -51,7 +51,7 @@
 			buttonClass="w-48"
 			dropdownClass="w-48"
 		/>
-		<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+		<p class="mt-2 text-sm text-ink-muted">
 			Selected: <strong>{iconValue}</strong>
 		</p>
 	</div>

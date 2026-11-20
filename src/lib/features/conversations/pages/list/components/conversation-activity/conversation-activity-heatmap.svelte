@@ -64,7 +64,7 @@
 
 <div
 	class={cn(
-		'min-w-0 rounded-[10px] border border-line bg-surface p-4 text-ink-muted',
+		'min-w-0 rounded-control border border-line bg-surface p-4 text-ink-muted',
 		monthGroups.length > 0 && 'flex items-start'
 	)}
 	role="group"

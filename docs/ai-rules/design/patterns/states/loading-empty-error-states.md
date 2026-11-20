@@ -5,7 +5,7 @@
 **Default for new UI:** mirror the final layout with **`Skeleton`** (`$lib/components/utils/skeleton.svelte`)
 or a colocated `*-skeleton.svelte` that composes skeleton blocks (see words inbox list/detail).
 
-- Match real geometry: row height, avatar squares, `rounded-[10px]`, `border-line` shells where the
+- Match real geometry: row height, avatar squares, `rounded-control`, `border-line` shells where the
   loaded UI uses them.
 - Prefer **`bg-accent-soft`** on skeleton blocks in Quiet studio surfaces (words inbox pattern).
 - Set `aria-busy="true"` on the skeleton root; `aria-hidden="true"` when the skeleton is purely

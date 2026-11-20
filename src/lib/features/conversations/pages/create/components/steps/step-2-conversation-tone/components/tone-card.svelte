@@ -65,21 +65,18 @@
 
 	<ConversationToneIcon
 		{tone}
-		class={cn(
-			'mb-1 size-[clamp(2.5rem,6vh,3.5rem)] text-gray-300 dark:text-gray-600',
-			isSelected && 'text-primary-500 dark:text-white'
-		)}
+		class={cn('mb-1 size-[clamp(2.5rem,6vh,3.5rem)] text-ink-subtle', isSelected && 'text-ink')}
 	/>
 
-	<h3 class="text-base font-bold text-gray-900 dark:text-gray-50 sm:text-lg">
+	<h3 class="text-base font-bold text-ink sm:text-lg">
 		{label}
 	</h3>
 
 	{#if enableHints}
 		<p
 			class={cn(
-				'text-center text-xs leading-snug sm:text-sm dark:text-gray-400',
-				isSelected && 'text-gray-600 dark:text-gray-100'
+				'text-center text-xs leading-snug text-ink-muted sm:text-sm',
+				isSelected && 'text-ink-body'
 			)}
 		>
 			{description}

@@ -52,12 +52,12 @@
 </script>
 
 <div
-	class="group flex w-full items-stretch gap-2 rounded-[10px] border border-line bg-surface px-3 py-3 transition-colors hover:bg-accent-soft"
+	class="group flex w-full items-stretch gap-2 rounded-control border border-line bg-surface px-3 py-3 transition-colors hover:bg-accent-soft"
 	data-testid={dataTestId}
 >
 	<div class="flex shrink-0 self-center">
 		<span
-			class="flex size-12 shrink-0 items-center justify-center rounded-[10px] bg-accent-soft p-2 text-ink-muted transition-colors group-hover:bg-primary-200 [&_svg]:size-7 [&_svg]:shrink-0"
+			class="flex size-12 shrink-0 items-center justify-center rounded-control bg-accent-soft p-2 text-ink-muted transition-colors group-hover:bg-primary-200 [&_svg]:size-7 [&_svg]:shrink-0"
 			aria-hidden="true"
 		>
 			<ConversationTypeIcon {conversationType} class="size-7" />

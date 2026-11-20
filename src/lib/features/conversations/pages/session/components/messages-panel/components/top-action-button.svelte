@@ -39,7 +39,7 @@
 	}: Props = $props();
 
 	/** Shared shell with OUTLINED + TEXT border tokens */
-	const surfaceClass = cn('rounded-[10px] border border-line bg-surface');
+	const surfaceClass = cn('rounded-control border border-line bg-surface');
 
 	const additionalContentClass = cn(
 		surfaceClass,

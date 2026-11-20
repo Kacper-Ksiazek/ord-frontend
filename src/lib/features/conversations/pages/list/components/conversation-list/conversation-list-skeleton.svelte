@@ -27,9 +27,9 @@
 				{#each Array.from({ length: rowsPerSection }, (_, rowIndex) => rowIndex) as rowIndex (rowIndex)}
 					<li class="list-none">
 						<div
-							class="flex w-full items-stretch rounded-[10px] border border-line bg-surface px-3 py-3 sm:gap-4"
+							class="flex w-full items-stretch rounded-control border border-line bg-surface px-3 py-3 sm:gap-4"
 						>
-							<Skeleton class="size-10 shrink-0 rounded-[10px] bg-accent-soft" />
+							<Skeleton class="size-10 shrink-0 rounded-control bg-accent-soft" />
 
 							<div class="min-w-0 flex-1 space-y-2 pl-3">
 								<Skeleton
@@ -39,9 +39,9 @@
 									)}
 								/>
 								<div class="flex flex-wrap gap-2">
-									<Skeleton class="h-5 w-12 rounded-[10px] bg-accent-soft" />
-									<Skeleton class="h-5 w-16 rounded-[10px] bg-accent-soft" />
-									<Skeleton class="h-5 w-14 rounded-[10px] bg-accent-soft" />
+									<Skeleton class="h-5 w-12 rounded-control bg-accent-soft" />
+									<Skeleton class="h-5 w-16 rounded-control bg-accent-soft" />
+									<Skeleton class="h-5 w-14 rounded-control bg-accent-soft" />
 								</div>
 							</div>
 

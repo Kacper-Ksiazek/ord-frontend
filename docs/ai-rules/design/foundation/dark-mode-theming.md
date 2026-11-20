@@ -17,7 +17,7 @@ Prefer those tokens. Use `dark:` only for colors that are not tokenized (e.g. an
 	};
 </script>
 
-<button class="rounded-[10px] border border-line bg-surface text-ink hover:bg-accent-soft">
+<button class="rounded-control border border-line bg-surface text-ink hover:bg-accent-soft">
 	Toggle
 </button>
 

@@ -33,13 +33,13 @@
 	});
 </script>
 
-<div class={cn('relative overflow-hidden rounded-[10px]', className)}>
+<div class={cn('relative overflow-hidden rounded-control', className)}>
 	{#snippet aiButton(opts?: { 'aria-hidden'?: boolean })}
 		<button
 			type="button"
 			data-testid={opts?.['aria-hidden'] ? undefined : dataTestId}
 			class={cn(
-				'flex h-full w-full cursor-pointer items-center justify-center gap-1 rounded-[10px] border border-primary-600 px-3 py-2 whitespace-nowrap',
+				'flex h-full w-full cursor-pointer items-center justify-center gap-1 rounded-control border border-primary-600 px-3 py-2 whitespace-nowrap',
 				!disabled && 'hover:bg-accent-soft hover:text-primary-600',
 				disabled && 'cursor-not-allowed border-line bg-accent-soft text-ink-subtle'
 			)}

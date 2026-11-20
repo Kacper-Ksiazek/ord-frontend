@@ -39,7 +39,7 @@
 	class={cn(
 		'flex w-full flex-col gap-1',
 		customClass,
-		isGenerating && 'generation-in-progress rounded-[10px] px-2 py-0.5'
+		isGenerating && 'generation-in-progress rounded-control px-2 py-0.5'
 	)}
 >
 	<div class="flex min-h-8 items-center gap-2">

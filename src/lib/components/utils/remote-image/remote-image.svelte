@@ -78,7 +78,7 @@
 	{#if isLoading}
 		<Skeleton class="absolute inset-0 rounded-[inherit]" />
 	{:else if isFailed}
-		<span class="absolute inset-0 bg-gray-200 dark:bg-gray-800"></span>
+		<span class="absolute inset-0 bg-line"></span>
 	{/if}
 
 	{#key src}

@@ -73,7 +73,7 @@
 		{#if open}
 			<div
 				class={cn(
-					'pointer-events-auto overlay-surface w-[min(320px,calc(100vw-2rem))] rounded-[10px] border border-line p-3 shadow-lg',
+					'pointer-events-auto overlay-surface w-[min(320px,calc(100vw-2rem))] rounded-control border border-line p-3 shadow-lg',
 					'flex flex-col gap-3'
 				)}
 			>

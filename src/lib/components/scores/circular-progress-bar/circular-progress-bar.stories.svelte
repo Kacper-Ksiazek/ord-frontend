@@ -14,9 +14,9 @@
 </script>
 
 <Story name="All Ratings">
-	<div class="p-8 bg-white dark:bg-gray-900 min-h-screen">
+	<div class="p-8 bg-surface min-h-screen">
 		<div class="max-w-4xl mx-auto">
-			<h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Score Ratings (1-10)</h2>
+			<h2 class="text-2xl font-bold mb-6 text-ink">Score Ratings (1-10)</h2>
 			<div class="grid grid-cols-5 gap-8">
 				{#each scores as score (score)}
 					<CircularProgressBar label="Score {score}" {score} />
@@ -27,9 +27,9 @@
 </Story>
 
 <Story name="With Null Score">
-	<div class="p-8 bg-white dark:bg-gray-900 min-h-screen">
+	<div class="p-8 bg-surface min-h-screen">
 		<div class="max-w-4xl mx-auto">
-			<h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Null Score Example</h2>
+			<h2 class="text-2xl font-bold mb-6 text-ink">Null Score Example</h2>
 			<div class="flex justify-center">
 				<CircularProgressBar label="No Data" score={null} />
 			</div>
@@ -38,9 +38,9 @@
 </Story>
 
 <Story name="Custom Sizes">
-	<div class="p-8 bg-white dark:bg-gray-900 min-h-screen">
+	<div class="p-8 bg-surface min-h-screen">
 		<div class="max-w-4xl mx-auto">
-			<h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Different Sizes</h2>
+			<h2 class="text-2xl font-bold mb-6 text-ink">Different Sizes</h2>
 			<div class="flex items-end justify-center gap-8">
 				<CircularProgressBar label="Small" score={7.5} size={80} strokeWidth={6} />
 				<CircularProgressBar label="Medium" score={7.5} size={120} strokeWidth={8} />

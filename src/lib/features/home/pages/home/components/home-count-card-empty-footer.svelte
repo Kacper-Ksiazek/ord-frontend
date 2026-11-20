@@ -13,7 +13,7 @@
 
 <div
 	class={cn(
-		'flex min-h-0 flex-1 flex-col items-center justify-center rounded-[10px] border border-dashed border-line px-4 py-5 text-center',
+		'flex min-h-0 flex-1 flex-col items-center justify-center rounded-control border border-dashed border-line px-4 py-5 text-center',
 		className
 	)}
 	data-testid={dataTestId}

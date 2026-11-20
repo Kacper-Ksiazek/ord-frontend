@@ -44,7 +44,7 @@
 
 	function countCardSectionClass(isEmpty: boolean) {
 		return cn(
-			'flex min-h-[260px] min-w-0 flex-col gap-3 rounded-[10px] border border-line bg-surface p-4',
+			'flex min-h-[260px] min-w-0 flex-col gap-3 rounded-control border border-line bg-surface p-4',
 			isEmpty && 'h-full'
 		);
 	}

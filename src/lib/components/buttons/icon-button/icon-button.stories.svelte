@@ -15,14 +15,14 @@
 
 <Story name="Default">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Icon Button Variants</h3>
+		<h3 class="text-lg font-semibold mb-4 text-ink">Icon Button Variants</h3>
 		<div class="grid grid-cols-5 gap-4 items-center">
 			{#snippet tableHeader(text: string)}
-				<div class="font-medium text-sm text-gray-600 dark:text-gray-400">{text}</div>
+				<div class="font-medium text-sm text-ink-muted">{text}</div>
 			{/snippet}
 
 			{#snippet tableRowIndicator(text: string)}
-				<div class="font-medium text-sm text-gray-700 dark:text-gray-300">{text}</div>
+				<div class="font-medium text-sm text-ink-body">{text}</div>
 			{/snippet}
 
 			<!-- Header Row -->

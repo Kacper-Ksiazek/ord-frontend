@@ -232,7 +232,7 @@
 		{:else if viewMode === 'recommend'}
 			<StatusPanel
 				variant="information"
-				class="w-full shrink-0 rounded-[10px] border border-dashed border-line bg-surface py-10"
+				class="w-full shrink-0 rounded-control border border-dashed border-line bg-surface py-10"
 				header={m['features.words.inbox.header.recommend_new']()}
 				description={m['features.words.inbox.recommend.placeholder']()}
 				descriptionClass="content-long"

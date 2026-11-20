@@ -143,7 +143,7 @@
 					<ConversationActivitySectionSkeleton />
 				{:else if activityOverviewQuery.isError}
 					<div
-						class="mb-6 flex flex-col items-start gap-3 rounded-[10px] border border-danger/25 bg-danger/5 p-4"
+						class="mb-6 flex flex-col items-start gap-3 rounded-control border border-danger/25 bg-danger/5 p-4"
 						role="alert"
 					>
 						<p class="text-sm text-danger">

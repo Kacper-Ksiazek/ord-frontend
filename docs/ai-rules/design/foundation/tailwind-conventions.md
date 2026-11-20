@@ -5,7 +5,7 @@ The project uses Tailwind CSS 4 via `@tailwindcss/vite` — configuration lives 
 ## Good
 
 ```svelte
-<div class="app-bg-col flex items-center gap-2 rounded-[10px] border border-line p-2.5">
+<div class="app-bg-col flex items-center gap-2 rounded-control border border-line p-2.5">
 	<h2 class="heading-3">Session summary</h2>
 	<span class="text-ink-muted">Active</span>
 </div>

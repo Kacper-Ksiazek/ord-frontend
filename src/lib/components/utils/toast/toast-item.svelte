@@ -164,7 +164,7 @@
 <div
 	bind:this={rootEl}
 	class={cn(
-		'pointer-events-auto flex min-h-[4.25rem] items-center overflow-hidden rounded-[10px] border bg-white shadow-lg dark:bg-surface',
+		'pointer-events-auto flex min-h-[4.25rem] items-center overflow-hidden rounded-control border bg-surface shadow-lg',
 		toast.variant === 'ai-pending'
 			? 'border-primary-200/80 dark:border-primary-300/30'
 			: 'border-line'

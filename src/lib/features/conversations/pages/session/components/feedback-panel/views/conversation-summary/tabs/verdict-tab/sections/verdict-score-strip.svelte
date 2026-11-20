@@ -44,7 +44,7 @@
 		{#each scoreCards as card (card.id)}
 			{@const chip = getScoreChipClasses(card.score)}
 			<div
-				class="flex min-w-0 flex-col items-center gap-2 rounded-[10px] border border-line bg-surface px-2 py-3"
+				class="flex min-w-0 flex-col items-center gap-2 rounded-control border border-line bg-surface px-2 py-3"
 			>
 				<span
 					class={cn(
