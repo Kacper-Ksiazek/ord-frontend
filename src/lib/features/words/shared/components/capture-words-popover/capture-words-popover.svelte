@@ -62,7 +62,7 @@
 	} from './capture-words-popover.store.svelte';
 	import CaptureWordsPopoverDevtools from './capture-words-popover-devtools.svelte';
 	import CaptureWordsRowFillOverlay from './capture-words-row-fill-overlay.svelte';
-	import CaptureWordsSaveStatusPanel from './capture-words-save-status-panel.svelte';
+	import { StatusPanel } from '$lib/components/utils/status-panel';
 
 	type WordTypeSelectOption = DropdownSelectOption<WordType | null>;
 	type WordExtraMarkSelectOption = DropdownSelectOption<WordExtraMark | null>;
@@ -707,8 +707,10 @@
 			<div bind:this={formScrollEl} class="relative min-h-0 flex-1 overflow-y-auto px-5 py-4">
 				{#if isSaveErrorVisible}
 					<div data-testid={E2E_TEST_IDS.capturePopover.saveStatusError}>
-						<CaptureWordsSaveStatusPanel
+						<StatusPanel
 							variant="error"
+							animateIn
+							class="px-4 py-10"
 							header={m['features.words.capture-popover.save_error.header']()}
 							description={saveError ?? m['features.words.capture-popover.save_error.description']()}
 							primaryButton={{

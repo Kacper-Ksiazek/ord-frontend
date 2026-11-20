@@ -13,10 +13,8 @@
 </script>
 
 <Story name="All Variants">
-	<div
-		class="grid grid-cols-3 gap-px bg-gray-200 dark:bg-gray-700 rounded-2xl overflow-hidden w-full"
-	>
-		<div class="bg-gray-50 dark:bg-gray-900">
+	<div class="grid w-full grid-cols-3 gap-px overflow-hidden rounded-2xl bg-line">
+		<div class="bg-surface">
 			<StatusPanel
 				variant="error"
 				code="Error 503"
@@ -27,7 +25,7 @@
 			/>
 		</div>
 
-		<div class="bg-gray-50 dark:bg-gray-900">
+		<div class="bg-surface">
 			<StatusPanel
 				variant="information"
 				header="No results found"
@@ -36,7 +34,7 @@
 			/>
 		</div>
 
-		<div class="bg-gray-50 dark:bg-gray-900">
+		<div class="bg-surface">
 			<StatusPanel
 				variant="success"
 				header="All done!"
