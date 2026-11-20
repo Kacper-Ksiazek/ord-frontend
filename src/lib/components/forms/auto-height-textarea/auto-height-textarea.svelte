@@ -132,7 +132,7 @@
 			cn(
 				getOutlinedInputFieldClasses(appearanceVariant, disabled, false),
 				disabled && 'cursor-not-allowed opacity-50',
-				'form-input-text flex min-h-[40px] w-full rounded-[10px] border px-2.5 text-sm text-ink',
+				'form-input-text flex min-h-[40px] w-full rounded-control border px-2.5 text-sm text-ink',
 				isSingleRowFormField ? 'items-center' : 'items-start'
 			),
 		!formField && [

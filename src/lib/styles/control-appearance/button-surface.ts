@@ -4,10 +4,7 @@ export type ButtonType = 'FILLED' | 'OUTLINED';
 export type ButtonVariant = 'PRIMARY' | 'TEXT' | 'DELETE';
 
 function buttonFocusRing(): string {
-	return cn(
-		'focus:outline-none focus:ring-2 focus:ring-offset-2',
-		'focus:ring-ink/20 focus:ring-offset-canvas'
-	);
+	return 'focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-ink';
 }
 
 /**
