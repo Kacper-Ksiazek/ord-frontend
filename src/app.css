@@ -1,25 +1,7 @@
 @import 'tailwindcss';
+@import '@fontsource-variable/geist';
 @import './lib/styles/palette.css';
 @custom-variant dark (&:where(.dark, .dark *));
-
-/* Noto Sans Variable Font */
-@font-face {
-	font-family: 'Noto Sans';
-	src: url('$lib/assets/fonts/NotoSans-Variable.woff2') format('woff2');
-	font-weight: 100 900;
-	font-stretch: 62.5% 100%;
-	font-style: normal;
-	font-display: swap;
-}
-
-@font-face {
-	font-family: 'Noto Sans';
-	src: url('$lib/assets/fonts/NotoSans-VariableItalic.woff2') format('woff2');
-	font-weight: 100 900;
-	font-stretch: 62.5% 100%;
-	font-style: italic;
-	font-display: swap;
-}
 
 /*
  * Semantic tokens — map onto the raw palette in `$lib/styles/palette.css`.
@@ -123,8 +105,8 @@
 }
 
 @theme {
-	--font-family-sans:
-		'Noto Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+	--font-sans:
+		'Geist Variable', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
 		'Segoe UI Symbol', 'Noto Color Emoji';
 }
 
@@ -183,7 +165,7 @@
 
 @layer base {
 	body {
-		font-family: var(--font-family-sans);
+		font-family: var(--font-sans);
 		color: var(--color-ink);
 		background-color: var(--color-canvas);
 	}
