@@ -22,6 +22,7 @@
 	--studio-accent-soft: var(--palette-neutral-100);
 	--studio-highlight: var(--palette-amber-100);
 	--studio-danger: var(--palette-brick-600);
+	--studio-info: var(--palette-blue-600);
 	--studio-on-ink: var(--palette-white);
 	--studio-scrim: rgb(13 13 13 / 0.42);
 	--studio-chart-series: var(--studio-primary-500);
@@ -78,6 +79,7 @@
 	--studio-accent-soft: var(--palette-neutral-800);
 	--studio-highlight: var(--palette-amber-900);
 	--studio-danger: var(--palette-brick-300);
+	--studio-info: var(--palette-blue-300);
 	--studio-on-ink: var(--palette-neutral-950);
 	--studio-scrim: rgb(0 0 0 / 0.58);
 	--studio-chart-series: var(--studio-primary-400);
@@ -125,6 +127,7 @@
 	--color-accent-soft: var(--studio-accent-soft);
 	--color-highlight: var(--studio-highlight);
 	--color-danger: var(--studio-danger);
+	--color-info: var(--studio-info);
 	--color-on-ink: var(--studio-on-ink);
 	--color-scrim: var(--studio-scrim);
 	--color-chart-series: var(--studio-chart-series);
