@@ -1,9 +1,10 @@
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
-import { sentrySvelteKit } from '@sentry/sveltekit';
+import { sentrySvelteKit } from '@sentry/sveltekit/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import tailwindcss from '@tailwindcss/vite';
 import { playwright } from '@vitest/browser-playwright';
 import { defineConfig, loadEnv } from 'vite';
+import { kitConfig } from './kit.config.js';
 
 export default defineConfig(({ mode }) => {
 	const sentryEnv = loadEnv(mode, process.cwd(), 'SENTRY_');
@@ -19,7 +20,7 @@ export default defineConfig(({ mode }) => {
 				autoUploadSourceMaps: Boolean(sentryAuthToken)
 			}),
 			tailwindcss(),
-			sveltekit(),
+			sveltekit(kitConfig),
 			paraglideVitePlugin({
 				project: './project.inlang',
 				outdir: './src/lib/paraglide'

@@ -2,7 +2,7 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import type { UserDTO } from '$auth/types';
 import { getStorageItem, setStorageItem, STORAGE_KEYS } from '$lib/utils/local-storage';
 
-vi.mock('$app/environment', () => ({
+vi.mock('$app/env', () => ({
 	browser: true
 }));
 

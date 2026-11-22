@@ -8,7 +8,7 @@ const { httpGetCurrentUser, redirect, environment } = vi.hoisted(() => ({
 	environment: { browser: true }
 }));
 
-vi.mock('$app/environment', () => ({
+vi.mock('$app/env', () => ({
 	get browser() {
 		return environment.browser;
 	}

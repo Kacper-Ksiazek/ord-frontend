@@ -1,4 +1,5 @@
 import type { ConversationsListViewMode } from '$conversations/types/domain/conversations-list-view-mode';
+import type { ReadonlyURLSearchParams } from '$app/state';
 
 export function parseConversationsListViewMode(value: string | null): ConversationsListViewMode {
 	return value === 'summary' ? 'summary' : 'list';
@@ -22,7 +23,7 @@ export function buildConversationsListQueryString(
 }
 
 export function parseConversationsListViewModeFromSearchParams(
-	searchParams: URLSearchParams
+	searchParams: ReadonlyURLSearchParams
 ): ConversationsListViewMode {
 	return parseConversationsListViewMode(searchParams.get('view'));
 }
