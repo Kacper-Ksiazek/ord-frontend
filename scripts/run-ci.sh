@@ -63,7 +63,10 @@ run_step "types" bun run check
 run_step "e2e-types" bun run check:e2e
 run_step "build" bun run build
 run_step "unit-tests" bun run test
-run_step "audit" bun audit --audit-level high
+# GHSA-3r8g-jcqq-3p5j: SvelteKit DoS in remote-function `form` parsing; fixed only in kit 3.1.1.
+# Not reachable here (no *.remote.ts, remote functions not enabled). Keep in sync with ci.yml;
+# drop after the kit 3 upgrade.
+run_step "audit" bun audit --audit-level high --ignore=GHSA-3r8g-jcqq-3p5j
 
 if [[ "$INCLUDE_E2E" -eq 1 ]]; then
   run_step "e2e" bash -c './scripts/check-e2e-backend.sh && bun run test:e2e'

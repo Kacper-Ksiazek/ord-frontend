@@ -111,4 +111,6 @@ jobs:
         with:
           bun-version-file: package.json
       - run: bun install --frozen-lockfile
-      - run: bun audit --audit-level high
+      # GHSA-3r8g-jcqq-3p5j: SvelteKit DoS in remote-function `form` parsing; fixed only in kit 3.1.1.
+      # Not reachable here (no *.remote.ts, remote functions not enabled). Drop after the kit 3 upgrade.
+      - run: bun audit --audit-level high --ignore=GHSA-3r8g-jcqq-3p5j
