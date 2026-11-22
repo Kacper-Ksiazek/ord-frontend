@@ -105,6 +105,28 @@
 		}
 	});
 
+	// Height depends on width too (wrapping): re-measure when the textarea is resized, e.g. while a
+	// sidebar animates open on first render. Only width changes matter, so height updates don't loop.
+	$effect(() => {
+		const element = textareaElement;
+
+		if (!element || typeof window.ResizeObserver === 'undefined') {
+			return;
+		}
+
+		let lastWidth = element.clientWidth;
+		const observer = new window.ResizeObserver(() => {
+			if (element.clientWidth !== lastWidth) {
+				lastWidth = element.clientWidth;
+				adjustTextareaHeight();
+			}
+		});
+
+		observer.observe(element);
+
+		return () => observer.disconnect();
+	});
+
 	$effect(() => {
 		const limit = maxLength;
 		if (limit === undefined) return;
