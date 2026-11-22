@@ -1,0 +1,23 @@
+{
+	"page_title": "Home (v2)",
+	"recent_words_title": "Recently added words",
+	"recent_words_description": "Fresh example sentences are generated each time you open this page.",
+	"recent_words_empty": {
+		"header": "No words yet",
+		"description": "Add your first words and AI will show them in example sentences here."
+	},
+	"word_open": "Open in words",
+	"word_explain": "Explain",
+	"actions": {
+		"new_conversation_title": "New conversation",
+		"add_words_title": "Add words",
+		"words_list_title": "Your words"
+	},
+	"load_error": {
+		"header": "Could not load your recent words",
+		"try_again": "Try again"
+	},
+	"quick_actions_label": "Shortcuts",
+	"carousel_previous": "Previous words",
+	"carousel_next": "Next words"
+}
