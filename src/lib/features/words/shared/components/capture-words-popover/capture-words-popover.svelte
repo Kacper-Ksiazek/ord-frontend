@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Dialog } from 'bits-ui';
 	import { fade } from 'svelte/transition';
-	import { tick } from 'svelte';
+	import { tick, type Snippet } from 'svelte';
 	import { isAxiosError } from 'axios';
 	import {
 		ArrowLeftRight,
@@ -72,13 +72,16 @@
 		triggerVariant?: 'sidebar' | 'header-icon';
 		triggerDataTestId?: string;
 		triggerLabel?: string;
+		/** Custom trigger markup; replaces the built-in sidebar / header-icon triggers. */
+		trigger?: Snippet<[{ open: () => void }]>;
 	}
 
 	let {
 		isSidebarExpanded,
 		triggerVariant = 'sidebar',
 		triggerDataTestId = E2E_TEST_IDS.capturePopover.trigger,
-		triggerLabel
+		triggerLabel,
+		trigger
 	}: Props = $props();
 
 	const headerTriggerLabel = $derived(triggerLabel ?? m['features.words.capture-popover.title']());
@@ -572,7 +575,13 @@
 	{/if}
 {/snippet}
 
-{#if triggerVariant === 'header-icon'}
+{#if trigger}
+	{@render trigger({
+		open: () => {
+			isOpen = true;
+		}
+	})}
+{:else if triggerVariant === 'header-icon'}
 	<Button
 		type="FILLED"
 		variant="PRIMARY"

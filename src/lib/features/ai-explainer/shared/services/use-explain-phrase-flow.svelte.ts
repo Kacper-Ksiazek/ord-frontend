@@ -33,6 +33,8 @@ export const EXPLAIN_INSTRUCTION_MAX = 500;
 export type ExplainPopoverTab = 'request' | 'answer';
 export type ExplainStreamTarget = 'explanation' | 'simpler' | 'examples' | 'similar';
 
+export type ExplainPhraseFlow = ReturnType<typeof useExplainPhraseFlow>;
+
 export function useExplainPhraseFlow() {
 	const textStream = useTextStreamSubscription();
 	const createWordsMutation = createCreateWordsMutation();
@@ -44,6 +46,8 @@ export function useExplainPhraseFlow() {
 	let context = $state('');
 	let customInstruction = $state('');
 	let streamedText = $state('');
+	/** Phrase the current answer is about; stays fixed while the user edits the input. */
+	let explainedPhrase = $state('');
 	let simplerText = $state('');
 	let extraExamplesRaw = $state('');
 	let similarRaw = $state('');
@@ -58,14 +62,16 @@ export function useExplainPhraseFlow() {
 
 	const isStreaming = $derived(textStream.isStreaming);
 	const streamExamplesFinalized = $derived(!isStreaming);
-	const view = $derived(splitExplainerStream(streamedText, streamExamplesFinalized));
+	/** A section is finished unless it is the one currently streaming (a follow-up must not reopen the explanation). */
+	const isTargetFinalized = (target: ExplainStreamTarget) => !isStreaming || streamTarget !== target;
+	const view = $derived(splitExplainerStream(streamedText, isTargetFinalized('explanation')));
 	const extraExamples = $derived(
 		parseAdditionalExamples(extraExamplesRaw, view.examples, {
-			finalize: streamExamplesFinalized
+			finalize: isTargetFinalized('examples')
 		})
 	);
 	const similarView = $derived(
-		parseSimilarExpressions(similarRaw, { finalize: streamExamplesFinalized })
+		parseSimilarExpressions(similarRaw, { finalize: isTargetFinalized('similar') })
 	);
 	const similarLookupPhrases = $derived(
 		similarView.items.map((item) => item.phrase.trim()).filter((value) => value.length > 0)
@@ -363,6 +369,7 @@ export function useExplainPhraseFlow() {
 		context = '';
 		customInstruction = '';
 		streamedText = '';
+		explainedPhrase = '';
 		clearFollowUps();
 		errorMessage = null;
 		language = authStore.user?.selectedLearningLanguage ?? 'ENGLISH';
@@ -395,10 +402,11 @@ export function useExplainPhraseFlow() {
 		}
 
 		activeTab = 'answer';
+		explainedPhrase = phrase.trim();
 
 		startStream(
 			httpPostExplainPhrase({
-				phrase: phrase.trim(),
+				phrase: explainedPhrase,
 				language,
 				context: emptyToNull(context),
 				customInstruction: emptyToNull(customInstruction)
@@ -419,7 +427,7 @@ export function useExplainPhraseFlow() {
 
 		startStream(
 			httpPostExplainPhraseFollowUp({
-				phrase: phrase.trim(),
+				phrase: explainedPhrase,
 				language,
 				previousExplanation: streamedText,
 				action,
@@ -475,6 +483,9 @@ export function useExplainPhraseFlow() {
 		get streamedText() {
 			return streamedText;
 		},
+		get explainedPhrase() {
+			return explainedPhrase;
+		},
 		get simplerText() {
 			return simplerText;
 		},
@@ -496,9 +507,15 @@ export function useExplainPhraseFlow() {
 		set requestFormAdvanced(next) {
 			requestFormAdvanced = next;
 		},
-		savingSimilarKey,
-		definedSourceWords,
-		definedLookupReady,
+		get savingSimilarKey() {
+			return savingSimilarKey;
+		},
+		get definedSourceWords() {
+			return definedSourceWords;
+		},
+		get definedLookupReady() {
+			return definedLookupReady;
+		},
 		get isStreaming() {
 			return isStreaming;
 		},

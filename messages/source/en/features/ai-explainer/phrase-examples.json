@@ -1,0 +1,5 @@
+{
+	"label": "AI examples",
+	"regenerate": "Generate new examples for “{word}”",
+	"error": "Could not generate examples right now. Try again in a moment."
+}

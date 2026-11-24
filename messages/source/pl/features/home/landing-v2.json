@@ -1,0 +1,23 @@
+{
+	"page_title": "Start (v2)",
+	"recent_words_title": "Ostatnio dodane słówka",
+	"recent_words_description": "Przy każdym wejściu na stronę generujemy nowe przykładowe zdania.",
+	"recent_words_empty": {
+		"header": "Nie masz jeszcze słówek",
+		"description": "Dodaj pierwsze słówka, a AI pokaże je tutaj w przykładowych zdaniach."
+	},
+	"word_open": "Otwórz w słówkach",
+	"word_explain": "Wyjaśnij",
+	"actions": {
+		"new_conversation_title": "Nowa konwersacja",
+		"add_words_title": "Dodaj słówka",
+		"words_list_title": "Twoje słówka"
+	},
+	"load_error": {
+		"header": "Nie udało się wczytać ostatnich słówek",
+		"try_again": "Spróbuj ponownie"
+	},
+	"quick_actions_label": "Skróty",
+	"carousel_previous": "Poprzednie słówka",
+	"carousel_next": "Następne słówka"
+}

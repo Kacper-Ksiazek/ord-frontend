@@ -43,3 +43,25 @@ export type ExplainPhraseFollowUpRequest = FromSchema<
 	'ExplainPhraseFollowUpRequest',
 	ExplainPhraseFollowUpRequestFallback
 >;
+
+/** Mirrors ExplainPhraseAutocompleteRequest until `@kacper-ksiazek/ord-api-types` publishes it. */
+type ExplainPhraseAutocompleteRequestFallback = {
+	prefix: string;
+	language: LanguageName;
+};
+
+export type ExplainPhraseAutocompleteRequest = FromSchema<
+	'ExplainPhraseAutocompleteRequest',
+	ExplainPhraseAutocompleteRequestFallback
+>;
+
+/** Mirrors ExplainPhraseAutocompleteResponse until `@kacper-ksiazek/ord-api-types` publishes it. */
+type ExplainPhraseAutocompleteResponseFallback = {
+	/** Text to append after the prefix as-is (may start with a space); empty when there is no suggestion. */
+	completion: string;
+};
+
+export type ExplainPhraseAutocompleteResponse = FromSchema<
+	'ExplainPhraseAutocompleteResponse',
+	ExplainPhraseAutocompleteResponseFallback
+>;
