@@ -44,7 +44,7 @@
 					? hotkeyClass
 					: cn(
 							'size-5 rounded-md flex items-center justify-center font-light leading-none border border-current/50',
-							'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100',
+							'bg-accent-soft text-ink',
 							disabled && 'opacity-50'
 						),
 				isCharacterALetterOrNumber(part) ? 'text-xs' : 'text-lg'

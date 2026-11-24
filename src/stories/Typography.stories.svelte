@@ -19,33 +19,23 @@
 		<div>
 			<h2 class="heading-3 mb-6">Headings</h2>
 			<div class="space-y-4">
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.heading-1</code>
 					<h1 class="heading-1">Heading 1 - Main Title</h1>
 				</div>
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.heading-2</code>
 					<h2 class="heading-2">Heading 2 - Section Title</h2>
 				</div>
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.heading-3</code>
 					<h3 class="heading-3">Heading 3 - Subsection Title</h3>
 				</div>
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.heading-4</code>
 					<h4 class="heading-4">Heading 4 - Card Title</h4>
 				</div>
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.heading-5</code>
 					<h5 class="heading-5">Heading 5 - Small Heading</h5>
 				</div>
@@ -60,27 +50,19 @@
 		<div>
 			<h2 class="heading-3 mb-6">Body Text</h2>
 			<div class="space-y-4">
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.body-large</code>
 					<p class="body-large">Large body text for important paragraphs</p>
 				</div>
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.body</code>
 					<p class="body">Regular body text for standard content</p>
 				</div>
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.body-small</code>
 					<p class="body-small">Small body text for secondary content</p>
 				</div>
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.body-xs</code>
 					<span class="body-xs">Extra small text for fine print</span>
 				</div>
@@ -101,15 +83,11 @@
 		<div>
 			<h2 class="heading-3 mb-6">Labels</h2>
 			<div class="space-y-4">
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.label</code>
 					<span class="label">Form Label</span>
 				</div>
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.label-small</code>
 					<span class="label-small">Small Label</span>
 				</div>
@@ -124,9 +102,7 @@
 		<div>
 			<h2 class="heading-3 mb-6">Captions & Helper Text</h2>
 			<div class="space-y-4">
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.caption</code>
 					<p class="caption">Helper text or caption</p>
 				</div>
@@ -141,15 +117,11 @@
 		<div>
 			<h2 class="heading-3 mb-6">Muted Text</h2>
 			<div class="space-y-4">
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.text-muted</code>
 					<p class="text-muted">Muted text with standard size</p>
 				</div>
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.text-muted-small</code>
 					<p class="text-muted-small">Small muted text</p>
 				</div>
@@ -164,9 +136,7 @@
 		<div>
 			<h2 class="heading-3 mb-6">Emphasis</h2>
 			<div class="space-y-4">
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.text-emphasis</code>
 					<p class="body">
 						Regular text with <span class="text-emphasis">emphasized text</span> inline
@@ -185,9 +155,7 @@
 		<div>
 			<h2 class="heading-3 mb-6">Links</h2>
 			<div class="space-y-4">
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.link</code>
 					<p class="body">
 						This is a
@@ -214,21 +182,15 @@
 		<div>
 			<h2 class="heading-3 mb-6">State Colors</h2>
 			<div class="space-y-4">
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.text-error</code>
 					<p class="body text-error">Error message text</p>
 				</div>
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.text-success</code>
 					<p class="body text-success">Success message text</p>
 				</div>
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.text-warning</code>
 					<p class="body text-warning">Warning message text</p>
 				</div>
@@ -243,34 +205,28 @@
 		<div>
 			<h2 class="heading-3 mb-6">Contextual Text</h2>
 			<div class="space-y-4">
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.stat-value</code>
 					<div class="flex items-center gap-3">
-						<div
-							class="px-3 py-1.5 rounded-lg bg-red-50 dark:bg-red-900/10 border border-red-200 dark:border-red-800"
-						>
+						<div class="px-3 py-1.5 rounded-lg border border-danger/20 bg-danger/10">
 							<span class="stat-value">12</span>
 						</div>
 						<span class="caption">Count badge on colored surface</span>
 					</div>
 				</div>
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.table-header</code>
-					<div class="px-4 py-2 bg-gray-50 dark:bg-gray-700 rounded">
+					<div class="rounded bg-accent-soft px-4 py-2">
 						<span class="table-header">Column Header</span>
 					</div>
 				</div>
 				<div class="grid grid-cols-2 gap-6 items-center">
 					<code class="code text-sm">.text-on-color</code>
 					<div class="flex items-center gap-3">
-						<div class="w-8 h-8 rounded-sm flex items-center justify-center bg-green-500">
+						<div class="w-8 h-8 rounded-sm flex items-center justify-center bg-score-high">
 							<span class="text-sm text-on-color">8</span>
 						</div>
-						<div class="w-8 h-8 rounded-sm flex items-center justify-center bg-red-500">
+						<div class="w-8 h-8 rounded-sm flex items-center justify-center bg-score-low">
 							<span class="text-sm text-on-color">3</span>
 						</div>
 						<span class="caption">Score boxes on colored backgrounds</span>
@@ -283,17 +239,13 @@
 		<div>
 			<h2 class="heading-3 mb-6">Code & Utilities</h2>
 			<div class="space-y-4">
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.code</code>
 					<p class="body">
 						Use the <code class="code">code</code> class for inline code snippets
 					</p>
 				</div>
-				<div
-					class="grid grid-cols-2 gap-6 items-center border-b border-gray-200 dark:border-gray-700 pb-4"
-				>
+				<div class="grid grid-cols-2 gap-6 items-center border-b border-line pb-4">
 					<code class="code text-sm">.text-truncate</code>
 					<p class="body text-truncate" style="max-width: 200px">
 						This text will be truncated if it's too long to fit in the container

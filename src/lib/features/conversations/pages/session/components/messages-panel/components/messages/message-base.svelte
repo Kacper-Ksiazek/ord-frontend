@@ -51,7 +51,7 @@
 		{#if content || footer}
 			<div
 				class={cn(
-					'min-w-[68px] overflow-hidden rounded-[10px] border border-line bg-surface text-ink',
+					'min-w-[68px] overflow-hidden rounded-control border border-line bg-surface text-ink',
 					messageClass
 				)}
 			>

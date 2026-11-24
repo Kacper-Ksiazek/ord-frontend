@@ -24,7 +24,7 @@
 
 	const baseClasses = $derived.by(() =>
 		cn(
-			'px-2.5 h-[40px] rounded-[10px] border flex items-center justify-center w-[40px] p-0',
+			'px-2.5 h-[40px] rounded-full border flex items-center justify-center w-[40px] p-0 transition-[background-color,border-color,color,opacity] duration-150',
 			disabled && 'cursor-not-allowed opacity-50',
 			!disabled && 'cursor-pointer'
 		)

@@ -70,7 +70,7 @@
 	<li class="list-none">
 		<div
 			class={cn(
-				'flex w-full items-stretch gap-2 rounded-[10px] border border-line bg-surface transition-colors',
+				'flex w-full items-stretch gap-2 rounded-control border border-line bg-surface transition-colors',
 				isDetailPanelOpen ? 'px-3 py-2.5' : 'px-3 py-3',
 				isDetailSelected(itemId) ? 'bg-highlight/35' : 'hover:bg-accent-soft'
 			)}

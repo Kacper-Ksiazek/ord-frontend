@@ -41,7 +41,7 @@
 </script>
 
 <div class="flex h-full min-h-0 flex-col overflow-y-auto">
-	<p class="mb-4 shrink-0 text-sm text-gray-500 dark:text-gray-400">
+	<p class="mb-4 shrink-0 text-sm text-ink-muted">
 		{m['features.conversation.create.step-2.description']()}
 	</p>
 

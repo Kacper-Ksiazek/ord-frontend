@@ -26,7 +26,7 @@
 		<div class="h-6 w-32 max-w-full animate-pulse rounded-md bg-accent-soft"></div>
 	</div>
 
-	<div class="overflow-x-auto rounded-[10px] border border-line bg-surface p-4">
+	<div class="overflow-x-auto rounded-control border border-line bg-surface p-4">
 		<div class="flex w-max max-w-full items-start gap-2">
 			<div class="flex shrink-0 flex-col gap-1" aria-hidden="true">
 				<div class="h-[15px]"></div>

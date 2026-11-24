@@ -59,7 +59,7 @@
 		</h2>
 	</div>
 
-	<div class="overflow-x-auto rounded-[10px] border border-line bg-surface p-4">
+	<div class="overflow-x-auto rounded-control border border-line bg-surface p-4">
 		<div
 			class="flex w-max max-w-full items-start gap-2"
 			role="grid"

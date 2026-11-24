@@ -39,7 +39,7 @@
 <div
 	data-testid={E2E_TEST_IDS.session.messageComposer}
 	class={cn(
-		'flex shrink-0 items-center gap-2 rounded-[10px] w-full mb-2 px-4 py-2 min-h-10',
+		'flex shrink-0 items-center gap-2 rounded-control w-full mb-2 px-4 py-2 min-h-10',
 		messagesMaxWidth,
 		'mx-auto',
 		'border border-line bg-surface',

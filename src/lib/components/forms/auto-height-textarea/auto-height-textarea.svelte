@@ -132,13 +132,13 @@
 			cn(
 				getOutlinedInputFieldClasses(appearanceVariant, disabled, false),
 				disabled && 'cursor-not-allowed opacity-50',
-				'form-input-text flex min-h-[40px] w-full rounded-[10px] border px-2.5 text-sm text-ink',
+				'form-input-text flex min-h-[40px] w-full rounded-control border px-2.5 text-sm text-ink',
 				isSingleRowFormField ? 'items-center' : 'items-start'
 			),
 		!formField && [
 			'border-none bg-transparent hover:bg-transparent focus:bg-transparent',
 			'focus:border-none focus:outline-none focus:ring-0',
-			'placeholder:text-gray-500/90 dark:placeholder:text-gray-400/80',
+			'placeholder:text-ink-subtle',
 			'custom-scrollbar'
 		],
 		className
@@ -162,7 +162,7 @@
 			'custom-scrollbar',
 			formField
 				? 'min-h-[20px] border-0 bg-transparent p-0 py-2.5 leading-5 shadow-none ring-0 hover:bg-transparent focus:bg-transparent focus:outline-none focus:ring-0 placeholder:font-normal placeholder:text-ink-subtle'
-				: 'rounded-lg border-none bg-transparent px-3 py-1.5 hover:bg-transparent focus:bg-transparent focus:border-none focus:outline-none focus:ring-0 placeholder:text-gray-500/90 dark:placeholder:text-gray-400/80',
+				: 'rounded-lg border-none bg-transparent px-3 py-1.5 hover:bg-transparent focus:bg-transparent focus:border-none focus:outline-none focus:ring-0 placeholder:text-ink-subtle',
 			formField && 'text-sm font-medium text-ink',
 			textareaClass,
 			!formField &&

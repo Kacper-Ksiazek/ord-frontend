@@ -56,7 +56,7 @@
 		'analysis-card-container relative group/advice-card',
 		isExpandable
 			? cn(
-					'expandable cursor-pointer rounded-[10px] border p-3 transition-all',
+					'expandable cursor-pointer rounded-control border p-3 transition-all',
 					baseTheme.adviceCardBg,
 					baseTheme.adviceCardBorder,
 					baseTheme.adviceCardHover

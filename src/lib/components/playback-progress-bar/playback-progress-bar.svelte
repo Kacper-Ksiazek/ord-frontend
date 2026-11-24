@@ -12,7 +12,7 @@
 		currentTime,
 		duration,
 		barClass = 'h-1.5',
-		timeClass = 'text-xs text-gray-500 dark:text-gray-400'
+		timeClass = 'text-xs text-ink-muted'
 	}: PlaybackProgressBarProps = $props();
 
 	const progressPercent = $derived(duration > 0 ? Math.min(100, (currentTime / duration) * 100) : 0);
@@ -20,7 +20,7 @@
 
 <div class="flex flex-col gap-2" aria-live="polite">
 	<div
-		class="{barClass} overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700"
+		class="{barClass} overflow-hidden rounded-full bg-line"
 		role="progressbar"
 		aria-valuemin="0"
 		aria-valuemax={duration}

@@ -20,7 +20,7 @@
 	class="flex h-full min-h-0 w-full flex-col gap-3 overflow-y-auto md:gap-4"
 	data-testid={E2E_TEST_IDS.createConversation.stepSummary}
 >
-	<p class="shrink-0 text-sm text-gray-500 dark:text-gray-400">
+	<p class="shrink-0 text-sm text-ink-muted">
 		{m['features.conversation.create.step-4.description']()}
 	</p>
 
@@ -35,7 +35,7 @@
 
 		<div class="flex min-h-0 min-w-0 w-full flex-1 flex-col gap-3 md:gap-4">
 			<h2
-				class="shrink-0 border-b border-gray-200 pb-2 text-xs font-semibold uppercase tracking-wider text-gray-500 dark:border-gray-700 dark:text-gray-400"
+				class="shrink-0 border-b border-line pb-2 text-xs font-semibold uppercase tracking-wider text-ink-muted"
 			>
 				{m['features.conversation.create.step-4.details_section.title']()}
 			</h2>
@@ -48,10 +48,10 @@
 				>
 					<div class="flex items-start justify-between gap-3">
 						<div class="flex min-w-0 flex-1 flex-col gap-0.5">
-							<p class="text-xs text-gray-500 dark:text-gray-400">
+							<p class="text-xs text-ink-muted">
 								{m['features.conversation.create.step-4.selected_topic.label']()}
 							</p>
-							<p class="text-base font-semibold text-gray-900 dark:text-gray-50">{payload.topic}</p>
+							<p class="text-base font-semibold text-ink">{payload.topic}</p>
 						</div>
 						<IconButton
 							icon={Pencil}

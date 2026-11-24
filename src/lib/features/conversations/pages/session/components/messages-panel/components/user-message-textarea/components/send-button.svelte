@@ -17,7 +17,7 @@
 	type="button"
 	data-testid={E2E_TEST_IDS.session.sendButton}
 	class={cn(
-		'flex h-8 w-8 shrink-0 items-center justify-center rounded-[10px] bg-transparent p-0 transition-colors',
+		'flex h-8 w-8 shrink-0 items-center justify-center rounded-control bg-transparent p-0 transition-colors',
 		disabled && 'cursor-not-allowed opacity-30',
 		pending && 'cursor-wait',
 		!disabled && 'hover:bg-accent-soft'

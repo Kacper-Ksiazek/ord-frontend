@@ -9,7 +9,7 @@
 	const { children }: Props = $props();
 </script>
 
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors p-6">
+<div class="min-h-screen bg-canvas p-6">
 	<header class="fixed top-4 right-4 z-10">
 		<ThemeSwitcher />
 	</header>

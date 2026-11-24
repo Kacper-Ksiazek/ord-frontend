@@ -17,9 +17,7 @@
 
 <Story name="Default">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-			Default IconCard (Primary)
-		</h3>
+		<h3 class="text-lg font-semibold mb-4 text-ink">Default IconCard (Primary)</h3>
 		<IconCard title="Total" value={42} class="min-w-[260px]">
 			{#snippet icon({ className })}
 				<SigmaIcon class={className} />
@@ -30,7 +28,7 @@
 
 <Story name="Variants">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">All Variants</h3>
+		<h3 class="text-lg font-semibold mb-4 text-ink">All Variants</h3>
 		<div class="grid grid-cols-[repeat(3,260px)] gap-4">
 			<IconCard title="Neutral" value={75} variant="neutral">
 				{#snippet icon({ className })}
@@ -79,10 +77,8 @@
 
 <Story name="Active/Inactive Toggle">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-			Toggle Active State (Click cards to toggle)
-		</h3>
-		<p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+		<h3 class="text-lg font-semibold mb-4 text-ink">Toggle Active State (Click cards to toggle)</h3>
+		<p class="text-sm text-ink-muted mb-4">
 			Active card: <strong>{activeCard || 'None'}</strong>
 		</p>
 		<div class="grid grid-cols-[repeat(3,260px)] gap-4">
@@ -163,7 +159,7 @@
 
 <Story name="String Values">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">String Values</h3>
+		<h3 class="text-lg font-semibold mb-4 text-ink">String Values</h3>
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 			<IconCard title="Status" value="Active" variant="green" class="min-w-[260px]">
 				{#snippet icon({ className })}
@@ -181,7 +177,7 @@
 
 <Story name="Custom Classes">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">With Custom Classes</h3>
+		<h3 class="text-lg font-semibold mb-4 text-ink">With Custom Classes</h3>
 		<div class="grid grid-cols-[repeat(3,260px)] gap-4">
 			<IconCard title="Wide Card" value={123} variant="purple" class="min-w-[260px] w-full max-w-md">
 				{#snippet icon({ className })}
@@ -199,7 +195,7 @@
 
 <Story name="Grid Layout">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Grid Layout Example</h3>
+		<h3 class="text-lg font-semibold mb-4 text-ink">Grid Layout Example</h3>
 		<div class="grid grid-cols-[repeat(3,260px)] gap-4">
 			<IconCard title="Total Users" value={1250} variant="primary" class="min-w-[260px]">
 				{#snippet icon({ className })}

@@ -21,7 +21,7 @@
 
 <Story name="Default">
 	<div class="flex flex-col gap-6 items-start max-w-2xl">
-		<p class="text-sm text-gray-600 dark:text-gray-400">
+		<p class="text-sm text-ink-muted">
 			Each badge uses a different shortcut so they do not conflict in Storybook. Open the Actions panel
 			or use the log below when a shortcut fires.
 		</p>
@@ -31,10 +31,8 @@
 			hotkey: RegisterableHotkey,
 			opts?: { disabled?: boolean; onActivate?: () => void }
 		)}
-			<div
-				class="flex items-center gap-2 rounded-lg border border-gray-200 dark:border-gray-600 px-3 py-2 bg-white dark:bg-gray-800"
-			>
-				<span class="text-sm text-gray-800 dark:text-gray-100">{label}</span>
+			<div class="flex items-center gap-2 rounded-lg border border-line px-3 py-2 bg-surface">
+				<span class="text-sm text-ink">{label}</span>
 
 				<HotkeyKbd {hotkey} disabled={opts?.disabled} onActivate={opts?.onActivate} />
 			</div>
@@ -51,7 +49,7 @@
 		</div>
 
 		{#if log.length > 0}
-			<div class="text-xs font-mono text-gray-600 dark:text-gray-400 w-full">
+			<div class="text-xs font-mono text-ink-muted w-full">
 				<p class="font-semibold mb-1">Last activations (newest last):</p>
 				<ul class="list-disc pl-4">
 					{#each log as line (line)}

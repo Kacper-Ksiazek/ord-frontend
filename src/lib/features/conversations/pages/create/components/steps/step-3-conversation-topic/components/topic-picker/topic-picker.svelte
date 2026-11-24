@@ -86,7 +86,7 @@
 					{#if !hasSuggestedTopics}
 						<StatusPanel
 							variant="information"
-							class="w-full shrink-0 rounded-[10px] border border-dashed border-line bg-surface py-10"
+							class="w-full shrink-0 rounded-control border border-dashed border-line bg-surface py-10"
 							header={m['features.conversation.create.step-3.topic_picker.no_topic_selected']()}
 							description={m['features.conversation.create.step-3.description']()}
 							descriptionClass="content-long"
@@ -115,7 +115,7 @@
 
 								{#if amountOfSkeletons > 0}
 									{#each Array.from({ length: amountOfSkeletons })}
-										<Skeleton class="h-[3.75rem] shrink-0 rounded-[10px]" />
+										<Skeleton class="h-[3.75rem] shrink-0 rounded-control" />
 									{/each}
 								{/if}
 							</ScrollableWrapper>
@@ -132,7 +132,7 @@
 					{#if topicBuckets.pinned.length === 0}
 						<StatusPanel
 							variant="information"
-							class="w-full shrink-0 rounded-[10px] border border-dashed border-line bg-surface py-10"
+							class="w-full shrink-0 rounded-control border border-dashed border-line bg-surface py-10"
 							header={m['features.conversation.create.step-3.topic_picker.saved_empty.header']()}
 							description={m['features.conversation.create.step-3.topic_picker.saved_empty.description']()}
 							descriptionClass="content-long"

@@ -9,7 +9,7 @@
 
 <section
 	class={cn(
-		'rounded-[10px] border border-dashed border-line-subtle bg-accent-soft/30 px-4 py-4',
+		'rounded-control border border-dashed border-line-subtle bg-accent-soft/30 px-4 py-4',
 		'flex min-h-0 flex-1 flex-col gap-3'
 	)}
 	aria-label={m['features.conversation.session.summary.verdict.placeholder.aria_label']()}

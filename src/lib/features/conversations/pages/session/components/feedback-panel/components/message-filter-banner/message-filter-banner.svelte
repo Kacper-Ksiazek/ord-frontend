@@ -33,7 +33,7 @@
 
 {#if filterIndex != null && filteredPreview}
 	<div
-		class="mb-4 flex items-start gap-3 rounded-[10px] border border-line-subtle bg-accent-soft/40 px-3 py-2.5"
+		class="mb-4 flex items-start gap-3 rounded-control border border-line-subtle bg-accent-soft/40 px-3 py-2.5"
 		role="status"
 	>
 		<div class="min-w-0 flex-1">

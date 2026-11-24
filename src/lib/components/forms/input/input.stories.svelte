@@ -37,18 +37,16 @@
 <Story name="Default">
 	<div class="w-full max-w-5xl space-y-10 text-left">
 		<div>
-			<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Basic input</h3>
+			<h3 class="text-lg font-semibold mb-4 text-ink">Basic input</h3>
 			<Input bind:value={basicValue} placeholder="Enter text..." ariaLabel="Basic input" />
-			<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+			<p class="mt-2 text-sm text-ink-muted">
 				Value: <strong>{basicValue || '(empty)'}</strong>
 			</p>
 		</div>
 
 		<div>
-			<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-				Outlined variants (inputs are outlined-only)
-			</h3>
-			<p class="mb-4 text-sm text-gray-600 dark:text-gray-400">
+			<h3 class="text-lg font-semibold mb-4 text-ink">Outlined variants (inputs are outlined-only)</h3>
+			<p class="mb-4 text-sm text-ink-muted">
 				Normal and disabled cells show a document hotkey on the right (<code class="text-xs"
 					>Mod+Alt+1</code
 				>
@@ -56,10 +54,10 @@
 			</p>
 			<div class="grid grid-cols-4 gap-x-4 gap-y-3 items-center text-sm">
 				{#snippet colHeader(text: string)}
-					<div class="font-medium text-gray-600 dark:text-gray-400">{text}</div>
+					<div class="font-medium text-ink-muted">{text}</div>
 				{/snippet}
 				{#snippet rowLabel(text: string)}
-					<div class="font-medium text-gray-700 dark:text-gray-300">{text}</div>
+					<div class="font-medium text-ink-body">{text}</div>
 				{/snippet}
 
 				<div></div>
@@ -151,14 +149,14 @@
 
 <Story name="With Left Adornment">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Input with Left Icon</h3>
+		<h3 class="text-lg font-semibold mb-4 text-ink">Input with Left Icon</h3>
 		<Input
 			bind:value={searchValue}
 			placeholder="Search..."
 			leftAdornment={Search}
 			ariaLabel="Search input"
 		/>
-		<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+		<p class="mt-2 text-sm text-ink-muted">
 			Value: <strong>{searchValue || '(empty)'}</strong>
 		</p>
 	</div>
@@ -166,7 +164,7 @@
 
 <Story name="With Right Adornment">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Input with Right Icon</h3>
+		<h3 class="text-lg font-semibold mb-4 text-ink">Input with Right Icon</h3>
 		<Input
 			bind:value={emailValue}
 			type="email"
@@ -174,7 +172,7 @@
 			rightAdornment={Mail}
 			ariaLabel="Email input"
 		/>
-		<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+		<p class="mt-2 text-sm text-ink-muted">
 			Value: <strong>{emailValue || '(empty)'}</strong>
 		</p>
 	</div>
@@ -182,7 +180,7 @@
 
 <Story name="With Both Adornments">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Input with Both Icons</h3>
+		<h3 class="text-lg font-semibold mb-4 text-ink">Input with Both Icons</h3>
 		<Input
 			bind:value={passwordValue}
 			type={showPassword ? 'text' : 'password'}
@@ -198,7 +196,7 @@
 		>
 			Toggle password visibility
 		</button>
-		<p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+		<p class="mt-2 text-sm text-ink-muted">
 			Value: <strong>{passwordValue || '(empty)'}</strong>
 		</p>
 	</div>
@@ -206,10 +204,10 @@
 
 <Story name="Input Types">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Different Input Types</h3>
+		<h3 class="text-lg font-semibold mb-4 text-ink">Different Input Types</h3>
 		<div class="space-y-4">
 			<label class="block">
-				<span class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Email</span>
+				<span class="block text-sm font-medium mb-2 text-ink-body">Email</span>
 				<Input
 					bind:value={emailValue}
 					type="email"
@@ -219,7 +217,7 @@
 				/>
 			</label>
 			<label class="block">
-				<span class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Number</span>
+				<span class="block text-sm font-medium mb-2 text-ink-body">Number</span>
 				<Input
 					bind:value={numberValue}
 					type="number"
@@ -228,7 +226,7 @@
 				/>
 			</label>
 			<label class="block">
-				<span class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Phone</span>
+				<span class="block text-sm font-medium mb-2 text-ink-body">Phone</span>
 				<Input
 					bind:value={telValue}
 					type="tel"
@@ -243,10 +241,10 @@
 
 <Story name="States">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Input States</h3>
+		<h3 class="text-lg font-semibold mb-4 text-ink">Input States</h3>
 		<div class="space-y-4">
 			<label class="block">
-				<span class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Disabled</span>
+				<span class="block text-sm font-medium mb-2 text-ink-body">Disabled</span>
 				<Input
 					bind:value={disabledValue}
 					placeholder="Disabled input"
@@ -256,7 +254,7 @@
 				/>
 			</label>
 			<label class="block">
-				<span class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Readonly</span>
+				<span class="block text-sm font-medium mb-2 text-ink-body">Readonly</span>
 				<Input
 					bind:value={readonlyValue}
 					placeholder="Readonly input"
@@ -266,7 +264,7 @@
 				/>
 			</label>
 			<label class="block">
-				<span class="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Normal</span>
+				<span class="block text-sm font-medium mb-2 text-ink-body">Normal</span>
 				<Input
 					bind:value={basicValue}
 					placeholder="Normal input"

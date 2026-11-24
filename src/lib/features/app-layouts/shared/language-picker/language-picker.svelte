@@ -29,7 +29,7 @@
 
 <DropdownMenu.Root>
 	<DropdownMenu.Trigger
-		class="flex items-center gap-1.5 rounded-[10px] border border-line bg-surface p-2.5 text-ink
+		class="flex items-center gap-1.5 rounded-control border border-line bg-surface p-2.5 text-ink
 			hover:bg-accent-soft focus:outline-none focus-visible:ring-2 focus-visible:ring-ink/20"
 		aria-label="Change language"
 	>

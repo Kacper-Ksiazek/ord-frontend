@@ -59,11 +59,11 @@
 	<!-- Step Indicator -->
 	<div class="flex flex-col gap-2">
 		<div class="flex flex-col gap-2">
-			<h2 class="text-2xl font-bold text-gray-700 dark:text-gray-300">
+			<h2 class="text-2xl font-bold text-ink-body">
 				{steps[currentStep].header}
 			</h2>
 
-			<span class="text-sm font-light text-gray-500 dark:text-gray-300">
+			<span class="text-sm font-light text-ink-muted">
 				{m['components.utils.multi-step-form.step_indicator']({
 					current: currentStep + 1,
 					total: totalSteps
@@ -86,7 +86,7 @@
 						isActive && 'h-2.5 bg-primary-600 dark:bg-primary-500',
 						!isActive && 'h-2',
 						isCompleted && 'bg-primary-200 dark:bg-primary-800',
-						!isActive && !isCompleted && 'bg-gray-300 dark:bg-gray-600'
+						!isActive && !isCompleted && 'bg-line'
 					)}
 					style="width: {100 / totalSteps}%"
 					aria-label={m['components.utils.multi-step-form.step_label']({

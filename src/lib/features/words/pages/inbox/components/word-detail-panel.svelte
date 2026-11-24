@@ -170,10 +170,10 @@
 >
 	{#if wordDetailContext.selectedWordId}
 		<div
-			class="flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden rounded-[10px] border border-line bg-surface"
+			class="flex h-full min-h-0 w-full min-w-0 flex-col overflow-hidden rounded-control border border-line bg-surface"
 		>
 			<div
-				class="flex w-full shrink-0 items-start justify-between gap-3 rounded-t-[10px] border-b border-line bg-surface px-6 py-5"
+				class="flex w-full shrink-0 items-start justify-between gap-3 rounded-t-control border-b border-line bg-surface px-6 py-5"
 			>
 				<div class="min-w-0 flex-1">
 					<p class="text-xs font-medium uppercase tracking-wide text-ink-subtle">
@@ -218,7 +218,7 @@
 						<div class="mt-1 flex flex-col gap-2.5">
 							<div class="flex items-center gap-2">
 								<Skeleton class="h-8 w-44 rounded-lg bg-accent-soft" />
-								<Skeleton class="h-6 w-14 rounded-[10px] bg-accent-soft" />
+								<Skeleton class="h-6 w-14 rounded-control bg-accent-soft" />
 							</div>
 							<Skeleton class="h-5 w-36 rounded-lg bg-accent-soft" />
 						</div>
@@ -270,7 +270,7 @@
 								{/if}
 								{#if word.bank?.name}
 									<span
-										class="inline-flex items-center gap-1.5 rounded-[10px] bg-accent-soft px-2 py-0.5 text-xs font-medium text-ink-muted"
+										class="inline-flex items-center gap-1.5 rounded-control bg-accent-soft px-2 py-0.5 text-xs font-medium text-ink-muted"
 									>
 										<BankGroupColorDot color={word.bank.bankGroup?.color} />
 										{word.bank.name}

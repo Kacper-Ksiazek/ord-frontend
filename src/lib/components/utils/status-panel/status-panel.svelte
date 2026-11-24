@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { cn } from '$lib/utils/cn';
-	import { ServerCrash, Info, CircleCheck } from 'lucide-svelte';
+	import { Check, type Icon, Info, ServerCrash } from 'lucide-svelte';
+	import { introStagger } from '$lib/attachments';
 	import { Button } from '$lib/components/buttons/button';
+	import { cn } from '$lib/utils/cn';
 	import type { StatusButtonProps, StatusPanelVariant } from './status-panel.types';
 
 	interface Props {
@@ -13,6 +14,8 @@
 		descriptionClass?: string;
 		primaryButton?: StatusButtonProps;
 		secondaryButton?: StatusButtonProps;
+		/** Staggered fade-in of icon, copy and actions (e.g. inside popovers). */
+		animateIn?: boolean;
 		class?: string;
 	}
 
@@ -24,78 +27,73 @@
 		descriptionClass = '',
 		primaryButton,
 		secondaryButton,
+		animateIn = false,
 		class: customClass = ''
 	}: Props = $props();
 
-	const iconContainerClass = $derived(
-		variant === 'error'
-			? 'bg-danger/10'
-			: variant === 'information'
-				? 'bg-accent-soft'
-				: 'bg-score-high-soft'
-	);
+	interface VariantTone {
+		icon: typeof Icon;
+		/** Quiet tinted tile behind the icon: 10% fill plus a hairline ring */
+		tile: string;
+		iconColor: string;
+	}
 
-	const iconClass = $derived(
-		variant === 'error'
-			? 'w-8 h-8 text-danger'
-			: variant === 'information'
-				? 'w-8 h-8 text-ink-muted'
-				: 'w-8 h-8 text-score-high'
-	);
+	const tones: Record<StatusPanelVariant, VariantTone> = {
+		error: {
+			icon: ServerCrash,
+			tile: 'bg-danger/10 ring-danger/20',
+			iconColor: 'text-danger'
+		},
+		information: {
+			icon: Info,
+			tile: 'bg-accent-soft ring-line',
+			iconColor: 'text-ink-muted'
+		},
+		success: {
+			icon: Check,
+			tile: 'bg-score-high/10 ring-score-high/25',
+			iconColor: 'text-score-high'
+		}
+	};
 
-	// Primary button uses FILLED with a variant-matched color.
-	// 'success' has no native green ButtonVariant, so we override via class.
-	const primaryButtonVariant = $derived(variant === 'error' ? 'DELETE' : 'PRIMARY');
-
-	const primaryButtonClass = $derived(
-		variant === 'success'
-			? cn(
-					'border-score-high bg-score-high hover:opacity-90',
-					'focus:ring-score-high/30',
-					primaryButton?.class
-				)
-			: (primaryButton?.class ?? '')
-	);
+	const tone = $derived(tones[variant]);
+	const intro = $derived(animateIn ? introStagger({ startDelay: 0, interval: 0.08 }) : undefined);
+	const introAttr = $derived(animateIn ? '' : undefined);
 </script>
 
 <div
-	class={cn(
-		'flex flex-col items-center justify-center gap-6 py-16 px-8 text-center flex-1',
-		customClass
-	)}
+	{@attach intro}
+	class={cn('flex flex-1 flex-col items-center justify-center px-8 py-14 text-center', customClass)}
 >
-	<div class={cn('rounded-full p-4', iconContainerClass)}>
-		{#if variant === 'error'}
-			<ServerCrash class={iconClass} />
-		{:else if variant === 'information'}
-			<Info class={iconClass} />
-		{:else}
-			<CircleCheck class={iconClass} />
-		{/if}
+	<div
+		data-intro={introAttr}
+		class={cn('mb-5 grid size-12 place-items-center rounded-xl ring-1 ring-inset', tone.tile)}
+	>
+		<tone.icon class={cn('size-5', tone.iconColor)} strokeWidth={2.25} />
 	</div>
 
-	<div class="flex flex-col items-center gap-2 max-w-md">
+	<div data-intro={introAttr} class="flex max-w-sm flex-col items-center">
 		{#if code}
-			<span class="text-xs font-mono font-medium tracking-wider text-ink-subtle uppercase">
+			<span class="mb-1.5 text-xs font-[650] tracking-[0.04em] text-ink-subtle uppercase">
 				{code}
 			</span>
 		{/if}
 
 		{#if header}
-			<h2 class="text-xl font-semibold text-ink">
+			<h2 class="text-lg font-semibold tracking-[-0.02em] text-ink">
 				{header}
 			</h2>
 		{/if}
 
 		{#if description}
-			<p class={cn('text-sm leading-relaxed text-ink-muted', descriptionClass)}>
+			<p class={cn('mt-1.5 text-sm leading-relaxed text-ink-muted', descriptionClass)}>
 				{description}
 			</p>
 		{/if}
 	</div>
 
 	{#if primaryButton || secondaryButton}
-		<div class="flex items-center gap-3">
+		<div data-intro={introAttr} class="mt-6 flex items-center gap-2">
 			{#if secondaryButton}
 				<Button
 					type="OUTLINED"
@@ -111,9 +109,9 @@
 			{#if primaryButton}
 				<Button
 					type="FILLED"
-					variant={primaryButtonVariant}
+					variant="PRIMARY"
 					disabled={primaryButton.disabled}
-					class={primaryButtonClass}
+					class={primaryButton.class ?? ''}
 					onClick={primaryButton.onClick}
 				>
 					{primaryButton.label}
@@ -122,3 +120,11 @@
 		</div>
 	{/if}
 </div>
+
+<style>
+	@media (prefers-reduced-motion: no-preference) {
+		[data-intro] {
+			opacity: 0;
+		}
+	}
+</style>

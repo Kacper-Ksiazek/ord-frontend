@@ -13,9 +13,9 @@
 	<section class="flex flex-col gap-2.5">
 		<AiSkeleton class="h-4 w-24 rounded-md" />
 		<div class="flex flex-wrap gap-2">
-			<AiSkeleton class="h-7 w-16 rounded-[10px]" />
-			<AiSkeleton class="h-7 w-20 rounded-[10px]" />
-			<AiSkeleton class="h-7 w-14 rounded-[10px]" />
+			<AiSkeleton class="h-7 w-16 rounded-control" />
+			<AiSkeleton class="h-7 w-20 rounded-control" />
+			<AiSkeleton class="h-7 w-14 rounded-control" />
 		</div>
 	</section>
 

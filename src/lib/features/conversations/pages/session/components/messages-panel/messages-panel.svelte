@@ -124,7 +124,7 @@
 
 		{#if messagesContext.aiStreamError}
 			<div
-				class="{messagesMaxWidth} mx-auto mb-3 flex flex-col items-start gap-2 rounded-[10px] border border-danger/30 bg-danger/10 p-3"
+				class="{messagesMaxWidth} mx-auto mb-3 flex flex-col items-start gap-2 rounded-control border border-danger/30 bg-danger/10 p-3"
 				role="alert"
 			>
 				<p class="text-sm text-danger">

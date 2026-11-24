@@ -14,7 +14,7 @@
 
 	{#each [0, 1, 2] as index (index)}
 		<div
-			class={cn('dot w-[3px] h-[3px] bg-gray-400 rounded-full mb-2', dotsWrapperClass)}
+			class={cn('dot w-[3px] h-[3px] bg-ink-subtle rounded-full mb-2', dotsWrapperClass)}
 			style="animation-delay: {index * 0.1}s;"
 		></div>
 	{/each}

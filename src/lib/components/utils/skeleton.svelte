@@ -10,6 +10,6 @@
 	const { class: customClass = '', children }: Props = $props();
 </script>
 
-<div class={cn('bg-gray-200 dark:bg-gray-800 animate-pulse w-full h-full rounded-md', customClass)}>
+<div class={cn('bg-line animate-pulse w-full h-full rounded-md', customClass)}>
 	{@render children?.()}
 </div>

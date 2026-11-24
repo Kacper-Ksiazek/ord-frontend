@@ -74,7 +74,7 @@
 			data-testid={E2E_TEST_IDS.sidebar.toggle}
 			aria-expanded={sidebarStore.isExpanded}
 			onclick={toggleSidebar}
-			class="cursor-pointer rounded-[10px] p-2.5 transition-colors hover:bg-accent-soft"
+			class="cursor-pointer rounded-control p-2.5 transition-colors hover:bg-accent-soft"
 			title={sidebarStore.isExpanded ? 'Collapse sidebar' : 'Expand sidebar'}
 		>
 			{#if sidebarStore.isExpanded}
@@ -154,7 +154,7 @@
 			onclick={onLogoutClick}
 			title="Logout"
 			class={cn(
-				'flex items-center py-2 rounded-[10px] hover:bg-red-50 transition-colors w-full cursor-pointer',
+				'flex items-center py-2 rounded-control hover:bg-red-50 transition-colors w-full cursor-pointer',
 				'text-danger hover:text-danger',
 				sidebarStore.isExpanded ? 'gap-3 px-3 justify-start' : 'justify-center px-0'
 			)}

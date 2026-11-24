@@ -26,11 +26,11 @@
 				<li class="list-none">
 					<div
 						class={cn(
-							'flex w-full gap-2 rounded-[10px] border border-line bg-surface',
+							'flex w-full gap-2 rounded-control border border-line bg-surface',
 							compact ? 'items-stretch px-3 py-2.5' : 'items-stretch px-3 py-3'
 						)}
 					>
-						<Skeleton class="size-9 shrink-0 rounded-[10px] bg-accent-soft" />
+						<Skeleton class="size-9 shrink-0 rounded-control bg-accent-soft" />
 
 						<div class={cn('min-w-0 flex-1', compact ? 'flex flex-col gap-1' : 'flex flex-col gap-2.5')}>
 							<div class="flex min-w-0 items-center gap-2">
@@ -41,7 +41,7 @@
 										compact && 'h-3.5'
 									)}
 								/>
-								<Skeleton class="h-5 w-12 shrink-0 rounded-[10px] bg-accent-soft" />
+								<Skeleton class="h-5 w-12 shrink-0 rounded-control bg-accent-soft" />
 							</div>
 
 							{#if compact}

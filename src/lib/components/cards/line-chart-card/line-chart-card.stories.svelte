@@ -43,16 +43,14 @@
 
 <Story name="Default">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">Default (primary)</h3>
+		<h3 class="text-lg font-semibold mb-4 text-ink">Default (primary)</h3>
 		<LineChartCard title="Total" value={42} data={upward} class="min-w-[260px]" />
 	</div>
 </Story>
 
 <Story name="Variants grid">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-			Variants with sample series
-		</h3>
+		<h3 class="text-lg font-semibold mb-4 text-ink">Variants with sample series</h3>
 		<div class="grid grid-cols-[repeat(3,260px)] gap-4">
 			<LineChartCard title="Neutral" value={75} variant="neutral" data={upward} />
 			<LineChartCard title="Primary" value={75} variant="primary" data={upward} />
@@ -67,9 +65,7 @@
 
 <Story name="Edge cases">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-			Empty, single point, flat
-		</h3>
+		<h3 class="text-lg font-semibold mb-4 text-ink">Empty, single point, flat</h3>
 		<div class="grid grid-cols-[repeat(3,260px)] gap-4">
 			<LineChartCard title="Empty data" value="—" variant="neutral" data={[]} />
 			<LineChartCard title="Single" value={42} variant="blue" data={single} />
@@ -80,10 +76,10 @@
 
 <Story name="Active toggle">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
+		<h3 class="text-lg font-semibold mb-4 text-ink">
 			Click cards to toggle active (chart tint follows)
 		</h3>
-		<p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
+		<p class="text-sm text-ink-muted mb-4">
 			Active: <strong>{activeCard ?? 'none'}</strong>
 		</p>
 		<div class="grid grid-cols-[repeat(3,260px)] gap-4">
@@ -117,9 +113,7 @@
 
 <Story name="Chart aria label">
 	<div>
-		<h3 class="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
-			Decorative vs described chart
-		</h3>
+		<h3 class="text-lg font-semibold mb-4 text-ink">Decorative vs described chart</h3>
 		<div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
 			<LineChartCard
 				title="Messages"

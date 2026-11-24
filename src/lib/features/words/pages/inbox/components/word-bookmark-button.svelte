@@ -48,7 +48,7 @@
 	type="button"
 	data-testid={dataTestId}
 	class={cn(
-		'inline-flex size-9 shrink-0 items-center justify-center rounded-[10px] transition-colors',
+		'inline-flex size-9 shrink-0 items-center justify-center rounded-control transition-colors',
 		'hover:bg-accent-soft focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/20',
 		bookmarked ? 'text-score-low hover:text-score-low' : 'text-ink-muted hover:text-ink',
 		disabled && 'cursor-not-allowed opacity-50'

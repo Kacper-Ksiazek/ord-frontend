@@ -34,7 +34,7 @@
 
 <div
 	class={cn(
-		'flex flex-col items-center justify-center rounded-[10px] border border-line bg-surface p-2',
+		'flex flex-col items-center justify-center rounded-control border border-line bg-surface p-2',
 		'text-ink-muted',
 		!disabled && 'cursor-pointer hover:bg-accent-soft',
 		isSelected && 'border-ink bg-accent-soft! text-ink',

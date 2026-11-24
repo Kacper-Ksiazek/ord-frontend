@@ -69,7 +69,7 @@
 				<div class="ml-auto flex max-w-full flex-wrap items-center justify-end gap-1.5">
 					{#if item.bank?.name}
 						<span
-							class="inline-flex max-w-full items-center gap-1.5 rounded-[10px] bg-accent-soft px-2 py-0.5 text-xs font-medium text-ink-muted"
+							class="inline-flex max-w-full items-center gap-1.5 rounded-control bg-accent-soft px-2 py-0.5 text-xs font-medium text-ink-muted"
 							title={item.bank.bankGroup?.name ?? undefined}
 						>
 							<BankGroupColorDot color={item.bank.bankGroup?.color} />

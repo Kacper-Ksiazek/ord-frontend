@@ -61,7 +61,7 @@
 	});
 </script>
 
-<div class="rounded-[10px] border border-line bg-surface px-4 py-4">
+<div class="rounded-control border border-line bg-surface px-4 py-4">
 	<div class="flex min-w-0 flex-col gap-3">
 		<label class="flex shrink-0 items-center gap-3">
 			<Switch.Root

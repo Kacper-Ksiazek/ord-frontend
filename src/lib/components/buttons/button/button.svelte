@@ -35,7 +35,7 @@
 
 	const baseClasses = $derived.by(() =>
 		cn(
-			'px-4 h-[40px] rounded-[10px] transition-colors flex items-center gap-1 border',
+			'px-4 h-[40px] rounded-control transition-[background-color,border-color,color,opacity] duration-150 flex items-center gap-1 border',
 			'form-input-text',
 			disabled && 'cursor-not-allowed opacity-50',
 			!disabled && 'cursor-pointer'

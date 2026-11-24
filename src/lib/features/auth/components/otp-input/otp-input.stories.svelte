@@ -17,28 +17,28 @@
 </script>
 
 <Story name="Default">
-	<div class="p-8 bg-white">
+	<div class="p-8 bg-surface">
 		<OtpInput bind:value={defaultValue} />
-		<p class="mt-4 text-center text-sm text-gray-600">Value: {defaultValue}</p>
+		<p class="mt-4 text-center text-sm text-ink-muted">Value: {defaultValue}</p>
 	</div>
 </Story>
 
 <Story name="With Error">
-	<div class="p-8 bg-white">
+	<div class="p-8 bg-surface">
 		<OtpInput bind:value={errorValue} error={true} />
 		<p class="mt-4 text-center text-sm text-red-600">Error state active</p>
 	</div>
 </Story>
 
 <Story name="Disabled">
-	<div class="p-8 bg-white">
+	<div class="p-8 bg-surface">
 		<OtpInput bind:value={disabledValue} disabled={true} />
-		<p class="mt-4 text-center text-sm text-gray-600">Disabled with value: {disabledValue}</p>
+		<p class="mt-4 text-center text-sm text-ink-muted">Disabled with value: {disabledValue}</p>
 	</div>
 </Story>
 
 <Story name="With Complete Callback">
-	<div class="p-8 bg-white">
+	<div class="p-8 bg-surface">
 		<OtpInput
 			bind:value={completedValue}
 			oncomplete={(value) => {
@@ -46,7 +46,7 @@
 				alert(`OTP Complete: ${value}`);
 			}}
 		/>
-		<p class="mt-4 text-center text-sm text-gray-600">
+		<p class="mt-4 text-center text-sm text-ink-muted">
 			Current value: {completedValue}
 		</p>
 		{#if lastCompletedValue}
@@ -54,6 +54,6 @@
 				Last completed: {lastCompletedValue}
 			</p>
 		{/if}
-		<p class="mt-2 text-center text-xs text-gray-500">Press Enter when all 6 digits are filled</p>
+		<p class="mt-2 text-center text-xs text-ink-muted">Press Enter when all 6 digits are filled</p>
 	</div>
 </Story>

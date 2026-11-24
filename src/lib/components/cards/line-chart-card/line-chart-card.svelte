@@ -89,7 +89,7 @@
 
 <div
 	class={cn(
-		'relative flex-1 rounded-[10px] border p-4 transition-colors',
+		'relative flex-1 rounded-control border p-4 transition-colors',
 		'focus:outline-none',
 		focusRingColor,
 		colors.bg,

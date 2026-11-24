@@ -3,7 +3,8 @@
 
 @layer components {
 	.form-input-base {
-		@apply h-[40px] rounded-[10px] border px-2.5;
+		@apply h-[40px] border px-2.5;
+		border-radius: var(--radius-control);
 		border-color: var(--studio-line);
 		background-color: var(--studio-surface);
 		color: var(--studio-ink);

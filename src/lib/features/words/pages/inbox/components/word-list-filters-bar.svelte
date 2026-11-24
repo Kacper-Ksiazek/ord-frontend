@@ -151,7 +151,7 @@
 		aria-label={m['features.words.inbox.filters.bookmarked_only_aria']()}
 		data-testid={E2E_TEST_IDS.inbox.filterBookmarkedOnly}
 		class={cn(
-			'inline-flex h-[40px] items-center gap-2 rounded-[10px] border px-2.5 text-sm font-medium transition-colors',
+			'inline-flex h-[40px] items-center gap-2 rounded-control border px-2.5 text-sm font-medium transition-colors',
 			fullWidth ? 'w-full justify-between' : 'shrink-0',
 			filtersState.filters.bookmarkedOnly
 				? 'border-line bg-accent-soft text-ink'
@@ -190,7 +190,7 @@
 		title={m['features.words.inbox.filters.clear']()}
 		disabled={!filtersState.hasActiveFilters}
 		class={cn(
-			'inline-flex size-[40px] shrink-0 items-center justify-center rounded-[10px] border transition-colors',
+			'inline-flex size-[40px] shrink-0 items-center justify-center rounded-control border transition-colors',
 			'border-line bg-surface text-ink-muted hover:bg-accent-soft hover:text-ink',
 			'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/20',
 			!filtersState.hasActiveFilters &&
@@ -239,7 +239,7 @@
 							aria-label={m['features.words.inbox.filters.open_aria']()}
 							title={m['features.words.inbox.filters.open_aria']()}
 							class={cn(
-								'inline-flex size-[40px] shrink-0 items-center justify-center rounded-[10px] border transition-colors',
+								'inline-flex size-[40px] shrink-0 items-center justify-center rounded-control border transition-colors',
 								'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink/20',
 								filtersState.hasActiveFilters
 									? 'border-line bg-accent-soft text-ink'

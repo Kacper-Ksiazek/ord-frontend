@@ -35,7 +35,7 @@
 			{@const sourceWord = item.sourceWord ?? ''}
 			<li class="list-none">
 				<div
-					class="group flex w-full items-stretch gap-2 rounded-[10px] border border-line bg-surface px-3 py-3 transition-colors hover:bg-accent-soft"
+					class="group flex w-full items-stretch gap-2 rounded-control border border-line bg-surface px-3 py-3 transition-colors hover:bg-accent-soft"
 					data-testid={E2E_TEST_IDS.home.recentWordRow(itemId)}
 				>
 					{#if itemId}

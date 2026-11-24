@@ -7,7 +7,7 @@
 			<div class="h-6 max-w-full animate-pulse rounded-md bg-accent-soft {titleWidth}"></div>
 		</div>
 		<div
-			class="h-10 shrink-0 animate-pulse rounded-[10px] bg-accent-soft {actionWidth}"
+			class="h-10 shrink-0 animate-pulse rounded-control bg-accent-soft {actionWidth}"
 			aria-hidden="true"
 		></div>
 	</div>
@@ -16,10 +16,10 @@
 {#snippet wordRowSkeleton()}
 	<li class="list-none">
 		<div
-			class="flex h-20 w-full items-center gap-2 rounded-[10px] border border-line bg-surface px-3"
+			class="flex h-20 w-full items-center gap-2 rounded-control border border-line bg-surface px-3"
 			aria-hidden="true"
 		>
-			<div class="size-9 shrink-0 animate-pulse rounded-[10px] bg-accent-soft"></div>
+			<div class="size-9 shrink-0 animate-pulse rounded-control bg-accent-soft"></div>
 			<div class="flex min-w-0 flex-1 items-center gap-2">
 				<div class="flex min-w-0 flex-1 flex-col gap-2.5">
 					<div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1.5">
@@ -38,10 +38,10 @@
 {#snippet conversationRowSkeleton()}
 	<li class="list-none">
 		<div
-			class="flex h-20 w-full items-center gap-2 rounded-[10px] border border-line bg-surface px-3"
+			class="flex h-20 w-full items-center gap-2 rounded-control border border-line bg-surface px-3"
 			aria-hidden="true"
 		>
-			<div class="size-12 shrink-0 animate-pulse rounded-[10px] bg-accent-soft"></div>
+			<div class="size-12 shrink-0 animate-pulse rounded-control bg-accent-soft"></div>
 			<div class="flex min-w-0 flex-1 items-center gap-2">
 				<div class="flex min-w-0 flex-1 flex-col gap-2.5">
 					<div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1.5">
