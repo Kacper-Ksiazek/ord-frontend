@@ -1,3 +1,5 @@
+import type { ReadonlyURLSearchParams } from '$app/state';
+
 const LOGIN_DEEP_LINK_EMAIL_PARAM = 'email';
 const LOGIN_DEEP_LINK_CODE_PARAM = 'code';
 const OTP_CODE_PATTERN = /^\d{6}$/;
@@ -7,7 +9,7 @@ export type LoginDeepLink = {
 	code: string | null;
 };
 
-export function parseLoginDeepLink(searchParams: URLSearchParams): LoginDeepLink {
+export function parseLoginDeepLink(searchParams: ReadonlyURLSearchParams): LoginDeepLink {
 	const email = searchParams.get(LOGIN_DEEP_LINK_EMAIL_PARAM)?.trim() ?? '';
 	const code = searchParams.get(LOGIN_DEEP_LINK_CODE_PARAM)?.trim() ?? '';
 
@@ -18,7 +20,7 @@ export function parseLoginDeepLink(searchParams: URLSearchParams): LoginDeepLink
 }
 
 /** Identity of the raw `email`/`code` query, including invalid values, so the page can consume the link once. */
-export function loginDeepLinkKey(searchParams: URLSearchParams): string | null {
+export function loginDeepLinkKey(searchParams: ReadonlyURLSearchParams): string | null {
 	const hasEmail = searchParams.has(LOGIN_DEEP_LINK_EMAIL_PARAM);
 	const hasCode = searchParams.has(LOGIN_DEEP_LINK_CODE_PARAM);
 

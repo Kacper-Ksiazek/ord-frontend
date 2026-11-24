@@ -1,12 +1,10 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-vi.mock('$env/dynamic/public', () => ({
-	env: {
-		PUBLIC_E2E: undefined,
-		PUBLIC_SENTRY_DSN: 'https://example.ingest.sentry.io/123',
-		PUBLIC_SENTRY_ENVIRONMENT: 'development',
-		PUBLIC_SENTRY_DEBUG: undefined
-	}
+vi.mock('$app/env/public', () => ({
+	PUBLIC_E2E: undefined,
+	PUBLIC_SENTRY_DSN: 'https://example.ingest.sentry.io/123',
+	PUBLIC_SENTRY_ENVIRONMENT: 'development',
+	PUBLIC_SENTRY_DEBUG: undefined
 }));
 
 import { isSentryEnabled } from './config';
@@ -21,26 +19,22 @@ describe('sentry config', () => {
 	});
 
 	it('is enabled for production environment when DSN is set', async () => {
-		vi.doMock('$env/dynamic/public', () => ({
-			env: {
-				PUBLIC_E2E: undefined,
-				PUBLIC_SENTRY_DSN: 'https://example.ingest.sentry.io/123',
-				PUBLIC_SENTRY_ENVIRONMENT: 'production',
-				PUBLIC_SENTRY_DEBUG: undefined
-			}
+		vi.doMock('$app/env/public', () => ({
+			PUBLIC_E2E: undefined,
+			PUBLIC_SENTRY_DSN: 'https://example.ingest.sentry.io/123',
+			PUBLIC_SENTRY_ENVIRONMENT: 'production',
+			PUBLIC_SENTRY_DEBUG: undefined
 		}));
 		const { isSentryEnabled: isEnabled } = await import('./config');
 		expect(isEnabled()).toBe(import.meta.env.DEV ? false : true);
 	});
 
 	it('reports API 500 only when Sentry is enabled', async () => {
-		vi.doMock('$env/dynamic/public', () => ({
-			env: {
-				PUBLIC_E2E: undefined,
-				PUBLIC_SENTRY_DSN: 'https://example.ingest.sentry.io/123',
-				PUBLIC_SENTRY_ENVIRONMENT: 'production',
-				PUBLIC_SENTRY_DEBUG: undefined
-			}
+		vi.doMock('$app/env/public', () => ({
+			PUBLIC_E2E: undefined,
+			PUBLIC_SENTRY_DSN: 'https://example.ingest.sentry.io/123',
+			PUBLIC_SENTRY_ENVIRONMENT: 'production',
+			PUBLIC_SENTRY_DEBUG: undefined
 		}));
 		const { shouldReportApiError: reportApiError } = await import('./config');
 		if (import.meta.env.DEV) {

@@ -39,7 +39,7 @@
 	<main class="flex-1 flex items-center justify-center px-4 py-12">
 		<div class="text-center max-w-md">
 			<div class="mb-6">
-				<h1 class="text-7xl font-bold text-primary-600 dark:text-primary-400 mb-2">
+				<h1 class="text-7xl font-bold text-ink mb-2">
 					{page.status}
 				</h1>
 				<p class="text-xl font-semibold text-ink">
@@ -66,13 +66,13 @@
 			<div class="flex flex-col gap-3">
 				<a
 					href={homeHref}
-					class="inline-flex items-center justify-center px-6 py-2.5 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors"
+					class="inline-flex items-center justify-center px-6 py-2.5 border border-ink bg-ink text-on-ink hover:opacity-90 font-medium rounded-control transition-[background-color,border-color,color,opacity] duration-150"
 				>
 					{homeLabel}
 				</a>
 				<button
 					onclick={() => window.history.back()}
-					class="inline-flex items-center justify-center px-6 py-2.5 bg-accent-soft hover:bg-line text-ink font-medium rounded-lg transition-colors"
+					class="inline-flex items-center justify-center px-6 py-2.5 border border-transparent bg-accent-soft hover:bg-line text-ink font-medium rounded-control transition-colors"
 				>
 					Go Back
 				</button>
@@ -80,15 +80,3 @@
 		</div>
 	</main>
 </div>
-
-{#if showHeader}
-	<style>
-		:global(body) {
-			background-color: hsl(var(--color-gray-50) / 1);
-		}
-
-		:global(.dark body) {
-			background-color: hsl(var(--color-gray-900) / 1);
-		}
-	</style>
-{/if}

@@ -135,7 +135,7 @@ src/
 
 Local development and CI use **Bun** only — you do not need Node.js installed on your machine.
 
-Production SSR and server routes on Vercel run on **Node.js 22** (`runtime: 'nodejs22.x'` in `svelte.config.js`). That is configured in the adapter, not in your local toolchain.
+Production SSR and server routes on Vercel run on **Node.js 22** (`runtime: 'nodejs22.x'` in `kit.config.js`). That is configured in the adapter, not in your local toolchain.
 
 ### Setup
 

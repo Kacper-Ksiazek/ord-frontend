@@ -1,6 +1,7 @@
 import { WORD_EXTRA_MARKS, WORD_TYPES } from '$words/shared/constants/enum-values';
 import type { WordExtraMark, WordType } from '$words/types';
 import type { BuildSearchWordsParamsInput, SearchWordsParams } from '$words/types/api/search-words';
+import type { ReadonlyURLSearchParams } from '$app/state';
 
 export interface WordsListFilters {
 	search: string;
@@ -55,11 +56,11 @@ export class WordsListFiltersState {
 		...WordsListFiltersState.DEFAULT_FILTERS
 	});
 
-	constructor(urlSearchParams: URLSearchParams) {
+	constructor(urlSearchParams: ReadonlyURLSearchParams) {
 		this.applyFromSearchParams(urlSearchParams);
 	}
 
-	static parseSearchParams(urlSearchParams: URLSearchParams): WordsListFilters {
+	static parseSearchParams(urlSearchParams: ReadonlyURLSearchParams): WordsListFilters {
 		return {
 			search: urlSearchParams.get('search') ?? '',
 			wordTypes: parseEnumList(urlSearchParams.get('wordTypes'), WORD_TYPES),
@@ -92,7 +93,7 @@ export class WordsListFiltersState {
 		};
 	}
 
-	applyFromSearchParams(urlSearchParams: URLSearchParams) {
+	applyFromSearchParams(urlSearchParams: ReadonlyURLSearchParams) {
 		const next = WordsListFiltersState.parseSearchParams(urlSearchParams);
 		if (!filtersEqual(this.filters, next)) {
 			this.filters = next;
@@ -125,7 +126,7 @@ export class WordsListFiltersState {
 		return params.join('&');
 	}
 
-	matchesSearchParams(urlSearchParams: URLSearchParams): boolean {
+	matchesSearchParams(urlSearchParams: ReadonlyURLSearchParams): boolean {
 		return filtersEqual(this.filters, WordsListFiltersState.parseSearchParams(urlSearchParams));
 	}
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
+	import { browser } from '$app/env';
 	import { MultiStepForm } from '$lib/components/utils/multi-step-form';
 	import type { StepConfig } from '$lib/components/utils/multi-step-form';
 	import {

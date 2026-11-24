@@ -1,4 +1,4 @@
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 import { SvelteMap } from 'svelte/reactivity';
 import type { ConversationType } from '$conversations/types';
 import { getStorageItem, setStorageItem } from '$lib/utils/local-storage';
