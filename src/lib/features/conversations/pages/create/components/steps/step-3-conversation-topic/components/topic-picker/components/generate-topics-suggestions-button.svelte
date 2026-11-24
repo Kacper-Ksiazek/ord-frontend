@@ -63,7 +63,15 @@
 		<AiActionButton
 			status={generateButtonStatus}
 			onclick={generateTopics}
-			disabled={topicPickerStore.useOwnTopic || !isClueForGenerationValid}
+			disabled={!isClueForGenerationValid}
+			labels={{
+				default:
+					m['features.conversation.create.step-3.topic_picker.generate_suggestions.action_label'](),
+				loading:
+					m['features.conversation.create.step-3.topic_picker.generate_suggestions.generating'](),
+				success: m['features.conversation.create.step-3.topic_picker.generate_suggestions.success'](),
+				failed: m['features.conversation.create.step-3.topic_picker.generate_suggestions.failed']()
+			}}
 		/>
 	</div>
 
@@ -73,7 +81,7 @@
 		class="min-w-0 flex-1"
 		leftAdornment={TextQuote}
 		bind:value={clueForGeneration}
-		disabled={generateButtonStatus === 'loading' || topicPickerStore.useOwnTopic}
+		disabled={generateButtonStatus === 'loading'}
 		maxLength={128}
 		bind:isValid={isClueForGenerationValid}
 	/>

@@ -59,6 +59,18 @@
 	const createConversationMutation = createCreateConversationMutation();
 	const isLoading = $derived(createConversationMutation.isPending);
 
+	const canStartConversation = $derived.by(() => {
+		const payload = getCreateConversationPayload();
+
+		return !!(
+			payload.type &&
+			payload.topic &&
+			payload.language &&
+			payload.aiInterlocutorName &&
+			payload.aiInterlocutorAvatarId
+		);
+	});
+
 	const steps: StepConfig[] = [
 		{
 			id: 'select-type',
@@ -165,6 +177,7 @@
 	dataTestIdPrefix="create-conversation"
 	onStepChange={handleStepChange}
 	finalStepButtonText={m['features.conversation.create.form.start_conversation_button']()}
+	finalStepNavigationInFooter={false}
 	onFinalStepClick={handleFinalStepClick}
 >
 	{#snippet children(stepIndex)}
@@ -181,6 +194,14 @@
 					currentStep = newStep;
 					handleStepChange(newStep);
 				}}
+				onPrevious={() => {
+					const newStep = currentStep - 1;
+					currentStep = newStep;
+					handleStepChange(newStep);
+				}}
+				onStartConversation={handleFinalStepClick}
+				startPending={isLoading}
+				{canStartConversation}
 			/>
 		{/if}
 	{/snippet}
