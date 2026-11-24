@@ -12,7 +12,7 @@ Product features today are conversations and words. Shared code in `$lib` is a d
 
 ## Stack
 
-SvelteKit 2, Svelte 5 runes, TypeScript, Tailwind 4, TanStack Query, Paraglide, Vitest, Playwright, Storybook. API types come from the published package `@kacper-ksiazek/ord-api-types`. That package is the backend contract. Do not read the ord-api repository from a frontend review.
+SvelteKit 3, Svelte 5 runes, TypeScript, Tailwind 4, TanStack Query, Paraglide, Vitest, Playwright, Storybook. API types come from the published package `@kacper-ksiazek/ord-api-types`. That package is the backend contract. Do not read the ord-api repository from a frontend review.
 
 ## Code review invariants
 

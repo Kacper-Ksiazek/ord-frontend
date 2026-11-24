@@ -25,7 +25,7 @@ export default [
 	...svelte.configs['flat/recommended'],
 	...svelte.configs['flat/prettier'],
 	{
-		files: ['svelte.config.js'],
+		files: ['kit.config.js'],
 		languageOptions: {
 			globals: {
 				process: 'readonly',

@@ -1,5 +1,5 @@
 import { afterNavigate, replaceState } from '$app/navigation';
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 import { onMount } from 'svelte';
 import { authStore } from '$auth/stores';
 import { httpPostExplainPhrase } from '$aiExplainer/api-client/sse/http-post-explain-phrase';

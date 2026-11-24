@@ -1,4 +1,4 @@
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 import type { UserDTO } from '$auth/types';
 import {
 	getStorageItem,

@@ -1,8 +1,8 @@
-import { dev } from '$app/environment';
-import { env } from '$env/dynamic/public';
+import { dev } from '$app/env';
+import { PUBLIC_DEV_LOGIN_EMAIL, PUBLIC_DEV_LOGIN_OTP, PUBLIC_E2E } from '$app/env/public';
 
 function isE2eRuntime(): boolean {
-	return env.PUBLIC_E2E === 'true';
+	return PUBLIC_E2E === 'true';
 }
 
 export function getDevLoginEmail(): string {
@@ -10,7 +10,7 @@ export function getDevLoginEmail(): string {
 		return '';
 	}
 
-	return env.PUBLIC_DEV_LOGIN_EMAIL?.trim() ?? '';
+	return PUBLIC_DEV_LOGIN_EMAIL?.trim() ?? '';
 }
 
 export function getDevLoginOtp(): string {
@@ -18,5 +18,5 @@ export function getDevLoginOtp(): string {
 		return '';
 	}
 
-	return env.PUBLIC_DEV_LOGIN_OTP?.trim() || '123456';
+	return PUBLIC_DEV_LOGIN_OTP?.trim() || '123456';
 }

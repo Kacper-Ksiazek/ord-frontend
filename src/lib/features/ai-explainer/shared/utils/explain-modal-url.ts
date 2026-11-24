@@ -1,8 +1,9 @@
 import { MODAL_QUERY_PARAM } from '$lib/utils/url/modal-query';
+import type { ReadonlyURLSearchParams } from '$app/state';
 
 export const EXPLAIN_MODAL_QUERY_VALUE = 'explain';
 
-export function isExplainModalQuery(searchParams: URLSearchParams): boolean {
+export function isExplainModalQuery(searchParams: ReadonlyURLSearchParams): boolean {
 	return searchParams.get(MODAL_QUERY_PARAM) === EXPLAIN_MODAL_QUERY_VALUE;
 }
 
