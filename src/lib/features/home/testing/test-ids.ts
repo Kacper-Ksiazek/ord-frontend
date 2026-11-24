@@ -26,5 +26,17 @@ export const E2E_TEST_IDS = {
 		recentConversationRow: (id: string) => `home-recent-conversation-row-${id}`,
 		recentAddWordButton: 'home-recent-add-word-button',
 		recentNewConversationButton: 'home-recent-new-conversation-button'
+	},
+	landingV2: {
+		page: 'landing-v2-page',
+		recentWordsSection: 'landing-v2-recent-words-section',
+		recentWordsEmpty: 'landing-v2-recent-words-empty',
+		recentWordsSkeleton: 'landing-v2-recent-words-skeleton',
+		recentWordCard: (id: string) => `landing-v2-recent-word-card-${id}`,
+		recentWordExplain: (id: string) => `landing-v2-recent-word-explain-${id}`,
+		quickActions: 'landing-v2-quick-actions',
+		actionNewConversation: 'landing-v2-action-new-conversation',
+		actionAddWords: 'landing-v2-action-add-words',
+		actionWordsList: 'landing-v2-action-words-list'
 	}
 };

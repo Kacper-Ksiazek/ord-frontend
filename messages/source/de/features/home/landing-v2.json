@@ -1,0 +1,23 @@
+{
+	"page_title": "Start (v2)",
+	"recent_words_title": "Zuletzt hinzugefügte Wörter",
+	"recent_words_description": "Bei jedem Besuch werden neue Beispielsätze erzeugt.",
+	"recent_words_empty": {
+		"header": "Noch keine Wörter",
+		"description": "Füge deine ersten Wörter hinzu, dann zeigt die KI sie hier in Beispielsätzen."
+	},
+	"word_open": "In Wörtern öffnen",
+	"word_explain": "Erklären",
+	"actions": {
+		"new_conversation_title": "Neue Konversation",
+		"add_words_title": "Wörter hinzufügen",
+		"words_list_title": "Deine Wörter"
+	},
+	"load_error": {
+		"header": "Deine letzten Wörter konnten nicht geladen werden",
+		"try_again": "Erneut versuchen"
+	},
+	"quick_actions_label": "Schnellzugriffe",
+	"carousel_previous": "Vorherige Wörter",
+	"carousel_next": "Nächste Wörter"
+}

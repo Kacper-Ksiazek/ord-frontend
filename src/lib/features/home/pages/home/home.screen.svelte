@@ -12,25 +12,13 @@
 	import HomeRecentSectionsSkeleton from './components/home-recent-sections-skeleton.svelte';
 	import HomeYearHeatmap from './components/home-year-heatmap.svelte';
 	import HomeYearHeatmapSkeleton from './components/home-year-heatmap-skeleton.svelte';
-	import { firstNameFromDisplayName, homeGreetingPeriod } from './utils/home-greeting';
+	import { homeGreetingMessage } from '$home/shared/utils/home-greeting-message';
 
 	const homeQuery = createHomeQuery();
 	const activityQuery = createHomeActivityQuery();
 	const homeData = $derived(homeQuery.data);
 	const activity = $derived(activityQuery.data);
-	const greetingPeriod = homeGreetingPeriod(new Date());
-	const firstName = $derived(firstNameFromDisplayName(page.data.user?.name));
-	const greeting = $derived.by(() => {
-		if (greetingPeriod === 'morning') {
-			return m['features.home.home.greeting_morning']({ name: firstName });
-		}
-
-		if (greetingPeriod === 'afternoon') {
-			return m['features.home.home.greeting_afternoon']({ name: firstName });
-		}
-
-		return m['features.home.home.greeting_evening']({ name: firstName });
-	});
+	const greeting = $derived(homeGreetingMessage(new Date(), page.data.user?.name));
 </script>
 
 <svelte:head>

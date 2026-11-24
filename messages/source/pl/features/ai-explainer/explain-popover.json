@@ -37,5 +37,6 @@
 		"SIMPLER": "Prościej",
 		"MORE_EXAMPLES": "Więcej przykładów",
 		"SIMILAR_EXPRESSIONS": "Podobne wyrażenia"
-	}
+	},
+	"autocomplete_hint": "Tab"
 }
