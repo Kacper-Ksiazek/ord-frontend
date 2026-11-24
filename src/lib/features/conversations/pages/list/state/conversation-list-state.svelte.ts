@@ -1,6 +1,7 @@
 import { CONVERSATION_TYPES, RECENCY_BUCKETS } from '$conversations/shared/constants/enum-values';
 import type { ConversationType, RecencyBucket } from '$conversations/types';
 import type { GetConversationsFilters } from '$conversations/types';
+import type { ReadonlyURLSearchParams } from '$app/state';
 
 export interface ConversationListFilters {
 	search: string;
@@ -35,11 +36,11 @@ export class ConversationListFiltersState {
 		...ConversationListFiltersState.DEFAULT_FILTERS
 	});
 
-	constructor(urlSearchParams: URLSearchParams) {
+	constructor(urlSearchParams: ReadonlyURLSearchParams) {
 		this.applyFromSearchParams(urlSearchParams);
 	}
 
-	static parseSearchParams(urlSearchParams: URLSearchParams): ConversationListFilters {
+	static parseSearchParams(urlSearchParams: ReadonlyURLSearchParams): ConversationListFilters {
 		return {
 			search: urlSearchParams.get('search') ?? '',
 			recencyBucket: parseRecencyBucket(urlSearchParams.get('recencyBucket')),
@@ -67,7 +68,7 @@ export class ConversationListFiltersState {
 		return payload;
 	}
 
-	applyFromSearchParams(urlSearchParams: URLSearchParams) {
+	applyFromSearchParams(urlSearchParams: ReadonlyURLSearchParams) {
 		const next = ConversationListFiltersState.parseSearchParams(urlSearchParams);
 		if (!filtersEqual(this.filters, next)) {
 			this.filters = next;
@@ -90,7 +91,7 @@ export class ConversationListFiltersState {
 		return params.join('&');
 	}
 
-	matchesSearchParams(urlSearchParams: URLSearchParams): boolean {
+	matchesSearchParams(urlSearchParams: ReadonlyURLSearchParams): boolean {
 		return filtersEqual(
 			this.filters,
 			ConversationListFiltersState.parseSearchParams(urlSearchParams)

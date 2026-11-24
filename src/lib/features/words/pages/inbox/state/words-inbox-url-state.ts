@@ -1,5 +1,6 @@
 import type { WordsInboxViewMode } from '$words/types';
 import { WordsListFiltersState, type WordsListFilters } from './words-list-filters-state.svelte';
+import type { ReadonlyURLSearchParams } from '$app/state';
 
 const WORD_ID_PATTERN =
 	/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
@@ -32,7 +33,7 @@ function parseViewMode(value: string | null): WordsInboxViewMode {
 	return 'list';
 }
 
-export function parseWordsInboxUrl(searchParams: URLSearchParams): WordsInboxUrlState {
+export function parseWordsInboxUrl(searchParams: ReadonlyURLSearchParams): WordsInboxUrlState {
 	return {
 		filters: WordsListFiltersState.parseSearchParams(searchParams),
 		viewMode: parseViewMode(searchParams.get('view')),

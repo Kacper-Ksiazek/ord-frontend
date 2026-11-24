@@ -1,12 +1,17 @@
-import { env } from '$env/dynamic/public';
+import {
+	PUBLIC_E2E,
+	PUBLIC_SENTRY_DEBUG,
+	PUBLIC_SENTRY_DSN,
+	PUBLIC_SENTRY_ENVIRONMENT
+} from '$app/env/public';
 import type { BrowserOptions, NodeOptions } from '@sentry/sveltekit';
 
 export function isSentryEnabled(): boolean {
-	if (env.PUBLIC_E2E === 'true') {
+	if (PUBLIC_E2E === 'true') {
 		return false;
 	}
 
-	if (!env.PUBLIC_SENTRY_DSN?.trim()) {
+	if (!PUBLIC_SENTRY_DSN?.trim()) {
 		return false;
 	}
 
@@ -19,16 +24,16 @@ export function isSentryEnabled(): boolean {
 }
 
 export function getSentryEnvironment(): string {
-	return env.PUBLIC_SENTRY_ENVIRONMENT ?? (import.meta.env.DEV ? 'development' : 'production');
+	return PUBLIC_SENTRY_ENVIRONMENT ?? (import.meta.env.DEV ? 'development' : 'production');
 }
 
 /** Shared Sentry options — errors only, no session replay or performance tracing. */
 export function getSentryOptions(): BrowserOptions & NodeOptions {
 	return {
-		dsn: env.PUBLIC_SENTRY_DSN,
+		dsn: PUBLIC_SENTRY_DSN,
 		enabled: isSentryEnabled(),
 		environment: getSentryEnvironment(),
-		debug: env.PUBLIC_SENTRY_DEBUG === 'true',
+		debug: PUBLIC_SENTRY_DEBUG === 'true',
 		tracesSampleRate: 0
 	};
 }

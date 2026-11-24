@@ -1,14 +1,13 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-vi.mock('$app/environment', () => ({
+vi.mock('$app/env', () => ({
 	dev: true
 }));
 
-vi.mock('$env/dynamic/public', () => ({
-	env: {
-		PUBLIC_DEV_LOGIN_EMAIL: 'dev@example.com',
-		PUBLIC_DEV_LOGIN_OTP: '654321'
-	}
+vi.mock('$app/env/public', () => ({
+	PUBLIC_E2E: undefined,
+	PUBLIC_DEV_LOGIN_EMAIL: 'dev@example.com',
+	PUBLIC_DEV_LOGIN_OTP: '654321'
 }));
 
 describe('dev-login-email', () => {
@@ -17,12 +16,10 @@ describe('dev-login-email', () => {
 	});
 
 	it('returns empty credentials when PUBLIC_E2E is set', async () => {
-		vi.doMock('$env/dynamic/public', () => ({
-			env: {
-				PUBLIC_E2E: 'true',
-				PUBLIC_DEV_LOGIN_EMAIL: 'dev@example.com',
-				PUBLIC_DEV_LOGIN_OTP: '654321'
-			}
+		vi.doMock('$app/env/public', () => ({
+			PUBLIC_E2E: 'true',
+			PUBLIC_DEV_LOGIN_EMAIL: 'dev@example.com',
+			PUBLIC_DEV_LOGIN_OTP: '654321'
 		}));
 
 		const { getDevLoginEmail, getDevLoginOtp } = await import('./dev-login-email');
@@ -32,11 +29,10 @@ describe('dev-login-email', () => {
 	});
 
 	it('returns dev credentials in local development', async () => {
-		vi.doMock('$env/dynamic/public', () => ({
-			env: {
-				PUBLIC_DEV_LOGIN_EMAIL: 'dev@example.com',
-				PUBLIC_DEV_LOGIN_OTP: '654321'
-			}
+		vi.doMock('$app/env/public', () => ({
+			PUBLIC_E2E: undefined,
+			PUBLIC_DEV_LOGIN_EMAIL: 'dev@example.com',
+			PUBLIC_DEV_LOGIN_OTP: '654321'
 		}));
 
 		const { getDevLoginEmail, getDevLoginOtp } = await import('./dev-login-email');

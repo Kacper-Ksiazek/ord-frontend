@@ -5,7 +5,7 @@ structure changes materially, and use the checkboxes to track rule coverage.
 
 ## Detected stack
 
-- **Framework:** SvelteKit 2 + Svelte 5 (runes), Vite 7, adapter-vercel
+- **Framework:** SvelteKit 3 + Svelte 5 (runes), Vite 8, adapter-vercel
 - **Language:** TypeScript (strict, `typescript-eslint` strict config)
 - **Styling:** Tailwind CSS 4, Quiet studio tokens that swap under `.dark`, bits-ui (headless) + `$lib/utils/cn`, lucide-svelte icons
 - **Data:** TanStack Svelte Query 6, axios-based `src/lib/api-client` (`http*` naming), rxjs (SSE)
@@ -34,7 +34,7 @@ structure changes materially, and use the checkboxes to track rule coverage.
 
 ### general/ — architecture & boundaries
 
-Covers: `src/lib/features/*`, `svelte.config.js` aliases, `src/routes`, `src/lib` shared code.
+Covers: `src/lib/features/*`, `kit.config.js` aliases, `src/routes`, `src/lib` shared code.
 
 - [x] FDD feature boundaries (no shared → feature imports, cross-feature via barrels)
 - [x] Path aliases usage (`$auth`, `$conversations`, `$appLayouts`, `$lib`)

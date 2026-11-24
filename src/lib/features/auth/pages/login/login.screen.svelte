@@ -2,7 +2,7 @@
 	import { AxiosError } from 'axios';
 	import { ArrowRight, Loader2, Mail, ShieldCheck } from 'lucide-svelte';
 	import { onMount } from 'svelte';
-	import { browser } from '$app/environment';
+	import { browser } from '$app/env';
 	import { afterNavigate, goto, replaceState } from '$app/navigation';
 	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
@@ -90,7 +90,7 @@
 
 			authStore.setUser(user);
 
-			await goto(resolve('/'), { replaceState: true });
+			await goto(resolve('/(private)'), { replace: true });
 		} catch (err: unknown) {
 			isVerifyingOtp = false;
 
@@ -114,7 +114,7 @@
 			return;
 		}
 
-		replaceState(resolve('/login'), {});
+		replaceState(resolve('/(public)/login'), {});
 	}
 
 	function consumeLoginDeepLink() {

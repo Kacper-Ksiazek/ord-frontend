@@ -1,4 +1,4 @@
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 import { getStorageItem, STORAGE_KEYS, setStorageItem } from '$lib/utils/local-storage';
 
 export type Theme = 'light' | 'dark';
