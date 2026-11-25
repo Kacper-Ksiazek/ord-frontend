@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { cn } from '$lib/utils/cn';
 	import { AutoHeightTextarea } from '$lib/components/forms/auto-height-textarea';
+	import EnhanceButton from './components/enhance-button.svelte';
 	import SendButton from './components/send-button.svelte';
 
 	interface Props {
@@ -21,6 +22,12 @@
 		/** Escape hides the suggestion. */
 		onDismissSuggestion?: () => void;
 		suggestionHintLabel?: string;
+		/** Shows an "enhance" button that rewrites the typed text before it is sent. */
+		onEnhance?: () => void;
+		enhancing?: boolean;
+		enhanceDisabled?: boolean;
+		enhanceAriaLabel?: string;
+		enhanceDataTestId?: string;
 	}
 
 	let {
@@ -37,7 +44,12 @@
 		suggestion = '',
 		onAcceptSuggestion,
 		onDismissSuggestion,
-		suggestionHintLabel
+		suggestionHintLabel,
+		onEnhance,
+		enhancing = false,
+		enhanceDisabled = false,
+		enhanceAriaLabel = '',
+		enhanceDataTestId
 	}: Props = $props();
 
 	const showSuggestion = $derived(suggestion.length > 0 && !disabled);
@@ -49,7 +61,9 @@
 	const hasPhrase = $derived(
 		phraseInput.trim().length > 0 && (maxLength === undefined || phraseInput.length <= maxLength)
 	);
-	const sendDisabled = $derived(!hasPhrase || pending || disabled);
+	/** Typing is blocked while the text is being sent or rewritten; the dimmed text shows it. */
+	const inputLocked = $derived(disabled || enhancing);
+	const sendDisabled = $derived(!hasPhrase || pending || disabled || enhancing);
 
 	function publish(next: string) {
 		phraseInput = next;
@@ -114,12 +128,12 @@
 
 <div
 	class={cn(
-		'flex w-full min-h-[52px] shrink-0 items-center gap-2 rounded-full border border-line/90 bg-surface/95 px-4 py-2 shadow-[0_8px_32px_-12px] shadow-ink/12 ring-1 ring-ink/5 backdrop-blur-sm transition-[border-color,box-shadow]',
+		'flex w-full min-h-[52px] shrink-0 items-end gap-2 rounded-[27px] border border-line/90 bg-surface/95 px-4 py-2 shadow-[0_8px_32px_-12px] shadow-ink/12 ring-1 ring-ink/5 backdrop-blur-sm transition-[border-color,box-shadow]',
 		isFocused &&
 			'border-ink/25 shadow-[0_12px_40px_-14px] shadow-primary-600/20 ring-primary-600/10 dark:shadow-primary-400/15'
 	)}
 >
-	<div class="relative flex min-h-0 w-full min-w-0 flex-1 items-center">
+	<div class="relative flex min-h-9 w-full min-w-0 flex-1 items-center">
 		{#if showSuggestion}
 			<!-- Mirrors the textarea text so the ghost suggestion lines up right after the caret. -->
 			<div
@@ -142,9 +156,12 @@
 			bind:value={phraseInput}
 			{placeholder}
 			{maxLength}
-			{disabled}
+			disabled={inputLocked}
 			className="flex min-h-0 w-full min-w-0 flex-1 items-center"
-			textareaClass="message-body block text-base text-ink !px-0 !py-0 leading-6 placeholder:text-ink-subtle"
+			textareaClass={cn(
+				'message-body block text-base !px-0 !py-0 leading-6 placeholder:text-ink-subtle',
+				inputLocked ? 'cursor-not-allowed text-ink-subtle' : 'text-ink'
+			)}
 			LINE_HEIGHT={24}
 			VERTICAL_PADDING={0}
 			onInput={handleInput}
@@ -154,7 +171,16 @@
 		/>
 	</div>
 
-	<div class="shrink-0 self-center">
+	<div class="flex shrink-0 items-center gap-0.5 self-end">
+		{#if onEnhance}
+			<EnhanceButton
+				dataTestId={enhanceDataTestId}
+				ariaLabel={enhanceAriaLabel}
+				disabled={enhanceDisabled || disabled || pending}
+				pending={enhancing}
+				onclick={onEnhance}
+			/>
+		{/if}
 		<SendButton
 			dataTestId={sendDataTestId}
 			ariaLabel={sendAriaLabel}

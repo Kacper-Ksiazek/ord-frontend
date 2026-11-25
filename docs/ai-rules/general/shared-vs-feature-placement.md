@@ -10,8 +10,7 @@ Move code into a feature only on hard domain coupling, i.e. when it imports feat
 // $lib/services/use-text-stream-subscription.svelte.ts — RxJS teardown reusable across SSE UIs
 // $lib/utils/url/preserve-query-param.ts — generic param preservation for any screen
 
-// $aiExplainer/shared/utils/explain-modal-url.ts — modal=explain identity lives in the feature
-export const EXPLAIN_MODAL_QUERY_VALUE = 'explain';
+// $aiExplainer/shared/utils/split-explainer-stream.ts — explainer stream format lives in the feature
 
 // $lib/components/utils/content-card.svelte — generic primitive, stays shared
 // even though only the conversations feature renders it today.

@@ -1,14 +1,11 @@
-import { afterNavigate, replaceState } from '$app/navigation';
-import { browser } from '$app/env';
-import { onMount } from 'svelte';
 import { authStore } from '$auth/stores';
+import { useQueryClient } from '@tanstack/svelte-query';
+import { explanationKeys } from '$aiExplainer/api-client/keys';
+import { httpPostEnhancePrompt } from '$aiExplainer/api-client/api/http-post-enhance-prompt';
+import { httpPostSuggestActions } from '$aiExplainer/api-client/api/http-post-suggest-actions';
 import { httpPostExplainPhrase } from '$aiExplainer/api-client/sse/http-post-explain-phrase';
 import { httpPostExplainPhraseFollowUp } from '$aiExplainer/api-client/sse/http-post-explain-phrase-follow-up';
-import type { ExplainPhraseFollowUpAction } from '$aiExplainer/types';
-import {
-	isExplainModalOpenFromLocationSearch,
-	searchWithExplainModal
-} from '$aiExplainer/shared/utils/explain-modal-url';
+import type { ExplainPhraseFollowUpAction, SavedExplanation } from '$aiExplainer/types';
 import {
 	parseAdditionalExamples,
 	parseSimilarExpressions,
@@ -31,16 +28,29 @@ export const EXPLAIN_CONTEXT_MAX = 2000;
 export const EXPLAIN_INSTRUCTION_MAX = 500;
 
 export type ExplainPopoverTab = 'request' | 'answer';
-export type ExplainStreamTarget = 'explanation' | 'simpler' | 'examples' | 'similar';
+export type ExplainStreamTarget = 'explanation' | 'simpler' | 'examples' | 'similar' | 'text';
+
+/** Follow-ups whose result is plain text shown in its own section, in display order. */
+export const TEXT_FOLLOW_UP_ACTIONS = ['COMMON_MISTAKES', 'USED_WITH', 'IN_MY_LANGUAGE'] as const;
+export type TextFollowUpAction = (typeof TEXT_FOLLOW_UP_ACTIONS)[number];
+
+const MAX_REFINE_CHIPS = 4;
+/** Shown when suggestions cannot be fetched: actions that fit every kind of question. */
+const FALLBACK_REFINE_ACTIONS: ExplainPhraseFollowUpAction[] = ['MORE_EXAMPLES', 'SIMPLER'];
 
 export type ExplainPhraseFlow = ReturnType<typeof useExplainPhraseFlow>;
 
-export function useExplainPhraseFlow() {
+export interface ExplainPhraseFlowOptions {
+	/** Called with the new explanation's id as soon as an explanation is requested (e.g. to update the URL). */
+	onExplanationStarted?: (explanationId: string) => void;
+}
+
+export function useExplainPhraseFlow(options: ExplainPhraseFlowOptions = {}) {
 	const textStream = useTextStreamSubscription();
+	const queryClient = useQueryClient();
 	const createWordsMutation = createCreateWordsMutation();
 	const fillGapsMutation = createWordFillGapsMutation();
 
-	let isOpen = $state(false);
 	let phrase = $state('');
 	let language = $state<LanguageName>(authStore.user?.selectedLearningLanguage ?? 'ENGLISH');
 	let context = $state('');
@@ -53,6 +63,14 @@ export function useExplainPhraseFlow() {
 	let similarRaw = $state('');
 	let streamTarget = $state<ExplainStreamTarget>('explanation');
 	let errorMessage = $state<string | null>(null);
+	let isEnhancing = $state(false);
+	/** Id the API stores the current explanation under; null until one is requested. */
+	let explanationId = $state<string | null>(null);
+	let extraTexts = $state<Partial<Record<TextFollowUpAction, string>>>({});
+	let textTargetAction = $state<TextFollowUpAction | null>(null);
+	/** Refine actions that fit the question, most useful first; null until suggestions arrive. */
+	let suggestedActions = $state<ExplainPhraseFollowUpAction[] | null>(null);
+	let suggestionRequestId = 0;
 	let activeTab = $state<ExplainPopoverTab>('request');
 	let requestFormAdvanced = $state(false);
 	let savingSimilarKey = $state<string | null>(null);
@@ -94,6 +112,32 @@ export function useExplainPhraseFlow() {
 		similarView.items.length > 0 ||
 			similarView.partial !== null ||
 			(isStreaming && streamTarget === 'similar')
+	);
+	const textSections = $derived(
+		TEXT_FOLLOW_UP_ACTIONS.filter((action) => extraTexts[action] !== undefined).map((action) => ({
+			action,
+			text: extraTexts[action] ?? '',
+			isStreaming: isStreaming && streamTarget === 'text' && textTargetAction === action
+		}))
+	);
+	const usedFollowUps = $derived.by((): ExplainPhraseFollowUpAction[] => {
+		const used: ExplainPhraseFollowUpAction[] = [];
+
+		if (showSimplerContent) used.push('SIMPLER');
+		if (showMoreExamplesContent) used.push('MORE_EXAMPLES');
+		if (showSimilarContent) used.push('SIMILAR_EXPRESSIONS');
+
+		for (const section of textSections) {
+			used.push(section.action);
+		}
+
+		return used;
+	});
+	/** Suggested refine actions not used yet, capped so the row stays calm. */
+	const availableFollowUps = $derived(
+		showFollowUpSections && suggestedActions
+			? suggestedActions.filter((action) => !usedFollowUps.includes(action)).slice(0, MAX_REFINE_CHIPS)
+			: []
 	);
 	const showExplanationSkeleton = $derived(
 		isStreaming && streamTarget === 'explanation' && view.explanation.trim().length === 0
@@ -177,6 +221,10 @@ export function useExplainPhraseFlow() {
 		simplerText = '';
 		extraExamplesRaw = '';
 		similarRaw = '';
+		extraTexts = {};
+		textTargetAction = null;
+		suggestedActions = null;
+		suggestionRequestId += 1;
 		savingSimilarKey = null;
 		definedSourceWords = [];
 		definedLookupReady = false;
@@ -251,9 +299,72 @@ export function useExplainPhraseFlow() {
 		}
 	}
 
+	/** The API persists the explanation (or follow-up) before the stream ends, so the list is fresh now. */
+	function refreshSavedExplanations() {
+		void queryClient.invalidateQueries({ queryKey: explanationKeys.all });
+	}
+
+	/** Shows a previously saved explanation, with its follow-ups, as if it had just been generated. */
+	function restore(saved: SavedExplanation) {
+		textStream.stop();
+		clearFollowUps();
+		errorMessage = null;
+		phrase = '';
+		language = saved.language;
+		explainedPhrase = saved.phrase;
+		explanationId = saved.id;
+		streamedText = saved.explanation;
+		simplerText = saved.followUps.SIMPLER ?? '';
+		extraExamplesRaw = saved.followUps.MORE_EXAMPLES ?? '';
+		similarRaw = saved.followUps.SIMILAR_EXPRESSIONS ?? '';
+		extraTexts = Object.fromEntries(
+			TEXT_FOLLOW_UP_ACTIONS.flatMap((action) => {
+				const text = saved.followUps[action];
+
+				return text === undefined ? [] : [[action, text]];
+			})
+		);
+		streamTarget = 'explanation';
+		activeTab = 'answer';
+
+		if (saved.suggestedActions.length > 0) {
+			suggestedActions = saved.suggestedActions;
+		} else {
+			void loadSuggestions();
+		}
+	}
+
+	/** Asks the API which refine actions fit this question; a failure falls back to the safe subset. */
+	async function loadSuggestions() {
+		const requestId = ++suggestionRequestId;
+
+		suggestedActions = null;
+
+		try {
+			const result = await httpPostSuggestActions({
+				phrase: explainedPhrase,
+				language,
+				explanation: streamedText.slice(0, 4000),
+				explanationId
+			});
+
+			if (requestId === suggestionRequestId) {
+				suggestedActions = result.actions;
+			}
+
+			// The API stored the kind and emoji with this call, so the history list can pick them up.
+			refreshSavedExplanations();
+		} catch {
+			if (requestId === suggestionRequestId) {
+				suggestedActions = FALLBACK_REFINE_ACTIONS;
+			}
+		}
+	}
+
 	function startStream(
 		source: ReturnType<typeof httpPostExplainPhrase>,
-		target: ExplainStreamTarget
+		target: ExplainStreamTarget,
+		textAction?: TextFollowUpAction
 	) {
 		textStream.stop();
 		errorMessage = null;
@@ -272,6 +383,11 @@ export function useExplainPhraseFlow() {
 			similarRaw = '';
 		}
 
+		if (target === 'text' && textAction) {
+			textTargetAction = textAction;
+			extraTexts = { ...extraTexts, [textAction]: '' };
+		}
+
 		textStream.start(source, {
 			onChunk: (chunk) => {
 				if (target === 'explanation') {
@@ -280,8 +396,17 @@ export function useExplainPhraseFlow() {
 					simplerText += chunk;
 				} else if (target === 'examples') {
 					extraExamplesRaw += chunk;
+				} else if (target === 'text' && textAction) {
+					extraTexts = { ...extraTexts, [textAction]: (extraTexts[textAction] ?? '') + chunk };
 				} else {
 					similarRaw += chunk;
+				}
+			},
+			onComplete: () => {
+				refreshSavedExplanations();
+
+				if (target === 'explanation' && streamedText.trim().length > 0) {
+					void loadSuggestions();
 				}
 			},
 			onError: () => {
@@ -290,76 +415,29 @@ export function useExplainPhraseFlow() {
 		});
 	}
 
-	function syncExplainModalQuery(open: boolean) {
-		if (!browser) {
+	/** Rewrites what is typed into a clearer request and puts it back in the input for review; nothing is sent. */
+	async function handleEnhance() {
+		const typed = phrase.trim();
+
+		if (!typed || isStreaming || isEnhancing) {
 			return;
 		}
 
-		const desired = searchWithExplainModal(window.location.search, open);
-		const current = window.location.search;
+		isEnhancing = true;
+		errorMessage = null;
 
-		if (current === desired || (desired === '' && current === '')) {
-			return;
+		try {
+			const result = await httpPostEnhancePrompt({ prompt: typed, language });
+
+			phrase = result.prompt.slice(0, EXPLAIN_PHRASE_MAX);
+		} catch (error) {
+			errorMessage = getApiErrorMessage(
+				error,
+				m['features.ai-explainer.explain-popover.enhance_error']()
+			);
+		} finally {
+			isEnhancing = false;
 		}
-
-		replaceState(desired === '' ? '?' : desired, {});
-	}
-
-	function locationSearchFromNavigation(navigation: { to?: { url: URL } | null }): string {
-		return navigation.to?.url?.search ?? window.location.search;
-	}
-
-	function syncOpenFromUrl(search: string) {
-		if (!browser) {
-			return;
-		}
-
-		if (isExplainModalOpenFromLocationSearch(search) && !isOpen) {
-			openModal({ skipUrl: true });
-		}
-	}
-
-	function syncCloseFromUrl(search: string) {
-		if (!browser) {
-			return;
-		}
-
-		if (!isExplainModalOpenFromLocationSearch(search) && isOpen) {
-			closeModal({ skipUrl: true });
-		}
-	}
-
-	function openModal(options?: { skipUrl?: boolean }) {
-		if (!phrase.trim()) {
-			language = authStore.user?.selectedLearningLanguage ?? language;
-		}
-
-		// Sync URL before opening so afterNavigate → applyExplainModalFromLocation does not
-		// see stale search (no modal=explain) and immediately close the dialog.
-		if (!options?.skipUrl) {
-			syncExplainModalQuery(true);
-		}
-
-		isOpen = true;
-	}
-
-	function closeModal(options?: { skipUrl?: boolean }) {
-		textStream.stop();
-		isOpen = false;
-
-		if (!options?.skipUrl) {
-			syncExplainModalQuery(false);
-		}
-	}
-
-	function handleOpenChange(open: boolean) {
-		if (open) {
-			openModal();
-
-			return;
-		}
-
-		closeModal();
 	}
 
 	function handleReset() {
@@ -370,6 +448,7 @@ export function useExplainPhraseFlow() {
 		customInstruction = '';
 		streamedText = '';
 		explainedPhrase = '';
+		explanationId = null;
 		clearFollowUps();
 		errorMessage = null;
 		language = authStore.user?.selectedLearningLanguage ?? 'ENGLISH';
@@ -403,16 +482,22 @@ export function useExplainPhraseFlow() {
 
 		activeTab = 'answer';
 		explainedPhrase = phrase.trim();
+		explanationId = crypto.randomUUID();
+		options.onExplanationStarted?.(explanationId);
 
 		startStream(
 			httpPostExplainPhrase({
 				phrase: explainedPhrase,
 				language,
 				context: emptyToNull(context),
-				customInstruction: emptyToNull(customInstruction)
+				customInstruction: emptyToNull(customInstruction),
+				explanationId
 			}),
 			'explanation'
 		);
+
+		// The question lives on as the answer's heading; the input is ready for the next one.
+		phrase = '';
 	}
 
 	function handleFollowUp(action: ExplainPhraseFollowUpAction) {
@@ -422,8 +507,16 @@ export function useExplainPhraseFlow() {
 
 		activeTab = 'answer';
 
-		const streamTargetForAction =
-			action === 'SIMPLER' ? 'simpler' : action === 'MORE_EXAMPLES' ? 'examples' : 'similar';
+		const textAction = (TEXT_FOLLOW_UP_ACTIONS as readonly string[]).includes(action)
+			? (action as TextFollowUpAction)
+			: undefined;
+		const streamTargetForAction: ExplainStreamTarget = textAction
+			? 'text'
+			: action === 'SIMPLER'
+				? 'simpler'
+				: action === 'MORE_EXAMPLES'
+					? 'examples'
+					: 'similar';
 
 		startStream(
 			httpPostExplainPhraseFollowUp({
@@ -431,31 +524,15 @@ export function useExplainPhraseFlow() {
 				language,
 				previousExplanation: streamedText,
 				action,
-				context: emptyToNull(context)
+				context: emptyToNull(context),
+				explanationId
 			}),
-			streamTargetForAction
+			streamTargetForAction,
+			textAction
 		);
 	}
 
-	onMount(() => {
-		syncOpenFromUrl(window.location.search);
-	});
-
-	afterNavigate((navigation) => {
-		const search = locationSearchFromNavigation(navigation);
-
-		syncOpenFromUrl(search);
-
-		// replaceState (modal query) is not a distinct AfterNavigate type — only sync close on history navigation.
-		if (navigation.type === 'popstate') {
-			syncCloseFromUrl(search);
-		}
-	});
-
 	return {
-		get isOpen() {
-			return isOpen;
-		},
 		get phrase() {
 			return phrase;
 		},
@@ -491,6 +568,15 @@ export function useExplainPhraseFlow() {
 		},
 		get streamTarget() {
 			return streamTarget;
+		},
+		get explanationId() {
+			return explanationId;
+		},
+		get isEnhancing() {
+			return isEnhancing;
+		},
+		get canEnhance() {
+			return phrase.trim().length > 0 && !isStreaming && !isEnhancing;
 		},
 		get errorMessage() {
 			return errorMessage;
@@ -537,6 +623,12 @@ export function useExplainPhraseFlow() {
 		get canTriggerFollowUp() {
 			return canTriggerFollowUp;
 		},
+		get textSections() {
+			return textSections;
+		},
+		get availableFollowUps() {
+			return availableFollowUps;
+		},
 		get showSimplerContent() {
 			return showSimplerContent;
 		},
@@ -560,13 +652,12 @@ export function useExplainPhraseFlow() {
 		},
 		similarExpressionKey,
 		saveSimilarExpression,
-		openModal,
-		closeModal,
-		handleOpenChange,
+		handleEnhance,
 		handleReset,
 		handleExplainSubmit,
 		handleCompactSubmit,
 		handleExplain,
+		restore,
 		handleFollowUp
 	};
 }
