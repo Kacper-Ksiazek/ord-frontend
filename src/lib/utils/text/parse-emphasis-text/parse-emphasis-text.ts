@@ -3,7 +3,9 @@ export interface EmphasisTextPart {
 	emphasized: boolean;
 }
 
-const EMPHASIS_TEXT_REGEX = /(\*([^*]+?)\*|'([^']+?)'|"([^"]+?)"|\u201C([^\u201D]+?)\u201D)/g;
+// `**bold**` is accepted next to the canonical `*word*` because models drift to markdown bold.
+const EMPHASIS_TEXT_REGEX =
+	/(\*\*([^*]+?)\*\*|\*([^*]+?)\*|'([^']+?)'|"([^"]+?)"|\u201C([^\u201D]+?)\u201D)/g;
 
 export function parseEmphasisText(text: string): EmphasisTextPart[] {
 	const parts: EmphasisTextPart[] = [];
@@ -16,7 +18,7 @@ export function parseEmphasisText(text: string): EmphasisTextPart[] {
 		}
 
 		parts.push({
-			text: match[2] ?? match[3] ?? match[4] ?? match[5],
+			text: match[2] ?? match[3] ?? match[4] ?? match[5] ?? match[6],
 			emphasized: true
 		});
 		lastIndex = match.index + match[0].length;
