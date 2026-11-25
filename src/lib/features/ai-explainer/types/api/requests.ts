@@ -15,20 +15,29 @@ type ExplainPhraseRequestFallback = {
 	customInstruction?: string | null;
 };
 
-export type ExplainPhraseRequest = FromSchema<'ExplainPhraseRequest', ExplainPhraseRequestFallback>;
+/** `explanationId` is client-generated; the API stores the finished explanation under it. */
+type WithExplanationId = { explanationId?: string | null };
+
+export type ExplainPhraseRequest = FromSchema<
+	'ExplainPhraseRequest',
+	ExplainPhraseRequestFallback
+> &
+	WithExplanationId;
 
 export const EXPLAIN_PHRASE_FOLLOW_UP_ACTIONS = [
 	'SIMPLER',
 	'MORE_EXAMPLES',
-	'SIMILAR_EXPRESSIONS'
+	'SIMILAR_EXPRESSIONS',
+	'COMMON_MISTAKES',
+	'IN_MY_LANGUAGE',
+	'USED_WITH'
 ] as const;
 
-type ExplainPhraseFollowUpActionFallback = (typeof EXPLAIN_PHRASE_FOLLOW_UP_ACTIONS)[number];
+/** Defined locally until `@kacper-ksiazek/ord-api-types` publishes the three newest actions. */
+export type ExplainPhraseFollowUpAction = (typeof EXPLAIN_PHRASE_FOLLOW_UP_ACTIONS)[number];
 
-export type ExplainPhraseFollowUpAction = FromSchema<
-	'ExplainPhraseFollowUpAction',
-	ExplainPhraseFollowUpActionFallback
->;
+/** What the learner asked about; decides which refine actions fit. */
+export type ExplainPhraseKind = 'WORD_OR_PHRASE' | 'GRAMMAR_OR_CONCEPT';
 
 /** Mirrors ExplainPhraseFollowUpRequest until `@kacper-ksiazek/ord-api-types` publishes it. */
 type ExplainPhraseFollowUpRequestFallback = {
@@ -39,10 +48,19 @@ type ExplainPhraseFollowUpRequestFallback = {
 	context?: string | null;
 };
 
-export type ExplainPhraseFollowUpRequest = FromSchema<
-	'ExplainPhraseFollowUpRequest',
-	ExplainPhraseFollowUpRequestFallback
->;
+export type ExplainPhraseFollowUpRequest = ExplainPhraseFollowUpRequestFallback & WithExplanationId;
+
+export type ExplainPhraseEnhanceRequest = {
+	prompt: string;
+	language: LanguageName;
+};
+
+export type ExplainPhraseSuggestActionsRequest = {
+	phrase: string;
+	language: LanguageName;
+	explanation: string;
+	explanationId?: string | null;
+};
 
 /** Mirrors ExplainPhraseAutocompleteRequest until `@kacper-ksiazek/ord-api-types` publishes it. */
 type ExplainPhraseAutocompleteRequestFallback = {
