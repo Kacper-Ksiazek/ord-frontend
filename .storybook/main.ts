@@ -5,18 +5,13 @@ const config: StorybookConfig = {
 		name: '@storybook/sveltekit',
 		options: {}
 	},
-	stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|ts|svelte)'],
+	stories: ['../src/**/*.stories.svelte'],
 	addons: [
-		{
-			name: '@storybook/addon-svelte-csf',
-			options: {
-				legacyTemplate: true
-			}
-		},
-		'@chromatic-com/storybook',
+		'@storybook/addon-svelte-csf',
 		'@storybook/addon-docs',
 		'@storybook/addon-a11y',
 		'@storybook/addon-vitest'
 	]
 };
+
 export default config;
