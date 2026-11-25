@@ -15,6 +15,14 @@ describe('parseEmphasisText', () => {
 		]);
 	});
 
+	it('treats markdown double-asterisk bold as emphasis without leaving stray asterisks', () => {
+		expect(parseEmphasisText('I **have known** her.')).toEqual([
+			{ text: 'I ', emphasized: false },
+			{ text: 'have known', emphasized: true },
+			{ text: ' her.', emphasized: false }
+		]);
+	});
+
 	it('parses single-quote emphasis markers', () => {
 		expect(
 			parseEmphasisText(

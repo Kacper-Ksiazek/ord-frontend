@@ -9,6 +9,7 @@
 		Settings,
 		Gamepad2,
 		MessageSquare,
+		Sparkles,
 		Moon,
 		Sun
 	} from 'lucide-svelte';
@@ -25,7 +26,6 @@
 	import { createLogoutMutation } from '$auth/api-client';
 	import { goto } from '$app/navigation';
 	import { E2E_TEST_IDS } from '$appLayouts/testing/test-ids';
-	import { ExplainPhrasePopover } from '$aiExplainer';
 	import { CaptureWordsPopover } from '$words';
 
 	const { mutateAsync: handleLogout } = createLogoutMutation();
@@ -120,6 +120,8 @@
 			<SidebarLink title="Challenges" Icon={Gamepad2} disabled />
 
 			<SidebarLink title="Conversations" Icon={MessageSquare} href="/conversations" />
+
+			<SidebarLink title="Explain" Icon={Sparkles} href="/explain" />
 		</div>
 	</nav>
 
@@ -127,7 +129,6 @@
 
 	<div class="flex flex-col gap-2 px-3">
 		<CaptureWordsPopover isSidebarExpanded={sidebarStore.isExpanded} />
-		<ExplainPhrasePopover isSidebarExpanded={sidebarStore.isExpanded} />
 	</div>
 
 	<Divider />

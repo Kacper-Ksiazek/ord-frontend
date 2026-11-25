@@ -4,6 +4,5 @@ export type {
 	ExplainPhraseRequest
 } from './types';
 export { EXPLAIN_PHRASE_FOLLOW_UP_ACTIONS } from './types';
-export { ExplainPhrasePopover } from './shared/components/explain-phrase-popover';
 export { ExplainPhraseInline } from './shared/components/explain-phrase-inline';
 export { PhraseExamplesStream } from './shared/components/phrase-examples-stream';

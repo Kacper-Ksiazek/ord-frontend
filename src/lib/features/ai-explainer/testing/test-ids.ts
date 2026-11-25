@@ -1,8 +1,9 @@
-/** Test ids for the explain request/answer parts, shared by the modal and the inline block. */
+/** Test ids for the explain request/answer parts, used by the inline block. */
 function explainPanelTestIds(prefix: string) {
 	return {
 		phrase: `${prefix}-phrase`,
 		clearPhrase: `${prefix}-clear-phrase`,
+		enhance: `${prefix}-enhance`,
 		context: `${prefix}-context`,
 		customInstruction: `${prefix}-custom-instruction`,
 		advancedToggle: `${prefix}-advanced-toggle`,
@@ -19,12 +20,18 @@ function explainPanelTestIds(prefix: string) {
 export type ExplainPanelTestIds = ReturnType<typeof explainPanelTestIds>;
 
 export const E2E_TEST_IDS = {
-	explainPopover: {
-		trigger: 'sidebar-explain-phrase',
-		root: 'explain-phrase-popover',
-		tabs: 'explain-phrase-popover-tabs',
-		close: 'explain-phrase-popover-close',
-		...explainPanelTestIds('explain-phrase-popover')
+	explainHistoryPage: {
+		root: 'explain-history-page'
+	},
+	explainPage: {
+		root: 'explain-page',
+		history: 'explain-page-history',
+		historyItem: (id: string) => `explain-page-history-item-${id}`,
+		back: 'explain-page-back',
+		historyLink: 'explain-page-history-link',
+		historyMenu: (id: string) => `explain-page-history-menu-${id}`,
+		historyRemove: (id: string) => `explain-page-history-remove-${id}`,
+		historyRemoveBelow: (id: string) => `explain-page-history-remove-below-${id}`
 	},
 	explainInline: {
 		root: 'explain-phrase-inline',

@@ -28,6 +28,13 @@
 	class="group flex items-start gap-2 border-l-2 border-line py-0.5 pl-3 transition-colors hover:border-ink/30"
 	data-testid={dataTestId}
 >
+	<span class="-my-1 shrink-0 opacity-60 transition-opacity group-hover:opacity-100">
+		{#if streaming}
+			<span class="block size-8" aria-hidden="true"></span>
+		{:else}
+			<PlayTextAudio text={example} id={audioId} {language} />
+		{/if}
+	</span>
 	<span class="message-body min-w-0 flex-1 text-base text-ink">
 		{#each parts as part, index (index)}
 			{#if part.highlight}
@@ -38,9 +45,4 @@
 		{/each}
 		{#if streaming}<StreamingCaret />{/if}
 	</span>
-	{#if !streaming}
-		<span class="-my-1 shrink-0 opacity-60 transition-opacity group-hover:opacity-100">
-			<PlayTextAudio text={example} id={audioId} {language} />
-		</span>
-	{/if}
 </li>

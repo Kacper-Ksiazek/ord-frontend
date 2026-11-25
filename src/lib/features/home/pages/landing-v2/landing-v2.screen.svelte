@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { ExplainPhraseInline } from '$aiExplainer';
+	import { goto } from '$app/navigation';
 	import { authStore } from '$auth/stores';
 	import { createWordsQuery } from '$words';
 	import { E2E_TEST_IDS } from '$home/testing/test-ids';
@@ -18,7 +18,9 @@
 	const recentWords = $derived(wordsQuery.data?.data ?? []);
 	const wordsTotal = $derived(wordsQuery.data?.pagination?.totalResults ?? null);
 
-	let explainBlock = $state<ReturnType<typeof ExplainPhraseInline> | null>(null);
+	function explainPhrase(phrase: string) {
+		goto(`/explain?phrase=${encodeURIComponent(phrase)}`);
+	}
 </script>
 
 <svelte:head>
@@ -28,11 +30,8 @@
 <PageContentContainer class="max-w-[1440px]">
 	<ContentCard data-testid={E2E_TEST_IDS.landingV2.page}>
 		<div class="flex flex-col gap-8">
-			<ExplainPhraseInline bind:this={explainBlock} greetingTag="h1">
-				{#snippet actions()}
-					<LandingV2QuickActions {wordsTotal} />
-				{/snippet}
-			</ExplainPhraseInline>
+			<h1 class="sr-only">{m['features.home.landing-v2.page_title']()}</h1>
+			<LandingV2QuickActions {wordsTotal} />
 
 			{#if wordsQuery.isError}
 				<StatusPanel
@@ -50,7 +49,7 @@
 					words={recentWords}
 					{language}
 					isPending={wordsQuery.isPending}
-					onExplain={(phrase) => explainBlock?.explainPhrase(phrase)}
+					onExplain={explainPhrase}
 				/>
 			{/if}
 		</div>

@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
 	import { Sparkles } from 'lucide-svelte';
-	import { PlayTextAudio } from '$lib/components/utils/play-text-audio';
 	import { StreamingCaret } from '$lib/components/utils/ai-text-skeleton';
 	import * as m from '$lib/paraglide/messages.js';
 	import type { ExplainPhraseFollowUpAction } from '$aiExplainer/types';
@@ -9,6 +8,7 @@
 	import type { ExplainPanelTestIds } from '$aiExplainer/testing/test-ids';
 	import { ExplainPhraseStreamSkeleton } from '../explain-phrase-stream-skeleton';
 	import EmphasizedText from './components/emphasized-text.svelte';
+	import FollowUpTextSection from './components/follow-up-text-section.svelte';
 	import ExampleListItem from '../explain-phrase-example-item.svelte';
 	import SimilarExpressionsList from './components/similar-expressions-list.svelte';
 
@@ -27,20 +27,18 @@
 			flow.view.examplePartial.length > 0 ||
 			flow.showMoreExamplesContent
 	);
-	/** Follow-ups not used yet, offered as chips under the answer. */
-	const availableFollowUps = $derived.by((): ExplainPhraseFollowUpAction[] => {
-		if (!flow.showFollowUpSections) {
-			return [];
+	function sectionLabelFor(action: ExplainPhraseFollowUpAction): string {
+		switch (action) {
+			case 'COMMON_MISTAKES':
+				return m['features.ai-explainer.explain-popover.common_mistakes_section']();
+			case 'IN_MY_LANGUAGE':
+				return m['features.ai-explainer.explain-popover.in_my_language_section']();
+			case 'USED_WITH':
+				return m['features.ai-explainer.explain-popover.used_with_section']();
+			default:
+				return actionLabel(action);
 		}
-
-		const actions: ExplainPhraseFollowUpAction[] = [];
-
-		if (!flow.showMoreExamplesContent) actions.push('MORE_EXAMPLES');
-		if (!flow.showSimplerContent) actions.push('SIMPLER');
-		if (!flow.showSimilarContent) actions.push('SIMILAR_EXPRESSIONS');
-
-		return actions;
-	});
+	}
 
 	function actionLabel(action: ExplainPhraseFollowUpAction): string {
 		switch (action) {
@@ -50,6 +48,12 @@
 				return m['features.ai-explainer.explain-popover.actions.MORE_EXAMPLES']();
 			case 'SIMILAR_EXPRESSIONS':
 				return m['features.ai-explainer.explain-popover.actions.SIMILAR_EXPRESSIONS']();
+			case 'COMMON_MISTAKES':
+				return m['features.ai-explainer.explain-popover.actions.COMMON_MISTAKES']();
+			case 'IN_MY_LANGUAGE':
+				return m['features.ai-explainer.explain-popover.actions.IN_MY_LANGUAGE']();
+			case 'USED_WITH':
+				return m['features.ai-explainer.explain-popover.actions.USED_WITH']();
 		}
 	}
 </script>
@@ -60,13 +64,10 @@
 
 <article class="flex flex-col gap-6">
 	{#if phrase}
-		<header class="flex items-start gap-2">
+		<header>
 			<h3 class="min-w-0 text-2xl leading-tight font-semibold tracking-tight break-words text-ink">
 				{phrase}
 			</h3>
-			<span class="-my-0.5 shrink-0">
-				<PlayTextAudio text={phrase} id="explain-phrase-headword" language={flow.language} />
-			</span>
 		</header>
 	{/if}
 
@@ -165,18 +166,27 @@
 		</section>
 	{/if}
 
-	{#if availableFollowUps.length > 0}
+	{#each flow.textSections as section (section.action)}
+		<FollowUpTextSection
+			action={section.action}
+			label={sectionLabelFor(section.action)}
+			text={section.text}
+			isStreaming={section.isStreaming}
+		/>
+	{/each}
+
+	{#if flow.availableFollowUps.length > 0}
 		<footer
-			class="flex flex-wrap items-center gap-2 border-t border-line-subtle pt-4"
+			class="flex flex-wrap items-center gap-3 border-t border-line-subtle pt-4"
 			in:fade={{ delay: 150, duration: 200 }}
 		>
 			<span class="mr-1 text-sm text-ink-subtle">
 				{m['features.ai-explainer.explain-popover.follow_up_label']()}
 			</span>
-			{#each availableFollowUps as action (action)}
+			{#each flow.availableFollowUps as action (action)}
 				<button
 					type="button"
-					class="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface px-3 py-1.5 text-sm font-medium text-ink transition-colors hover:border-ink/30 hover:bg-accent-soft disabled:cursor-not-allowed disabled:opacity-50"
+					class="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-ink/30 hover:bg-accent-soft disabled:cursor-not-allowed disabled:opacity-50"
 					data-testid={testIds.followUp(action)}
 					disabled={!flow.canTriggerFollowUp}
 					onclick={() => flow.handleFollowUp(action)}
