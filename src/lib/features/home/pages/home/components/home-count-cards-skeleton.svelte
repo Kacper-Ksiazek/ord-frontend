@@ -45,7 +45,7 @@
 	</section>
 {/snippet}
 
-<div class="grid w-full grid-cols-3 items-stretch gap-3">
+<div class="grid w-full grid-cols-1 items-stretch gap-3 md:grid-cols-3">
 	{@render countCardSkeleton(1, true, E2E_TEST_IDS.home.wordsTrendChart)}
 	{@render countCardSkeleton(3, false, E2E_TEST_IDS.home.conversationsTrendChart)}
 	<section

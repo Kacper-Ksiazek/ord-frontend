@@ -105,7 +105,7 @@
 	</div>
 {/snippet}
 
-<div class="grid w-full grid-cols-3 items-stretch gap-3">
+<div class="grid w-full grid-cols-1 items-stretch gap-3 md:grid-cols-3">
 	<section class={countCardSectionClass(isWordsCardEmpty)} data-testid={E2E_TEST_IDS.home.wordsCard}>
 		{@render cardSummaryTop(
 			m['features.home.home.words_title'](),

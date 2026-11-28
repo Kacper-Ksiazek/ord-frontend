@@ -31,7 +31,7 @@
 	const layoutClasses = $derived(
 		cn(
 			'flex items-center py-2 rounded-lg transition-colors transition-opacity w-full',
-			sidebarStore.isExpanded ? 'gap-3 px-3 justify-start' : 'justify-center px-0',
+			sidebarStore.showsLabels ? 'gap-3 px-3 justify-start' : 'justify-center px-0',
 			classList
 		)
 	);
@@ -45,14 +45,14 @@
 {#if href}
 	<a {href} {title} class={layoutClasses} aria-current={isActive ? 'page' : undefined}>
 		<Icon class="w-5 h-5 shrink-0" />
-		{#if sidebarStore.isExpanded}
+		{#if sidebarStore.showsLabels}
 			<span class="text-sm font-medium" in:fade={{ delay: fadeDelay }}>{title}</span>
 		{/if}
 	</a>
 {:else}
 	<button {disabled} {title} class={layoutClasses} onclick={handleClick}>
 		<Icon class="w-5 h-5 shrink-0" />
-		{#if sidebarStore.isExpanded}
+		{#if sidebarStore.showsLabels}
 			<span class="text-sm font-medium" in:fade={{ delay: fadeDelay }}>{title}</span>
 		{/if}
 	</button>
