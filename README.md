@@ -21,7 +21,7 @@ This repository contains the **frontend** — a SvelteKit 2 + Svelte 5 single-pa
 
 <!-- Update the href once your demo is live (and remove this comment).
 [![Live Demo](https://img.shields.io/badge/▶_Live_Demo-FF3E00?style=for-the-badge)](#)
-[![Storybook](https://img.shields.io/badge/📚_Storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white)](#)
+[![Storybook](https://img.shields.io/badge/📚_Storybook-FF4785?style=for-the-badge&logo=storybook&logoColor=white)](#-quality--testing)
 -->
 </div>
 
@@ -182,10 +182,18 @@ Common workflows are exposed via `make` — run `make help` for the full list.
 
 **✅ CI**
 
-| Target        | Description                                                                            |
-| ------------- | -------------------------------------------------------------------------------------- |
-| `make ci`     | **Run all CI checks** (lint → format → types → e2e-types → build → unit-tests → audit) |
-| `make ci-e2e` | CI checks + Playwright E2E (requires `ord-ops make e2e-up`)                            |
+| Target        | Description                                                                                        |
+| ------------- | -------------------------------------------------------------------------------------------------- |
+| `make ci`     | **Run all CI checks** (lint → format → types → e2e-types → build → unit-tests → storybook → audit) |
+| `make ci-e2e` | CI checks + Playwright E2E (requires `ord-ops make e2e-up`)                                        |
+
+**📚 Storybook**
+
+| Target                 | Description                                           |
+| ---------------------- | ----------------------------------------------------- |
+| `make storybook`       | Start Storybook on port `6006`                        |
+| `make storybook-build` | Build static Storybook into `storybook-static/`       |
+| `make test-storybook`  | Run every story as a smoke + a11y test (light + dark) |
 
 **🧪 Tests**
 
@@ -209,17 +217,18 @@ Extra test args: `make test-e2e ARGS='-- --headed'`. UI mode: `make test-e2e-ui`
 
 ### Useful scripts
 
-| Script              | Description                            |
-| ------------------- | -------------------------------------- |
-| `bun run dev`       | Start the dev server (Vite)            |
-| `bun run build`     | Production build                       |
-| `bun run preview`   | Preview the production build           |
-| `bun run storybook` | Launch Storybook on port `6006`        |
-| `bun run test`      | Run the unit/component test suite once |
-| `bun run test:unit` | Run tests in watch mode                |
-| `bun run check`     | Type-check with `svelte-check`         |
-| `bun run lint`      | Lint with ESLint                       |
-| `bun run format`    | Format with Prettier                   |
+| Script                   | Description                            |
+| ------------------------ | -------------------------------------- |
+| `bun run dev`            | Start the dev server (Vite)            |
+| `bun run build`          | Production build                       |
+| `bun run preview`        | Preview the production build           |
+| `bun run storybook`      | Launch Storybook on port `6006`        |
+| `bun run test:storybook` | Run every story as a browser test      |
+| `bun run test`           | Run the unit/component test suite once |
+| `bun run test:unit`      | Run tests in watch mode                |
+| `bun run check`          | Type-check with `svelte-check`         |
+| `bun run lint`           | Lint with ESLint                       |
+| `bun run format`         | Format with Prettier                   |
 
 ---
 
@@ -227,12 +236,13 @@ Extra test args: `make test-e2e ARGS='-- --headed'`. UI mode: `make test-e2e-ui`
 
 - **Component & unit tests** run in a real browser via Vitest's browser mode + Playwright.
 - **E2E regression tests** — three parallel user journeys via `@playwright/test` with the **Page Object Model** pattern. See [`docs/e2e-test-plan.md`](./docs/e2e-test-plan.md).
-- **Storybook** documents shared components with built-in **accessibility** checks.
+- **Storybook** documents foundations and shared components. Every story also runs as a Vitest browser test (render + axe a11y) in light and dark — CI job `storybook`. Conventions: [`docs/ai-rules/testing/storybook-stories.md`](./docs/ai-rules/testing/storybook-stories.md).
 - **Husky** runs `bun run precommit` before every commit (Prettier + ESLint on staged files via lint-staged). Run `make ci` before push for types and full checks.
 
 ```bash
 make test          # unit tests (Vitest) — included in make ci
-bun run storybook  # explore components in isolation (no make target yet)
+make storybook       # explore components in isolation (theme + locale in the toolbar)
+make test-storybook  # every story as a smoke + a11y test — included in make ci
 ```
 
 ### E2E tests (Playwright + POM)

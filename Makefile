@@ -1,7 +1,7 @@
 .PHONY: help status run restart stop reset refresh wipe ci ci-e2e \
 	test test-e2e test-e2e-record test-e2e-record-report test-e2e-report test-e2e-clean \
 	test-e2e-ui test-dev test-dev-record test-dev-ui test-e2e-install \
-	test-unit dev dev-refresh dev-stop
+	test-unit dev dev-refresh dev-stop storybook storybook-build test-storybook
 
 .DEFAULT_GOAL := help
 
@@ -26,6 +26,11 @@ help:
 	@echo "✅ CI:"
 	@echo "  ci                  Static checks + unit tests"
 	@echo "  ci-e2e              ci + Playwright (requires ord-ops: make e2e-up)"
+	@echo ""
+	@echo "📚 Storybook:"
+	@echo "  storybook           Start Storybook on port 6006"
+	@echo "  storybook-build     Build static Storybook into storybook-static/"
+	@echo "  test-storybook      Run every story as a smoke + a11y test (light + dark)"
 	@echo ""
 	@echo "🧪 Tests:"
 	@echo "  test                Vitest unit/component tests"
@@ -73,6 +78,15 @@ ci-e2e:
 
 test:
 	./scripts/run-tests.sh unit $(ARGS)
+
+storybook:
+	bun run storybook $(ARGS)
+
+storybook-build:
+	bun run storybook:build $(ARGS)
+
+test-storybook:
+	bun run test:storybook $(ARGS)
 
 test-e2e:
 	./scripts/run-tests.sh e2e $(ARGS)

@@ -1,5 +1,6 @@
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import { sentrySvelteKit } from '@sentry/sveltekit/vite';
+import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import { sveltekit } from '@sveltejs/kit/vite';
 import tailwindcss from '@tailwindcss/vite';
 import { playwright } from '@vitest/browser-playwright';
@@ -44,6 +45,20 @@ export default defineConfig(({ mode }) => {
 						setupFiles: ['./vitest-setup-client.ts']
 					}
 				},
+				// Every story renders as a smoke + a11y test, once per theme.
+				...(['light', 'dark'] as const).map((theme) => ({
+					extends: './vite.config.ts',
+					plugins: [storybookTest({ initialGlobals: { theme } })],
+					test: {
+						name: `storybook-${theme}`,
+						browser: {
+							enabled: true,
+							headless: true,
+							provider: playwright(),
+							instances: [{ browser: 'chromium' as const }]
+						}
+					}
+				})),
 				{
 					extends: './vite.config.ts',
 					test: {

@@ -11,7 +11,7 @@ structure changes materially, and use the checkboxes to track rule coverage.
 - **Data:** TanStack Svelte Query 6, axios-based `src/lib/api-client` (`http*` naming), rxjs (SSE)
 - **API contract:** `@kacper-ksiazek/ord-api-types` package
 - **i18n:** Paraglide JS 2 (pl/en/de), `messages/` + `scripts/aggregate-translations.ts`
-- **Testing:** Vitest (unit, colocated `.test.ts`), Playwright (`e2e/journeys/`, page objects in `e2e/features/`, CI job `e2e` + pinned `ord-api` image), Storybook 10 (`.stories.svelte`)
+- **Testing:** Vitest (unit, colocated `.test.ts`), Playwright (`e2e/journeys/`, page objects in `e2e/features/`, CI job `e2e` + pinned `ord-api` image), Storybook 10 (`.stories.svelte`, every story a light + dark smoke/a11y test, CI job `storybook`)
 - **Tooling:** ESLint 9 flat config, Prettier, husky + lint-staged, bun
 - **Architecture:** FDD — `src/lib/features/{auth,conversations,app-layouts,words,ai-explainer}` with public
   barrels, aliases `$auth`/`$conversations`/`$appLayouts`/`$words`/`$aiExplainer`, thin routes, shared design system
@@ -117,7 +117,8 @@ Covers: `src/**/*.test.ts`, `e2e/`, `src/**/*.stories.svelte`, `vite.config.ts`,
 - [x] Dedicated E2E triage agent (`.cursor/skills/e2e-triage/SKILL.md`, `e2e-triage-agent.md`; Task delegate on 1st/2nd fail)
 - [x] E2E app bugs block tests (no workarounds in specs; notify developer)
 - [x] E2E CI workflow (blocking `e2e` job, GHCR `ord-api:latest`)
-- [x] Storybook stories conventions
+- [x] Storybook stories conventions (`storybook-stories.md`: taxonomy, story shape, when required)
+- [ ] Storybook rebuild: component stories (phases 2–4 — Components, Patterns, Features)
 - [x] Page journey coverage posture (`page-journey-coverage-posture.md`, `page-journey-coverage.md`)
 
 ### git/ — workflow
