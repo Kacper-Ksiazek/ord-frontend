@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { Button } from '$lib/components/buttons/button';
+	import { cn } from '$lib/utils/cn';
 	import { Badge } from '$lib/components/utils/badge';
 	import { getConversationContext } from '$conversations/pages/session/contexts/conversation-context.svelte';
 	import {
@@ -33,8 +34,10 @@
 </script>
 
 <div class="relative z-10 mb-3 shrink-0 w-full">
-	<div class="flex w-full items-center gap-x-2 border-b border-line-subtle pb-2">
-		<div class="flex min-w-0 flex-wrap items-center gap-y-1.5">
+	<div
+		class="flex w-full flex-wrap items-center gap-x-2 gap-y-2 border-b border-line-subtle pb-2 md:flex-nowrap md:gap-y-0"
+	>
+		<div class="contents md:flex md:min-w-0 md:flex-wrap md:items-center md:gap-y-1.5">
 			<Button
 				dataTestId={E2E_TEST_IDS.session.backButton}
 				type="OUTLINED"
@@ -42,7 +45,7 @@
 				ariaLabel={m['features.conversation.session.hud.go_back']()}
 				title={m['features.conversation.session.hud.go_back']()}
 				onClick={() => goto('/conversations')}
-				class={hudButtonClass}
+				class={cn(hudButtonClass, 'order-1 md:order-none')}
 			>
 				<span class="inline-flex items-center gap-1.5 text-sm leading-none">
 					<ChevronLeft class="size-4 shrink-0" />
@@ -52,11 +55,13 @@
 				</span>
 			</Button>
 
-			<span class="flex shrink-0 items-center px-2" aria-hidden="true">
+			<span class="hidden shrink-0 items-center px-2 md:flex" aria-hidden="true">
 				<span class="size-1 rounded-full bg-ink-subtle"></span>
 			</span>
 
-			<div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1.5">
+			<div
+				class="order-3 flex w-full min-w-0 flex-wrap items-center gap-x-2 gap-y-1.5 md:order-none md:w-auto"
+			>
 				<span class="text-sm font-medium text-ink">{conversation.topic}</span>
 
 				<div
@@ -70,7 +75,7 @@
 			</div>
 		</div>
 
-		<div class="min-w-0 flex-1" aria-hidden="true"></div>
+		<div class="order-1 min-w-0 flex-1 md:order-none" aria-hidden="true"></div>
 
 		<Button
 			dataTestId={E2E_TEST_IDS.session.summaryToggle}
@@ -87,7 +92,7 @@
 					openSummary(sidepanelContext, 'verdict');
 				}
 			}}
-			class={hudButtonClass}
+			class={cn(hudButtonClass, 'order-2 md:order-none')}
 		>
 			<span class="inline-flex items-center gap-1.5 text-sm leading-none">
 				{#if sidepanelContext.isOpened}

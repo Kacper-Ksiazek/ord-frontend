@@ -29,7 +29,7 @@
 
 <section
 	class={cn(
-		'w-full min-w-0 flex-1 mx-auto flex flex-col gap-6 h-full px-12 py-8',
+		'w-full min-w-0 flex-1 mx-auto flex flex-col gap-6 h-full px-4 py-6 md:px-12 md:py-8',
 		maxWidth,
 		customClass
 	)}
