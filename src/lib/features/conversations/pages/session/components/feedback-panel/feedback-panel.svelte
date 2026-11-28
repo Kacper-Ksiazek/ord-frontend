@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/utils/cn';
+	import { isMobile } from '$lib/utils/breakpoints.svelte';
 	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
 	import { getSidepanelWidth } from '../constants.svelte';
 	import { fade } from 'svelte/transition';
@@ -8,6 +9,8 @@
 
 	const sidepanelContext = getSidepanelContext();
 	const sidepanelWidth = $derived(getSidepanelWidth());
+	/** On phones the summary replaces the messages column instead of sitting beside it. */
+	const openedWidth = $derived(isMobile.current ? '100%' : `${sidepanelWidth}px`);
 </script>
 
 <div
@@ -16,7 +19,7 @@
 		'flex flex-col transition-transform duration-300 origin-right h-full relative',
 		'bg-surface border-l border-line-subtle overflow-hidden'
 	)}
-	style={sidepanelContext.isOpened ? `width: ${sidepanelWidth}px` : 'width: 0px'}
+	style={sidepanelContext.isOpened ? `width: ${openedWidth}` : 'width: 0px'}
 >
 	{#if !sidepanelContext.isOpened}
 		<div
@@ -25,7 +28,7 @@
 		></div>
 	{/if}
 
-	<div class={cn('flex-1 min-h-0 overflow-hidden px-6 py-6 text-ink')}>
+	<div class={cn('flex-1 min-h-0 overflow-hidden px-4 py-4 text-ink md:px-6 md:py-6')}>
 		<ConversationSummaryView />
 	</div>
 </div>

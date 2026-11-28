@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/utils/cn';
+	import { isMobile } from '$lib/utils/breakpoints.svelte';
 	import { AiMessage, SessionHud, UserMessage } from './components';
 	import { getSidepanelContext } from '../../contexts/sidepanel-context.svelte';
 	import { getMessagesContext } from '../../contexts/messages-context.svelte';
@@ -87,8 +88,9 @@
 <div
 	data-testid={E2E_TEST_IDS.session.messagesPanel}
 	class={cn(
-		'bg-transparent transition-[width] transition-padding duration-300 origin-left relative pt-8',
-		sidepanelContext.isOpened ? 'px-4' : 'px-12'
+		'bg-transparent transition-[width] transition-padding duration-300 origin-left relative pt-4 md:pt-8',
+		sidepanelContext.isOpened ? 'px-4' : 'px-4 md:px-12',
+		isMobile.current && sidepanelContext.isOpened && 'hidden'
 	)}
 	style={sidepanelContext.isOpened ? `width: calc(100% - ${sidepanelWidth}px)` : 'width: 100%'}
 >
@@ -103,7 +105,7 @@
 		<!-- Scrollable messages area -->
 		<ScrollableWrapper
 			bind:scrollContainer
-			contentClass="{messagesMaxWidth} mx-auto gap-14"
+			contentClass="{messagesMaxWidth} mx-auto w-full gap-10 md:gap-14"
 			wrapperClass="mb-4"
 		>
 			{#each messagesContext.messages as message, index (index)}

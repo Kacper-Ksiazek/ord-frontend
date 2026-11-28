@@ -33,7 +33,7 @@
 
 	const displayLanguage = $derived(language);
 	const displayLabel = $derived(LANGUAGE_LABELS[displayLanguage] ?? displayLanguage);
-	const isExpanded = $derived(sidebarStore.isExpanded);
+	const isExpanded = $derived(sidebarStore.showsLabels);
 
 	const triggerClasses = $derived(
 		cn(

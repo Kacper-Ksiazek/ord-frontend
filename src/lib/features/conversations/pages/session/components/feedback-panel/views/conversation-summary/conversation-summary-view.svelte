@@ -89,7 +89,7 @@
 			bind:activeTab={sidepanelContext.summaryTab}
 			activeColor="primary"
 			variant="outlined"
-			class="mb-6"
+			class="mb-6 flex-wrap"
 		/>
 	</div>
 

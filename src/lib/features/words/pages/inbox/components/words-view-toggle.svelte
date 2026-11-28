@@ -32,7 +32,7 @@
 </script>
 
 <div
-	class="inline-flex rounded-xl border border-line bg-surface p-1"
+	class="flex w-full rounded-xl border border-line bg-surface p-1 sm:inline-flex sm:w-auto"
 	role="tablist"
 	aria-label={m['features.words.inbox.view.aria_label']()}
 	data-testid={E2E_TEST_IDS.inbox.viewToggle}
@@ -44,16 +44,17 @@
 			type="button"
 			role="tab"
 			class={cn(
-				'inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors',
+				'inline-flex min-w-0 flex-1 items-center justify-center gap-1.5 rounded-lg px-2 py-2 text-sm font-medium whitespace-nowrap transition-colors sm:flex-none sm:gap-2 sm:px-4',
 				isSelected && 'bg-accent-soft text-ink',
 				!isSelected && 'text-ink-muted hover:text-ink'
 			)}
 			aria-selected={isSelected}
+			title={option.label()}
 			data-testid={E2E_TEST_IDS.inbox.viewToggleOption(option.mode)}
 			onclick={() => onViewModeChange(option.mode)}
 		>
 			<Icon class="h-4 w-4 shrink-0" aria-hidden="true" />
-			{option.label()}
+			<span class="truncate">{option.label()}</span>
 		</button>
 	{/each}
 </div>

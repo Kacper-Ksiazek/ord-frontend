@@ -31,19 +31,19 @@
 <div
 	data-testid={dataTestId}
 	class={cn(
-		'flex gap-4 w-full', //
+		'flex gap-2 w-full md:gap-4', //
 		orientation === 'right' ? 'flex-row-reverse self-end' : 'flex-row self-start'
 	)}
 >
 	{#if avatar}
-		<div>
+		<div class="shrink-0">
 			{@render avatar?.()}
 		</div>
 	{/if}
 
 	<div
 		class={cn(
-			'max-w-[80%] w-full flex flex-col', //
+			'min-w-0 w-full flex flex-col md:max-w-[80%]', //
 			wrapperClass
 		)}
 		transition:fade={{ duration: 150 }}
